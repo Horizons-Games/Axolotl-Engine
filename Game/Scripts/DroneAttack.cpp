@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "ModuleInput.h"
+#include "Scripting/ScriptFactory.h"
 
 #include "Scene/Scene.h"
 #include "ModuleScene.h"
@@ -13,6 +14,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentScript.h"
 
 #include "GameObject/GameObject.h"
 
@@ -66,10 +68,16 @@ void DroneAttack::PerformAttack()
 
 		
 		GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
-		
+
 		GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
 		
-		//bullet->position = bulletOrigin->position;
+		ComponentTransform* bulletTransf = static_cast<ComponentTransform*>(bullet->GetComponent(ComponentType::TRANSFORM));
+		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
+		bulletTransf->SetScale(float3(0.3f, 0.3f, 0.3f));
+		bulletTransf->UpdateTransformMatrices();
+		bullet->CreateComponent(ComponentType::SCRIPT);
+		ComponentScript* script = static_cast<ComponentScript*>(bullet->GetComponent(ComponentType::SCRIPT));
+		script->SetScript(App->GetScriptFactory()->GetScript("DroneBullet"));
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 

@@ -1,0 +1,30 @@
+{
+    "UID": 148566473192617334,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/BixAnimated.Cube.001_0.mesh",
+        "Assets/Meshes/BixAnimated.Mesh.001_0.mesh",
+        "Assets/Meshes/BixAnimated.Mesh.003_0.mesh",
+        "Assets/Meshes/BixAnimated.Cylinder.002_0.mesh",
+        "Assets/Meshes/BixAnimated.Cylinder.002_1.mesh",
+        "Assets/Meshes/BixAnimated.Cylinder.003_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/BixAnimatedGlasses_0.mat",
+        "Assets/Materials/BixAnimatedFace_0.mat",
+        "Assets/Materials/BixAnimatedBody_0.mat",
+        "Assets/Materials/BixAnimatedLightSaber.001_0.mat",
+        "Assets/Materials/BixAnimatedLightSaberEmission_1.mat",
+        "Assets/Materials/BixAnimatedLightSaber.001_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/BixAnimated.IdleDisarmed.anim",
+        "Assets/Animation/BixAnimated.Attack.anim",
+        "Assets/Animation/BixAnimated.IdleSaber.anim",
+        "Assets/Animation/BixAnimated.Prone.anim",
+        "Assets/Animation/BixAnimated.Running.anim",
+        "Assets/Animation/BixAnimated.StartWalkingCantina.anim",
+        "Assets/Animation/BixAnimated.UseForce.anim",
+        "Assets/Animation/BixAnimated.Armature_UseForce.anim"
+    ]
+}

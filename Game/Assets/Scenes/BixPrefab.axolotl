@@ -82,7 +82,7 @@
         },
         {
             "GameObject": {
-                "name": "CantinaScriptsVS2",
+                "name": "BixPrefab",
                 "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,
@@ -8542,46 +8542,6 @@
         },
         {
             "GameObject": {
-                "name": "vix_0",
-                "tag": "",
-                "uid": 6509950760945933545,
-                "parentUID": 5159296902579712234,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 0,
-                            "assetPathMesh": "",
-                            "materialUID": 2458529340412979274,
-                            "assetPathMaterial": "Assets/Materials/vix_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "LegoEnemyt_0",
                 "tag": "",
                 "uid": 12202188512287980817,
@@ -8702,156 +8662,6 @@
         },
         {
             "GameObject": {
-                "name": "vix_1",
-                "tag": "",
-                "uid": 5159296902579712234,
-                "parentUID": 5457140795048261378,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 11.649826049804688,
-                            "localPos_Y": 2.592820882797241,
-                            "localPos_Z": 5.373781681060791,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 180.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.6150000095367432,
-                            "localSca_Y": 0.6150000095367432,
-                            "localSca_Z": 0.6150000095367432
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 1714878422024313377,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 18156275285589751004,
-                            "assetPathMaterial": "Assets/Materials/vix_1.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Player",
-                            "active": true,
-                            "removed": true,
-                            "static": false,
-                            "mouse": false
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": true,
-                            "mass": 15.0,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 0.0,
-                            "KpTorque": 0.0,
-                            "gravity.Y": -9.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshCollider",
-                            "active": true,
-                            "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PlayerMobilityScript",
-                            "fields": null
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_AudioSource",
-                            "active": true,
-                            "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": false,
-                            "removed": true,
-                            "constructName": "PlayerMoveScript",
-                            "fields": [
-                                {
-                                    "name": "Speed",
-                                    "value": 4.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "JumpParameter",
-                                    "value": 200.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "DashForce",
-                                    "value": 50.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CanDash",
-                                    "value": true,
-                                    "type": 3
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": false,
-                            "removed": true,
-                            "constructName": "PlayerRotationScript",
-                            "fields": null
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "BixAttackScript",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 0.6000000238418579,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "RayAttackSize",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "AnimationGO",
-                                    "value": 0,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Cube",
                 "tag": "",
                 "uid": 11483197582546548753,
@@ -8885,46 +8695,6 @@
                             "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 10749844959551884062,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "vix_2",
-                "tag": "",
-                "uid": 12517757850238071495,
-                "parentUID": 5159296902579712234,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 0,
-                            "assetPathMesh": "",
-                            "materialUID": 12381443753346309146,
-                            "assetPathMaterial": "Assets/Materials/vix_2.mat"
                         }
                     }
                 ]
@@ -17176,7 +16946,7 @@
                 "name": "Basic Camera",
                 "tag": "",
                 "uid": 13279191032622082193,
-                "parentUID": 5159296902579712234,
+                "parentUID": 4149513745108704787,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -17186,9 +16956,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.0,
-                            "localPos_Y": 1.7000000476837158,
-                            "localPos_Z": -3.0,
+                            "localPos_X": -2.1152303218841553,
+                            "localPos_Y": 2.29883074760437,
+                            "localPos_Z": -6.8471150398254395,
                             "localRot_X": 2.424999952316284,
                             "localRot_Y": 0.699999988079071,
                             "localRot_Z": 0.0,
@@ -26229,7 +25999,7 @@
                             "fields": [
                                 {
                                     "name": "Target",
-                                    "value": 5159296902579712234,
+                                    "value": 4149513745108704787,
                                     "type": 2
                                 }
                             ]
@@ -29863,10 +29633,128 @@
         },
         {
             "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1",
+                "name": "Bix",
                 "tag": "",
-                "uid": 5346525943221835814,
-                "parentUID": 17371541478534596213,
+                "uid": 4149513745108704787,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.847776174545288,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": false,
+                            "removed": false,
+                            "stateUID": 0,
+                            "assetPathState": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": false,
+                            "mouse": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerMobilityScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": false,
+                            "removed": true,
+                            "constructName": "PlayerMoveScript",
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 6.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 80.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": true,
+                                    "type": 3
+                                },
+                                {
+                                    "name": "ColliderGO",
+                                    "value": 4149513745108704787,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "RigidbodyGO",
+                                    "value": 4149513745108704787,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": false,
+                            "removed": true,
+                            "constructName": "PlayerRotationScript",
+                            "fields": [
+                                {
+                                    "name": "ColliderGO",
+                                    "value": 4149513745108704787,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixAnimated",
+                "tag": "",
+                "uid": 8416137570930534034,
+                "parentUID": 4149513745108704787,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -29885,6 +29773,15 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": false,
+                            "stateUID": 0,
+                            "assetPathState": ""
                         }
                     }
                 ]
@@ -29894,8 +29791,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 18065760732618098747,
-                "parentUID": 5346525943221835814,
+                "uid": 14799117244677154130,
+                "parentUID": 8416137570930534034,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -29921,10 +29818,10 @@
         },
         {
             "GameObject": {
-                "name": "WingRC",
+                "name": "Glasses",
                 "tag": "",
-                "uid": 14618591479129032611,
-                "parentUID": 18065760732618098747,
+                "uid": 6066992216015622136,
+                "parentUID": 14799117244677154130,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -29937,7 +29834,7 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
@@ -29950,10 +29847,10 @@
         },
         {
             "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.004_0",
+                "name": "BixAnimated.Cube.001_0",
                 "tag": "",
-                "uid": 8418780234884527138,
-                "parentUID": 14618591479129032611,
+                "uid": 14493223458286879079,
+                "parentUID": 6066992216015622136,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -29979,10 +29876,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3033856086129109492,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.004_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
+                            "meshUID": 13723630914407959062,
+                            "assetPathMesh": "Assets/Meshes/BixAnimated.Cube.001_0.mesh",
+                            "materialUID": 2783184717484832988,
+                            "assetPathMaterial": "Assets/Materials/BixAnimatedGlasses_0.mat"
                         }
                     }
                 ]
@@ -29990,10 +29887,10 @@
         },
         {
             "GameObject": {
-                "name": "WingRT",
+                "name": "Face",
                 "tag": "",
-                "uid": 12912141792841834881,
-                "parentUID": 18065760732618098747,
+                "uid": 1149315590046133654,
+                "parentUID": 14799117244677154130,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -30006,7 +29903,7 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
@@ -30019,10 +29916,10 @@
         },
         {
             "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.001_0",
+                "name": "BixAnimated.Mesh.001_0",
                 "tag": "",
-                "uid": 7960942656925880915,
-                "parentUID": 12912141792841834881,
+                "uid": 5536381069197351528,
+                "parentUID": 1149315590046133654,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -30048,10 +29945,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 2209679043205993992,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.001_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
+                            "meshUID": 15240103524346886503,
+                            "assetPathMesh": "Assets/Meshes/BixAnimated.Mesh.001_0.mesh",
+                            "materialUID": 6697249017902897786,
+                            "assetPathMaterial": "Assets/Materials/BixAnimatedFace_0.mat"
                         }
                     }
                 ]
@@ -30059,10 +29956,10 @@
         },
         {
             "GameObject": {
-                "name": "WingRB",
+                "name": "Body",
                 "tag": "",
-                "uid": 6253295686003897617,
-                "parentUID": 18065760732618098747,
+                "uid": 8015235850975647870,
+                "parentUID": 14799117244677154130,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -30075,7 +29972,7 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
@@ -30088,10 +29985,10 @@
         },
         {
             "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.006_0",
+                "name": "BixAnimated.Mesh.003_0",
                 "tag": "",
-                "uid": 835543492023161041,
-                "parentUID": 6253295686003897617,
+                "uid": 14419485151013051836,
+                "parentUID": 8015235850975647870,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -30117,1390 +30014,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11869691612302981198,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.006_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonRT",
-                "tag": "",
-                "uid": 8077414386466674204,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.035_0",
-                "tag": "",
-                "uid": 18105954268724849036,
-                "parentUID": 8077414386466674204,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 14047872462017566071,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.035_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon2RT",
-                "tag": "",
-                "uid": 10418709092394179446,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.036_0",
-                "tag": "",
-                "uid": 15705605371878920340,
-                "parentUID": 10418709092394179446,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 14518788961231696814,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.036_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon4RT",
-                "tag": "",
-                "uid": 9050752918784408477,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.037_0",
-                "tag": "",
-                "uid": 111133473407946607,
-                "parentUID": 9050752918784408477,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3373699661586596362,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.037_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon1RT",
-                "tag": "",
-                "uid": 2235430142018177168,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.038_0",
-                "tag": "",
-                "uid": 2596234826313454904,
-                "parentUID": 2235430142018177168,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3103742473570033360,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.038_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DroneMain",
-                "tag": "",
-                "uid": 13868756328744002396,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.055_0",
-                "tag": "",
-                "uid": 10024855700978084389,
-                "parentUID": 13868756328744002396,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8241596994092768094,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.055_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "WingLB",
-                "tag": "",
-                "uid": 11397376210591183941,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.080_0",
-                "tag": "",
-                "uid": 3011281031509735351,
-                "parentUID": 11397376210591183941,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 13622586855945630225,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.080_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "WingLC",
-                "tag": "",
-                "uid": 3030803827488952339,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.090_0",
-                "tag": "",
-                "uid": 7234167429956572306,
-                "parentUID": 3030803827488952339,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 12397447737981716023,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.090_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "WingLT",
-                "tag": "",
-                "uid": 12290221051460078296,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.091_0",
-                "tag": "",
-                "uid": 5450004540208278230,
-                "parentUID": 12290221051460078296,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8267762262883280514,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.091_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonRB",
-                "tag": "",
-                "uid": 17499830334644407363,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.002_0",
-                "tag": "",
-                "uid": 16010147985481747806,
-                "parentUID": 17499830334644407363,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 6512903908017561740,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.002_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon2RT.001",
-                "tag": "",
-                "uid": 11213849261257946370,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.003_0",
-                "tag": "",
-                "uid": 2604964845320496594,
-                "parentUID": 11213849261257946370,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 18249358698043419426,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.003_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon4RT.001",
-                "tag": "",
-                "uid": 17053357435350002128,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.005_0",
-                "tag": "",
-                "uid": 17685859591311849253,
-                "parentUID": 17053357435350002128,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 1424301931792872846,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.005_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon1RT.001",
-                "tag": "",
-                "uid": 15843632167569775416,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.008_0",
-                "tag": "",
-                "uid": 5789926243811805607,
-                "parentUID": 15843632167569775416,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 12752902847980696068,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.008_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonLT",
-                "tag": "",
-                "uid": 5581740656193185654,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.009_0",
-                "tag": "",
-                "uid": 5400765018218927991,
-                "parentUID": 5581740656193185654,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 10995962204583668709,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.009_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon2RT.002",
-                "tag": "",
-                "uid": 3732127441095608819,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.010_0",
-                "tag": "",
-                "uid": 7574173668569248370,
-                "parentUID": 3732127441095608819,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 17364717022983688127,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.010_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon4RT.002",
-                "tag": "",
-                "uid": 3562673819871557004,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.011_0",
-                "tag": "",
-                "uid": 7805410699280672002,
-                "parentUID": 3562673819871557004,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 777291814911538324,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.011_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon1RT.002",
-                "tag": "",
-                "uid": 14445859626424601603,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.012_0",
-                "tag": "",
-                "uid": 7181422965103723315,
-                "parentUID": 14445859626424601603,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 14405229867220698770,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.012_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonLB",
-                "tag": "",
-                "uid": 17067255103602369443,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.013_0",
-                "tag": "",
-                "uid": 15821516694473816409,
-                "parentUID": 17067255103602369443,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 16259879987641060093,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.013_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon2RT.003",
-                "tag": "",
-                "uid": 1709632656676569803,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.014_0",
-                "tag": "",
-                "uid": 8486539594883021435,
-                "parentUID": 1709632656676569803,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 17234092730987059344,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.014_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon4RT.003",
-                "tag": "",
-                "uid": 3246400115988094408,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.015_0",
-                "tag": "",
-                "uid": 17062886156585349632,
-                "parentUID": 3246400115988094408,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 5572172042762072131,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.015_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cannon1RT.003",
-                "tag": "",
-                "uid": 16145707972618997650,
-                "parentUID": 18065760732618098747,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE_AnimatedRIGv17_1.wingRight.016_0",
-                "tag": "",
-                "uid": 9647039883189949618,
-                "parentUID": 16145707972618997650,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 13353538059748859255,
-                            "assetPathMesh": "Assets/Meshes/DRONE_AnimatedRIGv17_1.wingRight.016_0.mesh",
-                            "materialUID": 5426179880487186604,
-                            "assetPathMaterial": "Assets/Materials/DRONE_AnimatedRIGv17_1Material.001_0.mat"
+                            "meshUID": 7789057309464902914,
+                            "assetPathMesh": "Assets/Meshes/BixAnimated.Mesh.003_0.mesh",
+                            "materialUID": 117136460895888007,
+                            "assetPathMaterial": "Assets/Materials/BixAnimatedBody_0.mat"
                         }
                     }
                 ]
@@ -31510,8 +30027,8 @@
             "GameObject": {
                 "name": "Armature",
                 "tag": "",
-                "uid": 12347859298115133610,
-                "parentUID": 18065760732618098747,
+                "uid": 10666999910377964801,
+                "parentUID": 14799117244677154130,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -31527,9 +30044,9 @@
                             "localRot_X": -90.00000762939453,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
                         }
                     }
                 ]
@@ -31537,10 +30054,10 @@
         },
         {
             "GameObject": {
-                "name": "DroneBody",
+                "name": "Spine",
                 "tag": "",
-                "uid": 1595015303521363570,
-                "parentUID": 12347859298115133610,
+                "uid": 2950150862300816938,
+                "parentUID": 10666999910377964801,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -31550,99 +30067,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.005232691764831543,
-                            "localPos_Y": -0.004039562772959471,
-                            "localPos_Z": -0.11323154717683792,
-                            "localRot_X": 90.00000762939453,
-                            "localRot_Y": -0.000005146209787199041,
-                            "localRot_Z": -0.02497631311416626,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Wing.l",
-                "tag": "",
-                "uid": 10024353388603040517,
-                "parentUID": 1595015303521363570,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.057351511375316e-11,
-                            "localPos_Y": 0.371935099363327,
-                            "localPos_Z": -1.5006959563912403e-10,
-                            "localRot_X": -0.00000865811398398364,
-                            "localRot_Y": 0.000005580881861533271,
-                            "localRot_Z": -91.57281494140625,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Upwing.l",
-                "tag": "",
-                "uid": 4707689199456708008,
-                "parentUID": 10024353388603040517,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.3897021129168934e-8,
-                            "localPos_Y": 0.8009701371192932,
-                            "localPos_Z": 3.426006145446081e-10,
-                            "localRot_X": 0.7120511531829834,
-                            "localRot_Y": -3.990994930267334,
-                            "localRot_Z": 96.8457260131836,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Upwing.l.001",
-                "tag": "",
-                "uid": 10400439284458569781,
-                "parentUID": 4707689199456708008,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.8638169169425964e-8,
-                            "localPos_Y": 0.10498330742120743,
-                            "localPos_Z": -1.3969838619232178e-9,
-                            "localRot_X": 3.0830740928649902,
-                            "localRot_Y": 0.14426986873149872,
-                            "localRot_Z": 5.356819152832031,
+                            "localPos_X": -0.0002880426764022559,
+                            "localPos_Y": -0.00020399014465510845,
+                            "localPos_Z": 0.0023838982451707125,
+                            "localRot_X": 91.46530151367188,
+                            "localRot_Y": -0.9938451051712036,
+                            "localRot_Z": -0.8330044746398926,
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -31653,10 +30083,10 @@
         },
         {
             "GameObject": {
-                "name": "CannonTopMain.l",
+                "name": "Chest",
                 "tag": "",
-                "uid": 17117114794986800975,
-                "parentUID": 10400439284458569781,
+                "uid": 7672619019807359884,
+                "parentUID": 2950150862300816938,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -31666,44 +30096,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.10412084311246872,
-                            "localPos_Y": 0.3410158157348633,
-                            "localPos_Z": -0.37207847833633423,
-                            "localRot_X": -88.3646240234375,
-                            "localRot_Y": 42.802486419677734,
-                            "localRot_Z": 179.85166931152344,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTop2.l",
-                "tag": "",
-                "uid": 17751023242469652375,
-                "parentUID": 17117114794986800975,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.210719347000122e-8,
-                            "localPos_Y": 0.22783862054347992,
-                            "localPos_Z": 3.702007234096527e-8,
-                            "localRot_X": 0.6690368056297302,
-                            "localRot_Y": -0.0020833169110119343,
-                            "localRot_Z": -0.4216042757034302,
+                            "localPos_X": -4.547473508864641e-12,
+                            "localPos_Y": 0.014066308736801147,
+                            "localPos_Z": 2.2851054382044822e-11,
+                            "localRot_X": 2.948190689086914,
+                            "localRot_Y": -2.2098937034606934,
+                            "localRot_Z": -0.4622601866722107,
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 0.9999999403953552
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
@@ -31711,10 +30112,10 @@
         },
         {
             "GameObject": {
-                "name": "CannonTop3.l",
+                "name": "Head",
                 "tag": "",
-                "uid": 13595476914752028940,
-                "parentUID": 17751023242469652375,
+                "uid": 17388131878254755908,
+                "parentUID": 7672619019807359884,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -31724,12 +30125,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -2.6433554012328386e-8,
-                            "localPos_Y": 0.19728076457977295,
-                            "localPos_Z": -5.209585651755333e-9,
-                            "localRot_X": -0.3689320683479309,
-                            "localRot_Y": -0.0007920535863377154,
-                            "localRot_Z": 0.23248836398124695,
+                            "localPos_X": -1.82626536116004e-9,
+                            "localPos_Y": 0.006922287866473198,
+                            "localPos_Z": 1.5636487660231069e-9,
+                            "localRot_X": 0.05247335508465767,
+                            "localRot_Y": 0.4030330181121826,
+                            "localRot_Z": -0.5771530270576477,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -31740,10 +30141,10 @@
         },
         {
             "GameObject": {
-                "name": "CannonTop3.l_end",
+                "name": "Head_end",
                 "tag": "",
-                "uid": 5955988497927737314,
-                "parentUID": 13595476914752028940,
+                "uid": 8547466303856670719,
+                "parentUID": 17388131878254755908,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -31754,7 +30155,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.31571248173713684,
+                            "localPos_Y": 0.017887240275740623,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -31769,10 +30170,909 @@
         },
         {
             "GameObject": {
-                "name": "CannonTopBack.l",
+                "name": "L.TopArm",
                 "tag": "",
-                "uid": 3127168418236762194,
-                "parentUID": 17117114794986800975,
+                "uid": 12880235688834331818,
+                "parentUID": 7672619019807359884,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01173062901943922,
+                            "localPos_Y": 0.0036492764484137297,
+                            "localPos_Z": 0.000574408215470612,
+                            "localRot_X": -98.88684844970703,
+                            "localRot_Y": 69.76092529296875,
+                            "localRot_Z": -130.8577117919922,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.BottomArm",
+                "tag": "",
+                "uid": 14806398114274279722,
+                "parentUID": 12880235688834331818,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.656612873077393e-10,
+                            "localPos_Y": 0.005961545743048191,
+                            "localPos_Z": -1.4406396076083183e-9,
+                            "localRot_X": -9.364770889282227,
+                            "localRot_Y": -11.187440872192383,
+                            "localRot_Z": -32.662384033203125,
+                            "localSca_X": 0.9999998807907104,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999998807907104
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Hand",
+                "tag": "",
+                "uid": 11374559586671644585,
+                "parentUID": 14806398114274279722,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.3387762010097504e-9,
+                            "localPos_Y": 0.008288349956274033,
+                            "localPos_Z": -3.637978807091713e-11,
+                            "localRot_X": -101.08917999267578,
+                            "localRot_Y": -86.58131408691406,
+                            "localRot_Z": -94.95698547363281,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Hand_end",
+                "tag": "",
+                "uid": 11223314303514517399,
+                "parentUID": 11374559586671644585,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.009160784073174,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.TopArm",
+                "tag": "",
+                "uid": 9291961339744428107,
+                "parentUID": 7672619019807359884,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.011125165969133377,
+                            "localPos_Y": 0.0032274324912577868,
+                            "localPos_Z": -0.0010960760992020369,
+                            "localRot_X": 171.87939453125,
+                            "localRot_Y": -8.278406143188477,
+                            "localRot_Z": 29.04167938232422,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.BottomArm",
+                "tag": "",
+                "uid": 8060675802258891181,
+                "parentUID": 9291961339744428107,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.6443664208054543e-9,
+                            "localPos_Y": 0.005773184821009636,
+                            "localPos_Z": 2.9103830456733704e-10,
+                            "localRot_X": -31.686317443847656,
+                            "localRot_Y": 10.381499290466309,
+                            "localRot_Z": -4.375493049621582,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Hand",
+                "tag": "",
+                "uid": 10256761102633688088,
+                "parentUID": 8060675802258891181,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.473825588822365e-10,
+                            "localPos_Y": 0.006209470331668854,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 11.684956550598145,
+                            "localRot_Y": -84.75569915771484,
+                            "localRot_Z": 0.6531919240951538,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Hand_end",
+                "tag": "",
+                "uid": 17610305025421019056,
+                "parentUID": 10256761102633688088,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.010460860095918179,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BottomSpine",
+                "tag": "",
+                "uid": 6451882985892016316,
+                "parentUID": 10666999910377964801,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.00028804404428228736,
+                            "localPos_Y": -0.00020398884953465313,
+                            "localPos_Z": 0.002383898478001356,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.TopLeg",
+                "tag": "",
+                "uid": 15979954513602883215,
+                "parentUID": 6451882985892016316,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.007847767323255539,
+                            "localPos_Y": 0.009168612770736217,
+                            "localPos_Z": 0.00029120483668521047,
+                            "localRot_X": -13.524286270141602,
+                            "localRot_Y": 0.7393975853919983,
+                            "localRot_Z": -6.208378791809082,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.BottomLeg",
+                "tag": "",
+                "uid": 16225562830236859515,
+                "parentUID": 15979954513602883215,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.310560714453459e-10,
+                            "localPos_Y": 0.008228359743952751,
+                            "localPos_Z": -4.001776687800884e-10,
+                            "localRot_X": 57.98419189453125,
+                            "localRot_Y": -5.706759452819824,
+                            "localRot_Z": 3.829941749572754,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootFar",
+                "tag": "",
+                "uid": 8595476710988604083,
+                "parentUID": 16225562830236859515,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.3283064365386963e-10,
+                            "localPos_Y": 0.006663274951279163,
+                            "localPos_Z": -2.3283064365386963e-10,
+                            "localRot_X": 129.6968231201172,
+                            "localRot_Y": -75.98377227783203,
+                            "localRot_Z": -100.12826538085938,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootNear",
+                "tag": "",
+                "uid": 510682122136055741,
+                "parentUID": 8595476710988604083,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.1268427846953273e-9,
+                            "localPos_Y": 0.003269556909799576,
+                            "localPos_Z": 6.548361852765083e-10,
+                            "localRot_X": -0.06913956999778748,
+                            "localRot_Y": 0.0036794799380004406,
+                            "localRot_Z": -2.125429153442383,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootNear_end",
+                "tag": "",
+                "uid": 17800436284849856780,
+                "parentUID": 510682122136055741,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0036515705287456512,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.TopLeg",
+                "tag": "",
+                "uid": 12180867446333722153,
+                "parentUID": 6451882985892016316,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.006920638959854841,
+                            "localPos_Y": 0.009168602526187897,
+                            "localPos_Z": 0.0002912166528403759,
+                            "localRot_X": 0.2828865945339203,
+                            "localRot_Y": 12.104013442993164,
+                            "localRot_Z": 5.871933460235596,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.BottomLeg",
+                "tag": "",
+                "uid": 14276315546921106635,
+                "parentUID": 12180867446333722153,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.731149137020111e-11,
+                            "localPos_Y": 0.008227941580116749,
+                            "localPos_Z": 2.9103830456733704e-11,
+                            "localRot_X": 23.840404510498047,
+                            "localRot_Y": 3.803582191467285,
+                            "localRot_Z": 0.8630194067955017,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootFar",
+                "tag": "",
+                "uid": 9681058714738776541,
+                "parentUID": 14276315546921106635,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.4924596548080444e-10,
+                            "localPos_Y": 0.005493207834661007,
+                            "localPos_Z": 1.6298145055770874e-9,
+                            "localRot_X": 130.66761779785156,
+                            "localRot_Y": 78.29375457763672,
+                            "localRot_Z": 125.73713684082031,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootNear",
+                "tag": "",
+                "uid": 16256431902212569941,
+                "parentUID": 9681058714738776541,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 7.676135282963514e-10,
+                            "localPos_Y": 0.0032875342294573784,
+                            "localPos_Z": 1.0913936421275139e-9,
+                            "localRot_X": -0.7176581621170044,
+                            "localRot_Y": 0.03459827974438667,
+                            "localRot_Z": -8.40668773651123,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootNear_end",
+                "tag": "",
+                "uid": 16275906708412261840,
+                "parentUID": 16256431902212569941,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0035662089940160513,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.1",
+                "tag": "",
+                "uid": 8414488628419448792,
+                "parentUID": 10666999910377964801,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.005114855244755745,
+                            "localPos_Y": 0.009498588740825653,
+                            "localPos_Z": 0.03529895842075348,
+                            "localRot_X": -89.39317321777344,
+                            "localRot_Y": -11.048226356506348,
+                            "localRot_Z": 3.361953020095825,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.2",
+                "tag": "",
+                "uid": 5994151479047636120,
+                "parentUID": 8414488628419448792,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.313225746154785e-10,
+                            "localPos_Y": 0.007114218082278967,
+                            "localPos_Z": 2.6193447411060333e-10,
+                            "localRot_X": -0.18318341672420502,
+                            "localRot_Y": 0.001499227131716907,
+                            "localRot_Z": -0.9382275938987732,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.3",
+                "tag": "",
+                "uid": 17878860129529428879,
+                "parentUID": 5994151479047636120,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.4924596548080444e-10,
+                            "localPos_Y": 0.00711421575397253,
+                            "localPos_Z": 8.003553375601768e-10,
+                            "localRot_X": -0.5427393913269043,
+                            "localRot_Y": 0.01314017828553915,
+                            "localRot_Z": -2.774285316467285,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.4",
+                "tag": "",
+                "uid": 7200228650338338858,
+                "parentUID": 17878860129529428879,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.764863893389702e-10,
+                            "localPos_Y": 0.007114218082278967,
+                            "localPos_Z": -5.347828846424818e-10,
+                            "localRot_X": -1.023498296737671,
+                            "localRot_Y": 0.04682035744190216,
+                            "localRot_Z": -5.23858118057251,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.5",
+                "tag": "",
+                "uid": 5541882855505654052,
+                "parentUID": 7200228650338338858,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.4924596548080444e-10,
+                            "localPos_Y": 0.0071142190136015415,
+                            "localPos_Z": 6.257323548197746e-10,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.5_end",
+                "tag": "",
+                "uid": 15324204252824525227,
+                "parentUID": 5541882855505654052,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.007783820386976004,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.1",
+                "tag": "",
+                "uid": 15913524366203777244,
+                "parentUID": 10666999910377964801,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.005114720202982426,
+                            "localPos_Y": 0.009498543106019497,
+                            "localPos_Z": 0.03529872000217438,
+                            "localRot_X": 89.89627075195313,
+                            "localRot_Y": 0.8282797336578369,
+                            "localRot_Z": -176.91033935546875,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.2",
+                "tag": "",
+                "uid": 3689212217010037546,
+                "parentUID": 15913524366203777244,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.6193447411060333e-10,
+                            "localPos_Y": 0.007114221807569265,
+                            "localPos_Z": 6.803020369261503e-10,
+                            "localRot_X": -0.013677699491381645,
+                            "localRot_Y": 0.000021830554032931104,
+                            "localRot_Z": -0.28042224049568176,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.3",
+                "tag": "",
+                "uid": 10131139329506968540,
+                "parentUID": 3689212217010037546,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.275957614183426e-11,
+                            "localPos_Y": 0.007114216219633818,
+                            "localPos_Z": -5.347828846424818e-10,
+                            "localRot_X": -0.03582277521491051,
+                            "localRot_Y": 0.0001495682226959616,
+                            "localRot_Z": -0.7366188764572144,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.4",
+                "tag": "",
+                "uid": 14675301695735220833,
+                "parentUID": 10131139329506968540,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.0186340659856796e-10,
+                            "localPos_Y": 0.007114220876246691,
+                            "localPos_Z": -1.9554136088117957e-10,
+                            "localRot_X": -0.06193619966506958,
+                            "localRot_Y": 0.0005182036547921598,
+                            "localRot_Z": -1.0516300201416016,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.5",
+                "tag": "",
+                "uid": 12535721734592347004,
+                "parentUID": 14675301695735220833,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.548361852765083e-10,
+                            "localPos_Y": 0.007114218547940254,
+                            "localPos_Z": -2.503384166629985e-10,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.5_end",
+                "tag": "",
+                "uid": 15484548980445261306,
+                "parentUID": 12535721734592347004,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.007783820386976004,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "LightSaberOn",
+                "tag": "",
+                "uid": 14655377330578557241,
+                "parentUID": 14799117244677154130,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -31785,35 +31085,6 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -0.34493759274482727,
-                            "localRot_Y": 32.21771240234375,
-                            "localRot_Z": -179.81610107421875,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTopBack.l_end",
-                "tag": "",
-                "uid": 6340151091315289589,
-                "parentUID": 3127168418236762194,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.2784196138381958,
-                            "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -31827,184 +31098,10 @@
         },
         {
             "GameObject": {
-                "name": "Downwing.l",
+                "name": "BixAnimated.Cylinder.002_0",
                 "tag": "",
-                "uid": 9281288000813209412,
-                "parentUID": 10024353388603040517,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.3897021129168934e-8,
-                            "localPos_Y": 0.8009701371192932,
-                            "localPos_Z": 3.426006145446081e-10,
-                            "localRot_X": 12.463766098022461,
-                            "localRot_Y": -0.5757185220718384,
-                            "localRot_Z": -92.60289001464844,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Downwing.l.001",
-                "tag": "",
-                "uid": 11949437779888268840,
-                "parentUID": 9281288000813209412,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 5.005858838558197e-8,
-                            "localPos_Y": 0.10624156147241592,
-                            "localPos_Z": -1.3271346688270569e-8,
-                            "localRot_X": 1.1095553636550903,
-                            "localRot_Y": -0.048636604100465775,
-                            "localRot_Z": -5.020571708679199,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottomMain.l",
-                "tag": "",
-                "uid": 8446526947174920378,
-                "parentUID": 11949437779888268840,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.19156888127326965,
-                            "localPos_Y": 0.3425862789154053,
-                            "localPos_Z": -0.35212019085884094,
-                            "localRot_X": 94.68006134033203,
-                            "localRot_Y": -22.358610153198242,
-                            "localRot_Z": 13.611129760742188,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottom2.l",
-                "tag": "",
-                "uid": 17298958347492262124,
-                "parentUID": 8446526947174920378,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.0372681319713593e-9,
-                            "localPos_Y": 0.2278386354446411,
-                            "localPos_Z": 1.816079020500183e-8,
-                            "localRot_X": 0.6690384745597839,
-                            "localRot_Y": -0.0020542810671031475,
-                            "localRot_Z": -0.4216052293777466,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottom3.l",
-                "tag": "",
-                "uid": 17255998323956891467,
-                "parentUID": 17298958347492262124,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.8320861272513866e-8,
-                            "localPos_Y": 0.19728080928325653,
-                            "localPos_Z": 9.560608305037022e-9,
-                            "localRot_X": -0.3689320385456085,
-                            "localRot_Y": -0.000804866140242666,
-                            "localRot_Z": 0.23248815536499023,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottom3.l_end",
-                "tag": "",
-                "uid": 9925057874166082606,
-                "parentUID": 17255998323956891467,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.31571248173713684,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottomBack.l",
-                "tag": "",
-                "uid": 13977391744572784710,
-                "parentUID": 8446526947174920378,
+                "uid": 13121082076848322566,
+                "parentUID": 14655377330578557241,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -32016,557 +31113,6 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.34493488073349,
-                            "localRot_Y": 32.21775436401367,
-                            "localRot_Z": -179.8160858154297,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottomBack.l_end",
-                "tag": "",
-                "uid": 3353005615842502834,
-                "parentUID": 13977391744572784710,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.2784196138381958,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Wing.r",
-                "tag": "",
-                "uid": 13894114877405944145,
-                "parentUID": 1595015303521363570,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.00032426693360321224,
-                            "localPos_Y": 0.3719349801540375,
-                            "localPos_Z": -1.2097278734302108e-10,
-                            "localRot_X": 0.00001867416540335398,
-                            "localRot_Y": 0.000005468126346386271,
-                            "localRot_Z": 91.62183380126953,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Upwing.r",
-                "tag": "",
-                "uid": 3713476061736408111,
-                "parentUID": 13894114877405944145,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -2.4955722821573545e-8,
-                            "localPos_Y": 0.8014358878135681,
-                            "localPos_Z": 3.180500307564671e-10,
-                            "localRot_X": 1.2065846920013428,
-                            "localRot_Y": 4.114107608795166,
-                            "localRot_Z": -98.92174530029297,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Upwing.r.001",
-                "tag": "",
-                "uid": 6363993439750729117,
-                "parentUID": 3713476061736408111,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -5.969195626676083e-8,
-                            "localPos_Y": 0.09996248036623001,
-                            "localPos_Z": -2.0954757928848267e-9,
-                            "localRot_X": 3.305182695388794,
-                            "localRot_Y": -0.5006023049354553,
-                            "localRot_Z": -6.1034932136535645,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTopMain.r",
-                "tag": "",
-                "uid": 8151338660571661477,
-                "parentUID": 6363993439750729117,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.11874288320541382,
-                            "localPos_Y": 0.3721052408218384,
-                            "localPos_Z": -0.3717847764492035,
-                            "localRot_X": -88.30892181396484,
-                            "localRot_Y": -45.612823486328125,
-                            "localRot_Z": -179.74217224121094,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTop2.r",
-                "tag": "",
-                "uid": 10991752878877074035,
-                "parentUID": 8151338660571661477,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 9.255018085241318e-9,
-                            "localPos_Y": 0.22783860564231873,
-                            "localPos_Z": 2.922024577856064e-8,
-                            "localRot_X": 0.6690369844436646,
-                            "localRot_Y": 0.0026169270277023315,
-                            "localRot_Z": 0.42159953713417053,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTop3.r",
-                "tag": "",
-                "uid": 6531786301600004362,
-                "parentUID": 10991752878877074035,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.3105607144534588e-9,
-                            "localPos_Y": 0.19728076457977295,
-                            "localPos_Z": -5.282345227897167e-9,
-                            "localRot_X": -0.3689323365688324,
-                            "localRot_Y": 0.0007374081760644913,
-                            "localRot_Z": -0.23248852789402008,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTop3.r_end",
-                "tag": "",
-                "uid": 7930416755584059255,
-                "parentUID": 6531786301600004362,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.31571248173713684,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTopBack.r",
-                "tag": "",
-                "uid": 4100126944618132117,
-                "parentUID": 8151338660571661477,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.3449419438838959,
-                            "localRot_Y": -32.217220306396484,
-                            "localRot_Z": 179.8160858154297,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonTopBack.r_end",
-                "tag": "",
-                "uid": 14546424530271966,
-                "parentUID": 4100126944618132117,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.2784196138381958,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Downwing.r",
-                "tag": "",
-                "uid": 7651495117495508190,
-                "parentUID": 13894114877405944145,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -2.4955722821573545e-8,
-                            "localPos_Y": 0.8014358878135681,
-                            "localPos_Z": 3.180500307564671e-10,
-                            "localRot_X": -0.00006300081440713257,
-                            "localRot_Y": 0.000015314244592445903,
-                            "localRot_Z": 97.52416229248047,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Downwing.r.001",
-                "tag": "",
-                "uid": 5459077610311091241,
-                "parentUID": 7651495117495508190,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 3.0328983768868056e-9,
-                            "localPos_Y": 0.10110040754079819,
-                            "localPos_Z": 2.2594903725803306e-10,
-                            "localRot_X": -0.000006890382792335004,
-                            "localRot_Y": -0.00000691160857968498,
-                            "localRot_Z": 3.1150364875793457,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottomMain.r",
-                "tag": "",
-                "uid": 5583907714637953247,
-                "parentUID": 5459077610311091241,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.12313459813594818,
-                            "localPos_Y": 0.3624887466430664,
-                            "localPos_Z": -0.38519203662872314,
-                            "localRot_X": 89.48125457763672,
-                            "localRot_Y": 19.983196258544922,
-                            "localRot_Z": -0.12989214062690735,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottom2.r",
-                "tag": "",
-                "uid": 17627408368784454864,
-                "parentUID": 5583907714637953247,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.6065314412117004e-8,
-                            "localPos_Y": 0.2278386503458023,
-                            "localPos_Z": 2.828892320394516e-8,
-                            "localRot_X": 0.6690370440483093,
-                            "localRot_Y": 0.0015804885188117623,
-                            "localRot_Z": 0.4216136634349823,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottom3.r",
-                "tag": "",
-                "uid": 18038222956166092165,
-                "parentUID": 17627408368784454864,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.82189978659153e-8,
-                            "localPos_Y": 0.19728082418441772,
-                            "localPos_Z": -5.2532413974404335e-9,
-                            "localRot_X": -0.3689277768135071,
-                            "localRot_Y": 0.0007476400933228433,
-                            "localRot_Z": -0.23248565196990967,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottom3.r_end",
-                "tag": "",
-                "uid": 2385466357896896530,
-                "parentUID": 18038222956166092165,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.31571248173713684,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottomBack.r",
-                "tag": "",
-                "uid": 18390915185730010469,
-                "parentUID": 5583907714637953247,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.34492895007133484,
-                            "localRot_Y": -32.218299865722656,
-                            "localRot_Z": 179.8161163330078,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "CannonBottomBack.r_end",
-                "tag": "",
-                "uid": 7507414448995151338,
-                "parentUID": 18390915185730010469,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.2784196138381958,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Dron",
-                "tag": "",
-                "uid": 17371541478534596213,
-                "parentUID": 5457140795048261378,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 1.208984375,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -32578,34 +31124,13 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Script",
+                            "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneAttack",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 0.6000000238418579,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "AnimationGO",
-                                    "value": 0,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletOriginGO",
-                                    "value": 13291244136040114149,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_AudioSource",
-                            "active": true,
-                            "removed": true
+                            "meshUID": 14371346678855421403,
+                            "assetPathMesh": "Assets/Meshes/BixAnimated.Cylinder.002_0.mesh",
+                            "materialUID": 10960409734174463401,
+                            "assetPathMaterial": "Assets/Materials/BixAnimatedLightSaber.001_0.mat"
                         }
                     }
                 ]
@@ -32613,39 +31138,10 @@
         },
         {
             "GameObject": {
-                "name": "BulletOrigin",
+                "name": "BixAnimated.Cylinder.002_1",
                 "tag": "",
-                "uid": 13291244136040114149,
-                "parentUID": 17371541478534596213,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 1.0991451740264893,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Empty GameObject",
-                "tag": "",
-                "uid": 9719300849828485044,
-                "parentUID": 5457140795048261378,
+                "uid": 17449918085038595374,
+                "parentUID": 14655377330578557241,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -32668,17 +31164,82 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Script",
+                            "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneBullet",
-                            "fields": [
-                                {
-                                    "name": "Velocity",
-                                    "value": 0.6000000238418579,
-                                    "type": 0
-                                }
-                            ]
+                            "meshUID": 11569082880555510153,
+                            "assetPathMesh": "Assets/Meshes/BixAnimated.Cylinder.002_1.mesh",
+                            "materialUID": 12450730125479065221,
+                            "assetPathMaterial": "Assets/Materials/BixAnimatedLightSaberEmission_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "LightSaberOff",
+                "tag": "",
+                "uid": 1368975267437757805,
+                "parentUID": 14799117244677154130,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixAnimated.Cylinder.003_0",
+                "tag": "",
+                "uid": 2100152838714383523,
+                "parentUID": 1368975267437757805,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7312404243670806952,
+                            "assetPathMesh": "Assets/Meshes/BixAnimated.Cylinder.003_0.mesh",
+                            "materialUID": 10960409734174463401,
+                            "assetPathMaterial": "Assets/Materials/BixAnimatedLightSaber.001_0.mat"
                         }
                     }
                 ]
