@@ -78,24 +78,26 @@ Execercise:
 - Only break if the other object is a projectile or if the other object is moving fast enough
 - Apply a radial force to the pieces centered at the collision point
 */
-
+	ENGINE_LOG("player velocity %f %f",rigidbody->GetVelocity().getX(), rigidbody->GetVelocity().getZ());
 	ENGINE_LOG("Breakable: Collision between %s and %s", owner->GetName().c_str(), rigidbody->GetOwner()->GetName().c_str());
-
-	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
+	if (abs(rigidbody->GetVelocity().getX()) > 5.0f || abs(rigidbody->GetVelocity().getZ()) > 5.0f)
 	{
-		rb->RemoveRigidBodyFromSimulation();
-	}
-
-	for (auto child : owner->GetChildren())
-	{
-		if (child->GetComponent(ComponentType::RIGIDBODY))
+		if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 		{
-			continue;
+			rb->RemoveRigidBodyFromSimulation();
 		}
-		if (auto rb = static_cast<ComponentRigidBody*>(child->CreateComponent(ComponentType::RIGIDBODY)))
+
+		for (auto child : owner->GetChildren())
 		{
-			rb->SetCollisionShape(ComponentRigidBody::SHAPE::BOX);
-			rb->UpdateNonSimulatedTransform();
+			if (child->GetComponent(ComponentType::RIGIDBODY))
+			{
+				continue;
+			}
+			if (auto rb = static_cast<ComponentRigidBody*>(child->CreateComponent(ComponentType::RIGIDBODY)))
+			{
+				rb->SetCollisionShape(ComponentRigidBody::SHAPE::BOX);
+				rb->UpdateNonSimulatedTransform();
+			}
 		}
 	}
 }
