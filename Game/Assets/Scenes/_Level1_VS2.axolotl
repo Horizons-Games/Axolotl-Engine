@@ -10511,7 +10511,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 29.588045120239258,
+                            "localPos_X": 45.960391998291016,
                             "localPos_Y": -2.0,
                             "localPos_Z": 45.125694274902344,
                             "localRot_X": -0.0,
@@ -25919,7 +25919,7 @@
                 "uid": 3387989581126636750,
                 "parentUID": 9156183955469704864,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -25959,7 +25959,7 @@
                 "uid": 16162970569406212226,
                 "parentUID": 9156183955469704864,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -54353,7 +54353,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.2460339218378067,
+                            "localPos_X": -0.482532799243927,
                             "localPos_Y": -0.6322593688964844,
                             "localPos_Z": 0.09089693427085876,
                             "localRot_X": 90.0,
@@ -54393,9 +54393,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.2460339218378067,
-                            "localPos_Y": -0.7312772870063782,
-                            "localPos_Z": 0.09089692682027817,
+                            "localPos_X": -0.48321759700775146,
+                            "localPos_Y": -0.7266448140144348,
+                            "localPos_Z": 0.09089693427085876,
                             "localRot_X": 90.0,
                             "localRot_Y": 90.0,
                             "localRot_Z": 0.0,
@@ -59266,9 +59266,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.0106565952301025,
+                            "localPos_X": -1.0106582641601563,
                             "localPos_Y": 7.8908843994140625,
-                            "localPos_Z": -2.603280782699585,
+                            "localPos_Z": 27.754432678222656,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 180.0,
@@ -93172,6 +93172,3836 @@
                             "assetPathMesh": "Assets/Meshes/CANTINA_Couchlow2.Cube.014_0.mesh",
                             "materialUID": 10027638397909781393,
                             "assetPathMaterial": "Assets/Materials/CANTINA_Couchlow2Material_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ModRoo11",
+                "tag": "",
+                "uid": 11627311158749804666,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 23.867000579833984,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ceilings",
+                "tag": "",
+                "uid": 15148863533268542106,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1",
+                "tag": "",
+                "uid": 7977359957663776790,
+                "parentUID": 15148863533268542106,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.23274469375610352,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 13716237533793743126,
+                "parentUID": 7977359957663776790,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1",
+                "tag": "",
+                "uid": 12676206621648002365,
+                "parentUID": 13716237533793743126,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1.Cube.006_0",
+                "tag": "",
+                "uid": 12324510017295048270,
+                "parentUID": 12676206621648002365,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4691688120365143,
+                            "localPos_Y": -0.6743903756141663,
+                            "localPos_Z": 0.05901618301868439,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.010999999940395355,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15831370564520841294,
+                            "assetPathMesh": "Assets/Meshes/ArchCellingV1.Cube.006_0.mesh",
+                            "materialUID": 9091798449565710812,
+                            "assetPathMaterial": "Assets/Materials/ArchCellingV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1.Cube.006_0",
+                "tag": "",
+                "uid": 2436881470322557695,
+                "parentUID": 12676206621648002365,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4492499530315399,
+                            "localPos_Y": -0.6743903756141663,
+                            "localPos_Z": 0.05901618301868439,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.010999999940395355,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15831370564520841294,
+                            "assetPathMesh": "Assets/Meshes/ArchCellingV1.Cube.006_0.mesh",
+                            "materialUID": 9091798449565710812,
+                            "assetPathMaterial": "Assets/Materials/ArchCellingV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1.Cube.006_0",
+                "tag": "",
+                "uid": 13885514416743382172,
+                "parentUID": 12676206621648002365,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.36955586075782776,
+                            "localPos_Y": -0.6743903756141663,
+                            "localPos_Z": 0.05901618301868439,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.010999999940395355,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15831370564520841294,
+                            "assetPathMesh": "Assets/Meshes/ArchCellingV1.Cube.006_0.mesh",
+                            "materialUID": 9091798449565710812,
+                            "assetPathMaterial": "Assets/Materials/ArchCellingV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 11359587600669662463,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 18126707802019201392,
+                "parentUID": 11359587600669662463,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 13855802861057390640,
+                "parentUID": 18126707802019201392,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 13383253278537166047,
+                "parentUID": 13855802861057390640,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4690866768360138,
+                            "localPos_Y": -0.6322454214096069,
+                            "localPos_Z": 0.0372525230050087,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 9732500871356594217,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -12.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 874306722267078860,
+                "parentUID": 9732500871356594217,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 8105522174222781668,
+                "parentUID": 874306722267078860,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1",
+                "tag": "",
+                "uid": 3460609304315968193,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 3035084163188643970,
+                "parentUID": 3460609304315968193,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.008",
+                "tag": "",
+                "uid": 452889577399677001,
+                "parentUID": 3035084163188643970,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 7466227298712656677,
+                "parentUID": 452889577399677001,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 13804007622223295077,
+                "parentUID": 452889577399677001,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 3809219836680114527,
+                "parentUID": 452889577399677001,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.7266654968261719,
+                            "localPos_Z": 0.03603796660900116,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 6743919014908197683,
+                "parentUID": 452889577399677001,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4693201780319214,
+                            "localPos_Y": -0.7266654968261719,
+                            "localPos_Z": 0.03603796660900116,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 18053331869962367121,
+                "parentUID": 452889577399677001,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4493201673030853,
+                            "localPos_Y": -0.7266654968261719,
+                            "localPos_Z": 0.03603796660900116,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1",
+                "tag": "",
+                "uid": 16066420180279794764,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 7494940977047474034,
+                "parentUID": 16066420180279794764,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.008",
+                "tag": "",
+                "uid": 14400703024210822599,
+                "parentUID": 7494940977047474034,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 10366561111764592577,
+                "parentUID": 14400703024210822599,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 8301249749500407048,
+                "parentUID": 14400703024210822599,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 5639871124655332301,
+                "parentUID": 14400703024210822599,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1",
+                "tag": "",
+                "uid": 10789245197657174623,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8352770293313884216,
+                "parentUID": 10789245197657174623,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.008",
+                "tag": "",
+                "uid": 6776108801382126024,
+                "parentUID": 8352770293313884216,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 14652594362502374757,
+                "parentUID": 6776108801382126024,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 13020826418829939717,
+                "parentUID": 6776108801382126024,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 3237645709102566147,
+                "parentUID": 6776108801382126024,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 18204312279632838580,
+                "parentUID": 6776108801382126024,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 13689964869560870142,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 11634982975807549462,
+                "parentUID": 13689964869560870142,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 16576127036635141850,
+                "parentUID": 11634982975807549462,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 9420005926593254168,
+                "parentUID": 16576127036635141850,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.48924392461776733,
+                            "localPos_Y": -0.7213655114173889,
+                            "localPos_Z": 0.03725111111998558,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 14295298374933227263,
+                "parentUID": 16576127036635141850,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4692439138889313,
+                            "localPos_Y": -0.6322454214096069,
+                            "localPos_Z": 0.0372525230050087,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 1447660523997040483,
+                "parentUID": 16576127036635141850,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4692439138889313,
+                            "localPos_Y": -0.7213655114173889,
+                            "localPos_Z": 0.03725111484527588,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 12184191371211886851,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -10.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8836220189977809932,
+                "parentUID": 12184191371211886851,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 16395330135989864421,
+                "parentUID": 8836220189977809932,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 10279401360201715704,
+                "parentUID": 16395330135989864421,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.46971458196640015,
+                            "localPos_Y": -0.6322454214096069,
+                            "localPos_Z": 0.0372525230050087,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 13862553944800608114,
+                "parentUID": 16395330135989864421,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.46971458196640015,
+                            "localPos_Y": -0.721471905708313,
+                            "localPos_Z": 0.03724987059831619,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SkyLight",
+                "tag": "",
+                "uid": 17478633869119095334,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 40.86152648925781,
+                            "localPos_Y": 6.078986167907715,
+                            "localPos_Z": 67.6852798461914,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009745276533067226,
+                            "localSca_Y": 0.011329999193549156,
+                            "localSca_Z": 0.011329999193549156
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8267536255265420292,
+                "parentUID": 17478633869119095334,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Plane.006",
+                "tag": "",
+                "uid": 7057663114603387710,
+                "parentUID": 8267536255265420292,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SkyLight.Plane.006_0",
+                "tag": "",
+                "uid": 10735461688341733470,
+                "parentUID": 7057663114603387710,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.09726333618164063,
+                            "localPos_Z": 0.5549650192260742,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0959999561309814,
+                            "localSca_Y": 1.1380000114440918,
+                            "localSca_Z": 0.9599999785423279
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 9556345099242306897,
+                            "assetPathMesh": "Assets/Meshes/SkyLight.Plane.006_0.mesh",
+                            "materialUID": 3977561009158578994,
+                            "assetPathMaterial": "Assets/Materials/SkyLightDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PipeLine",
+                "tag": "",
+                "uid": 1210306651811374884,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 6892662079429797111,
+                "parentUID": 1210306651811374884,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PipeLine",
+                "tag": "",
+                "uid": 9848458793104927091,
+                "parentUID": 6892662079429797111,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FloorPipeLine",
+                "tag": "",
+                "uid": 10654095105370326026,
+                "parentUID": 11627311158749804666,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 11130348265364807308,
+                "parentUID": 10654095105370326026,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FloorPipeLine",
+                "tag": "",
+                "uid": 14747478430885364412,
+                "parentUID": 11130348265364807308,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ModRoo10",
+                "tag": "",
+                "uid": 1949948458169604133,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 11.937000274658203,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ceilings",
+                "tag": "",
+                "uid": 11353210402904906110,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1",
+                "tag": "",
+                "uid": 11695949860257533155,
+                "parentUID": 11353210402904906110,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.23274469375610352,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 5359662947377321903,
+                "parentUID": 11695949860257533155,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1",
+                "tag": "",
+                "uid": 7655089761218664763,
+                "parentUID": 5359662947377321903,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1.Cube.006_0",
+                "tag": "",
+                "uid": 4338093161518054567,
+                "parentUID": 7655089761218664763,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4691688120365143,
+                            "localPos_Y": -0.6743903756141663,
+                            "localPos_Z": 0.05901618301868439,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.010999999940395355,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15831370564520841294,
+                            "assetPathMesh": "Assets/Meshes/ArchCellingV1.Cube.006_0.mesh",
+                            "materialUID": 9091798449565710812,
+                            "assetPathMaterial": "Assets/Materials/ArchCellingV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1.Cube.006_0",
+                "tag": "",
+                "uid": 11620789564606410396,
+                "parentUID": 7655089761218664763,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4492499530315399,
+                            "localPos_Y": -0.6743903756141663,
+                            "localPos_Z": 0.05901618301868439,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.010999999940395355,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15831370564520841294,
+                            "assetPathMesh": "Assets/Meshes/ArchCellingV1.Cube.006_0.mesh",
+                            "materialUID": 9091798449565710812,
+                            "assetPathMaterial": "Assets/Materials/ArchCellingV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchCellingV1.Cube.006_0",
+                "tag": "",
+                "uid": 14849286584447054323,
+                "parentUID": 7655089761218664763,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.36955586075782776,
+                            "localPos_Y": -0.6743903756141663,
+                            "localPos_Z": 0.05901618301868439,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.010999999940395355,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15831370564520841294,
+                            "assetPathMesh": "Assets/Meshes/ArchCellingV1.Cube.006_0.mesh",
+                            "materialUID": 9091798449565710812,
+                            "assetPathMaterial": "Assets/Materials/ArchCellingV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 2809607148364000204,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 5906445058315357786,
+                "parentUID": 2809607148364000204,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 15985796158927995810,
+                "parentUID": 5906445058315357786,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 12954036398869763105,
+                "parentUID": 15985796158927995810,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4690866768360138,
+                            "localPos_Y": -0.6322454214096069,
+                            "localPos_Z": 0.0372525230050087,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 10214444675566666414,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -12.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 18372916351559072554,
+                "parentUID": 10214444675566666414,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 10943890852464932333,
+                "parentUID": 18372916351559072554,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1",
+                "tag": "",
+                "uid": 17470421801427371950,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 17136702928307066980,
+                "parentUID": 17470421801427371950,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.008",
+                "tag": "",
+                "uid": 6561864822704779350,
+                "parentUID": 17136702928307066980,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 14593254679429964388,
+                "parentUID": 6561864822704779350,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 2822008676093597442,
+                "parentUID": 6561864822704779350,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 7228090857587990218,
+                "parentUID": 6561864822704779350,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.7266654968261719,
+                            "localPos_Z": 0.03603796660900116,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 3883506503444822646,
+                "parentUID": 6561864822704779350,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4693201780319214,
+                            "localPos_Y": -0.7266654968261719,
+                            "localPos_Z": 0.03603796660900116,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 12143204662725130007,
+                "parentUID": 6561864822704779350,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4493201673030853,
+                            "localPos_Y": -0.7266654968261719,
+                            "localPos_Z": 0.03603796660900116,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1",
+                "tag": "",
+                "uid": 774103543896792123,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 2943096997192572293,
+                "parentUID": 774103543896792123,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.008",
+                "tag": "",
+                "uid": 8063271358354623540,
+                "parentUID": 2943096997192572293,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 15286157413131016544,
+                "parentUID": 8063271358354623540,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 16669690349126475034,
+                "parentUID": 8063271358354623540,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 18155563020764549716,
+                "parentUID": 8063271358354623540,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1",
+                "tag": "",
+                "uid": 10663369368294726458,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 9589233039859566616,
+                "parentUID": 10663369368294726458,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.008",
+                "tag": "",
+                "uid": 9253939570307961266,
+                "parentUID": 9589233039859566616,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 2753762133217814400,
+                "parentUID": 9253939570307961266,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 15237777463492873241,
+                "parentUID": 9253939570307961266,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 5479014281651395281,
+                "parentUID": 9253939570307961266,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WallV1.Cube.012_0",
+                "tag": "",
+                "uid": 12596815014113541126,
+                "parentUID": 9253939570307961266,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.42932021617889404,
+                            "localPos_Y": -0.6268574595451355,
+                            "localPos_Z": 0.03603802248835564,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8260773672589200321,
+                            "assetPathMesh": "Assets/Meshes/WallV1.Cube.012_0.mesh",
+                            "materialUID": 2222430698192493239,
+                            "assetPathMaterial": "Assets/Materials/WallV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 10841923133516856980,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 4850141957810490391,
+                "parentUID": 10841923133516856980,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 7544045188191301268,
+                "parentUID": 4850141957810490391,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 6222349824390877546,
+                "parentUID": 7544045188191301268,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.48924392461776733,
+                            "localPos_Y": -0.7213655114173889,
+                            "localPos_Z": 0.03725111111998558,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 18062321539741231886,
+                "parentUID": 7544045188191301268,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4692439138889313,
+                            "localPos_Y": -0.6322454214096069,
+                            "localPos_Z": 0.0372525230050087,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 13198155051756476029,
+                "parentUID": 7544045188191301268,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4692439138889313,
+                            "localPos_Y": -0.7213655114173889,
+                            "localPos_Z": 0.03725111484527588,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 16288017311245511577,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -10.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 16553869702009361729,
+                "parentUID": 16288017311245511577,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1",
+                "tag": "",
+                "uid": 12315807992439764135,
+                "parentUID": 16553869702009361729,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 6819715244456659804,
+                "parentUID": 12315807992439764135,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.46971458196640015,
+                            "localPos_Y": -0.6322454214096069,
+                            "localPos_Z": 0.0372525230050087,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ArchV1.Cube.005_0",
+                "tag": "",
+                "uid": 13868770102662427206,
+                "parentUID": 12315807992439764135,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.46971458196640015,
+                            "localPos_Y": -0.721471905708313,
+                            "localPos_Z": 0.03724987059831619,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10563222147543938445,
+                            "assetPathMesh": "Assets/Meshes/ArchV1.Cube.005_0.mesh",
+                            "materialUID": 436280569725631081,
+                            "assetPathMaterial": "Assets/Materials/ArchV1DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SkyLight",
+                "tag": "",
+                "uid": 14156813347007568119,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 40.86152648925781,
+                            "localPos_Y": 6.078986167907715,
+                            "localPos_Z": 67.6852798461914,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009745276533067226,
+                            "localSca_Y": 0.011329999193549156,
+                            "localSca_Z": 0.011329999193549156
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 494439997692061631,
+                "parentUID": 14156813347007568119,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Plane.006",
+                "tag": "",
+                "uid": 1961542950856773185,
+                "parentUID": 494439997692061631,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SkyLight.Plane.006_0",
+                "tag": "",
+                "uid": 16447550871872775879,
+                "parentUID": 1961542950856773185,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.09726333618164063,
+                            "localPos_Z": 0.5549650192260742,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0959999561309814,
+                            "localSca_Y": 1.1380000114440918,
+                            "localSca_Z": 0.9599999785423279
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 9556345099242306897,
+                            "assetPathMesh": "Assets/Meshes/SkyLight.Plane.006_0.mesh",
+                            "materialUID": 3977561009158578994,
+                            "assetPathMaterial": "Assets/Materials/SkyLightDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PipeLine",
+                "tag": "",
+                "uid": 14648828601097300352,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8851308636936992294,
+                "parentUID": 14648828601097300352,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PipeLine",
+                "tag": "",
+                "uid": 10482302818373291124,
+                "parentUID": 8851308636936992294,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FloorPipeLine",
+                "tag": "",
+                "uid": 4645609639281976069,
+                "parentUID": 1949948458169604133,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 13189501396119849570,
+                "parentUID": 4645609639281976069,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FloorPipeLine",
+                "tag": "",
+                "uid": 4393986725714654635,
+                "parentUID": 13189501396119849570,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Entrance",
+                "tag": "",
+                "uid": 15115026446749350398,
+                "parentUID": 4209807073720813841,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 29.588045120239258,
+                            "localPos_Y": -2.0,
+                            "localPos_Z": 45.125694274902344,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 2.7475414276123047,
+                            "localSca_Y": 0.8812729716300964,
+                            "localSca_Z": 1.2999999523162842
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 11935693928956840247,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
