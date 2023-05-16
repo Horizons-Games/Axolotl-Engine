@@ -93,6 +93,7 @@ Execercise:
 			{
 				continue;
 			}
+
 			child->CreateComponent(ComponentType::RIGIDBODY);
 		}
 	//}
