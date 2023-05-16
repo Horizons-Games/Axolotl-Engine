@@ -64,6 +64,10 @@ bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationF
 {
     char* buffer = nullptr;
     unsigned int size = Load(sourceFilePath, buffer);
+    if (size == -1)
+    {
+        return false;
+    }
     Save(destinationFilePath, buffer, size, false);
     return true;
 }
