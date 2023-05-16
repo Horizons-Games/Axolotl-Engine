@@ -10,9 +10,9 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/ArchCellingV1_DefaultMaterial_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/ArchCellingV1_DefaultMaterial_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/ArchCellingV1_DefaultMaterial_MetallicSmoothness.png",
+    "SpecularAssetPath": "",
     "MetallicAssetPath": "Assets/Textures/ArchCellingV1_DefaultMaterial_MetallicSmoothness.png"
 }
