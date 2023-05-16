@@ -25,9 +25,15 @@ void WindowHierarchy::DrawWindowContents()
 {
     GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
     assert(root);
-    DrawRecursiveHierarchy(root);
+    std::vector<std::function<void(void)>> pendingActions;
+    DrawRecursiveHierarchy(root, pendingActions);
 
-    ModuleInput* input = App->GetModule<ModuleInput>();
+    for (auto functor : pendingActions)
+    {
+        functor();
+    }
+
+    const ModuleInput* input = App->GetModule<ModuleInput>();
 
     if (SDL_ShowCursor(SDL_QUERY)
         && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
@@ -58,7 +64,7 @@ void WindowHierarchy::DrawWindowContents()
 	}
 }
 
-void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
+void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject, std::vector<std::function<void(void)>>& pendingActions)
 {
     assert(gameObject);
 
@@ -197,7 +203,11 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 loadedScene->SearchGameObjectByID(draggedGameObjectID);
             if (draggedGameObject)
             {
-                draggedGameObject->SetParent(gameObject);
+                pendingActions.push_back(
+                    [draggedGameObject, gameObject]
+                    {
+                        draggedGameObject->SetParent(gameObject);
+                    });
             }
         }
 
@@ -208,7 +218,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         for (GameObject* child : children)
         {
-            DrawRecursiveHierarchy(child);
+            DrawRecursiveHierarchy(child, pendingActions);
         }
         ImGui::TreePop();
     }

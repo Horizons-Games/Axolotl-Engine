@@ -1,6 +1,8 @@
 #pragma once
 #include "EditorWindow.h"
 
+#include <functional>
+
 class GameObject;
 
 class WindowHierarchy : public EditorWindow
@@ -13,7 +15,7 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	void DrawRecursiveHierarchy(GameObject* gameObject);
+	void DrawRecursiveHierarchy(GameObject* gameObject, std::vector<std::function<void(void)>>& pendingActions);
 
     void Create2DObjectMenu(GameObject* gameObject);
 
