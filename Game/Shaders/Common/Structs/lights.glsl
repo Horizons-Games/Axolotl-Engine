@@ -26,6 +26,9 @@ struct AreaLightSphere
 {
     vec4 position;  	//16 //16   // xyz position+w radius
 	vec4 color; 		//16 //32   // rgb colour+alpha intensity
+	float lightRadius;	//4	 //48
+	float padding1;		//4  //52
+	vec2 pading2;		//8  //56   -->64
 };
 
 struct AreaLightTube
@@ -33,6 +36,9 @@ struct AreaLightTube
 	vec3 positionA;     //16 //16
 	vec3 positionB;     //16 //32
 	vec4 color; 		//16 //48   // rgb colour+alpha intensity
+	float lightRadius;	//4	 //64
+	float padding1;		//4  //68
+	vec2 pading2;		//8  //72   -->80
 };
 
 #endif

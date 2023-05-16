@@ -173,6 +173,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 color = areaSphere[i].color.rgb;
         float sR = areaSphere[i].position.w;
         float intensity = areaSphere[i].color.a;
+        float lightRadius = areaSphere[i].lightRadius;
 
         // calculate closest point light specular
         vec3 oldL = normalize(sP - FragPos);
@@ -196,7 +197,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
 
         // Attenuation
         float distance = length(FragPos-closest);
-        float maxValue = pow(max(1-pow(distance/sR,4), 0),2);
+        float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
         vec3 Li = color*intensity*attenuation;
@@ -218,6 +219,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 posB = areaTube[i].positionB;
         vec3 color = areaTube[i].color.rgb;
         float intensity = areaTube[i].color.a;
+        float lightRadius = areaTube[i].lightRadius;
 
         // calculate closest point light specular
         vec3 PA = posA-FragPos;
@@ -251,7 +253,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         // Attenuation
         float distance = length(FragPos-closest);
         float radius = length(AB)/2;
-        float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
+        float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
         vec3 Li = color * intensity * attenuation;
