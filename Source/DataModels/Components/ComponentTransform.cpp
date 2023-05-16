@@ -17,8 +17,8 @@
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
 	: Component(ComponentType::TRANSFORM, active, owner, false), 
-	pos(float3::zero), rot(float4x4::identity), sca(float3::one), 
-	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one), 
+	pos(float3::zero), rot(Quat::identity), sca(float3::one), 
+	globalPos(float3::zero), globalRot(Quat::identity), globalSca(float3::one), 
 	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity),
 	localAABB({ {0, 0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
 	drawBoundingBoxes(false)

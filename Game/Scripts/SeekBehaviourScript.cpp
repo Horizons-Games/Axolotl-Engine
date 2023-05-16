@@ -28,7 +28,8 @@ void SeekBehaviourScript::Update(float deltaTime)
 	ENGINE_LOG("%s", "Now seeking...");
 	ComponentTransform* ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	// When this behaviour is triggered, the enemy will go towards its target
-	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
+	float3 targetPosition = targetTransform->GetPosition();
+	ownerRigidBody->SetPositionTarget(targetPosition);
 	float3 targetDirection = (targetTransform->GetPosition() - ownerTransform->GetPosition()).Normalized();
 	ownerRigidBody->SetRotationTarget(
 		Quat::LookAt(ownerTransform->GetLocalForward().Normalized(), targetDirection, ownerTransform->GetGlobalUp(), float3::unitY));

@@ -84,8 +84,7 @@ void ComponentRigidBody::Update()
         trans = rigidBody->getWorldTransform();
         btQuaternion rot = trans.getRotation();
         Quat currentRot = Quat(rot.x(), rot.y(), rot.z(), rot.w());
-        float4x4 rotationMatrix = float4x4::FromQuat(currentRot);
-        transform->SetRotation(rotationMatrix);
+        transform->SetRotation(currentRot);
         btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
         float3 centerPoint = transform->GetLocalAABB().CenterPoint();
         btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
@@ -113,7 +112,7 @@ void ComponentRigidBody::Update()
         Quat rotationError = targetRotation * q.Normalized().Inverted();
         rotationError.Normalize();
 
-        if (!rotationError.Equals(Quat::identity, 0.005f))
+        if (!rotationError.Equals(Quat::identity, 0.05f))
         {
             float3 axis;
             float angle;
@@ -135,15 +134,12 @@ void ComponentRigidBody::Update()
 
             q = nextRotation;
 
-            float3 rotationEuler(q.ToEulerXYZ());
-            btVector3 rotation(rotationEuler.x, rotationEuler.y, rotationEuler.z);
-            rigidBody->setAngularVelocity(rotation);
+            
         }
 
-        else 
-        {
-            rigidBody->setAngularVelocity(btVector3(0.0f,0.0f,0.0f));
-        }
+        float3 rotationEuler(q.ToEulerXYZ());
+        btVector3 rotation(rotationEuler.x, rotationEuler.y, rotationEuler.z);
+        rigidBody->setAngularVelocity(rotation);
 
         
     }
@@ -155,7 +151,7 @@ void ComponentRigidBody::UpdateRigidBody()
     btTransform worldTransform;
     float3 pos = transform->GetPosition();
     worldTransform.setOrigin({ pos.x, pos.y, pos.z });
-    Quat rot = transform->GetRotation().RotatePart().ToQuat();
+    Quat rot = transform->GetRotation();
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);

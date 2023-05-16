@@ -30,7 +30,7 @@ void PatrolBehaviourScript::Start()
 	{
 		// Initally set the first waypoint as the destiny
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		//ownerRigidBody->SetRotationTarget(Quat(wayPointOneTransform->GetRotation()));
+		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
 	}
 }
 
