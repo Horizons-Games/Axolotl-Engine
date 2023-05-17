@@ -23,18 +23,22 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     btTransform startTransform;
     startTransform.setIdentity();
     transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-    float3 aabbHalfSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+    factor = 0.5f;
+    //WIP set proper default value
+    height = 2.0f;
     
     currentShape = 1;
     motionState = new btDefaultMotionState(startTransform);
-    shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
-    
+    shape = new btBoxShape({ boxSize.x, boxSize.y, boxSize.z });
     rigidBody = new btRigidBody(100, motionState, shape);
     
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
     SetupMobility();
 
     rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
+    rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
 
     SetLinearDamping(linearDamping);
     SetAngularDamping(angularDamping);
@@ -144,25 +148,20 @@ void ComponentRigidBody::SetCollisionShape(SHAPE newShape)
     switch (static_cast<int>(newShape))
     {
     case 1: // Box
-    {
-        float3 aabbHalfSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
-        shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
+        shape = new btBoxShape({ boxSize.x, boxSize.y, boxSize.z });
         break;
-    }
     case 2: // Sphere
-        shape = new btSphereShape(transform->GetLocalAABB().MinimalEnclosingSphere().Diameter() * .5f);
+        shape = new btSphereShape(radius * factor);
         break;
-        /*
-        case 3: // Capsule
-            shape = new btCapsuleShape(1, 2);
-            break;
-        case 4: // Cylinder
-            shape = new btCylinderShape(btVector3(1, 1, 1));
-            break;
-        case 54: // Cone
-            shape = new btConeShape(1, 2);
-            break;
-            */
+    case 3: // Capsule
+        shape = new btCapsuleShape(radius, height);
+        break;
+    case 4: // Cone
+        shape = new btConeShape(radius, height);
+        break;
+    /*case 5: // Cylinder
+        shape = new btCylinderShape(btVector3(1, 1, 1));
+        break;*/
     }
 
     if (shape)
@@ -186,6 +185,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 
 	meta["isKinematic"] = (bool)GetIsKinematic();
 	meta["isStatic"] = (bool)GetIsStatic();
+    meta["drawCollider"] = (bool)GetDrawCollider();
 	meta["mass"] = (float)GetMass();
 	meta["linearDamping"] = (float)GetLinearDamping();
 	meta["angularDamping"] = (float)GetAngularDamping();
@@ -196,6 +196,12 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["KpForce"] = (float)GetKpForce();
 	meta["KpTorque"] = (float)GetKpTorque();*/
     meta["gravity_Y"] = (float)GetGravity().getY();
+    meta["boxSize_X"] = (float)GetBoxSize().x;
+    meta["boxSize_Y"] = (float)GetBoxSize().y;
+    meta["boxSize_Z"] = (float)GetBoxSize().z;
+    meta["radius"] = (float)GetRadius();
+    meta["factor"] = (float)GetFactor();
+    meta["height"] = (float)GetHeight();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -207,15 +213,16 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 
 	SetIsKinematic((bool)meta["isKinematic"]);
 	SetIsStatic((bool)meta["isStatic"]);
+    SetDrawCollider((bool)meta["drawCollider"], false);
 	SetMass((float)meta["mass"]);
     SetLinearDamping((float)meta["linearDamping"]);
     SetAngularDamping((float)meta["angularDamping"]);
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
     SetRestitution((float)meta["restitution"]);
-	/*SetUsePositionController((bool)meta["usePositionController"]);
-	SetUseRotationController((bool)meta["useRotationController"]);
-	SetKpForce((float)meta["KpForce"]);
-	SetKpTorque((float)meta["KpTorque"]);*/
+    SetBoxSize({ (float)meta["boxSize_X"], (float)meta["boxSize_Y"], (float)meta["boxSize_Z"] });
+    SetRadius((float)meta["radius"]);
+    SetFactor((float)meta["factor"]);
+    SetHeight((float)meta["height"]);
 
     int currentShape = (int)meta["currentShape"];
 
@@ -230,4 +237,44 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+}
+
+void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
+{
+    drawCollider = newDrawCollider;
+    int value = 0;
+
+    if (newDrawCollider)
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+        value = 1;
+    }
+    else
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+
+        if (substract)
+        {
+            value = -1;
+        }
+    }
+
+    App->GetModule<ModulePhysics>()->UpdateDrawableRigidBodies(value);
+}
+
+void ComponentRigidBody::SetDefaultSize(int resetShape)
+{
+    if (resetShape == 1)
+    {
+        boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    } else if (resetShape == 2)
+    {
+        radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+        factor = 0.5f; 
+    } else if (resetShape == 3 || resetShape == 4)
+    {
+        radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+        height = 2.0f;
+    }
+    // WIP: reset 5th shape
 }
