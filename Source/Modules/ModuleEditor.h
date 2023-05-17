@@ -50,7 +50,7 @@ private:
 	WindowScene* scene;
 	bool windowResized;
 
-	std::string StateWindows();
+	char* StateWindows();
 	void CreateFolderSettings();
 	static const std::string settingsFolder;
 	static const std::string set;
