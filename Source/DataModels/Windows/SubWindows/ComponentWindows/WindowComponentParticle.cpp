@@ -466,6 +466,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 		//TODO: Draw Emitter Modules
 		for (ParticleModule* module : emitter->GetModules())
 		{
+
 		}
 
 		ImGui::Separator();

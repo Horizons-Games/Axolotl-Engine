@@ -20,6 +20,9 @@ public:
 	const ModuleType GetType() const;
 
 	void SetEnabled(bool enabled);
+
+	//ImGui section drawing
+	virtual void DrawImGui() {};
 	
 private:
 	ModuleType type;
