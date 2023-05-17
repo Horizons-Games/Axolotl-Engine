@@ -57,6 +57,9 @@ void DroneAttack::Update(float deltaTime)
 	{
 		PerformAttack();
 	}
+
+	//Provisional
+	ShootBullets(deltaTime);
 }
 
 void DroneAttack::PerformAttack()
@@ -72,12 +75,14 @@ void DroneAttack::PerformAttack()
 		GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
 		
 		ComponentTransform* bulletTransf = static_cast<ComponentTransform*>(bullet->GetComponent(ComponentType::TRANSFORM));
+		bullets.push_back(bulletTransf);
+
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
 		bulletTransf->SetScale(float3(0.3f, 0.3f, 0.3f));
 		bulletTransf->UpdateTransformMatrices();
-		bullet->CreateComponent(ComponentType::SCRIPT);
+		/*bullet->CreateComponent(ComponentType::SCRIPT);
 		ComponentScript* script = static_cast<ComponentScript*>(bullet->GetComponent(ComponentType::SCRIPT));
-		script->SetScript(App->GetScriptFactory()->GetScript("DroneBullet"));
+		script->SetScript(App->GetScriptFactory()->GetScript("DroneBullet"));*/
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
@@ -88,4 +93,13 @@ void DroneAttack::PerformAttack()
 bool DroneAttack::isAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+}
+
+
+void DroneAttack::ShootBullets(float deltaTime) {
+	float velocity = 0.01f;
+	for (int i = 0; i < bullets.size(); i++) {
+		bullets[i]->SetPosition(bullets[i]->GetGlobalPosition() + bullets[i]->GetGlobalForward() * velocity * deltaTime * 1000);
+		bullets[i]->UpdateTransformMatrices();
+	}
 }

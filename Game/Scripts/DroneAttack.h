@@ -24,6 +24,8 @@ private:
 	void PerformAttack();
 	bool isAttackAvailable();
 
+	void ShootBullets(float deltaTime);
+
 	float attackCooldown;
 	float lastAttackTime;
 
@@ -34,6 +36,9 @@ private:
 	ComponentTransform* bulletOrigin;
 	GameObject* bulletOriginGO;
 	Scene* loadedScene;
+
+	//Provisional
+	std::vector<ComponentTransform*> bullets;
 
 	//For Debug
 	ModuleInput* input;
