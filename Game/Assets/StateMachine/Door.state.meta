@@ -1,0 +1,8 @@
+{
+    "UID": 1103280518186569164,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/g_Door2Low.Armature.001_Open.anim",
+        "Assets/Animation/g_Door2Low.Armature.001_Closed.anim"
+    ]
+}
