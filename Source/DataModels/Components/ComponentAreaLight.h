@@ -46,7 +46,6 @@ private:
 	AreaType areaType;
 	float shapeRadius;
 	float lightRadius;
-	std::shared_ptr<ResourceMesh> test;
 };
 
 inline const AreaType ComponentAreaLight::GetAreaType()
