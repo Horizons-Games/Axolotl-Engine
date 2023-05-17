@@ -114,12 +114,19 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": true,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
-                            "gravity_Y": -9.8100004196167
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 0.0,
+                            "factor": 0.0,
+                            "height": 0.0
                         }
                     }
                 ]
@@ -169,12 +176,19 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": false,
+                            "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
-                            "gravity_Y": -9.8100004196167
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.3047610521316528,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 6.718080043792725,
+                            "radius": 0.0,
+                            "factor": 0.0,
+                            "height": 0.0
                         }
                     }
                 ]
@@ -233,12 +247,19 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": false,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.75,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
-                            "gravity_Y": -9.8100004196167
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 0.0,
+                            "factor": 0.0,
+                            "height": 0.0
                         }
                     },
                     {

@@ -68,21 +68,16 @@ update_status ModulePhysics::PreUpdate()
     {
         dynamicsWorld->stepSimulation(App->GetDeltaTime());
         ManageCollisions();
+    }
 
-        if (App->IsOnPlayMode() && drawableRigidBodies > 0)
-        {
-            dynamicsWorld->debugDrawWorld();
-        }
+    if (drawableRigidBodies > 0)
+    {
+        dynamicsWorld->debugDrawWorld();
     }
 
 #else
     dynamicsWorld->stepSimulation(App->GetDeltaTime(), 10);
     ManageCollisions();
-
-    if (App->IsOnPlayMode())
-    {
-        dynamicsWorld->debugDrawWorld();
-    }
 
 #endif
     
