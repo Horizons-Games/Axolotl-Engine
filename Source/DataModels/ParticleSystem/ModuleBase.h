@@ -10,7 +10,7 @@ class ModuleBase : public ParticleModule
 {
 
 public:
-	enum class Alignment { SCRREN, WORLD, AXIAL };
+	enum class Alignment { SCREEN, WORLD, AXIAL };
 
 public:
 	ModuleBase();

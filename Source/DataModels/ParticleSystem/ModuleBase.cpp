@@ -29,7 +29,7 @@ void ModuleBase::DrawImGui()
 		if (ImGui::BeginTable("##baseTable", 2))
 		{
 			ImGui::TableNextColumn();
-			ImGui::Text("Origin"); ImGui::SameLine();
+			ImGui::Text("Origin");
 
 			ImGui::TableNextColumn();
 			ImGui::Text("x:"); ImGui::SameLine();
@@ -58,6 +58,66 @@ void ModuleBase::DrawImGui()
 			{
 			}
 			ImGui::PopStyleVar();
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Alignment");
+			ImGui::TableNextColumn();
+			ImGui::SetNextItemWidth(180.0f);
+
+			ModuleBase::Alignment alignment = GetAlignment();
+
+			const char* items[] = { "SCREEN", "WORLD", "AXIAL" };
+
+			static const char* currentItem;
+			switch (alignment)
+			{
+			case ModuleBase::Alignment::SCREEN:
+				currentItem = items[0];
+				break;
+			case ModuleBase::Alignment::WORLD:
+				currentItem = items[1];
+				break;
+			case ModuleBase::Alignment::AXIAL:
+				currentItem = items[2];
+				break;
+			}
+
+			if (ImGui::BeginCombo("##alignmentCombo", currentItem))
+			{
+				for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+				{
+					// You can store your selection however you want, outside or inside your objects
+					bool isSelected = (currentItem == items[n]);
+					if (ImGui::Selectable(items[n], isSelected))
+					{
+						currentItem = items[n];
+						if (isSelected)
+						{
+							// You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+				}
+
+				if (currentItem == items[0])
+				{
+					alignment = ModuleBase::Alignment::SCREEN;
+				}
+				else if (currentItem == items[1])
+				{
+					alignment = ModuleBase::Alignment::WORLD;
+				}
+				else if (currentItem == items[2])
+				{
+					alignment = ModuleBase::Alignment::AXIAL;
+				}
+
+				SetAlignment(alignment);
+
+				ImGui::EndCombo();
+			}
+			ImGui::EndTable();
 		}
+		ImGui::TreePop();
 	}
 }

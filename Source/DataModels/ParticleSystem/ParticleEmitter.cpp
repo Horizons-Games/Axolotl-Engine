@@ -8,12 +8,12 @@
 ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CIRCLE), particleTexture(nullptr)
 {
 	ModuleBase* base = new ModuleBase();
-	ModuleSpawn* spawn = new ModuleSpawn();
-	ModulePosition* position = new ModulePosition();
+	//ModuleSpawn* spawn = new ModuleSpawn();
+	//ModulePosition* position = new ModulePosition();
 
 	modules.push_back(base);
-	modules.push_back(spawn);
-	modules.push_back(position);
+	//modules.push_back(spawn);
+	//modules.push_back(position);
 
 	maxParticles = MAX_PARTICLES;
 	duration = DEFAULT_DURATION;

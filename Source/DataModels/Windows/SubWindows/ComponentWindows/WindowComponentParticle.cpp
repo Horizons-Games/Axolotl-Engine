@@ -4,6 +4,7 @@
 
 #include "ParticleSystem/EmitterInstance.h"
 #include "ParticleSystem/ParticleEmitter.h"
+#include "ParticleSystem/ParticleModule.h"
 
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
 	ComponentWindow("Particle System", component)
@@ -34,8 +35,9 @@ void WindowComponentParticle::DrawWindowContents()
 	if (ImGui::Button("Add an Emitter"))
 	{
 		std::shared_ptr<ParticleEmitter> emitter = std::make_shared<ParticleEmitter>();
-		emitter->SetName("DefaultEmitter");
-
+		std::string name = "DefaultEmitter_" + std::to_string(component->GetEmitters().size());
+		
+		emitter->SetName(&name[0]);
 		component->CreateEmitterInstance(emitter);
 	}
 }
@@ -48,6 +50,9 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 
 	if (emitter)
 	{
+		ImGui::Dummy(ImVec2(0.0f, 2.5f));
+		ImGui::Text(emitter->GetName());
+
 		bool open = emitter->IsVisibleConfig();
 
 		ParticleEmitter::ShapeType shape = emitter->GetShape();
@@ -328,7 +333,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 			ImGui::Text("Rotation");
 			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(165.0f);
-			if (randomSize)
+			if (randomRot)
 			{
 				if (ImGui::SliderFloat2("##sliderRot", &rotRange[0], 0.0f, MAX_ROTATION, "%.2f"))
 				{
@@ -466,7 +471,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 		//TODO: Draw Emitter Modules
 		for (ParticleModule* module : emitter->GetModules())
 		{
-
+			module->DrawImGui();
 		}
 
 		ImGui::Separator();
