@@ -61,6 +61,11 @@ public:
 
 	void Reset();
 
+	bool GetDrawWorld() const;
+	void SetDrawWorld(bool newDrawWorld);
+
+	void UpdateDrawableRigidBodies(int value);
+
 private:
 
 	std::unique_ptr<btDefaultCollisionConfiguration> collisionConfiguration;
@@ -73,4 +78,18 @@ private:
 
 	std::unordered_set<uint64_t> collisions;
 	std::unordered_map<uint32_t, ComponentRigidBody*> rigidBodyComponents;
+
+	bool drawWorld = false;
+	int drawableRigidBodies = 0;
+
 };
+
+inline bool ModulePhysics::GetDrawWorld() const
+{
+	return drawWorld;
+}
+
+inline void ModulePhysics::SetDrawWorld(bool newDrawWorld)
+{
+	drawWorld = newDrawWorld;
+}
