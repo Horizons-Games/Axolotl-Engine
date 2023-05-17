@@ -103,9 +103,31 @@ void WindowStateMachineEditor::DrawWindowContents()
 		DrawTransitions(stateAsShared, origin, drawList);
 
 		DrawStates(stateAsShared, origin, io.MouseDelta, drawList);
-		
-		drawList->PopClipRect();
 	}
+
+	drawList->AddRectFilled(
+		ImVec2(canvasP0.x + 10, canvasP0.y + 10), ImVec2(canvasP0.x + 156, canvasP0.y + 30),
+		IM_COL32(30, 30, 30, 255),
+		0.0f
+	);
+
+	drawList->AddRect(
+		ImVec2(canvasP0.x + 6, canvasP0.y + 6), ImVec2(canvasP0.x + 160, canvasP0.y + 34),
+		IM_COL32(150, 150, 150, 255),
+		0.0f
+	);
+
+	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 12));
+	if (stateAsShared)
+	{
+		ImGui::Text(stateAsShared->GetFileName().c_str());
+	}
+	else 
+	{
+		ImGui::Text("No Machine Selected");
+	}
+
+	drawList->PopClipRect();
 
 	DrawRightClickPopUp(stateAsShared, mousePosInCanvas);
 
