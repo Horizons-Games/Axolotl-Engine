@@ -1,13 +1,31 @@
 #pragma once
 
 #include "Math/float3.h"
-#include "Math/Quat.h"
+#include "Math/float2.h"
 
 #include <string>
 #include <vector>
 #include <memory>
 
-#define MAX_PARTICLES 100;
+#define MAX_PARTICLES 100
+#define MAX_DURATION 25.0f
+#define MAX_SPEED 10.0f
+#define MAX_SIZE 2.0f
+#define MAX_ROTATION 359.9f
+#define MAX_GRAVITY 15.0f
+
+#define DEFAULT_DURATION 10.0f
+#define DEFAULT_LIFESPAN_X 5.0f
+#define DEFAULT_LIFESPAN_Y 10.0f
+#define DEFAULT_SPEED_X 1.0f
+#define DEFAULT_SPEED_Y 2.0f
+#define DEFAULT_SIZE_X 0.25f
+#define DEFAULT_SIZE_Y 0.85f
+#define DEFAULT_ROTATION_X 0.00f
+#define DEFAULT_ROTATION_Y 0.00f
+#define DEFAULT_GRAVITY_X 2.25f
+#define DEFAULT_GRAVITY_Y 9.83f
+#define DEFAULT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f }
 
 class ParticleModule;
 class ResourceTexture;
@@ -24,22 +42,45 @@ public:
 	void Save();
 	void Load();
 
-	void SetName(const std::string& name);
+	void SetRandomLife(bool randLife);
+	void SetRandomSpeed(bool randSpeed);
+	void SetRandomSize(bool randSize);
+	void SetRandomRotation(bool randRot);
+	void SetRandomGravity(bool randGrav);
+	void SetMaxParticles(int maxParticles);
+	void SetDuration(float duration);
+	void SetName(const char* name);
+	void SetLifespanRange(const float2 &lifespan);
+	void SetSpeedRange(const float2 &speed);
+	void SetSizeRange(const float2 &size);
+	void SetRotationRange(const float2 &rotation);
+	void SetGravityRange(const float2 &gravity);
+	void SetColor(const float4 &color);
 	void SetShape(ShapeType shape);
 
+	bool IsRandomLife() const;
+	bool IsRandomSpeed() const;
+	bool IsRandomSize() const;
+	bool IsRandomRot() const;
+	bool IsRandomGravity() const;
 	int GetMaxParticles() const;
 	float GetDuration() const;
-	float GetLifespan() const;
-	float GetSpeed() const;
-	float GetGravity() const;
-	float3 GetColor() const;
-	float3 GetSize() const;
-	Quat GetRotation() const;
+	const char* GetName() const;
+	float2 GetLifespanRange() const;
+	float2 GetSpeedRange() const;
+	float2 GetSizeRange() const;
+	float2 GetRotationRange() const;
+	float2 GetGravityRange() const;
+	float4 GetColor() const;
 	ShapeType GetShape() const;
 	std::vector<ParticleModule*> GetModules() const;
 
-
 	void AddModule(ParticleModule* module);
+
+	//ImGui functions
+	void SetVisibleConfig(bool visible);
+
+	bool IsVisibleConfig() const;
 
 private:
 	std::string name;
@@ -48,17 +89,91 @@ private:
 
 	int maxParticles;
 	float duration;
-	float lifespan;
-	float speed;
-	float gravity;
-	float3 color;
-	float3 size;
-	Quat rotation;
+	float2 lifespan;
+	float2 speed;
+	float2 size;
+	float2 rotation;
+	float2 gravity;
+	float4 color;
+
+	bool randomLife;
+	bool randomSpeed;
+	bool randomSize;
+	bool randomRot;
+	bool randomGrav;
 
 	ShapeType shape;
+
+	//Imgui Configuration
+	bool visibleConfig;
 };
 
-inline void ParticleEmitter::SetName(const std::string& name)
+inline void ParticleEmitter::SetRandomLife(bool randLife)
+{
+	randomLife = randLife;
+}
+
+inline void ParticleEmitter::SetRandomSpeed(bool randSpeed)
+{
+	randomSpeed = randSpeed;
+}
+
+inline void ParticleEmitter::SetRandomSize(bool randSize)
+{
+	randomSize = randSize;
+}
+
+inline void ParticleEmitter::SetRandomRotation(bool randRot)
+{
+	randomRot = randRot;
+}
+
+inline void ParticleEmitter::SetRandomGravity(bool randGrav)
+{
+	randomGrav = randGrav;
+}
+
+inline void ParticleEmitter::SetMaxParticles(const int maxParticles)
+{
+	this->maxParticles = maxParticles;
+}
+
+inline void ParticleEmitter::SetDuration(float duration)
+{
+	this->duration = duration;
+}
+
+inline void ParticleEmitter::SetLifespanRange(const float2 &lifespan)
+{
+	this->lifespan = lifespan;
+}
+
+inline void ParticleEmitter::SetSpeedRange(const float2 &speed)
+{
+	this->speed = speed;
+}
+
+inline void ParticleEmitter::SetSizeRange(const float2 &size)
+{
+	this->size = size;
+}
+
+inline void ParticleEmitter::SetRotationRange(const float2 &rotation)
+{
+	this->rotation = rotation;
+}
+
+inline void ParticleEmitter::SetGravityRange(const float2 &gravity)
+{
+	this->gravity = gravity;
+}
+
+inline void ParticleEmitter::SetColor(const float4& color)
+{
+	this->color = color;
+}
+
+inline void ParticleEmitter::SetName(const char* name)
 {
 	this->name = name;
 }
@@ -66,6 +181,31 @@ inline void ParticleEmitter::SetName(const std::string& name)
 inline void ParticleEmitter::SetShape(ShapeType shape)
 {
 	this->shape = shape;
+}
+
+inline bool ParticleEmitter::IsRandomLife() const
+{
+	return randomLife;
+}
+
+inline bool ParticleEmitter::IsRandomSpeed() const
+{
+	return randomSpeed;
+}
+
+inline bool ParticleEmitter::IsRandomSize() const
+{
+	return randomSize;
+}
+
+inline bool ParticleEmitter::IsRandomRot() const
+{
+	return randomRot;
+}
+
+inline bool ParticleEmitter::IsRandomGravity() const
+{
+	return randomGrav;
 }
 
 inline int ParticleEmitter::GetMaxParticles() const
@@ -78,32 +218,37 @@ inline float ParticleEmitter::GetDuration() const
 	return duration;
 }
 
-inline float ParticleEmitter::GetLifespan() const
+inline float2 ParticleEmitter::GetLifespanRange() const
 {
 	return lifespan;
 }
 
-inline float ParticleEmitter::GetSpeed() const
+inline float2 ParticleEmitter::GetSpeedRange() const
 {
 	return speed;
 }
 
-inline float ParticleEmitter::GetGravity() const
+inline float2 ParticleEmitter::GetGravityRange() const
 {
 	return gravity;
 }
 
-inline float3 ParticleEmitter::GetColor() const
+inline const char* ParticleEmitter::GetName() const
+{
+	return &name[0];
+}
+
+inline float4 ParticleEmitter::GetColor() const
 {
 	return color;
 }
 
-inline float3 ParticleEmitter::GetSize() const
+inline float2 ParticleEmitter::GetSizeRange() const
 {
 	return size;
 }
 
-inline Quat ParticleEmitter::GetRotation() const
+inline float2 ParticleEmitter::GetRotationRange() const
 {
 	return rotation;
 }
@@ -121,4 +266,14 @@ inline std::vector<ParticleModule*> ParticleEmitter::GetModules() const
 inline void ParticleEmitter::AddModule(ParticleModule* module)
 {
 	return modules.push_back(module);
+}
+
+inline void ParticleEmitter::SetVisibleConfig(bool visible)
+{
+	visibleConfig = visible;
+}
+
+inline bool ParticleEmitter::IsVisibleConfig() const
+{
+	return visibleConfig;
 }
