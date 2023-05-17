@@ -1,15 +1,15 @@
 {
-    "UID": 7278095616081589789,
+    "UID": 2293525153946156708,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/vix.Mesh.001.mesh",
-        "Assets/Meshes/vix.Mesh.003.mesh",
-        "Assets/Meshes/vix.Cube.002.mesh"
+        "Assets/Meshes/vix.Mesh.001_0.mesh",
+        "Assets/Meshes/vix.Mesh.003_0.mesh",
+        "Assets/Meshes/vix.Cube.002_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/vix.Face.mat",
-        "Assets/Materials/vix.Body.mat",
-        "Assets/Materials/vix.Glass.mat"
+        "Assets/Materials/vixFace_0.mat",
+        "Assets/Materials/vixBody_0.mat",
+        "Assets/Materials/vixGlass_0.mat"
     ],
     "AnimAssetPaths": null
 }

@@ -1,25 +1,25 @@
 {
-    "UID": 1469568093389025982,
+    "UID": 11881259055749811901,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Jaw_Mesh_lower_0.mesh",
-        "Assets/Meshes/Jaw_Mesh_lower_1.mesh",
-        "Assets/Meshes/EyeL_Mesh_0.mesh",
-        "Assets/Meshes/EyeR_Mesh_0.mesh",
-        "Assets/Meshes/Jaw_Mesh_upper_0.mesh",
-        "Assets/Meshes/Jaw_Mesh_upper_1.mesh",
-        "Assets/Meshes/Head_Mesh_0.mesh"
+        "Assets/Meshes/Gunan_animated.Jaw_Mesh_lower_0.mesh",
+        "Assets/Meshes/Gunan_animated.Jaw_Mesh_lower_1.mesh",
+        "Assets/Meshes/Gunan_animated.EyeL_Mesh_0.mesh",
+        "Assets/Meshes/Gunan_animated.EyeR_Mesh_0.mesh",
+        "Assets/Meshes/Gunan_animated.Jaw_Mesh_upper_0.mesh",
+        "Assets/Meshes/Gunan_animated.Jaw_Mesh_upper_1.mesh",
+        "Assets/Meshes/Gunan_animated.Head_Mesh_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Teethridge_0.mat",
-        "Assets/Materials/Teeth_1.mat",
-        "Assets/Materials/Eyes_0.mat",
-        "Assets/Materials/Eyes_0.mat",
-        "Assets/Materials/Teethridge_0.mat",
-        "Assets/Materials/Teeth_1.mat",
-        "Assets/Materials/Skin_0.mat"
+        "Assets/Materials/Gunan_animatedTeethridge_0.mat",
+        "Assets/Materials/Gunan_animatedTeeth_1.mat",
+        "Assets/Materials/Gunan_animatedEyes_0.mat",
+        "Assets/Materials/Gunan_animatedEyes_0.mat",
+        "Assets/Materials/Gunan_animatedTeethridge_0.mat",
+        "Assets/Materials/Gunan_animatedTeeth_1.mat",
+        "Assets/Materials/Gunan_animatedSkin_0.mat"
     ],
     "AnimAssetPaths": [
-        "Assets/Animation/Take 001.anim"
+        "Assets/Animation/Gunan_animated.Take 001.anim"
     ]
 }

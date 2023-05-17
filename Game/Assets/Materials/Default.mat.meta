@@ -12,7 +12,7 @@
     "metalness": 0.0,
     "hasMetallicAlpha": false,
     "DiffuseAssetPath": "",
-    "NormalAssetPath": "Assets/Textures/PanelKeyWhite_Normal.png",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetallicAssetPath": "",
     "SpecularAssetPath": ""

@@ -61,7 +61,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/CantinaScriptsVS2.axolotl", false);
+		LoadScene("Lib/Scenes/MainMenuVS1.axolotl", false);
 	}
 
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
@@ -317,7 +317,7 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 {
 
-	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	Quadtree* rootQuadtree;
 
 	if(!mantainActualScene)
 	{
@@ -334,6 +334,10 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		loadedScene->SetCubemap(std::make_unique<Cubemap>());
 		Cubemap* cubemap = loadedScene->GetCubemap();
 		cubemap->LoadOptions(json);
+	}
+	else
+	{
+		rootQuadtree = loadedScene->GetRootQuadtree();
 	}
 
 	Json gameObjects = json["GameObjects"];

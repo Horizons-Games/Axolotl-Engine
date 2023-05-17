@@ -1,0 +1,11 @@
+{
+    "UID": 4770688067008562058,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/ArchCellingV1.Cube.006_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ArchCellingV1DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
