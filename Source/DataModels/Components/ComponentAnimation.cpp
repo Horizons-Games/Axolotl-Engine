@@ -19,7 +19,7 @@
 #include "debugdraw.h"
 
 ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
-	: Component(ComponentType::ANIMATION, active, owner, false) 
+	: Component(ComponentType::ANIMATION, active, owner, true), drawBones(false)
 {
 	controller = new AnimationController();
 	lastState = NON_STATE;
@@ -64,39 +64,46 @@ void ComponentAnimation::Update()
 		if(actualState == nextState)
 		{
 			State* state = stateMachine->GetState(actualState);
-			if (state && controller->GetPlay())
+			if (state)
 			{
-				std::list<GameObject*> children = owner->GetGameObjectsInside();
-
-				for (auto child : children)
+				Transition foundTransition;
+				if (CheckTransitions(state, foundTransition))
 				{
-					float3 pos;
-					Quat rot;
-
-					if (controller->GetTransform(&child->GetName()[0], pos, rot))
-					{
-						ComponentTransform* transform =
-							static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-						transform->SetPosition(pos);
-						transform->SetRotation(float4x4(rot));
-					}
+					nextState = foundTransition.destinationState;
 				}
-				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
-			}
 
-			Transition foundTransition;
-			if (CheckTransitions(state, foundTransition))
-			{
-				nextState = foundTransition.destinationState;
+				if (controller->GetPlay())
+				{
+					std::list<GameObject*> children = owner->GetGameObjectsInside();
+
+					for (auto child : children)
+					{
+						float3 pos;
+						Quat rot;
+
+						if (controller->GetTransform(&child->GetName()[0], pos, rot))
+						{
+							ComponentTransform* transform =
+								static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+							transform->SetPosition(pos);
+							transform->SetRotation(float4x4(rot));
+						}
+					}
+					static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+				}
+				else if (state->resource && state->loop)
+				{
+					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+				}
 			}
 		}
 		else 
 		{
 			actualState = nextState;
-			State* state = stateMachine->GetState(actualState);
+			const State* state = stateMachine->GetState(actualState);
 			if(state->resource) 
 			{
-				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), true);
+				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
 			}
 			else
 			{
@@ -115,7 +122,7 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw() const
 {
-	if (!App->IsOnPlayMode())
+	if (!App->IsOnPlayMode() && drawBones)
 	{
 		DrawBones(owner);
 	}
@@ -233,6 +240,11 @@ bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
 		
 		if (conditionCheck) 
 		{
+			if(actualTransition.waitUntilFinish && controller->GetPlay()) 
+			{
+				return false;
+			}
+
 			transition = actualTransition;
 			return true;
 		}

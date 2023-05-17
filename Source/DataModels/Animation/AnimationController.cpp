@@ -17,6 +17,7 @@ void AnimationController::Play(const std::shared_ptr<ResourceAnimation>& resourc
     this->resource = resource;
     isLooping = loop;
     isPlaying = true;
+    currentTime = 0;
 }
 
 void AnimationController::Stop()

@@ -40,6 +40,9 @@ public:
 	void LoadOptions(Json& meta) override;
 
 	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
+	void ActivateDrawBones(bool drawBones);
+
+	bool IsDrawBonesActivated() const;
 
 private:
 	bool CheckTransitions(State* state, Transition& transition);
@@ -54,9 +57,21 @@ private:
 	unsigned int actualState;
 	unsigned int nextState;
 	int lastState;
+
+	bool drawBones;
 };
 
 inline void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
 {
 	parameters[parameterName].second = value;
+}
+
+inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
+{
+	this->drawBones = drawBones;
+}
+
+inline bool ComponentAnimation::IsDrawBonesActivated() const
+{
+	return drawBones;
 }
