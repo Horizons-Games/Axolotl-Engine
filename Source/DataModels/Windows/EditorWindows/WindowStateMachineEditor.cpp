@@ -35,7 +35,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 {
 	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine.lock();
 
-	ImGui::BeginChild("Side_lists", ImVec2(300, 0));
+	ImGui::BeginChild("Side_lists", ImVec2(310, 0));
 	if (stateAsShared) 
 	{
 		ImGui::Text("Parameters");
