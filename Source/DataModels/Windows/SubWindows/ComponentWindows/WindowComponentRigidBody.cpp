@@ -221,5 +221,38 @@ void WindowComponentRigidBody::DrawWindowContents()
             //rigidBody->setRestitution(restitution);
             asRigidBody->SetRestitution(angularDamping);
         }
+
+        float KpForce = asRigidBody->GetKpForce();
+        float KpTorque = asRigidBody->GetKpTorque();
+        bool isUsingPositionController = asRigidBody->GetUsePositionController();
+        bool isUsingRotationController = asRigidBody->GetUseRotationController();
+
+        ImGui::Text("Use Position Controller"); ImGui::SameLine();
+        if (ImGui::Checkbox("##Use Position Controller", &isUsingPositionController))
+        {
+            asRigidBody->SetUsePositionController(isUsingPositionController);
+        }
+
+        if (isUsingPositionController)
+        {
+            if (ImGui::SliderFloat("KP Position", &KpForce, 0.5f, 10.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
+            {
+                asRigidBody->SetKpForce(KpForce);
+            }
+        }
+
+        ImGui::Text("Use Rotation Controller"); ImGui::SameLine();
+        if (ImGui::Checkbox("##Use Rotation Controller", &isUsingRotationController))
+        {
+            asRigidBody->SetUseRotationController(isUsingRotationController);
+        }
+
+        if (isUsingRotationController)
+        {
+            if (ImGui::SliderFloat("KP Rotation", &KpTorque, 0.05f, 2.f, "%.2f", ImGuiSliderFlags_AlwaysClamp))
+            {
+                asRigidBody->SetKpTorque(KpTorque);
+            }
+        }
 	}
 }

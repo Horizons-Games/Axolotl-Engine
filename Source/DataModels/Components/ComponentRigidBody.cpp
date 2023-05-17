@@ -77,6 +77,8 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::Update()
 {
+    float deltaTime = App->GetDeltaTime();
+
     if (!rigidBody->isStaticOrKinematicObject())
     {
         rigidBody->setCcdMotionThreshold(0.1);
@@ -86,13 +88,42 @@ void ComponentRigidBody::Update()
         trans = rigidBody->getWorldTransform();
         btQuaternion rot = trans.getRotation();
         Quat currentRot = Quat(rot.x(), rot.y(), rot.z(), rot.w());
-        float4x4 rotationMatrix = float4x4::FromQuat(currentRot);
-        transform->SetRotation(rotationMatrix);
+        transform->SetRotation(currentRot);
         btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
         float3 centerPoint = transform->GetLocalAABB().CenterPoint();
         btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
         transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
         transform->UpdateTransformMatrices();
+    }
+
+    if (usePositionController)
+    {
+        float3 x = transform->GetPosition();
+        float3 positionError = targetPosition - x;
+        float3 velocityPosition = positionError * KpForce;
+
+        btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
+        rigidBody->setLinearVelocity(velocity);
+    }
+
+    if (useRotationController)
+    {
+        btTransform trans;
+        trans = rigidBody->getWorldTransform();
+
+        btQuaternion bulletQ = trans.getRotation();
+        Quat q = Quat(bulletQ.getX(), bulletQ.getY(), bulletQ.getZ(), bulletQ.getW());
+        Quat rotationError = targetRotation * q.Normalized().Inverted();
+        rotationError.Normalize();
+
+        float3 axis;
+        float angle;
+        rotationError.ToAxisAngle(axis, angle);
+        axis.Normalize();
+
+        float3 angularVelocity = axis * angle * KpTorque;
+        btVector3 bulletAngularVelocity(angularVelocity.x, angularVelocity.y, angularVelocity.z);
+        rigidBody->setAngularVelocity(bulletAngularVelocity);
     }
 }
 
@@ -102,7 +133,7 @@ void ComponentRigidBody::UpdateRigidBody()
     btTransform worldTransform;
     float3 pos = transform->GetPosition();
     worldTransform.setOrigin({ pos.x, pos.y, pos.z });
-    Quat rot = transform->GetRotation().RotatePart().ToQuat();
+    Quat rot = transform->GetRotation();
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
@@ -191,10 +222,10 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["angularDamping"] = (float)GetAngularDamping();
 	meta["restitution"] = (float)GetRestitution();
 	meta["currentShape"] = (int)GetShape();
-	/*meta["usePositionController"] = (bool)GetUsePositionController();
+	meta["usePositionController"] = (bool)GetUsePositionController();
 	meta["useRotationController"] = (bool)GetUseRotationController();
 	meta["KpForce"] = (float)GetKpForce();
-	meta["KpTorque"] = (float)GetKpTorque();*/
+	meta["KpTorque"] = (float)GetKpTorque();
     meta["gravity_Y"] = (float)GetGravity().getY();
     meta["boxSize_X"] = (float)GetBoxSize().x;
     meta["boxSize_Y"] = (float)GetBoxSize().y;
@@ -219,6 +250,10 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     SetAngularDamping((float)meta["angularDamping"]);
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
     SetRestitution((float)meta["restitution"]);
+	SetUsePositionController((bool)meta["usePositionController"]);
+	SetUseRotationController((bool)meta["useRotationController"]);
+	SetKpForce((float)meta["KpForce"]);
+	SetKpTorque((float)meta["KpTorque"]);
     SetBoxSize({ (float)meta["boxSize_X"], (float)meta["boxSize_Y"], (float)meta["boxSize_Z"] });
     SetRadius((float)meta["radius"]);
     SetFactor((float)meta["factor"]);
