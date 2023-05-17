@@ -13,6 +13,8 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
+
 
 #include "GameObject/GameObject.h"
 
@@ -50,6 +52,7 @@ void PlayerMobilityScript::Start()
 
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 }
 
 void PlayerMobilityScript::PreUpdate(float deltaTime)
@@ -71,6 +74,7 @@ void PlayerMobilityScript::Move()
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	//ComponentAnimation* animation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 
 	math::vec points[8];
 	trans->GetObjectOBB().GetCornerPoints(points);
@@ -165,6 +169,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -199,6 +204,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -235,6 +241,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -271,6 +278,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -310,6 +318,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::WALKING)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK_STOP);
+			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
 	}
