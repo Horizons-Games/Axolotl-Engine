@@ -38,6 +38,7 @@ private:
 	Scene* loadedScene;
 
 	//Provisional
+	float bulletVelocity;
 	std::vector<ComponentTransform*> bullets;
 
 	//For Debug

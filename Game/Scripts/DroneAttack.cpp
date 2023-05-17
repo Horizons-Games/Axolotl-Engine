@@ -14,7 +14,6 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
-#include "Components/ComponentScript.h"
 
 #include "GameObject/GameObject.h"
 
@@ -28,11 +27,12 @@ REGISTERCLASS(DroneAttack);
 
 DroneAttack::DroneAttack() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
 							input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
-							bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr)
+							bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), bulletVelocity(0.1f)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(bulletOriginGO, GameObject*);
+	REGISTER_FIELD(bulletVelocity, float);
 }
 
 void DroneAttack::Start()
@@ -75,11 +75,12 @@ void DroneAttack::PerformAttack()
 		GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
 		
 		ComponentTransform* bulletTransf = static_cast<ComponentTransform*>(bullet->GetComponent(ComponentType::TRANSFORM));
-		bullets.push_back(bulletTransf);
+		
 
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
-		bulletTransf->SetScale(float3(0.3f, 0.3f, 0.3f));
+		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
 		bulletTransf->UpdateTransformMatrices();
+		bullets.push_back(bulletTransf);
 		/*bullet->CreateComponent(ComponentType::SCRIPT);
 		ComponentScript* script = static_cast<ComponentScript*>(bullet->GetComponent(ComponentType::SCRIPT));
 		script->SetScript(App->GetScriptFactory()->GetScript("DroneBullet"));*/
@@ -97,9 +98,25 @@ bool DroneAttack::isAttackAvailable()
 
 
 void DroneAttack::ShootBullets(float deltaTime) {
-	float velocity = 0.01f;
 	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->SetPosition(bullets[i]->GetGlobalPosition() + bullets[i]->GetGlobalForward() * velocity * deltaTime * 1000);
+		bullets[i]->SetPosition(bullets[i]->GetGlobalPosition() + bullets[i]->GetLocalForward() * bulletVelocity * deltaTime * 1000);
 		bullets[i]->UpdateTransformMatrices();
+		Ray ray(bullets[i]->GetPosition(), bullets[i]->GetLocalForward());
+		LineSegment line(ray, 3.0f);
+		if (Physics::RaycastFirst(line, bullets[i]->GetOwner()))
+		{
+			/*ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+			Scene* loadedScene = moduleScene->GetLoadedScene(); 
+			GameObject* auxBullet = bullets[i]->GetOwner();
+			bullets.erase(bullets.begin() + i);
+			loadedScene->DestroyGameObject(auxBullet);*/
+
+			//WARRADA
+			bullets[i]->GetOwner()->Disable();
+			bullets.erase(bullets.begin() + i);
+
+			audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
+		}
+
 	}
 }
