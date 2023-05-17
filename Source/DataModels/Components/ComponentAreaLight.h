@@ -1,9 +1,6 @@
 #pragma once
 
-#include <memory>
 #include "ComponentLight.h"
-
-class ResourceMesh;
 
 struct AreaLightSphere
 {
@@ -16,12 +13,14 @@ struct AreaLightSphere
 
 struct AreaLightTube
 {
-	float3 positionA;	
+	float3 positionA;
+	float padding1;
 	float3 positionB;
+	float padding2;
 	float4 color; 		// rgb colour+alpha intensity
 	float lightRadius;	// radius for attenuation
-	float padding1;
-	float2 padding2;
+	float padding3;
+	float2 padding4;
 };
 
 class ComponentAreaLight : public ComponentLight
