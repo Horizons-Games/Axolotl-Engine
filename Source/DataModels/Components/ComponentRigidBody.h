@@ -6,6 +6,7 @@
 #include <functional>
 #include <vector>
 #include "Bullet/btBulletDynamicsCommon.h"
+#include "Math/Quat.h"
 
 class btRigidBody;
 struct btDefaultMotionState;
@@ -21,8 +22,8 @@ public:
         BOX = 1,
         SPHERE = 2,
         CAPSULE = 3,
-        CYLINDER = 4,
-        CONE = 5,
+        CONE = 4,
+        CYLINDER = 5,
         CONVEX_HULL = 6,
         TRIANGLE_MESH = 7,
         TERRAIN = 8
@@ -51,6 +52,9 @@ public:
     void SetIsStatic(bool isStatic);
     bool GetIsStatic() const;
     
+    void SetDrawCollider(bool newDrawCollider, bool substract = true);
+    bool GetDrawCollider() const;
+    
     float GetMass() const;
     void SetMass(float newMass);
 
@@ -71,6 +75,40 @@ public:
 
     btScalar GetRestitution() const;
     void SetRestitution(float restitution);
+    
+    float3 GetBoxSize() const;
+    void SetBoxSize(float3 newBoxSize);
+
+    float GetRadius() const;
+    void SetRadius(float newRadius);
+    
+    float GetFactor() const;
+    void SetFactor(float newFactor);
+    
+    float GetHeight() const;
+    void SetHeight(float newHeight);
+
+    void SetDefaultSize(int resetShape);
+
+    bool GetUsePositionController() const;
+    void SetUsePositionController(bool newUsePositionController);
+
+    bool GetUseRotationController() const;
+    void SetUseRotationController(bool newUsePositionController);
+
+    float GetKpForce() const;
+    void SetKpForce(float newKpForce);
+
+    float GetKpTorque() const;
+    void SetKpTorque(float newKpForce);
+
+    void SetPositionTarget(const float3& targetPos);
+    void SetRotationTarget(const Quat& targetRot);
+
+    void DisablePositionController();
+    void DisableRotationController();
+
+    
 
     void SetupMobility();
 
@@ -99,11 +137,23 @@ private:
     float angularDamping = 0.1f;
     float mass = 100.0f;
     float restitution = 0.f;
+    float3 boxSize;
+    float radius;
+    float factor;
+    float height;
 
     bool isKinematic = false;
     bool isStatic = false;
+    bool drawCollider = false;
 
     int currentShape = 0;
+
+    float3 targetPosition;
+    Quat targetRotation;
+    bool usePositionController = false;
+    bool useRotationController = false;
+    float KpForce = 5.0f;
+    float KpTorque = 0.05f;
 
     ComponentTransform* transform;
 
@@ -132,6 +182,11 @@ inline bool ComponentRigidBody::GetIsStatic() const
 inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
 {
     isStatic = newIsStatic;
+}
+
+inline bool ComponentRigidBody::GetDrawCollider() const
+{
+    return drawCollider;
 }
 
 inline int ComponentRigidBody::GetShape() const
@@ -207,3 +262,103 @@ inline void ComponentRigidBody::SetRestitution(float newRestitution)
     restitution = newRestitution;
 }
 
+inline void ComponentRigidBody::SetPositionTarget(const float3& targetPos)
+{
+    targetPosition = targetPos;
+    usePositionController = true;
+}
+
+inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
+{
+    targetRotation = targetRot;
+    useRotationController = true;
+}
+
+inline void ComponentRigidBody::DisablePositionController()
+{
+    usePositionController = false;
+}
+
+inline void ComponentRigidBody::DisableRotationController()
+{
+    useRotationController = false;
+}
+
+inline bool ComponentRigidBody::GetUsePositionController() const
+{
+    return usePositionController;
+}
+
+inline void ComponentRigidBody::SetUsePositionController(bool newUsePositionController)
+{
+    usePositionController = newUsePositionController;
+}
+
+inline bool ComponentRigidBody::GetUseRotationController() const
+{
+    return useRotationController;
+}
+
+inline void ComponentRigidBody::SetUseRotationController(bool newUseRotationController)
+{
+    useRotationController = newUseRotationController;
+}
+
+inline float ComponentRigidBody::GetKpForce() const
+{
+    return KpForce;
+}
+
+inline void ComponentRigidBody::SetKpForce(float newKpForce)
+{
+    KpForce = newKpForce;
+}
+
+inline float ComponentRigidBody::GetKpTorque() const
+{
+    return KpTorque;
+}
+
+inline void ComponentRigidBody::SetKpTorque(float newKpTorque)
+{
+    KpTorque = newKpTorque;
+}
+inline float3 ComponentRigidBody::GetBoxSize() const
+{
+    return boxSize;
+}
+
+inline void ComponentRigidBody::SetBoxSize(float3 newBoxSize)
+{
+    boxSize = newBoxSize;
+}
+
+inline float ComponentRigidBody::GetRadius() const
+{
+    return radius;
+}
+
+inline void ComponentRigidBody::SetRadius(float newRadius)
+{
+    radius = newRadius;
+}
+
+inline float ComponentRigidBody::GetFactor() const
+{
+    return factor;
+}
+
+inline void ComponentRigidBody::SetFactor(float newFactor)
+{
+    factor = newFactor;
+}
+
+inline float ComponentRigidBody::GetHeight() const
+{
+    return height;
+}
+
+inline void ComponentRigidBody::SetHeight(float newHeight)
+{
+    height = newHeight;
+}

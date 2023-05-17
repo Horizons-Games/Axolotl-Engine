@@ -13,46 +13,44 @@ PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr),
 
 void PatrolBehaviourScript::Start()
 {
-	//if (wayPointOne)
-	//{
-	//	wayPointOneTransform = static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
-	//}
+	if (wayPointOne)
+	{
+		wayPointOneTransform = static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
+	}
 
-	//if (wayPointTwo)
-	//{
-	//	wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
-	//}
+	if (wayPointTwo)
+	{
+		wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
+	}
 
-	//ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	//ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
-	//if (ownerRigidBody && ownerRigidBody->IsEnabled())
-	//{
-	//	// Initally set the first waypoint as the destiny
-	//	ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-	//	//ownerRigidBody->SetRotationTarget(Quat(wayPointOneTransform->GetRotation()));
-	//}
+	if (ownerRigidBody && ownerRigidBody->IsEnabled())
+	{
+		// Initally set the first waypoint as the destiny
+		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
+		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+	}
 }
 
 void PatrolBehaviourScript::Update(float deltaTime)
 {
-	//ENGINE_LOG("%s", "Now patrolling...");
+	ENGINE_LOG("%s", "Now patrolling...");
 
-	//// When this behaviour is triggered, the enemy will patrol between its waypoints
-	//// (This can be modularized into any amout when the scripts can accept vectors)
-	//if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
-	//{
-	//	ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
-	//	//ownerRigidBody->SetRotationTarget(Quat(wayPointTwoTransform->GetRotation()));
-	//}
+	// When this behaviour is triggered, the enemy will patrol between its waypoints
+	// (This can be modularized into any amout when the scripts can accept vectors)
+	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
+	{
+		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
+		ownerRigidBody->SetRotationTarget(wayPointTwoTransform->GetRotation());
+	}
 
-	//else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
-	//{
-	//	ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-	//	//ownerRigidBody->SetRotationTarget(Quat(wayPointOneTransform->GetRotation()));
-	//}
-
-	////ownerTransform->UpdateTransformMatrices();
+	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
+	{
+		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
+		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+	}
 }
 
 GameObject* PatrolBehaviourScript::GetWayPointOne() const

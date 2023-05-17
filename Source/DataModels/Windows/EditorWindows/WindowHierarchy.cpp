@@ -58,7 +58,7 @@ void WindowHierarchy::DrawWindowContents()
 	}
 }
 
-void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
+bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
     assert(gameObject);
 
@@ -172,7 +172,7 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             {
                 ImGui::TreePop();
             }
-            return;
+            return false;
         }
 
         ImGui::EndPopup();
@@ -198,6 +198,12 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
             if (draggedGameObject)
             {
                 draggedGameObject->SetParent(gameObject);
+                ImGui::EndDragDropTarget();
+                if (nodeDrawn)
+                {
+                    ImGui::TreePop();
+                }
+                return false;
             }
         }
 
@@ -208,10 +214,16 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         for (GameObject* child : children)
         {
-            DrawRecursiveHierarchy(child);
+            if (!DrawRecursiveHierarchy(child))
+            {
+                ImGui::TreePop();
+                return false;
+            }
         }
         ImGui::TreePop();
     }
+
+    return true;
 }
 
 void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)

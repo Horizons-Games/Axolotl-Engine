@@ -23,18 +23,22 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     btTransform startTransform;
     startTransform.setIdentity();
     transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-    float3 aabbHalfSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+    factor = 0.5f;
+    //WIP set proper default value
+    height = 2.0f;
     
     currentShape = 1;
     motionState = new btDefaultMotionState(startTransform);
-    shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
-    
+    shape = new btBoxShape({ boxSize.x, boxSize.y, boxSize.z });
     rigidBody = new btRigidBody(100, motionState, shape);
     
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
     SetupMobility();
 
     rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
+    rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
 
     SetLinearDamping(linearDamping);
     SetAngularDamping(angularDamping);
@@ -73,6 +77,8 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::Update()
 {
+    float deltaTime = App->GetDeltaTime();
+
     if (!rigidBody->isStaticOrKinematicObject())
     {
         rigidBody->setCcdMotionThreshold(0.1);
@@ -82,13 +88,42 @@ void ComponentRigidBody::Update()
         trans = rigidBody->getWorldTransform();
         btQuaternion rot = trans.getRotation();
         Quat currentRot = Quat(rot.x(), rot.y(), rot.z(), rot.w());
-        float4x4 rotationMatrix = float4x4::FromQuat(currentRot);
-        transform->SetRotation(rotationMatrix);
+        transform->SetRotation(currentRot);
         btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
         float3 centerPoint = transform->GetLocalAABB().CenterPoint();
         btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
         transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
         transform->UpdateTransformMatrices();
+    }
+
+    if (usePositionController)
+    {
+        float3 x = transform->GetPosition();
+        float3 positionError = targetPosition - x;
+        float3 velocityPosition = positionError * KpForce;
+
+        btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
+        rigidBody->setLinearVelocity(velocity);
+    }
+
+    if (useRotationController)
+    {
+        btTransform trans;
+        trans = rigidBody->getWorldTransform();
+
+        btQuaternion bulletQ = trans.getRotation();
+        Quat q = Quat(bulletQ.getX(), bulletQ.getY(), bulletQ.getZ(), bulletQ.getW());
+        Quat rotationError = targetRotation * q.Normalized().Inverted();
+        rotationError.Normalize();
+
+        float3 axis;
+        float angle;
+        rotationError.ToAxisAngle(axis, angle);
+        axis.Normalize();
+
+        float3 angularVelocity = axis * angle * KpTorque;
+        btVector3 bulletAngularVelocity(angularVelocity.x, angularVelocity.y, angularVelocity.z);
+        rigidBody->setAngularVelocity(bulletAngularVelocity);
     }
 }
 
@@ -98,7 +133,7 @@ void ComponentRigidBody::UpdateRigidBody()
     btTransform worldTransform;
     float3 pos = transform->GetPosition();
     worldTransform.setOrigin({ pos.x, pos.y, pos.z });
-    Quat rot = transform->GetRotation().RotatePart().ToQuat();
+    Quat rot = transform->GetRotation();
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
@@ -144,25 +179,20 @@ void ComponentRigidBody::SetCollisionShape(SHAPE newShape)
     switch (static_cast<int>(newShape))
     {
     case 1: // Box
-    {
-        float3 aabbHalfSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
-        shape = new btBoxShape({ aabbHalfSize.x, aabbHalfSize.y, aabbHalfSize.z });
+        shape = new btBoxShape({ boxSize.x, boxSize.y, boxSize.z });
         break;
-    }
     case 2: // Sphere
-        shape = new btSphereShape(transform->GetLocalAABB().MinimalEnclosingSphere().Diameter() * .5f);
+        shape = new btSphereShape(radius * factor);
         break;
-        /*
-        case 3: // Capsule
-            shape = new btCapsuleShape(1, 2);
-            break;
-        case 4: // Cylinder
-            shape = new btCylinderShape(btVector3(1, 1, 1));
-            break;
-        case 54: // Cone
-            shape = new btConeShape(1, 2);
-            break;
-            */
+    case 3: // Capsule
+        shape = new btCapsuleShape(radius, height);
+        break;
+    case 4: // Cone
+        shape = new btConeShape(radius, height);
+        break;
+    /*case 5: // Cylinder
+        shape = new btCylinderShape(btVector3(1, 1, 1));
+        break;*/
     }
 
     if (shape)
@@ -186,16 +216,23 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 
 	meta["isKinematic"] = (bool)GetIsKinematic();
 	meta["isStatic"] = (bool)GetIsStatic();
+    meta["drawCollider"] = (bool)GetDrawCollider();
 	meta["mass"] = (float)GetMass();
 	meta["linearDamping"] = (float)GetLinearDamping();
 	meta["angularDamping"] = (float)GetAngularDamping();
 	meta["restitution"] = (float)GetRestitution();
 	meta["currentShape"] = (int)GetShape();
-	/*meta["usePositionController"] = (bool)GetUsePositionController();
+	meta["usePositionController"] = (bool)GetUsePositionController();
 	meta["useRotationController"] = (bool)GetUseRotationController();
 	meta["KpForce"] = (float)GetKpForce();
-	meta["KpTorque"] = (float)GetKpTorque();*/
+	meta["KpTorque"] = (float)GetKpTorque();
     meta["gravity_Y"] = (float)GetGravity().getY();
+    meta["boxSize_X"] = (float)GetBoxSize().x;
+    meta["boxSize_Y"] = (float)GetBoxSize().y;
+    meta["boxSize_Z"] = (float)GetBoxSize().z;
+    meta["radius"] = (float)GetRadius();
+    meta["factor"] = (float)GetFactor();
+    meta["height"] = (float)GetHeight();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -207,15 +244,20 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 
 	SetIsKinematic((bool)meta["isKinematic"]);
 	SetIsStatic((bool)meta["isStatic"]);
+    SetDrawCollider((bool)meta["drawCollider"], false);
 	SetMass((float)meta["mass"]);
     SetLinearDamping((float)meta["linearDamping"]);
     SetAngularDamping((float)meta["angularDamping"]);
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
     SetRestitution((float)meta["restitution"]);
-	/*SetUsePositionController((bool)meta["usePositionController"]);
+	SetUsePositionController((bool)meta["usePositionController"]);
 	SetUseRotationController((bool)meta["useRotationController"]);
 	SetKpForce((float)meta["KpForce"]);
-	SetKpTorque((float)meta["KpTorque"]);*/
+	SetKpTorque((float)meta["KpTorque"]);
+    SetBoxSize({ (float)meta["boxSize_X"], (float)meta["boxSize_Y"], (float)meta["boxSize_Z"] });
+    SetRadius((float)meta["radius"]);
+    SetFactor((float)meta["factor"]);
+    SetHeight((float)meta["height"]);
 
     int currentShape = (int)meta["currentShape"];
 
@@ -235,4 +277,42 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 void ComponentRigidBody::ClearCollisionEnterDelegate()
 {
     delegateCollisionEnter.clear();
+void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
+{
+    drawCollider = newDrawCollider;
+    int value = 0;
+
+    if (newDrawCollider)
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+        value = 1;
+    }
+    else
+    {
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+
+        if (substract)
+        {
+            value = -1;
+        }
+    }
+
+    App->GetModule<ModulePhysics>()->UpdateDrawableRigidBodies(value);
+}
+
+void ComponentRigidBody::SetDefaultSize(int resetShape)
+{
+    if (resetShape == 1)
+    {
+        boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    } else if (resetShape == 2)
+    {
+        radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+        factor = 0.5f; 
+    } else if (resetShape == 3 || resetShape == 4)
+    {
+        radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+        height = 2.0f;
+    }
+    // WIP: reset 5th shape
 }
