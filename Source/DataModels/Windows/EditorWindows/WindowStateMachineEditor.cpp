@@ -35,7 +35,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 {
 	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine.lock();
 
-	ImGui::BeginChild("Side_lists", ImVec2(300, 0));
+	ImGui::BeginChild("Side_lists", ImVec2(310, 0));
 	if (stateAsShared) 
 	{
 		ImGui::Text("Parameters");
@@ -103,9 +103,31 @@ void WindowStateMachineEditor::DrawWindowContents()
 		DrawTransitions(stateAsShared, origin, drawList);
 
 		DrawStates(stateAsShared, origin, io.MouseDelta, drawList);
-		
-		drawList->PopClipRect();
 	}
+
+	drawList->AddRectFilled(
+		ImVec2(canvasP0.x + 10, canvasP0.y + 10), ImVec2(canvasP0.x + 156, canvasP0.y + 30),
+		IM_COL32(30, 30, 30, 255),
+		0.0f
+	);
+
+	drawList->AddRect(
+		ImVec2(canvasP0.x + 6, canvasP0.y + 6), ImVec2(canvasP0.x + 160, canvasP0.y + 34),
+		IM_COL32(150, 150, 150, 255),
+		0.0f
+	);
+
+	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 12));
+	if (stateAsShared)
+	{
+		ImGui::Text(stateAsShared->GetFileName().c_str());
+	}
+	else 
+	{
+		ImGui::Text("No Machine Selected");
+	}
+
+	drawList->PopClipRect();
 
 	DrawRightClickPopUp(stateAsShared, mousePosInCanvas);
 
@@ -203,6 +225,8 @@ void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMach
 		}
 		else
 		{
+			ImGui::Checkbox("Loop", &state->loop);
+
 			ImGui::Text(state->resource->GetFileName().c_str());
 			ImGui::SameLine();
 			if (ImGui::Button("x"))
@@ -225,8 +249,10 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 		std::string title2 = stateAsShared->GetState(it->second.destinationState)->name.c_str();
 		ImGui::Text((title + " -> " + title2).c_str());
 
+		ImGui::Checkbox("Wait Exit", &it->second.waitUntilFinish);
+
 		double duration = it->second.transitionDuration;
-		if (ImGui::InputDouble("Duration:", &duration))
+		if (ImGui::InputDouble("Duration", &duration))
 		{
 			stateAsShared->SetDurationTransition(transitionIdSelected, duration);
 		}
