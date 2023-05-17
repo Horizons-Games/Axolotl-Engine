@@ -19,7 +19,7 @@
 #include "debugdraw.h"
 
 ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
-	: Component(ComponentType::ANIMATION, active, owner, false) 
+	: Component(ComponentType::ANIMATION, active, owner, true)
 {
 	controller = new AnimationController();
 	lastState = NON_STATE;
