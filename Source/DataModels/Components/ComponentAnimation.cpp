@@ -19,7 +19,7 @@
 #include "debugdraw.h"
 
 ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
-	: Component(ComponentType::ANIMATION, active, owner, true)
+	: Component(ComponentType::ANIMATION, active, owner, true), drawBones(false)
 {
 	controller = new AnimationController();
 	lastState = NON_STATE;
@@ -96,8 +96,6 @@ void ComponentAnimation::Update()
 					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
 				}
 			}
-
-			
 		}
 		else 
 		{
@@ -124,7 +122,7 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw() const
 {
-	if (!App->IsOnPlayMode())
+	if (!App->IsOnPlayMode() && drawBones)
 	{
 		DrawBones(owner);
 	}

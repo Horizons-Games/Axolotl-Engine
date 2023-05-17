@@ -24,6 +24,14 @@ void WindowComponentAnimation::DrawWindowContents()
 	ComponentAnimation* asAnimation = static_cast<ComponentAnimation*>(component);
 	if(asAnimation) 
 	{
+		bool drawBones = asAnimation->IsDrawBonesActivated();
+		ImGui::Text("Draw Bones:");
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##DrawBones", &drawBones))
+		{
+			asAnimation->ActivateDrawBones(drawBones);
+		}
+
 		std::shared_ptr<ResourceStateMachine> state = asAnimation->GetStateMachine();
 		if (state)
 		{
