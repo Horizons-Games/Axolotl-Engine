@@ -22,23 +22,26 @@ void WindowComponentAnimation::DrawWindowContents()
 	DrawEnableAndDeleteComponent();
 	ImGui::Text("");
 	ComponentAnimation* asAnimation = static_cast<ComponentAnimation*>(component);
-	std::shared_ptr<ResourceStateMachine> state = asAnimation->GetStateMachine();
-	if (state)
+	if(asAnimation) 
 	{
-		ImGui::Text(state->GetFileName().c_str());
-		ImGui::SameLine();
-		if (ImGui::Button("Edit StateMachine"))
+		std::shared_ptr<ResourceStateMachine> state = asAnimation->GetStateMachine();
+		if (state)
 		{
-			App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(state);
+			ImGui::Text(state->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Edit StateMachine"))
+			{
+				App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(state);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("x"))
+			{
+				asAnimation->SetStateMachine(nullptr);
+			}
 		}
-		ImGui::SameLine();
-		if(ImGui::Button("x"))
+		else
 		{
-			asAnimation->SetStateMachine(nullptr);
+			inputState->DrawWindowContents();
 		}
-	}
-	else
-	{
-		inputState->DrawWindowContents();
 	}
 }
