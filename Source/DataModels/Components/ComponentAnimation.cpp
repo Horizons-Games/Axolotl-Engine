@@ -66,6 +66,12 @@ void ComponentAnimation::Update()
 			State* state = stateMachine->GetState(actualState);
 			if (state)
 			{
+				Transition foundTransition;
+				if (CheckTransitions(state, foundTransition))
+				{
+					nextState = foundTransition.destinationState;
+				}
+
 				if (controller->GetPlay())
 				{
 					std::list<GameObject*> children = owner->GetGameObjectsInside();
@@ -91,11 +97,7 @@ void ComponentAnimation::Update()
 				}
 			}
 
-			Transition foundTransition;
-			if (CheckTransitions(state, foundTransition))
-			{
-				nextState = foundTransition.destinationState;
-			}
+			
 		}
 		else 
 		{
