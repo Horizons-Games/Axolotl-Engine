@@ -53,6 +53,7 @@ public:
 	void SetGlobalRotation(const Quat& rotation);
 	void SetScale(const float3& scale);
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
+	void SetGlobalTransform(const float4x4& transform);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
@@ -250,4 +251,9 @@ inline void ComponentTransform::SetDrawBoundingBoxes(bool newDraw)
 inline void ComponentTransform::Encapsule(const vec* vertices, unsigned numVertices)
 {
 	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
+}
+
+inline void ComponentTransform::SetGlobalTransform(const float4x4& transform)
+{
+	globalMatrix = transform;
 }

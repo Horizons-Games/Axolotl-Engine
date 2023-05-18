@@ -44,8 +44,8 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
     SetAngularDamping(angularDamping);
 
     SetCollisionShape(static_cast<ComponentRigidBody::Shape>(Shape::BOX));
+
     UpdateRigidBody();
-    TranslateCenterOfMass();
 }
 
 ComponentRigidBody::~ComponentRigidBody()
@@ -80,10 +80,10 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnTransformChanged() 
 {
-    if (!App->IsOnPlayMode()) 
+    /*if (!App->IsOnPlayMode()) 
     {
         UpdateRigidBody();
-    }
+    }*/
 }
 
 
@@ -154,6 +154,13 @@ void ComponentRigidBody::UpdateRigidBody()
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
+}
+
+void ComponentRigidBody::SetRigidBodyOrigin(btVector3 origin) 
+{
+    btTransform worldTransform = rigidBody->getWorldTransform();
+    worldTransform.setOrigin(origin);
+    rigidBody->setWorldTransform(worldTransform);
 }
 void ComponentRigidBody::SetUpMobility()
 {
@@ -267,9 +274,9 @@ void ComponentRigidBody::SaveOptions(Json& meta)
     meta["radius"] = (float)GetRadius();
     meta["factor"] = (float)GetFactor();
     meta["height"] = (float)GetHeight();
-    meta["centerOfMass_X"] = (float)GetCenterOfMass().getX();
-    meta["centerOfMass_Y"] = (float)GetCenterOfMass().getY();
-    meta["centerOfMass_Z"] = (float)GetCenterOfMass().getZ();
+    meta["rbPos_X"] = (float)GetRigidBodyOrigin().getX();
+    meta["rbPos_Y"] = (float)GetRigidBodyOrigin().getY();
+    meta["rbPos_Z"] = (float)GetRigidBodyOrigin().getZ();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -295,7 +302,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     SetRadius((float)meta["radius"]);
     SetFactor((float)meta["factor"]);
     SetHeight((float)meta["height"]);
-    SetCenterOfMass({ (float)meta["centerOfMass_X"], (float)meta["centerOfMass_Y"], (float)meta["centerOfMass_Z"] });
+    SetRigidBodyOrigin({ (float)meta["rbPos_X"], (float)meta["rbPos_Y"], (float)meta["rbPos_Z"] });
 
     int currentShape = (int)meta["currentShape"];
 
@@ -306,7 +313,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     
     SetUpMobility();
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
-    TranslateCenterOfMass();
+    //TranslateCenterOfMass();
 }
 
 void ComponentRigidBody::Enable()

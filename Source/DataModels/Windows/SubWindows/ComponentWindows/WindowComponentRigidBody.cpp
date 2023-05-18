@@ -69,46 +69,46 @@ void WindowComponentRigidBody::DrawWindowContents()
 
         if (currentShape > 0)
         {
-            btVector3 centerOfMass = asRigidBody->GetCenterOfMass();
-            float xValue = centerOfMass.getX();
-            float yValue = centerOfMass.getY();
-            float zValue = centerOfMass.getZ();
-            bool dirty = false;
-
             ImGui::Text("Translate"); ImGui::SameLine();
             if (ImGui::Button("Reset Translate", ImVec2(120, 0)))
             {
-                asRigidBody->SetCenterOfMass({ 0.0f, 0.0f, 0.0f });
+                asRigidBody->UpdateRigidBody();
+            }
+            else 
+            {
+
+                btVector3 btPosition = asRigidBody->GetRigidBodyOrigin();
+                float xValue = btPosition.getX();
+                float yValue = btPosition.getY();
+                float zValue = btPosition.getZ();
+
+                ImGui::Text("x:"); ImGui::SameLine();
+                ImGui::SetNextItemWidth(80.0f);
+                if (ImGui::DragFloat("##XTrans", &xValue, 0.5f))
+                {
+                    btPosition.setX(xValue);
+                }
+
+                ImGui::SameLine();
+                ImGui::Text("y:"); ImGui::SameLine();
+                ImGui::SetNextItemWidth(80.0f);
+                if (ImGui::DragFloat("##YTrans", &yValue, 0.5f))
+                {
+                    btPosition.setY(yValue);
+                }
+
+                ImGui::SameLine();
+                ImGui::Text("z:"); ImGui::SameLine();
+                ImGui::SetNextItemWidth(80.0f);
+                if (ImGui::DragFloat("##ZTrans", &zValue, 0.5f))
+                {
+                    btPosition.setZ(zValue);
+                }
+
+                asRigidBody->SetRigidBodyOrigin(btPosition);
             }
 
-            ImGui::Text("x:"); ImGui::SameLine();
-            ImGui::SetNextItemWidth(80.0f);
-            if (ImGui::DragFloat("##XTrans", &xValue, 0.5f))
-            {
-                dirty = true;
-            }
-
-            ImGui::SameLine();
-            ImGui::Text("y:"); ImGui::SameLine();
-            ImGui::SetNextItemWidth(80.0f);
-            if (ImGui::DragFloat("##YTrans", &yValue, 0.5f))
-            {
-                dirty = true;
-            }
-
-            ImGui::SameLine();
-            ImGui::Text("z:"); ImGui::SameLine();
-            ImGui::SetNextItemWidth(80.0f);
-            if (ImGui::DragFloat("##ZTrans", &zValue, 0.5f))
-            {
-                dirty = true;
-            }
-
-            if (dirty)
-            {
-                asRigidBody->SetCenterOfMass({xValue, yValue, zValue});
-                asRigidBody->TranslateCenterOfMass();
-            }
+            
         }
 
         ImGui::Text("Collider Size"); ImGui::SameLine();

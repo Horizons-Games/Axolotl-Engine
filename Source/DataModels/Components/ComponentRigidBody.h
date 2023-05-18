@@ -111,6 +111,9 @@ public:
     btVector3 GetCenterOfMass() const;
     void SetCenterOfMass(btVector3 newCenterOfMass);
 
+    btVector3 GetRigidBodyOrigin() const;
+    void SetRigidBodyOrigin(btVector3 origin);
+
     void SetPositionTarget(const float3& targetPos);
     void SetRotationTarget(const Quat& targetRot);
 
@@ -124,6 +127,7 @@ public:
     void RemoveRigidBodyFromSimulation();
 
     btRigidBody* GetRigidBody() const;
+    ComponentTransform* GetOwnerTransform() const;
 
     void UpdateRigidBody();
 
@@ -375,6 +379,11 @@ inline btRigidBody* ComponentRigidBody::GetRigidBody() const
     return rigidBody; 
 }
 
+inline ComponentTransform* ComponentRigidBody::GetOwnerTransform() const
+{
+    return transform;
+}
+
 inline btVector3 ComponentRigidBody::GetCenterOfMass() const
 {
     return centerOfMass;
@@ -383,4 +392,9 @@ inline btVector3 ComponentRigidBody::GetCenterOfMass() const
 inline void ComponentRigidBody::SetCenterOfMass(btVector3 newCenterOfMass)
 {
     centerOfMass.setValue(newCenterOfMass.getX(), newCenterOfMass.getY(), newCenterOfMass.getZ());
+}
+
+inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
+{
+    return rigidBody->getWorldTransform().getOrigin();
 }
