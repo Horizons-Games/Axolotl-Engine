@@ -258,7 +258,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetMass((float)meta["mass"]);
     SetLinearDamping((float)meta["linearDamping"]);
     SetAngularDamping((float)meta["angularDamping"]);
-    SetGravity({ 0, (float)meta["gravity_Y"], 0 });
+    
     SetRestitution((float)meta["restitution"]);
 	SetUsePositionController((bool)meta["usePositionController"]);
 	SetUseRotationController((bool)meta["useRotationController"]);
@@ -277,6 +277,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     }
     
     SetUpMobility();
+    SetGravity({ 0, (float)meta["gravity_Y"], 0 });
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
