@@ -66,7 +66,6 @@ void WindowMainMenu::Exit()
 
 void WindowMainMenu::CreateNewScene()
 {
-	App->SetIsOnPlayMode(false);
 	std::unique_ptr<Scene> scene = std::make_unique<Scene>();
 	scene->InitNewEmptyScene();
 	App->GetModule<ModuleScene>()->SetLoadedScene(std::move(scene));

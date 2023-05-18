@@ -98,7 +98,6 @@ public:
 	void MoveDownChild(const GameObject* childToMove);
 	
 	bool IsADescendant(const GameObject* descendant);
-	void SetParentAsChildSelected();
 
 	bool CompareTag(const std::string& commingTag) const;
 

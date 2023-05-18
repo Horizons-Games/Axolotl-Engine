@@ -103,7 +103,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
        (ImGui::IsMouseReleased(ImGuiMouseButton_Right) 
         && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
     {
-        moduleScene->ChangeSelectedGameObject(gameObject);
+        moduleScene->SetSelectedGameObject(gameObject);
     }
 
     if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))

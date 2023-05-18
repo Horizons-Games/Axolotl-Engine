@@ -188,8 +188,11 @@ void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 
 void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
-	gameObject->SetParentAsChildSelected();
+	AddGameObjectAndChildren(selectedGameObject);
+	selectedGameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
 	selectedGameObject = gameObject;
+	selectedGameObject->SetStateOfSelection(StateOfSelection::SELECTED);
+	RemoveGameObjectAndChildren(selectedGameObject);
 }
 
 void ModuleScene::OnPlay()
@@ -415,16 +418,6 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 			}
 		}
 	}
-}
-
-/*
-This have the same functionality as SetSelectedGameObject but implies changes in the quadtree
-*/
-void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
-{
-	AddGameObjectAndChildren(selectedGameObject);
-	selectedGameObject = gameObject;
-	RemoveGameObjectAndChildren(selectedGameObject);
 }
 
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy)

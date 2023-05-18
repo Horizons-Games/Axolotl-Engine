@@ -391,7 +391,7 @@ void Camera::SetNewSelectedGameObject(GameObject* gameObject)
 	if (gameObject != nullptr)
 	{
 		ModuleScene* scene = App->GetModule<ModuleScene>();
-		scene->ChangeSelectedGameObject(gameObject);
+		scene->SetSelectedGameObject(gameObject);
 		scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }
