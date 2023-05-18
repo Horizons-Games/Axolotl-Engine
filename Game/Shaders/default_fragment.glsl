@@ -176,13 +176,13 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         float lightRadius = areaSphere[i].lightRadius;
 
         // calculate closest point light specular
-        vec3 oldL = normalize(sP - FragPos);
+        vec3 oldL = normalize(FragPos - sP);
         vec3 R = reflect(V, N);
         vec3 centerToRay = FragPos - dot(oldL, R) * R - sP;
         vec3 closest = sP + centerToRay * min(sR/length(centerToRay),1.0);
 
         vec3 L = normalize(FragPos - closest);
-        vec3 H = (-L+V)/length(-L+V);
+        vec3 H = (-L + V)/length(-L + V);
         float specularDotNL = max(dot(N,-L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
@@ -222,17 +222,26 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float lightRadius = areaTube[i].lightRadius;
 
         // calculate closest point light specular
-        vec3 PA = posA-FragPos;
-        vec3 AB = posB-posA;
+        vec3 PA = posA - FragPos;
+        vec3 AB = posB - posA;
+
         vec3 R = reflect(V, N);
-        float dotABDir = dot(AB, R);
-        float num = dot(R, PA)* dotABDir-dot(AB, PA);
-        float denom = dot(AB, AB)-dotABDir*dotABDir;
+
+        float dotABRefle = dot(AB, R);
+        float num = dot(R, PA) * dotABRefle - dot(AB, PA);
+        float distAB = length(AB);
+        float denom = distAB*distAB - dotABRefle * dotABRefle;
         float t = clamp(num/denom, 0.0f, 1.0f);
+        
         vec3 closest = posA + AB * t;
 
+        vec3 oldL = normalize(FragPos - closest);
+        vec3 centerToRay = FragPos - dot(oldL, R) * R - closest;
+        float tubeRadius = distAB;
+        closest = closest + centerToRay * min(tubeRadius/length(centerToRay),1.0);
+
         vec3 L = normalize(FragPos-closest);
-        vec3 H = (-L+V)/length(-L+V);
+        vec3 H = (-L + V)/length(-L + V);
         float specularDotNL = max(dot(N,-L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
