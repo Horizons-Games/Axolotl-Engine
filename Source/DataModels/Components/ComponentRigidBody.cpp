@@ -283,6 +283,18 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
 }
 
+void ComponentRigidBody::Enable()
+{
+    active = true;
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
+}
+
+void ComponentRigidBody::Disable()
+{
+    active = false;
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+}
+
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
