@@ -39,6 +39,8 @@ public:
 
     void OnCollisionExit(ComponentRigidBody* other);
 
+    void OnTransformChanged() override;
+
     void Update() override;
 
     uint32_t GetID() const { return id; }

@@ -74,6 +74,14 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
     assert(other);
 }
 
+void ComponentRigidBody::OnTransformChanged() 
+{
+    if (!App->IsOnPlayMode()) 
+    {
+        UpdateRigidBody();
+    }
+}
+
 
 void ComponentRigidBody::Update()
 {
