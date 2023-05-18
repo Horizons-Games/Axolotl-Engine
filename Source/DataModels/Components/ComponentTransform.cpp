@@ -117,6 +117,15 @@ void ComponentTransform::CalculateMatrices()
 	}
 }
 
+void ComponentTransform::RecalculateLocalMatrix()
+{
+	globalMatrix = float4x4::FromTRS(globalPos, globalRot, globalSca);
+	ComponentTransform* parentTransform = (ComponentTransform*)(GetOwner()->GetParent()->GetComponent(ComponentType::TRANSFORM));
+	localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
+	localMatrix.Decompose(pos, rot, sca);
+	rotXYZ = RadToDeg(rot.ToEulerXYZ());
+}
+
 const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 {
 	localMatrix = float4x4::FromTRS(pos, rot, sca);

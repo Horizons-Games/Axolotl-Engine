@@ -1754,7 +1754,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 6403345666526753163,
-                "parentUID": 2672826628933724203,
+                "parentUID": 12571919698515252061,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1764,7 +1764,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -13.175621032714844,
+                            "localPos_X": -1.2705426216125488,
                             "localPos_Y": 14.003867149353027,
                             "localPos_Z": -16.14756965637207,
                             "localRot_X": 0.0,
@@ -1802,7 +1802,7 @@
                             "usePositionController": true,
                             "useRotationController": true,
                             "KpForce": 0.5,
-                            "KpTorque": 0.05000000074505806,
+                            "KpTorque": 2.0,
                             "gravity_Y": -9.8100004196167,
                             "boxSize_X": 1.0,
                             "boxSize_Y": 1.0,
@@ -1905,6 +1905,35 @@
                             "removed": false,
                             "localPos_X": 29.69320297241211,
                             "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 12571919698515252061,
+                "parentUID": 2672826628933724203,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.143667221069336,
+                            "localPos_Y": 8.623265266418457,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,

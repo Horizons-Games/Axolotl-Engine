@@ -46,14 +46,18 @@ public:
 	bool IsUniformScale() const;
 
 	void SetPosition(const float3& position);
+	void SetGlobalPosition(const float3& position);
 	void SetRotation(const float3& rotation);
+	void SetGlobalRotation(const float3& rotation);
 	void SetRotation(const Quat& rotation);
+	void SetGlobalRotation(const Quat& rotation);
 	void SetScale(const float3& scale);
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
 	void CalculateMatrices();
+	void RecalculateLocalMatrix();
 	const float4x4 CalculatePaletteGlobalMatrix();
 	void UpdateTransformMatrices();
 
@@ -183,6 +187,11 @@ inline void ComponentTransform::SetPosition(const float3& position)
 	pos = position;
 }
 
+inline void ComponentTransform::SetGlobalPosition(const float3& position)
+{
+	globalPos = position;
+}
+
 inline void ComponentTransform::SetRotation(const float3& rotation)
 {
 	rotXYZ = rotation;
@@ -193,6 +202,16 @@ inline void ComponentTransform::SetRotation(const Quat& rotation)
 {
 	rot = rotation;
 	rotXYZ = RadToDeg(rotation.ToEulerXYZ());
+}
+
+inline void ComponentTransform::SetGlobalRotation(const float3& rotation)
+{
+	globalRot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
+}
+
+inline void ComponentTransform::SetGlobalRotation(const Quat& rotation)
+{
+	globalRot = rotation;
 }
 
 inline void ComponentTransform::SetScale(const float3& scale)

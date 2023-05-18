@@ -96,11 +96,12 @@ void ComponentRigidBody::Update()
         trans = rigidBody->getWorldTransform();
         btQuaternion rot = trans.getRotation();
         Quat currentRot = Quat(rot.x(), rot.y(), rot.z(), rot.w());
-        transform->SetRotation(currentRot);
+        transform->SetGlobalRotation(currentRot);
         btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
         float3 centerPoint = transform->GetLocalAABB().CenterPoint();
         btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
-        transform->SetPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
+        transform->SetGlobalPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
+        transform->RecalculateLocalMatrix();
         transform->UpdateTransformMatrices();
     }
 
@@ -139,9 +140,9 @@ void ComponentRigidBody::Update()
 void ComponentRigidBody::UpdateRigidBody() 
 {
     btTransform worldTransform;
-    float3 pos = transform->GetPosition();
+    float3 pos = transform->GetGlobalPosition();
     worldTransform.setOrigin({ pos.x, pos.y, pos.z });
-    Quat rot = transform->GetRotation();
+    Quat rot = transform->GetGlobalRotation();
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
