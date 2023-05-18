@@ -1,0 +1,17 @@
+{
+    "UID": 1064469024164668635,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Blaster.Scene.053_0.mesh",
+        "Assets/Meshes/Blaster.Scene.053_1.mesh",
+        "Assets/Meshes/Blaster.Scene.053_2.mesh",
+        "Assets/Meshes/Blaster.Scene.053_3.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Blasterbarrel_Material.001_0.mat",
+        "Assets/Materials/Blasterhandle_Material.001_1.mat",
+        "Assets/Materials/Blastertrigger_Material.001_2.mat",
+        "Assets/Materials/Blastervisor_Material.001_3.mat"
+    ],
+    "AnimAssetPaths": null
+}

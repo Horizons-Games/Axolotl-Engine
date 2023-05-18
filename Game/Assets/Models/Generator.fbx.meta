@@ -1,0 +1,11 @@
+{
+    "UID": 1260639021596633154,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Generator.Scene.081_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/GeneratorElectric_Spot.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,0 +1,13 @@
+{
+    "UID": 7285164396704097612,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Platform.Scene.061_0.mesh",
+        "Assets/Meshes/Platform.Scene.061_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/PlatformPlatform Base Material.001_0.mat",
+        "Assets/Materials/PlatformPlatform Elevator Material.001_1.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,11 +1,11 @@
 {
-    "UID": 15676623095599289197,
+    "UID": 10964302973649472563,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Circle.001_0.mesh"
+        "Assets/Meshes/BarrelNewFBX.Circle.001_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Material_0.mat"
+        "Assets/Materials/BarrelNewFBXMaterial_0.mat"
     ],
     "AnimAssetPaths": null
 }

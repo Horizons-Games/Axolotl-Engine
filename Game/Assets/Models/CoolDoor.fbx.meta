@@ -1,0 +1,21 @@
+{
+    "UID": 1110322164457015312,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CoolDoor.Scene.128_0.mesh",
+        "Assets/Meshes/CoolDoor.Scene.128_1.mesh",
+        "Assets/Meshes/CoolDoor.Scene.128_2.mesh",
+        "Assets/Meshes/CoolDoor.Scene.128_3.mesh",
+        "Assets/Meshes/CoolDoor.Scene.128_4.mesh",
+        "Assets/Meshes/CoolDoor.Scene.128_5.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CoolDoorBase.024_0.mat",
+        "Assets/Materials/CoolDoorBlack_thingy.010_1.mat",
+        "Assets/Materials/CoolDoorPanel_white_keys.001_2.mat",
+        "Assets/Materials/CoolDoorPanel_red_keys.001_3.mat",
+        "Assets/Materials/CoolDoorPanel_yellow_keys.001_4.mat",
+        "Assets/Materials/CoolDoorLight.015_5.mat"
+    ],
+    "AnimAssetPaths": null
+}

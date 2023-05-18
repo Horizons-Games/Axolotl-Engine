@@ -1,19 +1,19 @@
 {
-    "UID": 8556730612955692424,
+    "UID": 10595810148249751189,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Extract7_0.mesh",
-        "Assets/Meshes/Extract7_1.mesh",
-        "Assets/Meshes/Extract7_2.mesh",
-        "Assets/Meshes/Extract7_3.mesh",
-        "Assets/Meshes/Extract7_4.mesh"
+        "Assets/Meshes/bith.Extract7_0.mesh",
+        "Assets/Meshes/bith.Extract7_1.mesh",
+        "Assets/Meshes/bith.Extract7_2.mesh",
+        "Assets/Meshes/bith.Extract7_3.mesh",
+        "Assets/Meshes/bith.Extract7_4.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Head_0.mat",
-        "Assets/Materials/Torso_1.mat",
-        "Assets/Materials/Legs_2.mat",
-        "Assets/Materials/Arms and Hands_3.mat",
-        "Assets/Materials/Trumpet_4.mat"
+        "Assets/Materials/bithHead_0.mat",
+        "Assets/Materials/bithTorso_1.mat",
+        "Assets/Materials/bithLegs_2.mat",
+        "Assets/Materials/bithArms and Hands_3.mat",
+        "Assets/Materials/bithTrumpet_4.mat"
     ],
     "AnimAssetPaths": null
 }

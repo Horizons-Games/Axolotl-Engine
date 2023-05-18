@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_Medkit_Base.png",
     "NormalAssetPath": "Assets/Textures/Lv1_CargoBay_Medkit_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_Medkit_Metallic.png"
+    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_Medkit_Metallic.png",
+    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_Medkit_Metallic.png"
 }

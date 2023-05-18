@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_Stairs_Base.png",
     "NormalAssetPath": "Assets/Textures/Lv1_CargoBay_Stairs_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_Stairs_Metallic.png"
+    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_Stairs_Metallic.png",
+    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_Stairs_Metallic.png"
 }

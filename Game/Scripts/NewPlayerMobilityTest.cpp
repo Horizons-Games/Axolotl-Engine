@@ -13,6 +13,7 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
 
 #include "GameObject/GameObject.h"
 
@@ -50,6 +51,7 @@ void NewPlayerMobilityTest::Start()
 
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 
 	isDashing = false;
 }
@@ -82,12 +84,18 @@ void NewPlayerMobilityTest::Move()
 	{
 		direction = objectTransform->GetLocalForward().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		componentAnimation->SetParameter("IsWalking", true);
+		componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		direction = -objectTransform->GetLocalForward().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		componentAnimation->SetParameter("IsWalking", true);
+		componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
@@ -95,13 +103,53 @@ void NewPlayerMobilityTest::Move()
 
 		direction = -objectTransform->GetGlobalRight().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		componentAnimation->SetParameter("IsWalking", true);
+		componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		direction = objectTransform->GetGlobalRight().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		componentAnimation->SetParameter("IsWalking", true);
+		componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+
 	}
+
+	if (input->GetKey(SDL_SCANCODE_X) != KeyState::IDLE)
+	{
+		direction = objectTransform->GetGlobalRight().Normalized();
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		componentAnimation->SetParameter("IsWalking", false);
+
+	}
+
+	if (input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
+	{
+		direction = objectTransform->GetGlobalRight().Normalized();
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		componentAnimation->SetParameter("IsAttacking", true);
+		
+
+	}
+
+	if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE)
+	{
+		direction = objectTransform->GetGlobalRight().Normalized();
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		
+		componentAnimation->SetParameter("IsAttacking", false);
+	}
+
+	btVector3 currentVelocity = btRb->getLinearVelocity();
+	if (math::Abs(currentVelocity.getX()) < 0.5f && math::Abs(currentVelocity.getZ()) < 0.5f)
+	{
+		componentAnimation->SetParameter("IsWalking", false);
+	}
+
+
+
 
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{

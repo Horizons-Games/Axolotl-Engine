@@ -14,5 +14,6 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_Door_Base.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": ""
+    "MetallicAssetPath": "",
+    "SpecularAssetPath": ""
 }
