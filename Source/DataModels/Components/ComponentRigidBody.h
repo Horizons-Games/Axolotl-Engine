@@ -105,15 +105,18 @@ public:
     float GetKpTorque() const;
     void SetKpTorque(float newKpForce);
 
+    btVector3 GetCenterOfMass() const;
+    void SetCenterOfMass(btVector3 newCenterOfMass);
+
     void SetPositionTarget(const float3& targetPos);
     void SetRotationTarget(const Quat& targetRot);
 
     void DisablePositionController();
     void DisableRotationController();
 
-    
-
     void SetUpMobility();
+
+    void TranslateCenterOfMass();
 
     void RemoveRigidBodyFromSimulation();
 
@@ -133,6 +136,7 @@ private:
     btCollisionShape* shape = nullptr;
 
     btVector3 gravity = { 0, -9.81f, 0 };
+    btVector3 centerOfMass = { 0.0f, 0.0f, 0.0f };
     float linearDamping = 0.1f;
     float angularDamping = 0.1f;
     float mass = 100.0f;
@@ -366,4 +370,14 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
 { 
     return rigidBody; 
+}
+
+inline btVector3 ComponentRigidBody::GetCenterOfMass() const
+{
+    return centerOfMass;
+}
+
+inline void ComponentRigidBody::SetCenterOfMass(btVector3 newCenterOfMass)
+{
+    centerOfMass.setValue(newCenterOfMass.getX(), newCenterOfMass.getY(), newCenterOfMass.getZ());
 }

@@ -45,6 +45,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 
     SetCollisionShape(static_cast<ComponentRigidBody::Shape>(Shape::BOX));
     UpdateRigidBody();
+    TranslateCenterOfMass();
 }
 
 ComponentRigidBody::~ComponentRigidBody()
@@ -103,7 +104,11 @@ void ComponentRigidBody::Update()
         btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
         float3 centerPoint = transform->GetLocalAABB().CenterPoint();
         btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
-        transform->SetGlobalPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
+        transform->SetGlobalPosition({
+            pos.x() - offset.x(),
+            pos.y() - offset.y(),
+            pos.z() - offset.z()
+        });
         transform->RecalculateLocalMatrix();
         transform->UpdateTransformMatrices();
     }
@@ -220,6 +225,22 @@ void ComponentRigidBody::SetCollisionShape(Shape newShape)
     }
 }
 
+void ComponentRigidBody::TranslateCenterOfMass()
+{
+    btTransform transformRb = rigidBody->getCenterOfMassTransform();
+    float3 position = transform->GetPosition();
+    btVector3 originRb;
+
+    originRb.setValue(
+        position.x + centerOfMass.getX(),
+        position.y + centerOfMass.getY(),
+        position.z + centerOfMass.getZ()
+    );
+    
+    transformRb.setOrigin(originRb);
+    rigidBody->setCenterOfMassTransform(transformRb);
+}
+
 void ComponentRigidBody::SaveOptions(Json& meta)
 {
 	// Do not delete these
@@ -246,6 +267,9 @@ void ComponentRigidBody::SaveOptions(Json& meta)
     meta["radius"] = (float)GetRadius();
     meta["factor"] = (float)GetFactor();
     meta["height"] = (float)GetHeight();
+    meta["centerOfMass_X"] = (float)GetCenterOfMass().getX();
+    meta["centerOfMass_Y"] = (float)GetCenterOfMass().getY();
+    meta["centerOfMass_Z"] = (float)GetCenterOfMass().getZ();
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -271,6 +295,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     SetRadius((float)meta["radius"]);
     SetFactor((float)meta["factor"]);
     SetHeight((float)meta["height"]);
+    SetCenterOfMass({ (float)meta["centerOfMass_X"], (float)meta["centerOfMass_Y"], (float)meta["centerOfMass_Z"] });
 
     int currentShape = (int)meta["currentShape"];
 
@@ -281,6 +306,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     
     SetUpMobility();
     SetGravity({ 0, (float)meta["gravity_Y"], 0 });
+    TranslateCenterOfMass();
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()

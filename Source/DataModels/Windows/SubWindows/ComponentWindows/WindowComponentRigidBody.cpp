@@ -67,6 +67,50 @@ void WindowComponentRigidBody::DrawWindowContents()
             asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
         }
 
+        if (currentShape > 0)
+        {
+            btVector3 centerOfMass = asRigidBody->GetCenterOfMass();
+            float xValue = centerOfMass.getX();
+            float yValue = centerOfMass.getY();
+            float zValue = centerOfMass.getZ();
+            bool dirty = false;
+
+            ImGui::Text("Translate"); ImGui::SameLine();
+            if (ImGui::Button("Reset Translate", ImVec2(120, 0)))
+            {
+                asRigidBody->SetCenterOfMass({ 0.0f, 0.0f, 0.0f });
+            }
+
+            ImGui::Text("x:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##XTrans", &xValue, 0.5f))
+            {
+                dirty = true;
+            }
+
+            ImGui::SameLine();
+            ImGui::Text("y:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##YTrans", &yValue, 0.5f))
+            {
+                dirty = true;
+            }
+
+            ImGui::SameLine();
+            ImGui::Text("z:"); ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
+            if (ImGui::DragFloat("##ZTrans", &zValue, 0.5f))
+            {
+                dirty = true;
+            }
+
+            if (dirty)
+            {
+                asRigidBody->SetCenterOfMass({xValue, yValue, zValue});
+                asRigidBody->TranslateCenterOfMass();
+            }
+        }
+
         ImGui::Text("Collider Size"); ImGui::SameLine();
         if (ImGui::Button("Reset size", ImVec2(120, 0)))
         {
@@ -81,7 +125,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 
             ImGui::Text("x:"); ImGui::SameLine();
             ImGui::SetNextItemWidth(80.0f);
-            if (ImGui::DragFloat("##XTrans", &boxSize.x, 0.5f))
+            if (ImGui::DragFloat("##XSize", &boxSize.x, 0.5f))
             {
                 dirty = true;
             }
@@ -89,7 +133,7 @@ void WindowComponentRigidBody::DrawWindowContents()
             ImGui::SameLine();
             ImGui::Text("y:"); ImGui::SameLine();
             ImGui::SetNextItemWidth(80.0f);
-            if (ImGui::DragFloat("##YTrans", &boxSize.y, 0.5f))
+            if (ImGui::DragFloat("##YSize", &boxSize.y, 0.5f))
             {
                 dirty = true;
             }
@@ -97,7 +141,7 @@ void WindowComponentRigidBody::DrawWindowContents()
             ImGui::SameLine();
             ImGui::Text("z:"); ImGui::SameLine();
             ImGui::SetNextItemWidth(80.0f);
-            if (ImGui::DragFloat("##ZTrans", &boxSize.z, 0.5f))
+            if (ImGui::DragFloat("##ZSize", &boxSize.z, 0.5f))
             {
                 dirty = true;
             }
