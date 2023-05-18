@@ -344,10 +344,9 @@ void WindowHierarchy::PasteAnObject()
 	if (copyObject)
 	{
 		const ModuleScene* moduleScene = App->GetModule<ModuleScene>();
-		Scene* loadedScene = moduleScene->GetLoadedScene();
-        GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
+        Scene* loadedScene = moduleScene->GetLoadedScene();
 
-        GameObject* parent = selectedGameObject->GetParent();
+        GameObject* parent = moduleScene->GetSelectedGameObject();
 		if (parent == nullptr)
 		{
 			parent = loadedScene->GetRoot();
