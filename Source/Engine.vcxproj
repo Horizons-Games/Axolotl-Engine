@@ -802,6 +802,7 @@
     <ClInclude Include="Scripting\LogSystem.h" />
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
+    <ClInclude Include="VectorField.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

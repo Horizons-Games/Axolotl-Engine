@@ -11,6 +11,7 @@
 #include "ScriptFactory.h"
 #include "IScript.h"
 #include "Math/float3.h"
+#include "VectorField.h"
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component), windowUID(UniqueID::GenerateUID())
@@ -126,16 +127,28 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 			}
 
-			//case FieldType::VECTOR:
-			//{
-			//	Field<std::vector<int>> vectorField = std::get<Field<std::vector<std::any>>>(member);
-			//	std::vector<int> value = vectorField.getter();
-			//	if (ImGui::DragInt3(vectorField.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
-			//	{
-			//		vectorField.setter(value);
-			//	}
-			//	break;
-			//}
+			case FieldType::VECTOR:
+			{
+				VectorField<std::vector<std::any>> vectorField = std::get<VectorField<std::vector<std::any>>>(member);
+				FieldType fieldType = vectorField.type;
+
+				if (fieldType == FieldType::FLOAT)
+				{
+					std::vector<std::any> value = vectorField.getter();
+
+					// Handle the float vector case
+				}
+				else if (fieldType == FieldType::STRING)
+				{
+					std::vector<std::any> value = vectorField.getter();
+
+					// Handle the string vector case
+				}
+				// Add more cases for other types
+
+				break;
+			}
+
 
 			case FieldType::STRING:
 			{

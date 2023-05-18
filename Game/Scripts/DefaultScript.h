@@ -31,7 +31,7 @@ public:
 private:
 	float value;
 	float3 vec3;
-	std::vector<int> vec;
+	std::vector<float> vec;
 	mutable std::vector<std::any> convertedVec;
 	std::string sentence;
 	GameObject* character;

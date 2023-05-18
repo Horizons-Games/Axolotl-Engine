@@ -3,6 +3,7 @@
 #include "GameObject/GameObject.h"
 #include <vector>
 #include <any>
+#include <cctype>
 
 enum class FieldType
 {
