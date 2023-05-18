@@ -16,7 +16,7 @@ class ComponentRigidBody : public Component, public Updatable
 {
 public:
 
-    enum class SHAPE
+    enum class Shape
     {
         NONE = 0,
         BOX = 1,
@@ -29,7 +29,7 @@ public:
         TERRAIN = 8
     };
 
-    ComponentRigidBody(const bool active, GameObject* owner);
+    ComponentRigidBody(bool active, GameObject* owner);
     ~ComponentRigidBody();
 
 
@@ -52,7 +52,7 @@ public:
     bool GetIsKinematic() const;
 
     void SetIsStatic(bool isStatic);
-    bool GetIsStatic() const;
+    bool IsStatic() const;
     
     void SetDrawCollider(bool newDrawCollider, bool substract = true);
     bool GetDrawCollider() const;
@@ -70,7 +70,7 @@ public:
     void SetAngularDamping(float newDamping);
 
     int GetShape() const;
-    void SetCollisionShape(SHAPE newShape);
+    void SetCollisionShape(Shape newShape);
 
     btVector3 GetVelocity() const;
     void SetVelocity(const float3& force);
@@ -112,7 +112,7 @@ public:
 
     
 
-    void SetupMobility();
+    void SetUpMobility();
 
     void RemoveRigidBodyFromSimulation();
 
@@ -173,7 +173,7 @@ inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
     isKinematic = newIsKinematic;
 }
 
-inline bool ComponentRigidBody::GetIsStatic() const
+inline bool ComponentRigidBody::IsStatic() const
 {
     return isStatic;
 }

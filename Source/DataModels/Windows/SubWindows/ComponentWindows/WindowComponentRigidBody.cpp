@@ -32,10 +32,10 @@ void WindowComponentRigidBody::DrawWindowContents()
         if (ImGui::Checkbox("##Is Kinematic", &isKinematic))
         {
             asRigidBody->SetIsKinematic(isKinematic);
-            asRigidBody->SetupMobility();
+            asRigidBody->SetUpMobility();
 		}
 
-		bool isStatic = asRigidBody->GetIsStatic();
+		bool isStatic = asRigidBody->IsStatic();
 
         ImGui::Text("Is Static"); ImGui::SameLine();
         if (ImGui::Checkbox("##Is Static", &isStatic))
@@ -45,7 +45,7 @@ void WindowComponentRigidBody::DrawWindowContents()
                 asRigidBody->SetIsKinematic(false);
 			}
             asRigidBody->SetIsStatic(isStatic);
-			asRigidBody->SetupMobility();
+			asRigidBody->SetUpMobility();
 		}
 
         ImGui::Text("");
@@ -64,7 +64,7 @@ void WindowComponentRigidBody::DrawWindowContents()
         int currentShape = asRigidBody->GetShape();
         if (ImGui::Combo("Shape", &currentShape, shapeTypes, IM_ARRAYSIZE(shapeTypes)))
         {
-            asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+            asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
         }
 
         ImGui::Text("Collider Size"); ImGui::SameLine();
@@ -105,7 +105,7 @@ void WindowComponentRigidBody::DrawWindowContents()
             if (dirty)
             {
                 asRigidBody->SetBoxSize(boxSize);
-                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
             }
         }
 
@@ -134,7 +134,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 
             if (dirty)
             {
-                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
             }
         }
 
@@ -163,7 +163,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 
             if (dirty)
             {
-                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
             }
         }
 

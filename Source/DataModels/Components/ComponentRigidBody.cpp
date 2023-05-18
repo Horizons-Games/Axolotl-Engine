@@ -11,7 +11,7 @@
 #include "Math/float4x4.h"
 #include "FileSystem/Json.h"
 
-ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
+ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
     : Component(ComponentType::RIGIDBODY, active, owner, true)
 {
     static uint32_t nextId = 1;
@@ -35,7 +35,7 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     rigidBody = new btRigidBody(100, motionState, shape);
     
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
-    SetupMobility();
+    SetUpMobility();
 
     rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
     rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
@@ -43,7 +43,7 @@ ComponentRigidBody::ComponentRigidBody(const bool active, GameObject* owner)
     SetLinearDamping(linearDamping);
     SetAngularDamping(angularDamping);
 
-    SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(SHAPE::BOX));
+    SetCollisionShape(static_cast<ComponentRigidBody::Shape>(Shape::BOX));
     UpdateRigidBody();
 }
 
@@ -147,7 +147,7 @@ void ComponentRigidBody::UpdateRigidBody()
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
 }
-void ComponentRigidBody::SetupMobility()
+void ComponentRigidBody::SetUpMobility()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
     if (isKinematic)
@@ -181,25 +181,26 @@ void ComponentRigidBody::SetupMobility()
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
 }
 
-void ComponentRigidBody::SetCollisionShape(SHAPE newShape)
+void ComponentRigidBody::SetCollisionShape(Shape newShape)
 {
     delete shape;
 
-    switch (static_cast<int>(newShape))
+    switch (newShape)
     {
-    case 1: // Box
+    case Shape::BOX: // Box
         shape = new btBoxShape({ boxSize.x, boxSize.y, boxSize.z });
         break;
-    case 2: // Sphere
+    case Shape::SPHERE: // Sphere
         shape = new btSphereShape(radius * factor);
         break;
-    case 3: // Capsule
+    case Shape::CAPSULE: // Capsule
         shape = new btCapsuleShape(radius, height);
         break;
-    case 4: // Cone
+    case Shape::CONE: // Cone
         shape = new btConeShape(radius, height);
         break;
-    /*case 5: // Cylinder
+        
+    /*case SHAPE::CYLINDER: // Cylinder
         shape = new btCylinderShape(btVector3(1, 1, 1));
         break;*/
     }
@@ -224,7 +225,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
     meta["removed"] = (bool)canBeRemoved;
 
 	meta["isKinematic"] = (bool)GetIsKinematic();
-	meta["isStatic"] = (bool)GetIsStatic();
+	meta["isStatic"] = (bool)IsStatic();
     meta["drawCollider"] = (bool)GetDrawCollider();
 	meta["mass"] = (float)GetMass();
 	meta["linearDamping"] = (float)GetLinearDamping();
@@ -272,10 +273,10 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 
     if (currentShape != 0)
     {
-        SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+        SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
     }
     
-    SetupMobility();
+    SetUpMobility();
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
