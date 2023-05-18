@@ -176,7 +176,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         float lightRadius = areaSphere[i].lightRadius;
 
         // calculate closest point light specular
-        vec3 oldL = normalize(FragPos - sP);
+        vec3 oldL = normalize(sP - FragPos);
         vec3 R = reflect(V, N);
         vec3 centerToRay = FragPos - dot(oldL, R) * R - sP;
         vec3 closest = sP + centerToRay * min(sR/length(centerToRay),1.0);
@@ -260,7 +260,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float diffuseDotNL = max(dot(N,-L), EPSILON);
 
         // Attenuation
-        float distance = length(FragPos-closest);
+        float distance = length(FragPos-closest); //TODO
         float radius = length(AB)/2;
         float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
