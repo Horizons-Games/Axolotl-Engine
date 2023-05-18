@@ -58,6 +58,7 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy)
     motionState = std::unique_ptr<btDefaultMotionState>(new btDefaultMotionState(*toCopy.motionState.get()));
     switch (static_cast<Shape>(currentShape))
     {
+    default:
     case Shape::BOX:
         shape = std::unique_ptr<btBoxShape>(new btBoxShape(*static_cast<btBoxShape*>(toCopy.shape.get())));
         break;
@@ -69,9 +70,6 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy)
         break;
     case Shape::CONE:
         shape = std::unique_ptr<btConeShape>(new btConeShape(*static_cast<btConeShape*>(toCopy.shape.get())));
-        break;
-    default:
-        shape = nullptr;
         break;
     }
     rigidBody = std::make_unique<btRigidBody>(toCopy.rigidBody->getMass(), motionState.get(), shape.get());
