@@ -15,6 +15,7 @@
 ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BASE, emitter)
 {
 	originLocation = DEFAULT_ORIGIN;
+	originRotation = Quat::identity;
 	alignment = Alignment::WORLD;
 }
 
@@ -36,6 +37,10 @@ void ModuleBase::DrawImGui()
 	{
 		if (ImGui::BeginTable("##baseTable", 2))
 		{
+			float3 rotation = originRotation.ToEulerXYZ();
+			rotation = RadToDeg(rotation);
+
+
 			ImGui::TableNextColumn();
 			ImGui::Text("Origin");
 
@@ -44,7 +49,7 @@ void ModuleBase::DrawImGui()
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XTrans", &originLocation.x, 1.0f,
+			if (ImGui::DragFloat("##XTrans", &originLocation.x, 0.01f,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
 			}
@@ -53,7 +58,7 @@ void ModuleBase::DrawImGui()
 			ImGui::Text("y:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##YTrans", &originLocation.y, 1.0f,
+			if (ImGui::DragFloat("##YTrans", &originLocation.y, 0.01f,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
 			}
@@ -62,11 +67,46 @@ void ModuleBase::DrawImGui()
 			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##ZTrans", &originLocation.z, 1.0f,
+			if (ImGui::DragFloat("##ZTrans", &originLocation.z, 0.01f,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
 			}
 			ImGui::PopStyleVar();
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Rotation");
+
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::Text("x:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##XRot", &rotation.x, 0.01f, -179.99f, 179.99f))
+			{
+				rotation = DegToRad(rotation);
+				SetRotation(Quat::FromEulerXYZ(rotation.x, rotation.y, rotation.z));
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
+
+			ImGui::Text("y:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##YRot", &rotation.y, 0.01f, -179.99f, 179.99f))
+			{
+				rotation = DegToRad(rotation);
+				SetRotation(Quat::FromEulerXYZ(rotation.x, rotation.y, rotation.z));
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
+
+			ImGui::Text("y:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##ZRot", &rotation.z, 0.01f, -179.99f, 179.99f))
+			{
+				rotation = DegToRad(rotation);
+				SetRotation(Quat::FromEulerXYZ(rotation.x, rotation.y, rotation.z));
+			}
+			ImGui::PopStyleVar(); ImGui::SameLine();
 
 			ImGui::TableNextColumn();
 			ImGui::Text("Alignment");
@@ -137,8 +177,14 @@ void ModuleBase::DrawDD(EmitterInstance* instance)
 	const GameObject* go = instance->GetOwner()->GetOwner();
 	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
 	
-	float3 center = objectTransform->GetGlobalPosition() + originLocation;
-	float3 forward = objectTransform->GetGlobalForward().Normalized();
+	float4x4 originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
+	float4x4 finalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
+
+	float3 position;
+	Quat rotation;
+	float3 scale;
+	finalTransform.Decompose(position, rotation, scale);
+
 	float radius = emitter->GetRadius();
 	float angle = emitter->GetAngle();
 
@@ -147,13 +193,13 @@ void ModuleBase::DrawDD(EmitterInstance* instance)
 	switch (emitter->GetShape())
 	{
 	case ParticleEmitter::ShapeType::CIRCLE:
-		dd::circle(center, forward, dd::colors::HotPink, radius, 25);
+		dd::circle(position, finalTransform.WorldZ(), dd::colors::HotPink, radius, 25);
 		break;
 	case ParticleEmitter::ShapeType::CONE:
-		dd::cone(center, forward * CONE_HEIGHT, dd::colors::HotPink, baseRadius + radius, radius);
+		dd::cone(position, finalTransform.WorldZ() * CONE_HEIGHT, dd::colors::HotPink, baseRadius + radius, radius);
 		break;
 	case ParticleEmitter::ShapeType::BOX:
-		dd::box(center, dd::colors::HotPink, radius, radius, radius);
+		dd::box(position, dd::colors::HotPink, radius, radius, radius);
 		break;
 	}
 }
