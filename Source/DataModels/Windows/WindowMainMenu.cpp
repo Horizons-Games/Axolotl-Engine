@@ -76,7 +76,7 @@ void WindowMainMenu::DrawPopup()
 	ImGui::OpenPopup("Are you sure?");
 	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-	if (ImGui::BeginPopupModal("Are you sure?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("Are you sure?", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("Do you want to save the scene?\nAll your changes will be lost if you don't save them.");
 		ImGui::Separator();
@@ -95,6 +95,13 @@ void WindowMainMenu::DrawPopup()
 			isSaving = false;
 			openPopup = false;
 			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel"))
+		{
+			isSaving = false;
+			openPopup = false;
+			action = Actions::NONE;
 		}
 		ImGui::EndPopup();
 	}	
