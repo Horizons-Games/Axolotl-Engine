@@ -49,6 +49,9 @@ public:
     void SaveOptions(Json& meta) override;
     void LoadOptions(Json& meta) override;
 
+    void Enable() override;
+    void Disable() override;
+
     void SetIsKinematic(bool isKinematic);
     bool GetIsKinematic() const;
 

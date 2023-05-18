@@ -309,6 +309,18 @@ void ComponentRigidBody::LoadOptions(Json& meta)
     TranslateCenterOfMass();
 }
 
+void ComponentRigidBody::Enable()
+{
+    active = true;
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
+}
+
+void ComponentRigidBody::Disable()
+{
+    active = false;
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+}
+
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
