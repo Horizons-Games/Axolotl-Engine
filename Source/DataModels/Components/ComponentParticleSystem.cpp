@@ -3,7 +3,7 @@
 #include "ParticleSystem/EmitterInstance.h"
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
-	Component(ComponentType::PARTICLE, active, owner, false), resource(nullptr)
+	Component(ComponentType::PARTICLE, active, owner, true), resource(nullptr)
 {
 }
 

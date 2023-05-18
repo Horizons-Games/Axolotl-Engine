@@ -17,9 +17,12 @@ WindowComponentParticle::~WindowComponentParticle()
 
 void WindowComponentParticle::DrawWindowContents()
 {
-	//ImGui::ShowDemoWindow();
-
 	DrawEnableAndDeleteComponent();
+
+	if (!component)
+	{
+		return;
+	}
 
 	ImGui::Text("");
 
