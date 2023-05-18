@@ -27,7 +27,7 @@ REGISTERCLASS(DroneAttack);
 
 DroneAttack::DroneAttack() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
 							input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
-							bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), bulletVelocity(0.1f)
+							bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), bulletVelocity(0.2f)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(animationGO, GameObject*);
@@ -79,6 +79,7 @@ void DroneAttack::PerformAttack()
 
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
 		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
+		bulletTransf->SetRotation(transform->GetRotation());
 		bulletTransf->UpdateTransformMatrices();
 		bullets.push_back(bulletTransf);
 		/*bullet->CreateComponent(ComponentType::SCRIPT);
