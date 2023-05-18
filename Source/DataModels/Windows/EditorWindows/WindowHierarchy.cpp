@@ -77,18 +77,14 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     {
         flags |= ImGuiTreeNodeFlags_DefaultOpen;
     }
-    else
+    else if (children.empty())
     {
-        if (children.empty())
-        {
-            flags |= ImGuiTreeNodeFlags_Leaf;
-        }
+        flags |= ImGuiTreeNodeFlags_Leaf;
+    }
 
-        if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED
-            && StateOfSelection::SELECTED == moduleScene->GetSelectedGameObject()->GetStateOfSelection())
-        {            
-            ImGui::SetNextItemOpen(true);
-        }
+    if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED)
+    {
+        ImGui::SetNextItemOpen(true);
     }
 
     if (gameObject == moduleScene->GetSelectedGameObject())
