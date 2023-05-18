@@ -28,10 +28,10 @@
 #define DEFAULT_GRAVITY_X 2.25f
 #define DEFAULT_GRAVITY_Y 9.83f
 #define DEFAULT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f }
-#define DEFAULT_ANGLE 5
-#define DEFAULT_RADIUS 1.5
+#define DEFAULT_ANGLE 25
+#define DEFAULT_RADIUS 1
 
-#define CONE_HEIGHT 2
+#define CONE_HEIGHT 3
 
 class ParticleModule;
 class ResourceTexture;
