@@ -85,7 +85,7 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy)
     SetLinearDamping(linearDamping);
     SetAngularDamping(angularDamping);
 
-    SetCollisionShape(static_cast<ComponentRigidBody::Shape>(Shape::BOX));
+    SetCollisionShape(Shape::BOX);
     UpdateRigidBody();
 }
 
