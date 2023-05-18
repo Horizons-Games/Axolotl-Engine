@@ -30,11 +30,11 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
     height = 2.0f;
     
     currentShape = 1;
-    motionState = new btDefaultMotionState(startTransform);
-    shape = new btBoxShape({ boxSize.x, boxSize.y, boxSize.z });
-    rigidBody = new btRigidBody(100, motionState, shape);
+    motionState = std::make_unique<btDefaultMotionState>(startTransform);
+    shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
+    rigidBody = std::make_unique<btRigidBody>(100, motionState.get(), shape.get());
     
-    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
     SetUpMobility();
 
     rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -49,10 +49,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 
 ComponentRigidBody::~ComponentRigidBody()
 {
-    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
-    delete shape;
-    delete rigidBody;
-    delete motionState;
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
 
@@ -152,7 +149,7 @@ void ComponentRigidBody::UpdateRigidBody()
 }
 void ComponentRigidBody::SetUpMobility()
 {
-    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
     if (isKinematic)
     {
         rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -181,26 +178,24 @@ void ComponentRigidBody::SetUpMobility()
         rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
         rigidBody->setMassProps(mass, localInertia);
     }
-    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 }
 
 void ComponentRigidBody::SetCollisionShape(Shape newShape)
 {
-    delete shape;
-
     switch (newShape)
     {
     case Shape::BOX: // Box
-        shape = new btBoxShape({ boxSize.x, boxSize.y, boxSize.z });
+        shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
         break;
     case Shape::SPHERE: // Sphere
-        shape = new btSphereShape(radius * factor);
+        shape = std::make_unique<btSphereShape>(radius * factor);
         break;
     case Shape::CAPSULE: // Capsule
-        shape = new btCapsuleShape(radius, height);
+        shape = std::make_unique<btCapsuleShape>(radius, height);
         break;
     case Shape::CONE: // Cone
-        shape = new btConeShape(radius, height);
+        shape = std::make_unique<btConeShape>(radius, height);
         break;
         
     /*case SHAPE::CYLINDER: // Cylinder
@@ -211,7 +206,7 @@ void ComponentRigidBody::SetCollisionShape(Shape newShape)
     if (shape)
     {
         currentShape = static_cast<int>(newShape);
-        rigidBody->setCollisionShape(shape);
+        rigidBody->setCollisionShape(shape.get());
         //inertia for local rotation
         btVector3 localInertia;
         rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
@@ -285,7 +280,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
-    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
 void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)

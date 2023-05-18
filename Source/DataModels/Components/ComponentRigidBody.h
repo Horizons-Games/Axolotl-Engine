@@ -31,6 +31,7 @@ public:
     };
 
     ComponentRigidBody(bool active, GameObject* owner);
+    ComponentRigidBody(const ComponentRigidBody& toCopy);
     ~ComponentRigidBody();
 
 
@@ -128,9 +129,9 @@ public:
 
 private:
 
-    btRigidBody* rigidBody = nullptr;
-    btDefaultMotionState* motionState = nullptr;
-    btCollisionShape* shape = nullptr;
+    std::unique_ptr<btRigidBody> rigidBody = nullptr;
+    std::unique_ptr<btDefaultMotionState> motionState = nullptr;
+    std::unique_ptr<btCollisionShape> shape = nullptr;
 
     btVector3 gravity = { 0, -9.81f, 0 };
     float linearDamping = 0.1f;
@@ -365,5 +366,5 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
 { 
-    return rigidBody; 
+    return rigidBody.get(); 
 }
