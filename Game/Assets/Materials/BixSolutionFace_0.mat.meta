@@ -10,8 +10,9 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "",
+    "DiffuseAssetPath": "Assets/Textures/Vix_Face_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/Vix_Face_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }
