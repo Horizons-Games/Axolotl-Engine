@@ -86,7 +86,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 6.497121810913086,
+                            "localPos_Y": 16.557598114013672,
                             "localPos_Z": 25.44462013244629,
                             "localRot_X": 0.0,
                             "localRot_Y": 180.0,
@@ -1705,7 +1705,7 @@
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
                             "localSca_X": 17.171499252319336,
-                            "localSca_Y": 17.171499252319336,
+                            "localSca_Y": 38.172000885009766,
                             "localSca_Z": 17.171499252319336
                         }
                     },
@@ -1764,7 +1764,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.2705426216125488,
+                            "localPos_X": -10.16446590423584,
                             "localPos_Y": 14.003867149353027,
                             "localPos_Z": -16.14756965637207,
                             "localRot_X": 0.0,
@@ -1941,6 +1941,481 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube",
+                "tag": "",
+                "uid": 17336272630938022775,
+                "parentUID": 2672826628933724203,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.367273330688477,
+                            "localPos_Y": 26.575008392333984,
+                            "localPos_Z": -15.790303230285645,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Breakable",
+                            "active": true,
+                            "removed": true,
+                            "subscribed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube.Cube_0",
+                "tag": "",
+                "uid": 18392960842100560590,
+                "parentUID": 17336272630938022775,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1179324429864188180,
+                            "assetPathMesh": "Assets/Meshes/breakable_cube.Cube_0.mesh",
+                            "materialUID": 14071688413859306650,
+                            "assetPathMaterial": "Assets/Materials/breakable_cubeMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube.Cube_cell.006_0",
+                "tag": "",
+                "uid": 9428049261298875664,
+                "parentUID": 17336272630938022775,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3042575612967209255,
+                            "assetPathMesh": "Assets/Meshes/breakable_cube.Cube_cell.006_0.mesh",
+                            "materialUID": 14071688413859306650,
+                            "assetPathMaterial": "Assets/Materials/breakable_cubeMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube.Cube_cell.001_0",
+                "tag": "",
+                "uid": 5224037609389216955,
+                "parentUID": 17336272630938022775,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1525007999874757657,
+                            "assetPathMesh": "Assets/Meshes/breakable_cube.Cube_cell.001_0.mesh",
+                            "materialUID": 14071688413859306650,
+                            "assetPathMaterial": "Assets/Materials/breakable_cubeMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube.Cube_cell.002_0",
+                "tag": "",
+                "uid": 17599574265545251523,
+                "parentUID": 17336272630938022775,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14681515939720307520,
+                            "assetPathMesh": "Assets/Meshes/breakable_cube.Cube_cell.002_0.mesh",
+                            "materialUID": 14071688413859306650,
+                            "assetPathMaterial": "Assets/Materials/breakable_cubeMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube.Cube_cell.003_0",
+                "tag": "",
+                "uid": 13758321346227293738,
+                "parentUID": 17336272630938022775,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15878777337137576619,
+                            "assetPathMesh": "Assets/Meshes/breakable_cube.Cube_cell.003_0.mesh",
+                            "materialUID": 14071688413859306650,
+                            "assetPathMaterial": "Assets/Materials/breakable_cubeMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube.Cube_cell.004_0",
+                "tag": "",
+                "uid": 10840806476934373300,
+                "parentUID": 17336272630938022775,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 11920627789259127508,
+                            "assetPathMesh": "Assets/Meshes/breakable_cube.Cube_cell.004_0.mesh",
+                            "materialUID": 14071688413859306650,
+                            "assetPathMaterial": "Assets/Materials/breakable_cubeMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "breakable_cube.Cube_cell.001_cell.004_0",
+                "tag": "",
+                "uid": 2532047925941217030,
+                "parentUID": 17336272630938022775,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1645217151737828902,
+                            "assetPathMesh": "Assets/Meshes/breakable_cube.Cube_cell.001_cell.004_0.mesh",
+                            "materialUID": 14071688413859306650,
+                            "assetPathMaterial": "Assets/Materials/breakable_cubeMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 6941983699579675220,
+                "parentUID": 2672826628933724203,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 58.14512252807617,
+                            "localSca_Y": 4.425000190734863,
+                            "localSca_Z": 68.59284973144531
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7356052530050122696,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 58.14512252807617,
+                            "boxSize_Y": 4.925000190734863,
+                            "boxSize_Z": 68.59284973144531,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 5168226577669174288,
+                "parentUID": 2672826628933724203,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.23939847946167,
+                            "localPos_Y": 21.556581497192383,
+                            "localPos_Z": -15.999367713928223,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.3558656573295593,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.34597378969192505
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7356052530050122696,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 10749844959551884062,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.3558656573295593,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 0.34597378969192505,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0
                         }
                     }
                 ]

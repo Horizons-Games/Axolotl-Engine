@@ -286,6 +286,7 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 void ComponentRigidBody::ClearCollisionEnterDelegate()
 {
     delegateCollisionEnter.clear();
+}
 void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
 {
     drawCollider = newDrawCollider;
