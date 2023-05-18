@@ -76,7 +76,7 @@ public:
     float GetAngularDamping() const;
     void SetAngularDamping(float newDamping);
 
-    int GetShape() const;
+    Shape GetShape() const;
     void SetCollisionShape(Shape newShape);
 
     btVector3 GetVelocity() const;
@@ -97,7 +97,7 @@ public:
     float GetHeight() const;
     void SetHeight(float newHeight);
 
-    void SetDefaultSize(int resetShape);
+    void SetDefaultSize(Shape resetShape);
 
     bool GetUsePositionController() const;
     void SetUsePositionController(bool newUsePositionController);
@@ -151,7 +151,7 @@ private:
     bool isStatic = false;
     bool drawCollider = false;
 
-    int currentShape = 0;
+    Shape currentShape = Shape::NONE;
 
     float3 targetPosition;
     Quat targetRotation;
@@ -194,7 +194,7 @@ inline bool ComponentRigidBody::GetDrawCollider() const
     return drawCollider;
 }
 
-inline int ComponentRigidBody::GetShape() const
+inline ComponentRigidBody::Shape ComponentRigidBody::GetShape() const
 {
     return currentShape;
 }

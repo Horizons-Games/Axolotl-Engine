@@ -25,7 +25,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
     //WIP set proper default value
     height = 2.0f;
     
-    currentShape = 1;
+    currentShape = Shape::BOX;
     motionState = std::make_unique<btDefaultMotionState>(startTransform);
     shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
     rigidBody = std::make_unique<btRigidBody>(100, motionState.get(), shape.get());
@@ -260,7 +260,7 @@ void ComponentRigidBody::SetCollisionShape(Shape newShape)
 
     if (shape)
     {
-        currentShape = static_cast<int>(newShape);
+        currentShape = newShape;
         rigidBody->setCollisionShape(shape.get());
         //inertia for local rotation
         btVector3 localInertia;
@@ -373,19 +373,22 @@ void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
     App->GetModule<ModulePhysics>()->UpdateDrawableRigidBodies(value);
 }
 
-void ComponentRigidBody::SetDefaultSize(int resetShape)
+void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 {
-    if (resetShape == 1)
+    switch (resetShape)
     {
+    case Shape::BOX:
         boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
-    } else if (resetShape == 2)
-    {
+        break;
+    case Shape::SPHERE:
+        break;
+    case Shape::CONE:
         radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
-        factor = 0.5f; 
-    } else if (resetShape == 3 || resetShape == 4)
-    {
+        factor = 0.5f;
+    case Shape::CAPSULE:
         radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
         height = 2.0f;
+        break;
     }
     // WIP: reset 5th shape
 }
