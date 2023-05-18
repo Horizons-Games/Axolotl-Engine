@@ -14,11 +14,7 @@
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
     : Component(ComponentType::RIGIDBODY, active, owner, true)
 {
-    static uint32_t nextId = 1;
-
-    assert(nextId != 0); //if this assert triggers, we have reached the maximum number of rigidbodies 2^32 - 1. This is a very unlikely scenario.
-
-    id = nextId++;
+    id = GenerateId();
 
     btTransform startTransform;
     startTransform.setIdentity();
@@ -34,6 +30,52 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
     shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
     rigidBody = std::make_unique<btRigidBody>(100, motionState.get(), shape.get());
     
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+    SetUpMobility();
+
+    rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
+    rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+
+    SetLinearDamping(linearDamping);
+    SetAngularDamping(angularDamping);
+
+    SetCollisionShape(static_cast<ComponentRigidBody::Shape>(Shape::BOX));
+    UpdateRigidBody();
+}
+
+ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy)
+    : Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true)
+{
+    id = GenerateId();
+
+    transform = toCopy.transform;
+    boxSize = toCopy.boxSize;
+    radius = toCopy.radius;
+    factor = toCopy.factor;
+    height = toCopy.height;
+
+    currentShape = toCopy.currentShape;
+    motionState = std::unique_ptr<btDefaultMotionState>(new btDefaultMotionState(*toCopy.motionState.get()));
+    switch (static_cast<Shape>(currentShape))
+    {
+    case Shape::BOX:
+        shape = std::unique_ptr<btBoxShape>(new btBoxShape(*static_cast<btBoxShape*>(toCopy.shape.get())));
+        break;
+    case Shape::SPHERE:
+        shape = std::unique_ptr<btSphereShape>(new btSphereShape(*static_cast<btSphereShape*>(toCopy.shape.get())));
+        break;
+    case Shape::CAPSULE:
+        shape = std::unique_ptr<btCapsuleShape>(new btCapsuleShape(*static_cast<btCapsuleShape*>(toCopy.shape.get())));
+        break;
+    case Shape::CONE:
+        shape = std::unique_ptr<btConeShape>(new btConeShape(*static_cast<btConeShape*>(toCopy.shape.get())));
+        break;
+    default:
+        shape = nullptr;
+        break;
+    }
+    rigidBody = std::make_unique<btRigidBody>(toCopy.rigidBody->getMass(), motionState.get(), shape.get());
+
     App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
     SetUpMobility();
 
@@ -136,6 +178,13 @@ void ComponentRigidBody::Update()
     }
 }
 
+void ComponentRigidBody::SetOwner(GameObject* owner)
+{
+    Component::SetOwner(owner);
+    transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+    boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+    radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+}
 
 void ComponentRigidBody::UpdateRigidBody() 
 {
@@ -146,6 +195,14 @@ void ComponentRigidBody::UpdateRigidBody()
     worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
     rigidBody->setWorldTransform(worldTransform);
     motionState->setWorldTransform(worldTransform);
+}
+int ComponentRigidBody::GenerateId() const
+{
+    static uint32_t nextId = 1;
+
+    assert(nextId != 0); //if this assert triggers, we have reached the maximum number of rigidbodies 2^32 - 1. This is a very unlikely scenario.
+
+    return nextId++;
 }
 void ComponentRigidBody::SetUpMobility()
 {
@@ -280,14 +337,14 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 
 void ComponentRigidBody::Enable()
 {
-    active = true;
-    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody);
+    Component::Enable();
+    App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 }
 
 void ComponentRigidBody::Disable()
 {
-    active = false;
-    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+    Component::Disable();
+    App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()

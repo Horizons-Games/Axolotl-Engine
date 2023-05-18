@@ -288,7 +288,7 @@ void GameObject::CopyComponent(Component* component)
 	case ComponentType::RIGIDBODY:
 	{
 
-		//newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
+		newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
 		break;
 	}
 

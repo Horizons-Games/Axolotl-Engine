@@ -45,6 +45,8 @@ public:
 
     void Update() override;
 
+    void SetOwner(GameObject* owner) override;
+
     uint32_t GetID() const { return id; }
 
     void SaveOptions(Json& meta) override;
@@ -129,6 +131,7 @@ public:
     }
 
 private:
+    int GenerateId() const;
 
     std::unique_ptr<btRigidBody> rigidBody = nullptr;
     std::unique_ptr<btDefaultMotionState> motionState = nullptr;
