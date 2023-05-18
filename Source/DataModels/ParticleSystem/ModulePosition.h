@@ -8,10 +8,12 @@ public:
 	enum class ShapeType : int { CIRCLE = 0, CONE, BOX };
 
 public:
-	ModulePosition();
+	ModulePosition(ParticleEmitter* emitter);
 	~ModulePosition() override;
 
-	void Spawn(EmitterInstance* emitter) override;
-	void Update(EmitterInstance* emitter) override;
+	void Spawn(EmitterInstance* instance) override;
+	void Update(EmitterInstance* instance) override;
+
+	void DrawImGui() override {};
 };
 

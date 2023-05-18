@@ -2,7 +2,7 @@
 
 #include "EmitterInstance.h"
 
-ModulePosition::ModulePosition() : ParticleModule(ModuleType::SPAWN)
+ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter)
 {
 }
 

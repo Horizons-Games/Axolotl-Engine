@@ -1,10 +1,18 @@
 #include "ModuleBase.h"
 
 #include "EmitterInstance.h"
+#include "ParticleEmitter.h"
+
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentTransform.h"
+
+#include "GameObject/GameObject.h"
 
 #include "ImGui/imgui.h"
 
-ModuleBase::ModuleBase() : ParticleModule(ModuleType::BASE)
+#include "debugdraw.h"
+
+ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BASE, emitter)
 {
 	originLocation = DEFAULT_ORIGIN;
 	alignment = Alignment::WORLD;
@@ -14,11 +22,11 @@ ModuleBase::~ModuleBase()
 {
 }
 
-void ModuleBase::Spawn(EmitterInstance* emitter)
+void ModuleBase::Spawn(EmitterInstance* instance)
 {
 }
 
-void ModuleBase::Update(EmitterInstance* emitter)
+void ModuleBase::Update(EmitterInstance* instance)
 {
 }
 
@@ -121,5 +129,29 @@ void ModuleBase::DrawImGui()
 			ImGui::EndTable();
 		}
 		ImGui::TreePop();
+	}
+}
+
+void ModuleBase::DrawDD(EmitterInstance* instance)
+{
+	const GameObject* go = instance->GetOwner()->GetOwner();
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	
+	float3 center = objectTransform->GetGlobalPosition() + originLocation;
+	float3 forward = objectTransform->GetGlobalForward().Normalized();
+	float radius = emitter->GetRadius();
+	float angle = emitter->GetAngle();
+
+	switch (emitter->GetShape())
+	{
+	case ParticleEmitter::ShapeType::CIRCLE:
+		dd::circle(center, forward, dd::colors::HotPink, radius, 25);
+		break;
+	case ParticleEmitter::ShapeType::CONE:
+		dd::cone(center, forward * 1, dd::colors::HotPink, radius * angle, radius);
+		break;
+	case ParticleEmitter::ShapeType::BOX:
+		dd::box(center, dd::colors::HotPink, radius, radius, radius);
+		break;
 	}
 }

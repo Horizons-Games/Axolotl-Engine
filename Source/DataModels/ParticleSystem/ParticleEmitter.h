@@ -26,11 +26,12 @@
 #define DEFAULT_GRAVITY_X 2.25f
 #define DEFAULT_GRAVITY_Y 9.83f
 #define DEFAULT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f }
-#define DEFAULT_ANGLE 25
-#define DEFAULT_RADIUS 2
+#define DEFAULT_ANGLE 5
+#define DEFAULT_RADIUS 1.5
 
 class ParticleModule;
 class ResourceTexture;
+class EmitterInstance;
 
 class ParticleEmitter
 {
@@ -43,6 +44,9 @@ public:
 
 	void Save();
 	void Load();
+
+	void AddModule(ParticleModule* module);
+	void DrawDD(EmitterInstance* instance) const;
 
 	void SetRandomLife(bool randLife);
 	void SetRandomSpeed(bool randSpeed);
@@ -81,8 +85,6 @@ public:
 	ShapeType GetShape() const;
 	std::vector<ParticleModule*> GetModules() const;
 
-	void AddModule(ParticleModule* module);
-
 	//ImGui functions
 	void SetVisibleConfig(bool visible);
 
@@ -117,6 +119,11 @@ private:
 	//Imgui Configuration
 	bool visibleConfig;
 };
+
+inline void ParticleEmitter::AddModule(ParticleModule* module)
+{
+	return modules.push_back(module);
+}
 
 inline void ParticleEmitter::SetRandomLife(bool randLife)
 {
@@ -291,11 +298,6 @@ inline ParticleEmitter::ShapeType ParticleEmitter::GetShape() const
 inline std::vector<ParticleModule*> ParticleEmitter::GetModules() const
 {
 	return modules;
-}
-
-inline void ParticleEmitter::AddModule(ParticleModule* module)
-{
-	return modules.push_back(module);
 }
 
 inline void ParticleEmitter::SetVisibleConfig(bool visible)

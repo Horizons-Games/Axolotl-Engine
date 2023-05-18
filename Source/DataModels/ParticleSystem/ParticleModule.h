@@ -3,15 +3,16 @@
 enum class ModuleType { BASE, SPAWN, POSITION, COLOR };
 
 class EmitterInstance;
+class ParticleEmitter;
 
 class ParticleModule
 {
 public:
-	ParticleModule(ModuleType type);
+	ParticleModule(ModuleType type, ParticleEmitter* emitter);
 	virtual ~ParticleModule();
 
-	virtual void Spawn(EmitterInstance* emitter) {};
-	virtual void Update(EmitterInstance* emitter) {};
+	virtual void Spawn(EmitterInstance* instance) {};
+	virtual void Update(EmitterInstance* instance) {};
 	
 	void Save();
 	void Load();
@@ -21,15 +22,15 @@ public:
 
 	void SetEnabled(bool enabled);
 
-	//ImGui section drawing
-	virtual void DrawImGui() {};
-	
-private:
+	virtual void DrawImGui() {}; //ImGui section drawing
+	virtual void DrawDD(EmitterInstance* instance) {};
+
+protected:
 	ModuleType type;
+	ParticleEmitter* emitter;
 
 	bool enabled;
 };
-
 
 inline const bool ParticleModule::IsEnabled() const
 {

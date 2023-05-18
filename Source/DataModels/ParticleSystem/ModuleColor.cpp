@@ -1,8 +1,9 @@
 #include "ModuleColor.h"
 
 #include "EmitterInstance.h"
+#include "ParticleEmitter.h"
 
-ModuleColor::ModuleColor() : ParticleModule(ModuleType::SPAWN)
+ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter)
 {
 }
 
@@ -10,10 +11,10 @@ ModuleColor::~ModuleColor()
 {
 }
 
-void ModuleColor::Spawn(EmitterInstance* emitter)
+void ModuleColor::Spawn(EmitterInstance* instance)
 {
 }
 
-void ModuleColor::Update(EmitterInstance* emitter)
+void ModuleColor::Update(EmitterInstance* instance)
 {
 }

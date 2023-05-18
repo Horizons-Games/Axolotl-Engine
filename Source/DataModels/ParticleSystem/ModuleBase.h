@@ -13,19 +13,20 @@ public:
 	enum class Alignment { SCREEN, WORLD, AXIAL };
 
 public:
-	ModuleBase();
+	ModuleBase(ParticleEmitter* emitter);
 	~ModuleBase() override;
 
-	void Spawn(EmitterInstance* emitter) override;
-	void Update(EmitterInstance* emitter) override;
-
-	void DrawImGui() override;
+	void Spawn(EmitterInstance* instance) override;
+	void Update(EmitterInstance* instance) override;
 
 	void SetOrigin(const float3& origin);
 	void SetAlignment(Alignment alignment);
 
 	float3 GetOrigin() const;
 	Alignment GetAlignment() const;
+
+	void DrawImGui() override;
+	void DrawDD(EmitterInstance* instance) override;
 
 private:
 	float3 originLocation;

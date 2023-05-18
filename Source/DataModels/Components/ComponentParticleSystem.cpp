@@ -29,6 +29,14 @@ void ComponentParticleSystem::Update()
 {
 }
 
+void ComponentParticleSystem::Draw() const
+{
+	for (EmitterInstance* instance : emitters)
+	{
+		instance->DrawDD();
+	}
+}
+
 void ComponentParticleSystem::Reset()
 {
 }

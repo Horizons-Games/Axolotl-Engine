@@ -145,12 +145,8 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 			ImGui::TableNextColumn();
 			ImGui::Text("Radius:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(60.0f);
-			if (ImGui::InputFloat("##radius", &radius, 0.0f, 0.0f, "%.2f"))
+			if (ImGui::DragFloat("##radius", &radius, 0.1f, 0.01, 50000, "%.2f"))
 			{
-				if (radius < 0.01)
-				{
-					radius = 0.01;
-				}
 				emitter->SetRadius(radius);
 			}
 			if (shape == ParticleEmitter::ShapeType::CONE)
@@ -158,7 +154,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 				ImGui::SameLine();
 				ImGui::Text("Angle:"); ImGui::SameLine();
 				ImGui::SetNextItemWidth(60.0f);
-				if (ImGui::SliderFloat("##angle", &angle, 0.0f, 90.0f, "%.2f"))
+				if (ImGui::SliderFloat("##angle", &angle, 0.0f, 45.0f, "%.2f"))
 				{
 					emitter->SetAngle(angle);
 				}

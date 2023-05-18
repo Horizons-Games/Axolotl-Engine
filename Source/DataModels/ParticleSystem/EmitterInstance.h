@@ -29,6 +29,9 @@ public:
 	void Init();
 	void UpdateModules();
 	void DrawParticles();
+	void DrawDD();
+
+	ComponentParticleSystem* GetOwner() const;
 
 	std::shared_ptr<ParticleEmitter> GetEmitter() const;
 
@@ -42,5 +45,10 @@ private:
 inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
 {
 	return emitter;
+}
+
+inline ComponentParticleSystem* EmitterInstance::GetOwner() const
+{
+	return owner;
 }
 

@@ -4,7 +4,7 @@
 
 #include "ImGui/imgui.h"
 
-ModuleSpawn::ModuleSpawn() : ParticleModule(ModuleType::SPAWN), spawnRate(0.0f)
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter), spawnRate(0.0f)
 {
 }
 
@@ -12,11 +12,11 @@ ModuleSpawn::~ModuleSpawn()
 {
 }
 
-void ModuleSpawn::Spawn(EmitterInstance* emitter)
+void ModuleSpawn::Spawn(EmitterInstance* instance)
 {
 }
 
-void ModuleSpawn::Update(EmitterInstance* emitter)
+void ModuleSpawn::Update(EmitterInstance* instance)
 {
 }
 

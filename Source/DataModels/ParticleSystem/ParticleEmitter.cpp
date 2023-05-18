@@ -1,19 +1,21 @@
 #include "ParticleEmitter.h"
 
-#include "ParticleModule.h"
+#include "EmitterInstance.h"
 #include "ModuleBase.h"
 #include "ModuleSpawn.h"
 #include "ModulePosition.h"
+#include "ParticleModule.h"
+
 
 ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CIRCLE), particleTexture(nullptr)
 {
-	ModuleBase* base = new ModuleBase();
-	ModuleSpawn* spawn = new ModuleSpawn();
-	//ModulePosition* position = new ModulePosition();
+	ModuleBase* base = new ModuleBase(this);
+	ModuleSpawn* spawn = new ModuleSpawn(this);
+	ModulePosition* position = new ModulePosition(this);
 
 	modules.push_back(base);
 	modules.push_back(spawn);
-	//modules.push_back(position);
+	modules.push_back(position);
 
 	angle = DEFAULT_ANGLE;
 	radius = DEFAULT_RADIUS;
@@ -56,4 +58,12 @@ void ParticleEmitter::Save()
 
 void ParticleEmitter::Load()
 {
+}
+
+void ParticleEmitter::DrawDD(EmitterInstance* instance) const
+{
+	for (ParticleModule* module : modules)
+	{
+		module->DrawDD(instance);
+	}
 }
