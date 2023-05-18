@@ -50,6 +50,9 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
 ComponentRigidBody::~ComponentRigidBody()
 {
     App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody);
+    delete shape;
+    delete rigidBody;
+    delete motionState;
 }
 
 

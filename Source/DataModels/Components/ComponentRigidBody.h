@@ -5,6 +5,7 @@
 #include "Bullet/LinearMath/btVector3.h"
 #include <functional>
 #include <vector>
+#include <memory>
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Math/Quat.h"
 
@@ -116,7 +117,7 @@ public:
 
     void RemoveRigidBodyFromSimulation();
 
-    btRigidBody* GetRigidBody() const { return rigidBody; }
+    btRigidBody* GetRigidBody() const;
 
     void UpdateRigidBody();
 
@@ -360,4 +361,9 @@ inline float ComponentRigidBody::GetHeight() const
 inline void ComponentRigidBody::SetHeight(float newHeight)
 {
     height = newHeight;
+}
+
+inline btRigidBody* ComponentRigidBody::GetRigidBody() const
+{ 
+    return rigidBody; 
 }
