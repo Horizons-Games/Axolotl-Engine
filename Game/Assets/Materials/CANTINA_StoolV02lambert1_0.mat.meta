@@ -10,9 +10,9 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_MetallicSmoothness.png",
+    "SpecularAssetPath": "",
     "MetallicAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_MetallicSmoothness.png"
 }

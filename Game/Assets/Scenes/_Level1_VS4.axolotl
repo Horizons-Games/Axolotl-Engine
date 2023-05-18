@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "_Level1_VS3",
+                "name": "_Level1_VS4",
                 "tag": "",
                 "uid": 5457140795048261378,
                 "parentUID": 0,
@@ -43484,1502 +43484,6 @@
         },
         {
             "GameObject": {
-                "name": "BixWithSkeleton",
-                "tag": "",
-                "uid": 7868212286900033178,
-                "parentUID": 5457140795048261378,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 93.61787414550781,
-                            "localPos_Y": -0.36321821808815,
-                            "localPos_Z": 26.580307006835938,
-                            "localRot_X": 90.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 90.0,
-                            "localSca_X": 0.003000000026077032,
-                            "localSca_Y": 0.0029999997932463884,
-                            "localSca_Z": 0.0029999997932463884
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Player",
-                            "active": true,
-                            "removed": true,
-                            "static": true,
-                            "mouse": false
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "RootNode",
-                "tag": "",
-                "uid": 11945964704231655021,
-                "parentUID": 7868212286900033178,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Glasses",
-                "tag": "",
-                "uid": 7080422380898314825,
-                "parentUID": 11945964704231655021,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BixWithSkeleton.Cube.001_0",
-                "tag": "",
-                "uid": 6019650000628167386,
-                "parentUID": 7080422380898314825,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8649550474229015866,
-                            "assetPathMesh": "Assets/Meshes/BixWithSkeleton.Cube.001_0.mesh",
-                            "materialUID": 7486867597343181195,
-                            "assetPathMaterial": "Assets/Materials/BixWithSkeletonGlasses_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Face",
-                "tag": "",
-                "uid": 4362838210131257729,
-                "parentUID": 11945964704231655021,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BixWithSkeleton.Mesh.001_0",
-                "tag": "",
-                "uid": 2853839070463880802,
-                "parentUID": 4362838210131257729,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 7175312894283060015,
-                            "assetPathMesh": "Assets/Meshes/BixWithSkeleton.Mesh.001_0.mesh",
-                            "materialUID": 15708562732929916801,
-                            "assetPathMaterial": "Assets/Materials/BixWithSkeletonFace_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Body",
-                "tag": "",
-                "uid": 13132446865582405307,
-                "parentUID": 11945964704231655021,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BixWithSkeleton.Mesh.003_0",
-                "tag": "",
-                "uid": 16916882475615048046,
-                "parentUID": 13132446865582405307,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.0032501220703125,
-                            "localPos_Y": -4.76837158203125e-7,
-                            "localPos_Z": 0.00652313232421875,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 15770523664896559817,
-                            "assetPathMesh": "Assets/Meshes/BixWithSkeleton.Mesh.003_0.mesh",
-                            "materialUID": 18001968458702422290,
-                            "assetPathMaterial": "Assets/Materials/BixWithSkeletonBody_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Armature",
-                "tag": "",
-                "uid": 12467748205620104292,
-                "parentUID": 11945964704231655021,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Spine",
-                "tag": "",
-                "uid": 1383840252068937588,
-                "parentUID": 12467748205620104292,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.028804155066609383,
-                            "localPos_Y": 0.2383883148431778,
-                            "localPos_Z": 0.020398857071995735,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Chest",
-                "tag": "",
-                "uid": 6456681038141595562,
-                "parentUID": 1383840252068937588,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 7.244700395148129e-10,
-                            "localPos_Y": 1.4066309928894043,
-                            "localPos_Z": 1.4673866566283778e-9,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Head",
-                "tag": "",
-                "uid": 3125560852951471248,
-                "parentUID": 6456681038141595562,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 7.244789212990099e-10,
-                            "localPos_Y": 0.6922407150268555,
-                            "localPos_Z": -3.0059968736395604e-8,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Head_end",
-                "tag": "",
-                "uid": 12188095319787113659,
-                "parentUID": 3125560852951471248,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 1.7887241840362549,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.TopArm",
-                "tag": "",
-                "uid": 2613234432735072805,
-                "parentUID": 6456681038141595562,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.1730620861053467,
-                            "localPos_Y": 0.3649435043334961,
-                            "localPos_Z": 0.057437874376773834,
-                            "localRot_X": -111.143310546875,
-                            "localRot_Y": 72.35419464111328,
-                            "localRot_Z": -81.9687271118164,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.BottomArm",
-                "tag": "",
-                "uid": 8739928685423389499,
-                "parentUID": 2613234432735072805,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -7.450580596923828e-8,
-                            "localPos_Y": 0.5961549282073975,
-                            "localPos_Z": 1.6577541828155518e-7,
-                            "localRot_X": -10.131692886352539,
-                            "localRot_Y": -0.7003641128540039,
-                            "localRot_Z": -68.42276000976563,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Hand",
-                "tag": "",
-                "uid": 9635181454341336037,
-                "parentUID": 8739928685423389499,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 5.960464477539063e-8,
-                            "localPos_Y": 0.8288350701332092,
-                            "localPos_Z": -7.450580596923828e-9,
-                            "localRot_X": -111.05384063720703,
-                            "localRot_Y": -84.18893432617188,
-                            "localRot_Z": -105.2795639038086,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Hand_end",
-                "tag": "",
-                "uid": 5228889114213887351,
-                "parentUID": 9635181454341336037,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.9160786271095276,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.TopArm",
-                "tag": "",
-                "uid": 11562509664272311076,
-                "parentUID": 6456681038141595562,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.1125153303146362,
-                            "localPos_Y": 0.3227415084838867,
-                            "localPos_Z": -0.10960716754198074,
-                            "localRot_X": 142.03958129882813,
-                            "localRot_Y": -2.8366847038269043,
-                            "localRot_Z": 16.530681610107422,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.BottomArm",
-                "tag": "",
-                "uid": 15001488596860599276,
-                "parentUID": 11562509664272311076,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 5.21540641784668e-8,
-                            "localPos_Y": 0.5773183107376099,
-                            "localPos_Z": -7.450580596923828e-9,
-                            "localRot_X": -34.99996566772461,
-                            "localRot_Y": 3.25774884223938,
-                            "localRot_Z": -1.6602617502212524,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Hand",
-                "tag": "",
-                "uid": 5527432302336087702,
-                "parentUID": 15001488596860599276,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 7.450580596923828e-9,
-                            "localPos_Y": 0.6209467053413391,
-                            "localPos_Z": -2.2351741790771484e-7,
-                            "localRot_X": -57.72482681274414,
-                            "localRot_Y": -80.20470428466797,
-                            "localRot_Z": -42.63312530517578,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Hand_end",
-                "tag": "",
-                "uid": 14029008194427447838,
-                "parentUID": 5527432302336087702,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 1.0460861921310425,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BottomSpine",
-                "tag": "",
-                "uid": 14849020081961284481,
-                "parentUID": 12467748205620104292,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.028804155066609383,
-                            "localPos_Y": 0.2383883148431778,
-                            "localPos_Z": 0.020398857071995735,
-                            "localRot_X": 179.99998474121094,
-                            "localRot_Y": 0.000008651421921967994,
-                            "localRot_Z": 7.563313040095943e-13,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.TopLeg",
-                "tag": "",
-                "uid": 129956437062242924,
-                "parentUID": 14849020081961284481,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.7847785949707031,
-                            "localPos_Y": 0.916862964630127,
-                            "localPos_Z": 0.0291207954287529,
-                            "localRot_X": -5.66671895980835,
-                            "localRot_Y": 2.9069769382476807,
-                            "localRot_Z": -0.6106729507446289,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.BottomLeg",
-                "tag": "",
-                "uid": 13837393496570254636,
-                "parentUID": 129956437062242924,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 7.078051567077637e-8,
-                            "localPos_Y": 0.8228359222412109,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 11.439605712890625,
-                            "localRot_Y": 0.5459810495376587,
-                            "localRot_Z": 1.176080346107483,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.FootFar",
-                "tag": "",
-                "uid": 14407178374546238093,
-                "parentUID": 13837393496570254636,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.175227902829647e-8,
-                            "localPos_Y": 0.6663275361061096,
-                            "localPos_Z": -4.98257577419281e-8,
-                            "localRot_X": -149.7730255126953,
-                            "localRot_Y": -83.86408996582031,
-                            "localRot_Z": -53.89030075073242,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.FootNear",
-                "tag": "",
-                "uid": 6741105976164194028,
-                "parentUID": 14407178374546238093,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 4.691537469625473e-8,
-                            "localPos_Y": 0.326955646276474,
-                            "localPos_Z": 4.470348358154297e-8,
-                            "localRot_X": -0.05262167751789093,
-                            "localRot_Y": 0.012552137486636639,
-                            "localRot_Z": -2.412954807281494,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.FootNear_end",
-                "tag": "",
-                "uid": 11849943765718928643,
-                "parentUID": 6741105976164194028,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.36515703797340393,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.TopLeg",
-                "tag": "",
-                "uid": 4987195308943774684,
-                "parentUID": 14849020081961284481,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.6920617818832397,
-                            "localPos_Y": 0.916862964630127,
-                            "localPos_Z": 0.02912057191133499,
-                            "localRot_X": -5.707862854003906,
-                            "localRot_Y": -2.9069857597351074,
-                            "localRot_Z": -0.20063328742980957,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.BottomLeg",
-                "tag": "",
-                "uid": 488446578905068540,
-                "parentUID": 4987195308943774684,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 3.725290298461914e-8,
-                            "localPos_Y": 0.8227941393852234,
-                            "localPos_Z": 7.450580596923828e-9,
-                            "localRot_X": 5.69992733001709,
-                            "localRot_Y": -0.36137816309928894,
-                            "localRot_Z": -0.08941773325204849,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.FootFar",
-                "tag": "",
-                "uid": 4842187858636078720,
-                "parentUID": 488446578905068540,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.3649590730201453e-8,
-                            "localPos_Y": 0.5493209958076477,
-                            "localPos_Z": 3.382183422218077e-10,
-                            "localRot_X": -144.75819396972656,
-                            "localRot_Y": 84.35127258300781,
-                            "localRot_Z": 61.10112762451172,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.FootNear",
-                "tag": "",
-                "uid": 18221118081089917928,
-                "parentUID": 4842187858636078720,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.9371509552001953e-7,
-                            "localPos_Y": 0.32875335216522217,
-                            "localPos_Z": -6.51925802230835e-9,
-                            "localRot_X": -0.7176920175552368,
-                            "localRot_Y": 0.03454875200986862,
-                            "localRot_Z": -8.406577110290527,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.FootNear_end",
-                "tag": "",
-                "uid": 6125145813041367965,
-                "parentUID": 18221118081089917928,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.3566208779811859,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.1",
-                "tag": "",
-                "uid": 14775867939853263676,
-                "parentUID": 12467748205620104292,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.5114958882331848,
-                            "localPos_Y": 3.529895782470703,
-                            "localPos_Z": -0.9498544931411743,
-                            "localRot_X": -179.99998474121094,
-                            "localRot_Y": -11.590306282043457,
-                            "localRot_Z": 0.000001027307916956488,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.2",
-                "tag": "",
-                "uid": 17563263146201122947,
-                "parentUID": 14775867939853263676,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7114222049713135,
-                            "localPos_Z": 2.2351741790771484e-8,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.3",
-                "tag": "",
-                "uid": 3456263513294062017,
-                "parentUID": 17563263146201122947,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.4901161193847656e-8,
-                            "localPos_Y": 0.7114217281341553,
-                            "localPos_Z": -4.470348358154297e-8,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.4",
-                "tag": "",
-                "uid": 11575036066403764983,
-                "parentUID": 3456263513294062017,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7114219665527344,
-                            "localPos_Z": -3.725290298461914e-8,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.5",
-                "tag": "",
-                "uid": 11419484136636646852,
-                "parentUID": 11575036066403764983,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7114219069480896,
-                            "localPos_Z": -3.725290298461914e-8,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.5_end",
-                "tag": "",
-                "uid": 11242234534480002298,
-                "parentUID": 11419484136636646852,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7783820629119873,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.1",
-                "tag": "",
-                "uid": 16403633735390800548,
-                "parentUID": 12467748205620104292,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.5114958882331848,
-                            "localPos_Y": 3.529895782470703,
-                            "localPos_Z": -0.9498544931411743,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -179.99998474121094,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.2",
-                "tag": "",
-                "uid": 9804796142154188598,
-                "parentUID": 16403633735390800548,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7114219665527344,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.3",
-                "tag": "",
-                "uid": 2943508154955990303,
-                "parentUID": 9804796142154188598,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7114217281341553,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.4",
-                "tag": "",
-                "uid": 468428760664907027,
-                "parentUID": 2943508154955990303,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7114219665527344,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.5",
-                "tag": "",
-                "uid": 13641084621208948463,
-                "parentUID": 468428760664907027,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7114219069480896,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.5_end",
-                "tag": "",
-                "uid": 8712819004943511846,
-                "parentUID": 13641084621208948463,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.7783820629119873,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaberOn",
-                "tag": "",
-                "uid": 13236582976021985691,
-                "parentUID": 11945964704231655021,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BixWithSkeleton.Cylinder.002_0",
-                "tag": "",
-                "uid": 15383101894687548226,
-                "parentUID": 13236582976021985691,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 2514251452574071974,
-                            "assetPathMesh": "Assets/Meshes/BixWithSkeleton.Cylinder.002_0.mesh",
-                            "materialUID": 12461830355489710445,
-                            "assetPathMaterial": "Assets/Materials/BixWithSkeletonLightSaber.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BixWithSkeleton.Cylinder.002_1",
-                "tag": "",
-                "uid": 1057733622437585833,
-                "parentUID": 13236582976021985691,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8699267903471946821,
-                            "assetPathMesh": "Assets/Meshes/BixWithSkeleton.Cylinder.002_1.mesh",
-                            "materialUID": 7445861221748977385,
-                            "assetPathMaterial": "Assets/Materials/BixWithSkeletonLightSaberEmission_1.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaberOff",
-                "tag": "",
-                "uid": 5827250054874296219,
-                "parentUID": 11945964704231655021,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BixWithSkeleton.Cylinder.003_0",
-                "tag": "",
-                "uid": 10718768477222510772,
-                "parentUID": 5827250054874296219,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 1.0947420406174149e-13,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -6.106664653116045e-13,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11892204046951853896,
-                            "assetPathMesh": "Assets/Meshes/BixWithSkeleton.Cylinder.003_0.mesh",
-                            "materialUID": 12461830355489710445,
-                            "assetPathMaterial": "Assets/Materials/BixWithSkeletonLightSaber.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "background_wall.Cube.001_0",
                 "tag": "",
                 "uid": 1090355684336793076,
@@ -46733,44 +45237,6 @@
                             "assetPathMesh": "Assets/Meshes/background_wall.Cube.001_0.mesh",
                             "materialUID": 12797457484529632986,
                             "assetPathMaterial": "Assets/Materials/background_wallMaterial.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Basic Camera",
-                "tag": "",
-                "uid": 3198568977868057854,
-                "parentUID": 7868212286900033178,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": -814.6572265625,
-                            "localPos_Z": -437.57611083984375,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Camera",
-                            "active": true,
-                            "removed": false,
-                            "frustumOfset": 1.0,
-                            "drawFrustum": false
                         }
                     }
                 ]
@@ -50402,7 +48868,7 @@
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
                             "boxSize_X": 1.399999976158142,
-                            "boxSize_Y": 1.4600000381469727,
+                            "boxSize_Y": 1.399999976158142,
                             "boxSize_Z": 1.4500000476837158,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
@@ -92914,7 +91380,7 @@
                 "tag": "",
                 "uid": 10150785072889527849,
                 "parentUID": 3359754953108259037,
-                "enabled": false,
+                "enabled": true,
                 "active": true,
                 "static": false,
                 "Components": [
@@ -97704,10 +96170,178 @@
         },
         {
             "GameObject": {
-                "name": "Empty GameObject",
+                "name": "BixSolution",
                 "tag": "",
-                "uid": 2868832594335206362,
+                "uid": 4116430781813883725,
                 "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 106.3030776977539,
+                            "localPos_Y": 0.6956008672714233,
+                            "localPos_Z": 25.574209213256836,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": false,
+                            "mouse": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 3630888072495156538,
+                            "assetPathState": "Assets/StateMachine/BixAnimation.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "NewPlayerMobilityTest",
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 300.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 80.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 1000.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": true,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.800000011920929,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -100.0,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 0.6499999761581421,
+                            "boxSize_Z": 0.5,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 16346928413580010082,
+                "parentUID": 4116430781813883725,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Glasses",
+                "tag": "",
+                "uid": 1107560727848288711,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cube.001_0",
+                "tag": "",
+                "uid": 6820376192821636991,
+                "parentUID": 1107560727848288711,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -97727,16 +96361,27 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 12387388348239211582,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cube.001_0.mesh",
+                            "materialUID": 10189295960361986836,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionGlasses_0.mat"
+                        }
                     }
                 ]
             }
         },
         {
             "GameObject": {
-                "name": "Basic Camera",
+                "name": "Face",
                 "tag": "",
-                "uid": 13999506593733189940,
-                "parentUID": 2868832594335206362,
+                "uid": 14486076817889293514,
+                "parentUID": 16346928413580010082,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -97746,35 +96391,26 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 1.7199630737304688,
-                            "localPos_Y": 3.389981508255005,
-                            "localPos_Z": -1.7391948699951172,
-                            "localRot_X": 45.0,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 90.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Camera",
-                            "active": true,
-                            "removed": false,
-                            "frustumOfset": 1.0,
-                            "drawFrustum": false
-                        }
                     }
                 ]
             }
         },
         {
             "GameObject": {
-                "name": "Capsule",
+                "name": "BixSolution.Mesh.001_0",
                 "tag": "",
-                "uid": 18281816582344482571,
-                "parentUID": 2868832594335206362,
+                "uid": 16500037313783626404,
+                "parentUID": 14486076817889293514,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -97784,9 +96420,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 106.13379669189453,
-                            "localPos_Y": 2.0175693035125732,
-                            "localPos_Z": 25.812129974365234,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -97800,19 +96436,1339 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 1714878422024313377,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 10749844959551884062,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                            "meshUID": 12530977590664565957,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Mesh.001_0.mesh",
+                            "materialUID": 12839866903067217367,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionFace_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Body",
+                "tag": "",
+                "uid": 10162466495598052215,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Mesh.003_0",
+                "tag": "",
+                "uid": 720636288544556470,
+                "parentUID": 10162466495598052215,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     },
                     {
                         "Component": {
-                            "type": "Component_Player",
+                            "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "static": false,
-                            "mouse": false
+                            "meshUID": 1927336338941699634,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Mesh.003_0.mesh",
+                            "materialUID": 12789937605103360422,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature",
+                "tag": "",
+                "uid": 15285152568996067886,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spine",
+                "tag": "",
+                "uid": 10283971023320087155,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.0002880426764022559,
+                            "localPos_Y": -0.00020399014465510845,
+                            "localPos_Z": 0.0023838982451707125,
+                            "localRot_X": 89.84274291992188,
+                            "localRot_Y": -1.688356637954712,
+                            "localRot_Z": 0.45476436614990234,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Chest",
+                "tag": "",
+                "uid": 7642511043986062267,
+                "parentUID": 10283971023320087155,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.410605131648481e-11,
+                            "localPos_Y": 0.014066309668123722,
+                            "localPos_Z": 8.185452315956354e-12,
+                            "localRot_X": -0.26612478494644165,
+                            "localRot_Y": -3.5265026092529297,
+                            "localRot_Z": 1.6666672229766846,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Head",
+                "tag": "",
+                "uid": 18277960208764121376,
+                "parentUID": 7642511043986062267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.8044374883174896e-9,
+                            "localPos_Y": 0.006922287400811911,
+                            "localPos_Z": 1.6079866327345371e-9,
+                            "localRot_X": -2.368114948272705,
+                            "localRot_Y": 1.7662789821624756,
+                            "localRot_Z": -2.7896389961242676,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Head_end",
+                "tag": "",
+                "uid": 11738440556441789779,
+                "parentUID": 18277960208764121376,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.017887240275740623,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.TopArm",
+                "tag": "",
+                "uid": 13478471966823367622,
+                "parentUID": 7642511043986062267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.011730628088116646,
+                            "localPos_Y": 0.0036492764484137297,
+                            "localPos_Z": 0.0005744084483012557,
+                            "localRot_X": -104.78337097167969,
+                            "localRot_Y": 69.16123962402344,
+                            "localRot_Z": -80.02182006835938,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.BottomArm",
+                "tag": "",
+                "uid": 3306306352320112509,
+                "parentUID": 13478471966823367622,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0372681319713593e-10,
+                            "localPos_Y": 0.0059615494683384895,
+                            "localPos_Z": 1.2496457202360034e-9,
+                            "localRot_X": -10.650410652160645,
+                            "localRot_Y": -11.249152183532715,
+                            "localRot_Z": -36.82023239135742,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Hand",
+                "tag": "",
+                "uid": 943113016120007683,
+                "parentUID": 3306306352320112509,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.566995918750763e-10,
+                            "localPos_Y": 0.008288348093628883,
+                            "localPos_Z": -1.1641532182693481e-10,
+                            "localRot_X": -100.05795288085938,
+                            "localRot_Y": -86.59284973144531,
+                            "localRot_Z": -93.64456939697266,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Hand_end",
+                "tag": "",
+                "uid": 6492797864294691196,
+                "parentUID": 943113016120007683,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.009160784073174,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.TopArm",
+                "tag": "",
+                "uid": 229431505213710001,
+                "parentUID": 7642511043986062267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.011125165037810802,
+                            "localPos_Y": 0.0032274338882416487,
+                            "localPos_Z": -0.0010960762156173587,
+                            "localRot_X": 171.26405334472656,
+                            "localRot_Y": -4.75140380859375,
+                            "localRot_Z": 32.79710006713867,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.BottomArm",
+                "tag": "",
+                "uid": 13202438980364069453,
+                "parentUID": 229431505213710001,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.837623469531536e-10,
+                            "localPos_Y": 0.005773184355348349,
+                            "localPos_Z": -3.055902197957039e-10,
+                            "localRot_X": -31.376527786254883,
+                            "localRot_Y": 10.297079086303711,
+                            "localRot_Z": -4.354201316833496,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Hand",
+                "tag": "",
+                "uid": 2761637830679678377,
+                "parentUID": 13202438980364069453,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.153683453798294e-9,
+                            "localPos_Y": 0.006209468934684992,
+                            "localPos_Z": 9.313225746154785e-10,
+                            "localRot_X": 5.321479797363281,
+                            "localRot_Y": -87.11907196044922,
+                            "localRot_Z": -6.5050883293151855,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Hand_end",
+                "tag": "",
+                "uid": 16276655979325188619,
+                "parentUID": 2761637830679678377,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.010460860095918179,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BottomSpine",
+                "tag": "",
+                "uid": 13117965347581168847,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.00028804404428228736,
+                            "localPos_Y": -0.00020398884953465313,
+                            "localPos_Z": 0.002383898478001356,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.TopLeg",
+                "tag": "",
+                "uid": 8218945437025379053,
+                "parentUID": 13117965347581168847,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.007847767323255539,
+                            "localPos_Y": 0.009168612770736217,
+                            "localPos_Z": 0.00029120483668521047,
+                            "localRot_X": -10.194287300109863,
+                            "localRot_Y": -0.7615758776664734,
+                            "localRot_Z": -7.418130397796631,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.BottomLeg",
+                "tag": "",
+                "uid": 7539464988696478846,
+                "parentUID": 8218945437025379053,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.6202330850064754e-10,
+                            "localPos_Y": 0.008228359743952751,
+                            "localPos_Z": -7.275957614183426e-11,
+                            "localRot_X": 47.18397903442383,
+                            "localRot_Y": -6.500148296356201,
+                            "localRot_Z": 2.2627532482147217,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootFar",
+                "tag": "",
+                "uid": 1867413627919930160,
+                "parentUID": 7539464988696478846,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.656612873077393e-10,
+                            "localPos_Y": 0.006663274485617876,
+                            "localPos_Z": 2.3283064365386963e-10,
+                            "localRot_X": 118.41815185546875,
+                            "localRot_Y": -76.03475189208984,
+                            "localRot_Z": -119.46937561035156,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999998807907104,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootNear",
+                "tag": "",
+                "uid": 8651597876865324232,
+                "parentUID": 1867413627919930160,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.3096723705530167e-9,
+                            "localPos_Y": 0.003269556909799576,
+                            "localPos_Z": -1.0186340659856796e-10,
+                            "localRot_X": -0.07077906280755997,
+                            "localRot_Y": 0.0028068171814084053,
+                            "localRot_Z": -2.0970191955566406,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootNear_end",
+                "tag": "",
+                "uid": 13087081367008743709,
+                "parentUID": 8651597876865324232,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0036515705287456512,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.TopLeg",
+                "tag": "",
+                "uid": 14759180747384314317,
+                "parentUID": 13117965347581168847,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.006920638959854841,
+                            "localPos_Y": 0.009168602526187897,
+                            "localPos_Z": 0.0002912166528403759,
+                            "localRot_X": -2.0584349632263184,
+                            "localRot_Y": 7.438872337341309,
+                            "localRot_Z": 4.596408367156982,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.BottomLeg",
+                "tag": "",
+                "uid": 18170285037022475041,
+                "parentUID": 14759180747384314317,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.6189005691558123e-10,
+                            "localPos_Y": 0.008227942511439323,
+                            "localPos_Z": -5.093170329928398e-11,
+                            "localRot_X": 30.850313186645508,
+                            "localRot_Y": 5.774557590484619,
+                            "localRot_Z": -0.9745543003082275,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootFar",
+                "tag": "",
+                "uid": 16230989958531113505,
+                "parentUID": 18170285037022475041,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.9103830456733704e-10,
+                            "localPos_Y": 0.005493206903338432,
+                            "localPos_Z": 1.1641532182693481e-10,
+                            "localRot_X": 148.4006805419922,
+                            "localRot_Y": 77.656005859375,
+                            "localRot_Z": 102.37835693359375,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootNear",
+                "tag": "",
+                "uid": 7132199012935630784,
+                "parentUID": 16230989958531113505,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 7.275957614183426e-12,
+                            "localPos_Y": 0.003287533763796091,
+                            "localPos_Z": 4.656612873077393e-10,
+                            "localRot_X": -0.7176705598831177,
+                            "localRot_Y": 0.034603018313646317,
+                            "localRot_Z": -8.406660079956055,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootNear_end",
+                "tag": "",
+                "uid": 6176282382119508119,
+                "parentUID": 7132199012935630784,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0035662089940160513,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.1",
+                "tag": "",
+                "uid": 2941083642374623147,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.005114779807627201,
+                            "localPos_Y": 0.009498543106019497,
+                            "localPos_Z": 0.03529872000217438,
+                            "localRot_X": -89.29705810546875,
+                            "localRot_Y": -11.042596817016602,
+                            "localRot_Z": 3.863319158554077,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.2",
+                "tag": "",
+                "uid": 13588491751352563206,
+                "parentUID": 2941083642374623147,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.984919309616089e-10,
+                            "localPos_Y": 0.007114222273230553,
+                            "localPos_Z": -1.8335413187742233e-9,
+                            "localRot_X": -0.19200880825519562,
+                            "localRot_Y": 0.0016492466675117612,
+                            "localRot_Z": -0.98383629322052,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.3",
+                "tag": "",
+                "uid": 10049128143211858907,
+                "parentUID": 13588491751352563206,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.1641532182693481e-10,
+                            "localPos_Y": 0.007114216219633818,
+                            "localPos_Z": -4.220055416226387e-10,
+                            "localRot_X": -0.5689159035682678,
+                            "localRot_Y": 0.014442087151110172,
+                            "localRot_Z": -2.908473491668701,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.4",
+                "tag": "",
+                "uid": 2825475771205791741,
+                "parentUID": 10049128143211858907,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.8553691916167736e-10,
+                            "localPos_Y": 0.00711421761661768,
+                            "localPos_Z": -3.9472070056945086e-10,
+                            "localRot_X": -1.0725535154342651,
+                            "localRot_Y": 0.05142620950937271,
+                            "localRot_Z": -5.490224361419678,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.5",
+                "tag": "",
+                "uid": 13231820796888707982,
+                "parentUID": 2825475771205791741,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.984919309616089e-10,
+                            "localPos_Y": 0.007114218547940254,
+                            "localPos_Z": -1.1350493878126144e-9,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.5_end",
+                "tag": "",
+                "uid": 12317344649254581122,
+                "parentUID": 13231820796888707982,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.007783820386976004,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.1",
+                "tag": "",
+                "uid": 14877907426398352690,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.005114899016916752,
+                            "localPos_Y": 0.009498543106019497,
+                            "localPos_Z": 0.035298481583595276,
+                            "localRot_X": 90.00345611572266,
+                            "localRot_Y": 0.8325443863868713,
+                            "localRot_Z": 179.14613342285156,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.2",
+                "tag": "",
+                "uid": 8292602704476246867,
+                "parentUID": 14877907426398352690,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.055902197957039e-10,
+                            "localPos_Y": 0.007114221807569265,
+                            "localPos_Z": 2.3785560188116506e-9,
+                            "localRot_X": -0.002194181550294161,
+                            "localRot_Y": -0.0000016713555623937282,
+                            "localRot_Z": 0.09481079876422882,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.3",
+                "tag": "",
+                "uid": 15141022164064866665,
+                "parentUID": 8292602704476246867,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.820766091346741e-11,
+                            "localPos_Y": 0.007114214822649956,
+                            "localPos_Z": 1.4240413293009624e-9,
+                            "localRot_X": -0.005883911624550819,
+                            "localRot_Y": -0.000020330788174760528,
+                            "localRot_Z": 0.3888649344444275,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.4",
+                "tag": "",
+                "uid": 2391736286582105256,
+                "parentUID": 15141022164064866665,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.8562575355172157e-10,
+                            "localPos_Y": 0.007114217150956392,
+                            "localPos_Z": 8.215010893763974e-10,
+                            "localRot_X": -0.005224783439189196,
+                            "localRot_Y": -0.00003939314410672523,
+                            "localRot_Z": 1.1349307298660278,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.5",
+                "tag": "",
+                "uid": 12148650248044078228,
+                "parentUID": 2391736286582105256,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.710738383233547e-10,
+                            "localPos_Y": 0.007114217150956392,
+                            "localPos_Z": -7.232756615849212e-10,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.5_end",
+                "tag": "",
+                "uid": 10860310756680250284,
+                "parentUID": 12148650248044078228,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.007783820386976004,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "LightSaberOn",
+                "tag": "",
+                "uid": 5674448025518376234,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cylinder.002_0",
+                "tag": "",
+                "uid": 17354477732610721578,
+                "parentUID": 5674448025518376234,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 11750196588480664195,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.002_0.mesh",
+                            "materialUID": 17938455816580072137,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionLightSaber.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cylinder.002_1",
+                "tag": "",
+                "uid": 17976341971582708784,
+                "parentUID": 5674448025518376234,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 9717084525353413222,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.002_1.mesh",
+                            "materialUID": 15365999035664225341,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionLightSaberEmission_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "LightSaberOff",
+                "tag": "",
+                "uid": 17756212107508163987,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cylinder.003_0",
+                "tag": "",
+                "uid": 18012914710832868914,
+                "parentUID": 17756212107508163987,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2433907393973767469,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.003_0.mesh",
+                            "materialUID": 17938455816580072137,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionLightSaber.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 9220686728754640642,
+                "parentUID": 4116430781813883725,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.2649803161621094,
+                            "localPos_Z": -6.7027082443237305,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
                         }
                     },
                     {
@@ -97820,62 +97776,6 @@
                             "type": "Component_AudioListener",
                             "active": true,
                             "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": false,
-                            "isStatic": true,
-                            "drawCollider": true,
-                            "mass": 100.0,
-                            "linearDamping": 0.10000000149011612,
-                            "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
-                            "currentShape": 1,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 0.9999994039535522,
-                            "boxSize_Y": 1.75,
-                            "boxSize_Z": 0.9999991655349731,
-                            "radius": 4.499998569488525,
-                            "factor": 0.5,
-                            "height": 2.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "MoveAle",
-                            "fields": [
-                                {
-                                    "name": "Speed",
-                                    "value": 1000.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "JumpParameter",
-                                    "value": 80.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "DashForce",
-                                    "value": 50.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CanDash",
-                                    "value": true,
-                                    "type": 3
-                                }
-                            ]
                         }
                     }
                 ]
