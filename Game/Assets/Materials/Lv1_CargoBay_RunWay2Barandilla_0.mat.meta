@@ -1,5 +1,5 @@
 {
-    "UID": 15051348070569568744,
+    "UID": 10484570443008501770,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -10,9 +10,8 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/Runway_Transparencia.png",
+    "DiffuseAssetPath": "Assets/Textures/substanceBarandilla_Barandilla.002_BaseColor.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
+    "SpecularAssetPath": "Assets/Textures/substanceBarandilla_Barandilla.002_Metallic.png"
 }

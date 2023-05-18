@@ -1,5 +1,5 @@
 {
-    "UID": 12797457484529632986,
+    "UID": 11473700184661599210,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWall_Albedo.png",
     "NormalAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWall_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWall_Metallic.png",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWall_Metallic.png"
+    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_InclinedWall_Metallic.png"
 }

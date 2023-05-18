@@ -1,8 +1,0 @@
-{
-    "UID": 12957869267306246746,
-    "Type": "StateMachine",
-    "ResourcesAssetPaths": [
-        "Assets/Animation/BixSolution.IdleSaber.anim",
-        "Assets/Animation/BixSolution.Running.anim"
-    ]
-}

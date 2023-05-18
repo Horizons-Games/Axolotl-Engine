@@ -1,5 +1,5 @@
 {
-    "UID": 9058868633528824127,
+    "UID": 12291688069504498820,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_MetallicSmoothness.png"
 }

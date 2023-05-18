@@ -1,5 +1,5 @@
 {
-    "UID": 18429262484789935255,
+    "UID": 13190150654827703908,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_BaseMap.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_MaskMap.png",
-    "MetallicAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_MaskMap.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_MaskMap.png"
 }

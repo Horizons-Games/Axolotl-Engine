@@ -1,5 +1,5 @@
 {
-    "UID": 6345999000561438764,
+    "UID": 516114650643803869,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
+    "SpecularAssetPath": ""
 }

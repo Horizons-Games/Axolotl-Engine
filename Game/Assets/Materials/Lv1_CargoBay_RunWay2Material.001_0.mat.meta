@@ -1,5 +1,5 @@
 {
-    "UID": 14429248045758443736,
+    "UID": 11672608962265971492,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/Runway_Transparencia.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
+    "SpecularAssetPath": ""
 }
