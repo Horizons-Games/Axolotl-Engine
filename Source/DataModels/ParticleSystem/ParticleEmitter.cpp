@@ -15,6 +15,9 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CIRCLE), particl
 	modules.push_back(spawn);
 	//modules.push_back(position);
 
+	angle = DEFAULT_ANGLE;
+	radius = DEFAULT_RADIUS;
+
 	maxParticles = MAX_PARTICLES;
 	duration = DEFAULT_DURATION;
 	lifespan.x = DEFAULT_LIFESPAN_X;

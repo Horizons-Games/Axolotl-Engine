@@ -119,6 +119,8 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 			}
 
 			int maxParticles = emitter->GetMaxParticles();
+			float angle = emitter->GetAngle();
+			float radius = emitter->GetRadius();
 			float duration = emitter->GetDuration();
 			float2 lifespanRange = emitter->GetLifespanRange();
 			float2 speedRange = emitter->GetSpeedRange();
@@ -137,6 +139,32 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 			bool sizeModif = false;
 			bool rotModif = false;
 			bool gravModif = false;
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Shape config");
+			ImGui::TableNextColumn();
+			ImGui::Text("Radius:"); ImGui::SameLine();
+			ImGui::SetNextItemWidth(60.0f);
+			if (ImGui::InputFloat("##radius", &radius, 0.0f, 0.0f, "%.2f"))
+			{
+				if (radius < 0.01)
+				{
+					radius = 0.01;
+				}
+				emitter->SetRadius(radius);
+			}
+			if (shape == ParticleEmitter::ShapeType::CONE)
+			{
+				ImGui::SameLine();
+				ImGui::Text("Angle:"); ImGui::SameLine();
+				ImGui::SetNextItemWidth(60.0f);
+				if (ImGui::SliderFloat("##angle", &angle, 0.0f, 90.0f, "%.2f"))
+				{
+					emitter->SetAngle(angle);
+				}
+			}
+
+			ImGui::Dummy(ImVec2(0.0f, 2.5f));
 
 			ImGui::TableNextColumn();
 			ImGui::Text("Max particles");

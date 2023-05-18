@@ -26,6 +26,8 @@
 #define DEFAULT_GRAVITY_X 2.25f
 #define DEFAULT_GRAVITY_Y 9.83f
 #define DEFAULT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f }
+#define DEFAULT_ANGLE 25
+#define DEFAULT_RADIUS 2
 
 class ParticleModule;
 class ResourceTexture;
@@ -57,6 +59,8 @@ public:
 	void SetGravityRange(const float2 &gravity);
 	void SetColor(const float4 &color);
 	void SetShape(ShapeType shape);
+	void SetAngle(float angle); 
+	void SetRadius(float radius);
 
 	bool IsRandomLife() const;
 	bool IsRandomSpeed() const;
@@ -65,6 +69,8 @@ public:
 	bool IsRandomGravity() const;
 	int GetMaxParticles() const;
 	float GetDuration() const;
+	float GetAngle() const;
+	float GetRadius() const;
 	const char* GetName() const;
 	float2 GetLifespanRange() const;
 	float2 GetSpeedRange() const;
@@ -95,6 +101,10 @@ private:
 	float2 rotation;
 	float2 gravity;
 	float4 color;
+
+	// Shape parameters
+	float angle;
+	float radius;
 
 	bool randomLife;
 	bool randomSpeed;
@@ -183,6 +193,16 @@ inline void ParticleEmitter::SetShape(ShapeType shape)
 	this->shape = shape;
 }
 
+inline void ParticleEmitter::SetAngle(float angle)
+{
+	this->angle = angle;
+}
+
+inline void ParticleEmitter::SetRadius(float radius)
+{
+	this->radius = radius;
+}
+
 inline bool ParticleEmitter::IsRandomLife() const
 {
 	return randomLife;
@@ -216,6 +236,16 @@ inline int ParticleEmitter::GetMaxParticles() const
 inline float ParticleEmitter::GetDuration() const
 {
 	return duration;
+}
+
+inline float ParticleEmitter::GetAngle() const
+{
+	return angle;
+}
+
+inline float ParticleEmitter::GetRadius() const
+{
+	return radius;
 }
 
 inline float2 ParticleEmitter::GetLifespanRange() const

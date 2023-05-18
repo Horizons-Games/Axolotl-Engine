@@ -5,6 +5,9 @@
 class ModulePosition : public ParticleModule
 {
 public:
+	enum class ShapeType : int { CIRCLE = 0, CONE, BOX };
+
+public:
 	ModulePosition();
 	~ModulePosition() override;
 
