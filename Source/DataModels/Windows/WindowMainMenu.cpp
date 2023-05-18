@@ -66,6 +66,7 @@ void WindowMainMenu::Exit()
 
 void WindowMainMenu::CreateNewScene()
 {
+	App->SetIsOnPlayMode(false);
 	std::unique_ptr<Scene> scene = std::make_unique<Scene>();
 	scene->InitNewEmptyScene();
 	App->GetModule<ModuleScene>()->SetLoadedScene(std::move(scene));
@@ -109,6 +110,12 @@ void WindowMainMenu::DrawPopup()
 
 void WindowMainMenu::DrawFileMenu()
 {
+	bool onPlayMode = App->IsOnPlayMode();
+	if (onPlayMode)
+	{
+		ImGui::BeginDisabled();
+	}
+
 	if (ImGui::BeginMenu("File"))
 	{
 		if (ImGui::Button((ConvertU8String(ICON_IGFD_FILE) + " New Scene").c_str()))
@@ -133,6 +140,11 @@ void WindowMainMenu::DrawFileMenu()
 			action = Actions::EXIT;
 		}
 		ImGui::EndMenu();
+	}
+
+	if (onPlayMode)
+	{
+		ImGui::EndDisabled();
 	}
 }
 
