@@ -96259,7 +96259,7 @@
                             "useRotationController": false,
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -100.0,
+                            "gravity_Y": -50.0,
                             "boxSize_X": 0.5,
                             "boxSize_Y": 0.6499999761581421,
                             "boxSize_Z": 0.5,
