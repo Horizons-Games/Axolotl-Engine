@@ -20,8 +20,23 @@ void WindowFPS::DrawWindowContents()
 	App->SetMaxFrameRate(maxFPS);
 		
 	float deltaTime = App->GetDeltaTime();
-	fpsHist[currentFpsIndex] = 1.f / deltaTime;
-	timeHist[currentTimeIndex] = deltaTime * 1000.f;
+
+	{
+		float actualValue = 1.f / deltaTime;
+		fpsHist[currentFpsIndex] = std::max(actualValue, 0.0001f);
+		if (actualValue != fpsHist[currentFpsIndex])
+		{
+			ENGINE_LOG("Actual framerate was less than 0.0001");
+		}
+	}
+	{
+		float actualValue = deltaTime * 1000.f;
+		timeHist[currentTimeIndex] = std::min(actualValue, 1000.f);
+		if (actualValue != timeHist[currentTimeIndex])
+		{
+			ENGINE_LOG("Actual frame time was more than 1000 seconds");
+		}
+	}
 		
 	char currentFramerate[25]{};
 	sprintf_s(currentFramerate, 25, "Framerate %.1f", fpsHist[currentFpsIndex]);
