@@ -13,6 +13,8 @@
 #define MAX_SIZE 2.0f
 #define MAX_ROTATION 359.9f
 #define MAX_GRAVITY 15.0f
+#define MAX_RADIUS 1000000000.0f
+#define MIN_RADIUS 0.01f
 
 #define DEFAULT_DURATION 10.0f
 #define DEFAULT_LIFESPAN_X 5.0f
@@ -28,6 +30,8 @@
 #define DEFAULT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f }
 #define DEFAULT_ANGLE 5
 #define DEFAULT_RADIUS 1.5
+
+#define CONE_HEIGHT 2
 
 class ParticleModule;
 class ResourceTexture;

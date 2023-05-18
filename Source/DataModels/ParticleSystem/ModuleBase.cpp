@@ -142,13 +142,15 @@ void ModuleBase::DrawDD(EmitterInstance* instance)
 	float radius = emitter->GetRadius();
 	float angle = emitter->GetAngle();
 
+	float baseRadius = math::Tan(math::DegToRad(angle)) * CONE_HEIGHT;
+
 	switch (emitter->GetShape())
 	{
 	case ParticleEmitter::ShapeType::CIRCLE:
 		dd::circle(center, forward, dd::colors::HotPink, radius, 25);
 		break;
 	case ParticleEmitter::ShapeType::CONE:
-		dd::cone(center, forward * 1, dd::colors::HotPink, radius * angle, radius);
+		dd::cone(center, forward * CONE_HEIGHT, dd::colors::HotPink, baseRadius + radius, radius);
 		break;
 	case ParticleEmitter::ShapeType::BOX:
 		dd::box(center, dd::colors::HotPink, radius, radius, radius);
