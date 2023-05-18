@@ -24,7 +24,7 @@ void ModuleBase::Update(EmitterInstance* emitter)
 
 void ModuleBase::DrawImGui()
 {
-	if (ImGui::TreeNode("Base Module"))
+	if (ImGui::TreeNodeEx("Base Module", ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_FramePadding))
 	{
 		if (ImGui::BeginTable("##baseTable", 2))
 		{
@@ -32,6 +32,7 @@ void ModuleBase::DrawImGui()
 			ImGui::Text("Origin");
 
 			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::Text("x:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
@@ -62,7 +63,8 @@ void ModuleBase::DrawImGui()
 			ImGui::TableNextColumn();
 			ImGui::Text("Alignment");
 			ImGui::TableNextColumn();
-			ImGui::SetNextItemWidth(180.0f);
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
 
 			ModuleBase::Alignment alignment = GetAlignment();
 
