@@ -59,10 +59,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 244.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 244.0
+                            "worldAABB_min_x": 365.5,
+                            "worldAABB_min_y": 237.0,
+                            "worldAABB_max_x": 365.5,
+                            "worldAABB_max_y": 237.0
                         }
                     },
                     {
@@ -70,7 +70,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 8766498407347056363,
+                            "imageUID": 6977572615004452505,
                             "assetPathImage": "Assets/Textures/WinScreen_NoButton.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -111,10 +111,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 244.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 244.0
+                            "worldAABB_min_x": 365.5,
+                            "worldAABB_min_y": 237.0,
+                            "worldAABB_max_x": 365.5,
+                            "worldAABB_max_y": 237.0
                         }
                     },
                     {
@@ -274,10 +274,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 297.0,
-                            "worldAABB_min_y": 400.933349609375,
-                            "worldAABB_max_x": 407.0,
-                            "worldAABB_max_y": 424.4000244140625
+                            "worldAABB_min_x": 308.390625,
+                            "worldAABB_min_y": 399.9521179199219,
+                            "worldAABB_max_x": 422.609375,
+                            "worldAABB_max_y": 424.3187561035156
                         }
                     },
                     {
@@ -285,7 +285,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 13601831036421055306,
+                            "imageUID": 1256961786287549880,
                             "assetPathImage": "Assets/Textures/ButtonContinue.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -328,11 +328,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 2819121758081834511,
+        "skyboxUID": 8827808863826909032,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 15512669924688363963,
+        "cubemapUID": 13881553922914957835,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }
