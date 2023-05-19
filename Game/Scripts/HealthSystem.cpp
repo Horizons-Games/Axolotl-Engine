@@ -6,46 +6,26 @@
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), health(100), maxHealth(100)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100)
 {
-	REGISTER_FIELD(health, float);
+	REGISTER_FIELD(currentHealth, float);
+	REGISTER_FIELD(maxHealth, float);
 }
-
-void HealthSystem::Start()
-{
-	maxHealth = health;
-}
-
 
 void HealthSystem::Update(float deltaTime)
 {
-	if (health <= 0)
+	if (currentHealth <= 0)
 	{
-		ENGINE_LOG("Die *sad mishito* :(");
+		ENGINE_LOG("This entity has died");
 	}
 }
 
 void HealthSystem::TakeDamage(float damage)
 {
-	health = health - damage;
+	currentHealth -= damage;
 }
 
 void HealthSystem::HealLife(float amountHealed)
 {
-	health = health + amountHealed;
-
-	if (health > maxHealth) 
-	{
-		health = maxHealth;
-	}
-}
- 
-float HealthSystem::GetHealth() const
-{
-	return health;
-}
-
-void HealthSystem::SetHealth(float health) 
-{
-	this->health = health;
+	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
 }
