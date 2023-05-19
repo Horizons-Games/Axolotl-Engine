@@ -298,24 +298,33 @@ void MaterialImporter::Load
 
 	if (assetPath != "") 
 	{ 
-		resource->SetDiffuse
-		(resources->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
+		if (materialExists) 
+		{
+			resource->SetDiffuse(resources->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["NormalAssetPath"];
 
 	if (assetPath != "")
 	{
-		resource->SetNormal
-		(resources->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
+		if (materialExists)
+		{
+			resource->SetNormal(resources->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["OcclusionAssetPath"];
 
 	if (assetPath != "")
 	{ 
-		resource->SetOcclusion
-		(resources->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
+		if (materialExists)
+		{
+			resource->SetOcclusion(resources->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["SpecularAssetPath"];
@@ -325,12 +334,20 @@ void MaterialImporter::Load
 		switch (*shaderType)
 		{
 			case 0:
-				resource->SetMetallic(resources->RequestResource<ResourceTexture>(assetPath));
+
+				if (assetPath != "" && fileSystem->Exists(assetPath.c_str()))
+				{
+					resource->SetMetallic(resources->RequestResource<ResourceTexture>(assetPath));
+				}
 
 				break;
 
 			case 1:
-				resource->SetSpecular(resources->RequestResource<ResourceTexture>(assetPath));
+
+				if (assetPath != "" && fileSystem->Exists(assetPath.c_str()))
+				{
+					resource->SetSpecular(resources->RequestResource<ResourceTexture>(assetPath));
+				}
 
 				break;
 		}

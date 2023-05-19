@@ -97,9 +97,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	}
 	std::string fileName = fileSystem->GetFileName(originalPath);
 	std::string extension = fileSystem->GetFileExtension(originalPath);
-	std::string assetsPath = originalPath;
-
-	assetsPath = CreateAssetsPath(fileName + extension, type);
+	std::string assetsPath = CreateAssetsPath(fileName + extension, type);
 
 	bool resourceExists = fileSystem->Exists(assetsPath.c_str());
 	if (!resourceExists) fileSystem->CopyFileInAssets(originalPath, assetsPath);
@@ -107,6 +105,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(assetsPath, importedRes, importedRes->GetType());
+
 	return importedRes;
 }
 

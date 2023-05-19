@@ -292,7 +292,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		float3 pos;
 		float3 scale;
-		float4x4 rot;
+		Quat rot;
 
 		node->transform.Decompose(pos, rot, scale);
 

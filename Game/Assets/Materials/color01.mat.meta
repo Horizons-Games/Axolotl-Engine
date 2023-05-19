@@ -1,19 +1,18 @@
 {
-    "UID": 3373131147333875621,
+    "UID": 239275676321911455,
     "Type": "Materials",
-    "diffuseColor_x": 0.3382353186607361,
-    "diffuseColor_y": 0.1934027075767517,
-    "diffuseColor_z": 0.0646626353263855,
-    "specularColor_x": 0.0,
-    "specularColor_y": 0.0,
-    "specularColor_z": 0.0,
+    "diffuseColor_x": 0.3235294222831726,
+    "diffuseColor_y": 0.10149942338466644,
+    "diffuseColor_z": 0.16027212142944336,
+    "specularColor_x": 0.5,
+    "specularColor_y": 0.30000001192092896,
+    "specularColor_z": 0.5,
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "hasMetallicAlpha": false,
     "DiffuseAssetPath": "",
     "NormalAssetPath": "Assets/Textures/PanelKeyWhite_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }

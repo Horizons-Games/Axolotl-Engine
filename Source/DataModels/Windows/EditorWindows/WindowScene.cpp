@@ -158,7 +158,7 @@ void WindowScene::DrawGuizmo()
 			{
 				GameObject* parent = focusedObject->GetParent();
 				float3 position, scale;
-				float4x4 rotation;
+				Quat rotation;
 				float4x4 inverseParentMatrix = float4x4::identity; //Needs to be identity in case the parent is nulltpr
 				float4x4 localMatrix;
 

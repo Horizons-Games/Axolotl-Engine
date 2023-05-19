@@ -121,9 +121,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	std::string fileName = fileSystem->GetFileName(path);
 	std::string extension = fileSystem->GetFileExtension(path);
-	std::string assetPath = path;
-
-	assetPath = CreateAssetsPath(fileName + extension, type);
+	std::string assetPath = CreateAssetsPath(fileName + extension, type);
 
 	std::string metaPath = assetPath + META_EXTENSION;
 	if (fileSystem->Exists(metaPath.c_str())) {

@@ -45,7 +45,7 @@ const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 ModuleEditor::ModuleEditor() : 
 	mainMenu(nullptr), 
 	scene(nullptr), 
-	stateMachineWindowEnable(true),
+	stateMachineWindowEnable(false),
 	stateMachineEditor(nullptr)
 {
 }
