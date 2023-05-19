@@ -1,0 +1,13 @@
+{
+    "UID": 7638226887705468703,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CANTINA_StoolV02.pCylinder12_0.mesh",
+        "Assets/Meshes/CANTINA_StoolV02.pTorus5_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CANTINA_StoolV02lambert1_0.mat",
+        "Assets/Materials/CANTINA_StoolV02lambert1_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

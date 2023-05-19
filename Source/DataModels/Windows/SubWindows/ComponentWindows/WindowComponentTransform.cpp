@@ -57,7 +57,7 @@ void WindowComponentTransform::DrawWindowContents()
 		if (ownerIsRoot)
 		{
 			asTransform->SetPosition(float3::zero);
-			asTransform->SetRotation(float4x4::identity);
+			asTransform->SetRotation(Quat::identity);
 			asTransform->SetScale(float3::one);
 			return;
 		}
