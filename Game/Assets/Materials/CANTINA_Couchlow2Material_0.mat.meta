@@ -1,5 +1,5 @@
 {
-    "UID": 10027638397909781393,
+    "UID": 8888811151602821265,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_MetallicSmoothness.png"
 }

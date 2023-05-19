@@ -1,5 +1,5 @@
 {
-    "UID": 7730460513469168607,
+    "UID": 9062882924774940918,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Base.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Metallic.png",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Metallic.png"
+    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Metallic.png"
 }

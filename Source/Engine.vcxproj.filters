@@ -378,6 +378,8 @@
     </ClCompile>
     <ClCompile Include="WindowComponentBreakable.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    <ClCompile Include="moveale.cpp">
+      <Filter>UserScripts\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -760,6 +762,8 @@
     </ClInclude>
     <ClInclude Include="WindowComponentBreakable.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    <ClInclude Include="moveale.h">
+      <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

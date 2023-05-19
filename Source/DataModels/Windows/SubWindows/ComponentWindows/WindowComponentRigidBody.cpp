@@ -32,10 +32,10 @@ void WindowComponentRigidBody::DrawWindowContents()
         if (ImGui::Checkbox("##Is Kinematic", &isKinematic))
         {
             asRigidBody->SetIsKinematic(isKinematic);
-            asRigidBody->SetupMobility();
+            asRigidBody->SetUpMobility();
 		}
 
-		bool isStatic = asRigidBody->GetIsStatic();
+		bool isStatic = asRigidBody->IsStatic();
 
         ImGui::Text("Is Static"); ImGui::SameLine();
         if (ImGui::Checkbox("##Is Static", &isStatic))
@@ -45,7 +45,7 @@ void WindowComponentRigidBody::DrawWindowContents()
                 asRigidBody->SetIsKinematic(false);
 			}
             asRigidBody->SetIsStatic(isStatic);
-			asRigidBody->SetupMobility();
+			asRigidBody->SetUpMobility();
 		}
 
         ImGui::Text("");
@@ -61,23 +61,27 @@ void WindowComponentRigidBody::DrawWindowContents()
         // Shape
         const char* shapeTypes[] = { "None", "Box", "Sphere", "Capsule", "Cone"/*, "Cylinder", */ };
 
-        int currentShape = asRigidBody->GetShape();
+        int currentShape = static_cast<int>(asRigidBody->GetShape());
         if (ImGui::Combo("Shape", &currentShape, shapeTypes, IM_ARRAYSIZE(shapeTypes)))
         {
-            asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+            asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
         }
 
         ImGui::Text("Collider Size"); ImGui::SameLine();
         if (ImGui::Button("Reset size", ImVec2(120, 0)))
         {
-            asRigidBody->SetDefaultSize(currentShape);
+            asRigidBody->SetDefaultSize(static_cast<ComponentRigidBody::Shape>(currentShape));
         }
 
         // Box shape
-        if (currentShape == 1)
+        bool dirty = false;
+        float radius = asRigidBody->GetRadius();
+        float factor = asRigidBody->GetFactor();
+        float height = asRigidBody->GetHeight();
+        float3 boxSize = asRigidBody->GetBoxSize();
+        switch(currentShape)
         {
-            float3 boxSize = asRigidBody->GetBoxSize();
-            bool dirty = false;
+            case 1:
 
             ImGui::Text("x:"); ImGui::SameLine();
             ImGui::SetNextItemWidth(80.0f);
@@ -105,16 +109,10 @@ void WindowComponentRigidBody::DrawWindowContents()
             if (dirty)
             {
                 asRigidBody->SetBoxSize(boxSize);
-                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
             }
-        }
-
-        // Sphere shape
-        if (currentShape == 2)
-        {
-            float radius = asRigidBody->GetRadius();
-            float factor = asRigidBody->GetFactor();
-            bool dirty = false;
+            break;
+            case 2:
 
             ImGui::Text("Radius:"); ImGui::SameLine();
             ImGui::SetNextItemWidth(80.0f);
@@ -134,16 +132,11 @@ void WindowComponentRigidBody::DrawWindowContents()
 
             if (dirty)
             {
-                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
             }
-        }
-
-        // Capsule and Cone shape
-        if (currentShape == 3 || currentShape == 4)
-        {
-            float radius = asRigidBody->GetRadius();
-            float height = asRigidBody->GetHeight();
-            bool dirty = false;
+            break;
+            case 3:
+            case 4:
 
             ImGui::Text("Radius:"); ImGui::SameLine();
             ImGui::SetNextItemWidth(80.0f);
@@ -163,8 +156,9 @@ void WindowComponentRigidBody::DrawWindowContents()
 
             if (dirty)
             {
-                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::SHAPE>(currentShape));
+                asRigidBody->SetCollisionShape(static_cast<ComponentRigidBody::Shape>(currentShape));
             }
+            break;
         }
 
         // WIP: Cylinder shape

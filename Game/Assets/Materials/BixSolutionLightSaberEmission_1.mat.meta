@@ -1,9 +1,9 @@
 {
-    "UID": 15365999035664225341,
+    "UID": 7551340248941718784,
     "Type": "Materials",
-    "diffuseColor_x": 1.0,
+    "diffuseColor_x": 0.0,
     "diffuseColor_y": 1.0,
-    "diffuseColor_z": 0.0,
+    "diffuseColor_z": 0.7058823108673096,
     "specularColor_x": 0.5,
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }

@@ -1,5 +1,5 @@
 {
-    "UID": 2222430698192493239,
+    "UID": 3777987157226033442,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -8,11 +8,10 @@
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
     "normalStrength": 1.0,
-    "smoothness": 0.0,
+    "smoothness": 0.5,
     "metalness": 0.0,
     "DiffuseAssetPath": "Assets/Textures/WallV1_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/WallV1_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/WallV1_DefaultMaterial_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/WallV1_DefaultMaterial_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/WallV1_DefaultMaterial_MetallicSmoothness.png"
 }

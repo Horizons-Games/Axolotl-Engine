@@ -5,6 +5,7 @@
 #include "Bullet/LinearMath/btVector3.h"
 #include <functional>
 #include <vector>
+#include <memory>
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Math/Quat.h"
 
@@ -16,7 +17,7 @@ class ComponentRigidBody : public Component, public Updatable
 {
 public:
 
-    enum class SHAPE
+    enum class Shape
     {
         NONE = 0,
         BOX = 1,
@@ -29,7 +30,8 @@ public:
         TERRAIN = 8
     };
 
-    ComponentRigidBody(const bool active, GameObject* owner);
+    ComponentRigidBody(bool active, GameObject* owner);
+    ComponentRigidBody(const ComponentRigidBody& toCopy);
     ~ComponentRigidBody();
 
 
@@ -43,16 +45,21 @@ public:
 
     void Update() override;
 
+    void SetOwner(GameObject* owner) override;
+
     uint32_t GetID() const { return id; }
 
     void SaveOptions(Json& meta) override;
     void LoadOptions(Json& meta) override;
 
+    void Enable() override;
+    void Disable() override;
+
     void SetIsKinematic(bool isKinematic);
     bool GetIsKinematic() const;
 
     void SetIsStatic(bool isStatic);
-    bool GetIsStatic() const;
+    bool IsStatic() const;
     
     void SetDrawCollider(bool newDrawCollider, bool substract = true);
     bool GetDrawCollider() const;
@@ -69,8 +76,8 @@ public:
     float GetAngularDamping() const;
     void SetAngularDamping(float newDamping);
 
-    int GetShape() const;
-    void SetCollisionShape(SHAPE newShape);
+    Shape GetShape() const;
+    void SetCollisionShape(Shape newShape);
 
     btVector3 GetVelocity() const;
     void SetVelocity(const float3& force);
@@ -90,7 +97,7 @@ public:
     float GetHeight() const;
     void SetHeight(float newHeight);
 
-    void SetDefaultSize(int resetShape);
+    void SetDefaultSize(Shape resetShape);
 
     bool GetUsePositionController() const;
     void SetUsePositionController(bool newUsePositionController);
@@ -110,14 +117,12 @@ public:
     void DisablePositionController();
     void DisableRotationController();
 
-    
-
-    void SetupMobility();
+    void SetUpMobility();
 
     void RemoveRigidBodyFromSimulation();
     void UpdateNonSimulatedTransform();
 
-    btRigidBody* GetRigidBody() const { return rigidBody; }
+    btRigidBody* GetRigidBody() const;
 
     void UpdateRigidBody();
 
@@ -129,10 +134,11 @@ public:
     void ClearCollisionEnterDelegate();
 
 private:
+    int GenerateId() const;
 
-    btRigidBody* rigidBody = nullptr;
-    btDefaultMotionState* motionState = nullptr;
-    btCollisionShape* shape = nullptr;
+    std::unique_ptr<btRigidBody> rigidBody = nullptr;
+    std::unique_ptr<btDefaultMotionState> motionState = nullptr;
+    std::unique_ptr<btCollisionShape> shape = nullptr;
 
     btVector3 gravity = { 0, -9.81f, 0 };
     float linearDamping = 0.1f;
@@ -148,7 +154,7 @@ private:
     bool isStatic = false;
     bool drawCollider = false;
 
-    int currentShape = 0;
+    Shape currentShape = Shape::NONE;
 
     float3 targetPosition;
     Quat targetRotation;
@@ -176,7 +182,7 @@ inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
     isKinematic = newIsKinematic;
 }
 
-inline bool ComponentRigidBody::GetIsStatic() const
+inline bool ComponentRigidBody::IsStatic() const
 {
     return isStatic;
 }
@@ -191,7 +197,7 @@ inline bool ComponentRigidBody::GetDrawCollider() const
     return drawCollider;
 }
 
-inline int ComponentRigidBody::GetShape() const
+inline ComponentRigidBody::Shape ComponentRigidBody::GetShape() const
 {
     return currentShape;
 }
@@ -363,4 +369,9 @@ inline float ComponentRigidBody::GetHeight() const
 inline void ComponentRigidBody::SetHeight(float newHeight)
 {
     height = newHeight;
+}
+
+inline btRigidBody* ComponentRigidBody::GetRigidBody() const
+{ 
+    return rigidBody.get(); 
 }

@@ -296,24 +296,36 @@ void MaterialImporter::Load
 
 	if (assetPath != "") 
 	{ 
-		resource->SetDiffuse
-		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
+		if(materialExists) 
+		{
+			resource->SetDiffuse
+			(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["NormalAssetPath"];
 
 	if (assetPath != "")
 	{
-		resource->SetNormal
-		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
+		if (materialExists)
+		{
+			resource->SetNormal
+			(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["OcclusionAssetPath"];
 
 	if (assetPath != "")
 	{ 
-		resource->SetOcclusion
-		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
+		if (materialExists)
+		{
+			resource->SetOcclusion
+			(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["SpecularAssetPath"];
@@ -324,15 +336,21 @@ void MaterialImporter::Load
 		{
 			case 0:
 
-				resource->SetMetallic
-				(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+				if (assetPath != "" && App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str()))
+				{
+					resource->SetMetallic
+					(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+				}
 
 				break;
 
 			case 1:
 
-				resource->SetSpecular
-				(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+				if (assetPath != "" && App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str()))
+				{
+					resource->SetSpecular
+					(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+				}
 
 				break;
 		}

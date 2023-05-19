@@ -1,5 +1,5 @@
 {
-    "UID": 880807576536511783,
+    "UID": 12067070637082221888,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,6 +13,5 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_MetallicSmoothness.png"
 }
