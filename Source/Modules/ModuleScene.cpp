@@ -61,7 +61,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/MainMenuVS1.axolotl", false);
+		LoadScene("Lib/Scenes/MainMenuScriptsVS2.axolotl", false);
 	}
 
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
