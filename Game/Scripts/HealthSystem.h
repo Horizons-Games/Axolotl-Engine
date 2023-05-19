@@ -8,6 +8,7 @@ public:
 	HealthSystem();
 	~HealthSystem() override = default;
 
+	void Start() override;
 	void Update(float deltaTime) override;
 
 	void TakeDamage(float damage);

@@ -12,6 +12,14 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100)
 	REGISTER_FIELD(maxHealth, float);
 }
 
+void HealthSystem::Start()
+{
+	if (maxHealth < currentHealth)
+	{
+		maxHealth = currentHealth;
+	}
+}
+
 void HealthSystem::Update(float deltaTime)
 {
 	if (currentHealth <= 0)
