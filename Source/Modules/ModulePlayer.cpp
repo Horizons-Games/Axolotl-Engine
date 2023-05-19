@@ -64,9 +64,9 @@ void ModulePlayer::LoadNewPlayer()
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
 			cameraPlayer->SetAspectRatio(App->GetModule<ModuleEditor>()->GetAvailableRegion().first / App->GetModule<ModuleEditor>()->GetAvailableRegion().second);
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(player);
 #else
-			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(parentOfOwner);
+			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(player);
 #endif // ENGINE			
 			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 			

@@ -385,7 +385,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	if(!mantainActualScene)
 	{
-		App->GetModule<ModuleRender>()->FillRenderList(rootQuadtree);
 		loadedScene->SetSceneCameras(loadedCameras);
 		loadedScene->SetSceneCanvas(loadedCanvas);
 		loadedScene->SetSceneInteractable(loadedInteractable);
