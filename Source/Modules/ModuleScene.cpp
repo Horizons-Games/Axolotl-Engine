@@ -63,22 +63,6 @@ bool ModuleScene::Start()
 	{
 		LoadScene("Lib/Scenes/MainMenuScriptsVS2.axolotl", false);
 	}
-
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Init();
-		}
-	}
-
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Start();
-		}
-}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
@@ -200,23 +184,7 @@ void ModuleScene::OnPlay()
 
 	SaveSceneToJson(jsonScene);
 
-	//First Init
-	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Init();
-		}
-	}
-
-	//Then Start
-	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Start();
-		}
-	}
+	InitAndStartScriptingComponents();
 }
 
 void ModuleScene::OnStop()
@@ -237,6 +205,27 @@ void ModuleScene::OnStop()
 
 	//clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
+}
+
+void ModuleScene::InitAndStartScriptingComponents()
+{
+	//First Init
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Init();
+		}
+	}
+
+	//Then Start
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Start();
+		}
+	}
 }
 
 std::unique_ptr<Scene> ModuleScene::CreateEmptyScene() const
@@ -311,6 +300,8 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 
 			App->GetModule<ModulePlayer>()->LoadNewPlayer();
 		}
+
+		InitAndStartScriptingComponents();
 #endif // !ENGINE
 }
 

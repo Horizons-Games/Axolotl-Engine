@@ -40,6 +40,8 @@ public:
 	void OnPause();
 	void OnStop();
 
+	void InitAndStartScriptingComponents();
+
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(GameObject* object);
 
