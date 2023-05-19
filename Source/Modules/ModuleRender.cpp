@@ -469,7 +469,7 @@ void ModuleRender::InsertToRenderList(GameObject* goSelected)
 	std::list<GameObject*> goSList = goSelected->GetGameObjectsInside();
 	for (GameObject* gameObject : goSList)
 	{
-		ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+		const ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 		//If an object doesn't have transform component it doesn't need to draw
 		if (transform == nullptr)
 		{
@@ -481,8 +481,6 @@ void ModuleRender::InsertToRenderList(GameObject* goSelected)
 				opaqueGOToDraw.insert(gameObject);
 			else
 			{
-				const ComponentTransform* transform =
-					static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 				float dist = Length(cameraPos - transform->GetGlobalPosition());
 				while (transparentGOToDraw[dist] != nullptr)
 				{
