@@ -49,10 +49,11 @@ bool CameraEngine::Update()
 
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
+	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 
 	input->SetDefaultCursor();
 
-	bool sceneFocused = App->GetModule<ModuleEditor>()->IsSceneFocused();
+	bool sceneFocused = editor->IsSceneFocused();
 
 	if (sceneFocused && !App->IsOnPlayMode())
 	{
@@ -109,9 +110,10 @@ bool CameraEngine::Update()
 				UnlimitedCursor();
 				Move();
 			}
+			Scene* loadedScene = scene->GetLoadedScene();
 
 			//Focus
-			if (scene->GetSelectedGameObject() != scene->GetLoadedScene()->GetRoot() &&
+			if (scene->GetSelectedGameObject() != loadedScene->GetRoot() &&
 				input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
 				if (!isUsingProportionalController) {
@@ -122,7 +124,7 @@ bool CameraEngine::Update()
 			}
 
 			//Orbit object with ALT + LEFT MOUSE CLICK
-			if (scene->GetSelectedGameObject() != scene->GetLoadedScene()->GetRoot() &&
+			if (scene->GetSelectedGameObject() != loadedScene->GetRoot() &&
 				input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
