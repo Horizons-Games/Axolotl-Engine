@@ -7,6 +7,7 @@
 #include "Enums/FieldType.h"
 #include <variant>
 #include <optional>
+#include "Math/float3.h"
 
 class GameObject;
 class Application;
@@ -27,8 +28,7 @@ class Application;
         [this](Type value) { this->Set##Name(value); } \
     )));
 
-//for now only allow floats, strings, GameObjects and booleans
-using ValidFieldType = std::variant<Field<float>, Field<std::string>, Field<GameObject*>, Field<bool>>;
+using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -102,6 +102,15 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 			{
 				Field<float> field = std::get<Field<float>>(enumAndField.second);
 				float value  = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
+
+			case FieldType::VECTOR3:
+			{
+				Field<float3> field = std::get<Field<float3>>(enumAndField.second);
+				float3 value = field.getter();
 				pSerializer->SerializeProperty(field.name.c_str(), value);
 				field.setter(value);
 				break;
