@@ -77,20 +77,9 @@ update_status ModuleUI::Update()
 
 	glDisable(GL_DEPTH_TEST);
 
-	for (ComponentCanvas* canvas : canvasScene)
+	for (const ComponentCanvas* canvas : canvasScene)
 	{
-		GameObject* owner = canvas->GetOwner();
-		if (owner->IsEnabled())
-		{
-			for (GameObject* child : owner->GetChildren())
-			{
-				//ugh, should look for a better way, but it's 2AM
-				for (ComponentImage* image : child->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
-				{
-					image->Draw();
-				}
-			}
-		}
+		Draw2DGameObject(canvas->GetOwner());
 	}
 
 	glEnable(GL_DEPTH_TEST);
@@ -169,4 +158,23 @@ void ModuleUI::CreateVAO()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
 	glBindVertexArray(0);
+}
+
+void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
+{
+	if (gameObject->IsEnabled())
+	{
+		for (const ComponentImage* image : gameObject->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
+		{
+			if(image->IsEnabled())
+			{
+				image->Draw();
+			}
+		}
+
+		for (const GameObject* child : gameObject->GetChildren())
+		{
+			Draw2DGameObject(child);
+		}
+	}
 }
