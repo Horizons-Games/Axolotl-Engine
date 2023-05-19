@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Auxiliar/Generics/Drawable.h"
 
+#include "Math/Quat.h"
 #include "Math/float4x4.h"
 
 #include "Geometry/AABB.h"
@@ -25,9 +26,9 @@ public:
 
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
-	const float4x4& GetRotation() const;
+	const Quat& GetRotation() const;
 	const float3& GetRotationXYZ() const;
-	const float4x4& GetGlobalRotation() const;
+	const Quat& GetGlobalRotation() const;
 	const float3& GetScale() const;
 	float3 GetLocalForward() const;
 	float3 GetGlobalForward() const;
@@ -45,14 +46,18 @@ public:
 	bool IsUniformScale() const;
 
 	void SetPosition(const float3& position);
+	void SetGlobalPosition(const float3& position);
 	void SetRotation(const float3& rotation);
-	void SetRotation(const float4x4& rotation);
+	void SetGlobalRotation(const float3& rotation);
+	void SetRotation(const Quat& rotation);
+	void SetGlobalRotation(const Quat& rotation);
 	void SetScale(const float3& scale);
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
 	void CalculateMatrices();
+	void RecalculateLocalMatrix();
 	const float4x4 CalculatePaletteGlobalMatrix();
 	void UpdateTransformMatrices();
 
@@ -65,11 +70,11 @@ public:
 
 private:
 	float3 pos;
-	float4x4 rot;
+	Quat rot;
 	float3 sca;
 
 	float3 globalPos;
-	float4x4 globalRot;
+	Quat globalRot;
 	float3 globalSca;
 
 	float3 rotXYZ;
@@ -94,7 +99,7 @@ inline const float3& ComponentTransform::GetGlobalPosition() const
 	return globalPos;
 }
 
-inline const float4x4& ComponentTransform::GetRotation() const 
+inline const Quat& ComponentTransform::GetRotation() const 
 {
 	return rot;
 }
@@ -104,7 +109,7 @@ inline const float3& ComponentTransform::GetRotationXYZ() const
 	return rotXYZ;
 }
 
-inline const float4x4& ComponentTransform::GetGlobalRotation() const
+inline const Quat& ComponentTransform::GetGlobalRotation() const
 {
 	return globalRot;
 }
@@ -182,16 +187,31 @@ inline void ComponentTransform::SetPosition(const float3& position)
 	pos = position;
 }
 
+inline void ComponentTransform::SetGlobalPosition(const float3& position)
+{
+	globalPos = position;
+}
+
 inline void ComponentTransform::SetRotation(const float3& rotation)
 {
 	rotXYZ = rotation;
-	rot = float4x4::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
+	rot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
 }
 
-inline void ComponentTransform::SetRotation(const float4x4& rotation)
+inline void ComponentTransform::SetRotation(const Quat& rotation)
 {
 	rot = rotation;
 	rotXYZ = RadToDeg(rotation.ToEulerXYZ());
+}
+
+inline void ComponentTransform::SetGlobalRotation(const float3& rotation)
+{
+	globalRot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
+}
+
+inline void ComponentTransform::SetGlobalRotation(const Quat& rotation)
+{
+	globalRot = rotation;
 }
 
 inline void ComponentTransform::SetScale(const float3& scale)

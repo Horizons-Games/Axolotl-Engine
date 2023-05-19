@@ -61,7 +61,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/CantinaScriptsVS2.axolotl", false);
+		LoadScene("Lib/Scenes/MainMenuVS1.axolotl", false);
 	}
 
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
@@ -252,7 +252,8 @@ void ModuleScene::SaveScene(const std::string& name)
 	Json jsonScene(doc, doc);
 
 	GameObject* root = loadedScene->GetRoot();
-	root->SetName(App->GetModule<ModuleFileSystem>()->GetFileName(name).c_str());
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	root->SetName(fileSystem->GetFileName(name).c_str());
 
 	SaveSceneToJson(jsonScene);
 
@@ -285,17 +286,20 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
 {
-	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	std::string fileName = fileSystem->GetFileName(filePath).c_str();
 	char* buffer{};
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
 	bool resourceExists = App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
 	if (!resourceExists)
-		App->GetModule<ModuleFileSystem>()->CopyFileInAssets(filePath, assetPath);
-	App->GetModule<ModuleFileSystem>()->Load(assetPath.c_str(), buffer);
+	{
+		fileSystem->CopyFileInAssets(filePath, assetPath);
+	}
+	fileSystem->Load(assetPath.c_str(), buffer);
 #else
-	App->GetModule<ModuleFileSystem>()->Load(filePath.c_str(), buffer);
+	fileSystem->Load(filePath.c_str(), buffer);
 #endif
 	rapidjson::Document doc;
 	Json Json(doc, doc);
@@ -306,10 +310,11 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	LoadSceneFromJson(Json, mantainActualScene);
 
 #ifndef ENGINE
-		if (App->GetModule<ModulePlayer>()->GetPlayer())
+		ModulePlayer* player = App->GetModule<ModulePlayer>();
+		if (player->GetPlayer())
 		{
 
-			App->GetModule<ModulePlayer>()->LoadNewPlayer();
+			player->LoadNewPlayer();
 		}
 #endif // !ENGINE
 }
@@ -317,7 +322,7 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 {
 
-	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
+	Quadtree* rootQuadtree;
 
 	if(!mantainActualScene)
 	{
@@ -334,6 +339,10 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		loadedScene->SetCubemap(std::make_unique<Cubemap>());
 		Cubemap* cubemap = loadedScene->GetCubemap();
 		cubemap->LoadOptions(json);
+	}
+	else
+	{
+		rootQuadtree = loadedScene->GetRootQuadtree();
 	}
 
 	Json gameObjects = json["GameObjects"];
