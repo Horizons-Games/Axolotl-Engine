@@ -176,14 +176,14 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         float lightRadius = areaSphere[i].lightRadius;
 
         // calculate closest point light specular
-        vec3 oldL = normalize(sP - FragPos);
-        vec3 R = reflect(V, N);
-        vec3 centerToRay = FragPos - dot(oldL, R) * R - sP;
+        vec3 oldL = sP - FragPos;
+        vec3 R = reflect(-V, N);
+        vec3 centerToRay = FragPos + dot(oldL, R) * R - sP;
         vec3 closest = sP + centerToRay * min(sR/length(centerToRay),1.0);
 
-        vec3 L = normalize(FragPos - closest);
-        vec3 H = (-L + V)/length(-L + V);
-        float specularDotNL = max(dot(N,-L), EPSILON);
+        vec3 L = normalize(closest - FragPos);
+        vec3 H = (L + V)/length(L + V);
+        float specularDotNL = max(dot(N,L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float SV = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
@@ -192,8 +192,8 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         // calculate closest point light diffuse
         closest = sP;
 
-        L = normalize(FragPos-closest);
-        float diffuseDotNL = max(dot(N,-L), EPSILON);
+        L = normalize(closest-FragPos);
+        float diffuseDotNL = max(dot(N,L), EPSILON);
 
         // Attenuation
         float distance = length(FragPos-closest);
@@ -225,7 +225,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 PA = posA - FragPos;
         vec3 AB = posB - posA;
 
-        vec3 R = reflect(V, N);
+        vec3 R = reflect(-V, N);
 
         float dotABRefle = dot(AB, R);
         float num = dot(R, PA) * dotABRefle - dot(AB, PA);
@@ -235,14 +235,14 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         
         vec3 closest = posA + AB * t;
 
-        vec3 oldL = normalize(FragPos - closest);
-        vec3 centerToRay = FragPos - dot(oldL, R) * R - closest;
-        float tubeRadius = distAB;
+        vec3 oldL = closest - FragPos;
+        vec3 centerToRay = FragPos + dot(oldL, R) * R - closest;
+        float tubeRadius = distAB/2;
         closest = closest + centerToRay * min(tubeRadius/length(centerToRay),1.0);
 
-        vec3 L = normalize(FragPos-closest);
-        vec3 H = (-L + V)/length(-L + V);
-        float specularDotNL = max(dot(N,-L), EPSILON);
+        vec3 L = normalize(closest-FragPos);
+        vec3 H = (L + V)/length(L + V);
+        float specularDotNL = max(dot(N,L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float SV = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
@@ -256,8 +256,8 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float x = (c * a)/(b + a);
         closest = posA + AB * x;
 
-        L = normalize(FragPos-closest);
-        float diffuseDotNL = max(dot(N,-L), EPSILON);
+        L = normalize(closest-FragPos);
+        float diffuseDotNL = max(dot(N,L), EPSILON);
 
         // Attenuation
         float distance = length(FragPos-closest); //TODO

@@ -178,7 +178,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
 
         // calculate closest point light specular
         vec3 oldL = normalize(sP - FragPos);
-        vec3 R = reflect(V, N);
+        vec3 R = reflect(-V, N);
         vec3 centerToRay = FragPos - dot(oldL, R) * R - sP;
         vec3 closest = sP + centerToRay * min(sR/length(centerToRay),1.0);
 
@@ -226,7 +226,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 PA = posA - FragPos;
         vec3 AB = posB - posA;
 
-        vec3 R = reflect(V, N);
+        vec3 R = reflect(-V, N);
 
         float dotABRefle = dot(AB, R);
         float num = dot(R, PA) * dotABRefle - dot(AB, PA);
