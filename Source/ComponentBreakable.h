@@ -1,6 +1,9 @@
 #pragma once
 #include "Components/Component.h"
 #include "Auxiliar/Generics/Updatable.h"
+#include "Bullet/LinearMath/btVector3.h"
+
+#include "MathGeoLib/Include/Algorithm/Random/LCG.h"
 
 
 class ComponentBreakable : public Component, public Updatable
@@ -24,6 +27,8 @@ public:
 
 private:
 
+	LCG* lcg = new LCG();
+	btVector3 impulsion{ 2.0f,2.0f,2.0f };
 	bool subscribed = false;
 };
 

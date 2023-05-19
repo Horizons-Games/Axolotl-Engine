@@ -17,6 +17,7 @@ ComponentBreakable::ComponentBreakable(const bool active, GameObject* owner)
 
 ComponentBreakable::~ComponentBreakable()
 {
+	delete lcg;
 }
 
 void ComponentBreakable::Update()
@@ -46,7 +47,6 @@ void ComponentBreakable::SubscribeToOnCollisionEnter()
 {
 	if (subscribed)
 	{
-		//ENGINE_LOG("Already suscribed");
 		return;
 	}
 	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
@@ -60,7 +60,6 @@ void ComponentBreakable::UnsubscribeToOnCollisionEnter()
 {
 	if (!subscribed)
 	{
-		//ENGINE_LOG("Already unsuscribed");
 		return;
 	}
 	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
@@ -72,19 +71,15 @@ void ComponentBreakable::UnsubscribeToOnCollisionEnter()
 
 void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 {
-	/*
-Execercise:
 
-- Only break if the other object is a projectile or if the other object is moving fast enough
-- Apply a radial force to the pieces centered at the collision point
-*/
-	ENGINE_LOG("player velocity %f %f",rigidbody->GetVelocity().getX(), rigidbody->GetVelocity().getZ());
-	ENGINE_LOG("Breakable: Collision between %s and %s", owner->GetName().c_str(), rigidbody->GetOwner()->GetName().c_str());
+	//ENGINE_LOG("player velocity %f %f",rigidbody->GetVelocity().getX(), rigidbody->GetVelocity().getZ());
+	//ENGINE_LOG("Breakable: Collision between %s and %s", owner->GetName().c_str(), rigidbody->GetOwner()->GetName().c_str());
 	//if (abs(rigidbody->GetVelocity().getX()) > 5.0f || abs(rigidbody->GetVelocity().getZ()) > 5.0f)
 	//{
 		if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 		{
 			rb->RemoveRigidBodyFromSimulation();
+			UnsubscribeToOnCollisionEnter();
 		}
 
 		for (auto child : owner->GetChildren())
@@ -95,6 +90,14 @@ Execercise:
 			}
 
 			child->CreateComponent(ComponentType::RIGIDBODY);
+			const ComponentRigidBody* childRigidBody = 
+				static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
+			//randomize the impulsion
+			float3 test = test.RandomDir(*lcg,4.0f);
+			btVector3 impulsionMul{test.x,test.y,test.z};
+			impulsion = impulsion.cross(impulsionMul);
+
+			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 		}
 	//}
 
