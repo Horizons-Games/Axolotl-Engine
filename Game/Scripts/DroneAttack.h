@@ -24,8 +24,6 @@ private:
 	void PerformAttack();
 	bool isAttackAvailable();
 
-	void ShootBullets(float deltaTime);
-
 	float attackCooldown;
 	float lastAttackTime;
 

@@ -8,12 +8,11 @@
 #include "Scene/Scene.h"
 #include "ModuleScene.h"
 
-#include "Physics/Physics.h"
-
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentScript.h"
 
 #include "GameObject/GameObject.h"
 
@@ -52,14 +51,10 @@ void DroneAttack::Start()
 
 void DroneAttack::Update(float deltaTime)
 {
-	// Attack
 	if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE)
 	{
 		PerformAttack();
 	}
-
-	//Provisional
-	ShootBullets(deltaTime);
 }
 
 void DroneAttack::PerformAttack()
@@ -68,9 +63,8 @@ void DroneAttack::PerformAttack()
 	{
 		if (animation)
 			animation->SetParameter("attack", true);
-
 		
-		GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
+		GameObject* root = loadedScene->GetRoot();
 
 		GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
 		
@@ -81,10 +75,15 @@ void DroneAttack::PerformAttack()
 		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
 		bulletTransf->SetRotation(transform->GetRotation());
 		bulletTransf->UpdateTransformMatrices();
-		bullets.push_back(bulletTransf);
-		/*bullet->CreateComponent(ComponentType::SCRIPT);
-		ComponentScript* script = static_cast<ComponentScript*>(bullet->GetComponent(ComponentType::SCRIPT));
-		script->SetScript(App->GetScriptFactory()->GetScript("DroneBullet"));*/
+
+		bullet->CreateComponent(ComponentType::AUDIOSOURCE);
+
+		ComponentScript* script = static_cast<ComponentScript*>(bullet->CreateComponent(ComponentType::SCRIPT));
+		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
+		script->SetConstuctor("DroneBullet");
+		script->GetScript()->SetGameObject(bullet);
+		script->GetScript()->SetApplication(App);
+		script->Start();
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
@@ -95,29 +94,4 @@ void DroneAttack::PerformAttack()
 bool DroneAttack::isAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
-}
-
-
-void DroneAttack::ShootBullets(float deltaTime) {
-	for (int i = 0; i < bullets.size(); i++) {
-		bullets[i]->SetPosition(bullets[i]->GetGlobalPosition() + bullets[i]->GetLocalForward() * bulletVelocity * deltaTime * 1000);
-		bullets[i]->UpdateTransformMatrices();
-		Ray ray(bullets[i]->GetPosition(), bullets[i]->GetLocalForward());
-		LineSegment line(ray, 3.0f);
-		if (Physics::RaycastFirst(line, bullets[i]->GetOwner()))
-		{
-			/*ModuleScene* moduleScene = App->GetModule<ModuleScene>();
-			Scene* loadedScene = moduleScene->GetLoadedScene(); 
-			GameObject* auxBullet = bullets[i]->GetOwner();
-			bullets.erase(bullets.begin() + i);
-			loadedScene->DestroyGameObject(auxBullet);*/
-
-			//WARRADA
-			bullets[i]->GetOwner()->Disable();
-			bullets.erase(bullets.begin() + i);
-
-			audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
-		}
-
-	}
 }

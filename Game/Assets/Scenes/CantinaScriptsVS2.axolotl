@@ -32597,6 +32597,11 @@
                                     "name": "BulletOriginGO",
                                     "value": 13291244136040114149,
                                     "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 0.20000000298023224,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -32635,50 +32640,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Empty GameObject",
-                "tag": "",
-                "uid": 9719300849828485044,
-                "parentUID": 5457140795048261378,
-                "enabled": true,
-                "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "DroneBullet",
-                            "fields": [
-                                {
-                                    "name": "Velocity",
-                                    "value": 0.6000000238418579,
-                                    "type": 0
-                                }
-                            ]
                         }
                     }
                 ]

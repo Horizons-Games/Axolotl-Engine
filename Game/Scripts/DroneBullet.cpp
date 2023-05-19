@@ -3,9 +3,16 @@
 #include "Application.h"
 
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+
+#include "Scene/Scene.h"
+
 #include "Scripting/ScriptFactory.h"
 
+#include "Physics/Physics.h"
+
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "GameObject/GameObject.h"
 
@@ -17,7 +24,7 @@
 
 REGISTERCLASS(DroneBullet);
 
-DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(100.6f)
+DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr)
 {
 	REGISTER_FIELD(velocity, float);
 }
@@ -25,6 +32,7 @@ DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(100.6f)
 void DroneBullet::Start()
 {
 	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 }
 
 void DroneBullet::Update(float deltaTime)
@@ -34,6 +42,15 @@ void DroneBullet::Update(float deltaTime)
 
 void DroneBullet::ShootBullet(float deltaTime)
 {
-	transform->SetPosition(transform->GetGlobalPosition() + transform->GetGlobalForward() * velocity * deltaTime * 1000);
+	transform->SetPosition(transform->GetGlobalPosition() + transform->GetLocalForward() * velocity * deltaTime * 1000);
 	transform->UpdateTransformMatrices();
+
+	Ray ray(transform->GetPosition(), transform->GetLocalForward());
+	LineSegment line(ray, 3.0f);
+	if (Physics::RaycastFirst(line, transform->GetOwner()))
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+
+		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
+	}
 }

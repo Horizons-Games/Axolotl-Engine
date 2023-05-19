@@ -2,9 +2,10 @@
 
 #include "Scripting\Script.h"
 
-#include "Components/ComponentTransform.h"
 
 class ComponentTransform;
+class ComponentAudioSource;
+class Scene;
 
 class DroneBullet : public Script
 {
@@ -22,5 +23,6 @@ private:
 	float velocity;
 
 	ComponentTransform* transform;
+	ComponentAudioSource* audioSource;
 
 };
