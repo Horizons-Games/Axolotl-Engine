@@ -251,11 +251,11 @@ update_status ModuleRender::Update()
 	
 	if (isRoot) 
 	{
-		opaqueGOToDraw.push_back(goSelected);
+		opaqueGOToDraw.insert(goSelected);
 	}
 	else
 	{
-		AddToRenderList(goSelected);
+		InsertToRenderList(goSelected);
 	}
 
 	drawnGameObjects.clear();
@@ -374,7 +374,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				if (gameObject->IsEnabled())
 				{
 					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
+						opaqueGOToDraw.insert(gameObject);
 					else
 					{
 						const ComponentTransform* transform = 
@@ -397,7 +397,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				if (gameObject->IsEnabled())
 				{
 					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
+						opaqueGOToDraw.insert(gameObject);
 					else
 					{
 						const ComponentTransform* transform = 
@@ -449,7 +449,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		if (gameObject->IsEnabled())
 		{
 			if (!CheckIfTransparent(gameObject))
-				opaqueGOToDraw.push_back(gameObject);
+				opaqueGOToDraw.insert(gameObject);
 			else
 			{
 				const ComponentTransform* transform =
@@ -471,6 +471,38 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		for (GameObject* children : gameObject->GetChildren())
 		{
 			AddToRenderList(children);
+		}
+	}
+}
+
+
+void ModuleRender::InsertToRenderList(GameObject* goSelected)
+{
+
+	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+	std::list<GameObject*> goSList = goSelected->GetGameObjectsInside();
+	for (GameObject* gameObject : goSList)
+	{
+		const ComponentTransform* transform = static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+		//If an object doesn't have transform component it doesn't need to draw
+		if (transform == nullptr)
+		{
+			continue;
+		}
+		if (gameObject->IsActive())
+		{
+			if (!CheckIfTransparent(gameObject))
+				opaqueGOToDraw.insert(gameObject);
+			else
+			{
+				float dist = Length(cameraPos - transform->GetGlobalPosition());
+				while (transparentGOToDraw[dist] != nullptr)
+				{
+					float addDistance = 0.0001f;
+					dist += addDistance;
+				}
+				transparentGOToDraw[dist] = gameObject;
+			}
 		}
 	}
 }
