@@ -4,6 +4,7 @@
 #include "Math/float4.h"
 
 #include <map>
+#include <set>
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -39,6 +40,7 @@ public:
 
 	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(GameObject* gameObject);
+	void InsertToRenderList(GameObject* gameObject);
 
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
@@ -56,7 +58,9 @@ private:
 	void* context;
 	float4 backgroundColor;
 
-	std::vector<const GameObject*> opaqueGOToDraw;
+	unsigned vbo;
+	
+	std::set<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
 	//to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;

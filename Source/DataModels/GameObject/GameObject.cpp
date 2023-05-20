@@ -181,6 +181,15 @@ void GameObject::SetParent(GameObject* newParent)
 	// it's fine to ignore the return value in this case
 	// since the pointer returned will be "this"
 	std::ignore = parent->UnlinkChild(this);
+
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(this->GetComponent(ComponentType::TRANSFORM));
+	const ComponentTransform* newParentTransform =
+		static_cast<ComponentTransform*>(newParent->GetComponent(ComponentType::TRANSFORM));
+	if (transform && newParentTransform)
+	{
+		transform->CalculateLocalFromNewGlobal(newParentTransform);
+	}
 	newParent->LinkChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();

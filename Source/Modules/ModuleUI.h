@@ -1,6 +1,6 @@
 #pragma once
 #include "Module.h"
-
+#include "Math/float2.h"
 
 class GameObject;
 
@@ -22,6 +22,7 @@ public:
 	unsigned int GetQuadVAO() const;
 
 private:
+	void DetectInteractionWithGameObject(const GameObject* gameObject, float2 mousePosition, bool leftClicked);
 	void Draw2DGameObject(const GameObject* gameObject);
 
 	unsigned int quadVBO;

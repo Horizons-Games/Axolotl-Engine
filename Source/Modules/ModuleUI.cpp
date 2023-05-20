@@ -31,36 +31,21 @@ bool ModuleUI::Init()
 
 update_status ModuleUI::Update()
 {
-	ModuleInput* input = App->GetModule<ModuleInput>();
-	ModuleScene* scene = App->GetModule<ModuleScene>();
-	Scene* loadedScene = scene->GetLoadedScene();
+	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 
-	for (Component* interactable : loadedScene->GetSceneInteractable())
-	{
-		ComponentButton* button = static_cast<ComponentButton*>(interactable);
-		ComponentTransform2D* transform =
-			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
-		AABB2D aabb2d = transform->GetWorldAABB();
-		float2 point = input->GetMousePosition();
 #ifdef ENGINE
-		point = Physics::ScreenToScenePosition(input->GetMousePosition());
-#endif // ENGINE
-		if (aabb2d.Contains(point))
-		{
-			button->SetHovered(true);
-			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
-			{
-				button->SetClicked(true);
-			}
-		}
-		else
-		{
-			button->SetHovered(false);
-			button->SetClicked(false);
-		}
+	float2 point = Physics::ScreenToScenePosition(App->GetModule<ModuleInput>()->GetMousePosition());
+#else
+	float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
+#endif
+
+	bool leftClickDown = App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+
+	for (const ComponentCanvas* canvas : canvasScene)
+	{
+		DetectInteractionWithGameObject(canvas->GetOwner(), point, leftClickDown);
 	}
 
-	std::vector<ComponentCanvas*> canvasScene = loadedScene->GetSceneCanvas();
 	int width, height;
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 	
@@ -158,6 +143,44 @@ void ModuleUI::CreateVAO()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
 	glBindVertexArray(0);
+}
+
+void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject, float2 mousePosition, bool leftClicked) 
+{
+	for (ComponentButton* button : gameObject->GetComponentsByType<ComponentButton>(ComponentType::BUTTON))
+	{
+		if (gameObject->IsEnabled() && button->IsEnabled())
+		{
+			const ComponentTransform2D* transform =
+				static_cast<ComponentTransform2D*>(button->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+
+			AABB2D aabb2d = transform->GetWorldAABB();
+
+			if (aabb2d.Contains(mousePosition))
+			{
+				button->SetHovered(true);
+				if (leftClicked)
+				{
+					button->SetClicked(true);
+				}
+			}
+			else
+			{
+				button->SetHovered(false);
+				button->SetClicked(false);
+			}
+		}
+		else 
+		{
+			button->SetHovered(false);
+			button->SetClicked(false);
+		}
+	}
+
+	for (const GameObject* child : gameObject->GetChildren())
+	{
+		DetectInteractionWithGameObject(child, mousePosition, leftClicked);
+	}
 }
 
 void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
