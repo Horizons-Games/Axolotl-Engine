@@ -63,7 +63,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/_Level1.1_VS2.axolotl", false);
+		LoadScene("Lib/Scenes/MainMenuScriptsVS2.axolotl", false);
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
