@@ -38,6 +38,7 @@ void ComponentParticleSystem::Draw() const
 	for (EmitterInstance* instance : emitters)
 	{
 		instance->DrawDD();
+		instance->SimulateParticles();
 	}
 }
 

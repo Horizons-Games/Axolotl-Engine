@@ -4,6 +4,8 @@
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
 
+#include "debugdraw.h"
+
 #include <vector>
 
 class ParticleEmitter;
@@ -24,6 +26,7 @@ public:
 
 		float4 color = float4::one;
 		float3 velocity = float3::zero;
+		float3 direction = float3::zero;
 		float size = 1.0f;
 		float rotation = 0.0f;
 		float lifespan = 0.0f;
@@ -42,6 +45,8 @@ public:
 	void DrawDD();
 
 	float CalculateRandomValueInRange(float min, float max);
+	void SimulateParticles() const;
+
 
 	ComponentParticleSystem* GetOwner() const;
 	std::shared_ptr<ParticleEmitter> GetEmitter() const;
@@ -64,6 +69,18 @@ inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
 inline std::vector<EmitterInstance::Particle>& EmitterInstance::GetParticles()
 {
 	return particles;
+}
+
+inline void EmitterInstance::SimulateParticles() const
+{
+	for (int i = 0; i < particles.size(); ++i)
+	{
+		float3 pos = particles[i].tranform.TranslatePart();
+		float3 dir = particles[i].direction;
+
+		//dd::point(pos, dd::colors::Yellow, 5.0f);
+		dd::arrow(pos, pos + dir, dd::colors::Green, 0.01f);
+	}
 }
 
 inline ComponentParticleSystem* EmitterInstance::GetOwner() const

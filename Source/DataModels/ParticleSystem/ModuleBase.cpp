@@ -32,6 +32,12 @@ void ModuleBase::Update(EmitterInstance* instance)
 {
 	const GameObject* go = instance->GetOwner()->GetOwner();
 	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+
+	if (originTransform.IsIdentity())
+	{
+		originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
+	}
+
 	float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
 
 	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
@@ -40,18 +46,39 @@ void ModuleBase::Update(EmitterInstance* instance)
 	{
 		EmitterInstance::Particle& particle = particles[i];
 
-		if (particle.tranform.IsIdentity())
+		if (particle.tranform.IsIdentity() || particle.lifespan == 0)
 		{
-			float3 particlePos = globalTransform.TranslatePart();
 			float radius = emitter->GetRadius();
+			float angle = math::RadToDeg(instance->CalculateRandomValueInRange(0.0f, 1.0f));
+			float length = instance->CalculateRandomValueInRange(0.0f, 1.0f) * radius;
 
-			float3 randOffset = float3(instance->CalculateRandomValueInRange(0.0f, radius),
-									   instance->CalculateRandomValueInRange(0.0f, radius),
-									   instance->CalculateRandomValueInRange(0.0f, radius));
+			float3 direction = float3(cos(angle), sin(angle), 0.0f);
+			float3 point = direction * length;
+			float4x4 pointTransform = float4x4::FromTRS(point, Quat::identity, float3::one);
 
-			particlePos += randOffset;
+			switch (emitter->GetShape())
+			{
+			case ParticleEmitter::ShapeType::CIRCLE:
+				particle.tranform = globalTransform * pointTransform;
+				particle.direction = (particle.tranform.TranslatePart() - globalTransform.TranslatePart()).Normalized();
 
-			particle.tranform.SetTranslatePart(particlePos);
+				break;
+
+			case ParticleEmitter::ShapeType::CONE:
+				float baseRadius = math::Tan(math::DegToRad(emitter->GetAngle())) * CONE_HEIGHT + radius;
+				float lengthAux = length * baseRadius / radius;
+
+				float3 pointAux = direction * lengthAux;
+				pointAux.z += CONE_HEIGHT;
+
+				float4x4 pointAuxTransform = float4x4::FromTRS(pointAux, Quat::identity, float3::one);
+				float4x4 globalAuxTransf = globalTransform * pointAuxTransform;
+
+				particle.tranform = globalTransform * pointTransform;
+				particle.direction = (globalAuxTransf.TranslatePart() - particle.tranform.TranslatePart()).Normalized();
+
+				break;
+			}
 		}
 	}
 }
@@ -70,7 +97,7 @@ void ModuleBase::DrawDD(EmitterInstance* instance)
 	float radius = emitter->GetRadius();
 	float angle = emitter->GetAngle();
 
-	float baseRadius = math::Tan(math::DegToRad(angle)) * CONE_HEIGHT;
+	float baseRadius = math::Tan(math::DegToRad(angle)) * CONE_HEIGHT + radius;
 
 	switch (emitter->GetShape())
 	{
@@ -78,7 +105,7 @@ void ModuleBase::DrawDD(EmitterInstance* instance)
 		dd::circle(position, globalTransform.WorldZ(), dd::colors::HotPink, radius, 25);
 		break;
 	case ParticleEmitter::ShapeType::CONE:
-		dd::cone(position, globalTransform.WorldZ() * CONE_HEIGHT, dd::colors::HotPink, baseRadius + radius, radius);
+		dd::cone(position, globalTransform.WorldZ() * CONE_HEIGHT, dd::colors::HotPink, baseRadius, radius);
 		break;
 	case ParticleEmitter::ShapeType::BOX:
 		dd::box(position, dd::colors::HotPink, radius, radius, radius);
@@ -92,7 +119,7 @@ void ModuleBase::DrawImGui()
 	{
 		if (ImGui::BeginTable("##baseTable", 2))
 		{
-			bool updateTransform = originTransform.IsIdentity();
+			bool updateTransform = false;
 
 			float3 rotation = originRotation.ToEulerXYZ();
 			rotation = RadToDeg(rotation);
