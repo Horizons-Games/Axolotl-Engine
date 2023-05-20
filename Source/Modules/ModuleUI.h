@@ -22,7 +22,7 @@ public:
 	unsigned int GetQuadVAO() const;
 
 private:
-	void DetectInteractionWithGameObject(const GameObject* gameObject, float2 mousePosition, bool leftClicked);
+	void DetectInteractionWithGameObject(const GameObject* gameObject, float2 mousePosition, bool leftClicked, bool disabledHierarchy);
 	void Draw2DGameObject(const GameObject* gameObject);
 
 	unsigned int quadVBO;

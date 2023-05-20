@@ -43,7 +43,8 @@ update_status ModuleUI::Update()
 
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
-		DetectInteractionWithGameObject(canvas->GetOwner(), point, leftClickDown);
+		const GameObject* canvasGameObject = canvas->GetOwner();
+		DetectInteractionWithGameObject(canvasGameObject, point, leftClickDown, canvasGameObject->GetParent()->IsEnabled());
 	}
 
 	int width, height;
@@ -145,11 +146,21 @@ void ModuleUI::CreateVAO()
 	glBindVertexArray(0);
 }
 
-void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject, float2 mousePosition, bool leftClicked) 
+void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject, float2 mousePosition, bool leftClicked, bool disabledHierarchy)
 {
+	if(!gameObject->IsEnabled()) 
+	{
+		disabledHierarchy = true;
+	}
+
 	for (ComponentButton* button : gameObject->GetComponentsByType<ComponentButton>(ComponentType::BUTTON))
 	{
-		if (gameObject->IsEnabled() && button->IsEnabled())
+		if(disabledHierarchy) 
+		{
+			button->SetHovered(false);
+			button->SetClicked(false);
+		}
+		else if (button->IsEnabled())
 		{
 			const ComponentTransform2D* transform =
 				static_cast<ComponentTransform2D*>(button->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
@@ -170,16 +181,11 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject, flo
 				button->SetClicked(false);
 			}
 		}
-		else 
-		{
-			button->SetHovered(false);
-			button->SetClicked(false);
-		}
 	}
 
 	for (const GameObject* child : gameObject->GetChildren())
 	{
-		DetectInteractionWithGameObject(child, mousePosition, leftClicked);
+		DetectInteractionWithGameObject(child, mousePosition, leftClicked, disabledHierarchy);
 	}
 }
 
