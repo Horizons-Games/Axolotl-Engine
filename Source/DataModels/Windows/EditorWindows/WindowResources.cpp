@@ -10,10 +10,11 @@
 void WindowResources::DrawWindowContents()
 {
 	std::vector<std::shared_ptr<EditorResourceInterface>> resourcesToDelete;
+	ModuleResources* resources = App->GetModule<ModuleResources>();
 
 	//in theory, since mapEntry is a reference to the one in the resources map,
 	//it should not increase reference count while iterating since it's not a new pointer
-	for (std::pair<const UID, std::weak_ptr<Resource> >& mapEntry : App->GetModule<ModuleResources>()->resources)
+	for (std::pair<const UID, std::weak_ptr<Resource> >& mapEntry : resources->resources)
 	{
 		std::shared_ptr<Resource> mapEntryAsShared = mapEntry.second.lock();
 		
@@ -25,7 +26,7 @@ void WindowResources::DrawWindowContents()
 
 	for (const std::shared_ptr<EditorResourceInterface>& uidToDelete : resourcesToDelete)
 	{
-		App->GetModule<ModuleResources>()->DeleteResource(uidToDelete);
+		resources->DeleteResource(uidToDelete);
 	}
 }
 

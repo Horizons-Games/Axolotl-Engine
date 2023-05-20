@@ -178,6 +178,7 @@ update_status ModuleEditor::Update()
 #ifdef ENGINE
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+	ModuleInput* input = App->GetModule<ModuleInput>();
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
@@ -306,12 +307,13 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 }
 std::string ModuleEditor::StateWindows()
 {
-	if (App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str()))
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	if (fileSystem->Exists(settingsFolder.c_str()))
 	{		
-		if (App->GetModule<ModuleFileSystem>()->Exists(set.c_str()))
+		if (fileSystem->Exists(set.c_str()))
 		{
 			char* binaryBuffer = {};
-			App->GetModule<ModuleFileSystem>()->Load(set.c_str(), binaryBuffer);
+			fileSystem->Load(set.c_str(), binaryBuffer);
 			return std::string(binaryBuffer);
 		}
 	}
@@ -320,9 +322,10 @@ std::string ModuleEditor::StateWindows()
 
 void ModuleEditor::CreateFolderSettings()
 {
-	bool settingsFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str());
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	bool settingsFolderNotCreated = !fileSystem->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		App->GetModule<ModuleFileSystem>()->CreateDirectory(settingsFolder.c_str());
+		fileSystem->CreateDirectory(settingsFolder.c_str());
 	}
 }

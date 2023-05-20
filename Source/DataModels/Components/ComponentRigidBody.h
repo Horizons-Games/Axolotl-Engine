@@ -31,6 +31,7 @@ public:
     };
 
     ComponentRigidBody(bool active, GameObject* owner);
+    ComponentRigidBody(const ComponentRigidBody& toCopy);
     ~ComponentRigidBody();
 
 
@@ -44,10 +45,15 @@ public:
 
     void Update() override;
 
+    void SetOwner(GameObject* owner) override;
+
     uint32_t GetID() const { return id; }
 
     void SaveOptions(Json& meta) override;
     void LoadOptions(Json& meta) override;
+
+    void Enable() override;
+    void Disable() override;
 
     void SetIsKinematic(bool isKinematic);
     bool GetIsKinematic() const;
@@ -70,7 +76,7 @@ public:
     float GetAngularDamping() const;
     void SetAngularDamping(float newDamping);
 
-    int GetShape() const;
+    Shape GetShape() const;
     void SetCollisionShape(Shape newShape);
 
     btVector3 GetVelocity() const;
@@ -91,7 +97,7 @@ public:
     float GetHeight() const;
     void SetHeight(float newHeight);
 
-    void SetDefaultSize(int resetShape);
+    void SetDefaultSize(Shape resetShape);
 
     bool GetUsePositionController() const;
     void SetUsePositionController(bool newUsePositionController);
@@ -111,8 +117,6 @@ public:
     void DisablePositionController();
     void DisableRotationController();
 
-    
-
     void SetUpMobility();
 
     void RemoveRigidBodyFromSimulation();
@@ -127,10 +131,11 @@ public:
     }
 
 private:
+    int GenerateId() const;
 
-    btRigidBody* rigidBody = nullptr;
-    btDefaultMotionState* motionState = nullptr;
-    btCollisionShape* shape = nullptr;
+    std::unique_ptr<btRigidBody> rigidBody = nullptr;
+    std::unique_ptr<btDefaultMotionState> motionState = nullptr;
+    std::unique_ptr<btCollisionShape> shape = nullptr;
 
     btVector3 gravity = { 0, -9.81f, 0 };
     float linearDamping = 0.1f;
@@ -146,7 +151,7 @@ private:
     bool isStatic = false;
     bool drawCollider = false;
 
-    int currentShape = 0;
+    Shape currentShape = Shape::NONE;
 
     float3 targetPosition;
     Quat targetRotation;
@@ -189,7 +194,7 @@ inline bool ComponentRigidBody::GetDrawCollider() const
     return drawCollider;
 }
 
-inline int ComponentRigidBody::GetShape() const
+inline ComponentRigidBody::Shape ComponentRigidBody::GetShape() const
 {
     return currentShape;
 }
@@ -365,5 +370,5 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
 { 
-    return rigidBody; 
+    return rigidBody.get(); 
 }
