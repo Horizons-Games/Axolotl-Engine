@@ -7,6 +7,8 @@
 
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/UI/ComponentCanvas.h"
 
@@ -61,7 +63,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/MainMenuScriptsVS2.axolotl", false);
+		LoadScene("Lib/Scenes/_Level1.1_VS2.axolotl", false);
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
@@ -367,6 +369,22 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		{
 			//Quadtree treatment
 			AddGameObject(obj);
+		}
+
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(obj->GetComponent(ComponentType::TRANSFORM));
+
+		ComponentRigidBody* rigidBody =
+			static_cast<ComponentRigidBody*>(obj->GetComponent(ComponentType::RIGIDBODY));
+
+		if (transform)
+		{
+			transform->UpdateTransformMatrices();
+			if (rigidBody)
+			{
+				rigidBody->UpdateRigidBody();
+			}
+
 		}
 	}
 

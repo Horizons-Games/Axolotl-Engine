@@ -197,6 +197,7 @@ void GameObject::LinkChild(GameObject* child)
 
 		ComponentTransform* transform =
 			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+
 		if (transform)
 		{
 			transform->UpdateTransformMatrices();

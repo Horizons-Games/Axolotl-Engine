@@ -76,9 +76,8 @@ update_status ModulePhysics::PreUpdate()
     }
 
 #else
-    dynamicsWorld->stepSimulation(App->GetDeltaTime(), 10);
+    dynamicsWorld->stepSimulation(App->GetDeltaTime());
     ManageCollisions();
-
 #endif
     
     

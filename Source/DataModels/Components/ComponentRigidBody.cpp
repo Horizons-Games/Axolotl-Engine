@@ -40,7 +40,6 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner)
     SetAngularDamping(angularDamping);
 
     SetCollisionShape(static_cast<ComponentRigidBody::Shape>(Shape::BOX));
-    UpdateRigidBody();
 }
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy)
@@ -84,7 +83,6 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy)
     SetAngularDamping(angularDamping);
 
     SetCollisionShape(Shape::BOX);
-    UpdateRigidBody();
 }
 
 ComponentRigidBody::~ComponentRigidBody()
@@ -116,10 +114,12 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnTransformChanged() 
 {
-    if (!App->IsOnPlayMode()) 
+#ifdef ENGINE
+    if (!App->IsOnPlayMode())
     {
         UpdateRigidBody();
     }
+#endif
 }
 
 
