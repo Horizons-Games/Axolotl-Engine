@@ -6,19 +6,17 @@ struct AreaLightSphere
 {
 	float4 position;  	// xyz position+w radius
 	float4 color; 		// rgb colour+alpha intensity
-	float lightRadius;	// radius for attenuation
+	float attRadius;	// radius for attenuation
 	float padding1;
 	float2 padding2;
 };
 
 struct AreaLightTube
 {
-	float3 positionA;
-	float padding1;
-	float3 positionB;
-	float padding2;
+	float4 positionA;
+	float4 positionB;
 	float4 color; 		// rgb colour+alpha intensity
-	float lightRadius;	// radius for attenuation
+	float attRadius;	// radius for attenuation
 	float padding3;
 	float2 padding4;
 };
@@ -35,7 +33,7 @@ public:
 
 	const AreaType GetAreaType();
 	const float GetShapeRadius();
-	const float GetLightRadius();
+	const float GetAttRadius();
 
 	void SetAreaType(AreaType newType);
 	void SetShapeRadius(float newRadius);
@@ -44,7 +42,7 @@ public:
 private:
 	AreaType areaType;
 	float shapeRadius;
-	float lightRadius;
+	float attRadius;
 };
 
 inline const AreaType ComponentAreaLight::GetAreaType()
@@ -57,9 +55,9 @@ inline const float ComponentAreaLight::GetShapeRadius()
 	return shapeRadius;
 }
 
-inline const float ComponentAreaLight::GetLightRadius()
+inline const float ComponentAreaLight::GetAttRadius()
 {
-	return lightRadius;
+	return attRadius;
 }
 
 inline void ComponentAreaLight::SetAreaType(AreaType newType)
@@ -74,5 +72,5 @@ inline void ComponentAreaLight::SetShapeRadius(float newRadius)
 
 inline void ComponentAreaLight::SetLightRadius(float newRadius)
 {
-	lightRadius = newRadius;
+	attRadius = newRadius;
 }

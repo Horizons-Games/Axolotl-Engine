@@ -25,13 +25,13 @@ ComponentAreaLight::ComponentAreaLight() : ComponentLight(LightType::AREA, true)
 
 ComponentAreaLight::ComponentAreaLight(const ComponentAreaLight& componentAreaLight) :
 	ComponentLight(componentAreaLight), areaType(componentAreaLight.areaType), shapeRadius(componentAreaLight.shapeRadius),
-	lightRadius(componentAreaLight.lightRadius)
+	attRadius(componentAreaLight.attRadius)
 {
 
 }
 
 ComponentAreaLight::ComponentAreaLight(AreaType areaType, GameObject* parent) :
-	ComponentLight(LightType::AREA, parent, true), areaType(areaType), shapeRadius(1.f), lightRadius(2.f)
+	ComponentLight(LightType::AREA, parent, true), areaType(areaType), shapeRadius(1.f), attRadius(2.f)
 {	
 	//par_shapes_mesh* s;
 	//ComponentMeshRenderer* testComp = static_cast<ComponentMeshRenderer*>(owner->CreateComponent(ComponentType::MESHRENDERER));
@@ -116,7 +116,7 @@ ComponentAreaLight::ComponentAreaLight(AreaType areaType, GameObject* parent) :
 }
 
 ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, AreaType areaType) :
-	ComponentLight(LightType::AREA, color, intensity, true), areaType(areaType), shapeRadius(1.f), lightRadius(2.f)
+	ComponentLight(LightType::AREA, color, intensity, true), areaType(areaType), shapeRadius(1.f), attRadius(2.f)
 {
 	std::vector<float3> vertices, normals, uvs;
 	std::vector<std::vector<unsigned int>> triangles;

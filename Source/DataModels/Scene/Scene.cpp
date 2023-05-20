@@ -737,35 +737,32 @@ void Scene::UpdateSceneAreaLights()
 					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
-					AreaLightSphere sl;
 					float3 center = transform->GetGlobalPosition();
 					float radius = areaLightComp->GetShapeRadius();
+
+					AreaLightSphere sl;
 					sl.position = float4(center, radius);
 					sl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
-					sl.lightRadius = areaLightComp->GetLightRadius();
+					sl.attRadius = areaLightComp->GetAttRadius();
 
 					sphereLights.push_back(sl);
 				}
 				else if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{
-					AreaLightTube tl;
-					float4x4 matrixRotation = transform->GetGlobalRotation();
+					float3x3 matrixRotation = transform->GetGlobalRotation().Float3x3Part();
 					float3 translation = transform->GetGlobalPosition();
 					float3 pointA = float3(0, areaLightComp->GetShapeRadius(), 0);
 					float3 pointB = float3(0, -areaLightComp->GetShapeRadius(), 0);
 
-					// Apply rotation
-					pointA = (matrixRotation * float4(pointA, 1)).xyz();
-					pointB = (matrixRotation * float4(pointB, 1)).xyz();
+					// Apply rotation & translation
+					pointA = (matrixRotation * pointA) + translation;
+					pointB = (matrixRotation * pointB) + translation;
 
-					// Apply translation
-					pointA = float3(translation.x + pointA.x, translation.y + pointA.y, translation.z + pointA.z);
-					pointB = float3(translation.x + pointB.x, translation.y + pointB.y, translation.z + pointB.z);
-
-					tl.positionA = pointA;
-					tl.positionB = pointB;
+					AreaLightTube tl;
+					tl.positionA = float4(pointA, areaLightComp->GetShapeRadius());
+					tl.positionB = float4(pointB, areaLightComp->GetShapeRadius());
 					tl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
-					tl.lightRadius = areaLightComp->GetLightRadius();
+					tl.attRadius = areaLightComp->GetAttRadius();
 
 					tubeLights.push_back(tl);
 				}

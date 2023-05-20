@@ -130,13 +130,13 @@ void WindowComponentAreaLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			ImGui::Text("Light Radius"); ImGui::SameLine();
+			ImGui::Text("Attenuation Radius"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			float lightRadius = asAreaLight->GetLightRadius();
-			if (ImGui::DragFloat("##LightRadius", &lightRadius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
+			float attRadius = asAreaLight->GetAttRadius();
+			if (ImGui::DragFloat("##LightRadius", &attRadius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
-				asAreaLight->SetLightRadius(lightRadius);
+				asAreaLight->SetLightRadius(attRadius);
 				modified = true;
 			}
 			ImGui::PopStyleVar();

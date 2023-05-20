@@ -216,11 +216,12 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
     for (int i = 0; i < num_tubes; ++i)
     {
-        vec3 posA = areaTube[i].positionA;
-        vec3 posB = areaTube[i].positionB;
+        vec3 posA = areaTube[i].positionA.xyz;
+        vec3 posB = areaTube[i].positionB.xyz;
         vec3 color = areaTube[i].color.rgb;
         float intensity = areaTube[i].color.a;
         float lightRadius = areaTube[i].lightRadius;
+        float tubeRadius = areaTube[i].positionA.w;
 
         // calculate closest point light specular
         vec3 PA = posA - FragPos;
@@ -238,7 +239,6 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         vec3 oldL = normalize(FragPos - closest);
         vec3 centerToRay = FragPos - dot(oldL, R) * R - closest;
-        float tubeRadius = distAB;
         closest = closest + centerToRay * min(tubeRadius/length(centerToRay),1.0);
 
         vec3 L = normalize(FragPos-closest);
