@@ -7,8 +7,8 @@
 
 REGISTERCLASS(ButtonSoundScript);
 
-ButtonSoundScript::ButtonSoundScript() : Script(), buttonAudio(nullptr), buttonComponent(nullptr),
-	buttonState(ButtonStates::OUTSIDE)
+ButtonSoundScript::ButtonSoundScript() : Script(), buttonAudio(nullptr), buttonComponent(nullptr), 
+buttonState(ButtonStates::OUTSIDE)
 {
 
 }

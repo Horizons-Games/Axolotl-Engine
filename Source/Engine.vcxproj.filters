@@ -373,8 +373,8 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
-    <ClCompile Include="moveale.cpp">
-      <Filter>UserScripts\Player</Filter>
+    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp">
+      <Filter>UserScripts\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -752,8 +752,8 @@
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
-    <ClInclude Include="moveale.h">
-      <Filter>UserScripts\Player</Filter>
+    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -846,6 +846,9 @@
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\UI">
+      <UniqueIdentifier>{18724073-2612-40da-b9de-766bfe8baee8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1597,9 +1600,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1676,9 +1676,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
