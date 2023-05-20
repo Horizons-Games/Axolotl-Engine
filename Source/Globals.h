@@ -31,7 +31,7 @@ enum class TextureType
 
 // Configuration (Frustum)
 #define QUADRANT_CAPACITY 30
-#define MIN_CUBE_SIZE 20.0f
+#define MIN_CUBE_SIZE 100.0f
  
 // Window ------------------
 #define SCREEN_WIDTH 1920

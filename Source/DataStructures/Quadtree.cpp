@@ -15,7 +15,7 @@
 
 Quadtree::Quadtree(const AABB& boundingBox) : boundingBox(boundingBox), parent(nullptr), isFreezed(false),
 quadrantCapacity(QUADRANT_CAPACITY), minQuadrantSideSize(MIN_CUBE_SIZE),
-minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
+minQuadrantDiagonalSquared(MIN_CUBE_SIZE), // D^2 = 3C^2
 frontRightNode(nullptr), frontLeftNode(nullptr), backLeftNode(nullptr), backRightNode(nullptr)
 {
 }
@@ -23,7 +23,7 @@ frontRightNode(nullptr), frontLeftNode(nullptr), backLeftNode(nullptr), backRigh
 Quadtree::Quadtree(const AABB& boundingBox, Quadtree* parent) :
 	boundingBox(boundingBox), parent(parent), isFreezed(false),
 	quadrantCapacity(QUADRANT_CAPACITY), minQuadrantSideSize(MIN_CUBE_SIZE),
-	minQuadrantDiagonalSquared(3 * MIN_CUBE_SIZE * MIN_CUBE_SIZE), // D^2 = 3C^2
+	minQuadrantDiagonalSquared(MIN_CUBE_SIZE), // D^2 = 3C^2
 	frontRightNode(nullptr), frontLeftNode(nullptr), backLeftNode(nullptr), backRightNode(nullptr)
 {
 }
@@ -54,7 +54,7 @@ void Quadtree::Add(GameObject* gameObject)
 			{
 				gameObjects.insert(gameObject);
 			}
-			else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared)
+			else if (sqrt(pow(boundingBox.maxPoint.x - boundingBox.minPoint.x, 2) + pow(boundingBox.maxPoint.z - boundingBox.minPoint.z, 2) * 1.f) <= minQuadrantDiagonalSquared)
 			{
 				gameObjects.insert(gameObject);
 			}
