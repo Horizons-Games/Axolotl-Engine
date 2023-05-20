@@ -159,7 +159,11 @@ void ComponentTransform::UpdateTransformMatrices()
 	{
 		ComponentTransform* childTransform = static_cast<ComponentTransform*>
 			(child->GetComponent(ComponentType::TRANSFORM));
-		childTransform->UpdateTransformMatrices();
+
+		if(childTransform)
+		{
+			childTransform->UpdateTransformMatrices();
+		}
 	}
 }
 
