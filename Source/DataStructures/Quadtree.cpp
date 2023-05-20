@@ -54,7 +54,7 @@ void Quadtree::Add(GameObject* gameObject)
 			{
 				gameObjects.insert(gameObject);
 			}
-			else if (boundingBox.Diagonal().LengthSq() <= minQuadrantDiagonalSquared)
+			else if (sqrt(pow(boundingBox.maxPoint.x - boundingBox.minPoint.x, 2) + pow(boundingBox.maxPoint.z - boundingBox.minPoint.z, 2) * 1.f) <= minQuadrantDiagonalSquared)
 			{
 				gameObjects.insert(gameObject);
 			}
