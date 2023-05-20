@@ -78,8 +78,8 @@ inline void EmitterInstance::SimulateParticles() const
 		float3 pos = particles[i].tranform.TranslatePart();
 		float3 dir = particles[i].direction;
 
-		//dd::point(pos, dd::colors::Yellow, 5.0f);
-		dd::arrow(pos, pos + dir, dd::colors::Green, 0.01f);
+		dd::point(pos, dd::colors::Yellow, 5.0f);
+		//dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
 	}
 }
 
