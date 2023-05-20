@@ -377,7 +377,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		ComponentRigidBody* rigidBody =
 			static_cast<ComponentRigidBody*>(obj->GetComponent(ComponentType::RIGIDBODY));
 
-		if (transform && rigidBody)
+		if (rigidBody)
 		{
 			transform->UpdateTransformMatrices();
 			rigidBody->UpdateRigidBody();
