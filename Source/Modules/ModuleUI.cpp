@@ -44,7 +44,7 @@ update_status ModuleUI::Update()
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
 		const GameObject* canvasGameObject = canvas->GetOwner();
-		DetectInteractionWithGameObject(canvasGameObject, point, leftClickDown, canvasGameObject->GetParent()->IsEnabled());
+		DetectInteractionWithGameObject(canvasGameObject, point, leftClickDown, !canvasGameObject->GetParent()->IsEnabled());
 	}
 
 	int width, height;
