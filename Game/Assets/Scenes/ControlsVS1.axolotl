@@ -2,54 +2,13 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "Background",
-                "tag": "",
-                "uid": 10153650663129387206,
-                "parentUID": 16561938826019233067,
-                "enabled": true,
-                "active": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 1.0,
-                            "sizeX": 4000.0,
-                            "sizeY": 2160.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 9664595192588978958,
-                            "assetPathImage": "Assets/Textures/Controls_NoButton.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "ControlsVS1",
                 "tag": "",
                 "uid": 9351076666620844235,
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -72,39 +31,51 @@
         },
         {
             "GameObject": {
-                "name": "Ambient_Light",
+                "name": "Background",
                 "tag": "",
-                "uid": 17900440653707936656,
-                "parentUID": 9351076666620844235,
+                "uid": 10153650663129387206,
+                "parentUID": 16561938826019233067,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
-                            "type": "Component_Transform",
+                            "type": "Component_Transform2D",
                             "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 1.0,
+                            "sizeX": 4000.0,
+                            "sizeY": 2160.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 254.5,
+                            "worldAABB_min_y": 261.5,
+                            "worldAABB_max_x": 254.5,
+                            "worldAABB_max_y": 261.5
                         }
                     },
                     {
                         "Component": {
-                            "type": "Component_Light",
+                            "type": "Component_Image",
                             "active": true,
-                            "removed": false,
-                            "color_light_X": 0.05000000074505806,
-                            "color_light_Y": 0.05000000074505806,
-                            "color_light_Z": 0.05000000074505806,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Ambient"
+                            "removed": true,
+                            "imageUID": 3888620501119964881,
+                            "assetPathImage": "Assets/Textures/Controls_NoButton.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     }
                 ]
@@ -118,6 +89,7 @@
                 "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -134,7 +106,15 @@
                             "localScaleY": 1.0,
                             "localScaleZ": 1.0,
                             "sizeX": 200.0,
-                            "sizeY": 200.0
+                            "sizeY": 200.0,
+                            "localAABB_min_x": 0.0,
+                            "localAABB_min_y": 0.0,
+                            "localAABB_max_x": 0.0,
+                            "localAABB_max_y": 0.0,
+                            "worldAABB_min_x": 254.5,
+                            "worldAABB_min_y": 261.5,
+                            "worldAABB_max_x": 254.5,
+                            "worldAABB_max_y": 261.5
                         }
                     },
                     {
@@ -155,6 +135,7 @@
                 "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -195,6 +176,7 @@
                 "parentUID": 9351076666620844235,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -232,6 +214,7 @@
                 "parentUID": 6673980443584462006,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -257,6 +240,13 @@
                             "frustumOfset": 1.0,
                             "drawFrustum": false
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioListener",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
@@ -269,6 +259,7 @@
                 "parentUID": 16561938826019233067,
                 "enabled": true,
                 "active": true,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -285,7 +276,15 @@
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
                             "sizeX": 600.0,
-                            "sizeY": 128.0
+                            "sizeY": 128.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 214.734375,
+                            "worldAABB_min_y": 374.964599609375,
+                            "worldAABB_max_x": 294.265625,
+                            "worldAABB_max_y": 391.9312744140625
                         }
                     },
                     {
@@ -293,11 +292,12 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 13601831036421055306,
+                            "imageUID": 1256961786287549880,
                             "assetPathImage": "Assets/Textures/ButtonContinue.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
-                            "color_z": 1.0
+                            "color_z": 1.0,
+                            "color_w": 1.0
                         }
                     },
                     {
@@ -305,30 +305,31 @@
                             "type": "Component_Button",
                             "active": true,
                             "removed": true,
-                            "clicked": false,
-                            "hovered": false,
-                            "colorHovered_x": 0.699999988079071,
-                            "colorHovered_y": 0.699999988079071,
-                            "colorHovered_z": 0.699999988079071,
-                            "colorClicked_x": 0.5,
-                            "colorClicked_y": 0.5,
-                            "colorClicked_z": 0.5,
-                            "sceneName": "MainMenuVS1"
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 1.0,
+                            "sceneName": "MainMenuScriptsVS2"
                         }
                     },
                     {
                         "Component": {
-                            "type": "Component_BoundingBox2D",
+                            "type": "Component_Script",
                             "active": true,
-                            "removed": false,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 283.078125,
-                            "worldAABB_min_y": 399.5771179199219,
-                            "worldAABB_max_x": 387.921875,
-                            "worldAABB_max_y": 421.9437561035156
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -350,7 +351,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 2819121758081834511,
+        "skyboxUID": 8827808863826909032,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 13881553922914957835,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }

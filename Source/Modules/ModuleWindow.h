@@ -22,6 +22,7 @@ public:
 	bool IsWindowBorderless() const;
 	bool IsWindowDesktopFullscreen() const;
 	float GetBrightness() const;
+	bool GetVsync();
 
 	void SetWindowSize(int width, int height);
 	void SetWindowToDefault();
@@ -30,6 +31,7 @@ public:
 	void SetBorderless(bool borderless);
 	void SetDesktopFullscreen(bool fullDesktop);
 	void SetBrightness(float brightness);
+	void SetVsync(bool vsyncactive);
 
 	SDL_Window* GetWindow() const;
 
@@ -57,6 +59,8 @@ private:
 	bool fullscreen;
 
 	float brightness;
+
+	bool vsync;
 };
 
 inline bool ModuleWindow::IsWindowFullscreen() const
@@ -84,9 +88,19 @@ inline float ModuleWindow::GetBrightness() const
 	return brightness;
 }
 
+inline bool ModuleWindow::GetVsync() 
+{
+	return vsync;
+}
+
 inline SDL_Window* ModuleWindow::GetWindow() const
 {
 	return window.get();
+}
+
+inline SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)
+{
+	return boolVal ? SDL_TRUE : SDL_FALSE;
 }
 
 inline bool ModuleWindow::IsFlagSet(SDL_WindowFlags flag) const

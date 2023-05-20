@@ -10,7 +10,7 @@
 #include "ModuleScene.h"
 
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
-	ComponentWindow("TRANSFORM", component)
+	ComponentWindow("TRANSFORM", component), bbdraw(component->IsDrawBoundingBoxes()), uniformScale(component->IsUniformScale())
 {
 }
 
@@ -24,6 +24,18 @@ void WindowComponentTransform::DrawWindowContents()
 
 	if (asTransform)
 	{
+		if (ImGui::Checkbox("##Draw Bounding Box", &(bbdraw)))
+		{
+			asTransform->SetDrawBoundingBoxes(bbdraw);
+			for (GameObject* child : asTransform->GetOwner()->GetChildren())
+			{
+				ComponentTransform* transform = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				transform->SetDrawBoundingBoxes(bbdraw);
+			}
+		}
+		ImGui::SameLine();
+		ImGui::Text("Draw Bounding Box");
+
 		currentTranslation = asTransform->GetPosition();
 		currentRotation = asTransform->GetRotationXYZ();
 		currentScale = asTransform->GetScale();
@@ -34,7 +46,7 @@ void WindowComponentTransform::DrawWindowContents()
 		rotationModified = false;
 		scaleModified = false;
 
-		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
+		bool ownerIsRoot = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
 
 		// The root must not be moved through the inspector
 		if (ownerIsRoot)
@@ -45,7 +57,7 @@ void WindowComponentTransform::DrawWindowContents()
 		if (ownerIsRoot)
 		{
 			asTransform->SetPosition(float3::zero);
-			asTransform->SetRotation(float4x4::identity);
+			asTransform->SetRotation(Quat::identity);
 			asTransform->SetScale(float3::one);
 			return;
 		}
@@ -139,6 +151,7 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = Axis::X;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -149,6 +162,7 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = Axis::Y;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -159,9 +173,12 @@ void WindowComponentTransform::DrawTransformTable()
 			0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
+			modifiedScaleAxis = Axis::Z;
 		}
 		ImGui::PopStyleVar();
-
+		ImGui::TableNextColumn();
+		ImGui::Checkbox("", &uniformScale); ImGui::SameLine();
+		ImGui::Text("Maintain scale"); 
 		ImGui::EndTable();
 	}
 }
@@ -184,22 +201,13 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 		if (scaleModified)
 		{
-			if (currentScale.x <= 0)
+			if (uniformScale) 
 			{
-				currentScale.x = 0.0001f;
+				asTransform->SetUniformScale(currentScale, modifiedScaleAxis);
 			}
-			
-			if (currentScale.y <= 0)
-			{
-				currentScale.y = 0.0001f;
+			else {
+				asTransform->SetScale(currentScale);
 			}
-			
-			if (currentScale.z <= 0) 
-			{ 
-				currentScale.z = 0.0001f; 
-			}
-
-			asTransform->SetScale(currentScale);
 		}
 
 		if (scaleModified || rotationModified || translationModified)

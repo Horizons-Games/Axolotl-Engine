@@ -1,0 +1,15 @@
+#include "{0}.h"
+
+REGISTERCLASS({0});
+
+{0}::{0}() : Script()
+{
+}
+
+void {0}::Start()
+{
+}
+
+void {0}::Update(float deltaTime)
+{
+}

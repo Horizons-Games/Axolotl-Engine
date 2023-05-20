@@ -1,12 +1,13 @@
 {
-    "UID": 15623483674451541789,
+    "UID": 6242485998294137594,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/Lv1_CargoBay_InclinedWallTubeCurb_0.mesh",
-        "Assets/Meshes/Lv1_CargoBay_InclinedWallTubeCurb_1.mesh"
+        "Assets/Meshes/Lv1_CargoBay_InclinedWallTubeCurb.Cylinder.004_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_InclinedWallTubeCurb.Cylinder.004_1.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/Lv1_CargoBay_InclinedWallTubeCurb_0.mat",
-        "Assets/Materials/Lv1_CargoBay_InclinedWallTubeCurb_1.mat"
-    ]
+        "Assets/Materials/Lv1_CargoBay_InclinedWallTubeCurbMaterial.001_0.mat",
+        "Assets/Materials/Lv1_CargoBay_InclinedWallTubeCurbMaterial_1.mat"
+    ],
+    "AnimAssetPaths": null
 }

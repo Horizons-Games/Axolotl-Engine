@@ -8,11 +8,6 @@ UniqueID::~UniqueID()
 {
 }
 
-UID UniqueID::GenerateUID() 
-{
-	return uidNew(creator);
-}
-
 std::string UniqueID::GenerateUUID() 
 {
 	std::stringstream ss; //read/write the string

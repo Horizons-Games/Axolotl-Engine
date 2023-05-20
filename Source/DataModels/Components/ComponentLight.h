@@ -1,21 +1,17 @@
 #pragma once
-#pragma warning (disable: 26495)
-
 #include "Component.h"
+#include "Auxiliar/Generics/Drawable.h"
 
 #include "GameObject/GameObject.h"
 
 #include "Math/float3.h"
-
-#define COMPONENT_LIGHT "Light"
 
 enum class LightType 
 { 
 	UNKNOWN, 
 	DIRECTIONAL, 
 	POINT, 
-	SPOT, 
-	AMBIENT 
+	SPOT
 };
 
 const static std::string GetNameByLightType(LightType type);
@@ -23,7 +19,7 @@ const static LightType GetLightTypeByName(const std::string& name);
 
 class Json;
 
-class ComponentLight : public Component
+class ComponentLight : public Component, public Drawable
 {
 public:
 	ComponentLight(const bool active, GameObject* owner);
@@ -36,12 +32,10 @@ public:
 
 	virtual ~ComponentLight() override;
 
-	void Update() override;
+	virtual void Draw() const override {};
 
 	void Enable() override;
 	void Disable() override;
-
-	virtual void Draw() override {};
 
 	virtual void SaveOptions(Json& meta) override {};
 	virtual void LoadOptions(Json& meta) override {};
@@ -59,11 +53,6 @@ protected:
 
 	LightType lightType;
 };
-
-inline void ComponentLight::Update()
-{
-	Draw();
-}
 
 inline void ComponentLight::Enable()
 {
@@ -110,8 +99,6 @@ inline const std::string GetNameByLightType(LightType type)
 		return "LightType_Point";
 	case LightType::SPOT:
 		return "LightType_Spot";
-	case LightType::AMBIENT:
-		return "LightType_Ambient";
 	default:
 		assert(false && "Wrong light type introduced");
 		return "";
@@ -133,11 +120,6 @@ inline const LightType GetLightTypeByName(const std::string& typeName)
 	if (typeName == "LightType_Spot")
 	{
 		return LightType::SPOT;
-	}
-
-	if (typeName == "LightType_Ambient")
-	{
-		return LightType::AMBIENT;
 	}
 	return LightType::UNKNOWN;
 }

@@ -10,14 +10,25 @@ public:
 	ModuleUI();
 	~ModuleUI();
 
-	bool Init();
-	bool Start();
+	bool Init() override;
 
-	update_status Update();
+	update_status Update() override;
 
-	update_status PostUpdate();
+	update_status PostUpdate() override;
 
-	void DrawChildren(GameObject* gameObject);
 	void RecalculateCanvasSizeAndScreenFactor();
+	void LoadVBO();
+	void CreateVAO();
+	unsigned int GetQuadVAO() const;
+
+private:
+	unsigned int quadVBO;
+	unsigned int quadVAO;
 };
+
+inline unsigned int ModuleUI::GetQuadVAO() const
+{
+	return quadVAO;
+}
+
 

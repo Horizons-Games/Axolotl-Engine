@@ -1,19 +1,18 @@
 #pragma once
 
 #include <list>
-#include <unordered_map>
+#include <memory>
+#include <ranges>
+#include <functional>
 
 #include "../../FileSystem/UniqueID.h"
-#include <memory>
-#include <iterator>
-
-#include "Geometry/AABB.h"
-#include "Geometry/OBB.h"
+#include "MathGeoLib/Include/Math/vec2d.h"
 
 class Component;
 class ComponentMeshRenderer;
 class ComponentCanvas;
 class Json;
+class ResourceModel;
 
 enum class ComponentType;
 enum class LightType;
@@ -21,12 +20,20 @@ enum class LightType;
 enum class StateOfSelection
 {
 	NO_SELECTED,
-	SELECTED
+	SELECTED,
+	CHILD_SELECTED
 };
 
 class GameObject
 {
 public:
+	using GameObjectView =
+		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>,
+			std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
+	using ComponentView =
+		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>,
+			std::function<Component*(const std::unique_ptr<Component>&)>>;
+
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
 	GameObject(const std::string& name, GameObject* parent);
@@ -36,28 +43,26 @@ public:
 	void SaveOptions(Json& json);
 	void LoadOptions(Json& meta);
 
-	void Update();
 	void Draw() const;
-	void DrawSelected();
-	void DrawHighlight();
 
 	void InitNewEmptyGameObject(bool is3D=true);
 
-	void AddChild(std::unique_ptr<GameObject> child);
-	std::unique_ptr<GameObject> RemoveChild(const GameObject* child);
+	void LinkChild(GameObject* child);
+	[[nodiscard]] GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;
-	const char* GetName() const;
-	const char* GetTag() const;
+	std::string GetName() const;
+	std::string GetTag() const;
 	GameObject* GetParent() const;
+	GameObject* GetRootGO() const;
 
 	StateOfSelection GetStateOfSelection() const;
-	const std::vector<GameObject*> GetChildren() const;
+	GameObjectView GetChildren() const;
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
-	const std::vector<Component*> GetComponents() const;
+	ComponentView GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
-	void CopyComponent(ComponentType type, Component* component);
+	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
 	template <typename T,
@@ -69,14 +74,19 @@ public:
 	void Enable();
 	void Disable();
 
-	void SetName(const char* newName);
-	void SetTag(const char* newTag);
+	void SetName(const std::string& newName);
+	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
 	void MoveParent(GameObject* newParent);
+	void SetRootGO(GameObject* newRootGO);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
 	void ActivateChildren();
+
+	bool IsStatic();
+	void SetStatic(bool newStatic);
+	void SpreadStatic();
 
 	Component* CreateComponent(ComponentType type);
 	Component* CreateComponentLight(LightType lightType);
@@ -85,45 +95,48 @@ public:
 
 	std::list<GameObject*> GetGameObjectsInside();
 
-	void MoveUpChild(GameObject* childToMove);
-	void MoveDownChild(GameObject* childToMove);
-
-	void CalculateBoundingBoxes();
-	void Encapsule(const vec* Vertices, unsigned numVertices);
-
-	ComponentCanvas* FoundCanvasOnAnyParent();
-
-	const AABB& GetLocalAABB();
-	const AABB& GetEncapsuledAABB();
-	const OBB& GetObjectOBB();
-	const bool isDrawBoundingBoxes() const;
-
-	void setDrawBoundingBoxes(bool newDraw);
+	void MoveUpChild(const GameObject* childToMove);
+	void MoveDownChild(const GameObject* childToMove);
+	
 	bool IsADescendant(const GameObject* descendant);
+	void SetParentAsChildSelected();
 
 	bool CompareTag(const std::string& commingTag) const;
 
+	GameObject* FindGameObject(const std::string& name);
+
 private:
+	GameObject(const std::string& name,
+			   GameObject* parent,
+			   UID uid,
+			   bool enabled,
+			   bool active,
+			   StateOfSelection selection,
+			   bool staticObject);
+
 	bool IsAChild(const GameObject* child);
+
+	enum class HierarchyDirection
+	{
+		UP,
+		DOWN
+	};
+	void MoveChild(const GameObject* child, HierarchyDirection direction);
 
 private:
 	UID uid;
-	UID parentUID;
 
 	bool enabled;
 	bool active;
+	bool staticObject;
 	std::string name;
 	std::string tag;
 	std::vector<std::unique_ptr<Component>> components;
 	StateOfSelection stateOfSelection;
 
 	GameObject* parent;
+	GameObject* root;
 	std::vector<std::unique_ptr<GameObject>> children;
-
-	AABB localAABB;
-	AABB encapsuledAABB;
-	OBB objectOBB;
-	bool drawBoundingBoxes;
 
 	friend class WindowInspector;
 };
@@ -135,6 +148,13 @@ inline UID GameObject::GetUID() const
 
 inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 {
+	if (stateOfSelection == StateOfSelection::NO_SELECTED)
+	{
+		if (parent)
+		{
+			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+		}
+	}
 	this->stateOfSelection = stateOfSelection;
 }
 
@@ -143,19 +163,19 @@ inline bool GameObject::IsEnabled() const
 	return enabled;
 }
 
-inline const char* GameObject::GetName() const
+inline std::string GameObject::GetName() const
 {
-	return name.c_str();
+	return name;
 }
 
-inline void GameObject::SetName(const char* newName)
+inline void GameObject::SetName(const std::string& newName)
 {
 	name = newName;
 }
 
-inline void GameObject::SetParent(GameObject* newParent)
+inline void GameObject::SetRootGO(GameObject* newRootGO)
 {
-	parent = newParent;
+	root = newRootGO;
 }
 
 inline GameObject* GameObject::GetParent() const
@@ -163,17 +183,22 @@ inline GameObject* GameObject::GetParent() const
 	return parent;
 }
 
+inline GameObject* GameObject::GetRootGO() const
+{
+	return root;
+}
+
 inline StateOfSelection GameObject::GetStateOfSelection() const
 {
 	return stateOfSelection;
 }
 
-inline const char* GameObject::GetTag() const
+inline std::string GameObject::GetTag() const
 {
-	return tag.c_str();
+	return tag;
 }
 
-inline void GameObject::SetTag(const char* newTag)
+inline void GameObject::SetTag(const std::string& newTag)
 {
 	tag = newTag;
 }
@@ -183,15 +208,15 @@ inline bool GameObject::IsActive() const
 	return active;
 }
 
-inline const std::vector<GameObject*> GameObject::GetChildren() const
+inline GameObject::GameObjectView GameObject::GetChildren() const
 {
-	std::vector<GameObject*> rawChildren;
-
-	if(!children.empty())
-		std::transform(std::begin(children), std::end(children), std::back_inserter(rawChildren), 
-			[] (const std::unique_ptr<GameObject>& go) { return go.get(); });
-
-	return rawChildren;
+	// I haven't found a way allow for an anonymous function
+	std::function<GameObject* (const std::unique_ptr<GameObject>&)> lambda =
+		[](const std::unique_ptr<GameObject>& go)
+		{
+			return go.get();
+		};
+	return std::ranges::transform_view(children, lambda);
 }
 
 inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& children)
@@ -203,14 +228,15 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 	}
 }
 
-inline const std::vector<Component*> GameObject::GetComponents() const
+inline GameObject::ComponentView GameObject::GetComponents() const
 {
-	std::vector<Component*> rawComponent;
-
-	std::transform(std::begin(components), std::end(components), std::back_inserter(rawComponent),
-		[](const std::unique_ptr<Component>& c) { return c.get(); });
-
-	return rawComponent;
+	// I haven't found a way allow for an anonymous function
+	std::function<Component* (const std::unique_ptr<Component>&)> lambda =
+		[](const std::unique_ptr<Component>& c)
+		{
+			return c.get();
+		};
+	return std::ranges::transform_view(components, lambda);
 }
 
 template <typename T,
@@ -221,7 +247,7 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 
 	for (const std::unique_ptr<Component>& component : this->components)
 	{
-		if (component->GetType() == type)
+		if (component && component->GetType() == type)
 		{
 			components.push_back(dynamic_cast<T*>(component.get()));
 		}
@@ -230,35 +256,17 @@ inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type)
 	return components;
 }
 
-inline const AABB& GameObject::GetLocalAABB()
-{
-	CalculateBoundingBoxes();
-	return localAABB;
-}
-
-inline const AABB& GameObject::GetEncapsuledAABB()
-{
-	CalculateBoundingBoxes();
-	return encapsuledAABB;
-}
-
-inline const OBB& GameObject::GetObjectOBB()
-{
-	CalculateBoundingBoxes();
-	return objectOBB;
-}
-
-inline const bool GameObject::isDrawBoundingBoxes() const
-{
-	return drawBoundingBoxes;
-}
-
-inline void GameObject::setDrawBoundingBoxes(bool newDraw)
-{
-	drawBoundingBoxes = newDraw;
-}
-
 inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
 	return tag == commingTag;
+}
+
+inline bool GameObject::IsStatic()
+{
+	return staticObject;
+}
+
+inline void GameObject::SetStatic(bool newStatic)
+{
+	staticObject = newStatic;
 }

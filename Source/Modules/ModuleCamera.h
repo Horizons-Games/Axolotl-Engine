@@ -1,7 +1,4 @@
 #pragma once
-#pragma warning (disable: 26495)
-#pragma warning (disable: 4005)
-
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 #include "Camera/Camera.h"
@@ -47,13 +44,21 @@ public:
 	int GetSelectedPosition();
 	void SetSelectedPosition(int newSelected);
 
-	
+	float4x4 GetOrthoProjectionMatrix() const;
+	void RecalculateOrthoProjectionMatrix();
+
 private:
 	std::unique_ptr <Camera> camera;
 	Camera* selectedCamera;
 	int selectedPosition;
+
+	float4x4 orthoProjectionMatrix;
 };
 
+inline Camera* ModuleCamera::GetCamera()
+{
+	return selectedCamera;
+}
 
 inline Camera* ModuleCamera::GetSelectedCamera() const
 {
@@ -69,4 +74,9 @@ inline int ModuleCamera::GetSelectedPosition()
 inline void ModuleCamera::SetSelectedPosition(int newSelected)
 {
 	selectedPosition = newSelected;
+}
+
+inline float4x4 ModuleCamera::GetOrthoProjectionMatrix() const
+{
+	return orthoProjectionMatrix;
 }

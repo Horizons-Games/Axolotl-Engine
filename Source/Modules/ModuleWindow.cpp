@@ -39,6 +39,7 @@ bool ModuleWindow::Init()
 			width, height, flags);
 
 		window = std::unique_ptr<SDL_Window, SDLWindowDestroyer>(windowRawPointer);
+		SetVsync(false);
 
 		if(window == nullptr)
 		{
@@ -51,6 +52,7 @@ bool ModuleWindow::Init()
 			//Get window surface
 			screenSurface = SDL_GetWindowSurface(window.get());
 		}
+		SetResizable(true);
 	}
 
 	return ret;
@@ -130,13 +132,10 @@ void ModuleWindow::SetBrightness(float brightness)
 	}
 }
 
-SDL_bool ModuleWindow::BoolToSDL_Bool(bool boolVal)
+void ModuleWindow::SetVsync(bool vsyncactive)
 {
-	if (boolVal)
-	{
-		return SDL_TRUE;
-	}
-	return SDL_FALSE;
+	vsync = vsyncactive;
+	SDL_GL_SetSwapInterval(vsyncactive);
 }
 
 

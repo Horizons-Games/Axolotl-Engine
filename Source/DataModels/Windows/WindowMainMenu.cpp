@@ -1,24 +1,32 @@
 #include "WindowMainMenu.h"
-
+#include"Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/Json.h"
 #include "Application.h"
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
+#include "Auxiliar/Utils/ConvertU8String.h"
 
 #include "SDL.h"
+
+#include "EditorWindows/WindowAbout.h"
+#include "EditorWindows/ImporterWindows/WindowLoadScene.h"
+#include "EditorWindows/ImporterWindows/WindowSaveScene.h"
+#include "EditorWindows/ImporterWindows/WindowImportScene.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 
-WindowMainMenu::WindowMainMenu(const std::vector< std::unique_ptr<EditorWindow> >& editorWindows) :
+WindowMainMenu::WindowMainMenu(Json &json) :
 	Window("Main Menu"), showAbout(false), openPopup(false), isSaving(false), action(Actions::NONE), about(std::make_unique<WindowAbout>()),
-	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>())
-{
-	for (const std::unique_ptr<EditorWindow>& window : editorWindows)
+	loadScene(std::make_unique<WindowLoadScene>()), saveScene(std::make_unique<WindowSaveScene>()), importScene(std::make_unique<WindowImportScene>())
+{		
+	about = std::make_unique<WindowAbout>();	
+	
+	for (const char* name: json.GetVectorNames())
 	{
-		std::pair<std::string, bool> windowNameAndEnabled;
-		if (window->GetName() == "Configuration") windowNameAndEnabled = std::make_pair(window->GetName(), false);
-		else windowNameAndEnabled = std::make_pair(window->GetName(), defaultEnabled);
-		windowNamesAndEnabled.push_back(windowNameAndEnabled);
+		std::pair<std::string, bool> windowNameAndEnabled = std::make_pair<std::string, bool>(std::string(name), bool(json[name]));
+		windowNamesAndEnabled.push_back(windowNameAndEnabled);		
 	}
 }
 
@@ -26,7 +34,7 @@ WindowMainMenu::~WindowMainMenu()
 {
 }
 
-void WindowMainMenu::Draw(bool& enabled)
+void WindowMainMenu::Draw(bool &enabled)
 {
 	if (openPopup) DrawPopup();
 	else if (!isSaving && action != Actions::NONE) {
@@ -60,7 +68,7 @@ void WindowMainMenu::CreateNewScene()
 {
 	std::unique_ptr<Scene> scene = std::make_unique<Scene>();
 	scene->InitNewEmptyScene();
-	App->scene->SetLoadedScene(std::move(scene));
+	App->GetModule<ModuleScene>()->SetLoadedScene(std::move(scene));
 }
 
 void WindowMainMenu::DrawPopup()
@@ -72,10 +80,10 @@ void WindowMainMenu::DrawPopup()
 	{
 		ImGui::Text("Do you want to save the scene?\nAll your changes will be lost if you don't save them.");
 		ImGui::Separator();
-		std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
+		std::string filePathName = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName();
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
-			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			if (filePathName != "New Scene") App->GetModule<ModuleScene>()->SaveScene(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
@@ -89,25 +97,26 @@ void WindowMainMenu::DrawPopup()
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
-	}
+	}	
 }
 
 void WindowMainMenu::DrawFileMenu()
 {
 	if (ImGui::BeginMenu("File"))
 	{
-		if (ImGui::Button(ICON_IGFD_FILE " New Scene"))
+		if (ImGui::Button((ConvertU8String(ICON_IGFD_FILE) + " New Scene").c_str()))
 		{
 			openPopup = true;
 			action = Actions::NEW_SCENE;
 		}
 		loadScene->DrawWindowContents();
-		if (ImGui::Button(ICON_IGFD_SAVE " Save Scene"))
+		importScene->DrawWindowContents();
+		if (ImGui::Button((ConvertU8String(ICON_IGFD_SAVE) + " Save Scene").c_str()))
 		{
-			std::string filePathName = App->scene->GetLoadedScene()->GetRoot()->GetName();
+			std::string filePathName = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName();
 			// We should find a way to check if the scene has already been saved
 			// Using "New Scene" is a patch
-			if (filePathName != "New Scene") App->scene->SaveSceneToJson(filePathName + SCENE_EXTENSION);
+			if (filePathName != "New Scene") App->GetModule<ModuleScene>()->SaveScene(filePathName + SCENE_EXTENSION);
 			else isSaving = true;
 		}
 		saveScene->DrawWindowContents();
@@ -137,9 +146,16 @@ void WindowMainMenu::DrawHelpMenu()
 	if (ImGui::BeginMenu("Help"))
 	{
 		ImGui::MenuItem("About Axolotl", NULL, &showAbout);
-		if (ImGui::MenuItem("GitHub Link")) ShellExecute(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		if (ImGui::MenuItem("GitHub Link")) ShellExecuteA(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
 		ImGui::EndMenu();
 	}
 	about->Draw(showAbout);
+}
+
+void WindowMainMenu::ShortcutSave()
+{
+	std::string filePathName = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName();
+	if (filePathName != "New Scene") { App->GetModule<ModuleScene>()->SaveScene(filePathName + SCENE_EXTENSION); }
+	else { isSaving = true; }
 }
 

@@ -1,12 +1,12 @@
 #include "WindowTextureInput.h"
-
-#include "Windows/SubWindows/ComponentWindows/WindowComponentMaterial.h"
+#include "Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceTexture.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, TextureType textureType) :
+WindowTextureInput::WindowTextureInput
+	(WindowComponentMeshRenderer* material, TextureType textureType) :
 	WindowFileBrowser(), windowComponent(material), textureType(textureType)
 {
 	dialogName = "Select Texture";
@@ -22,17 +22,19 @@ WindowTextureInput::WindowTextureInput(WindowComponentMaterial* material, Textur
 	case TextureType::OCCLUSION:
 		title = "Load Occlusion";
 		break;
-	/*case TextureType::SPECULAR:
-		title = "Load Specular";
-		break;*/
 	case TextureType::METALLIC:
 		title = "Load Metallic";
+		break;
+	case TextureType::SPECULAR:
+		title = "Load Specular";
 		break;
 	default:
 		break;
 	}
 
-	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
+	filters = 
+		"Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
+
 	startPath = "Assets/Textures";
 }
 
@@ -44,23 +46,39 @@ void WindowTextureInput::DoThisIfOk()
 {
 	if (windowComponent)
 	{
-		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-		std::shared_ptr<ResourceTexture> texture = App->resources->RequestResource<ResourceTexture>(filePath);
-		
+		this->isLoading = false;
+		std::string filePath = 
+			std::string(fileDialogImporter.GetFilePathName());
+		std::shared_ptr<ResourceTexture> texture = 
+			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
+
 		switch (textureType)
 		{
 		case TextureType::DIFFUSE:
+
 			windowComponent->SetDiffuse(texture);
+
 			break;
+
 		case TextureType::NORMAL:
+
 			windowComponent->SetNormal(texture);
+
 			break;
 		case TextureType::OCCLUSION:
+
 			break;
+
 		case TextureType::METALLIC:
-			windowComponent->SetMetalic(texture);
+
+			windowComponent->SetMetallic(texture);
+
 			break;
-		default:
+
+		case TextureType::SPECULAR:
+
+			windowComponent->SetSpecular(texture);
+
 			break;
 		}
 	}
