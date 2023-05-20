@@ -59,10 +59,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 355.5,
-                            "worldAABB_min_y": 237.0,
-                            "worldAABB_max_x": 355.5,
-                            "worldAABB_max_y": 237.0
+                            "worldAABB_min_x": 254.5,
+                            "worldAABB_min_y": 261.5,
+                            "worldAABB_max_x": 254.5,
+                            "worldAABB_max_y": 261.5
                         }
                     },
                     {
@@ -111,10 +111,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 355.5,
-                            "worldAABB_min_y": 237.0,
-                            "worldAABB_max_x": 355.5,
-                            "worldAABB_max_y": 237.0
+                            "worldAABB_min_x": 254.5,
+                            "worldAABB_min_y": 261.5,
+                            "worldAABB_max_x": 254.5,
+                            "worldAABB_max_y": 261.5
                         }
                     },
                     {
@@ -240,6 +240,13 @@
                             "frustumOfset": 1.0,
                             "drawFrustum": false
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioListener",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
@@ -274,10 +281,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 270.0,
-                            "worldAABB_min_y": 379.66668701171875,
-                            "worldAABB_max_x": 370.0,
-                            "worldAABB_max_y": 401.0
+                            "worldAABB_min_x": 214.734375,
+                            "worldAABB_min_y": 374.964599609375,
+                            "worldAABB_max_x": 294.265625,
+                            "worldAABB_max_y": 391.9312744140625
                         }
                     },
                     {
@@ -307,6 +314,22 @@
                             "colorClicked_z": 0.501960813999176,
                             "colorClicked_w": 1.0,
                             "sceneName": "MainMenuScriptsVS2"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
