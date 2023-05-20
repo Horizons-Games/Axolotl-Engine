@@ -27,6 +27,10 @@ void ComponentParticleSystem::LoadOptions(Json& meta)
 
 void ComponentParticleSystem::Update()
 {
+	for (EmitterInstance* emitter : emitters)
+	{
+		emitter->UpdateModules();
+	}
 }
 
 void ComponentParticleSystem::Draw() const
@@ -44,12 +48,14 @@ void ComponentParticleSystem::Reset()
 void ComponentParticleSystem::CreateEmitterInstance()
 {
 	EmitterInstance* instance = new EmitterInstance(nullptr, this);
+	instance->Init();
 	emitters.push_back(instance);
 }
 
 void ComponentParticleSystem::CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter)
 {
 	EmitterInstance* instance = new EmitterInstance(emitter, this);
+	instance->Init();
 	emitters.push_back(instance);
 }
 

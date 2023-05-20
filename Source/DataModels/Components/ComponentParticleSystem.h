@@ -3,6 +3,7 @@
 #include "Component.h"
 
 #include "Auxiliar/Generics/Drawable.h"
+#include "Auxiliar/Generics/Updatable.h"
 
 #include <vector>
 #include <memory>
@@ -11,7 +12,7 @@ class EmitterInstance;
 class ParticleEmitter;
 class ResourceParticleSystem;
 
-class ComponentParticleSystem : public Component, public Drawable
+class ComponentParticleSystem : public Component, public Drawable, public Updatable
 {
 public:
 	ComponentParticleSystem(const bool active, GameObject* owner);
@@ -20,7 +21,7 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void Update();
+	void Update() override;
 	void Reset();
 	void Draw() const override;
 

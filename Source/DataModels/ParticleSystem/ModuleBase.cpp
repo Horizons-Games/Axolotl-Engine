@@ -14,6 +14,7 @@
 
 ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BASE, emitter)
 {
+	originTransform = float4x4::identity;
 	originLocation = DEFAULT_ORIGIN;
 	originRotation = Quat::identity;
 	alignment = Alignment::WORLD;
@@ -29,6 +30,60 @@ void ModuleBase::Spawn(EmitterInstance* instance)
 
 void ModuleBase::Update(EmitterInstance* instance)
 {
+	const GameObject* go = instance->GetOwner()->GetOwner();
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
+
+	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
+
+	for (int i = 0; i < particles.size(); ++i)
+	{
+		EmitterInstance::Particle& particle = particles[i];
+
+		if (particle.tranform.IsIdentity())
+		{
+			float3 particlePos = globalTransform.TranslatePart();
+			float radius = emitter->GetRadius();
+
+			float3 randOffset = float3(instance->CalculateRandomValueInRange(0.0f, radius),
+									   instance->CalculateRandomValueInRange(0.0f, radius),
+									   instance->CalculateRandomValueInRange(0.0f, radius));
+
+			particlePos += randOffset;
+
+			particle.tranform.SetTranslatePart(particlePos);
+		}
+	}
+}
+
+void ModuleBase::DrawDD(EmitterInstance* instance)
+{
+	const GameObject* go = instance->GetOwner()->GetOwner();
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
+
+	float3 position;
+	Quat rotation;
+	float3 scale;
+	globalTransform.Decompose(position, rotation, scale);
+
+	float radius = emitter->GetRadius();
+	float angle = emitter->GetAngle();
+
+	float baseRadius = math::Tan(math::DegToRad(angle)) * CONE_HEIGHT;
+
+	switch (emitter->GetShape())
+	{
+	case ParticleEmitter::ShapeType::CIRCLE:
+		dd::circle(position, globalTransform.WorldZ(), dd::colors::HotPink, radius, 25);
+		break;
+	case ParticleEmitter::ShapeType::CONE:
+		dd::cone(position, globalTransform.WorldZ() * CONE_HEIGHT, dd::colors::HotPink, baseRadius + radius, radius);
+		break;
+	case ParticleEmitter::ShapeType::BOX:
+		dd::box(position, dd::colors::HotPink, radius, radius, radius);
+		break;
+	}
 }
 
 void ModuleBase::DrawImGui()
@@ -37,9 +92,10 @@ void ModuleBase::DrawImGui()
 	{
 		if (ImGui::BeginTable("##baseTable", 2))
 		{
+			bool updateTransform = originTransform.IsIdentity();
+
 			float3 rotation = originRotation.ToEulerXYZ();
 			rotation = RadToDeg(rotation);
-
 
 			ImGui::TableNextColumn();
 			ImGui::Text("Origin");
@@ -52,6 +108,7 @@ void ModuleBase::DrawImGui()
 			if (ImGui::DragFloat("##XTrans", &originLocation.x, 0.01f,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
+				updateTransform = true;
 			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -61,6 +118,7 @@ void ModuleBase::DrawImGui()
 			if (ImGui::DragFloat("##YTrans", &originLocation.y, 0.01f,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
+				updateTransform = true;
 			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -70,6 +128,7 @@ void ModuleBase::DrawImGui()
 			if (ImGui::DragFloat("##ZTrans", &originLocation.z, 0.01f,
 				std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
 			{
+				updateTransform = true;
 			}
 			ImGui::PopStyleVar();
 
@@ -85,6 +144,8 @@ void ModuleBase::DrawImGui()
 			{
 				rotation = DegToRad(rotation);
 				SetRotation(Quat::FromEulerXYZ(rotation.x, rotation.y, rotation.z));
+
+				updateTransform = true;
 			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -95,6 +156,8 @@ void ModuleBase::DrawImGui()
 			{
 				rotation = DegToRad(rotation);
 				SetRotation(Quat::FromEulerXYZ(rotation.x, rotation.y, rotation.z));
+
+				updateTransform = true;
 			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
@@ -105,8 +168,15 @@ void ModuleBase::DrawImGui()
 			{
 				rotation = DegToRad(rotation);
 				SetRotation(Quat::FromEulerXYZ(rotation.x, rotation.y, rotation.z));
+
+				updateTransform = true;
 			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
+
+			if (updateTransform)
+			{
+				originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
+			}
 
 			ImGui::TableNextColumn();
 			ImGui::Text("Alignment");
@@ -169,37 +239,5 @@ void ModuleBase::DrawImGui()
 			ImGui::EndTable();
 		}
 		ImGui::TreePop();
-	}
-}
-
-void ModuleBase::DrawDD(EmitterInstance* instance)
-{
-	const GameObject* go = instance->GetOwner()->GetOwner();
-	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
-	
-	float4x4 originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
-	float4x4 finalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
-
-	float3 position;
-	Quat rotation;
-	float3 scale;
-	finalTransform.Decompose(position, rotation, scale);
-
-	float radius = emitter->GetRadius();
-	float angle = emitter->GetAngle();
-
-	float baseRadius = math::Tan(math::DegToRad(angle)) * CONE_HEIGHT;
-
-	switch (emitter->GetShape())
-	{
-	case ParticleEmitter::ShapeType::CIRCLE:
-		dd::circle(position, finalTransform.WorldZ(), dd::colors::HotPink, radius, 25);
-		break;
-	case ParticleEmitter::ShapeType::CONE:
-		dd::cone(position, finalTransform.WorldZ() * CONE_HEIGHT, dd::colors::HotPink, baseRadius + radius, radius);
-		break;
-	case ParticleEmitter::ShapeType::BOX:
-		dd::box(position, dd::colors::HotPink, radius, radius, radius);
-		break;
 	}
 }

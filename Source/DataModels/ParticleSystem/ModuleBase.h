@@ -2,6 +2,7 @@
 
 #include "ParticleModule.h"
 
+#include "Math/float4x4.h"
 #include "Math/float3.h"
 #include "Math/Quat.h"
 
@@ -28,10 +29,11 @@ public:
 	Quat GetRotation() const;
 	Alignment GetAlignment() const;
 
-	void DrawImGui() override;
 	void DrawDD(EmitterInstance* instance) override;
+	void DrawImGui() override;
 
 private:
+	float4x4 originTransform;
 	float3 originLocation;
 	Quat originRotation;
 	Alignment alignment;
