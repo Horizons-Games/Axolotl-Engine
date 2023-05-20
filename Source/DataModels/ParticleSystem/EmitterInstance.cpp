@@ -6,7 +6,7 @@
 #include <random>
 
 EmitterInstance::EmitterInstance(const std::shared_ptr<ParticleEmitter> emitter, ComponentParticleSystem* owner) :
-	emitter(emitter), owner(owner), aliveParticles(0)
+	emitter(emitter), owner(owner), aliveParticles(0), lastEmission(0.0f)
 {
 	srand(static_cast <unsigned> (time(nullptr))); //seeding the random generation once
 }
@@ -22,6 +22,7 @@ void EmitterInstance::Init()
 {
 	particles.resize(emitter->GetMaxParticles());
 	aliveParticles = 0;
+	lastEmission = 0.0f;
 }
 
 void EmitterInstance::UpdateModules()

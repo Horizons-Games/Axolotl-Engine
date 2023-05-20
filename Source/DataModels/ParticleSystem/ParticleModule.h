@@ -1,12 +1,13 @@
 #pragma once
 
-enum class ModuleType { BASE, SPAWN, POSITION, COLOR };
-
 class EmitterInstance;
 class ParticleEmitter;
 
 class ParticleModule
 {
+public:
+	enum class ModuleType { BASE, SPAWN, POSITION, COLOR };
+
 public:
 	ParticleModule(ModuleType type, ParticleEmitter* emitter);
 	virtual ~ParticleModule();
@@ -37,7 +38,7 @@ inline const bool ParticleModule::IsEnabled() const
 	return enabled;
 }
 
-inline const ModuleType ParticleModule::GetType() const
+inline const ParticleModule::ModuleType ParticleModule::GetType() const
 {
 	return type;
 }

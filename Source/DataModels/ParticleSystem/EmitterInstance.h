@@ -51,11 +51,20 @@ public:
 	ComponentParticleSystem* GetOwner() const;
 	std::shared_ptr<ParticleEmitter> GetEmitter() const;
 	std::vector<Particle>& GetParticles();
+	const float GetLastEmission() const;
+	const unsigned GetAliveParticles() const;
+	const unsigned GetLastParticleUsed() const;
+
+	void SetAliveParticles(unsigned aliveParts);
+	void SetLastEmission(float emission);
 
 private:
 	std::vector<Particle> particles;
 
 	unsigned aliveParticles;
+	unsigned lastParticleUsed;
+	float lastEmission;
+
 
 	std::shared_ptr<ParticleEmitter> emitter;
 	ComponentParticleSystem* owner;
@@ -71,6 +80,31 @@ inline std::vector<EmitterInstance::Particle>& EmitterInstance::GetParticles()
 	return particles;
 }
 
+inline const float EmitterInstance::GetLastEmission() const
+{
+	return lastEmission;
+}
+
+inline const unsigned EmitterInstance::GetAliveParticles() const
+{
+	return aliveParticles;
+}
+
+inline const unsigned EmitterInstance::GetLastParticleUsed() const
+{
+	return lastParticleUsed;
+}
+
+inline void EmitterInstance::SetAliveParticles(unsigned aliveParts)
+{
+	aliveParticles = aliveParts;
+}
+
+inline void EmitterInstance::SetLastEmission(float emission)
+{
+	lastEmission = emission;
+}
+
 inline void EmitterInstance::SimulateParticles() const
 {
 	for (int i = 0; i < particles.size(); ++i)
@@ -78,8 +112,8 @@ inline void EmitterInstance::SimulateParticles() const
 		float3 pos = particles[i].tranform.TranslatePart();
 		float3 dir = particles[i].direction;
 
-		dd::point(pos, dd::colors::Yellow, 5.0f);
-		//dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
+		//dd::point(pos, dd::colors::Yellow, 5.0f);
+		dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
 	}
 }
 

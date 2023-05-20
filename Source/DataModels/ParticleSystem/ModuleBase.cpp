@@ -46,7 +46,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 	{
 		EmitterInstance::Particle& particle = particles[i];
 
-		if (particle.tranform.IsIdentity() || particle.lifespan == 0)
+		if (particle.tranform.IsIdentity() || particle.lifespan == 0.0f)
 		{
 			float radius = emitter->GetRadius();
 
@@ -62,7 +62,8 @@ void ModuleBase::Update(EmitterInstance* instance)
 					float4x4 pointTransform = float4x4::FromTRS(point, Quat::identity, float3::one);
 
 					particle.tranform = globalTransform * pointTransform;
-					particle.direction = (particle.tranform.TranslatePart() - globalTransform.TranslatePart()).Normalized();
+					particle.direction = (particle.tranform.TranslatePart() - 
+						globalTransform.TranslatePart()).Normalized();
 
 					break;
 				}
@@ -85,7 +86,8 @@ void ModuleBase::Update(EmitterInstance* instance)
 					float4x4 globalAuxTransf = globalTransform * pointAuxTransform;
 
 					particle.tranform = globalTransform * pointTransform;
-					particle.direction = (globalAuxTransf.TranslatePart() - particle.tranform.TranslatePart()).Normalized();
+					particle.direction = (globalAuxTransf.TranslatePart() - 
+						particle.tranform.TranslatePart()).Normalized();
 
 					break;
 				}
@@ -98,11 +100,17 @@ void ModuleBase::Update(EmitterInstance* instance)
 					float4x4 pointTransform = float4x4::FromTRS(float3(xPos, yPos, zPos), Quat::identity, float3::one);
 
 					particle.tranform = globalTransform * pointTransform;
-					particle.direction = (particle.tranform.TranslatePart() - globalTransform.TranslatePart()).Normalized();
+					particle.direction = (particle.tranform.TranslatePart() - 
+						globalTransform.TranslatePart()).Normalized();
 
 					break;
 				}
 			}
+
+			float2 speed = emitter->GetSpeedRange();
+			float velocity = emitter->IsRandomSpeed() ? 
+				instance->CalculateRandomValueInRange(speed.x, speed.y) : speed.x;
+			particle.initVelocity = particle.direction * velocity;
 		}
 	}
 }
