@@ -415,6 +415,9 @@
     <ClCompile Include="moveale.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\ParticleSystemImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -832,6 +835,9 @@
     </ClInclude>
     <ClInclude Include="moveale.h">
       <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\ParticleSystemImporter.h">
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

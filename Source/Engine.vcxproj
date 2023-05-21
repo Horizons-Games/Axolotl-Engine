@@ -424,6 +424,7 @@
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\ModelImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\ParticleSystemImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\SceneImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\StateMachineImporter.cpp" />
@@ -776,6 +777,7 @@
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
     <ClInclude Include="FileSystem\Importers\ModelImporter.h" />
+    <ClInclude Include="FileSystem\Importers\ParticleSystemImporter.h" />
     <ClInclude Include="FileSystem\Importers\SceneImporter.h" />
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h" />
     <ClInclude Include="FileSystem\Importers\StateMachineImporter.h" />
