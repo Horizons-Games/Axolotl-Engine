@@ -58,6 +58,7 @@ bool ModuleCamera::Start()
 
 update_status ModuleCamera::Update()
 {
+	ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
 #ifdef ENGINE
 		App->GetModule<ModuleEditor>()->IsSceneFocused()
@@ -66,22 +67,22 @@ update_status ModuleCamera::Update()
 #endif // GAMEMODE
 		)
 	{
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
+		if (input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
 		{
 			selectedPosition--;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
+		else if (input->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
 		{
 			selectedPosition++;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
 		{
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+		else if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
 		{
 			selectedPosition = 1;
 			SetSelectedCamera(selectedPosition);
