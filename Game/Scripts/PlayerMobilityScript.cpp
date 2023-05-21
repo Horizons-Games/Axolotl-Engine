@@ -24,9 +24,9 @@
 REGISTERCLASS(PlayerMobilityScript);
 
 PlayerMobilityScript::PlayerMobilityScript() : Script(), componentPlayer(nullptr), speed(6.0f),
-												jumpParameter(80.0f), dashForce(50.0f), canDash(true),
-												canDoubleJump(true) , jumps(0), isCrouch(false),
-												componentAudio(nullptr), playerState(PlayerActions::IDLE)
+jumpParameter(80.0f), dashForce(50.0f), canDash(true),
+canDoubleJump(true), jumps(0), isCrouch(false),
+componentAudio(nullptr), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
 	REGISTER_FIELD_WITH_ACCESSORS(JumpParameter, float);
@@ -41,7 +41,7 @@ PlayerMobilityScript::~PlayerMobilityScript()
 
 void PlayerMobilityScript::Start()
 {
-	if (canDoubleJump) 
+	if (canDoubleJump)
 	{
 		jumps = 2;
 	}
@@ -57,14 +57,14 @@ void PlayerMobilityScript::Start()
 
 void PlayerMobilityScript::PreUpdate(float deltaTime)
 {
-	
+
 	if (!componentPlayer->IsStatic() && App->GetModule<ModuleCamera>()->GetSelectedPosition() == 0
 		&& !SDL_ShowCursor(SDL_QUERY))
 	{
 		Move();
 		Rotate();
 	}
-	
+
 }
 
 void PlayerMobilityScript::Move()
@@ -111,7 +111,7 @@ void PlayerMobilityScript::Move()
 		{
 			canDash = false;
 			nextDash += 5000;
-		}	
+		}
 	}
 
 	// Cooldown Dash
@@ -133,7 +133,7 @@ void PlayerMobilityScript::Move()
 		isCrouch = true;
 		trans->SetScale(trans->GetScale() / 2);
 		GameObject::GameObjectView children = owner->GetChildren();
-		for (auto child : children) 
+		for (auto child : children)
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
 			{
@@ -346,7 +346,7 @@ void PlayerMobilityScript::Move()
 	//{
 	//	jumps = 1;
 	//}
-	
+
 
 	trans->UpdateTransformMatrices();
 
