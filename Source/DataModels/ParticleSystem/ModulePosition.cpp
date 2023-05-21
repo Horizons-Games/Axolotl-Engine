@@ -19,6 +19,7 @@ void ModulePosition::Spawn(EmitterInstance* instance)
 void ModulePosition::Update(EmitterInstance* instance)
 {
 	float dt = App->GetDeltaTime();
+	int aliveParticles = 0;
 
 	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 
@@ -26,17 +27,27 @@ void ModulePosition::Update(EmitterInstance* instance)
 	{
 		EmitterInstance::Particle& particle = particles[i];
 
+		particle.lifespan -= dt;
+
+		if (particle.lifespan <= 0.0f)
+		{
+			particle.lifespan = 0.0f;
+		}
+
 		if (particle.lifespan > 0.0f)
 		{
-			particle.lifespan -= dt;
+			float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 
 			//TODO: Calculate position using speed and gravity and sort by distance to camera
 
-			if (particle.lifespan <= 0.0f)
-			{
-				particle.lifespan = 0.0f;
-				instance->SetAliveParticles(instance->GetAliveParticles() - 1);
-			}
+			float3 speed = particle.initVelocity +
+				instance->lerp(particle.initVelocity, particle.velocity, lifeRatio) +
+				float3(0.0f, -particle.gravity * (particle.initLife - particle.lifespan), 0.0f);
+
+			particle.tranform.SetTranslatePart(particle.tranform.TranslatePart() + speed * dt);
+
+			++aliveParticles;
 		}
 	}
+	instance->SetAliveParticles(aliveParticles);
 }

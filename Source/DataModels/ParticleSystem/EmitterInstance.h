@@ -44,6 +44,7 @@ public:
 	void DrawParticles();
 	void DrawDD();
 
+	float3 lerp(float3 a, float3 b, float fraction);
 	float CalculateRandomValueInRange(float min, float max);
 	void SimulateParticles() const;
 
@@ -69,6 +70,14 @@ private:
 	std::shared_ptr<ParticleEmitter> emitter;
 	ComponentParticleSystem* owner;
 };
+
+inline float3 EmitterInstance::lerp(float3 a, float3 b, float fraction)
+{
+	float xLerp = a.x + fraction * (b.x - a.x);
+	float yLerp = a.y + fraction * (b.y - a.y);
+	float zLerp = a.z + fraction * (b.z - a.z);
+	return float3(xLerp, yLerp, zLerp);
+}
 
 inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
 {
@@ -114,8 +123,8 @@ inline void EmitterInstance::SimulateParticles() const
 			float3 pos = particles[i].tranform.TranslatePart();
 			float3 dir = particles[i].direction;
 
-			//dd::point(pos, dd::colors::Yellow, 5.0f);
-			dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
+			dd::point(pos, dd::colors::Yellow, 5.0f);
+			//dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
 		}
 	}
 }

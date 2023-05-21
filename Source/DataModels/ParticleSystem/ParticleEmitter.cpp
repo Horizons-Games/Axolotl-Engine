@@ -20,7 +20,7 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CIRCLE), particl
 	angle = DEFAULT_ANGLE;
 	radius = DEFAULT_RADIUS;
 
-	maxParticles = MAX_PARTICLES;
+	maxParticles = DEFAULT_MAX_PARTICLES;
 	duration = DEFAULT_DURATION;
 	lifespan.x = DEFAULT_LIFESPAN_X;
 	lifespan.y = DEFAULT_LIFESPAN_Y;

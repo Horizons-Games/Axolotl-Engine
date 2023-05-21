@@ -70,7 +70,6 @@ void ModuleSpawn::Update(EmitterInstance* instance)
 	{
 		float lastEmission = instance->GetLastEmission() + dt;
 		float emissionPeriod = 1.0f / spawnRate;
-
 		int maxParticles = emitter->GetMaxParticles();
 		
 		while (instance->GetAliveParticles() < maxParticles && (lastEmission - emissionPeriod > 0.0f))

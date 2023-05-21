@@ -30,6 +30,7 @@
 #define DEFAULT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f }
 #define DEFAULT_ANGLE 25
 #define DEFAULT_RADIUS 1
+#define DEFAULT_MAX_PARTICLES 10
 
 #define CONE_HEIGHT 3
 
