@@ -20,6 +20,7 @@ bool ModuleFileSystem::Init()
 #ifdef ENGINE
 	PHYSFS_mount("..", nullptr, 0);
 	PHYSFS_setWriteDir(".");
+	logContext->StartWritingToFile();
 #else  // ENGINE
 	if (!Exists("Assets.zip"))
 	{

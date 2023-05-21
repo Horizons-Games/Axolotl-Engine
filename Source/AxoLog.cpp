@@ -7,7 +7,8 @@
 
 #include <assert.h>
 
-const char* logFilePath = "Axolotl.log";
+const char* documentsPath = "Documents";
+const char* logFilePath = "Documents/Axolotl.log";
 
 void EngineLog::Write(const char file[], int line, const std::string& formattedLine)
 {
@@ -26,7 +27,7 @@ void EngineLog::Write(const char file[], int line, const std::string& formattedL
 			ENGINE_LOG("Error writing to log file, FileSystem already terminated");
 			return;
 		}
-		if (App->GetModule<ModuleFileSystem>()->Save(logFilePath, lineWithFile, 4096, true) == 1)
+		if (App->GetModule<ModuleFileSystem>()->Save(logFilePath, lineWithFile, strlen(lineWithFile), true) == 1)
 		{
 			ENGINE_LOG("Error writing to log file, abort writing for the rest of the execution");
 		}
@@ -42,9 +43,22 @@ void EngineLog::StartWritingToFile()
 	assert(App);
 	const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	assert(fileSystem);
-	if (fileSystem->Exists(logFilePath))
+	if (!fileSystem->Exists(documentsPath))
+	{
+		fileSystem->CreateDirectory(documentsPath);
+	}
+	// if folder does not exist, we know for sure the file won't either
+	else if (fileSystem->Exists(logFilePath))
 	{
 		if (!fileSystem->Delete(logFilePath))
+		{
+			ENGINE_LOG("FileSystem error; no logging will be saved this execution");
+			return;
+		}
+	}
+	for (const std::string& line : logLines)
+	{
+		if (App->GetModule<ModuleFileSystem>()->Save(logFilePath, line.c_str(), line.size(), true) == 1)
 		{
 			ENGINE_LOG("FileSystem error; no logging will be saved this execution");
 			return;

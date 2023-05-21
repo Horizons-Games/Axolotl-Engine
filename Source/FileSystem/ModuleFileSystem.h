@@ -37,6 +37,7 @@ public:
 inline bool ModuleFileSystem::CleanUp()
 {
 	// returns non-zero on success, zero on failure
+	logContext->StopWritingToFile();
 	int deinitResult = PHYSFS_deinit();
 	return deinitResult != 0;
 }
