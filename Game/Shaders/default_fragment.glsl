@@ -181,9 +181,8 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 centerToRay = FragPos + max(dot(oldL, R), EPSILON) * R - sP;
         vec3 closest = sP + centerToRay * min(sR/length(centerToRay),1.0);
 
-
         vec3 L = normalize(closest - FragPos);
-        vec3 H = (L + V)/length(L + V);
+        vec3 H = normalize(L + V);
         float specularDotNL = max(dot(N,L), EPSILON);
 
         vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
@@ -199,7 +198,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         closest = sP;
         
         // Attenuation Diffuse
-        distance = length(FragPos-closest);
+        distance = length(closest-FragPos);
         maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
         float attenuationDiffuse = maxValue/(pow(distance,2) + 1);
 
@@ -232,18 +231,18 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 PA = posA - FragPos;
         vec3 AB = posB - posA;
 
-        vec3 R = normalize(reflect(-V, N));
+        vec3 R = reflect(-V, N);
 
-        float dotABRefle = max(dot(AB, R), EPSILON);
-        float num = max(dot(R, PA), EPSILON) * dotABRefle - max(dot(AB, PA), EPSILON);
-        //float distAB = length(AB);
-        //float denom = distAB*distAB - dotABRefle * dotABRefle;
-        float denom = max(dot(AB, AB), EPSILON) - dotABRefle * dotABRefle;
+        float dotABRefle = dot(AB, R);
+        float num = dot(R, PA) * dotABRefle - dot(AB, PA);
+        float distAB = length(AB);
+        float denom = distAB*distAB - dotABRefle * dotABRefle;
+        //float denom = dot(AB, AB) - dotABRefle * dotABRefle;
         float t = clamp(num/denom, 0.0f, 1.0f);
         
         vec3 closest = posA + AB * t;
 
-        vec3 oldL = normalize(closest - FragPos);
+        vec3 oldL = closest - FragPos;
         vec3 centerToRay = FragPos + max(dot(oldL, R), EPSILON) * R - closest;
         closest = closest + centerToRay * min(tubeRadius/length(centerToRay),1.0);
 
@@ -257,14 +256,13 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation Specular
-        float distance = length(FragPos-closest);
+        float distance = length(closest-FragPos);
         float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
         float attenuationSpecular = maxValue/(pow(distance,2) + 1);
 
         // calculate closest point light diffuse
         float a = length(posA-FragPos);
         float b = length(posB-FragPos);
-        AB = posB - posA;
         float c = length(AB);
         float x = (c * a)/(b + a);
         closest = posA + AB * x;
@@ -273,7 +271,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float diffuseDotNL = max(dot(N,L), EPSILON);
 
         // Attenuation Diffuse
-        distance = length(FragPos-closest);
+        distance = length(closest-FragPos);
         maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
         float attenuationDiffuse = maxValue/(pow(distance,2) + 1);
 
