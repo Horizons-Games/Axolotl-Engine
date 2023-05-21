@@ -181,6 +181,15 @@ void GameObject::SetParent(GameObject* newParent)
 	// it's fine to ignore the return value in this case
 	// since the pointer returned will be "this"
 	std::ignore = parent->UnlinkChild(this);
+
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(this->GetComponent(ComponentType::TRANSFORM));
+	const ComponentTransform* newParentTransform =
+		static_cast<ComponentTransform*>(newParent->GetComponent(ComponentType::TRANSFORM));
+	if (transform && newParentTransform)
+	{
+		transform->CalculateLocalFromNewGlobal(newParentTransform);
+	}
 	newParent->LinkChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
@@ -576,27 +585,27 @@ bool GameObject::RemoveComponent(const Component* component)
 			if ((*it)->GetType() == ComponentType::LIGHT)
 			{
 				ComponentLight* light = static_cast<ComponentLight*>((*it).get());
-
 				LightType type = light->GetLightType();
+				
+				Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 				components.erase(it);
 
 				switch (type)
 				{
-				case LightType::POINT:
-					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
-
-					break;
-
-				case LightType::SPOT:
-					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
-
-					break;
-				}
+					case LightType::POINT:
+						loadedScene->UpdateScenePointLights();
+						loadedScene->RenderPointLights();
+					
+						break;
+				
+					case LightType::SPOT:
+						loadedScene->UpdateSceneSpotLights();
+						loadedScene->RenderSpotLights();
+						
+						break;
+					}
 			}
-
 			else
 			{
 				components.erase(it);

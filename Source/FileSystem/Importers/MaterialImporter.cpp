@@ -16,8 +16,9 @@ void MaterialImporter::Import
 	(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
 {
 	char* bufferPaths;
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	App->GetModule<ModuleFileSystem>()->Load(filePath, bufferPaths);
+	fileSystem->Load(filePath, bufferPaths);
 
 	unsigned int header[4];
 	memcpy(header, bufferPaths, sizeof(header));
@@ -86,7 +87,7 @@ void MaterialImporter::Import
 	unsigned int size;
 
 	Save(resource, buffer, size);
-	App->GetModule<ModuleFileSystem>()->Save
+	fileSystem->Save
 		((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(),
 			buffer, size);
 
@@ -102,8 +103,9 @@ void MaterialImporter::Save
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
 	rapidjson::Document doc;
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+	fileSystem->Load(metaPath.c_str(), metaBuffer);
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 
@@ -172,9 +174,7 @@ void MaterialImporter::Save
 	rapidjson::StringBuffer buffer;
 
 	meta.toBuffer(buffer);
-	App->GetModule<ModuleFileSystem>()->
-		Save(metaPath.c_str(), buffer.GetString(), 
-			static_cast<unsigned int>(buffer.GetSize()));
+	fileSystem->Save(metaPath.c_str(), buffer.GetString(), static_cast<unsigned int>(buffer.GetSize()));
 
 #endif
 
@@ -285,8 +285,10 @@ void MaterialImporter::Load
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
 	rapidjson::Document doc;
+	ModuleResources* resources = App->GetModule<ModuleResources>();
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+	fileSystem->Load(metaPath.c_str(), metaBuffer);
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 
@@ -296,24 +298,33 @@ void MaterialImporter::Load
 
 	if (assetPath != "") 
 	{ 
-		resource->SetDiffuse
-		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
+		if (materialExists) 
+		{
+			resource->SetDiffuse(resources->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["NormalAssetPath"];
 
 	if (assetPath != "")
 	{
-		resource->SetNormal
-		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
+		if (materialExists)
+		{
+			resource->SetNormal(resources->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["OcclusionAssetPath"];
 
 	if (assetPath != "")
 	{ 
-		resource->SetOcclusion
-		(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
+		if (materialExists)
+		{
+			resource->SetOcclusion(resources->RequestResource<ResourceTexture>(assetPath));
+		}
 	}
 
 	assetPath = meta["SpecularAssetPath"];
@@ -324,15 +335,19 @@ void MaterialImporter::Load
 		{
 			case 0:
 
-				resource->SetMetallic
-				(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+				if (assetPath != "" && fileSystem->Exists(assetPath.c_str()))
+				{
+					resource->SetMetallic(resources->RequestResource<ResourceTexture>(assetPath));
+				}
 
 				break;
 
 			case 1:
 
-				resource->SetSpecular
-				(App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(assetPath));
+				if (assetPath != "" && fileSystem->Exists(assetPath.c_str()))
+				{
+					resource->SetSpecular(resources->RequestResource<ResourceTexture>(assetPath));
+				}
 
 				break;
 		}

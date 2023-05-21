@@ -65,6 +65,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
     assert(gameObject);
 
     ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+    ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
     Scene* loadedScene = moduleScene->GetLoadedScene();
     
     char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
@@ -162,7 +163,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
         MoveObjectMenu(gameObject);
 
-        if (IsModifiable(gameObject) && ImGui::MenuItem("Delete") && gameObject != App->GetModule<ModulePlayer>()->GetPlayer())
+        if (IsModifiable(gameObject) && ImGui::MenuItem("Delete") && gameObject != modulePlayer->GetPlayer())
         {
             DeleteGameObject(gameObject);
             ImGui::EndPopup();
@@ -194,8 +195,31 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                                                                          // of the UID of the dragged GameObject
             GameObject* draggedGameObject =
                 loadedScene->SearchGameObjectByID(draggedGameObjectID);
+
             if (draggedGameObject)
             {
+                GameObject* parentGameObject =
+                    draggedGameObject->GetParent();
+
+                GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
+                if (selectedGameObject && selectedGameObject->GetParent())
+                {
+                    std::list<GameObject*> listSGO = selectedGameObject->GetGameObjectsInside();
+                    bool actualParentSelected = std::find(std::begin(listSGO), std::end(listSGO),
+                                                parentGameObject) != std::end(listSGO);
+                    bool newParentSelected = std::find(std::begin(listSGO), std::end(listSGO), 
+                                                gameObject) != std::end(listSGO);
+
+                    if(actualParentSelected && !newParentSelected)
+                    {
+                        moduleScene->AddGameObjectAndChildren(draggedGameObject);
+                    }
+                    else if (!actualParentSelected && newParentSelected)
+                    {
+                        moduleScene->RemoveGameObjectAndChildren(draggedGameObject);
+                    }
+                }
+
                 draggedGameObject->SetParent(gameObject);
                 ImGui::EndDragDropTarget();
                 if (nodeDrawn)
@@ -204,6 +228,8 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 }
                 return false;
             }
+
+
         }
 
         ImGui::EndDragDropTarget();

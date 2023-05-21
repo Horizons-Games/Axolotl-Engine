@@ -86,7 +86,7 @@ void ComponentAnimation::Update()
 							ComponentTransform* transform =
 								static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
 							transform->SetPosition(pos);
-							transform->SetRotation(float4x4(rot));
+							transform->SetRotation(rot);
 						}
 					}
 					static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
@@ -273,7 +273,7 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 	
 	float3 position;
 	float3 scale;
-	float4x4 rot;
+	Quat rot;
 
 	defaultPosition[gameObject].Decompose(position, rot, scale);
 	transform->SetPosition(position);

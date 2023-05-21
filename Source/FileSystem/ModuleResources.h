@@ -118,14 +118,15 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	{
 		ENGINE_LOG("Extension not supported");
 	}
-	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(path);
-	std::string extension = App->GetModule<ModuleFileSystem>()->GetFileExtension(path);
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	std::string fileName = fileSystem->GetFileName(path);
+	std::string extension = fileSystem->GetFileExtension(path);
 	std::string assetPath = CreateAssetsPath(fileName + extension, type);
 
 	std::string metaPath = assetPath + META_EXTENSION;
-	if (App->GetModule<ModuleFileSystem>()->Exists(metaPath.c_str())) {
+	if (fileSystem->Exists(metaPath.c_str())) {
 		char* metaBuffer = {};
-		App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+		fileSystem->Load(metaPath.c_str(), metaBuffer);
 
 		rapidjson::Document doc;
 		Json meta(doc, doc);
@@ -147,15 +148,15 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
-		long long assetTime = App->GetModule<ModuleFileSystem>()->GetModificationDate(assetPath.c_str());
-		long long libTime = App->GetModule<ModuleFileSystem>()->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
+		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
 
-			std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
 			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, App->GetModule<ModuleFileSystem>()->GetFileName(assetPath), assetPath, libraryPath, type);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
 			ImportResourceFromLibrary(resource);
 
@@ -170,10 +171,10 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	//If that resource does not have any of the two options, we will import it again
 	ImportResource(path);
 	metaPath = assetPath + META_EXTENSION;
-	if (App->GetModule<ModuleFileSystem>()->Exists(metaPath.c_str())) {
+	if (fileSystem->Exists(metaPath.c_str())) {
 
 		char* metaBuffer = {};
-		App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+		fileSystem->Load(metaPath.c_str(), metaBuffer);
 
 		rapidjson::Document doc;
 		Json meta(doc, doc);
@@ -186,14 +187,14 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
-		long long assetTime = App->GetModule<ModuleFileSystem>()->GetModificationDate(assetPath.c_str());
-		long long libTime = App->GetModule<ModuleFileSystem>()->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
+		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
-			std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
 			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, App->GetModule<ModuleFileSystem>()->GetFileName(assetPath), assetPath, libraryPath, type);
+			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
 			ImportResourceFromLibrary(resource);
 			if (resource)

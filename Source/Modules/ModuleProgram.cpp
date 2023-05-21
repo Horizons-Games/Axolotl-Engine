@@ -8,12 +8,10 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
-#include <fstream>
-
 #ifdef ENGINE
-const std::string ModuleProgram::rootPath = "Shaders/";
+const std::string ModuleProgram::rootPath = "Source/Shaders/";
 #else
-const std::string ModuleProgram::rootPath = "Game/Shaders/";
+const std::string ModuleProgram::rootPath = "Lib/Shaders/";
 #endif
 
 ModuleProgram::ModuleProgram()
@@ -26,14 +24,17 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Start()
 {
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+
 	std::string directory = rootPath + "Common/";
-	std::vector<std::string> files = App->GetModule<ModuleFileSystem>()->ListFilesWithPath(directory.c_str());
-	for (auto i = 0; i < files.size(); i++) {
+	std::vector<std::string> files = fileSystem->ListFilesWithPath(directory.c_str());
+	for (auto i = 0; i < files.size(); i++)
+	{
 		std::string path = files[i];
-		if (App->GetModule<ModuleFileSystem>()->IsDirectory(path.c_str()))
+		if (fileSystem->IsDirectory(path.c_str()))
 		{
 			path += "/";
-			std::vector<std::string> filesInsideDirectory = App->GetModule<ModuleFileSystem>()->ListFilesWithPath(path.c_str());
+			std::vector<std::string> filesInsideDirectory = fileSystem->ListFilesWithPath(path.c_str());
 			files.reserve(files.size() + filesInsideDirectory.size());
 			files.insert(files.end(), filesInsideDirectory.begin(), filesInsideDirectory.end());
 		}
@@ -41,20 +42,18 @@ bool ModuleProgram::Start()
 		{ 
 			// Get the file path local to shaders/ folder:
 			std::string localPath = path.substr(rootPath.size() - 1);
-			// Get the absolute file path:
-			path = "Shaders/" + localPath;
 			// Get the file content:
-			std::ifstream fileStream(path);
-			std::stringstream fileBuffer;
-			fileBuffer << fileStream.rdbuf();
-			fileStream.close();
+			char* fileBuffer = nullptr;
+			fileSystem->Load(path, fileBuffer);
 
 			// Add the file to GLSL virtual filesystem:
-			glNamedStringARB(GL_SHADER_INCLUDE_ARB, -1, &(localPath.c_str()[0]), -1, fileBuffer.str().c_str());
+			glNamedStringARB(GL_SHADER_INCLUDE_ARB, -1, localPath.data(), -1, fileBuffer);
+
+			delete fileBuffer;
 		}
 	}
 
-	programs.reserve((int)ProgramType::PROGRAM_TYPE_SIZE);
+	programs.reserve(static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE));
 	programs.push_back
 		(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
 
