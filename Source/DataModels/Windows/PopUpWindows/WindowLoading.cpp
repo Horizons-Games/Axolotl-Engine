@@ -1,9 +1,8 @@
-#include "WindowLoading.h"
+#include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "imgui_internal.h"
 
-WindowLoading::WindowLoading() : EditorWindow("Loading")
+WindowLoading::WindowLoading() : PopUpWindow("Loading")
 {
-	flags |= ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs;
 }
 
 WindowLoading::~WindowLoading()
@@ -12,12 +11,18 @@ WindowLoading::~WindowLoading()
 
 void WindowLoading::DrawWindowContents()
 {
-	ImGui::SetWindowPos(ImGui::GetWindowViewport()->GetCenter());
-	ImGui::SetWindowCollapsed(false);
-	ImGui::SetWindowFocus();
-	
-	ImGui::TextUnformatted("Loading...");
-	DrawSpinner("##spinner", 15, 6, col);
+	if (waitingOn.empty())
+    {
+	    ImGui::TextUnformatted("Loading...");
+		DrawSpinner("##spinner", 15, 6, col);
+        return;
+    }
+
+    for (const std::string& waitingCondition : waitingOn)
+    {
+		ImGui::TextUnformatted(waitingCondition.c_str());
+		DrawSpinner(("##spinner" + waitingCondition).c_str(), 15, 6, col);
+    }
 }
 
 //from: https://github.com/ocornut/imgui/issues/1901

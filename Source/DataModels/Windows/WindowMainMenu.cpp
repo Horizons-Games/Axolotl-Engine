@@ -6,6 +6,7 @@
 #include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
+#include "Auxiliar/GameBuilder.h"
 
 #include "SDL.h"
 
@@ -50,6 +51,7 @@ void WindowMainMenu::Draw(bool &enabled)
 	{
 		DrawFileMenu();
 		DrawWindowMenu();
+		DrawBuildGameMenu();
 		DrawHelpMenu();
 	}
 	ImGui::EndMainMenuBar();
@@ -171,3 +173,18 @@ void WindowMainMenu::ShortcutSave()
 	}
 }
 
+void WindowMainMenu::DrawBuildGameMenu()
+{
+	if (ImGui::BeginMenu("Build"))
+	{
+		if (ImGui::MenuItem("Debug"))
+		{
+			builder::BuildGame(builder::BuildType::DEBUG_GAME);
+		}
+		if (ImGui::MenuItem("Release"))
+		{
+			builder::BuildGame(builder::BuildType::RELEASE_GAME);
+		}
+		ImGui::EndMenu();
+	}
+}
