@@ -32,7 +32,7 @@ void WindowComponentImage::DrawWindowContents()
 			image->Load();
 			ImGui::Image((void*)(intptr_t)image->GetGlTexture(), ImVec2(100, 100));
 			ImGui::TableNextColumn();
-			if (ImGui::Button("Remove Texture Diffuse"))
+			if (ImGui::Button("X"))
 			{
 				image->Unload();
 				asImage->SetImage(nullptr);
@@ -45,7 +45,7 @@ void WindowComponentImage::DrawWindowContents()
 			}
 			ImGui::SetNextItemWidth(200);
 			float4 color = asImage->GetColor();
-			if(ImGui::ColorEdit4("Color##1", (float*)&color))
+			if(ImGui::ColorEdit4("##1", &color[0]))
 			{
 				asImage->SetColor(color);
 			}
@@ -56,7 +56,7 @@ void WindowComponentImage::DrawWindowContents()
 	{
 		inputImage->DrawWindowContents();
 		float4 color = asImage->GetColor();
-		if (ImGui::ColorEdit4("Color##1", (float*)&color))
+		if (ImGui::ColorEdit4("##1", &color[0]))
 		{
 			asImage->SetColor(color);
 		}
