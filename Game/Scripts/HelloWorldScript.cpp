@@ -26,8 +26,8 @@ void HelloWorldScript::Update(float deltaTime)
 			(movingGameObject->GetComponent(ComponentType::TRANSFORM));
 
 		goTransform->SetPosition(float3(goTransform->GetPosition().x,
-										goTransform->GetPosition().y + 0.1f, 
-										goTransform->GetPosition().z));
+			goTransform->GetPosition().y + 0.1f,
+			goTransform->GetPosition().z));
 	}
 
 	// When pressing a key, a new GameObject is created

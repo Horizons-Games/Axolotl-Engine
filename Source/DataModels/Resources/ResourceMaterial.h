@@ -1,6 +1,6 @@
 #pragma once
-#include "Resource.h"
 #include "Math/float3.h"
+#include "Resource.h"
 
 class ResourceTexture;
 
@@ -11,16 +11,16 @@ struct LoadOptionsMaterial
 class ResourceMaterial : virtual public Resource
 {
 public:
-	ResourceMaterial(UID resourceUID, 
-					const std::string& fileName, 
-					const std::string& assetsPath, 
-					const std::string& libraryPath);
+	ResourceMaterial(UID resourceUID,
+					 const std::string& fileName,
+					 const std::string& assetsPath,
+					 const std::string& libraryPath);
 	virtual ~ResourceMaterial() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
 
 	void SaveLoadOptions(Json& meta) override;
 	void LoadLoadOptions(Json& meta) override;
@@ -60,11 +60,10 @@ public:
 	void SetShaderType(const unsigned int shaderType);
 
 protected:
-	void InternalLoad() override {};
-	void InternalUnload() override {};
+	void InternalLoad() override{};
+	void InternalUnload() override{};
 
 private:
-
 	std::shared_ptr<ResourceTexture> diffuse;
 	std::shared_ptr<ResourceTexture> normal;
 	std::shared_ptr<ResourceTexture> occlusion;

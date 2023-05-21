@@ -1,0 +1,11 @@
+{
+    "UID": 9013000329873144069,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/pipeTypeCurvedDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -26,12 +26,12 @@ void SeekBehaviourScript::Start()
 void SeekBehaviourScript::Update(float deltaTime)
 {
 	ENGINE_LOG("Now seeking...");
-
+	ComponentTransform* ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	// When this behaviour is triggered, the enemy will go towards its target
-	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
 
-	Quat xCorrectness(0.7071f, 0.0f, 0.0f, 0.7071f);
-	ownerRigidBody->SetRotationTarget(Quat(targetTransform->GetRotation()) * xCorrectness);
+	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
+	ownerRigidBody->SetRotationTarget(targetTransform->GetRotation());
+
 }
 
 GameObject* SeekBehaviourScript::GetTarget() const

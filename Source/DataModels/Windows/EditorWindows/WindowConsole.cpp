@@ -13,8 +13,7 @@ void WindowConsole::DrawWindowContents()
 {
 	ImGui::SetWindowSize("Console log", ImVec2(900, 250), ImGuiCond_Once);
 
-	consoleContents
-		.insert(std::end(consoleContents), std::begin(logContext->logLines), std::end(logContext->logLines));
+	consoleContents.insert(std::end(consoleContents), std::begin(logContext->logLines), std::end(logContext->logLines));
 
 	logContext->logLines.clear();
 

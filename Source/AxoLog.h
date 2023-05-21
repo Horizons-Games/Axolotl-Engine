@@ -2,14 +2,14 @@
 
 #include "Globals.h"
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 #ifndef ENGINE
-#define ENGINE_LOG(...) //ignore it
+	#define ENGINE_LOG(...) // ignore it
 #else
-#define ENGINE_LOG(format, ...) logContext->Log(__FILE__, __LINE__, format, __VA_ARGS__);
+	#define ENGINE_LOG(format, ...) logContext->Log(__FILE__, __LINE__, format, __VA_ARGS__);
 
 class GameObject;
 
@@ -52,14 +52,15 @@ void EngineLog::Log(const char file[], int line, const std::string& format, Args
 {
 	std::string formattedString = format;
 	// this iterates through the variadic argument pack like a loop
-	([&]()
+	(
+		[&]()
 		{
 			if (!Format(formattedString, args))
 			{
 				Log(file, line, "Too many arguments in log call!");
 			}
 		}(),
-	...);
+		...);
 
 	size_t firstToken = FindReplaceToken(formattedString);
 	if (firstToken != std::string::npos)

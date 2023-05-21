@@ -71,7 +71,7 @@ bool EngineLog::Format(std::string& format, int arg) const
 	{
 		format.replace(firstToken, 2, std::to_string(arg));
 		return true;
-	} 
+	}
 	return false;
 }
 
@@ -129,7 +129,6 @@ bool EngineLog::Format(std::string& format, bool arg) const
 	}
 	return false;
 }
-
 
 bool EngineLog::Format(std::string& format, const GameObject* arg) const
 {
