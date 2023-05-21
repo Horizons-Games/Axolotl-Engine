@@ -27,6 +27,7 @@ private:
 	void DrawWindowMenu();
 	void DrawFileMenu();
 	void DrawHelpMenu();
+	void DrawBuildGameMenu();
 	void DrawPopup();
 	void CreateNewScene();
 	void Exit();

@@ -5,7 +5,7 @@
 
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "FontIcons/CustomFont.h"
-#include "DataModels/Windows/EditorWindows/WindowLoading.h"
+#include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 
 class Resource;
 class Timer;
