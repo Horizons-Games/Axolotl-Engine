@@ -8,9 +8,4 @@ ResourceParticleSystem::ResourceParticleSystem(UID resourceUID, const std::strin
 
 ResourceParticleSystem::~ResourceParticleSystem()
 {
-	for (ParticleEmitter* emitter : emitters)
-	{
-		delete emitter;
-	}
-	emitters.clear();
 }

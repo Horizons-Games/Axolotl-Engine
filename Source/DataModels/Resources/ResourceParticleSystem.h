@@ -1,5 +1,6 @@
 #pragma once
 #include "Resource.h"
+#include <memory>
 
 class ParticleEmitter;
 
@@ -12,20 +13,31 @@ public:
 		const std::string& libraryPath);
 	~ResourceParticleSystem();
 
-	std::vector<ParticleEmitter*> GetEmitters() const;
-
-	void SetEmitters(const std::vector<ParticleEmitter*>& emitters);
+	size_t GetNumEmitters() const;
+	std::vector<std::unique_ptr<ParticleEmitter>> GetEmitters() const;
+	void AddEmitter(const std::unique_ptr<ParticleEmitter>& emitter);
+	void ClearAllEmitters();
 
 private:
-    std::vector<ParticleEmitter*> emitters;
+    std::vector<std::unique_ptr<ParticleEmitter>> emitters;
 };
 
-inline std::vector<ParticleEmitter*> ResourceParticleSystem::GetEmitters() const
+inline size_t ResourceParticleSystem::GetNumEmitters() const
+{
+	return emitters.size();
+}
+
+inline std::vector<std::unique_ptr<ParticleEmitter>> ResourceParticleSystem::GetEmitters() const
 {
 	return emitters;
 }
 
-inline void ResourceParticleSystem::SetEmitters(const std::vector<ParticleEmitter*>& emitters)
+inline void ResourceParticleSystem::AddEmitter(const std::unique_ptr<ParticleEmitter>& emitter)
 {
-	this->emitters = emitters;
+	emitters.push_back(std::move(emitter));
+}
+
+inline void ResourceParticleSystem::ClearAllEmitters()
+{
+	emitters.clear();
 }
