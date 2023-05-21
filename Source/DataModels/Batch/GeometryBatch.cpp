@@ -603,8 +603,8 @@ void GeometryBatch::BindBatch(bool selected)
 				drawCount++;
 			}
 #else
-			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
-			ResourceMesh* resource = resourceInfo->resourceMesh;
+			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
+			std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
 
 			//find position in components vector
 			unsigned int instanceIndex = objectIndexes[component];
@@ -697,7 +697,7 @@ GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const std::shared_p
 	return nullptr;
 }
 
-bool GeometryBatch::CleanUp()
+void GeometryBatch::CleanUp()
 {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &ebo);
@@ -708,8 +708,6 @@ bool GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &tangentsBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(1, &materials);
-
-	return true;
 }
 
 void GeometryBatch::UpdateBatchComponents()

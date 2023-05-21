@@ -101,7 +101,7 @@ void BatchManager::DrawOpaque(bool selected)
 		}
 		else
 		{
-			erase_if(geometryBatchesOpaques, [](auto const& pi) { return pi->IsEmpty(); });
+			erase_if(geometryBatchesOpaques, [](auto const& gb) { return gb->IsEmpty(); });
 			delete geometryBatch;
 		}
 	}
@@ -118,7 +118,7 @@ void BatchManager::DrawTransparent(bool selected)
 		}
 		else
 		{
-			erase_if(geometryBatchesTransparent, [](auto const& pi) { return pi->IsEmpty(); });
+			erase_if(geometryBatchesTransparent, [](auto const& gb) { return gb->IsEmpty(); });
 			delete geometryBatch;
 		}
 	}

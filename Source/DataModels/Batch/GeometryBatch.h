@@ -25,7 +25,7 @@ public:
 
 	void CreateVAO();
 	void ClearBuffer();
-	bool CleanUp();
+	void CleanUp();
 
 	void UpdateBatchComponents();
 
