@@ -6,7 +6,6 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 
-#include "DataModels/Batch/BatchFlags.h"
 #include "DataModels/Program/Program.h"
 
 #include "GameObject/GameObject.h"
@@ -29,9 +28,9 @@ mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
 	// Setting the default framgent as the METALLIC (in case the mesh didn't had a material)
-	this->flags |= (flags & HAS_SPECULAR || flags & HAS_METALLIC) ? 0 : HAS_METALLIC;
+	this->flags |= (flags & BatchManager::HAS_SPECULAR || flags & BatchManager::HAS_METALLIC) ? 0 : BatchManager::HAS_METALLIC;
 
-	if (this->flags & HAS_SPECULAR)
+	if (this->flags & BatchManager::HAS_SPECULAR)
 	{
 		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
 	}
@@ -84,7 +83,7 @@ void GeometryBatch::FillBuffers()
 	verticesToRender.reserve(numTotalVertices);
 	texturesToRender.reserve(numTotalVertices);
 	normalsToRender.reserve(numTotalVertices);
-	if (flags & HAS_TANGENTS)
+	if (flags & BatchManager::HAS_TANGENTS)
 	{
 		tangentsToRender.reserve(numTotalVertices);
 	}
@@ -92,7 +91,7 @@ void GeometryBatch::FillBuffers()
 	for (auto resInfo : resourcesInfo)
 	{
 
-		ResourceMesh* resource = resInfo->resourceMesh;
+		std::shared_ptr<ResourceMesh> resource = resInfo->resourceMesh;
 		verticesToRender.insert(std::end(verticesToRender),
 			std::begin(resource->GetVertices()), std::end(resource->GetVertices()));
 		
@@ -105,7 +104,7 @@ void GeometryBatch::FillBuffers()
 		normalsToRender.insert(std::end(normalsToRender),
 			std::begin(resource->GetNormals()), std::end(resource->GetNormals()));
 
-		if (flags & HAS_TANGENTS)
+		if (flags & BatchManager::HAS_TANGENTS)
 		{
 			tangentsToRender.insert(std::end(tangentsToRender),
 				std::begin(resource->GetTangents()), std::end(resource->GetTangents()));
@@ -118,7 +117,7 @@ void GeometryBatch::FillBuffers()
 
 	glNamedBufferData(normalsBuffer, normalsToRender.size() * 3 * sizeof(float), &normalsToRender[0], GL_STATIC_DRAW);
 
-	if (flags & HAS_TANGENTS)
+	if (flags & BatchManager::HAS_TANGENTS)
 	{
 		glNamedBufferData(tangentsBuffer, tangentsToRender.size() * 3 * sizeof(float), &tangentsToRender[0], GL_STATIC_DRAW);
 	}
@@ -133,7 +132,7 @@ void GeometryBatch::FillMaterial()
 		int materialIndex = instanceData[i];
 		std::shared_ptr<ResourceMaterial> resourceMaterial = resourcesMaterial[materialIndex];
 
-		if (flags & HAS_METALLIC)
+		if (flags & BatchManager::HAS_METALLIC)
 		{
 			MaterialMetallic newMaterial =
 			{
@@ -166,7 +165,7 @@ void GeometryBatch::FillMaterial()
 			metallicMaterialData[i] = newMaterial;
 		}
 
-		else if (flags & HAS_SPECULAR)
+		else if (flags & BatchManager::HAS_SPECULAR)
 		{
 			MaterialSpecular newMaterial =
 			{
@@ -272,7 +271,7 @@ void GeometryBatch::CreateVAO()
 	{
 		glGenBuffers(1, &tangentsBuffer);
 	}
-	if (flags & HAS_TANGENTS)
+	if (flags & BatchManager::HAS_TANGENTS)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
 	}
@@ -307,7 +306,7 @@ void GeometryBatch::CreateVAO()
 	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, 
 		componentsInBatch.size() * sizeof(float4x4));
 
-	if (flags & HAS_METALLIC)
+	if (flags & BatchManager::HAS_METALLIC)
 	{
 		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialMetallic), nullptr, createFlags);
 
@@ -315,7 +314,7 @@ void GeometryBatch::CreateVAO()
 			.size() * sizeof(float4x4), mapFlags));
 	}
 	
-	else if (flags & HAS_SPECULAR)
+	else if (flags & BatchManager::HAS_SPECULAR)
 	{
 		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialSpecular), nullptr, createFlags);
 
@@ -351,7 +350,7 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 			return;
 		}
 		
-		CreateInstanceResourceMesh(meshShared.get());
+		CreateInstanceResourceMesh(meshShared);
 		objectIndexes[newComponent] = CreateInstanceResourceMaterial(materialShared);
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
@@ -387,7 +386,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	{
 #ifdef ENGINE
 		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++) {
-			if ((*it)->resourceMesh == componentToDelete->GetMesh().get())
+			if ((*it)->resourceMesh == componentToDelete->GetMesh())
 			{
 				delete (*it);
 				resourcesInfo.erase(it);
@@ -444,7 +443,7 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 			componentToMove.push_back(compare);
 			for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++)
 			{
-				if ((*it)->resourceMesh == compare->GetMesh().get())
+				if ((*it)->resourceMesh == compare->GetMesh())
 				{
 					delete (*it);
 					resourcesInfo.erase(it);
@@ -582,8 +581,8 @@ void GeometryBatch::BindBatch(bool selected)
 
 			if (draw)
 			{
-				ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh().get());
-				ResourceMesh* resource = resourceInfo->resourceMesh;
+				ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
+				std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
 				//find position in components vector
 				auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
@@ -647,7 +646,7 @@ void GeometryBatch::BindBatch(bool selected)
 	program->Deactivate();
 }
 
-void GeometryBatch::CreateInstanceResourceMesh(ResourceMesh* mesh)
+void GeometryBatch::CreateInstanceResourceMesh(std::shared_ptr<ResourceMesh> mesh)
 {
 	for (const ResourceInfo* info : resourcesInfo)
 	{
@@ -685,7 +684,7 @@ int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resource
 	return instanceData.size() - 1;
 }
 
-GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const ResourceMesh* mesh)
+GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const std::shared_ptr<ResourceMesh> mesh)
 {
 	for (auto info : resourcesInfo)
 	{
@@ -724,7 +723,7 @@ void GeometryBatch::UpdateBatchComponents()
 			return;
 		}
 
-		CreateInstanceResourceMesh(meshShared.get());
+		CreateInstanceResourceMesh(meshShared);
 		reserveModelSpace = true;
 	}
 }

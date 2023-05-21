@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 #include "GL/glew.h"
 
@@ -87,7 +88,7 @@ private:
 
 	struct ResourceInfo
 	{
-		ResourceMesh* resourceMesh;
+		std::shared_ptr<ResourceMesh> resourceMesh;
 		unsigned int vertexOffset;
 		unsigned int indexOffset;
 	};
@@ -96,10 +97,10 @@ private:
 	void FillBuffers();
 	void FillEBO();
 
-	void CreateInstanceResourceMesh(ResourceMesh* mesh);
+	void CreateInstanceResourceMesh(std::shared_ptr<ResourceMesh> mesh);
 	int CreateInstanceResourceMaterial(const std::shared_ptr<ResourceMaterial> material);
 
-	ResourceInfo* FindResourceInfo(const ResourceMesh* mesh);
+	ResourceInfo* FindResourceInfo(const std::shared_ptr<ResourceMesh> mesh);
 
 	void LockBuffer();
 	void WaitBuffer();

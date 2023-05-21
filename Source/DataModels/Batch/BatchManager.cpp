@@ -1,6 +1,5 @@
 #include "BatchManager.h"
 
-#include "DataModels/Batch/BatchFlags.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"

@@ -485,7 +485,6 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
-    <ClInclude Include="DataModels\Batch\BatchFlags.h" />
     <ClInclude Include="DataModels\Batch\BatchManager.h" />
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
