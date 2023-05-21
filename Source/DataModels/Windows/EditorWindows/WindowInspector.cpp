@@ -120,7 +120,9 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	lastSelectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+	lastSelectedGameObject = scene->GetSelectedGameObject();
 
 	if (lastSelectedGameObject)
 	{
@@ -165,8 +167,8 @@ void WindowInspector::InspectSelectedGameObject()
 			}
 		}
 
-		if (lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
+		if (lastSelectedGameObject != loadedScene->GetRoot() &&
+			lastSelectedGameObject != loadedScene->GetDirectionalLight())
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
 		}
@@ -175,8 +177,8 @@ void WindowInspector::InspectSelectedGameObject()
 	ImGui::Separator();
 
 	if (WindowRightClick() &&
-		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
+		lastSelectedGameObject != loadedScene->GetRoot() &&
+		lastSelectedGameObject != loadedScene->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -243,11 +245,11 @@ void WindowInspector::InspectSelectedResource()
 		ImGui::Text(resourceAsShared->GetFileName().c_str());
 		switch (resourceAsShared->GetType())
 		{
-		case ResourceType::Texture:
-			DrawTextureOptions();
-			break;
-		default:
-			break;
+			case ResourceType::Texture:
+				DrawTextureOptions();
+				break;
+			default:
+				break;
 		}
 	}
 }

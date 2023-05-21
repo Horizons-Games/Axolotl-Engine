@@ -147,6 +147,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 	if (hasBones)
 	{
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(float4x4) * skinPalette.size(), &skinPalette[0]);
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 10, mesh->GetSSBOPalette());
 	}
 	// ---------------------------
 

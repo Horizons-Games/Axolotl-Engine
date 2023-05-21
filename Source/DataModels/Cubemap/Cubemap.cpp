@@ -76,6 +76,8 @@ void Cubemap::DebugNSight()
 
 void Cubemap::GenerateMaps()
 {
+    assert(cubemapRes);
+
     cubemapRes->Load();
     CreateVAO();
 

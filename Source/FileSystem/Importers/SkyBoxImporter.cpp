@@ -19,8 +19,9 @@ SkyBoxImporter::~SkyBoxImporter()
 void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox> resource)
 {
 	char* bufferFile;
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	App->GetModule<ModuleFileSystem>()->Load(resource->GetAssetsPath().c_str(), bufferFile);
+	fileSystem->Load(resource->GetAssetsPath().c_str(), bufferFile);
 	
 	rapidjson::Document doc;
 	Json Json(doc, doc);
@@ -47,7 +48,7 @@ void SkyBoxImporter::Import(const char* filePath, std::shared_ptr<ResourceSkyBox
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
-	App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
 	delete buffer;
 }

@@ -58,8 +58,8 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		+ sizeof(unsigned int) * resource->GetNumStates()
 		// size of name vector + enum
 		+ (sizeof(unsigned int) * 2) * resource->GetNumParameters()
-		// size of 2 pos State + size vector conditions + Own UID Key + double
-		+ (sizeof(unsigned int) * 3 + sizeof(UID) + sizeof(double)) * resource->GetNumTransitions();
+		// size of 2 pos State + size vector conditions + Own UID Key + double + bool
+		+ (sizeof(unsigned int) * 3 + sizeof(UID) + sizeof(double) + sizeof(bool)) * resource->GetNumTransitions();
 	
 	for(int i = 0; i < resource->GetNumStates(); i++)
 	{
@@ -73,6 +73,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 			if(state->resource != nullptr) size += sizeof(UID);
 			size += sizeof(UID) * state->transitionsOriginedHere.size();
 			size += sizeof(UID) * state->transitionsDestinedHere.size();
+			size += sizeof(bool);
 		}
 	}
 
@@ -187,6 +188,11 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 			if (!state->transitionsDestinedHere.empty())memcpy(cursor, &(state->transitionsDestinedHere[0]), bytes);
 
 			cursor += bytes;
+
+			bytes = sizeof(bool);
+			memcpy(cursor, &(state->loop), bytes);
+
+			cursor += bytes;
 		}
 	}
 
@@ -240,6 +246,11 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 		bytes = sizeof(UID);
 		memcpy(cursor, &(transitionIterator.first), bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(bool);
+		memcpy(cursor, &(transitionIterator.second.waitUntilFinish), bytes);
 
 		cursor += bytes;
 
@@ -360,8 +371,8 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 				UID resourcePointer;
 				bytes = sizeof(UID);
 				memcpy(&resourcePointer, fileBuffer, bytes);
-				std::shared_ptr<Resource> mesh = App->GetModule<ModuleResources>()->SearchResource<Resource>(resourcePointer);
-				state->resource = resource;
+				std::shared_ptr<Resource> resourceAnimation = App->GetModule<ModuleResources>()->SearchResource<Resource>(resourcePointer);
+				state->resource = resourceAnimation;
 				fileBuffer += bytes;
 #endif
 			}
@@ -399,6 +410,11 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 				state->transitionsDestinedHere = transitionsDestined;
 			}
 			delete[] transitionsDestinedPointer;
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(bool);
+			memcpy(&state->loop, fileBuffer, bytes);
 
 			fileBuffer += bytes;
 
@@ -472,6 +488,11 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 		bytes = sizeof(UID);
 		memcpy(&uidTransition,fileBuffer,bytes);
+
+		fileBuffer += bytes;
+
+		bytes = sizeof(bool);
+		memcpy(&(transition.waitUntilFinish), fileBuffer, bytes);
 
 		fileBuffer += bytes;
 
