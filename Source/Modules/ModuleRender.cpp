@@ -3,7 +3,6 @@
 #include <queue>
 
 #include "Application.h"
-#include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModulePlayer.h"
@@ -15,15 +14,20 @@
 #include "Components/ComponentTransform.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Skybox/Skybox.h"
-#include "FileSystem/ModuleFileSystem.h"
+#include "DataStructures/Quadtree.h"
 #include "Scene/Scene.h"
 
-#include "GameObject/GameObject.h"
+#include "DataModels/GameObject/GameObject.h"
 
 #include "Components/ComponentTransform.h"
 #ifdef DEBUG
 	#include "optick.h"
 #endif // DEBUG
+
+extern "C"
+{
+	__declspec(dllexport) DWORD NvOptimusEnablement = 1;
+}
 
 void __stdcall OurOpenGLErrorFunction(GLenum source,
 									  GLenum type,
@@ -122,6 +126,7 @@ ModuleRender::~ModuleRender()
 
 bool ModuleRender::Init()
 {
+	ModuleWindow* window = App->GetModule<ModuleWindow>();
 	ENGINE_LOG("--------- Render Init ----------");
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // desired version
@@ -132,7 +137,7 @@ bool ModuleRender::Init()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);	 // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
 
-	context = SDL_GL_CreateContext(App->GetModule<ModuleWindow>()->GetWindow());
+	context = SDL_GL_CreateContext(window->GetWindow());
 
 	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
@@ -157,6 +162,7 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW);	 // Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -167,7 +173,7 @@ bool ModuleRender::Init()
 #endif // ENGINE
 	glGenRenderbuffers(1, &depthStencilRenderbuffer);
 
-	std::pair<int, int> windowSize = App->GetModule<ModuleWindow>()->GetWindowSize();
+	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
 	// Set the list of draw buffers.
@@ -201,35 +207,42 @@ update_status ModuleRender::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
-
 	opaqueGOToDraw.clear();
 	transparentGOToDraw.clear();
 
-	const Skybox* skybox = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSkybox();
+	ModuleWindow* window = App->GetModule<ModuleWindow>();
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
+
+	GameObject* player = modulePlayer->GetPlayer();
+
+	Scene* loadedScene = scene->GetLoadedScene();
+
+	const Skybox* skybox = loadedScene->GetSkybox();
+
 	if (skybox)
 	{
 		skybox->Draw();
 	}
 
-	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
+	if (debug->IsShowingBoundingBoxes())
 	{
-		DrawQuadtree(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+		DrawQuadtree(loadedScene->GetRootQuadtree());
 	}
 
 	int w, h;
-	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &w, &h);
+	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
-	App->GetModule<ModuleDebugDraw>()->Draw(App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix(),
-											App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix(),
-											w,
-											h);
+	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
 
-	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	GameObject* goSelected = scene->GetSelectedGameObject();
 
 	bool isRoot = goSelected->GetParent() == nullptr;
 
-	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
-	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
+	FillRenderList(loadedScene->GetRootQuadtree());
+	std::vector<GameObject*> nonStaticsGOs = loadedScene->GetNonStaticObjects();
 	for (GameObject* nonStaticObj : nonStaticsGOs)
 	{
 		AddToRenderList(nonStaticObj);
@@ -238,22 +251,22 @@ update_status ModuleRender::Update()
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
 	{
-		AddToRenderList(App->GetModule<ModulePlayer>()->GetPlayer());
+		AddToRenderList(player);
 	}
 #else
-	if (App->GetModule<ModulePlayer>()->GetPlayer())
+	if (player)
 	{
-		AddToRenderList(App->GetModule<ModulePlayer>()->GetPlayer());
+		AddToRenderList(player);
 	}
 #endif // !ENGINE
 
 	if (isRoot)
 	{
-		opaqueGOToDraw.push_back(goSelected);
+		opaqueGOToDraw.insert(goSelected);
 	}
 	else
 	{
-		AddToRenderList(goSelected);
+		InsertToRenderList(goSelected);
 	}
 
 	drawnGameObjects.clear();
@@ -302,8 +315,11 @@ bool ModuleRender::CleanUp()
 
 	SDL_GL_DeleteContext(context);
 
-	glDeleteBuffers(1, &vbo);
-
+#ifdef ENGINE
+	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteTextures(1, &renderedTexture);
+#endif // ENGINE
+	glDeleteRenderbuffers(1, &depthStencilRenderbuffer);
 	return true;
 }
 
@@ -356,9 +372,10 @@ bool ModuleRender::IsSupportedPath(const std::string& modelPath)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+	float3 cameraPos = camera->GetCamera()->GetPosition();
 
-	if (App->GetModule<ModuleCamera>()->GetCamera()->IsInside(quadtree->GetBoundingBox()))
+	if (camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
@@ -368,7 +385,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				if (gameObject->IsEnabled())
 				{
 					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
+						opaqueGOToDraw.insert(gameObject);
 					else
 					{
 						const ComponentTransform* transform =
@@ -392,7 +409,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				if (gameObject->IsEnabled())
 				{
 					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.push_back(gameObject);
+						opaqueGOToDraw.insert(gameObject);
 					else
 					{
 						const ComponentTransform* transform =
@@ -424,7 +441,8 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(GameObject* gameObject)
 {
-	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+	float3 cameraPos = camera->GetCamera()->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -439,12 +457,12 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	if (App->GetModule<ModuleCamera>()->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		if (gameObject->IsEnabled())
 		{
 			if (!CheckIfTransparent(gameObject))
-				opaqueGOToDraw.push_back(gameObject);
+				opaqueGOToDraw.insert(gameObject);
 			else
 			{
 				const ComponentTransform* transform =
@@ -465,6 +483,37 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		for (GameObject* children : gameObject->GetChildren())
 		{
 			AddToRenderList(children);
+		}
+	}
+}
+
+void ModuleRender::InsertToRenderList(GameObject* goSelected)
+{
+	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+	std::list<GameObject*> goSList = goSelected->GetGameObjectsInside();
+	for (GameObject* gameObject : goSList)
+	{
+		const ComponentTransform* transform =
+			static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+		// If an object doesn't have transform component it doesn't need to draw
+		if (transform == nullptr)
+		{
+			continue;
+		}
+		if (gameObject->IsActive())
+		{
+			if (!CheckIfTransparent(gameObject))
+				opaqueGOToDraw.insert(gameObject);
+			else
+			{
+				float dist = Length(cameraPos - transform->GetGlobalPosition());
+				while (transparentGOToDraw[dist] != nullptr)
+				{
+					float addDistance = 0.0001f;
+					dist += addDistance;
+				}
+				transparentGOToDraw[dist] = gameObject;
+			}
 		}
 	}
 }

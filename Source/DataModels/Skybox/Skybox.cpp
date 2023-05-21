@@ -28,15 +28,17 @@ void Skybox::Draw() const
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
 	if (program && skyboxRes)
 	{
-		skyboxRes->Load();
+		if (!skyboxRes->IsLoaded())
+		{
+			skyboxRes->Load();
+		}
 		glDepthMask(GL_FALSE);
 
 		program->Activate();
+		ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-		program->BindUniformFloat4x4(
-			"view", (const float*) &App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix(), GL_TRUE);
-		program->BindUniformFloat4x4(
-			"proj", (const float*) &App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+		program->BindUniformFloat4x4("view", (const float*) &camera->GetCamera()->GetViewMatrix(), GL_TRUE);
+		program->BindUniformFloat4x4("proj", (const float*) &camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
 
 		glBindVertexArray(skyboxRes->GetVAO());
 		glActiveTexture(GL_TEXTURE0);

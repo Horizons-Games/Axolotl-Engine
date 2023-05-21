@@ -22,23 +22,34 @@ void WindowComponentAnimation::DrawWindowContents()
 	DrawEnableAndDeleteComponent();
 	ImGui::Text("");
 	ComponentAnimation* asAnimation = static_cast<ComponentAnimation*>(component);
-	std::shared_ptr<ResourceStateMachine> state = asAnimation->GetStateMachine();
-	if (state)
+	if (asAnimation)
 	{
-		ImGui::Text(state->GetFileName().c_str());
+		bool drawBones = asAnimation->IsDrawBonesActivated();
+		ImGui::Text("Draw Bones:");
 		ImGui::SameLine();
-		if (ImGui::Button("Edit StateMachine"))
+		if (ImGui::Checkbox("##DrawBones", &drawBones))
 		{
-			App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(state);
+			asAnimation->ActivateDrawBones(drawBones);
 		}
-		ImGui::SameLine();
-		if (ImGui::Button("x"))
+
+		std::shared_ptr<ResourceStateMachine> state = asAnimation->GetStateMachine();
+		if (state)
 		{
-			asAnimation->SetStateMachine(nullptr);
+			ImGui::Text(state->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Edit StateMachine"))
+			{
+				App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(state);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("x"))
+			{
+				asAnimation->SetStateMachine(nullptr);
+			}
 		}
-	}
-	else
-	{
-		inputState->DrawWindowContents();
+		else
+		{
+			inputState->DrawWindowContents();
+		}
 	}
 }

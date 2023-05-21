@@ -4,26 +4,11 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "ModuleWindow.h"
 
 #include "Scene/Scene.h"
 
-#include "GameObject/GameObject.h"
-
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentTransform.h"
-
-#include "Resources/ResourceMesh.h"
-
-#include "Windows/EditorWindows/WindowScene.h"
-
-#include "Geometry/Sphere.h"
-#include "Geometry/Triangle.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
 
 #ifdef ENGINE
 	#include "Camera/CameraEngine.h"
@@ -71,6 +56,7 @@ bool ModuleCamera::Start()
 
 update_status ModuleCamera::Update()
 {
+	ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
 #ifdef ENGINE
 		App->GetModule<ModuleEditor>()->IsSceneFocused()
@@ -79,22 +65,22 @@ update_status ModuleCamera::Update()
 #endif // GAMEMODE
 	)
 	{
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
+		if (input->GetKey(SDL_SCANCODE_1) == KeyState::DOWN)
 		{
 			selectedPosition--;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
+		else if (input->GetKey(SDL_SCANCODE_2) == KeyState::DOWN)
 		{
 			selectedPosition++;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
 		{
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+		else if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
 		{
 			selectedPosition = 1;
 			SetSelectedCamera(selectedPosition);

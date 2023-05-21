@@ -64,7 +64,8 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	// Update Meta
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
 	char* metaBuffer = {};
-	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	fileSystem->Load(metaPath.c_str(), metaBuffer);
 	rapidjson::Document doc;
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
@@ -170,7 +171,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 #ifdef ENGINE
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
-	App->GetModule<ModuleFileSystem>()->Save(metaPath.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+	fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
 #endif
 }
 
@@ -235,6 +236,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		node->meshRenderers.reserve(nodeHeader[1]);
 
 #ifdef ENGINE
+		ModuleResources* resources = App->GetModule<ModuleResources>();
 		for (int i = 0; i < nodeHeader[1]; i++)
 		{
 			std::string meshPath = jsonMeshes[countMeshes];
@@ -322,6 +324,7 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 
 		char* fileBuffer{};
 		unsigned int size = 0;
+		ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 		SaveInfoAnimation(animation, fileBuffer, size);
 
 		std::string animationName = animation->mName.C_Str();
@@ -331,7 +334,7 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 		std::string animationPath =
 			ANIMATION_PATH + resource->GetFileName() + "." + animationName + ANIMATION_EXTENSION;
 
-		App->GetModule<ModuleFileSystem>()->Save(animationPath.c_str(), fileBuffer, size);
+		fileSystem->Save(animationPath.c_str(), fileBuffer, size);
 		std::shared_ptr<ResourceAnimation> resourceAnimation = std::dynamic_pointer_cast<ResourceAnimation>(
 			App->GetModule<ModuleResources>()->ImportResource(animationPath));
 		animations.push_back(resourceAnimation);
@@ -512,13 +515,14 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 	struct stat buffer
 	{
 	};
-	std::string name = App->GetModule<ModuleFileSystem>()->GetFileName(file.data);
-	name += App->GetModule<ModuleFileSystem>()->GetFileExtension(file.data);
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	std::string name = fileSystem->GetFileName(file.data);
+	name += fileSystem->GetFileExtension(file.data);
 
 	// Cheking by name
 	if (stat(file.data, &buffer) != 0)
 	{
-		std::string path = App->GetModule<ModuleFileSystem>()->GetPathWithoutFile(filePath);
+		std::string path = fileSystem->GetPathWithoutFile(filePath);
 		// Checking in the original fbx folder
 		if (stat((path + name).c_str(), &buffer) != 0)
 		{

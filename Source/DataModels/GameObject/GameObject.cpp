@@ -1,6 +1,5 @@
 #include "GameObject.h"
 
-#include "../Components/ComponentAmbient.h"
 #include "../Components/ComponentAnimation.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
@@ -56,20 +55,20 @@ GameObject::GameObject(const std::string& name, GameObject* parent) :
 }
 
 GameObject::GameObject(const GameObject& gameObject) :
-	GameObject(gameObject.GetName(),
-			   gameObject.GetParent(),
+	GameObject(gameObject.name,
+			   gameObject.parent,
 			   UniqueID::GenerateUID(),
 			   true,
 			   true,
 			   StateOfSelection::NO_SELECTED,
 			   gameObject.staticObject)
 {
-	for (auto component : gameObject.GetComponents())
+	for (const std::unique_ptr<Component>& component : gameObject.components)
 	{
-		CopyComponent(component);
+		CopyComponent(component.get());
 	}
 
-	for (auto child : gameObject.GetChildren())
+	for (const std::unique_ptr<GameObject>& child : gameObject.children)
 	{
 		GameObject* newChild = new GameObject(*child);
 		newChild->parent = this;
@@ -197,6 +196,14 @@ void GameObject::SetParent(GameObject* newParent)
 	// it's fine to ignore the return value in this case
 	// since the pointer returned will be "this"
 	std::ignore = parent->UnlinkChild(this);
+
+	ComponentTransform* transform = static_cast<ComponentTransform*>(this->GetComponent(ComponentType::TRANSFORM));
+	const ComponentTransform* newParentTransform =
+		static_cast<ComponentTransform*>(newParent->GetComponent(ComponentType::TRANSFORM));
+	if (transform && newParentTransform)
+	{
+		transform->CalculateLocalFromNewGlobal(newParentTransform);
+	}
 	newParent->LinkChild(this);
 
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
@@ -554,10 +561,6 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 	switch (lightType)
 	{
-		case LightType::AMBIENT:
-			newComponent = std::make_unique<ComponentAmbient>(float3(0.05f), this);
-			break;
-
 		case LightType::DIRECTIONAL:
 			newComponent = std::make_unique<ComponentDirLight>(float3(1.0f), 1.0f, this);
 			break;
@@ -590,27 +593,27 @@ bool GameObject::RemoveComponent(const Component* component)
 			if ((*it)->GetType() == ComponentType::LIGHT)
 			{
 				ComponentLight* light = static_cast<ComponentLight*>((*it).get());
-
 				LightType type = light->GetLightType();
+
+				Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 				components.erase(it);
 
 				switch (type)
 				{
 					case LightType::POINT:
-						App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-						App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+						loadedScene->UpdateScenePointLights();
+						loadedScene->RenderPointLights();
 
 						break;
 
 					case LightType::SPOT:
-						App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-						App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+						loadedScene->UpdateSceneSpotLights();
+						loadedScene->RenderSpotLights();
 
 						break;
 				}
 			}
-
 			else
 			{
 				components.erase(it);
@@ -761,7 +764,7 @@ void GameObject::SetParentAsChildSelected()
 
 void GameObject::SpreadStatic()
 {
-	for (GameObject* child : GetChildren())
+	for (const std::unique_ptr<GameObject>& child : children)
 	{
 		child->SetStatic(staticObject);
 		child->SpreadStatic();

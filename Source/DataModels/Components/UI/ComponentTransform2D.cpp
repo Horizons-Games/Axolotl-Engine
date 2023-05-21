@@ -215,8 +215,10 @@ void ComponentTransform2D::CalculateWorldBoundingBox()
 	worldAABB.maxPoint = position.xy().Mul(float2(1.0f, -1.0f).Mul(screenFactor)) + screenSize / 2.0f +
 						 (localAABB.maxPoint + pivotDifference).Mul(size.Mul(sca.xy()).Mul(screenFactor));
 
-	/*float2 windowPos = float2(App->GetModule<ModuleWindow>()->GetPositionX(),
-	App->GetModule<ModuleWindow>()->GetPositionY()); worldAABB.minPoint += windowPos; worldAABB.maxPoint += windowPos;*/
+	/*ModulelWindow* window = App->GetModule<ModuleWindow>();
+	float2 windowPos = float2(window->GetPositionX(), window->GetPositionY());
+	worldAABB.minPoint += windowPos;
+	worldAABB.maxPoint += windowPos;*/
 }
 
 ComponentCanvas* ComponentTransform2D::WhichCanvasContainsMe()

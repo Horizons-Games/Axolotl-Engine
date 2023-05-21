@@ -12,9 +12,11 @@
 #include "FileSystem/Json.h"
 
 #include "Windows/EditorWindows/WindowStateMachineEditor.h"
+#include "Windows/PopUpWindows/WindowLoading.h"
 #include "Windows/WindowDebug.h"
 #include "Windows/WindowMainMenu.h"
 #ifdef ENGINE
+	#include "Auxiliar/GameBuilder.h"
 	#include "Resources/ResourceStateMachine.h"
 	#include "Windows/EditorWindows/WindowAssetFolder.h"
 	#include "Windows/EditorWindows/WindowConfiguration.h"
@@ -45,7 +47,7 @@ const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 ModuleEditor::ModuleEditor() :
 	mainMenu(nullptr),
 	scene(nullptr),
-	stateMachineWindowEnable(true),
+	stateMachineWindowEnable(false),
 	stateMachineEditor(nullptr)
 {
 }
@@ -121,6 +123,8 @@ bool ModuleEditor::Init()
 
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
+	buildGameLoading = std::make_unique<WindowLoading>();
+
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
 	debugOptions = std::make_unique<WindowDebug>();
@@ -150,6 +154,7 @@ bool ModuleEditor::CleanUp()
 	rapidjson::StringBuffer buffer;
 	json.toBuffer(buffer);
 	App->GetModule<ModuleFileSystem>()->Save(set.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+	builder::Terminate();
 #endif
 
 	ImGui_ImplOpenGL3_Shutdown();
@@ -180,8 +185,9 @@ update_status ModuleEditor::Update()
 #endif // DEBUG
 
 #ifdef ENGINE
-	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+	ModuleInput* input = App->GetModule<ModuleInput>();
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
@@ -227,6 +233,9 @@ update_status ModuleEditor::Update()
 	ImGui::GetCurrentContext()->NavWindowingToggleLayer = false;
 
 	mainMenu->Draw();
+
+	DrawLoadingBuild();
+
 	for (int i = 0; i < windows.size(); ++i)
 	{
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
@@ -239,6 +248,28 @@ update_status ModuleEditor::Update()
 #endif
 
 	return update_status::UPDATE_CONTINUE;
+}
+
+void ModuleEditor::DrawLoadingBuild()
+{
+#ifdef ENGINE
+	bool gameCompiling = builder::Compiling();
+	bool zipping = builder::Zipping();
+	bool gameBuilding = gameCompiling || zipping;
+	if (gameCompiling)
+	{
+		buildGameLoading->AddWaitingOn("Game is being compiled...");
+	}
+	if (zipping)
+	{
+		buildGameLoading->AddWaitingOn("Binaries are being zipped...");
+	}
+	buildGameLoading->Draw(gameBuilding);
+	if (gameBuilding)
+	{
+		buildGameLoading->ResetWaitingOn();
+	}
+#endif
 }
 
 update_status ModuleEditor::PostUpdate()
@@ -310,12 +341,13 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 }
 std::string ModuleEditor::StateWindows()
 {
-	if (App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str()))
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	if (fileSystem->Exists(settingsFolder.c_str()))
 	{
-		if (App->GetModule<ModuleFileSystem>()->Exists(set.c_str()))
+		if (fileSystem->Exists(set.c_str()))
 		{
 			char* binaryBuffer = {};
-			App->GetModule<ModuleFileSystem>()->Load(set.c_str(), binaryBuffer);
+			fileSystem->Load(set.c_str(), binaryBuffer);
 			return std::string(binaryBuffer);
 		}
 	}
@@ -324,9 +356,10 @@ std::string ModuleEditor::StateWindows()
 
 void ModuleEditor::CreateFolderSettings()
 {
-	bool settingsFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str());
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	bool settingsFolderNotCreated = !fileSystem->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		App->GetModule<ModuleFileSystem>()->CreateDirectory(settingsFolder.c_str());
+		fileSystem->CreateDirectory(settingsFolder.c_str());
 	}
 }

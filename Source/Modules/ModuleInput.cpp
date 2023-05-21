@@ -115,8 +115,9 @@ update_status ModuleInput::Update()
 				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
 					sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 				{
-					App->GetModule<ModuleRender>()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-					App->GetModule<ModuleRender>()->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
+					ModuleRender* render = App->GetModule<ModuleRender>();
+					render->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+					render->UpdateBuffers(sdlEvent.window.data1, sdlEvent.window.data2);
 					App->GetModule<ModuleUI>()->RecalculateCanvasSizeAndScreenFactor();
 					App->GetModule<ModuleCamera>()->RecalculateOrthoProjectionMatrix();
 				}

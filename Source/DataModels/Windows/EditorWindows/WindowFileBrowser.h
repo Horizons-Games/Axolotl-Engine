@@ -3,7 +3,7 @@
 
 #include <future>
 
-#include "DataModels/Windows/EditorWindows/WindowLoading.h"
+#include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "FontIcons/CustomFont.h"
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 

@@ -37,9 +37,9 @@ void ComponentCamera::Update()
 	ComponentTransform* trans = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 	camera->SetPosition((float3) trans->GetGlobalPosition());
 
-	float3x3 rotationMatrix = trans->GetGlobalRotation().Float3x3Part();
-	camera->GetFrustum()->SetFront(rotationMatrix * float3::unitZ);
-	camera->GetFrustum()->SetUp(rotationMatrix * float3::unitY);
+	Quat rotation = trans->GetGlobalRotation();
+	camera->GetFrustum()->SetFront(rotation.Transform(float3::unitZ));
+	camera->GetFrustum()->SetUp(rotation.Transform(float3::unitY));
 
 	if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 	{

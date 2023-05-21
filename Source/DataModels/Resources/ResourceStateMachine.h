@@ -32,15 +32,17 @@ struct State
 	std::pair<int, int> auxiliarPos;
 	std::vector<UID> transitionsOriginedHere;
 	std::vector<UID> transitionsDestinedHere;
+	bool loop;
 
-	State() : id(0)
+	State() : id(0), loop(false)
 	{
 	}
 
 	State(const UID& id, const std::string& name, int x, int y) :
 		id(id),
 		name(name),
-		auxiliarPos(std::pair<int, int>(x, y))
+		auxiliarPos(std::pair<int, int>(x, y)),
+		loop(false)
 	{
 	}
 
@@ -58,17 +60,19 @@ struct Transition
 {
 	unsigned int originState;
 	unsigned int destinationState;
+	bool waitUntilFinish;
 	double transitionDuration;
 	std::vector<Condition> conditions;
 
-	Transition() : originState(0), destinationState(0), transitionDuration(0.0)
+	Transition() : originState(0), destinationState(0), waitUntilFinish(false), transitionDuration(0.0)
 	{
 	}
 
 	Transition(unsigned int originState, unsigned int destinationState, double transitionDuration) :
 		originState(originState),
 		destinationState(destinationState),
-		transitionDuration(transitionDuration)
+		transitionDuration(transitionDuration),
+		waitUntilFinish(false)
 	{
 	}
 

@@ -13,6 +13,8 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
+
 
 #include "GameObject/GameObject.h"
 
@@ -50,6 +52,7 @@ void PlayerMobilityScript::Start()
 
 	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 }
 
 void PlayerMobilityScript::PreUpdate(float deltaTime)
@@ -71,6 +74,7 @@ void PlayerMobilityScript::Move()
 	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	//ComponentAnimation* animation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 
 	math::vec points[8];
 	trans->GetObjectOBB().GetCornerPoints(points);
@@ -128,7 +132,7 @@ void PlayerMobilityScript::Move()
 	{
 		isCrouch = true;
 		trans->SetScale(trans->GetScale() / 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
@@ -144,7 +148,7 @@ void PlayerMobilityScript::Move()
 	{
 		isCrouch = false;
 		trans->SetScale(trans->GetScale() * 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
@@ -165,6 +169,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -199,6 +204,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -235,6 +241,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -271,6 +278,7 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -310,33 +318,34 @@ void PlayerMobilityScript::Move()
 		if (playerState == PlayerActions::WALKING)
 		{
 			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK_STOP);
+			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
 	}
 
 	//rigidBody->AddForce(forceVector * forceParameter);
 
-	// Jump
-	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
-	{
-		sizeJump = deltaTime * jumpParameter;
-		jumps -= 1;
-		if (rigidBody->IsOnGround() || jumps > 0)
-		{
-			rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
-		}
+	//// Jump
+	//if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
+	//{
+	//	sizeJump = deltaTime * jumpParameter;
+	//	jumps -= 1;
+	//	if (rigidBody->IsOnGround() || jumps > 0)
+	//	{
+	//		rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
+	//	}
 
-	}
-
-	// Control Double Jump
-	if (rigidBody->IsOnGround() && canDoubleJump)
-	{
-		jumps = 2;
-	}
-	else if (rigidBody->IsOnGround() && !canDoubleJump)
-	{
-		jumps = 1;
-	}
+	//}
+	//
+	//// Control Double Jump
+	//if (rigidBody->IsOnGround() && canDoubleJump)
+	//{
+	//	jumps = 2;
+	//}
+	//else if (rigidBody->IsOnGround() && !canDoubleJump)
+	//{
+	//	jumps = 1;
+	//}
 
 
 	trans->UpdateTransformMatrices();
@@ -359,7 +368,7 @@ void PlayerMobilityScript::Move()
 		}
 	}
 
-	rigidBody->SetBottomHitPoint(maxHeight);
+	//rigidBody->SetBottomHitPoint(maxHeight);
 
 	//top
 	/*if (!collider->IsColliding(topPoints, verticalDirection, speed * deltaTime * 1.1f, 0.0f))

@@ -197,9 +197,9 @@ bool ModuleAudio::InitializeBanks()
 
 	// Load banks synchronously (from file name).
 	AkBankID bankID; // Not used. These banks can be unloaded with their file name.
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	std::vector<std::string> bankFolderContents =
-		App->GetModule<ModuleFileSystem>()->ListFiles(soundBanksFolderPath.c_str());
+	std::vector<std::string> bankFolderContents = fileSystem->ListFiles(soundBanksFolderPath.c_str());
 
 	{
 		AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
@@ -212,8 +212,7 @@ bool ModuleAudio::InitializeBanks()
 
 	for (const std::string& bankFolderItem : bankFolderContents)
 	{
-		if (bankFolderItem != "Init.bnk" &&
-			App->GetModule<ModuleFileSystem>()->GetFileExtension(bankFolderItem) == ".bnk")
+		if (bankFolderItem != "Init.bnk" && fileSystem->GetFileExtension(bankFolderItem) == ".bnk")
 		{
 			std::wstring bankNameAsWString = std::wstring(std::begin(bankFolderItem), std::end(bankFolderItem));
 			AKRESULT eResult = AK::SoundEngine::LoadBank(bankNameAsWString.c_str(), bankID);

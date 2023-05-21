@@ -11,8 +11,7 @@ enum class LightType
 	UNKNOWN,
 	DIRECTIONAL,
 	POINT,
-	SPOT,
-	AMBIENT
+	SPOT
 };
 
 const static std::string GetNameByLightType(LightType type);
@@ -99,8 +98,6 @@ inline const std::string GetNameByLightType(LightType type)
 			return "LightType_Point";
 		case LightType::SPOT:
 			return "LightType_Spot";
-		case LightType::AMBIENT:
-			return "LightType_Ambient";
 		default:
 			assert(false && "Wrong light type introduced");
 			return "";
@@ -122,11 +119,6 @@ inline const LightType GetLightTypeByName(const std::string& typeName)
 	if (typeName == "LightType_Spot")
 	{
 		return LightType::SPOT;
-	}
-
-	if (typeName == "LightType_Ambient")
-	{
-		return LightType::AMBIENT;
 	}
 	return LightType::UNKNOWN;
 }

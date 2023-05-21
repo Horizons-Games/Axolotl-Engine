@@ -8,13 +8,16 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
+#include "ModuleScene.h"
 #include "Program/Program.h"
 
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
+#include "Cubemap/Cubemap.h"
 #include "GameObject/GameObject.h"
+#include "Scene/Scene.h"
 
 #include <GL/glew.h>
 
@@ -142,6 +145,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 	if (hasBones)
 	{
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(float4x4) * skinPalette.size(), &skinPalette[0]);
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 10, mesh->GetSSBOPalette());
 	}
 	// ---------------------------
 
@@ -277,6 +281,14 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
+		Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+		glActiveTexture(GL_TEXTURE10);
+		glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
+		program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
 	}
 }
 

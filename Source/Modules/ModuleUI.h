@@ -21,6 +21,8 @@ public:
 	unsigned int GetQuadVAO() const;
 
 private:
+	void Draw2DGameObject(const GameObject* gameObject);
+
 	unsigned int quadVBO;
 	unsigned int quadVAO;
 };

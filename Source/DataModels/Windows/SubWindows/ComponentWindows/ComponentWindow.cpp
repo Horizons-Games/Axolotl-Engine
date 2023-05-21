@@ -2,7 +2,6 @@
 
 #include <sstream>
 
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAmbient.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAnimation.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioSource.h"
@@ -24,7 +23,6 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
 
 #include "Application.h"
-#include "Components/ComponentAmbient.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentAudioSource.h"
@@ -94,8 +92,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())
 				{
-					case LightType::AMBIENT:
-						return std::make_unique<WindowComponentAmbient>(static_cast<ComponentAmbient*>(component));
 					case LightType::DIRECTIONAL:
 						return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
 					case LightType::POINT:

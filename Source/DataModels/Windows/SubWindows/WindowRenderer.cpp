@@ -23,13 +23,15 @@ WindowRenderer::~WindowRenderer()
 
 void WindowRenderer::DrawWindowContents()
 {
+	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
+
 	if (!initialized)
 	{
 		vertexShaderBuffers.resize((int) ProgramType::PROGRAM_TYPE_SIZE);
 		fragmentShaderBuffer.resize((int) ProgramType::PROGRAM_TYPE_SIZE);
 		for (int i = 0; i < (int) ProgramType::PROGRAM_TYPE_SIZE; i++)
 		{
-			Program* program = App->GetModule<ModuleProgram>()->GetProgram((ProgramType) i);
+			Program* program = moduleProgram->GetProgram((ProgramType) i);
 			if (program)
 			{
 				vertexShaderBuffers[i] = program->GetVertexShaderFileName();
@@ -41,7 +43,7 @@ void WindowRenderer::DrawWindowContents()
 
 	for (int i = 0; i < static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE); i++)
 	{
-		Program* program = App->GetModule<ModuleProgram>()->GetProgram((ProgramType) i);
+		Program* program = moduleProgram->GetProgram((ProgramType) i);
 		if (program)
 		{
 			std::string vertexShaderLabel = program->GetProgramName() + " vertex shader";
@@ -64,10 +66,10 @@ void WindowRenderer::DrawWindowContents()
 
 				if (vf.good() && ff.good())
 				{
-					App->GetModule<ModuleProgram>()->UpdateProgram(vertexShaderBuffers[i],
-																   fragmentShaderBuffer[i],
-																   static_cast<ProgramType>(i),
-																   program->GetProgramName());
+					moduleProgram->UpdateProgram(vertexShaderBuffers[i],
+												 fragmentShaderBuffer[i],
+												 static_cast<ProgramType>(i),
+												 program->GetProgramName());
 					initialized = false;
 				}
 				else

@@ -1,13 +1,18 @@
 #pragma once
-#include "DataStructures/Quadtree.h"
 #include "GL/glew.h"
+#include "Math/float4.h"
 #include "Module.h"
+
+#include <map>
+#include <set>
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Skybox;
+class Cubemap;
+class Quadtree;
+class GameObject;
 
 class ModuleRender : public Module
 {
@@ -35,6 +40,7 @@ public:
 
 	void FillRenderList(const Quadtree* quadtree);
 	void AddToRenderList(GameObject* gameObject);
+	void InsertToRenderList(GameObject* gameObject);
 
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
@@ -54,7 +60,7 @@ private:
 
 	unsigned vbo;
 
-	std::vector<const GameObject*> opaqueGOToDraw;
+	std::set<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
 	// to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;

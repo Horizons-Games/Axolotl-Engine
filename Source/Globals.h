@@ -31,7 +31,7 @@ enum class TextureType
 
 // Configuration (Frustum)
 #define QUADRANT_CAPACITY 30
-#define MIN_CUBE_SIZE 20.0f
+#define MIN_CUBE_SIZE 100.0f
 
 // Window ------------------
 #define SCREEN_WIDTH 1920
@@ -66,8 +66,10 @@ enum class TextureType
 #define TIF_TEXTURE_EXTENSION ".tif"
 #define DDS_TEXTURE_EXTENSION ".dds"
 #define TGA_TEXTURE_EXTENSION ".tga"
+#define HDR_TEXTURE_EXTENSION ".hdr"
 #define SCENE_EXTENSION ".axolotl"
 #define SKYBOX_EXTENSION ".sky"
+#define CUBEMAP_EXTENSION ".cube"
 #define MATERIAL_EXTENSION ".mat"
 #define STATEMACHINE_EXTENSION ".state"
 #define MESH_EXTENSION ".mesh"

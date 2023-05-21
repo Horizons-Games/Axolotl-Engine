@@ -8,7 +8,11 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
+#ifdef ENGINE
 const std::string ModuleProgram::rootPath = "Source/Shaders/";
+#else
+const std::string ModuleProgram::rootPath = "Lib/Shaders/";
+#endif
 
 ModuleProgram::ModuleProgram()
 {
@@ -20,7 +24,36 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Start()
 {
-	programs.reserve((int) ProgramType::PROGRAM_TYPE_SIZE);
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+
+	std::string directory = rootPath + "Common/";
+	std::vector<std::string> files = fileSystem->ListFilesWithPath(directory.c_str());
+	for (auto i = 0; i < files.size(); i++)
+	{
+		std::string path = files[i];
+		if (fileSystem->IsDirectory(path.c_str()))
+		{
+			path += "/";
+			std::vector<std::string> filesInsideDirectory = fileSystem->ListFilesWithPath(path.c_str());
+			files.reserve(files.size() + filesInsideDirectory.size());
+			files.insert(files.end(), filesInsideDirectory.begin(), filesInsideDirectory.end());
+		}
+		else
+		{
+			// Get the file path local to shaders/ folder:
+			std::string localPath = path.substr(rootPath.size() - 1);
+			// Get the file content:
+			char* fileBuffer = nullptr;
+			fileSystem->Load(path, fileBuffer);
+
+			// Add the file to GLSL virtual filesystem:
+			glNamedStringARB(GL_SHADER_INCLUDE_ARB, -1, localPath.data(), -1, fileBuffer);
+
+			delete fileBuffer;
+		}
+	}
+
+	programs.reserve(static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE));
 	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
 
 	programs.push_back(CreateProgram("default_vertex.glsl", "specular_fragment.glsl", "Specular"));
@@ -30,6 +63,15 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("skybox_vertex.glsl", "skybox_fragment.glsl", "Skybox"));
 
 	programs.push_back(CreateProgram("2D_vertex.glsl", "2D_fragment.glsl", "Sprite"));
+
+	programs.push_back(CreateProgram("cubemap_vertex.glsl", "hdr_to_cubemap_fragment.glsl", "HDRToCubemap"));
+
+	programs.push_back(CreateProgram("cubemap_vertex.glsl", "irradiance_cubemap_fragment.glsl", "IrradianceCubemap"));
+
+	programs.push_back(CreateProgram("cubemap_vertex.glsl", "pre_filtered_map_fragment.glsl", "PreFilteredMap"));
+
+	programs.push_back(
+		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
 	return true;
 }

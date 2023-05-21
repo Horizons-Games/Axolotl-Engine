@@ -15,14 +15,14 @@ MeshImporter::~MeshImporter()
 void MeshImporter::Import(const char* filePath, std::shared_ptr<ResourceMesh> resource)
 {
 	char* loadBuffer{};
-	App->GetModule<ModuleFileSystem>()->Load(filePath, loadBuffer);
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	fileSystem->Load(filePath, loadBuffer);
 	Load(loadBuffer, resource);
 
 	char* saveBuffer{};
 	unsigned int size;
 	Save(resource, saveBuffer, size);
-	App->GetModule<ModuleFileSystem>()->Save(
-		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+	fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 
 	delete loadBuffer;
 	delete saveBuffer;

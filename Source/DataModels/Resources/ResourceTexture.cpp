@@ -77,10 +77,12 @@ void ResourceTexture::CreateTexture()
 
 	glTexParameteri(GL_TEXTURE_2D,
 					GL_TEXTURE_WRAP_S,
-					format == GL_RGBA ? GL_CLAMP_TO_EDGE : GetWrapFilterEquivalence(loadOptions.wrapS));
+					format == GL_RGBA || format == GL_RGB ? GL_CLAMP_TO_EDGE
+														  : GetWrapFilterEquivalence(loadOptions.wrapS));
 	glTexParameteri(GL_TEXTURE_2D,
 					GL_TEXTURE_WRAP_T,
-					format == GL_RGBA ? GL_CLAMP_TO_EDGE : GetWrapFilterEquivalence(loadOptions.wrapT));
+					format == GL_RGBA || format == GL_RGB ? GL_CLAMP_TO_EDGE
+														  : GetWrapFilterEquivalence(loadOptions.wrapT));
 }
 
 int ResourceTexture::GetMagFilterEquivalence(TextureMagFilter filter)

@@ -143,8 +143,11 @@ void WindowScene::DrawGuizmo()
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		ImGuizmo::SetOrthographic(false);
 
-		float4x4 viewMat = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix().Transposed();
-		float4x4 projMat = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix().Transposed();
+		ModuleCamera* camera = App->GetModule<ModuleCamera>();
+		ModuleInput* input = App->GetModule<ModuleInput>();
+
+		float4x4 viewMat = camera->GetCamera()->GetViewMatrix().Transposed();
+		float4x4 projMat = camera->GetCamera()->GetProjectionMatrix().Transposed();
 
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
@@ -166,7 +169,7 @@ void WindowScene::DrawGuizmo()
 			{
 				GameObject* parent = focusedObject->GetParent();
 				float3 position, scale;
-				float4x4 rotation;
+				Quat rotation;
 				float4x4 inverseParentMatrix = float4x4::identity; // Needs to be identity in case the parent is nulltpr
 				float4x4 localMatrix;
 
@@ -225,7 +228,7 @@ void WindowScene::DrawGuizmo()
 
 			ImGuizmo::ViewManipulate(
 				viewMat.ptr(),
-				App->GetModule<ModuleCamera>()->GetCamera()->GetDistance(
+				camera->GetCamera()->GetDistance(
 					float3(modelMatrix.Transposed().x, modelMatrix.Transposed().y, modelMatrix.Transposed().z)),
 				ImVec2(viewManipulateRight - VIEW_MANIPULATE_SIZE, viewManipulateTop),
 				ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
@@ -233,25 +236,24 @@ void WindowScene::DrawGuizmo()
 		}
 		if (ImGui::IsWindowFocused())
 		{
-			if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN &&
-				App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+			if (input->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN &&
+				input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
 			{
 				gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
 			}
-			if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_W) == KeyState::DOWN &&
-				App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+			if (input->GetKey(SDL_SCANCODE_W) == KeyState::DOWN &&
+				input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
 			{
 				gizmoCurrentOperation = ImGuizmo::OPERATION::ROTATE;
 			}
-			if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_E) == KeyState::DOWN &&
-				App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
+			if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN &&
+				input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
 			{
 				gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
 			}
 
-			if (App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
+			if (input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE ||
+				input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE || input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
 				ImGuizmo::Enable(false);
 			}
@@ -262,10 +264,9 @@ void WindowScene::DrawGuizmo()
 					manipulatedViewMatrix = viewMat.InverseTransposed();
 					;
 
-					App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()->SetFrame(
-						manipulatedViewMatrix.Col(3).xyz(),	 // position
-						-manipulatedViewMatrix.Col(2).xyz(), // rotation
-						manipulatedViewMatrix.Col(1).xyz()	 // scale
+					camera->GetCamera()->GetFrustum()->SetFrame(manipulatedViewMatrix.Col(3).xyz(),	 // position
+																-manipulatedViewMatrix.Col(2).xyz(), // rotation
+																manipulatedViewMatrix.Col(1).xyz()	 // scale
 					);
 
 					manipulatedLastFrame = true;
@@ -276,7 +277,7 @@ void WindowScene::DrawGuizmo()
 					float3 position, scale;
 					Quat rotation;
 
-					App->GetModule<ModuleCamera>()->GetCamera()->SetPosition(manipulatedViewMatrix.Col(3).xyz());
+					camera->GetCamera()->SetPosition(manipulatedViewMatrix.Col(3).xyz());
 
 					manipulatedLastFrame = false;
 				}
@@ -294,10 +295,12 @@ void WindowScene::ManageResize()
 	availableRegion = ImGui::GetContentRegionAvail();
 	bool widthChanged = currentWidth != availableRegion.x;
 	bool heightChanged = currentHeight != availableRegion.y;
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+
 	if (widthChanged || heightChanged) // window was resized
 	{
-		App->GetModule<ModuleCamera>()->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
-		App->GetModule<ModuleCamera>()->RecalculateOrthoProjectionMatrix();
+		camera->GetCamera()->SetAspectRatio(availableRegion.x / availableRegion.y);
+		camera->RecalculateOrthoProjectionMatrix();
 		currentWidth = availableRegion.x;
 		currentHeight = availableRegion.y;
 		App->GetModule<ModuleUI>()->RecalculateCanvasSizeAndScreenFactor();

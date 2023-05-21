@@ -8,6 +8,7 @@
 
 #include "FileSystem/Json.h"
 
+#include "Math/float3.h"
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
@@ -97,6 +98,17 @@ void ComponentScript::SaveOptions(Json& meta)
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
+			case FieldType::VECTOR3:
+			{
+				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
+				field["name"] = fieldInstance.name.c_str();
+				float3 fieldValue = fieldInstance.getter();
+				field["value x"] = fieldValue[0];
+				field["value y"] = fieldValue[1];
+				field["value z"] = fieldValue[2];
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
 
 			case FieldType::STRING:
 			{
@@ -171,6 +183,17 @@ void ComponentScript::LoadOptions(Json& meta)
 				}
 				break;
 			}
+			case FieldType::VECTOR3:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
+				if (optField)
+				{
+					float3 vec3(field["value x"], field["value y"], field["value z"]);
+					optField.value().setter(vec3);
+				}
+				break;
+			}
 
 			case FieldType::STRING:
 			{
@@ -192,8 +215,17 @@ void ComponentScript::LoadOptions(Json& meta)
 					UID fieldUID = field["value"];
 					if (fieldUID != 0)
 					{
-						optField.value().setter(
-							App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+						UID newFieldUID;
+						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+						{
+							optField.value().setter(
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
+						}
+						else
+						{
+							optField.value().setter(
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+						}
 					}
 
 					else
