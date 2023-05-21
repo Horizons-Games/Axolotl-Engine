@@ -7,7 +7,7 @@
 #include "ParticleModule.h"
 
 
-ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CIRCLE), particleTexture(nullptr)
+ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleTexture(nullptr)
 {
 	ModuleBase* base = new ModuleBase(this);
 	ModuleSpawn* spawn = new ModuleSpawn(this);

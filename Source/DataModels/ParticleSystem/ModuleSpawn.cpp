@@ -22,6 +22,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 	unsigned lastParticleUsed = instance->GetLastParticleUsed();
 	bool found = false;
 
+	// Higher probability for the new particle to be spawned, to be after the last particle used
 	for (unsigned i = lastParticleUsed; !found && i < particles.size(); ++i)
 	{
 		found = particles[i].lifespan == 0.0f;

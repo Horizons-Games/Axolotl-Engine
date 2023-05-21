@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 
-#define MAX_PARTICLES 100
+#define MAX_PARTICLES 200
 #define MAX_DURATION 25.0f
 #define MAX_SPEED 10.0f
 #define MAX_SIZE 2.0f
@@ -17,10 +17,10 @@
 #define MIN_RADIUS 0.01f
 
 #define DEFAULT_DURATION 10.0f
-#define DEFAULT_LIFESPAN_X 5.0f
-#define DEFAULT_LIFESPAN_Y 10.0f
-#define DEFAULT_SPEED_X 1.0f
-#define DEFAULT_SPEED_Y 2.0f
+#define DEFAULT_LIFESPAN_X 3.0f
+#define DEFAULT_LIFESPAN_Y 7.0f
+#define DEFAULT_SPEED_X 3.0f
+#define DEFAULT_SPEED_Y 7.50f
 #define DEFAULT_SIZE_X 0.25f
 #define DEFAULT_SIZE_Y 0.85f
 #define DEFAULT_ROTATION_X 0.00f
@@ -29,8 +29,8 @@
 #define DEFAULT_GRAVITY_Y 9.83f
 #define DEFAULT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f }
 #define DEFAULT_ANGLE 25
-#define DEFAULT_RADIUS 1
-#define DEFAULT_MAX_PARTICLES 10
+#define DEFAULT_RADIUS 0.5
+#define DEFAULT_MAX_PARTICLES 50
 
 #define CONE_HEIGHT 3
 

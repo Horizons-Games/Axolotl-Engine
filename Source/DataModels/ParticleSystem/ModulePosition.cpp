@@ -38,8 +38,6 @@ void ModulePosition::Update(EmitterInstance* instance)
 		{
 			float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 
-			//TODO: Calculate position using speed and gravity and sort by distance to camera
-
 			float3 speed = particle.initVelocity +
 				instance->lerp(particle.initVelocity, particle.velocity, lifeRatio) +
 				float3(0.0f, -particle.gravity * (particle.initLife - particle.lifespan), 0.0f);
