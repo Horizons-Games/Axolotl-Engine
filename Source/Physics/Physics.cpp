@@ -124,6 +124,26 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* excep
 	return false;
 }
 
+bool Physics::RaycastToTag(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject, std::string tag)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+#ifdef ENGINE
+	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+#endif
+	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+
+	GetRaycastHitInfoWithTag(hitGameObjects, ray, hit, exceptionGameObject, tag);
+
+	if (hit.gameObject != nullptr)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool Physics::RaycastFirst(const LineSegment& ray)
 {
 	std::map<float, const GameObject*> hitGameObjects;
@@ -394,6 +414,86 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 		else 
 		{
 			float chapuza = 0.0f;
+		}
+	}
+
+	hit.gameObject = newSelectedGameObject;
+	hit.distance = minCurrentDistance;
+	hit.hitPoint = nearestHitPoint;
+	hit.normal = hitNormal;
+}
+
+void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>& hitGameObjects,
+	const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject, std::string tag)
+{
+	GameObject* newSelectedGameObject = nullptr;
+
+	float thisDistance = 0.0f;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+	float3 nearestHitPoint = float3::zero;
+	float3 hitNormal = float3::zero;
+
+	GameObject::GameObjectView children = exceptionGameObject->GetChildren();
+
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
+	{
+		if (hitGameObject.second->GetTag() == tag)
+		{
+			const GameObject* actualGameObject = hitGameObject.second;
+
+			bool isInside = false;
+
+			auto it = std::find(children.begin(), children.end(), actualGameObject);
+
+			isInside = it != children.end();
+			if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
+			{
+				ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
+					(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+
+				if (!componentMeshRenderer)
+				{
+					continue;
+				}
+				std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
+
+				if (!goMeshAsShared)
+				{
+					continue;
+				}
+
+				const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
+					(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+				const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+
+				for (const Triangle& triangle : meshTriangles)
+				{
+					bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+
+					if (!hit)
+					{
+						continue;
+					}
+
+					if (thisDistance >= minCurrentDistance)
+					{
+						continue;
+					}
+
+					// Only save a gameObject when any of its triangles is hit 
+					// and it is the nearest triangle to the frustum
+					newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
+					minCurrentDistance = thisDistance;
+					hitNormal = triangle.NormalCCW();
+					nearestHitPoint = exactHitPoint;
+				}
+			}
+			else
+			{
+				float chapuza = 0.0f;
+			}
 		}
 	}
 
