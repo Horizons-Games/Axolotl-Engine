@@ -1,5 +1,6 @@
 #include "ComponentWindows/WindowComponentTransform2D.h"
-
+#include "Application.h"
+#include "ModuleInput.h"
 #include "Components/UI/ComponentTransform2D.h"
 
 #include "Application.h"
@@ -121,6 +122,17 @@ void WindowComponentTransform2D::DrawTransformTable()
 		if (ImGui::DragFloat("##XScale", &currentScale.x, currentDragSpeed,
 			0.0001f, std::numeric_limits<float>::max()))
 		{
+			bool anyShiftHold =
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::REPEAT ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::DOWN ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::REPEAT;
+
+			if(anyShiftHold)
+			{
+				currentScale.y = currentScale.x;
+				currentScale.z = currentScale.x;
+			}
 			scaleModified = true;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
@@ -131,6 +143,17 @@ void WindowComponentTransform2D::DrawTransformTable()
 		if (ImGui::DragFloat("##YScale", &currentScale.y, currentDragSpeed,
 			0.0001f, std::numeric_limits<float>::max()))
 		{
+			bool anyShiftHold =
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::REPEAT ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::DOWN ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::REPEAT;
+
+			if (anyShiftHold)
+			{
+				currentScale.x = currentScale.y;
+				currentScale.z = currentScale.y;
+			}
 			scaleModified = true;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
@@ -141,6 +164,17 @@ void WindowComponentTransform2D::DrawTransformTable()
 		if (ImGui::DragFloat("##ZScale", &currentScale.z, currentDragSpeed,
 			0.0001f, std::numeric_limits<float>::max()))
 		{
+			bool anyShiftHold =
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::REPEAT ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::DOWN ||
+				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::REPEAT;
+
+			if (anyShiftHold)
+			{
+				currentScale.x = currentScale.z;
+				currentScale.y = currentScale.z;
+			}
 			scaleModified = true;
 		}
 		ImGui::PopStyleVar();
@@ -169,8 +203,6 @@ void WindowComponentTransform2D::DrawTransformTable()
 			sizeModified = true;
 		}
 		ImGui::PopStyleVar(); ImGui::SameLine();
-
-
 
 		ImGui::EndTable();
 	}
