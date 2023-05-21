@@ -9,15 +9,12 @@
 
 #include "Auxiliar/Audio/AudioData.h"
 
+REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
 componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr)
 {
 	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
-}
-
-PlayerMoveScript::~PlayerMoveScript()
-{
 }
 
 void PlayerMoveScript::Start()
@@ -27,9 +24,14 @@ void PlayerMoveScript::Start()
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 }
 
-void PlayerMoveScript::Move()
+void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
+	Move(deltaTime);
+}
+
+void PlayerMoveScript::Move(float deltaTime)
+{
+	float nDeltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
@@ -38,6 +40,13 @@ void PlayerMoveScript::Move()
 	btVector3 movement(0, 0, 0);
 	float3 direction = float3::zero;
 	
+	float nspeed = speed;
+
+	//run
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+	{
+		nspeed *= 2;
+	}
 
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
@@ -50,7 +59,7 @@ void PlayerMoveScript::Move()
 		}
 
 		direction = componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
 
 	}
 
@@ -64,7 +73,7 @@ void PlayerMoveScript::Move()
 			playerState = PlayerActions::WALKING;
 		}
 		direction = -componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
 
 	}
 
@@ -79,7 +88,7 @@ void PlayerMoveScript::Move()
 		}
 
 		direction = -componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
 
 	}
 
@@ -94,7 +103,7 @@ void PlayerMoveScript::Move()
 		}
 
 		direction = componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
@@ -110,15 +119,12 @@ void PlayerMoveScript::Move()
 		}
 	}
 	
-
-	btVector3 currentVelocity = btRb->getLinearVelocity();
 	
 	btVector3 newVelocity(movement.getX(), 0, movement.getZ());
 	btVector3 currentVelocity = btRb->getLinearVelocity();
 
-	
 	newVelocity.setY(currentVelocity.getY());
-	btRb->setLinearVelocity(newVelocity);	
+	btRb->setLinearVelocity(newVelocity);
 }
 
 float PlayerMoveScript::GetSpeed() const

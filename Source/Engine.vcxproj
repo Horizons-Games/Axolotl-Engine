@@ -462,6 +462,10 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp" />
     <ClCompile Include="moveale.cpp" />
     <ClCompile Include="Physics\Physics.cpp" />
+    <ClCompile Include="PlayerCameraRotationVerticalScript.cpp" />
+    <ClCompile Include="PlayerJumpScript.cpp" />
+    <ClCompile Include="PlayerMoveScript.cpp" />
+    <ClCompile Include="PlayerRotationScript.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
   </ItemGroup>
@@ -805,6 +809,10 @@
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h" />
     <ClInclude Include="moveale.h" />
     <ClInclude Include="Physics\Physics.h" />
+    <ClInclude Include="PlayerCameraRotationVerticalScript.h" />
+    <ClInclude Include="PlayerJumpScript.h" />
+    <ClInclude Include="PlayerMoveScript.h" />
+    <ClInclude Include="PlayerRotationScript.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />
     <ClInclude Include="Scripting\LogSystem.h" />

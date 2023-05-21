@@ -2,9 +2,9 @@
 
 #include "Script.h"
 
-class ComponentPlayer;
 class ComponentAudioSource;
 class ComponentAnimation;
+class ComponentTransform;
 
 enum class PlayerActions
 {
@@ -18,11 +18,11 @@ class PlayerMoveScript :
 public:
 
     PlayerMoveScript();
-    ~PlayerMoveScript();
 
     void Start() override;
+    void PreUpdate(float deltaTime) override;
 
-    void Move();
+    void Move(float deltaTime);
 
     float GetSpeed() const;
     void SetSpeed(float speed);

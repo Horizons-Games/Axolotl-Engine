@@ -385,6 +385,10 @@
     <ClCompile Include="moveale.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerMoveScript.cpp" />
+    <ClCompile Include="PlayerJumpScript.cpp" />
+    <ClCompile Include="PlayerRotationScript.cpp" />
+    <ClCompile Include="PlayerCameraRotationVerticalScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -773,6 +777,10 @@
     <ClInclude Include="moveale.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerMoveScript.h" />
+    <ClInclude Include="PlayerJumpScript.h" />
+    <ClInclude Include="PlayerRotationScript.h" />
+    <ClInclude Include="PlayerCameraRotationVerticalScript.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
