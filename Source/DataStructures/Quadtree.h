@@ -18,8 +18,8 @@ public:
 	~Quadtree();
 
 	bool IsLeaf() const;
-	bool InQuadrant(GameObject* gameObject);
-	bool EntireInQuadrant(GameObject* gameObject);
+	bool InQuadrant(const GameObject* gameObject) const;
+	bool EntireInQuadrant(const GameObject* gameObject) const;
 
 	void Add(GameObject* gameObject);
 	void AddGameObjectAndChildren(GameObject* gameObject);

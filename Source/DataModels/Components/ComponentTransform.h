@@ -68,6 +68,8 @@ public:
 	void CalculateBoundingBoxes();
 	void Encapsule(const vec* vertices, unsigned numVertices);
 
+	void CalculateLocalFromNewGlobal(const ComponentTransform* newTransformFrom);
+
 private:
 	float3 pos;
 	Quat rot;
