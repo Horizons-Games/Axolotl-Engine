@@ -3,6 +3,8 @@
 #include "Components/UI/ComponentImage.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowSpriteInput.h"
 #include "Resources/ResourceTexture.h"
+#include "GameObject/GameObject.h"
+#include "Components/UI/ComponentTransform2D.h"
 
 #include "Application.h"
 
@@ -35,6 +37,13 @@ void WindowComponentImage::DrawWindowContents()
 				image->Unload();
 				asImage->SetImage(nullptr);
 			}
+			ImGui::SameLine();
+			if(ImGui::Button("Set Native Size")) 
+			{
+				ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(asImage->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+				transform->SetSize(float2(image->GetWidth(), image->GetHeight()));
+			}
+			ImGui::SetNextItemWidth(200);
 			float4 color = asImage->GetColor();
 			if(ImGui::ColorEdit4("Color##1", (float*)&color))
 			{
