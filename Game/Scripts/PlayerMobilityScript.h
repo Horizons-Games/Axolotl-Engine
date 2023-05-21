@@ -6,6 +6,7 @@
 
 class ComponentPlayer;
 class ComponentAudioSource;
+class ComponentAnimation;
 
 // Little fix until we could check if an audio is being reproduced
 enum class PlayerActions
@@ -53,6 +54,9 @@ private:
 	bool isCrouch;
 	unsigned int jumps;
 
+	bool isDashing;
+
 	ComponentAudioSource* componentAudio;
+	ComponentAnimation* componentAnimation;
 	PlayerActions playerState;
 };

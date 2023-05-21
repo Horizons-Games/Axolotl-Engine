@@ -31,20 +31,24 @@ bool ModuleUI::Init()
 
 update_status ModuleUI::Update()
 {
-	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+
+	for (Component* interactable : loadedScene->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
 		ComponentTransform2D* transform =
 			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
 		AABB2D aabb2d = transform->GetWorldAABB();
-		float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
+		float2 point = input->GetMousePosition();
 #ifdef ENGINE
-		point = Physics::ScreenToScenePosition(App->GetModule<ModuleInput>()->GetMousePosition());
+		point = Physics::ScreenToScenePosition(input->GetMousePosition());
 #endif // ENGINE
 		if (aabb2d.Contains(point))
 		{
 			button->SetHovered(true);
-			if (App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
+			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
 			{
 				button->SetClicked(true);
 			}
@@ -56,7 +60,7 @@ update_status ModuleUI::Update()
 		}
 	}
 
-	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
+	std::vector<ComponentCanvas*> canvasScene = loadedScene->GetSceneCanvas();
 	int width, height;
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 	
@@ -65,29 +69,21 @@ update_status ModuleUI::Update()
 	glOrtho(0, width, height, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 
-	App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
+	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+	Camera* camera = moduleCamera->GetCamera();
+	Frustum* frustum = camera->GetFrustum();
+
+	frustum->SetOrthographic(static_cast<float>(width), static_cast<float>(height));
 
 	glDisable(GL_DEPTH_TEST);
 
-	for (ComponentCanvas* canvas : canvasScene)
+	for (const ComponentCanvas* canvas : canvasScene)
 	{
-		GameObject* owner = canvas->GetOwner();
-		if (owner->IsEnabled())
-		{
-			for (GameObject* child : owner->GetChildren())
-			{
-				//ugh, should look for a better way, but it's 2AM
-				for (ComponentImage* image : child->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
-				{
-					image->Draw();
-				}
-			}
-		}
+		Draw2DGameObject(canvas->GetOwner());
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()->
-		SetHorizontalFovAndAspectRatio(math::DegToRad(90), App->GetModule<ModuleCamera>()->GetCamera()->GetAspectRatio());
+	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), camera->GetAspectRatio());
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -119,13 +115,16 @@ update_status ModuleUI::PostUpdate()
 
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 {
-	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+	std::vector<ComponentCanvas*> canvasScene = loadedScene->GetSceneCanvas();
+
 	for (ComponentCanvas* canvas : canvasScene)
 	{
 		canvas->RecalculateSizeAndScreenFactor();
 	}
 
-	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
+	for (Component* interactable : loadedScene->GetSceneInteractable())
 	{
 		ComponentTransform2D* transform = 
 			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
@@ -159,4 +158,23 @@ void ModuleUI::CreateVAO()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
 	glBindVertexArray(0);
+}
+
+void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
+{
+	if (gameObject->IsEnabled())
+	{
+		for (const ComponentImage* image : gameObject->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
+		{
+			if(image->IsEnabled())
+			{
+				image->Draw();
+			}
+		}
+
+		for (const GameObject* child : gameObject->GetChildren())
+		{
+			Draw2DGameObject(child);
+		}
+	}
 }

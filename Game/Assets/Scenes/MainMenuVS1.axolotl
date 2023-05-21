@@ -59,10 +59,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 428.0,
-                            "worldAABB_min_y": 225.0,
-                            "worldAABB_max_x": 428.0,
-                            "worldAABB_max_y": 225.0
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 246.0,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 246.0
                         }
                     },
                     {
@@ -146,10 +146,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 428.0,
-                            "worldAABB_min_y": 225.0,
-                            "worldAABB_max_x": 428.0,
-                            "worldAABB_max_y": 225.0
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 246.0,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 246.0
                         }
                     },
                     {
@@ -157,7 +157,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 4599968731874848130,
+                            "imageUID": 834674342351959529,
                             "assetPathImage": "Assets/Textures/Rectangle 13.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -198,10 +198,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 365.5,
-                            "worldAABB_min_y": 220.0,
-                            "worldAABB_max_x": 490.5,
-                            "worldAABB_max_y": 246.66665649414063
+                            "worldAABB_min_x": 301.640625,
+                            "worldAABB_min_y": 241.53125,
+                            "worldAABB_max_x": 413.359375,
+                            "worldAABB_max_y": 265.3645935058594
                         }
                     },
                     {
@@ -209,7 +209,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 4287003694431370157,
+                            "imageUID": 16758026405339201727,
                             "assetPathImage": "Assets/Textures/Play.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -230,7 +230,7 @@
                             "colorClicked_y": 0.43529412150382996,
                             "colorClicked_z": 0.43529412150382996,
                             "colorClicked_w": 1.0,
-                            "sceneName": "CantinaSewersVS1"
+                            "sceneName": "_Level1_VS2"
                         }
                     }
                 ]
@@ -342,10 +342,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 365.5,
-                            "worldAABB_min_y": 262.5,
-                            "worldAABB_max_x": 490.5,
-                            "worldAABB_max_y": 287.5
+                            "worldAABB_min_x": 301.640625,
+                            "worldAABB_min_y": 279.515625,
+                            "worldAABB_max_x": 413.359375,
+                            "worldAABB_max_y": 301.859375
                         }
                     },
                     {
@@ -353,7 +353,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 277128539073698761,
+                            "imageUID": 1244445192499312729,
                             "assetPathImage": "Assets/Textures/Group 12.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -410,10 +410,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 365.5,
-                            "worldAABB_min_y": 304.1666564941406,
-                            "worldAABB_max_x": 490.5,
-                            "worldAABB_max_y": 329.1666564941406
+                            "worldAABB_min_x": 301.640625,
+                            "worldAABB_min_y": 316.7552185058594,
+                            "worldAABB_max_x": 413.359375,
+                            "worldAABB_max_y": 339.0989685058594
                         }
                     },
                     {
@@ -421,7 +421,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 752072817853939133,
+                            "imageUID": 6874901856716404634,
                             "assetPathImage": "Assets/Textures/Group 16.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -478,10 +478,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 428.0,
-                            "worldAABB_min_y": 50.0,
-                            "worldAABB_max_x": 428.0,
-                            "worldAABB_max_y": 50.0
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 89.59375,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 89.59375
                         }
                     },
                     {
@@ -489,7 +489,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 5301224845558633285,
+                            "imageUID": 16635162597891272610,
                             "assetPathImage": "Assets/Textures/Group 13.png",
                             "color_x": 0.6627451181411743,
                             "color_y": 0.6470588445663452,
@@ -530,10 +530,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 428.0,
-                            "worldAABB_min_y": 87.5,
-                            "worldAABB_max_x": 428.0,
-                            "worldAABB_max_y": 87.5
+                            "worldAABB_min_x": 357.5,
+                            "worldAABB_min_y": 123.109375,
+                            "worldAABB_max_x": 357.5,
+                            "worldAABB_max_y": 123.109375
                         }
                     },
                     {
@@ -541,7 +541,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 12482094565042769980,
+                            "imageUID": 14327651251713807887,
                             "assetPathImage": "Assets/Textures/Group 14.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -572,7 +572,7 @@
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 7447300617433258815,
+        "cubemapUID": 14344113435770444604,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }

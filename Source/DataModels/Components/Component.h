@@ -51,7 +51,7 @@ public:
 	GameObject* GetOwner() const;
 	bool CanBeRemoved() const;
 
-	void SetOwner(GameObject* owner);
+	virtual void SetOwner(GameObject* owner);
 
 protected:
 	ComponentType type;

@@ -1,0 +1,11 @@
+{
+    "UID": 14367747144783690197,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/pipeTypeCrux.pipeTypeCrux_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/pipeTypeCruxDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -34,7 +34,6 @@ void ResourceMesh::InternalLoad()
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float4x4) * bones.size(),
 		nullptr, GL_DYNAMIC_DRAW);
 
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 10, ssboPalette);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	CreateVBO();
