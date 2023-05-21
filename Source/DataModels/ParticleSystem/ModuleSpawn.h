@@ -4,6 +4,8 @@
 
 #define MAX_SPAWN_RATE 50
 
+#define DEFAULT_SPAWN_RATE 1.0f
+
 class ModuleSpawn : public ParticleModule
 {
 public:

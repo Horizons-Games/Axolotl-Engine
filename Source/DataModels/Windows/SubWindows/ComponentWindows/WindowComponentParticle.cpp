@@ -188,6 +188,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 					maxParticles = 0;
 				}
 				emitter->SetMaxParticles(maxParticles);
+				instance->Init();
 			}
 
 			ImGui::TableNextColumn();

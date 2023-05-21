@@ -7,7 +7,8 @@
 
 #include "ImGui/imgui.h"
 
-ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter), spawnRate(0.0f)
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
+	spawnRate(DEFAULT_SPAWN_RATE)
 {
 }
 
@@ -17,7 +18,7 @@ ModuleSpawn::~ModuleSpawn()
 
 void ModuleSpawn::Spawn(EmitterInstance* instance)
 {
-	std::vector<EmitterInstance::Particle> particles = instance->GetParticles();
+	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 	unsigned lastParticleUsed = instance->GetLastParticleUsed();
 	bool found = false;
 
@@ -70,10 +71,9 @@ void ModuleSpawn::Update(EmitterInstance* instance)
 		float lastEmission = instance->GetLastEmission() + dt;
 		float emissionPeriod = 1.0f / spawnRate;
 
-		unsigned aliveParticles = instance->GetAliveParticles();
 		int maxParticles = emitter->GetMaxParticles();
 		
-		while (aliveParticles < maxParticles && (lastEmission - emissionPeriod > 0.0f))
+		while (instance->GetAliveParticles() < maxParticles && (lastEmission - emissionPeriod > 0.0f))
 		{
 			Spawn(instance);
 			lastEmission -= emissionPeriod;

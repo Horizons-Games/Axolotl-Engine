@@ -20,7 +20,7 @@ void ModulePosition::Update(EmitterInstance* instance)
 {
 	float dt = App->GetDeltaTime();
 
-	std::vector<EmitterInstance::Particle> particles = instance->GetParticles();
+	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 
 	for (unsigned i = 0; i < particles.size(); ++i)
 	{
@@ -31,6 +31,12 @@ void ModulePosition::Update(EmitterInstance* instance)
 			particle.lifespan -= dt;
 
 			//TODO: Calculate position using speed and gravity and sort by distance to camera
+
+			if (particle.lifespan <= 0.0f)
+			{
+				particle.lifespan = 0.0f;
+				instance->SetAliveParticles(instance->GetAliveParticles() - 1);
+			}
 		}
 	}
 }

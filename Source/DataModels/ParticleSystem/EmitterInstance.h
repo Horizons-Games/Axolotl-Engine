@@ -109,11 +109,14 @@ inline void EmitterInstance::SimulateParticles() const
 {
 	for (int i = 0; i < particles.size(); ++i)
 	{
-		float3 pos = particles[i].tranform.TranslatePart();
-		float3 dir = particles[i].direction;
+		if (particles[i].lifespan > 0.0f)
+		{
+			float3 pos = particles[i].tranform.TranslatePart();
+			float3 dir = particles[i].direction;
 
-		//dd::point(pos, dd::colors::Yellow, 5.0f);
-		dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
+			//dd::point(pos, dd::colors::Yellow, 5.0f);
+			dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
+		}
 	}
 }
 
