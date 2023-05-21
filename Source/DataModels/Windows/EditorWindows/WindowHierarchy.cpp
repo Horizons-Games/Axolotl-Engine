@@ -12,7 +12,7 @@
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false)
+WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false), lastSelectedGameObject()
 {
     flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -27,7 +27,7 @@ void WindowHierarchy::DrawWindowContents()
     assert(root);
     DrawRecursiveHierarchy(root);
 
-    ModuleInput* input = App->GetModule<ModuleInput>();
+    const ModuleInput* input = App->GetModule<ModuleInput>();
 
     if (SDL_ShowCursor(SDL_QUERY)
         && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
@@ -56,6 +56,8 @@ void WindowHierarchy::DrawWindowContents()
 	{
 		DeleteGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject());
 	}
+
+    lastSelectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 }
 
 bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
@@ -82,7 +84,8 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
         flags |= ImGuiTreeNodeFlags_Leaf;
     }
 
-    if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED)
+    if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED &&
+        lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
     {
         ImGui::SetNextItemOpen(true);
     }
