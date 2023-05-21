@@ -15,8 +15,9 @@
 #include "assimp/postprocess.h"
 #include "assimp/cimport.h"
 
-void myCallback(const char* msg, char* userData) {
-	ENGINE_LOG("[assimp] %s", msg);
+void myCallback(const char* msg, char*)
+{
+	ENGINE_LOG("[assimp] {}", msg);
 }
 
 ModelImporter::ModelImporter()
@@ -33,7 +34,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	stream.callback = myCallback;
 	aiAttachLogStream(&stream);
 
-	ENGINE_LOG("Import Model from %s", filePath);
+	ENGINE_LOG("Import Model from {}", filePath);
 
 	const aiScene* scene = aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 	if (scene)
@@ -51,7 +52,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 	else
 	{
-		ENGINE_LOG("Error loading %s: %s", filePath, aiGetErrorString());
+		ENGINE_LOG("Error loading {}: {}", filePath, aiGetErrorString());
 	}
 }
 
@@ -356,12 +357,12 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const
 		resourceNode->parent = parentIdx;
 		resourceNode->transform = transform*accTransform;
 
-		ENGINE_LOG("Node name: %s", name.c_str());
+		ENGINE_LOG("Node name: {}", name);
 		if (node->mParent)
 		{
-			ENGINE_LOG("Parent node name: %s", node->mParent->mName.C_Str());
+			ENGINE_LOG("Parent node name: {}", node->mParent->mName.C_Str());
 		}
-		ENGINE_LOG("Node parentIdx: %i", parentIdx);
+		ENGINE_LOG("Node parentIdx: {}", parentIdx);
 
 		float3 pos;
 		float4x4 rot;
@@ -369,7 +370,7 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const
 
 		transform.Decompose(pos, rot, scale);
 
-		ENGINE_LOG("Transform:\n\tpos: (%f, %f, %f)\trot: (%f, %f, %f)\t scale: (%f, %f, %f)",
+		ENGINE_LOG("Transform:\n\tpos: ({}, {}, {})\trot: ({}, {}, {})\t scale: ({}, {}, {})",
 			pos.x, pos.y, pos.z, RadToDeg(rot.ToEulerXYZ().x), RadToDeg(rot.ToEulerXYZ().y), RadToDeg(rot.ToEulerXYZ().z), scale.x, scale.y, scale.z);
 
 		// loading meshes and materials
@@ -378,8 +379,8 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-			ENGINE_LOG("Importing mesh %s", mesh->mName.C_Str());
-			ENGINE_LOG("Importing material %s", material->GetName().C_Str());
+			ENGINE_LOG("Importing mesh {}", mesh->mName.C_Str());
+			ENGINE_LOG("Importing material {}", material->GetName().C_Str());
 
 			std::shared_ptr<ResourceMesh> resourceMesh = ImportMesh(mesh, filePath, i);
 			std::shared_ptr<ResourceMaterial> resourceMaterial = ImportMaterial(material, filePath, i);
@@ -388,7 +389,7 @@ void ModelImporter::ImportNode(const aiScene* scene, const char* filePath, const
 		}
 		resource->AppendNode(resourceNode);
 
-		ENGINE_LOG("\n", parentIdx);
+		ENGINE_LOG("\n{}", parentIdx);
 
 		int newParentIdx = resource->GetNumNodes() - 1;
 

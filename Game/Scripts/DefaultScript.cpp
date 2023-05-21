@@ -12,15 +12,15 @@ DefaultScript::DefaultScript() : Script(), value(10), sentence("Horizons"), char
 
 void DefaultScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%f", value);
-	ENGINE_LOG("%s", sentence.c_str());
+	ENGINE_LOG("{}", value);
+	ENGINE_LOG("{}", sentence);
 
 	if (character != nullptr)
 	{
-		ENGINE_LOG("%s", character->GetName().c_str())
+		ENGINE_LOG("{}", character)
 	}
 
-	ENGINE_LOG("%s", std::to_string(check).c_str());
+	ENGINE_LOG("{}", check);
 }
 
 GameObject* DefaultScript::GetCharacter() const

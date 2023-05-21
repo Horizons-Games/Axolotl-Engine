@@ -15,7 +15,7 @@ enum class main_states
 
 std::unique_ptr<Application> App;
 #ifdef ENGINE
-std::unique_ptr<EngineLog> engineLog = std::make_unique<EngineLog>();
+std::unique_ptr<EngineLog> logContext = std::make_unique<EngineLog>();
 #endif // ENGINE
 
 int main(int argc, char ** argv)

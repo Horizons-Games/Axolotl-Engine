@@ -20,7 +20,7 @@ TextureImporter::~TextureImporter()
 
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
-	ENGINE_LOG("Import texture from %s", filePath);
+	ENGINE_LOG("Import texture from {}", filePath);
 
 	ImportOptionsTexture options = resource->GetImportOptions();
 

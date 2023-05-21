@@ -204,7 +204,7 @@ bool ModuleAudio::InitializeBanks() {
 		AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
 		if (eResult != AK_Success)
 		{
-            ENGINE_LOG("Failed to load bank %c; Error: %d", BANKNAME_INIT, eResult);
+            ENGINE_LOG("Failed to load bank {}; Error: {}", BANKNAME_INIT, eResult);
 			return false;
 		}
     }
@@ -217,7 +217,7 @@ bool ModuleAudio::InitializeBanks() {
             AKRESULT eResult = AK::SoundEngine::LoadBank(bankNameAsWString.c_str(), bankID);
             if (eResult != AK_Success)
             {
-                ENGINE_LOG("Failed to load bank %c; Error: %d", bankFolderItem.c_str(), eResult);
+                ENGINE_LOG("Failed to load bank {}; Error: {}", bankFolderItem, eResult);
                 return false;
             }
         }

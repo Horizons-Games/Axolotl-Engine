@@ -68,11 +68,11 @@ bool ModuleFileSystem::Copy(const char* sourceFilePath, const char* destinationF
     return true;
 }
 
-bool  ModuleFileSystem::Delete(const char* filePath)
+bool ModuleFileSystem::Delete(const char* filePath) const
 {
     if (!PHYSFS_delete(filePath))
     {
-        ENGINE_LOG("Physfs has error : %s when try to delete %s", PHYSFS_getLastError(), filePath);
+        ENGINE_LOG("Physfs has error {} when try to delete {}", PHYSFS_getLastError(), filePath);
         return false;
     }
     return true;
@@ -82,19 +82,19 @@ bool  ModuleFileSystem::Delete(const char* filePath)
 unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 {
     PHYSFS_File * file = PHYSFS_openRead(filePath);
-    if (file == NULL)
+    if (file == nullptr)
     {
-        ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), filePath);
+        ENGINE_LOG("Physfs has error {} when try to open {}", PHYSFS_getLastError(), filePath);
         PHYSFS_close(file);
-        return -1;
+        return 0;
     }
     PHYSFS_sint64 size = PHYSFS_fileLength(file);
     buffer = new char[size + 1]{};
     if (PHYSFS_readBytes(file, buffer, size) < size)
     {
-        ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), file);
+        ENGINE_LOG("Physfs has error {} when try to open {}", PHYSFS_getLastError(), filePath);
         PHYSFS_close(file);
-        return -1;
+        return 0;
     }
     PHYSFS_close(file);
     return (unsigned int)size;
@@ -103,15 +103,15 @@ unsigned int ModuleFileSystem::Load(const char* filePath, char*& buffer) const
 unsigned int ModuleFileSystem::Save(const char* filePath, const void* buffer, unsigned int size, bool append) const
 {
     PHYSFS_File* file = append ? PHYSFS_openAppend(filePath) : PHYSFS_openWrite(filePath);
-    if (file == NULL)
+    if (file == nullptr)
     {
-        ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
+        ENGINE_LOG("Physfs has error {} when try to save {}", PHYSFS_getLastError(), filePath);
         PHYSFS_close(file);
         return 1;
     }
     if (PHYSFS_writeBytes(file, buffer, size) < size)
     {
-        ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
+        ENGINE_LOG("Physfs has error {} when try to save {}", PHYSFS_getLastError(), filePath);
         PHYSFS_close(file);
         return 1;
     }
@@ -123,7 +123,7 @@ bool  ModuleFileSystem::CreateDirectory(const char* directoryPath)
 {
     if(!PHYSFS_mkdir(directoryPath)) 
     {
-        ENGINE_LOG("Physfs has error : %s when try to create %s", PHYSFS_getLastError(), directoryPath);
+        ENGINE_LOG("Physfs has error {} when try to create {}", PHYSFS_getLastError(), directoryPath);
         return false;
     }
     return true;

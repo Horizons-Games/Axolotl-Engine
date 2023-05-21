@@ -15,7 +15,7 @@ bool ModuleWindow::Init()
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		ENGINE_LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		ENGINE_LOG("SDL_VIDEO could not initialize! SDL_Error: {}\n", SDL_GetError());
 		ret = false;
 	}
 	else
@@ -43,7 +43,7 @@ bool ModuleWindow::Init()
 
 		if(window == nullptr)
 		{
-			ENGINE_LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			ENGINE_LOG("Window could not be created! SDL_Error: {}\n", SDL_GetError());
 			ret = false;
 		}
 		else
@@ -128,7 +128,7 @@ void ModuleWindow::SetBrightness(float brightness)
 
 	if (SDL_SetWindowBrightness(GetWindow(), brightness))
 	{
-		ENGINE_LOG("Error setting window brightness: %s", &SDL_GetError()[0]);
+		ENGINE_LOG("Error setting window brightness: {}", &SDL_GetError()[0]);
 	}
 }
 

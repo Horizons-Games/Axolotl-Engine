@@ -4,7 +4,7 @@
 #include "IObject.h"
 #include "IScript.h"
 #include "Script.h"
-#include "EngineLog.h"
+#include "AxoLog.h"
 #include "FileSystemUtils.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentScript.h"

@@ -40,7 +40,7 @@ void WindowComponentScript::DrawWindowContents()
 		if (script->GetConstructName() != constructors[current_item])
 		{
 			ChangeScript(script, constructors[current_item]);
-			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
+			ENGINE_LOG("{} SELECTED, drawing its contents.", script->GetConstructName());
 		}
 	}
 
@@ -70,7 +70,7 @@ void WindowComponentScript::DrawWindowContents()
 			ComponentScript* newScript = static_cast<ComponentScript*>(component);
 
 			ChangeScript(newScript, newScript->GetConstructName().c_str());
-			ENGINE_LOG("%s RESET, drawing its contents again.", newScript->GetConstructName().c_str());
+			ENGINE_LOG("{} RESET, drawing its contents again.", newScript->GetConstructName());
 		}
 
 		for (TypeFieldPair enumAndMember : scriptObject->GetFields())

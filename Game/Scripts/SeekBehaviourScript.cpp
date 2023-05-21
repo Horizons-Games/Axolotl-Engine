@@ -25,7 +25,7 @@ void SeekBehaviourScript::Start()
 
 void SeekBehaviourScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%s", "Now seeking...");
+	ENGINE_LOG("Now seeking...");
 
 	// When this behaviour is triggered, the enemy will go towards its target
 	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());

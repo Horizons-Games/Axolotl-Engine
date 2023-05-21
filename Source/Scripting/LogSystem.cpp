@@ -1,6 +1,6 @@
 #include "LogSystem.h"
 #include <stdarg.h>
-#include "EngineLog.h"
+#include "AxoLog.h"
 
 void LogSystem::LogError(const char* format, ...)
 {

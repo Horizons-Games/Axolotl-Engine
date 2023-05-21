@@ -128,15 +128,15 @@ bool ModuleRender::Init()
 	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
 	GLenum err = glewInit();
-	ENGINE_LOG("glew error %s", glewGetErrorString(err));
-	// � check for errors
-	ENGINE_LOG("Using Glew %s", glewGetString(GLEW_VERSION));
+	ENGINE_LOG("glew error {}", glewGetErrorString(err));
+	// check for errors
+	ENGINE_LOG("Using Glew {}", glewGetString(GLEW_VERSION));
 	// Should be 2.0
 
-	ENGINE_LOG("Vendor: %s", glGetString(GL_VENDOR));
-	ENGINE_LOG("Renderer: %s", glGetString(GL_RENDERER));
-	ENGINE_LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-	ENGINE_LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+	ENGINE_LOG("Vendor: {}", glGetString(GL_VENDOR));
+	ENGINE_LOG("Renderer: {}", glGetString(GL_RENDERER));
+	ENGINE_LOG("OpenGL version supported {}", glGetString(GL_VERSION));
+	ENGINE_LOG("GLSL: {}\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 	glEnable(GL_DEBUG_OUTPUT); 
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS); 

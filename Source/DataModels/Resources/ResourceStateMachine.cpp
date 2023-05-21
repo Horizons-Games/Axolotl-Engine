@@ -1,6 +1,6 @@
 #include "ResourceStateMachine.h"
 #include <string>
-#include "EngineLog.h"
+#include "AxoLog.h"
 
 ResourceStateMachine::ResourceStateMachine(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
 	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath)
@@ -123,8 +123,7 @@ void ResourceStateMachine::AddParameter(std::string parameterName, FieldTypePara
 			std::any_of(std::begin(numberString), std::end(numberString), [](char c) { return !isdigit(c); });
 		if (stringIsNotNumeric)
 		{
-			ENGINE_LOG("Found non-numeric string inside parenthesis, skipping check."
-				"String found: %s", numberString.c_str());
+			ENGINE_LOG("Found non-numeric string inside parenthesis, skipping check. String found: {}", numberString);
 			continue;
 		}
 		int num = std::stoi(numberString);
