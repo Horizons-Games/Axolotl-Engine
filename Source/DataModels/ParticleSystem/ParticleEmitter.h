@@ -80,7 +80,7 @@ public:
 	float GetDuration() const;
 	float GetAngle() const;
 	float GetRadius() const;
-	const char* GetName() const;
+	const std::string& GetName() const;
 	float2 GetLifespanRange() const;
 	float2 GetSpeedRange() const;
 	float2 GetSizeRange() const;
@@ -275,9 +275,9 @@ inline float2 ParticleEmitter::GetGravityRange() const
 	return gravity;
 }
 
-inline const char* ParticleEmitter::GetName() const
+inline const std::string& ParticleEmitter::GetName() const
 {
-	return &name[0];
+	return name;
 }
 
 inline float4 ParticleEmitter::GetColor() const
