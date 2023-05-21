@@ -14,7 +14,7 @@ public:
 	~ResourceParticleSystem();
 
 	size_t GetNumEmitters() const;
-	std::vector<std::unique_ptr<ParticleEmitter>> GetEmitters() const;
+	ParticleEmitter* GetEmitter(size_t emitterIndex) const;
 	void AddEmitter(const std::unique_ptr<ParticleEmitter>& emitter);
 	void ClearAllEmitters();
 
@@ -27,9 +27,13 @@ inline size_t ResourceParticleSystem::GetNumEmitters() const
 	return emitters.size();
 }
 
-inline std::vector<std::unique_ptr<ParticleEmitter>> ResourceParticleSystem::GetEmitters() const
+inline ParticleEmitter* ResourceParticleSystem::GetEmitter(unsigned int emitterIndex) const
 {
-	return emitters;
+	if(emitters.size() <= emitterIndex) 
+	{
+		return nullptr;
+	}
+	return emitters[emitterIndex].get();
 }
 
 inline void ResourceParticleSystem::AddEmitter(const std::unique_ptr<ParticleEmitter>& emitter)
