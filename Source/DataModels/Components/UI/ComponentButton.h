@@ -11,6 +11,8 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	void Disable() override;
+
 	void OnClicked();
 
 	bool IsClicked() const;

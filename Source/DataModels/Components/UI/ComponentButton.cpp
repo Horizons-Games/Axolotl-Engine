@@ -57,6 +57,13 @@ void ComponentButton::LoadOptions(Json& meta)
 	sceneName = meta["sceneName"];
 }
 
+void ComponentButton::Disable()
+{
+	active = false;
+	clicked = false;
+	hovered = false;
+}
+
 void ComponentButton::OnClicked()
 {
 	App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
