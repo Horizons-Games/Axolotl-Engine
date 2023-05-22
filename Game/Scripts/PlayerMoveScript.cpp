@@ -148,8 +148,6 @@ void PlayerMoveScript::Move(float deltaTime)
 				isDashing = false;
 			}
 		}
-		ENGINE_LOG("currentVelocity x: %f", currentVelocity.getX());
-		ENGINE_LOG("currentVelocity z: %f", currentVelocity.getZ());
 	}
 }
 
