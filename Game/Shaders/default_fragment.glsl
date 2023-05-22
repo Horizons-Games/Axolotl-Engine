@@ -231,7 +231,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 PA = posA - FragPos;
         vec3 AB = posB - posA;
 
-        vec3 R = reflect(-V, N);
+        vec3 R = normalize(reflect(-V, N));
 
         float dotABRefle = dot(AB, R);
         float num = dot(R, PA) * dotABRefle - dot(AB, PA);
@@ -276,7 +276,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float attenuationDiffuse = maxValue/(pow(distance,2) + 1);
 
         vec3 Li = color * intensity;
-        vec3 LoSpecular = (0.25 * FS * SV * GGXND) * Li * attenuationSpecular * specularDotNL;
+        vec3 LoSpecular = (FS * SV * GGXND) * Li * attenuationSpecular * specularDotNL;
         vec3 LoDiffuse = (Cd * (1 - f0)) * Li * attenuationDiffuse * diffuseDotNL;
         Lo += LoDiffuse + LoSpecular;
     }
