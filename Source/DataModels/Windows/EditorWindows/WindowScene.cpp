@@ -11,6 +11,7 @@
 #include "Scene/Scene.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentTransform2D.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
 	currentWidth(0), currentHeight(0), gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), 
@@ -34,7 +35,6 @@ void WindowScene::DrawWindowContents()
 		DrawGuizmo();
 	}
 }
-
 
 void WindowScene::DrawGuizmo()
 {
@@ -129,26 +129,24 @@ void WindowScene::DrawGuizmo()
 	const GameObject* focusedObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 	if (focusedObject != nullptr && focusedObject->GetParent() != nullptr)
 	{
-		ImVec2 windowPos = ImGui::GetWindowPos();
-		float windowWidth = (float)ImGui::GetWindowWidth();
-		float windowheight = (float)ImGui::GetWindowHeight();
-
-		ImGuizmo::SetDrawlist();
-		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
-		ImGuizmo::SetOrthographic(false);
-
 		ModuleCamera* camera = App->GetModule<ModuleCamera>();
 		ModuleInput* input = App->GetModule<ModuleInput>();
 
-		float4x4 viewMat = camera->GetCamera()->GetViewMatrix().Transposed();
-		float4x4 projMat = camera->GetCamera()->GetProjectionMatrix().Transposed();
+		ImVec2 windowPos = ImGui::GetWindowPos();
+		float windowWidth = static_cast<float>(ImGui::GetWindowWidth());
+		float windowheight = static_cast<float>(ImGui::GetWindowHeight());
+		ImGuizmo::SetDrawlist();
+		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
+		float4x4 viewMat = float4x4::identity;
 
 		ComponentTransform* focusedTransform =
 			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
-
 		//Guizmo 3D
 		if (static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM)) != nullptr)
 		{
+			ImGuizmo::SetOrthographic(false);
+			viewMat = camera->GetCamera()->GetViewMatrix().Transposed();
+			float4x4 projMat = camera->GetCamera()->GetProjectionMatrix().Transposed();
 			float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
 
 			ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), (ImGuizmo::OPERATION)gizmoCurrentOperation,
@@ -209,7 +207,7 @@ void WindowScene::DrawGuizmo()
 						}
 					}
 				}
-			
+
 			}
 
 			float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
@@ -224,6 +222,12 @@ void WindowScene::DrawGuizmo()
 				0x10101010);
 
 		}
+		//Guizmo 2D
+		else
+		{
+			
+		}
+
 		if (ImGui::IsWindowFocused())
 		{
 			if (input->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN &&
@@ -252,7 +256,7 @@ void WindowScene::DrawGuizmo()
 			{
 				if (isMouseInsideManipulator(io.MousePos.x, io.MousePos.y))
 				{
-					manipulatedViewMatrix = viewMat.InverseTransposed();;
+					manipulatedViewMatrix = viewMat.InverseTransposed();
 
 					camera->GetCamera()->GetFrustum()->SetFrame(
 						manipulatedViewMatrix.Col(3).xyz(),  //position
