@@ -57,7 +57,10 @@ public:
 	GameObject* GetRootGO() const;
 
 	StateOfSelection GetStateOfSelection() const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
+
 	GameObjectView GetChildren() const;
+	std::list<GameObject*> GetGameObjectsInside();
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
 	ComponentView GetComponents() const;
@@ -65,10 +68,16 @@ public:
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
-	template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
-	const std::vector<T*> GetComponentsByType(ComponentType type) const;
-	void SetStateOfSelection(StateOfSelection stateOfSelection);
+	template<typename C>
+	C* CreateComponent();
+	template<typename C>
+	C* GetComponent() const;
+	template<typename C>
+	const std::vector<C*> GetComponentsByType(ComponentType type) const;
+	bool RemoveComponent(const Component* component);
 
+	Component* CreateComponentLight(LightType lightType);
+	
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
 	void Disable();
@@ -76,7 +85,6 @@ public:
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
-	void MoveParent(GameObject* newParent);
 	void SetRootGO(GameObject* newRootGO);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
@@ -86,13 +94,6 @@ public:
 	bool IsStatic();
 	void SetStatic(bool newStatic);
 	void SpreadStatic();
-
-	Component* CreateComponent(ComponentType type);
-	Component* CreateComponentLight(LightType lightType);
-	bool RemoveComponent(const Component* component);
-	Component* GetComponent(ComponentType type) const;
-
-	std::list<GameObject*> GetGameObjectsInside();
 
 	void MoveUpChild(const GameObject* childToMove);
 	void MoveDownChild(const GameObject* childToMove);
@@ -112,6 +113,8 @@ private:
 			   bool active,
 			   StateOfSelection selection,
 			   bool staticObject);
+
+	Component* CreateComponent(ComponentType type);
 
 	bool IsAChild(const GameObject* child);
 
@@ -236,22 +239,6 @@ inline GameObject::ComponentView GameObject::GetComponents() const
 	return std::ranges::transform_view(components, lambda);
 }
 
-template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
-inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
-{
-	std::vector<T*> components;
-
-	for (const std::unique_ptr<Component>& component : this->components)
-	{
-		if (component && component->GetType() == type)
-		{
-			components.push_back(dynamic_cast<T*>(component.get()));
-		}
-	}
-
-	return components;
-}
-
 inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
 	return tag == commingTag;
@@ -266,3 +253,5 @@ inline void GameObject::SetStatic(bool newStatic)
 {
 	staticObject = newStatic;
 }
+
+#include "DataModels/GameObject/GameObject.inl"

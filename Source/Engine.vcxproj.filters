@@ -743,9 +743,6 @@
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
-      <Filter>Enums</Filter>
-    </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
@@ -772,6 +769,12 @@
     </ClInclude>
     <ClInclude Include="moveale.h">
       <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\ComponentType.h">
+      <Filter>Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2008,5 +2011,10 @@
     <Filter Include="DataModels\Commands">
       <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataModels\GameObject\GameObject.inl">
+      <Filter>DataModels\GameObject</Filter>
+    </None>
   </ItemGroup>
 </Project>

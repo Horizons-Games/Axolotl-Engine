@@ -50,9 +50,9 @@ void PlayerMobilityScript::Start()
 		jumps = 1;
 	}
 
-	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	componentPlayer = owner->GetComponent<ComponentPlayer>();
+	componentAudio = owner->GetComponent < ComponentAudioSource>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
 }
 
 void PlayerMobilityScript::PreUpdate(float deltaTime)

@@ -175,11 +175,11 @@ void GameObject::InitNewEmptyGameObject(bool is3D)
 {
 	if (is3D)
 	{
-		CreateComponent(ComponentType::TRANSFORM);
+		CreateComponent<ComponentTransform>();
 	}
 	else
 	{
-		CreateComponent(ComponentType::TRANSFORM2D);
+		CreateComponent<ComponentTransform2D>();
 	}
 }
 
@@ -197,9 +197,8 @@ void GameObject::SetParent(GameObject* newParent)
 	// since the pointer returned will be "this"
 	std::ignore = parent->UnlinkChild(this);
 
-	ComponentTransform* transform = static_cast<ComponentTransform*>(this->GetComponent(ComponentType::TRANSFORM));
-	const ComponentTransform* newParentTransform =
-		static_cast<ComponentTransform*>(newParent->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = this->GetComponent<ComponentTransform>();
+	const ComponentTransform* newParentTransform = newParent->GetComponent<ComponentTransform>();
 	if (transform && newParentTransform)
 	{
 		transform->CalculateLocalFromNewGlobal(newParentTransform);
@@ -218,15 +217,14 @@ void GameObject::LinkChild(GameObject* child)
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 
-		ComponentTransform* transform = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 		if (transform)
 		{
 			transform->UpdateTransformMatrices();
 		}
 		else
 		{
-			ComponentTransform2D* transform2D =
-				static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+			ComponentTransform2D* transform2D = child->GetComponent<ComponentTransform2D>();
 			if (transform2D)
 			{
 				transform2D->CalculateMatrices();
@@ -536,6 +534,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 		default:
 			assert(false && "Wrong component type introduced");
+			return nullptr;
 	}
 
 	if (newComponent)
@@ -624,19 +623,6 @@ bool GameObject::RemoveComponent(const Component* component)
 	}
 
 	return false;
-}
-
-Component* GameObject::GetComponent(ComponentType type) const
-{
-	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
-	{
-		if ((*it)->GetType() == type)
-		{
-			return (*it).get();
-		}
-	}
-
-	return nullptr;
 }
 
 GameObject* GameObject::FindGameObject(const std::string& name)

@@ -14,7 +14,7 @@ droneState(DroneBehaviours::IDLE), ownerTransform(nullptr)
 
 void EnemyDroneScript::Start()
 {
-	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ownerTransform = owner->GetComponent<ComponentTransform>();
 
 	std::vector<ComponentScript*> gameObjectScripts =
 		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
@@ -44,8 +44,7 @@ void EnemyDroneScript::Update(float deltaTime)
 	GameObject* seekTarget = seekScript->GetScript()->GetField<GameObject*>("Target")->getter();
 	if (seekTarget)
 	{
-		ComponentTransform* seekTargetTransform =
-			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
 		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
 			&& droneState != DroneBehaviours::SEEK)

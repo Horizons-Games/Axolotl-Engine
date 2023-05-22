@@ -15,8 +15,8 @@ buttonState(ButtonStates::OUTSIDE)
 
 void ButtonSoundScript::Start()
 {
-	buttonComponent = static_cast<ComponentButton*>(owner->GetComponent(ComponentType::BUTTON));
-	buttonAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	buttonComponent = owner->GetComponent<ComponentButton>();
+	buttonAudio = owner->GetComponent<ComponentAudioSource>();
 }
 
 void ButtonSoundScript::Update(float deltaTime)
