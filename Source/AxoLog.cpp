@@ -11,6 +11,8 @@
 const char* documentsPath = "Documents";
 const char* logFilePath = "Documents/Axolotl.log";
 
+const char* replaceToken = "{}";
+
 void AxoLog::Write(const char file[], int line, LogSeverity severity, const std::string& formattedLine)
 {
 	LogLine logLine{ severity, file, line, formattedLine };
@@ -82,51 +84,27 @@ void AxoLog::StopWritingToFile()
 
 size_t AxoLog::FindReplaceToken(const std::string& formatString) const
 {
-	return formatString.find("{}");
+	return formatString.find(replaceToken);
 }
 
 bool AxoLog::Format(std::string& format, int arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, std::to_string(arg));
-		return true;
-	}
-	return false;
+	return Format(format, std::to_string(arg));
 }
 
 bool AxoLog::Format(std::string& format, unsigned int arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, std::to_string(arg));
-		return true;
-	}
-	return false;
+	return Format(format, std::to_string(arg));
 }
 
 bool AxoLog::Format(std::string& format, float arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, std::to_string(arg));
-		return true;
-	}
-	return false;
+	return Format(format, std::to_string(arg));
 }
 
 bool AxoLog::Format(std::string& format, const char* arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, arg);
-		return true;
-	}
-	return false;
+	return Format(format, std::string(arg));
 }
 
 bool AxoLog::Format(std::string& format, const std::string& arg) const
@@ -134,7 +112,7 @@ bool AxoLog::Format(std::string& format, const std::string& arg) const
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
 	{
-		format.replace(firstToken, 2, arg);
+		format.replace(firstToken, strlen(replaceToken), arg);
 		return true;
 	}
 	return false;
@@ -142,46 +120,22 @@ bool AxoLog::Format(std::string& format, const std::string& arg) const
 
 bool AxoLog::Format(std::string& format, bool arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, std::to_string(arg));
-		return true;
-	}
-	return false;
+	return Format(format, std::to_string(arg));
 }
 
 bool AxoLog::Format(std::string& format, const GameObject* arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, arg->GetName());
-		return true;
-	}
-	return false;
+	return Format(format, arg->GetName());
 }
 
 bool AxoLog::Format(std::string& format, unsigned long long arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, std::to_string(arg));
-		return true;
-	}
-	return false;
+	return Format(format, std::to_string(arg));
 }
 
 bool AxoLog::Format(std::string& format, const Resource* arg) const
 {
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, 2, std::to_string(arg->GetUID()));
-		return true;
-	}
-	return false;
+	return Format(format, arg->GetUID());
 }
 
 bool AxoLog::Format(std::string& format, const unsigned char* arg) const
