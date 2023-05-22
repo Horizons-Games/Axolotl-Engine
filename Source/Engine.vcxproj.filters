@@ -331,9 +331,6 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
@@ -380,9 +377,6 @@
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="moveale.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -710,12 +704,6 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
@@ -743,9 +731,6 @@
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
-      <Filter>Enums</Filter>
-    </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
@@ -770,8 +755,9 @@
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
-    <ClInclude Include="moveale.h">
-      <Filter>UserScripts\Player</Filter>
+    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -849,9 +835,6 @@
     </Filter>
     <Filter Include="UserScripts\Enemies">
       <UniqueIdentifier>{acde5fbc-7f38-40b9-bbf4-7d669f5813ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Auxiliar">
-      <UniqueIdentifier>{b64e48db-e074-4748-b95c-06af30b4bb9d}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts\Basics">
       <UniqueIdentifier>{2efe8905-6d7a-43f9-8bd7-35f513304159}</UniqueIdentifier>
