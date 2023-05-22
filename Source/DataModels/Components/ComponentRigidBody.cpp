@@ -11,6 +11,8 @@
 #include "debugdraw.h"
 #include <ImGui/imgui.h>
 
+#include "ComponentScript.h"
+
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	Component(ComponentType::RIGIDBODY, active, owner, true)
 {
@@ -96,9 +98,12 @@ ComponentRigidBody::~ComponentRigidBody()
 void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 {
 	assert(other);
-	// delegate to notify other components
-	for (auto& delegate : delegateCollisionEnter)
-		delegate(other);
+
+	for (ComponentScript* script : owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+	{
+		script->OnCollisionEnter(other);
+	}
+
 }
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
@@ -109,8 +114,12 @@ void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 {
-	// TODO: Implement delegate for this
 	assert(other);
+
+	for (ComponentScript* script : owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+	{
+		script->OnCollisionExit(other);
+	}
 }
 
 void ComponentRigidBody::OnTransformChanged()
@@ -279,6 +288,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["isKinematic"] = (bool) GetIsKinematic();
 	meta["isStatic"] = (bool) IsStatic();
 	meta["drawCollider"] = (bool) GetDrawCollider();
+	meta["isTrigger"] = (bool) IsTrigger();
 	meta["mass"] = (float) GetMass();
 	meta["linearDamping"] = (float) GetLinearDamping();
 	meta["angularDamping"] = (float) GetAngularDamping();
@@ -307,6 +317,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetIsKinematic((bool) meta["isKinematic"]);
 	SetIsStatic((bool) meta["isStatic"]);
 	SetDrawCollider((bool) meta["drawCollider"], false);
+	SetIsTrigger((bool) meta["isTrigger"]);
 	SetMass((float) meta["mass"]);
 	SetLinearDamping((float) meta["linearDamping"]);
 	SetAngularDamping((float) meta["angularDamping"]);
