@@ -136,15 +136,15 @@ void WindowComponentScript::DrawWindowContents()
 				{
 					std::vector<std::any> value = vectorField.getter();
 
-					// Handle the float vector case
+					// Convert to float
 				}
 				else if (fieldType == FieldType::STRING)
 				{
 					std::vector<std::any> value = vectorField.getter();
 
-					// Handle the string vector case
+					// Convert to string
 				}
-				// Add more cases for other types
+				// More types here
 
 				break;
 			}

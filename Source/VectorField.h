@@ -1,39 +1,52 @@
+#pragma once
+
+#include <vector>
+#include <any>
+#include <type_traits>
+
 template<typename T>
-struct VectorField
+struct VectorField : public Field<T>
 {
 public:
-    std::string name;
-    std::function<std::vector<T>(void)> getter;
-    std::function<void(const std::vector<T>&)> setter;
     FieldType type;
 
     VectorField(const std::string& name,
-        const std::function<std::vector<T>(void)>& getter,
-        const std::function<void(const std::vector<T>&)>& setter) :
-        name(name),
-        getter(getter),
-        setter(setter)
+        const std::function<T(void)>& getter,
+        const std::function<void(const T&)>& setter) :
+        Field<T>(name, getter, setter)
     {
-        type = GetInnerType();
-        if (!name.empty())
-        {
-            this->name.front() = std::toupper(this->name.front());
-        }
+        type = GetType();
     }
 
-    ~VectorField() = default;
-
 private:
-    FieldType GetInnerType()
+    template<typename U>
+    static FieldType GetTypeImpl()
+    {
+        if constexpr (std::is_same_v<U, float>)
+            return FieldType::FLOAT;
+        else if constexpr (std::is_same_v<U, std::string>)
+            return FieldType::STRING;
+        // More types here
+        else
+            return FieldType::UNKNOWN;
+    }
+
+    FieldType GetType()
     {
         try
         {
-            std::vector<T> test;
-            return TypeToEnum<T>::value;
+            T test;
+            if (!test.empty())
+            {
+                using ElementType = typename T::value_type;
+                return GetTypeImpl<ElementType>();
+            }
         }
         catch (const std::bad_any_cast&)
         {
             return FieldType::UNKNOWN;
         }
+
+        return FieldType::UNKNOWN;
     }
 };
