@@ -134,12 +134,11 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 	else
 	{
-		btVector3 newVelocity(movement.getX(), 0, movement.getZ());
 		btVector3 currentVelocity = btRb->getLinearVelocity();
+		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 
 		if (!isDashing)
 		{
-			newVelocity.setY(currentVelocity.getY());
 			btRb->setLinearVelocity(newVelocity);
 		}
 		else
