@@ -4,6 +4,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "DataModels/GameObject/GameObject.h"
+#include "DataModels/Resources/Resource.h"
 
 #include <assert.h>
 
@@ -156,6 +157,28 @@ bool AxoLog::Format(std::string& format, const GameObject* arg) const
 	if (firstToken != std::string::npos)
 	{
 		format.replace(firstToken, 2, arg->GetName());
+		return true;
+	}
+	return false;
+}
+
+bool AxoLog::Format(std::string& format, unsigned long long arg) const
+{
+	size_t firstToken = FindReplaceToken(format);
+	if (firstToken != std::string::npos)
+	{
+		format.replace(firstToken, 2, std::to_string(arg));
+		return true;
+	}
+	return false;
+}
+
+bool AxoLog::Format(std::string& format, const Resource* arg) const
+{
+	size_t firstToken = FindReplaceToken(format);
+	if (firstToken != std::string::npos)
+	{
+		format.replace(firstToken, 2, std::to_string(arg->GetUID()));
 		return true;
 	}
 	return false;

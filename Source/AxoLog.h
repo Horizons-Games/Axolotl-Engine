@@ -25,6 +25,7 @@ enum class LogSeverity
 	#define LOG_ERROR(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::ERROR_LOG, format, __VA_ARGS__);
 
 class GameObject;
+class Resource;
 
 class AxoLog
 {
@@ -49,6 +50,8 @@ private:
 	bool Format(std::string& format, const std::string& arg) const;
 	bool Format(std::string& format, bool arg) const;
 	bool Format(std::string& format, const GameObject* arg) const;
+	bool Format(std::string& format, unsigned long long arg) const;
+	bool Format(std::string& format, const Resource* arg) const;
 	// for glew logging
 	bool Format(std::string& format, const unsigned char* arg) const;
 
