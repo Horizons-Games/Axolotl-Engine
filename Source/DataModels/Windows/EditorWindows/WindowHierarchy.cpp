@@ -27,33 +27,9 @@ void WindowHierarchy::DrawWindowContents()
 	assert(root);
 	DrawRecursiveHierarchy(root);
 
-	ModuleInput* input = App->GetModule<ModuleInput>();
-
-	if (SDL_ShowCursor(SDL_QUERY) && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT ||
-		input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+	if (IsFocused())
 	{
-		if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-		{
-			CopyAnObject();
-		}
-		if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-		{
-			PasteAnObject();
-		}
-		if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-		{
-			CutAnObject();
-		}
-		if (input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-		{
-			DuplicateAnObject();
-		}
-	}
-
-	// Delete a GameObject with the SUPR key
-	if (input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
-	{
-		DeleteGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject());
+		ProcessInput();
 	}
 }
 
@@ -242,6 +218,38 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 	}
 
 	return true;
+}
+
+void WindowHierarchy::ProcessInput()
+{
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
+	if (SDL_ShowCursor(SDL_QUERY) && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT ||
+		input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+	{
+		if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+		{
+			CopyAnObject();
+		}
+		if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
+		{
+			PasteAnObject();
+		}
+		if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
+		{
+			CutAnObject();
+		}
+		if (input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
+		{
+			DuplicateAnObject();
+		}
+	}
+
+	// Delete a GameObject with the SUPR key
+	if (input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+	{
+		DeleteGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	}
 }
 
 void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
