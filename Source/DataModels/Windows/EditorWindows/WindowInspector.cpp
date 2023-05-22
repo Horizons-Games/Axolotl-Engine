@@ -132,8 +132,16 @@ void WindowInspector::InspectSelectedGameObject()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
 
-	lastSelectedGameObject = scene->GetSelectedGameObject();
-
+	if (lastSelectedGameObject != scene->GetSelectedGameObject())
+	{
+		ImGui::PushID(1);
+		lastSelectedGameObject = scene->GetSelectedGameObject();
+	}
+	else
+	{
+		ImGui::PushID(0);
+	}
+	
 	if (lastSelectedGameObject)
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
@@ -236,6 +244,8 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
+
+	ImGui::PopID();
 }
 
 void WindowInspector::InspectSelectedResource()
