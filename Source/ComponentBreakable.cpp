@@ -71,11 +71,8 @@ void ComponentBreakable::UnsubscribeToOnCollisionEnter()
 
 void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 {
-
-	//ENGINE_LOG("player velocity %f %f",rigidbody->GetVelocity().getX(), rigidbody->GetVelocity().getZ());
-	//ENGINE_LOG("Breakable: Collision between %s and %s", owner->GetName().c_str(), rigidbody->GetOwner()->GetName().c_str());
-	//if (abs(rigidbody->GetVelocity().getX()) > 5.0f || abs(rigidbody->GetVelocity().getZ()) > 5.0f)
-	//{
+	if (abs(rigidbody->GetVelocity().getX()) > 1.0f || abs(rigidbody->GetVelocity().getZ()) > 1.0f)
+	{
 		if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 		{
 			rb->RemoveRigidBodyFromSimulation();
@@ -104,6 +101,6 @@ void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 		}
-	//}
+	}
 
 }
