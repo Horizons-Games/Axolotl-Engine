@@ -1,5 +1,7 @@
 #include "WindowConsole.h"
 
+#include <ranges>
+
 WindowConsole::WindowConsole() : EditorWindow("Console")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
@@ -13,7 +15,13 @@ void WindowConsole::DrawWindowContents()
 {
 	ImGui::SetWindowSize("Console log", ImVec2(900, 250), ImGuiCond_Once);
 
-	consoleContents.insert(std::end(consoleContents), std::begin(logContext->logLines), std::end(logContext->logLines));
+	auto linesAsString = std::ranges::transform_view(logContext->logLines,
+													 [](const AxoLog::LogLine& logLine)
+													 {
+														 return logLine.ToSimpleString();
+													 });
+
+	consoleContents.insert(std::end(consoleContents), std::begin(linesAsString), std::end(linesAsString));
 
 	logContext->logLines.clear();
 

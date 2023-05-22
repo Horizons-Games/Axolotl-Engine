@@ -39,7 +39,7 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
-	ENGINE_LOG("Enemy Drone Updates");
+	LOG_INFO("Enemy Drone Updates");
 
 	GameObject* seekTarget = seekScript->GetScript()->GetField<GameObject*>("Target")->getter();
 	if (seekTarget)

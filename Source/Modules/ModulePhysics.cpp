@@ -223,7 +223,7 @@ void GLDebugDrawer::drawSphere(const btVector3& p, btScalar radius, const btVect
 void GLDebugDrawer::drawTriangle(
 	const btVector3& a, const btVector3& b, const btVector3& c, const btVector3& color, btScalar alpha)
 {
-	ENGINE_LOG("drawTriangle not implemented");
+	LOG_INFO("drawTriangle not implemented");
 }
 
 void GLDebugDrawer::drawContactPoint(
@@ -239,7 +239,7 @@ void GLDebugDrawer::drawAabb(const btVector3& from, const btVector3& to, const b
 
 void GLDebugDrawer::reportErrorWarning(const char* warningString)
 {
-	ENGINE_LOG(warningString);
+	LOG_INFO(warningString);
 }
 
 void GLDebugDrawer::draw3dText(const btVector3& location, const char* textString)

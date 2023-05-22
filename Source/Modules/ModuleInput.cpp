@@ -25,12 +25,12 @@ ModuleInput::~ModuleInput()
 
 bool ModuleInput::Init()
 {
-	ENGINE_LOG("Init SDL input event system");
+	LOG_INFO("Init SDL input event system");
 	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
-		ENGINE_LOG("SDL_EVENTS could not initialize! SDL_Error: {}\n", SDL_GetError());
+		LOG_INFO("SDL_EVENTS could not initialize! SDL_Error: {}\n", SDL_GetError());
 		return false;
 	}
 
@@ -210,7 +210,7 @@ update_status ModuleInput::Update()
 
 bool ModuleInput::CleanUp()
 {
-	ENGINE_LOG("Quitting SDL input event subsystem");
+	LOG_INFO("Quitting SDL input event subsystem");
 
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 

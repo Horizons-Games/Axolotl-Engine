@@ -17,7 +17,7 @@ bool Json::fromBuffer(char*& buffer)
 	document.Parse<rapidjson::kParseNanAndInfFlag>(buffer);
 	if (document.HasParseError())
 	{
-		ENGINE_LOG("Error parsing JSON: {}", rapidjson::GetParseErrorFunc(document.GetParseError()));
+		LOG_INFO("Error parsing JSON: {}", rapidjson::GetParseErrorFunc(document.GetParseError()));
 		return false;
 	}
 	return true;

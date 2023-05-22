@@ -17,7 +17,7 @@ HelloWorldScript::HelloWorldScript() : Script(), helloWorld("Hello World"), movi
 void HelloWorldScript::Update(float deltaTime)
 {
 	// Print "Hello World" each frame
-	ENGINE_LOG("{}", helloWorld);
+	LOG_INFO("{}", helloWorld);
 
 	// Receives a GameObject and moves it (sometimes the transform does not update until you click on it)
 	if (movingGameObject != nullptr)

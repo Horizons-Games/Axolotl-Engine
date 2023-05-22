@@ -10,13 +10,14 @@
 const char* documentsPath = "Documents";
 const char* logFilePath = "Documents/Axolotl.log";
 
-void EngineLog::Write(const char file[], int line, const std::string& formattedLine)
+void AxoLog::Write(const char file[], int line, LogSeverity severity, const std::string& formattedLine)
 {
-	logLines.push_back(formattedLine);
+	LogLine logLine{ severity, file, line, formattedLine };
+	logLines.push_back(logLine);
 
-	char lineWithFile[4096];
-	sprintf_s(lineWithFile, 4096, "\n%s(%d) : %s", file, line, formattedLine.c_str());
-	OutputDebugStringA(lineWithFile);
+	std::string detailedString = logLine.ToDetailedString();
+
+	OutputDebugStringA(detailedString.c_str());
 
 	if (writingToFile)
 	{
@@ -24,12 +25,13 @@ void EngineLog::Write(const char file[], int line, const std::string& formattedL
 		writingToFile = false;
 		if (App == nullptr || App->GetModule<ModuleFileSystem>() == nullptr)
 		{
-			ENGINE_LOG("Error writing to log file, FileSystem already terminated");
+			LOG_ERROR("Error writing to log file, FileSystem already terminated");
 			return;
 		}
-		if (App->GetModule<ModuleFileSystem>()->Save(logFilePath, lineWithFile, strlen(lineWithFile), true) == 1)
+		if (App->GetModule<ModuleFileSystem>()->Save(
+				logFilePath, detailedString.c_str(), detailedString.size(), true) == 1)
 		{
-			ENGINE_LOG("Error writing to log file, abort writing for the rest of the execution");
+			LOG_ERROR("Error writing to log file, abort writing for the rest of the execution");
 		}
 		else
 		{
@@ -38,7 +40,7 @@ void EngineLog::Write(const char file[], int line, const std::string& formattedL
 	}
 }
 
-void EngineLog::StartWritingToFile()
+void AxoLog::StartWritingToFile()
 {
 	assert(App);
 	const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
@@ -52,33 +54,37 @@ void EngineLog::StartWritingToFile()
 	{
 		if (!fileSystem->Delete(logFilePath))
 		{
-			ENGINE_LOG("FileSystem error; no logging will be saved this execution");
+			LOG_INFO("FileSystem error; no logging will be saved this execution");
 			return;
 		}
 	}
-	for (const std::string& line : logLines)
+	for (std::string line : logLines | std::views::transform(
+										   [](const LogLine& logLine)
+										   {
+											   return logLine.ToDetailedString();
+										   }))
 	{
 		if (App->GetModule<ModuleFileSystem>()->Save(logFilePath, line.c_str(), line.size(), true) == 1)
 		{
-			ENGINE_LOG("FileSystem error; no logging will be saved this execution");
+			LOG_INFO("FileSystem error; no logging will be saved this execution");
 			return;
 		}
 	}
 	writingToFile = true;
 }
 
-void EngineLog::StopWritingToFile()
+void AxoLog::StopWritingToFile()
 {
-	ENGINE_LOG("Closing writer...");
+	LOG_INFO("Closing writer...");
 	writingToFile = false;
 }
 
-size_t EngineLog::FindReplaceToken(const std::string& formatString) const
+size_t AxoLog::FindReplaceToken(const std::string& formatString) const
 {
 	return formatString.find("{}");
 }
 
-bool EngineLog::Format(std::string& format, int arg) const
+bool AxoLog::Format(std::string& format, int arg) const
 {
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
@@ -89,7 +95,7 @@ bool EngineLog::Format(std::string& format, int arg) const
 	return false;
 }
 
-bool EngineLog::Format(std::string& format, unsigned int arg) const
+bool AxoLog::Format(std::string& format, unsigned int arg) const
 {
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
@@ -100,7 +106,7 @@ bool EngineLog::Format(std::string& format, unsigned int arg) const
 	return false;
 }
 
-bool EngineLog::Format(std::string& format, float arg) const
+bool AxoLog::Format(std::string& format, float arg) const
 {
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
@@ -111,7 +117,7 @@ bool EngineLog::Format(std::string& format, float arg) const
 	return false;
 }
 
-bool EngineLog::Format(std::string& format, const char* arg) const
+bool AxoLog::Format(std::string& format, const char* arg) const
 {
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
@@ -122,7 +128,7 @@ bool EngineLog::Format(std::string& format, const char* arg) const
 	return false;
 }
 
-bool EngineLog::Format(std::string& format, const std::string& arg) const
+bool AxoLog::Format(std::string& format, const std::string& arg) const
 {
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
@@ -133,7 +139,7 @@ bool EngineLog::Format(std::string& format, const std::string& arg) const
 	return false;
 }
 
-bool EngineLog::Format(std::string& format, bool arg) const
+bool AxoLog::Format(std::string& format, bool arg) const
 {
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
@@ -144,7 +150,7 @@ bool EngineLog::Format(std::string& format, bool arg) const
 	return false;
 }
 
-bool EngineLog::Format(std::string& format, const GameObject* arg) const
+bool AxoLog::Format(std::string& format, const GameObject* arg) const
 {
 	size_t firstToken = FindReplaceToken(format);
 	if (firstToken != std::string::npos)
@@ -155,7 +161,7 @@ bool EngineLog::Format(std::string& format, const GameObject* arg) const
 	return false;
 }
 
-bool EngineLog::Format(std::string& format, const unsigned char* arg) const
+bool AxoLog::Format(std::string& format, const unsigned char* arg) const
 {
 	return Format(format, reinterpret_cast<const char*>(arg));
 }

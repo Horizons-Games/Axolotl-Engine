@@ -13,16 +13,16 @@ DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1f, 1.2f, 1.4f), se
 
 void DefaultScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%f", value);
-	ENGINE_LOG("%f %f %f ", vec3[2], vec3[1], vec3[0]);
-	ENGINE_LOG("%s", sentence.c_str());
+	LOG_INFO("%f", value);
+	LOG_INFO("%f %f %f ", vec3[2], vec3[1], vec3[0]);
+	LOG_INFO("%s", sentence.c_str());
 
 	if (character != nullptr)
 	{
-		ENGINE_LOG("{}", character)
+		LOG_INFO("{}", character)
 	}
 
-	ENGINE_LOG("{}", check);
+	LOG_INFO("{}", check);
 }
 
 const float3& DefaultScript::GetVector3() const
@@ -42,6 +42,6 @@ GameObject* DefaultScript::GetCharacter() const
 
 void DefaultScript::SetCharacter(GameObject* character)
 {
-	ENGINE_LOG("My Character has been changed!");
+	LOG_INFO("My Character has been changed!");
 	this->character = character;
 }

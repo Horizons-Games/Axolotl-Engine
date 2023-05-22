@@ -25,7 +25,7 @@ void SeekBehaviourScript::Start()
 
 void SeekBehaviourScript::Update(float deltaTime)
 {
-	ENGINE_LOG("Now seeking...");
+	LOG_INFO("Now seeking...");
 	ComponentTransform* ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	// When this behaviour is triggered, the enemy will go towards its target
 

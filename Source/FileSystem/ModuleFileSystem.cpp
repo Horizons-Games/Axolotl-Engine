@@ -81,7 +81,7 @@ bool ModuleFileSystem::Delete(const char* filePath) const
 {
 	if (!PHYSFS_delete(filePath))
 	{
-		ENGINE_LOG("Physfs has error {} when try to delete {}", PHYSFS_getLastError(), filePath);
+		LOG_INFO("Physfs has error {} when try to delete {}", PHYSFS_getLastError(), filePath);
 		return false;
 	}
 	return true;
@@ -92,7 +92,7 @@ unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) 
 	PHYSFS_File* file = PHYSFS_openRead(filePath.c_str());
 	if (file == nullptr)
 	{
-		ENGINE_LOG("Physfs has error {} when try to open {}", PHYSFS_getLastError(), filePath);
+		LOG_INFO("Physfs has error {} when try to open {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 0;
 	}
@@ -100,7 +100,7 @@ unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) 
 	buffer = new char[size + 1]{};
 	if (PHYSFS_readBytes(file, buffer, size) < size)
 	{
-		ENGINE_LOG("Physfs has error {} when try to open {}", PHYSFS_getLastError(), filePath);
+		LOG_INFO("Physfs has error {} when try to open {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 0;
 	}
@@ -116,13 +116,13 @@ unsigned int ModuleFileSystem::Save(const std::string& filePath,
 	PHYSFS_File* file = append ? PHYSFS_openAppend(filePath.c_str()) : PHYSFS_openWrite(filePath.c_str());
 	if (file == nullptr)
 	{
-		ENGINE_LOG("Physfs has error {} when try to save {}", PHYSFS_getLastError(), filePath);
+		LOG_INFO("Physfs has error {} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 1;
 	}
 	if (PHYSFS_writeBytes(file, buffer, size) < size)
 	{
-		ENGINE_LOG("Physfs has error {} when try to save {}", PHYSFS_getLastError(), filePath);
+		LOG_INFO("Physfs has error {} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 1;
 	}
@@ -134,7 +134,7 @@ bool ModuleFileSystem::CreateDirectory(const char* directoryPath) const
 {
 	if (!PHYSFS_mkdir(directoryPath))
 	{
-		ENGINE_LOG("Physfs has error {} when try to create {}", PHYSFS_getLastError(), directoryPath);
+		LOG_INFO("Physfs has error {} when try to create {}", PHYSFS_getLastError(), directoryPath);
 		return false;
 	}
 	return true;

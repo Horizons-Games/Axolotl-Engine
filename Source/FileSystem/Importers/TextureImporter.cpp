@@ -20,7 +20,7 @@ TextureImporter::~TextureImporter()
 
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
-	ENGINE_LOG("Import texture from {}", filePath);
+	LOG_INFO("Import texture from {}", filePath);
 
 	ImportOptionsTexture options = resource->GetImportOptions();
 
@@ -46,7 +46,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 				result = DirectX::LoadFromHDRFile(path, &md, img);
 				if (FAILED(result))
 				{
-					ENGINE_LOG("Cannot load the texture.");
+					LOG_INFO("Cannot load the texture.");
 				}
 			}
 		}

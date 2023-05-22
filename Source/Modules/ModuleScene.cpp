@@ -195,7 +195,7 @@ void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 
 void ModuleScene::OnPlay()
 {
-	ENGINE_LOG("Play pressed");
+	LOG_INFO("Play pressed");
 
 	Json jsonScene(tmpDoc, tmpDoc);
 
@@ -222,7 +222,7 @@ void ModuleScene::OnPlay()
 
 void ModuleScene::OnStop()
 {
-	ENGINE_LOG("Stop pressed");
+	LOG_INFO("Stop pressed");
 
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{

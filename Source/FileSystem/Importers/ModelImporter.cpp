@@ -17,7 +17,7 @@
 
 void myCallback(const char* msg, char*)
 {
-	ENGINE_LOG("[assimp] {}", msg);
+	LOG_INFO("[assimp] {}", msg);
 }
 
 ModelImporter::ModelImporter()
@@ -34,7 +34,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	stream.callback = myCallback;
 	aiAttachLogStream(&stream);
 
-	ENGINE_LOG("Import Model from {}", filePath);
+	LOG_INFO("Import Model from {}", filePath);
 
 	const aiScene* scene =
 		aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
@@ -54,7 +54,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 	else
 	{
-		ENGINE_LOG("Error loading {}: {}", filePath, aiGetErrorString());
+		LOG_INFO("Error loading {}: {}", filePath, aiGetErrorString());
 	}
 }
 
@@ -369,12 +369,12 @@ void ModelImporter::ImportNode(const aiScene* scene,
 		resourceNode->parent = parentIdx;
 		resourceNode->transform = transform * accTransform;
 
-		ENGINE_LOG("Node name: {}", name);
+		LOG_INFO("Node name: {}", name);
 		if (node->mParent)
 		{
-			ENGINE_LOG("Parent node name: {}", node->mParent->mName.C_Str());
+			LOG_INFO("Parent node name: {}", node->mParent->mName.C_Str());
 		}
-		ENGINE_LOG("Node parentIdx: {}", parentIdx);
+		LOG_INFO("Node parentIdx: {}", parentIdx);
 
 		float3 pos;
 		float4x4 rot;
@@ -382,7 +382,7 @@ void ModelImporter::ImportNode(const aiScene* scene,
 
 		transform.Decompose(pos, rot, scale);
 
-		ENGINE_LOG("Transform:\n\tpos: ({}, {}, {})\trot: ({}, {}, {})\t scale: ({}, {}, {})",
+		LOG_INFO("Transform:\n\tpos: ({}, {}, {})\trot: ({}, {}, {})\t scale: ({}, {}, {})",
 				   pos.x,
 				   pos.y,
 				   pos.z,
@@ -399,8 +399,8 @@ void ModelImporter::ImportNode(const aiScene* scene,
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-			ENGINE_LOG("Importing mesh {}", mesh->mName.C_Str());
-			ENGINE_LOG("Importing material {}", material->GetName().C_Str());
+			LOG_INFO("Importing mesh {}", mesh->mName.C_Str());
+			LOG_INFO("Importing material {}", material->GetName().C_Str());
 
 			std::shared_ptr<ResourceMesh> resourceMesh = ImportMesh(mesh, filePath, i);
 			std::shared_ptr<ResourceMaterial> resourceMaterial = ImportMaterial(material, filePath, i);
@@ -409,7 +409,7 @@ void ModelImporter::ImportNode(const aiScene* scene,
 		}
 		resource->AppendNode(resourceNode);
 
-		ENGINE_LOG("\n{}", parentIdx);
+		LOG_INFO("\n{}", parentIdx);
 
 		int newParentIdx = resource->GetNumNodes() - 1;
 
@@ -529,7 +529,7 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 			// Cheking in asset textures folder
 			if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
 			{
-				ENGINE_LOG("Texture not found!");
+				LOG_INFO("Texture not found!");
 			}
 			else
 			{
