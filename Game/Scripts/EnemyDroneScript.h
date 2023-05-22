@@ -6,6 +6,8 @@
 
 class ComponentScript;
 class ComponentTransform;
+class PatrolBehaviourScript;
+class SeekBehaviourScript;
 
 enum class DroneBehaviours
 {
@@ -26,7 +28,7 @@ public:
 private:
 	DroneBehaviours droneState;
 
-	ComponentScript* patrolScript;
-	ComponentScript* seekScript;
+	PatrolBehaviourScript* patrolScript;
+	SeekBehaviourScript* seekScript;
 	ComponentTransform* ownerTransform;
 };

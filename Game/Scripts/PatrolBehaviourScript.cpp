@@ -5,10 +5,11 @@
 
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr)
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
+	ownerRigidBody(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), wayPointTwoTransform(nullptr)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(WayPointOne, GameObject*);
-	REGISTER_FIELD_WITH_ACCESSORS(WayPointTwo, GameObject*);
+	REGISTER_FIELD(wayPointOne, GameObject*);
+	REGISTER_FIELD(wayPointTwo, GameObject*);
 }
 
 void PatrolBehaviourScript::Start()
@@ -25,7 +26,10 @@ void PatrolBehaviourScript::Start()
 
 	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+}
 
+void PatrolBehaviourScript::StartPatrol() const
+{
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
 		// Initally set the first waypoint as the destiny
@@ -34,12 +38,11 @@ void PatrolBehaviourScript::Start()
 	}
 }
 
-void PatrolBehaviourScript::Update(float deltaTime)
+void PatrolBehaviourScript::Patrolling() const
 {
-	ENGINE_LOG("%s", "Now patrolling...");
-
 	// When this behaviour is triggered, the enemy will patrol between its waypoints
 	// (This can be modularized into any amout when the scripts can accept vectors)
+
 	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
@@ -51,24 +54,4 @@ void PatrolBehaviourScript::Update(float deltaTime)
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
 		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
 	}
-}
-
-GameObject* PatrolBehaviourScript::GetWayPointOne() const
-{
-	return wayPointOne;
-}
-
-void PatrolBehaviourScript::SetWayPointOne(GameObject* wayPointOne)
-{
-	this->wayPointOne = wayPointOne;
-}
-
-GameObject* PatrolBehaviourScript::GetWayPointTwo() const
-{
-	return wayPointTwo;
-}
-
-void PatrolBehaviourScript::SetWayPointTwo(GameObject* wayPointTwo)
-{
-	this->wayPointTwo = wayPointTwo;
 }

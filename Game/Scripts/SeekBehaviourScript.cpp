@@ -9,9 +9,10 @@
 
 REGISTERCLASS(SeekBehaviourScript);
 
-SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr)
+SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr), 
+	ownerRigidBody(nullptr), targetTransform(nullptr)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(Target, GameObject*);
+	REGISTER_FIELD(target, GameObject*);
 }
 
 void SeekBehaviourScript::Start()
@@ -20,26 +21,13 @@ void SeekBehaviourScript::Start()
 	{
 		targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
 	}
+
 	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 }
 
-void SeekBehaviourScript::Update(float deltaTime)
+void SeekBehaviourScript::Seeking() const
 {
-	ENGINE_LOG("%s", "Now seeking...");
-	ComponentTransform* ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	// When this behaviour is triggered, the enemy will go towards its target
-
 	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
 	ownerRigidBody->SetRotationTarget(targetTransform->GetRotation());
-
-}
-
-GameObject* SeekBehaviourScript::GetTarget() const
-{
-	return target;
-}
-
-void SeekBehaviourScript::SetTarget(GameObject* target)
-{
-	this->target = target;
 }

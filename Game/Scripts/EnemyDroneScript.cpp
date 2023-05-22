@@ -4,12 +4,14 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 
+#include "../Scripts/PatrolBehaviourScript.h"
+#include "../Scripts/SeekBehaviourScript.h"
+
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr),
-droneState(DroneBehaviours::IDLE), ownerTransform(nullptr)
+	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr)
 {
-
 }
 
 void EnemyDroneScript::Start()
@@ -23,14 +25,12 @@ void EnemyDroneScript::Start()
 	{
 		if (gameObjectScripts[i]->GetConstructName() == "PatrolBehaviourScript")
 		{
-			patrolScript = gameObjectScripts[i];
-			patrolScript->GetScript()->Start();
+			patrolScript = static_cast<PatrolBehaviourScript*>(gameObjectScripts[i]->GetScript());
 		}
 
 		else if (gameObjectScripts[i]->GetConstructName() == "SeekBehaviourScript")
 		{
-			seekScript = gameObjectScripts[i];
-			seekScript->GetScript()->Start();
+			seekScript = static_cast<SeekBehaviourScript*>(gameObjectScripts[i]->GetScript());
 		}
 	}
 
@@ -39,12 +39,11 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%s", "Enemy Drone Updates");
+	GameObject* seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
 
-	GameObject* seekTarget = seekScript->GetScript()->GetField<GameObject*>("Target")->getter();
 	if (seekTarget)
 	{
-		ComponentTransform* seekTargetTransform =
+		const ComponentTransform* seekTargetTransform =
 			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
 
 		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
@@ -53,24 +52,21 @@ void EnemyDroneScript::Update(float deltaTime)
 			droneState = DroneBehaviours::SEEK;
 		}
 
-		else if (!ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
+		else if (!ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f) 
 			&& droneState != DroneBehaviours::PATROL)
 		{
 			droneState = DroneBehaviours::PATROL;
-
-			// Set the enemy back to the patrol route
-			// Ideally, this should call a function "BackToPatrol" from the patrolScript
-			patrolScript->GetScript()->Start();
+			patrolScript->StartPatrol();
 		}
 	}
 
 	if (patrolScript && droneState == DroneBehaviours::PATROL)
 	{
-		patrolScript->GetScript()->Update(deltaTime);
+		patrolScript->Patrolling();
 	}
 
 	if (seekScript && droneState == DroneBehaviours::SEEK)
 	{
-		seekScript->GetScript()->Update(deltaTime);
+		seekScript->Seeking();
 	}
 }
