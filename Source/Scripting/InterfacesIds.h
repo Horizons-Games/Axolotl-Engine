@@ -1,9 +1,9 @@
 #pragma once
 
 #ifndef INTERFACEIDS_INCLUDED
-#define INTERFACEIDS_INCLUDED
+	#define INTERFACEIDS_INCLUDED
 
-#include "IObject.h"
+	#include "IObject.h"
 
 enum InterfaceIDEnumConsoleExample
 {
@@ -12,5 +12,4 @@ enum InterfaceIDEnumConsoleExample
 	IID_ENDInterfaceIDEnumConsoleExample
 };
 
-
-#endif //INTERFACEIDS_INCLUDED
+#endif // INTERFACEIDS_INCLUDED

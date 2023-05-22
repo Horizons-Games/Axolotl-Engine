@@ -160,7 +160,7 @@ void NewPlayerMobilityTest::Move()
 		//direction = objectTransform->GetGlobalRight().Normalized();
 		//movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
 		componentAnimation->SetParameter("IsAttacking", true);
-		
+
 
 	}
 
@@ -168,7 +168,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		//direction = objectTransform->GetGlobalRight().Normalized();
 		//movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
-		
+
 		componentAnimation->SetParameter("IsAttacking", false);
 	}
 

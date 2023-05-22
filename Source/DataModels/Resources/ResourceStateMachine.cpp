@@ -1,9 +1,12 @@
 #include "ResourceStateMachine.h"
-#include <string>
 #include "EngineLog.h"
+#include <string>
 
-ResourceStateMachine::ResourceStateMachine(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
-	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath)
+ResourceStateMachine::ResourceStateMachine(UID resourceUID,
+										   const std::string& fileName,
+										   const std::string& assetsPath,
+										   const std::string& libraryPath) :
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 }
 
@@ -16,21 +19,21 @@ int ResourceStateMachine::GetIdState(const State& state) const
 {
 	for (int i = 0; i < states.size(); i++)
 	{
-		if (states[i] != nullptr && states[i]->id == state.id) return i;
+		if (states[i] != nullptr && states[i]->id == state.id)
+			return i;
 	}
 	return -1;
 }
 
 void ResourceStateMachine::AddNewState(int x, int y)
 {
-	std::unique_ptr<State> state = 
-		std::make_unique<State>(UniqueID::GenerateUID(), "NewState",x,y);
+	std::unique_ptr<State> state = std::make_unique<State>(UniqueID::GenerateUID(), "NewState", x, y);
 
-	if (deadStates.empty()) 
+	if (deadStates.empty())
 	{
 		states.push_back(std::move(state));
 	}
-	else 
+	else
 	{
 		unsigned int index = deadStates.back();
 		states[index] = std::move(state);
@@ -58,10 +61,11 @@ void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
 	for (UID transitionId : states[idOrigin]->transitionsOriginedHere)
 	{
 		const auto& it = transitions.find(transitionId);
-		if (it != std::end(transitions) && it->second.destinationState == idDestiny) return;
+		if (it != std::end(transitions) && it->second.destinationState == idDestiny)
+			return;
 	}
 
-	Transition transition (idOrigin, idDestiny, 0.0);
+	Transition transition(idOrigin, idDestiny, 0.0);
 	UID uid = UniqueID::GenerateUID();
 	states[idDestiny]->transitionsDestinedHere.push_back(uid);
 	states[idOrigin]->transitionsOriginedHere.push_back(uid);
@@ -71,18 +75,14 @@ void ResourceStateMachine::AddNewTransition(int idOrigin, int idDestiny)
 void ResourceStateMachine::EraseTransition(UID id)
 {
 	State* stateOrigin = states[transitions[id].originState].get();
-	stateOrigin->transitionsOriginedHere.erase(
-		std::remove(
-			std::begin(stateOrigin->transitionsOriginedHere),
-			std::end(stateOrigin->transitionsOriginedHere),
-			id),
-		std::end(stateOrigin->transitionsOriginedHere));
-	stateOrigin->transitionsDestinedHere.erase(
-		std::remove(
-			std::begin(stateOrigin->transitionsDestinedHere),
-			std::end(stateOrigin->transitionsDestinedHere),
-			id),
-		std::end(stateOrigin->transitionsDestinedHere));
+	stateOrigin->transitionsOriginedHere.erase(std::remove(std::begin(stateOrigin->transitionsOriginedHere),
+														   std::end(stateOrigin->transitionsOriginedHere),
+														   id),
+											   std::end(stateOrigin->transitionsOriginedHere));
+	stateOrigin->transitionsDestinedHere.erase(std::remove(std::begin(stateOrigin->transitionsDestinedHere),
+														   std::end(stateOrigin->transitionsDestinedHere),
+														   id),
+											   std::end(stateOrigin->transitionsDestinedHere));
 	transitions.erase(id);
 }
 
@@ -91,7 +91,9 @@ void ResourceStateMachine::SetParameter(const std::string& parameterName, ValidF
 	defaultParameters[parameterName].second = value;
 }
 
-void ResourceStateMachine::AddParameter(std::string parameterName, FieldTypeParameter type, ValidFieldTypeParameter value)
+void ResourceStateMachine::AddParameter(std::string parameterName,
+										FieldTypeParameter type,
+										ValidFieldTypeParameter value)
 {
 	int nextNum = 0;
 	for (const auto& it : defaultParameters)
@@ -118,13 +120,18 @@ void ResourceStateMachine::AddParameter(std::string parameterName, FieldTypePara
 			continue;
 		}
 		size_t firstDigitPosition = openParenthesis + 1;
-		std::string numberString = it.first.substr(firstDigitPosition,  closeParenthesis - firstDigitPosition);
-		bool stringIsNotNumeric =
-			std::any_of(std::begin(numberString), std::end(numberString), [](char c) { return !isdigit(c); });
+		std::string numberString = it.first.substr(firstDigitPosition, closeParenthesis - firstDigitPosition);
+		bool stringIsNotNumeric = std::any_of(std::begin(numberString),
+											  std::end(numberString),
+											  [](char c)
+											  {
+												  return !isdigit(c);
+											  });
 		if (stringIsNotNumeric)
 		{
 			ENGINE_LOG("Found non-numeric string inside parenthesis, skipping check."
-				"String found: %s", numberString.c_str());
+					   "String found: %s",
+					   numberString.c_str());
 			continue;
 		}
 		int num = std::stoi(numberString);
@@ -155,16 +162,16 @@ void ResourceStateMachine::SelectConditionParameter(const std::string& parameter
 	const auto& it = defaultParameters.find(parameter);
 	switch (it->second.first)
 	{
-	case FieldTypeParameter::FLOAT:
-		condition.conditionType = ConditionType::GREATER;
-		condition.value = 0.0f;
-		break;
-	case FieldTypeParameter::BOOL:
-		condition.conditionType = ConditionType::TRUECONDITION;
-		condition.value = true;
-		break;
-	default:
-		break;
+		case FieldTypeParameter::FLOAT:
+			condition.conditionType = ConditionType::GREATER;
+			condition.value = 0.0f;
+			break;
+		case FieldTypeParameter::BOOL:
+			condition.conditionType = ConditionType::TRUECONDITION;
+			condition.value = true;
+			break;
+		default:
+			break;
 	}
 }
 
