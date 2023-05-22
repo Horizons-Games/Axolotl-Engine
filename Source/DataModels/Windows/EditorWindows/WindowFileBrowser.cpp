@@ -171,7 +171,7 @@ void WindowFileBrowser::ImportResourceWithLoadingWindow()
 	{
 		isLoading = false;
 		timer->Stop();
-		LOG_INFO("Resource loaded succesfully");
+		LOG_VERBOSE("Resource loaded succesfully");
 	}
 }
 
@@ -181,7 +181,7 @@ void WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
 
 	timer = std::make_unique<Timer>();
 	timer->Start();
-	LOG_INFO("Started loading resource");
+	LOG_VERBOSE("Started loading resource");
 }
 
 void WindowFileBrowser::GetResourceAfterImport()

@@ -110,7 +110,7 @@ void ResourceSkyBox::LoadVBO()
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
 
-	LOG_INFO("Generated VBO {}.", vbo);
+	LOG_VERBOSE("Generated VBO {}.", vbo);
 }
 
 void ResourceSkyBox::CreateVAO()

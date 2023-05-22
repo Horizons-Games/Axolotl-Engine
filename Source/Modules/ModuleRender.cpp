@@ -127,7 +127,7 @@ ModuleRender::~ModuleRender()
 bool ModuleRender::Init()
 {
 	ModuleWindow* window = App->GetModule<ModuleWindow>();
-	LOG_INFO("--------- Render Init ----------");
+	LOG_VERBOSE("--------- Render Init ----------");
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // desired version
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
@@ -142,10 +142,10 @@ bool ModuleRender::Init()
 	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
 
 	GLenum err = glewInit();
-	LOG_INFO("glew error {}", glewGetErrorString(err));
 	// check for errors
-	LOG_INFO("Using Glew {}", glewGetString(GLEW_VERSION));
+	LOG_INFO("glew error {}", glewGetErrorString(err));
 	// Should be 2.0
+	LOG_INFO("Using Glew {}", glewGetString(GLEW_VERSION));
 
 	LOG_INFO("Vendor: {}", glGetString(GL_VENDOR));
 	LOG_INFO("Renderer: {}", glGetString(GL_RENDERER));
@@ -311,7 +311,7 @@ update_status ModuleRender::PostUpdate()
 
 bool ModuleRender::CleanUp()
 {
-	LOG_INFO("Destroying renderer");
+	LOG_VERBOSE("Destroying renderer");
 
 	SDL_GL_DeleteContext(context);
 
@@ -350,7 +350,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		LOG_INFO("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

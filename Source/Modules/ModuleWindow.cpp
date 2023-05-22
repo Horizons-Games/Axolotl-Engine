@@ -10,12 +10,12 @@ ModuleWindow::~ModuleWindow()
 
 bool ModuleWindow::Init()
 {
-	LOG_INFO("Init SDL window & surface");
+	LOG_VERBOSE("Init SDL window & surface");
 	bool ret = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		LOG_INFO("SDL_VIDEO could not initialize! SDL_Error: {}\n", SDL_GetError());
+		LOG_ERROR("SDL_VIDEO could not initialize! SDL_Error: {}\n", SDL_GetError());
 		ret = false;
 	}
 	else
@@ -43,7 +43,7 @@ bool ModuleWindow::Init()
 
 		if (window == nullptr)
 		{
-			LOG_INFO("Window could not be created! SDL_Error: {}\n", SDL_GetError());
+			LOG_ERROR("Window could not be created! SDL_Error: {}\n", SDL_GetError());
 			ret = false;
 		}
 		else
@@ -60,7 +60,7 @@ bool ModuleWindow::Init()
 
 bool ModuleWindow::CleanUp()
 {
-	LOG_INFO("Destroying SDL window and quitting all SDL systems");
+	LOG_VERBOSE("Destroying SDL window and quitting all SDL systems");
 
 	// Quit SDL subsystems
 	SDL_Quit();
@@ -83,7 +83,7 @@ void ModuleWindow::SetWindowSize(int width, int height)
 
 void ModuleWindow::SetWindowToDefault()
 {
-	LOG_INFO("---- Changing window mode ----");
+	LOG_VERBOSE("---- Changing window mode ----");
 
 	SDL_SetWindowFullscreen(GetWindow(), 0);
 	SDL_SetWindowResizable(GetWindow(), SDL_FALSE);
@@ -130,7 +130,7 @@ void ModuleWindow::SetBrightness(float brightness)
 
 	if (SDL_SetWindowBrightness(GetWindow(), brightness))
 	{
-		LOG_INFO("Error setting window brightness: {}", &SDL_GetError()[0]);
+		LOG_ERROR("Error setting window brightness: {}", &SDL_GetError()[0]);
 	}
 }
 

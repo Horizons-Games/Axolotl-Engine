@@ -54,7 +54,7 @@ void AxoLog::StartWritingToFile()
 	{
 		if (!fileSystem->Delete(logFilePath))
 		{
-			LOG_INFO("FileSystem error; no logging will be saved this execution");
+			LOG_ERROR("FileSystem error; no logging will be saved this execution");
 			return;
 		}
 	}
@@ -66,7 +66,7 @@ void AxoLog::StartWritingToFile()
 	{
 		if (App->GetModule<ModuleFileSystem>()->Save(logFilePath, line.c_str(), line.size(), true) == 1)
 		{
-			LOG_INFO("FileSystem error; no logging will be saved this execution");
+			LOG_ERROR("FileSystem error; no logging will be saved this execution");
 			return;
 		}
 	}

@@ -6,7 +6,7 @@ WindowConsole::WindowConsole() : EditorWindow("Console")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar;
 	severityFilters[LogSeverity::INFO_LOG] = true;
-	severityFilters[LogSeverity::VERBOSE_LOG] = false;
+	severityFilters[LogSeverity::VERBOSE_LOG] = true;
 	severityFilters[LogSeverity::WARNING_LOG] = true;
 	severityFilters[LogSeverity::ERROR_LOG] = true;
 }

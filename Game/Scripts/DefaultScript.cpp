@@ -13,9 +13,9 @@ DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1f, 1.2f, 1.4f), se
 
 void DefaultScript::Update(float deltaTime)
 {
-	LOG_INFO("%f", value);
-	LOG_INFO("%f %f %f ", vec3[2], vec3[1], vec3[0]);
-	LOG_INFO("%s", sentence.c_str());
+	LOG_INFO("{}", value);
+	LOG_INFO("{} {} {} ", vec3[2], vec3[1], vec3[0]);
+	LOG_INFO("{}", sentence.c_str());
 
 	if (character != nullptr)
 	{

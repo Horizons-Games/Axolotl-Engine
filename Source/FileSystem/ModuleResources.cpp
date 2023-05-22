@@ -95,7 +95,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	if (type == ResourceType::Unknown)
 	{
-		LOG_INFO("Extension not supported");
+		LOG_WARNING("Extension not supported");
 	}
 	std::string fileName = fileSystem->GetFileName(originalPath);
 	std::string extension = fileSystem->GetFileExtension(originalPath);

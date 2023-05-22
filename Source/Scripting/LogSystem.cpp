@@ -28,5 +28,5 @@ void LogSystem::LogInternal(const char* format, va_list args)
 	// Make sure there's a limit to the amount of rubbish we can output
 	m_buff[LOGSYSTEM_MAX_BUFFER - 1] = '\0';
 
-	LOG_INFO(m_buff);
+	LOG_VERBOSE(m_buff);
 }

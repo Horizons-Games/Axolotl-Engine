@@ -33,16 +33,16 @@ int main(int argc, char** argv)
 		{
 			case main_states::MAIN_CREATION:
 
-				LOG_INFO("Application Creation --------------");
+				LOG_VERBOSE("Application Creation --------------");
 				App = std::make_unique<Application>();
 				state = main_states::MAIN_INIT;
 				break;
 
 			case main_states::MAIN_INIT:
-				LOG_INFO("Application Init --------------");
+				LOG_VERBOSE("Application Init --------------");
 				if (App->Init() == false)
 				{
-					LOG_INFO("Application Init exits with error -----");
+					LOG_ERROR("Application Init exits with error -----");
 					state = main_states::MAIN_EXIT;
 				}
 				else
@@ -54,10 +54,10 @@ int main(int argc, char** argv)
 
 			case main_states::MAIN_START:
 
-				LOG_INFO("Application Start --------------");
+				LOG_VERBOSE("Application Start --------------");
 				if (App->Start() == false)
 				{
-					LOG_INFO("Application Start exits with error -----");
+					LOG_ERROR("Application Start exits with error -----");
 					state = main_states::MAIN_EXIT;
 				}
 				else
@@ -73,24 +73,28 @@ int main(int argc, char** argv)
 
 				if (updateReturn == update_status::UPDATE_ERROR)
 				{
-					LOG_INFO("Application Update exits with error -----");
+					LOG_ERROR("Application Update exits with error -----");
 					state = main_states::MAIN_EXIT;
 				}
 
 				if (updateReturn == update_status::UPDATE_STOP)
+				{
 					state = main_states::MAIN_FINISH;
+				}
 			}
 			break;
 
 			case main_states::MAIN_FINISH:
 
-				LOG_INFO("Application CleanUp --------------");
+				LOG_VERBOSE("Application CleanUp --------------");
 				if (App->CleanUp() == false)
 				{
-					LOG_INFO("Application CleanUp exits with error -----");
+					LOG_ERROR("Application CleanUp exits with error -----");
 				}
 				else
+				{
 					mainReturn = EXIT_SUCCESS;
+				}
 
 				state = main_states::MAIN_EXIT;
 

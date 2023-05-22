@@ -129,7 +129,7 @@ void ResourceStateMachine::AddParameter(std::string parameterName,
 											  });
 		if (stringIsNotNumeric)
 		{
-			LOG_INFO("Found non-numeric string inside parenthesis, skipping check. String found: {}", numberString);
+			LOG_WARNING("Found non-numeric string inside parenthesis, skipping check. String found: {}", numberString);
 			continue;
 		}
 		int num = std::stoi(numberString);

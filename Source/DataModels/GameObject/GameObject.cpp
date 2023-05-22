@@ -354,7 +354,7 @@ void GameObject::CopyComponent(Component* component)
 		}
 
 		default:
-			LOG_INFO("Component of type %s could not be copied!", GetNameByType(type).c_str());
+			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
@@ -688,7 +688,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 									  });
 	if (childIterator == childrenVectorEnd)
 	{
-		LOG_INFO("Object being moved ({}) is not a child of this ({})", child, this);
+		LOG_WARNING("Object being moved ({}) is not a child of this ({})", child, this);
 		return;
 	}
 
@@ -697,7 +697,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == childrenVectorBegin)
 		{
-			LOG_INFO("Trying to move child ({}) out of children vector bounds", child);
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::prev(childIterator);
@@ -706,7 +706,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == std::prev(childrenVectorEnd))
 		{
-			LOG_INFO("Trying to move child ({}) out of children vector bounds", child);
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::next(childIterator);

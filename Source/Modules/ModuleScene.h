@@ -79,5 +79,5 @@ inline void ModuleScene::SetSceneToLoad(const std::string& name)
 
 inline void ModuleScene::OnPause()
 {
-	LOG_INFO("Pause pressed");
+	LOG_VERBOSE("Pause pressed");
 }
