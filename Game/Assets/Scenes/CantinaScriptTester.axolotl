@@ -39900,6 +39900,16 @@
                                     "name": "Speed",
                                     "value": 400.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 4000.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }

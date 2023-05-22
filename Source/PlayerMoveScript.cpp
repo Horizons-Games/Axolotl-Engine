@@ -12,9 +12,12 @@
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
-componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr)
+componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
+dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(false)
 {
 	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
+	REGISTER_FIELD_WITH_ACCESSORS(DashForce, float);
+	REGISTER_FIELD_WITH_ACCESSORS(CanDash, bool);
 }
 
 void PlayerMoveScript::Start()
@@ -118,13 +121,37 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::IDLE;
 		}
 	}
-	
-	
-	btVector3 newVelocity(movement.getX(), 0, movement.getZ());
-	btVector3 currentVelocity = btRb->getLinearVelocity();
+		
+	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+	{
+		if (!isDashing)
+		{
+			if (!movement.isZero()) {
+				btRb->applyCentralImpulse(movement.normalized() * dashForce);
+				isDashing = true;
+			}
+		}
+	}
+	else
+	{
+		btVector3 newVelocity(movement.getX(), 0, movement.getZ());
+		btVector3 currentVelocity = btRb->getLinearVelocity();
 
-	newVelocity.setY(currentVelocity.getY());
-	btRb->setLinearVelocity(newVelocity);
+		if (!isDashing)
+		{
+			newVelocity.setY(currentVelocity.getY());
+			btRb->setLinearVelocity(newVelocity);
+		}
+		else
+		{
+			if (math::Abs(currentVelocity.getX()) < dashForce/100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+			{
+				isDashing = false;
+			}
+		}
+		ENGINE_LOG("currentVelocity x: %f", currentVelocity.getX());
+		ENGINE_LOG("currentVelocity z: %f", currentVelocity.getZ());
+	}
 }
 
 float PlayerMoveScript::GetSpeed() const
@@ -135,4 +162,24 @@ float PlayerMoveScript::GetSpeed() const
 void PlayerMoveScript::SetSpeed(float speed)
 {
 	this->speed = speed;
+}
+
+float PlayerMoveScript::GetDashForce() const
+{
+	return dashForce;
+}
+
+void PlayerMoveScript::SetDashForce(float dashForce)
+{
+	this->dashForce = dashForce;
+}
+
+bool PlayerMoveScript::GetCanDash() const
+{
+	return canDash;
+}
+
+void PlayerMoveScript::SetCanDash(bool canDash)
+{
+	this->canDash = canDash;
 }

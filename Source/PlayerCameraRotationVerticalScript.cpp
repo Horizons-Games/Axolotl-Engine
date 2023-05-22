@@ -27,6 +27,4 @@ void PlayerCameraRotationVerticalScript::Rotation(float deltaTime)
 	{
 		componentTransform->SetRotation(nRotation);
 	}
-
-	ENGINE_LOG("Rotation Camera y: %f", nRotation.x);
 }
