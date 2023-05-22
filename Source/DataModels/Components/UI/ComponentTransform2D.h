@@ -44,7 +44,7 @@ public:
 
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
-	const float4x4 GetGlobalScaledMatrix() const;
+	float4x4 GetGlobalScaledMatrix() const;
 	
 	const AABB2D& GetWorldAABB() const;
 	
@@ -165,7 +165,7 @@ inline const float4x4& ComponentTransform2D::GetGlobalMatrix() const
 	return globalMatrix;
 }
 
-inline const float4x4 ComponentTransform2D::GetGlobalScaledMatrix() const
+inline float4x4 ComponentTransform2D::GetGlobalScaledMatrix() const
 {
 	return globalMatrix * float4x4::Scale(size.x, size.y, 0.0f);
 }
