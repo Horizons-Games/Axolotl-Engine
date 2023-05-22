@@ -18,4 +18,5 @@ private:
 
 	std::vector<AxoLog::LogLine> consoleContents;
 	std::map<LogSeverity, bool> severityFilters;
+	std::map<LogSeverity, ImVec4> severityColors;
 };
