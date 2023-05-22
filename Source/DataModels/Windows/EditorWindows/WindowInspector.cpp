@@ -131,6 +131,7 @@ void WindowInspector::InspectSelectedGameObject()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
+
 	lastSelectedGameObject = scene->GetSelectedGameObject();
 
 	if (lastSelectedGameObject)
@@ -146,7 +147,7 @@ void WindowInspector::InspectSelectedGameObject()
 			{
 				std::string scene = " Scene";
 				std::string sceneName = name + scene;
-				lastSelectedGameObject->SetName(sceneName);
+				lastSelectedGameObject->SetName(sceneName.c_str());
 			}
 		}
 		else
@@ -154,7 +155,7 @@ void WindowInspector::InspectSelectedGameObject()
 			std::string name = lastSelectedGameObject->GetName();
 			if (ImGui::InputText("##GameObject", &name[0], 24))
 			{
-				lastSelectedGameObject->SetName(name);
+				lastSelectedGameObject->SetName(name.c_str());
 			}
 			ImGui::SameLine();
 			bool staticness = lastSelectedGameObject->IsStatic();
@@ -171,7 +172,7 @@ void WindowInspector::InspectSelectedGameObject()
 			tag.resize(24);
 			if (ImGui::InputText("##Tag", &tag[0], 24))
 			{
-				lastSelectedGameObject->SetTag(tag);
+				lastSelectedGameObject->SetTag(tag.c_str());
 			}
 		}
 
