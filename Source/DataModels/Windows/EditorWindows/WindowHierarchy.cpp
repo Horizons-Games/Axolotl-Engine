@@ -1,11 +1,13 @@
 #include "WindowHierarchy.h"
 
 #include "Application.h"
+#include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
+#include "Windows/EditorWindows/WindowScene.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -27,7 +29,7 @@ void WindowHierarchy::DrawWindowContents()
 	assert(root);
 	DrawRecursiveHierarchy(root);
 
-	if (IsFocused())
+	if (IsFocused() || App->GetModule<ModuleEditor>()->GetScene()->IsFocused())
 	{
 		ProcessInput();
 	}
