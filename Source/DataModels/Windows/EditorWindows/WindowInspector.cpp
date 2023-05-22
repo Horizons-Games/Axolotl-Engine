@@ -151,7 +151,7 @@ void WindowInspector::InspectSelectedGameObject()
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
 			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", &name[0], 24))
+			if (ImGui::InputText("##GameObject", &name[0], 32))
 			{
 				std::string scene = " Scene";
 				std::string sceneName = name + scene;
@@ -161,7 +161,7 @@ void WindowInspector::InspectSelectedGameObject()
 		else
 		{
 			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", &name[0], 24))
+			if (ImGui::InputText("##GameObject", &name[0], 32))
 			{
 				lastSelectedGameObject->SetName(name.c_str());
 			}
@@ -178,7 +178,7 @@ void WindowInspector::InspectSelectedGameObject()
 			ImGui::Text("Tag");
 			ImGui::SameLine();
 			tag.resize(24);
-			if (ImGui::InputText("##Tag", &tag[0], 24))
+			if (ImGui::InputText("##Tag", &tag[0], 32))
 			{
 				lastSelectedGameObject->SetTag(tag.c_str());
 			}
