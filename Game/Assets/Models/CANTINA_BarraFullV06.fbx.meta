@@ -1,0 +1,43 @@
+{
+    "UID": 2250695879630048616,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.033_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cylinder_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.034_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.035_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.036_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.037_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.038_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.039_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.040_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.041_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.042_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.043_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.044_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.045_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.046_0.mesh",
+        "Assets/Meshes/CANTINA_BarraFullV06.Cube.047_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat",
+        "Assets/Materials/CANTINA_BarraFullV06DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
