@@ -4,7 +4,11 @@
 
 WindowConsole::WindowConsole() : EditorWindow("Console")
 {
-	flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar;
+	severityFilters[LogSeverity::INFO_LOG] = true;
+	severityFilters[LogSeverity::VERBOSE_LOG] = false;
+	severityFilters[LogSeverity::WARNING_LOG] = true;
+	severityFilters[LogSeverity::ERROR_LOG] = true;
 }
 
 WindowConsole::~WindowConsole()
@@ -13,13 +17,58 @@ WindowConsole::~WindowConsole()
 
 void WindowConsole::DrawWindowContents()
 {
-	ImGui::SetWindowSize("Console log", ImVec2(900, 250), ImGuiCond_Once);
+	consoleContents.insert(std::end(consoleContents), std::begin(logContext->logLines), std::end(logContext->logLines));
+	logContext->logLines.clear();
 
-	auto linesAsString = logContext->logLines |
+	DrawOptionsMenu();
+	DrawConsole();
+}
+
+void WindowConsole::DrawOptionsMenu()
+{
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Filters"))
+		{
+			for (auto& filter : severityFilters)
+			{
+				const char* text = "";
+				switch (filter.first)
+				{
+					case LogSeverity::INFO_LOG:
+						text = "INFO";
+						break;
+					case LogSeverity::VERBOSE_LOG:
+						text = "VERBOSE";
+						break;
+					case LogSeverity::WARNING_LOG:
+						text = "WARNING";
+						break;
+					case LogSeverity::ERROR_LOG:
+						text = "ERROR";
+						break;
+				}
+				ImGui::MenuItem(text, nullptr, &filter.second);
+			}
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::Button("Clear"))
+		{
+			consoleContents.clear();
+		}
+
+		ImGui::EndMenuBar();
+	}
+}
+
+void WindowConsole::DrawConsole()
+{
+	auto linesAsString = consoleContents |
 						 std::views::filter(
 							 [this](const AxoLog::LogLine& logLine)
 							 {
-								 return enableVerbose || logLine.severity != LogSeverity::VERBOSE;
+								 return severityFilters[logLine.severity];
 							 }) |
 						 std::views::transform(
 							 [](const AxoLog::LogLine& logLine)
@@ -27,11 +76,7 @@ void WindowConsole::DrawWindowContents()
 								 return logLine.ToSimpleString();
 							 });
 
-	consoleContents.insert(std::end(consoleContents), std::begin(linesAsString), std::end(linesAsString));
-
-	logContext->logLines.clear();
-
-	for (std::string line : consoleContents)
+	for (std::string line : linesAsString)
 	{
 		ImGui::TextUnformatted(line.c_str());
 	}

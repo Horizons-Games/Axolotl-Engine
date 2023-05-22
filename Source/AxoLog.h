@@ -14,15 +14,15 @@
 #else
 enum class LogSeverity
 {
-	INFO,
-	VERBOSE,
-	WARNING,
-	ERROR_ // "ERROR" is a protected definition
+	INFO_LOG,
+	VERBOSE_LOG,
+	WARNING_LOG,
+	ERROR_LOG
 };
-	#define LOG_INFO(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::INFO, format, __VA_ARGS__);
-	#define LOG_VERBOSE(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::VERBOSE, format, __VA_ARGS__);
-	#define LOG_WARNING(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::WARNING, format, __VA_ARGS__);
-	#define LOG_ERROR(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::ERROR_, format, __VA_ARGS__);
+	#define LOG_INFO(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::INFO_LOG, format, __VA_ARGS__);
+	#define LOG_VERBOSE(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::VERBOSE_LOG, format, __VA_ARGS__);
+	#define LOG_WARNING(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::WARNING_LOG, format, __VA_ARGS__);
+	#define LOG_ERROR(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::ERROR_LOG, format, __VA_ARGS__);
 
 class GameObject;
 
@@ -78,16 +78,16 @@ private:
 			std::string result;
 			switch (severity)
 			{
-				case LogSeverity::INFO:
+				case LogSeverity::INFO_LOG:
 					result = "[INFO]";
 					break;
-				case LogSeverity::VERBOSE:
+				case LogSeverity::VERBOSE_LOG:
 					result = "[VERBOSE]";
 					break;
-				case LogSeverity::WARNING:
+				case LogSeverity::WARNING_LOG:
 					result = "[WARNING]";
 					break;
-				case LogSeverity::ERROR_:
+				case LogSeverity::ERROR_LOG:
 					result = "[ERROR]";
 					break;
 			}
@@ -119,7 +119,7 @@ void AxoLog::Log(const char file[], int line, LogSeverity severity, const std::s
 		{
 			if (!Format(formattedString, args))
 			{
-				Log(file, line, LogSeverity::WARNING, "Too many arguments in log call!");
+				Log(file, line, LogSeverity::WARNING_LOG, "Too many arguments in log call!");
 			}
 		}(),
 		...);
@@ -127,7 +127,7 @@ void AxoLog::Log(const char file[], int line, LogSeverity severity, const std::s
 	size_t firstToken = FindReplaceToken(formattedString);
 	if (firstToken != std::string::npos)
 	{
-		Log(file, line, LogSeverity::WARNING, "Too few arguments in log call!");
+		Log(file, line, LogSeverity::WARNING_LOG, "Too few arguments in log call!");
 	}
 
 	Write(file, line, severity, formattedString);
