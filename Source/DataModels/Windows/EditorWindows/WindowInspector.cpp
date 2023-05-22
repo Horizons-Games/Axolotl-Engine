@@ -129,8 +129,8 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	ModuleScene* scene = App->GetModule<ModuleScene>();
-	Scene* loadedScene = scene->GetLoadedScene();
+	const ModuleScene* scene = App->GetModule<ModuleScene>();
+	const Scene* loadedScene = scene->GetLoadedScene();
 
 	if (lastSelectedGameObject != scene->GetSelectedGameObject())
 	{
