@@ -2,13 +2,13 @@
 
 #include "Application.h"
 
-#include "ModuleScene.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
 
 #include "DataModels/Scene/Scene.h"
 
-#include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentPointLight.h"
+#include "DataModels/Components/ComponentSpotLight.h"
 
 WindowComponentSpotLight::WindowComponentSpotLight(ComponentSpotLight* component) :
 	WindowComponentLight("SPOT LIGHT", component)
@@ -38,11 +38,12 @@ void WindowComponentSpotLight::DrawWindowContents()
 		if (ImGui::BeginTable("SpotLightTable", 2))
 		{
 			ImGui::TableNextColumn();
-			ImGui::Text("Type"); ImGui::SameLine();
+			ImGui::Text("Type");
+			ImGui::SameLine();
 
 			ModuleScene* scene = App->GetModule<ModuleScene>();
 			Scene* loadedScene = scene->GetLoadedScene();
-			
+
 			if (ImGui::BeginCombo("##combo", currentType))
 			{
 				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
@@ -53,9 +54,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 					{
 						if (lightTypes[i] == "Point")
 						{
-							ComponentPointLight* newPoint =
-								static_cast<ComponentPointLight*>(asSpotLight->GetOwner()
-									->CreateComponentLight(LightType::POINT));
+							ComponentPointLight* newPoint = static_cast<ComponentPointLight*>(
+								asSpotLight->GetOwner()->CreateComponentLight(LightType::POINT));
 
 							newPoint->SetColor(asSpotLight->GetColor());
 							newPoint->SetIntensity(asSpotLight->GetIntensity());
@@ -76,7 +76,7 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 					if (isSelected)
 					{
-						//Shows list of lights
+						// Shows list of lights
 						ImGui::SetItemDefaultFocus();
 					}
 				}
@@ -84,7 +84,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 				ImGui::EndCombo();
 			}
 
-			ImGui::Text("Intensity"); ImGui::SameLine();
+			ImGui::Text("Intensity");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float intensity = asSpotLight->GetIntensity();
@@ -104,15 +105,17 @@ void WindowComponentSpotLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			ImGui::Text("Color"); ImGui::SameLine();
+			ImGui::Text("Color");
+			ImGui::SameLine();
 			float3 color = asSpotLight->GetColor();
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+			if (ImGui::ColorEdit3("MyColor##1", (float*) &color))
 			{
 				asSpotLight->SetColor(color);
 				modified = true;
 			}
 
-			ImGui::Text("Radius"); ImGui::SameLine();
+			ImGui::Text("Radius");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float radius = asSpotLight->GetRadius();
@@ -126,7 +129,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 			float innerAngle = RadToDeg(asSpotLight->GetInnerAngle());
 			float outerAngle = RadToDeg(asSpotLight->GetOuterAngle());
 
-			ImGui::Text("Inner Angle"); ImGui::SameLine();
+			ImGui::Text("Inner Angle");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			if (ImGui::DragFloat("##Inner", &innerAngle, 0.1f, 0.0f, 90.0f, "%.1f"))
@@ -142,7 +146,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			ImGui::Text("Outer Angle"); ImGui::SameLine();
+			ImGui::Text("Outer Angle");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			if (ImGui::DragFloat("##Outer", &outerAngle, 0.1f, 0.0f, 90.0f, "%.1f"))

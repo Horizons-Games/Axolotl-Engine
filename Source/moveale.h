@@ -17,7 +17,6 @@ enum class PlayerActions
 
 class MoveAle : public Script
 {
-
 public:
 	MoveAle();
 	~MoveAle();

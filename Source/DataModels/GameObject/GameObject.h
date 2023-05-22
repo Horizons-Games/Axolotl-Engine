@@ -1,9 +1,9 @@
 #pragma once
 
+#include <functional>
 #include <list>
 #include <memory>
 #include <ranges>
-#include <functional>
 
 #include "../../FileSystem/UniqueID.h"
 #include "MathGeoLib/Include/Math/vec2d.h"
@@ -29,10 +29,10 @@ class GameObject
 public:
 	using GameObjectView =
 		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>,
-			std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
+									std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
 	using ComponentView =
 		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>,
-			std::function<Component*(const std::unique_ptr<Component>&)>>;
+									std::function<Component*(const std::unique_ptr<Component>&)>>;
 
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
@@ -45,7 +45,7 @@ public:
 
 	void Draw() const;
 
-	void InitNewEmptyGameObject(bool is3D=true);
+	void InitNewEmptyGameObject(bool is3D = true);
 
 	void LinkChild(GameObject* child);
 	[[nodiscard]] GameObject* UnlinkChild(const GameObject* child);
@@ -65,8 +65,7 @@ public:
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
-	template <typename T,
-		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
+	template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
 	const std::vector<T*> GetComponentsByType(ComponentType type) const;
 	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
@@ -96,7 +95,7 @@ public:
 
 	void MoveUpChild(const GameObject* childToMove);
 	void MoveDownChild(const GameObject* childToMove);
-	
+
 	bool IsADescendant(const GameObject* descendant);
 
 	bool CompareTag(const std::string& commingTag) const;
@@ -216,11 +215,10 @@ inline bool GameObject::IsActive() const
 inline GameObject::GameObjectView GameObject::GetChildren() const
 {
 	// I haven't found a way allow for an anonymous function
-	std::function<GameObject* (const std::unique_ptr<GameObject>&)> lambda =
-		[](const std::unique_ptr<GameObject>& go)
-		{
-			return go.get();
-		};
+	std::function<GameObject*(const std::unique_ptr<GameObject>&)> lambda = [](const std::unique_ptr<GameObject>& go)
+	{
+		return go.get();
+	};
 	return std::ranges::transform_view(children, lambda);
 }
 
@@ -236,16 +234,14 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 inline GameObject::ComponentView GameObject::GetComponents() const
 {
 	// I haven't found a way allow for an anonymous function
-	std::function<Component* (const std::unique_ptr<Component>&)> lambda =
-		[](const std::unique_ptr<Component>& c)
-		{
-			return c.get();
-		};
+	std::function<Component*(const std::unique_ptr<Component>&)> lambda = [](const std::unique_ptr<Component>& c)
+	{
+		return c.get();
+	};
 	return std::ranges::transform_view(components, lambda);
 }
 
-template <typename T,
-	std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
+template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
 inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
 {
 	std::vector<T*> components;

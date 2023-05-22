@@ -3,22 +3,28 @@
 #include "imgui.h"
 
 #include "Application.h"
-#include "FileSystem/ModuleResources.h"
-#include "Resources/ResourceStateMachine.h"
 #include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
-#include "ModuleEditor.h"
+#include "FileSystem/ModuleResources.h"
 #include "ImporterWindows/WindowResourceInput.h"
+#include "ModuleEditor.h"
+#include "Resources/ResourceStateMachine.h"
 
 #include "Geometry/LineSegment2D.h"
 
 #include "Auxiliar/Reflection/Field.h"
 
 static const char* conditionNamesFloat[] = { "Greater", "Less", "Equal", "NotEqual" };
-static const char* conditionNamesBool[] = { "True", "False"};
+static const char* conditionNamesBool[] = { "True", "False" };
 static int boolNamesOffset = IM_ARRAYSIZE(conditionNamesFloat);
 
-WindowStateMachineEditor::WindowStateMachineEditor() : EditorWindow("State Machine Editor"),
-stateIdSelected(-1), transitionIdSelected(-1), creatingTransition(false), openContextMenu(false), sizeState(200, 50), inputResource(std::make_unique<WindowResourceInput>())
+WindowStateMachineEditor::WindowStateMachineEditor() :
+	EditorWindow("State Machine Editor"),
+	stateIdSelected(-1),
+	transitionIdSelected(-1),
+	creatingTransition(false),
+	openContextMenu(false),
+	sizeState(200, 50),
+	inputResource(std::make_unique<WindowResourceInput>())
 {
 }
 
@@ -36,7 +42,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine.lock();
 
 	ImGui::BeginChild("Side_lists", ImVec2(310, 0));
-	if (stateAsShared) 
+	if (stateAsShared)
 	{
 		ImGui::Text("Parameters");
 		ImGui::SameLine();
@@ -49,7 +55,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 		DrawStateEditor(stateAsShared);
 
 		DrawTransitionEditor(stateAsShared);
-		
+
 		if (ImGui::Button("Save"))
 		{
 			stateAsShared->SetChanged(true);
@@ -65,7 +71,7 @@ void WindowStateMachineEditor::DrawWindowContents()
 
 	ImGui::BeginChild("scrolling_region", ImVec2(0, 0), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove);
 
-	ImVec2 canvasP0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
+	ImVec2 canvasP0 = ImGui::GetCursorScreenPos(); // ImDrawList API uses screen coordinates!
 
 	// Draw border and background color
 	ImGuiIO& io = ImGui::GetIO();
@@ -73,12 +79,12 @@ void WindowStateMachineEditor::DrawWindowContents()
 
 	const ImVec2 origin(canvasP0.x + scrolling.x, canvasP0.y + scrolling.y); // Lock scrolled origin
 	const ImVec2 mousePosInCanvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
-	
+
 	DrawGridStateMachine(canvasP0, scrolling, io.MouseDelta, drawList);
 
-	//Right and Left Click On the Void
-	if (ImGui::IsMouseReleased(ImGuiMouseButton_Right)
-		&& ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup) && !ImGui::IsAnyItemActive())
+	// Right and Left Click On the Void
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) &&
+		ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup) && !ImGui::IsAnyItemActive())
 	{
 		stateIdSelected = -1;
 		transitionIdSelected = -1;
@@ -86,43 +92,42 @@ void WindowStateMachineEditor::DrawWindowContents()
 		openContextMenu = true;
 	}
 
-	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)
-		&& ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup) && !ImGui::IsAnyItemActive())
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
+		ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup) && !ImGui::IsAnyItemActive())
 	{
 		creatingTransition = false;
 	}
 
 	if (stateAsShared)
 	{
-		if(creatingTransition)
+		if (creatingTransition)
 		{
-			std::pair<int,int> posSelectedState = stateAsShared->GetState(stateIdSelected)->auxiliarPos;
-			DrawActualTransitionCreation(ImVec2(posSelectedState.first, posSelectedState.second), origin, mousePosInCanvas, drawList);
+			std::pair<int, int> posSelectedState = stateAsShared->GetState(stateIdSelected)->auxiliarPos;
+			DrawActualTransitionCreation(
+				ImVec2(posSelectedState.first, posSelectedState.second), origin, mousePosInCanvas, drawList);
 		}
-		
+
 		DrawTransitions(stateAsShared, origin, drawList);
 
 		DrawStates(stateAsShared, origin, io.MouseDelta, drawList);
 	}
 
-	drawList->AddRectFilled(
-		ImVec2(canvasP0.x + 10, canvasP0.y + 10), ImVec2(canvasP0.x + 156, canvasP0.y + 30),
-		IM_COL32(30, 30, 30, 255),
-		0.0f
-	);
+	drawList->AddRectFilled(ImVec2(canvasP0.x + 10, canvasP0.y + 10),
+							ImVec2(canvasP0.x + 156, canvasP0.y + 30),
+							IM_COL32(30, 30, 30, 255),
+							0.0f);
 
-	drawList->AddRect(
-		ImVec2(canvasP0.x + 6, canvasP0.y + 6), ImVec2(canvasP0.x + 160, canvasP0.y + 34),
-		IM_COL32(150, 150, 150, 255),
-		0.0f
-	);
+	drawList->AddRect(ImVec2(canvasP0.x + 6, canvasP0.y + 6),
+					  ImVec2(canvasP0.x + 160, canvasP0.y + 34),
+					  IM_COL32(150, 150, 150, 255),
+					  0.0f);
 
 	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 12));
 	if (stateAsShared)
 	{
 		ImGui::Text(stateAsShared->GetFileName().c_str());
 	}
-	else 
+	else
 	{
 		ImGui::Text("No Machine Selected");
 	}
@@ -167,7 +172,9 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 		}
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(110);
-		if (ImGui::InputText(("##NameParameter" + name).c_str(), &name[0], ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+		if (ImGui::InputText(("##NameParameter" + name).c_str(),
+							 &name[0],
+							 ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && name != "")
 			{
@@ -181,20 +188,20 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 		ImGui::SetNextItemWidth(90);
 		switch (it.second.first)
 		{
-		case FieldTypeParameter::FLOAT:
-			if (ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
-			{
-				stateAsShared->SetParameter(it.first, value);
-			}
-			break;
-		case FieldTypeParameter::BOOL:
-			if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
-			{
-				stateAsShared->SetParameter(it.first, value);
-			}
-			break;
-		default:
-			break;
+			case FieldTypeParameter::FLOAT:
+				if (ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
+				{
+					stateAsShared->SetParameter(it.first, value);
+				}
+				break;
+			case FieldTypeParameter::BOOL:
+				if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
+				{
+					stateAsShared->SetParameter(it.first, value);
+				}
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -266,7 +273,7 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 		ImGui::Separator();
 		for (int i = 0; i < it->second.conditions.size(); i++)
 		{
-			if(ImGui::Button(("X##" + std::to_string(i)).c_str()))
+			if (ImGui::Button(("X##" + std::to_string(i)).c_str()))
 			{
 				stateAsShared->EraseCondition(transitionIdSelected, i);
 				break;
@@ -297,67 +304,75 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 					ValidFieldTypeParameter valueCondition = condition.value;
 					switch (itParameter->second.first)
 					{
-					case FieldTypeParameter::FLOAT:
-						ImGui::SetNextItemWidth(90);
-						if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(), conditionNamesFloat[static_cast<int>(condition.conditionType)]))
-						{
-							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); i++)
+						case FieldTypeParameter::FLOAT:
+							ImGui::SetNextItemWidth(90);
+							if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(),
+												  conditionNamesFloat[static_cast<int>(condition.conditionType)]))
 							{
-								if (ImGui::Selectable(conditionNamesFloat[i]))
+								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); i++)
 								{
-									stateAsShared->SelectCondition(static_cast<ConditionType>(i
-										), condition);
+									if (ImGui::Selectable(conditionNamesFloat[i]))
+									{
+										stateAsShared->SelectCondition(static_cast<ConditionType>(i), condition);
+									}
 								}
+								ImGui::EndCombo();
 							}
-							ImGui::EndCombo();
-						}
-						ImGui::SameLine();
-						ImGui::SetNextItemWidth(90);
-						if (ImGui::DragFloat(("##ConditionFloat" + std::to_string(i)).c_str(), &std::get<float>(valueCondition)))
-						{
-							stateAsShared->SelectConditionValue(valueCondition, condition);
-						}
-						break;
-					case FieldTypeParameter::BOOL:
-						ImGui::SetNextItemWidth(90);
-						if (ImGui::BeginCombo(("##comboCondition2" + std::to_string(i)).c_str(), conditionNamesBool[static_cast<int>(condition.conditionType) - (boolNamesOffset)]))
-						{
-							for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); i++)
+							ImGui::SameLine();
+							ImGui::SetNextItemWidth(90);
+							if (ImGui::DragFloat(("##ConditionFloat" + std::to_string(i)).c_str(),
+												 &std::get<float>(valueCondition)))
 							{
-								if (ImGui::Selectable(conditionNamesBool[i]))
-								{
-									stateAsShared->SelectCondition(static_cast<ConditionType>(i + boolNamesOffset
-										), condition);
-								}
+								stateAsShared->SelectConditionValue(valueCondition, condition);
 							}
-							ImGui::EndCombo();
-						}
-						break;
-					default:
-						break;
+							break;
+						case FieldTypeParameter::BOOL:
+							ImGui::SetNextItemWidth(90);
+							if (ImGui::BeginCombo(
+									("##comboCondition2" + std::to_string(i)).c_str(),
+									conditionNamesBool[static_cast<int>(condition.conditionType) - (boolNamesOffset)]))
+							{
+								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); i++)
+								{
+									if (ImGui::Selectable(conditionNamesBool[i]))
+									{
+										stateAsShared->SelectCondition(static_cast<ConditionType>(i + boolNamesOffset),
+																	   condition);
+									}
+								}
+								ImGui::EndCombo();
+							}
+							break;
+						default:
+							break;
 					}
 				}
 				else
 				{
 					ImGui::Text("Parameter not found!");
 				}
-
 			}
 		}
 	}
 }
 
-void WindowStateMachineEditor::DrawGridStateMachine(const ImVec2& canvasP0, ImVec2& scrolling, const ImVec2& mouseDelta, ImDrawList* drawList)
+void WindowStateMachineEditor::DrawGridStateMachine(const ImVec2& canvasP0,
+													ImVec2& scrolling,
+													const ImVec2& mouseDelta,
+													ImDrawList* drawList)
 {
-	ImVec2 canvasSize = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
-	if (canvasSize.x < 50.0f) canvasSize.x = 50.0f;
-	if (canvasSize.y < 50.0f) canvasSize.y = 50.0f;
+	ImVec2 canvasSize = ImGui::GetContentRegionAvail(); // Resize canvas to what's available
+	if (canvasSize.x < 50.0f)
+		canvasSize.x = 50.0f;
+	if (canvasSize.y < 50.0f)
+		canvasSize.y = 50.0f;
 	ImVec2 canvasP1 = ImVec2(canvasP0.x + canvasSize.x, canvasP0.y + canvasSize.y);
 
 	// Pan (we use a zero mouse threshold when there's no context menu)
 	// You may decide to make that threshold dynamic based on whether the mouse is hovering something etc.
 	const float mouseThresholdForPan = 0.0f;
-	if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Middle, mouseThresholdForPan))
+	if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemActive() &&
+		ImGui::IsMouseDragging(ImGuiMouseButton_Middle, mouseThresholdForPan))
 	{
 		scrolling.x += mouseDelta.x;
 		scrolling.y += mouseDelta.y;
@@ -370,22 +385,27 @@ void WindowStateMachineEditor::DrawGridStateMachine(const ImVec2& canvasP0, ImVe
 	drawList->PushClipRect(ImVec2(canvasP0.x + 1, canvasP0.y + 1), ImVec2(canvasP1.x - 1, canvasP1.y - 1), true);
 	const float GRID_STEP = 64.0f;
 	for (float x = fmodf(scrolling.x, GRID_STEP); x < canvasSize.x; x += GRID_STEP)
-		drawList->AddLine(ImVec2(canvasP0.x + x, canvasP0.y), ImVec2(canvasP0.x + x, canvasP1.y), IM_COL32(200, 200, 200, 40));
+		drawList->AddLine(
+			ImVec2(canvasP0.x + x, canvasP0.y), ImVec2(canvasP0.x + x, canvasP1.y), IM_COL32(200, 200, 200, 40));
 	for (float y = fmodf(scrolling.y, GRID_STEP); y < canvasSize.y; y += GRID_STEP)
-		drawList->AddLine(ImVec2(canvasP0.x, canvasP0.y + y), ImVec2(canvasP1.x, canvasP0.y + y), IM_COL32(200, 200, 200, 40));
-
+		drawList->AddLine(
+			ImVec2(canvasP0.x, canvasP0.y + y), ImVec2(canvasP1.x, canvasP0.y + y), IM_COL32(200, 200, 200, 40));
 }
 
-void WindowStateMachineEditor::DrawActualTransitionCreation(const ImVec2& posState, const ImVec2& origin, const ImVec2& mousePosInCanvas, ImDrawList* drawList)
+void WindowStateMachineEditor::DrawActualTransitionCreation(const ImVec2& posState,
+															const ImVec2& origin,
+															const ImVec2& mousePosInCanvas,
+															ImDrawList* drawList)
 {
 	ImVec2 posStateOriginCenter =
 		ImVec2(origin.x + posState.x + sizeState.x / 2, origin.y + posState.y + sizeState.y / 2);
-	ImVec2 postStateDestinationCenter =
-		ImVec2(mousePosInCanvas.x + origin.x, mousePosInCanvas.y + origin.y);
+	ImVec2 postStateDestinationCenter = ImVec2(mousePosInCanvas.x + origin.x, mousePosInCanvas.y + origin.y);
 	drawList->AddLine(posStateOriginCenter, postStateDestinationCenter, IM_COL32(255, 255, 255, 255));
 }
 
-void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMachine>& stateAsShared, const ImVec2& origin, ImDrawList* drawList)
+void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMachine>& stateAsShared,
+											   const ImVec2& origin,
+											   ImDrawList* drawList)
 {
 	for (const auto& it : stateAsShared->GetTransitions())
 	{
@@ -393,19 +413,22 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 		State* stateOrigin = stateAsShared->GetState(transition.originState);
 		State* stateDestination = stateAsShared->GetState(transition.destinationState);
 		ImGui::PushID(it.first);
-		ImVec2 posStateOriginCenter =
-			ImVec2(origin.x + stateOrigin->auxiliarPos.first + sizeState.x / 2, origin.y + stateOrigin->auxiliarPos.second + sizeState.y / 2);
-		ImVec2 postStateDestinationCenter =
-			ImVec2(origin.x + stateDestination->auxiliarPos.first + sizeState.x / 2, origin.y + stateDestination->auxiliarPos.second + sizeState.y / 2);
+		ImVec2 posStateOriginCenter = ImVec2(origin.x + stateOrigin->auxiliarPos.first + sizeState.x / 2,
+											 origin.y + stateOrigin->auxiliarPos.second + sizeState.y / 2);
+		ImVec2 postStateDestinationCenter = ImVec2(origin.x + stateDestination->auxiliarPos.first + sizeState.x / 2,
+												   origin.y + stateDestination->auxiliarPos.second + sizeState.y / 2);
 
 		float triangleLength = 15;
 		float triangleHeight = 15;
 
-		LineSegment2D line(float2(posStateOriginCenter.x, posStateOriginCenter.y), float2(postStateDestinationCenter.x, postStateDestinationCenter.y));
+		LineSegment2D line(float2(posStateOriginCenter.x, posStateOriginCenter.y),
+						   float2(postStateDestinationCenter.x, postStateDestinationCenter.y));
 
 		float2 perpendicular = line.Dir().Perp();
-		ImVec2 exitPoint = ImVec2(posStateOriginCenter.x + perpendicular.x * 6, posStateOriginCenter.y + perpendicular.y * 6);
-		ImVec2 enterPoint = ImVec2(postStateDestinationCenter.x + perpendicular.x * 6, postStateDestinationCenter.y + perpendicular.y * 6);
+		ImVec2 exitPoint =
+			ImVec2(posStateOriginCenter.x + perpendicular.x * 6, posStateOriginCenter.y + perpendicular.y * 6);
+		ImVec2 enterPoint = ImVec2(postStateDestinationCenter.x + perpendicular.x * 6,
+								   postStateDestinationCenter.y + perpendicular.y * 6);
 		line = LineSegment2D(float2(exitPoint.x, exitPoint.y), float2(enterPoint.x, enterPoint.y));
 		float2 center = line.CenterPoint();
 
@@ -423,7 +446,8 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 		ImVec2 pCenter = ImVec2(center.x - triangleLength / 2.f, center.y - triangleHeight / 2.f);
 
 		ImGui::SetCursorScreenPos(pCenter);
-		ImGui::InvisibleButton(("transition" + std::to_string(it.first)).c_str(), ImVec2(triangleLength, triangleHeight));
+		ImGui::InvisibleButton(("transition" + std::to_string(it.first)).c_str(),
+							   ImVec2(triangleLength, triangleHeight));
 
 		if (ImGui::IsItemActive() || ImGui::IsItemHovered())
 		{
@@ -451,12 +475,15 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 	}
 }
 
-void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>& stateAsShared, const ImVec2& origin, const ImVec2& mouseDelta, ImDrawList* drawList)
+void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>& stateAsShared,
+										  const ImVec2& origin,
+										  const ImVec2& mouseDelta,
+										  ImDrawList* drawList)
 {
 	for (int i = 0; i < stateAsShared->GetNumStates(); i++)
 	{
 		State* state = stateAsShared->GetState(i);
-		if(state != nullptr)
+		if (state != nullptr)
 		{
 			ImGui::PushID(i);
 			ImVec2 posState = ImVec2(state->auxiliarPos.first, state->auxiliarPos.second);
@@ -491,7 +518,7 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 				if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 				{
 					state->auxiliarPos = std::make_pair<int, int>(posState.x + mouseDelta.x, posState.y + mouseDelta.y);
-					//stateAsShared->EditState(i, state);
+					// stateAsShared->EditState(i, state);
 				}
 				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
 				{
@@ -507,29 +534,29 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 
 			if (i != 0)
 			{
-				drawList->AddRectFilled(
-					ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2, maxRect.y + 2),
-					IM_COL32(100, 100, 120, 255),
-					4.0f
-				);
-				drawList->AddRectFilledMultiColor(
-					minRect, maxRect,
-					IM_COL32(65, 65, 75, 255), IM_COL32(65, 65, 75, 255),
-					IM_COL32(25, 25, 45, 255), IM_COL32(25, 25, 45, 255)
-				);
+				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
+										ImVec2(maxRect.x + 2, maxRect.y + 2),
+										IM_COL32(100, 100, 120, 255),
+										4.0f);
+				drawList->AddRectFilledMultiColor(minRect,
+												  maxRect,
+												  IM_COL32(65, 65, 75, 255),
+												  IM_COL32(65, 65, 75, 255),
+												  IM_COL32(25, 25, 45, 255),
+												  IM_COL32(25, 25, 45, 255));
 			}
 			else
 			{
-				drawList->AddRectFilled(
-					ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2, maxRect.y + 2),
-					IM_COL32(0, 120, 0, 255),
-					4.0f
-				);
-				drawList->AddRectFilledMultiColor(
-					minRect, maxRect,
-					IM_COL32(0, 125, 0, 255), IM_COL32(0, 125, 0, 255),
-					IM_COL32(0, 85, 0, 255), IM_COL32(0, 85, 0, 255)
-				);
+				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
+										ImVec2(maxRect.x + 2, maxRect.y + 2),
+										IM_COL32(0, 120, 0, 255),
+										4.0f);
+				drawList->AddRectFilledMultiColor(minRect,
+												  maxRect,
+												  IM_COL32(0, 125, 0, 255),
+												  IM_COL32(0, 125, 0, 255),
+												  IM_COL32(0, 85, 0, 255),
+												  IM_COL32(0, 85, 0, 255));
 			}
 
 			ImGui::SetNextItemWidth(150);
@@ -538,16 +565,19 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 			ImGui::Text(state->name.c_str());
 			std::string resource;
 			state->resource != nullptr ? resource = state->resource->GetFileName().c_str() : resource = "Empty";
-			if (i != 0) ImGui::Text(resource.c_str());
+			if (i != 0)
+				ImGui::Text(resource.c_str());
 			ImGui::EndGroup();
 			ImGui::PopID();
 		}
 	}
 }
 
-void WindowStateMachineEditor::DrawRightClickPopUp(std::shared_ptr<ResourceStateMachine>& stateAsShared, const ImVec2& mousePosInCanvas)
+void WindowStateMachineEditor::DrawRightClickPopUp(std::shared_ptr<ResourceStateMachine>& stateAsShared,
+												   const ImVec2& mousePosInCanvas)
 {
-	if (openContextMenu) ImGui::OpenPopup("RightClickStateMachine");
+	if (openContextMenu)
+		ImGui::OpenPopup("RightClickStateMachine");
 
 	if (ImGui::BeginPopup("RightClickStateMachine"))
 	{
@@ -588,4 +618,3 @@ void WindowStateMachineEditor::DrawRightClickPopUp(std::shared_ptr<ResourceState
 		ImGui::EndPopup();
 	}
 }
-
