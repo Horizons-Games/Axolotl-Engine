@@ -15,11 +15,17 @@ void WindowConsole::DrawWindowContents()
 {
 	ImGui::SetWindowSize("Console log", ImVec2(900, 250), ImGuiCond_Once);
 
-	auto linesAsString = std::ranges::transform_view(logContext->logLines,
-													 [](const AxoLog::LogLine& logLine)
-													 {
-														 return logLine.ToSimpleString();
-													 });
+	auto linesAsString = logContext->logLines |
+						 std::views::filter(
+							 [this](const AxoLog::LogLine& logLine)
+							 {
+								 return enableVerbose || logLine.severity != LogSeverity::VERBOSE;
+							 }) |
+						 std::views::transform(
+							 [](const AxoLog::LogLine& logLine)
+							 {
+								 return logLine.ToSimpleString();
+							 });
 
 	consoleContents.insert(std::end(consoleContents), std::begin(linesAsString), std::end(linesAsString));
 
@@ -27,7 +33,7 @@ void WindowConsole::DrawWindowContents()
 
 	for (std::string line : consoleContents)
 	{
-		ImGui::TextUnformatted(&line[0]);
+		ImGui::TextUnformatted(line.c_str());
 	}
 
 	if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
