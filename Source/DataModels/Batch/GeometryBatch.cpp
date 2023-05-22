@@ -274,6 +274,8 @@ void GeometryBatch::CreateVAO()
 	if (flags & BatchManager::HAS_TANGENTS)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+		glEnableVertexAttribArray(3);
 	}
 
 	//indirect
