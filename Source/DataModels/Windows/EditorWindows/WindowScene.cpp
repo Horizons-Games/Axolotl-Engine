@@ -12,6 +12,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentCanvas.h"
 
 WindowScene::WindowScene() : EditorWindow("Scene"), texture(0),
 	currentWidth(0), currentHeight(0), gizmoCurrentOperation(ImGuizmo::OPERATION::TRANSLATE), 
@@ -225,7 +226,43 @@ void WindowScene::DrawGuizmo()
 		//Guizmo 2D
 		else
 		{
-			
+			ComponentTransform2D* focusedTransform2D = static_cast<ComponentTransform2D*>(focusedObject->GetComponent(ComponentType::TRANSFORM2D));
+			ImGuizmo::SetOrthographic(true);
+			float4x4 projMat = camera->GetOrthoProjectionMatrix().Transposed();
+			float4x4 modelMatrix = focusedTransform2D->GetGlobalMatrix().Transposed();
+
+			ComponentCanvas* canvas = focusedTransform2D->WhichCanvasContainsMe();
+			if (canvas)
+			{
+				canvas->RecalculateSizeAndScreenFactor();
+				float factor = canvas->GetScreenFactor();
+				viewMat = viewMat * float4x4::Scale(factor, factor, factor);
+			}
+
+			ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), ImGuizmo::OPERATION::TRANSLATE,
+				ImGuizmo::MODE::WORLD, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
+
+			if (ImGuizmo::IsUsing())
+			{
+				GameObject* parent = focusedObject->GetParent();
+				float3 position, scale;
+				Quat rotation;
+				
+				modelMatrix.Transposed().Decompose(position, rotation, scale);
+
+				switch (gizmoCurrentOperation)
+				{
+				case ImGuizmo::OPERATION::TRANSLATE:
+					position.z = focusedTransform2D->GetLocalMatrix().z;
+					focusedTransform2D->SetPosition(position);
+					break;
+				case ImGuizmo::OPERATION::SCALE:
+					focusedTransform2D->SetScale(scale);
+					break;
+				}
+
+				focusedTransform2D->CalculateMatrices();
+			}
 		}
 
 		if (ImGui::IsWindowFocused())
