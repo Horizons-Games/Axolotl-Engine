@@ -82,21 +82,26 @@ void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 			UnsubscribeToOnCollisionEnter();
 		}
 
-		for (auto child : owner->GetChildren())
+		auto lastChildren = owner->GetGameObjectsInside() | std::views::filter(
+			[](const GameObject* child)
+			{
+				return child->GetChildren().empty();
+			});
+
+		for (auto child : lastChildren)
 		{
 			if (child->GetComponent(ComponentType::RIGIDBODY))
 			{
 				continue;
 			}
-
+			
 			child->CreateComponent(ComponentType::RIGIDBODY);
 			const ComponentRigidBody* childRigidBody = 
 				static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
 			//randomize the impulsion
-			float3 test = test.RandomDir(*lcg,4.0f);
+			float3 test = test.RandomDir(*lcg,1.0f);
 			btVector3 impulsionMul{test.x,test.y,test.z};
 			impulsion = impulsion.cross(impulsionMul);
-
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 		}
 	//}
