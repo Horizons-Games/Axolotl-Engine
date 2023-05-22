@@ -15,10 +15,6 @@ ComponentAudioSource::ComponentAudioSource(const bool active, GameObject* owner)
     {
         OnTransformChanged();
     }
-
-
-    PostEvent(AUDIO::SFX::AMBIENT::CANTINA::CANTINA_MUSIC);
-
 }
 
 ComponentAudioSource::~ComponentAudioSource()
