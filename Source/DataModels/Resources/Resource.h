@@ -12,7 +12,10 @@ enum class ResourceType
 	Mesh,
 	Scene,
 	Material,
-	SkyBox
+	SkyBox,
+	Cubemap,
+	Animation,
+	StateMachine
 };
 
 class Resource
@@ -22,11 +25,11 @@ public:
 
 	virtual ResourceType GetType() const = 0;
 	UID GetUID() const;
-	//name without extension
+	// name without extension
 	const std::string& GetFileName() const;
-	//path with extension
+	// path with extension
 	const std::string& GetAssetsPath() const;
-	//path without extension (extension will always be GENERAL_BINARY_EXTENSION)
+	// path without extension (extension will always be GENERAL_BINARY_EXTENSION)
 	const std::string& GetLibraryPath() const;
 
 	void Load();
@@ -43,10 +46,10 @@ public:
 	void SetChanged(bool changed);
 
 protected:
-	Resource(UID resourceUID, 
-		const std::string& fileName, 
-		const std::string& assetsPath, 
-		const std::string& libraryPath);
+	Resource(UID resourceUID,
+			 const std::string& fileName,
+			 const std::string& assetsPath,
+			 const std::string& libraryPath);
 
 	virtual void InternalLoad() = 0;
 	virtual void InternalUnload() = 0;
@@ -82,10 +85,10 @@ inline bool Resource::ChildChanged() const
 	return false;
 }
 
-inline Resource::Resource(	UID resourceUID, 
-							const std::string& fileName, 
-							const std::string& assetsPath, 
-							const std::string& libraryPath):
+inline Resource::Resource(UID resourceUID,
+						  const std::string& fileName,
+						  const std::string& assetsPath,
+						  const std::string& libraryPath) :
 	uid(resourceUID),
 	fileName(fileName),
 	assetsPath(assetsPath),

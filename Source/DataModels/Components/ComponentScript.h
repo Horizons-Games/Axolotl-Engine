@@ -1,6 +1,6 @@
 #pragma once
-#include "Component.h"
 #include "Auxiliar/Generics/Updatable.h"
+#include "Component.h"
 
 class Json;
 class IScript;
@@ -29,11 +29,10 @@ public:
 	IScript* GetScript() const;
 
 private:
-	//This will be managed by the runtime library
+	// This will be managed by the runtime library
 	IScript* script;
 	std::string constructName;
 };
-
 
 inline std::string ComponentScript::GetConstructName() const
 {

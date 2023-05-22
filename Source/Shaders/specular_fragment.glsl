@@ -1,7 +1,7 @@
-#version 440
+#version 460
+#extension GL_ARB_shading_language_include : require
 
-#define PI 3.1415926535897932384626433832795
-#define EPSILON 1e-5
+#include "/Common/Functions/pbr_functions.glsl"
 
 struct Material {
     vec4 diffuse_color;         //location 3
@@ -28,24 +28,19 @@ struct SpotLight
 	float outerAngle;	//4  //48   --> 52 
 };
 
-layout(std140, binding=1) uniform Ambient
-{
-	vec3 ambientValue;		//12	//0
-};
-
-layout(std140, binding=2) uniform Directional
+layout(std140, binding=1) uniform Directional
 {
 	vec3 directionalDir;  	//12	//0
 	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
 };
 
-readonly layout(std430, binding=3) buffer PointLights
+readonly layout(std430, binding=2) buffer PointLights
 {
 	uint num_point;			//4		//0
 	PointLight points[]; 	//32	//16
 };
 
-readonly layout(std430, binding=4) buffer SpotLights
+readonly layout(std430, binding=3) buffer SpotLights
 {
 	uint num_spot;
 	SpotLight spots[];
@@ -61,9 +56,15 @@ layout(binding = 5) uniform sampler2D diffuse_map;
 layout(binding = 6) uniform sampler2D normal_map;
 layout(binding = 7) uniform sampler2D specular_map;
 
+// IBL
+layout(binding = 8) uniform samplerCube diffuse_IBL;
+layout(binding = 9) uniform samplerCube prefiltered_IBL;
+layout(binding = 10) uniform sampler2D environmentBRDF;
+uniform int numLevels_IBL;
+
 uniform Light light;
 
-in vec3 fragTangent;
+in vec3 FragTangent;
 in vec3 Normal;
 in vec3 FragPos;
 in vec3 ViewPos;
@@ -71,32 +72,6 @@ in vec3 ViewPos;
 in vec2 TexCoord;
 
 out vec4 outColor;
-
-mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
-{
-    
-    vec3 orthoTangent = normalize(tangent - dot(tangent, normal) * normal);
-    vec3 bitangent = cross(orthoTangent, normal);
-    return mat3(tangent, bitangent, normal); //TBN
-}
-
-vec3 fresnelSchlick(vec3 F0, float dotLH)
-{
-    return F0 + (1.0 - F0) * pow(1.0 - dotLH, 5.0);
-}
-
-float smithVisibility(float dotNL, float dotNV, float roughness)
-{
-    return 0.5/(dotNL*(dotNV*(1-roughness)+roughness)+dotNV*(dotNL*(1-roughness)+roughness));
-}
-
-float GGXNormalDistribution(float dotNH, float roughness)
-{
-    float squareRoughness = roughness*roughness;
-    float squareNH = dotNH*dotNH;
-
-    return squareRoughness/max((PI*pow(squareNH*(squareRoughness-1.0)+1.0,2)),EPSILON);
-}
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
@@ -198,7 +173,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 void main()
 {
 	vec3 norm = Normal;
-    vec3 tangent = fragTangent;
+    vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
@@ -236,7 +211,9 @@ void main()
     float roughness = pow(1-material.smoothness,2) + EPSILON;
     
     // Lights
-    vec3 ambient = ambientValue * textureMat.rgb;
+    vec3 R = reflect(-viewDir, norm);
+    float NdotV = max(dot(norm, viewDir), EPSILON);
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL);
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 

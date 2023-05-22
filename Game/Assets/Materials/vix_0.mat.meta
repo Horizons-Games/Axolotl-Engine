@@ -1,18 +1,17 @@
 {
-    "UID": 2458529340412979274,
+    "UID": 10963568169664853344,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
     "diffuseColor_z": 0.0,
-    "specularColor_x": 0.0,
-    "specularColor_y": 0.0,
-    "specularColor_z": 0.0,
+    "specularColor_x": 0.5,
+    "specularColor_y": 0.30000001192092896,
+    "specularColor_z": 0.5,
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "hasMetallicAlpha": false,
     "DiffuseAssetPath": "Assets/Textures/Vix_Face_AlbedoTransparency.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": ""
+    "SpecularAssetPath": ""
 }

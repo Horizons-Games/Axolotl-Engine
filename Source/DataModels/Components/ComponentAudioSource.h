@@ -18,12 +18,11 @@ public:
 	void Enable() override;
 	void Disable() override;
 
-	void PostEvent(const wchar_t* sound); //Use this function to play a sound
+	void PostEvent(const wchar_t* sound); // Use this function to play a sound
 	void SetSwitch(const wchar_t* switchGroup, const wchar_t* switchSound);
 
 private:
 	uint64_t sourceID;
 	AkTransform sourceTransform;
 	ComponentTransform* transform;
-
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "EditorWindow.h"
+#include "Resources/Resource.h"
 #include <memory>
 
 class WindowFileBrowser;
@@ -13,5 +14,6 @@ public:
 
 protected:
 	std::unique_ptr<WindowFileBrowser> browser;
+	ResourceType type;
+	std::string name;
 };
-

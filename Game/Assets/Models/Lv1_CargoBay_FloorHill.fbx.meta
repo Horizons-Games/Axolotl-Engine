@@ -1,0 +1,11 @@
+{
+    "UID": 13287484508862908488,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_FloorHill.Plane.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_FloorHillMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

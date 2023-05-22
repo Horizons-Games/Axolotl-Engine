@@ -1,19 +1,19 @@
 
 #include "Application.h"
 
-#include "ModulePlayer.h"
-#include "ModuleScene.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
-#include "ModuleRender.h"
-#include "Scene/Scene.h"
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
+#include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentPlayer.h"
 #include "Components/ComponentMeshCollider.h"
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
@@ -21,34 +21,17 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
-	componentPlayer(nullptr), speed(3), isPlayerLoad(false), readyToEliminate(false){};
+ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
 
-ModulePlayer::~ModulePlayer() {
-};
-
-bool ModulePlayer::Init()
-{
-	return true;
-}
+ModulePlayer::~ModulePlayer(){};
 
 bool ModulePlayer::Start()
 {
-	//Initialize the player
+	// Initialize the player
 #ifndef ENGINE
 	LoadNewPlayer();
-#endif //GAMEMODE
+#endif // GAMEMODE
 	return true;
-}
-
-update_status ModulePlayer::PreUpdate()
-{
-	return update_status::UPDATE_CONTINUE;
-}
-
-update_status ModulePlayer::Update()
-{
-	return update_status::UPDATE_CONTINUE;
 }
 
 GameObject* ModulePlayer::GetPlayer()
@@ -69,7 +52,11 @@ Camera* ModulePlayer::GetCameraPlayer()
 
 void ModulePlayer::LoadNewPlayer()
 {
-	std::vector<ComponentCamera*> cameras = App->scene->GetLoadedScene()->GetSceneCameras();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	ModuleEditor* editor = App->GetModule<ModuleEditor>();
+	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
@@ -78,34 +65,31 @@ void ModulePlayer::LoadNewPlayer()
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(App->editor->GetAvailableRegion().first / App->editor->GetAvailableRegion().second);
-			App->scene->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
+			loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			App->scene->RemoveGameObjectAndChildren(parentOfOwner);
-#endif // ENGINE			
-			App->camera->SetSelectedCamera(0);
-			
-			if(componentPlayer->HaveMouseActivated()) 
+			scene->RemoveGameObjectAndChildren(parentOfOwner);
+#endif // ENGINE
+			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
+
+			if (componentPlayer->HaveMouseActivated())
 			{
-				App->input->SetShowCursor(true);
+				input->SetShowCursor(true);
 			}
-			else 
+			else
 			{
-				App->input->SetShowCursor(false);
+				input->SetShowCursor(false);
 			}
-			isPlayerLoad = true;
 			return;
 		}
 	}
-	isPlayerLoad = false;
 	ENGINE_LOG("Player is not load");
 }
 
 void ModulePlayer::UnloadNewPlayer()
 {
-	App->camera->SetSelectedCamera(-1);
+	App->GetModule<ModuleCamera>()->SetSelectedCamera(-1);
 	player = nullptr;
-	isPlayerLoad = false;
 }
 
 bool ModulePlayer::IsStatic()

@@ -1,16 +1,18 @@
 #include "WindowComponentTransform.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
 #include "DataModels/Scene/Scene.h"
+#include "ModuleScene.h"
 
-#include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentLight.h"
+#include "DataModels/Components/ComponentTransform.h"
 
 #include "ModuleScene.h"
 
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
-	ComponentWindow("TRANSFORM", component), bbdraw(component->IsDrawBoundingBoxes())
+	ComponentWindow("TRANSFORM", component),
+	bbdraw(component->IsDrawBoundingBoxes()),
+	uniformScale(component->IsUniformScale())
 {
 }
 
@@ -29,7 +31,8 @@ void WindowComponentTransform::DrawWindowContents()
 			asTransform->SetDrawBoundingBoxes(bbdraw);
 			for (GameObject* child : asTransform->GetOwner()->GetChildren())
 			{
-				ComponentTransform* transform = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform =
+					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
 				transform->SetDrawBoundingBoxes(bbdraw);
 			}
 		}
@@ -46,7 +49,7 @@ void WindowComponentTransform::DrawWindowContents()
 		rotationModified = false;
 		scaleModified = false;
 
-		bool ownerIsRoot = App->scene->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
+		bool ownerIsRoot = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
 
 		// The root must not be moved through the inspector
 		if (ownerIsRoot)
@@ -57,7 +60,7 @@ void WindowComponentTransform::DrawWindowContents()
 		if (ownerIsRoot)
 		{
 			asTransform->SetPosition(float3::zero);
-			asTransform->SetRotation(float4x4::identity);
+			asTransform->SetRotation(Quat::identity);
 			asTransform->SetScale(float3::one);
 			return;
 		}
@@ -73,107 +76,149 @@ void WindowComponentTransform::DrawTransformTable()
 	if (ImGui::BeginTable("TransformTable", 2))
 	{
 		ImGui::TableNextColumn();
-		ImGui::Text("Translation"); ImGui::SameLine();
+		ImGui::Text("Translation");
+		ImGui::SameLine();
 
 		ImGui::TableNextColumn();
-		ImGui::Text("x:"); ImGui::SameLine();
+		ImGui::Text("x:");
+		ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##XTrans", &currentTranslation.x, currentDragSpeed,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+		if (ImGui::DragFloat("##XTrans",
+							 &currentTranslation.x,
+							 currentDragSpeed,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min()))
 		{
 			translationModified = true;
 		}
-		ImGui::PopStyleVar(); ImGui::SameLine();
+		ImGui::PopStyleVar();
+		ImGui::SameLine();
 
-		ImGui::Text("y:"); ImGui::SameLine();
+		ImGui::Text("y:");
+		ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##YTrans", &currentTranslation.y, currentDragSpeed,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+		if (ImGui::DragFloat("##YTrans",
+							 &currentTranslation.y,
+							 currentDragSpeed,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min()))
 		{
 			translationModified = true;
 		}
-		ImGui::PopStyleVar(); ImGui::SameLine();
+		ImGui::PopStyleVar();
+		ImGui::SameLine();
 
-		ImGui::Text("z:"); ImGui::SameLine();
+		ImGui::Text("z:");
+		ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##ZTrans", &currentTranslation.z, currentDragSpeed,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+		if (ImGui::DragFloat("##ZTrans",
+							 &currentTranslation.z,
+							 currentDragSpeed,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min()))
 		{
 			translationModified = true;
 		}
 		ImGui::PopStyleVar();
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Rotation"); ImGui::SameLine();
+		ImGui::Text("Rotation");
+		ImGui::SameLine();
 
 		ImGui::TableNextColumn();
-		ImGui::Text("x:"); ImGui::SameLine();
+		ImGui::Text("x:");
+		ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##XRot", &currentRotation.x, currentDragSpeed,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+		if (ImGui::DragFloat("##XRot",
+							 &currentRotation.x,
+							 currentDragSpeed,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min(),
+							 "%0.3f"))
 		{
 			rotationModified = true;
 		}
-		ImGui::PopStyleVar(); ImGui::SameLine();
+		ImGui::PopStyleVar();
+		ImGui::SameLine();
 
-		ImGui::Text("y:"); ImGui::SameLine();
+		ImGui::Text("y:");
+		ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##YRot", &currentRotation.y, currentDragSpeed,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+		if (ImGui::DragFloat("##YRot",
+							 &currentRotation.y,
+							 currentDragSpeed,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min(),
+							 "%0.3f"))
 		{
 			rotationModified = true;
 		}
-		ImGui::PopStyleVar(); ImGui::SameLine();
+		ImGui::PopStyleVar();
+		ImGui::SameLine();
 
-		ImGui::Text("z:"); ImGui::SameLine();
+		ImGui::Text("z:");
+		ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##ZRot", &currentRotation.z, currentDragSpeed,
-			std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%0.3f"))
+		if (ImGui::DragFloat("##ZRot",
+							 &currentRotation.z,
+							 currentDragSpeed,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min(),
+							 "%0.3f"))
 		{
 			rotationModified = true;
 		}
 		ImGui::PopStyleVar();
 
 		ImGui::TableNextColumn();
-		ImGui::Text("Scale"); ImGui::SameLine();
+		ImGui::Text("Scale");
+		ImGui::SameLine();
 
 		ImGui::TableNextColumn();
-		ImGui::Text("x:"); ImGui::SameLine();
+		ImGui::Text("x:");
+		ImGui::SameLine();
 		ImGui::SetNextItemWidth(80.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##XScale", &currentScale.x, currentDragSpeed,
-			0.0001f, std::numeric_limits<float>::max()))
+		if (ImGui::DragFloat("##XScale", &currentScale.x, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
 		{
 			scaleModified = true;
-		}
-		ImGui::PopStyleVar(); ImGui::SameLine();
-
-		ImGui::Text("y:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##YScale", &currentScale.y, currentDragSpeed,
-			0.0001f, std::numeric_limits<float>::max()))
-		{
-			scaleModified = true;
-		}
-		ImGui::PopStyleVar(); ImGui::SameLine();
-
-		ImGui::Text("z:"); ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-		if (ImGui::DragFloat("##ZScale", &currentScale.z, currentDragSpeed,
-			0.0001f, std::numeric_limits<float>::max()))
-		{
-			scaleModified = true;
+			modifiedScaleAxis = Axis::X;
 		}
 		ImGui::PopStyleVar();
+		ImGui::SameLine();
 
+		ImGui::Text("y:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+		if (ImGui::DragFloat("##YScale", &currentScale.y, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+		{
+			scaleModified = true;
+			modifiedScaleAxis = Axis::Y;
+		}
+		ImGui::PopStyleVar();
+		ImGui::SameLine();
+
+		ImGui::Text("z:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+		if (ImGui::DragFloat("##ZScale", &currentScale.z, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+		{
+			scaleModified = true;
+			modifiedScaleAxis = Axis::Z;
+		}
+		ImGui::PopStyleVar();
+		ImGui::TableNextColumn();
+		ImGui::Checkbox("", &uniformScale);
+		ImGui::SameLine();
+		ImGui::Text("Maintain scale");
 		ImGui::EndTable();
 	}
 }
@@ -196,22 +241,14 @@ void WindowComponentTransform::UpdateComponentTransform()
 
 		if (scaleModified)
 		{
-			if (currentScale.x <= 0)
+			if (uniformScale)
 			{
-				currentScale.x = 0.0001f;
+				asTransform->SetUniformScale(currentScale, modifiedScaleAxis);
 			}
-			
-			if (currentScale.y <= 0)
+			else
 			{
-				currentScale.y = 0.0001f;
+				asTransform->SetScale(currentScale);
 			}
-			
-			if (currentScale.z <= 0) 
-			{ 
-				currentScale.z = 0.0001f; 
-			}
-
-			asTransform->SetScale(currentScale);
 		}
 
 		if (scaleModified || rotationModified || translationModified)
@@ -227,7 +264,7 @@ void WindowComponentTransform::UpdateLights()
 
 	if (asTransform)
 	{
-		//Rendering lights if modified
+		// Rendering lights if modified
 		if (translationModified || rotationModified)
 		{
 			Component* comp = asTransform->GetOwner()->GetComponent(ComponentType::LIGHT);

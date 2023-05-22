@@ -1,0 +1,11 @@
+{
+    "UID": 2180881032619390305,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Capsule.Sphere_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CapsuleDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

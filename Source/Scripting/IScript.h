@@ -4,22 +4,43 @@
 #include "RuntimeObjectSystem/ISimpleSerializer.h"
 
 #include "Auxiliar/Reflection/Field.h"
-#include "Auxiliar/Reflection/TypeToEnum.h"
-#include <variant>
+#include "Enums/FieldType.h"
+#include "Math/float3.h"
 #include <optional>
+#include <variant>
 
 class GameObject;
 class Application;
 
-#define REGISTER_FIELD(Name, Type) \
-    this->members.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
-        #Name, \
-        [this] { return this->Get##Name(); }, \
-        [this](Type value) { this->Set##Name(value); } \
-    )));
+// The parameter name must be the exact name of the field inside the class
+#define REGISTER_FIELD(name, Type)                                     \
+	this->members.push_back(std::make_pair(TypeToEnum<Type>::value,    \
+										   Field<Type>(                \
+											   #name,                  \
+											   [this]                  \
+											   {                       \
+												   return this->name;  \
+											   },                      \
+											   [this](Type value)      \
+											   {                       \
+												   this->name = value; \
+											   })));
 
-//for now only allow floats, strings, GameObjects and booleans
-using ValidFieldType = std::variant<Field<float>, Field<std::string>, Field<GameObject*>, Field<bool>>;
+// The parameter Name must be one such that Get{Name} and Set{Name} functions exist as members of the class
+#define REGISTER_FIELD_WITH_ACCESSORS(Name, Type)                            \
+	this->members.push_back(std::make_pair(TypeToEnum<Type>::value,          \
+										   Field<Type>(                      \
+											   #Name,                        \
+											   [this]                        \
+											   {                             \
+												   return this->Get##Name(); \
+											   },                            \
+											   [this](Type value)            \
+											   {                             \
+												   this->Set##Name(value);   \
+											   })));
+
+using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -92,7 +113,16 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 			case FieldType::FLOAT:
 			{
 				Field<float> field = std::get<Field<float>>(enumAndField.second);
-				float value  = field.getter();
+				float value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
+
+			case FieldType::VECTOR3:
+			{
+				Field<float3> field = std::get<Field<float3>>(enumAndField.second);
+				float3 value = field.getter();
 				pSerializer->SerializeProperty(field.name.c_str(), value);
 				field.setter(value);
 				break;

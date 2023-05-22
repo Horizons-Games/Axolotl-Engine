@@ -1,11 +1,15 @@
 #include "ComponentButton.h"
 #include "Application.h"
-#include "ModuleScene.h"
 #include "FileSystem/Json.h"
+#include "ModuleScene.h"
 
-ComponentButton::ComponentButton(bool active, GameObject* owner)
-	: Component(ComponentType::BUTTON, active, owner, true), 
-	colorClicked(0.5f,0.5f,0.5f,1.0f), colorHovered(0.7f,0.7f,0.7f,1.0f), clicked(false), hovered(false),sceneName("")
+ComponentButton::ComponentButton(bool active, GameObject* owner) :
+	Component(ComponentType::BUTTON, active, owner, true),
+	colorClicked(0.5f, 0.5f, 0.5f, 1.0f),
+	colorHovered(0.7f, 0.7f, 0.7f, 1.0f),
+	clicked(false),
+	hovered(false),
+	sceneName("")
 {
 }
 
@@ -53,9 +57,14 @@ void ComponentButton::LoadOptions(Json& meta)
 	sceneName = meta["sceneName"];
 }
 
-void ComponentButton::OnClicked()
+void ComponentButton::Disable()
 {
-	App->scene->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+	active = false;
+	clicked = false;
+	hovered = false;
 }
 
-
+void ComponentButton::OnClicked()
+{
+	App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+}
