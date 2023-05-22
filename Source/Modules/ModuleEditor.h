@@ -32,7 +32,7 @@ public:
 	void SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource);
 
 	const WindowScene* GetScene() const;
-		  WindowMainMenu* GetMainMenu() const;
+	WindowMainMenu* GetMainMenu() const;
 	const WindowDebug* GetDebugOptions() const;
 
 	bool IsSceneFocused() const;
@@ -41,7 +41,7 @@ public:
 	std::pair<float, float> GetAvailableRegion();
 
 private:
-	std::vector<std::unique_ptr<EditorWindow> > windows;
+	std::vector<std::unique_ptr<EditorWindow>> windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
 	std::unique_ptr<WindowDebug> debugOptions = nullptr;
 	std::unique_ptr<WindowStateMachineEditor> stateMachineEditor = nullptr;
@@ -55,7 +55,7 @@ private:
 	void CreateFolderSettings();
 	static const std::string settingsFolder;
 	static const std::string set;
-	
+
 	void DrawLoadingBuild();
 	std::unique_ptr<WindowLoading> buildGameLoading = nullptr;
 };
@@ -79,5 +79,3 @@ inline const WindowDebug* ModuleEditor::GetDebugOptions() const
 {
 	return debugOptions.get();
 }
-
-

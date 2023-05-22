@@ -3,8 +3,7 @@
 
 class ComponentButton;
 
-class WindowComponentButton :
-	public ComponentWindow
+class WindowComponentButton : public ComponentWindow
 {
 public:
 	WindowComponentButton(ComponentButton* component);
@@ -12,6 +11,4 @@ public:
 
 protected:
 	void DrawWindowContents() override;
-
 };
-

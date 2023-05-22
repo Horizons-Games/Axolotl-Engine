@@ -2,20 +2,19 @@
 
 #include "Globals.h"
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 #ifndef ENGINE
-#define ENGINE_LOG(...) //ignore it
+	#define ENGINE_LOG(...) // ignore it
 #else
-#define ENGINE_LOG(format, ...) engineLog->Log(__FILE__, __LINE__, format, __VA_ARGS__);
+	#define ENGINE_LOG(format, ...) engineLog->Log(__FILE__, __LINE__, format, __VA_ARGS__);
 
 class EngineLog
 {
 public:
-
-	EngineLog() {};
+	EngineLog(){};
 
 	~EngineLog();
 
