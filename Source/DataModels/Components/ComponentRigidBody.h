@@ -194,14 +194,9 @@ inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
 	isStatic = newIsStatic;
 }
 
-bool ComponentRigidBody::IsTrigger() const
+inline bool ComponentRigidBody::IsTrigger() const
 {
 	return isTrigger;
-}
-
-void ComponentRigidBody::SetIsTrigger(bool newTrigger)
-{
-	isTrigger = newTrigger;
 }
 
 inline bool ComponentRigidBody::GetDrawCollider() const

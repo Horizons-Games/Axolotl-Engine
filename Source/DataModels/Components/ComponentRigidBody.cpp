@@ -402,3 +402,16 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 	}
 	// WIP: reset 5th shape
 }
+
+void ComponentRigidBody::SetIsTrigger(bool newTrigger)
+{
+	isTrigger = newTrigger;
+	if (newTrigger)
+	{
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
+	else
+	{
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
+}
