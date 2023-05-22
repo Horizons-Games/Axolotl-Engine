@@ -340,9 +340,6 @@
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -385,10 +382,18 @@
     <ClCompile Include="moveale.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMoveScript.cpp" />
-    <ClCompile Include="PlayerJumpScript.cpp" />
-    <ClCompile Include="PlayerRotationScript.cpp" />
-    <ClCompile Include="PlayerCameraRotationVerticalScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -723,9 +728,6 @@
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -746,9 +748,6 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
-      <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
@@ -777,10 +776,19 @@
     <ClInclude Include="moveale.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerMoveScript.h" />
-    <ClInclude Include="PlayerJumpScript.h" />
-    <ClInclude Include="PlayerRotationScript.h" />
-    <ClInclude Include="PlayerCameraRotationVerticalScript.h" />
+    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

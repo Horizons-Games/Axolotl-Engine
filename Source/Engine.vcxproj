@@ -170,7 +170,10 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
     <ClCompile Include="Application.cpp" />
@@ -462,10 +465,6 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp" />
     <ClCompile Include="moveale.cpp" />
     <ClCompile Include="Physics\Physics.cpp" />
-    <ClCompile Include="PlayerCameraRotationVerticalScript.cpp" />
-    <ClCompile Include="PlayerJumpScript.cpp" />
-    <ClCompile Include="PlayerMoveScript.cpp" />
-    <ClCompile Include="PlayerRotationScript.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
   </ItemGroup>
@@ -476,7 +475,10 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
     <ClInclude Include="Application.h" />
@@ -809,10 +811,6 @@
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h" />
     <ClInclude Include="moveale.h" />
     <ClInclude Include="Physics\Physics.h" />
-    <ClInclude Include="PlayerCameraRotationVerticalScript.h" />
-    <ClInclude Include="PlayerJumpScript.h" />
-    <ClInclude Include="PlayerMoveScript.h" />
-    <ClInclude Include="PlayerRotationScript.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />
     <ClInclude Include="Scripting\LogSystem.h" />
