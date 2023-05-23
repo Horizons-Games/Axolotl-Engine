@@ -47,7 +47,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
-	return App->GetScriptFactory()->Init();
+	return true;
 }
 
 bool ModuleScene::Start()
