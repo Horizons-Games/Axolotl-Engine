@@ -67,7 +67,7 @@ bool ModuleScene::Start()
 
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Init();
 		}
@@ -75,7 +75,7 @@ bool ModuleScene::Start()
 
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Start();
 		}
