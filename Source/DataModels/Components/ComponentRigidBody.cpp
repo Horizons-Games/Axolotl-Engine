@@ -313,7 +313,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetFactor(static_cast<float>(meta["factor"]));
 	SetHeight(static_cast<float>(meta["height"]));
 
-	int currentShape = (int) meta["currentShape"];
+	int currentShape = static_cast<int>(meta["currentShape"]);
 
 	if (currentShape != 0)
 	{
