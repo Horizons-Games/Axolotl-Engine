@@ -45,6 +45,7 @@ void ParticleSystemImporter::Save
 	delete metaBuffer;
 
 	Json jsonTextures = meta["TexturesAssetPaths"];
+	Json jsonVisibleConfig = meta["ConfigEmitters"];
 	unsigned int countParticleTextures = 0;
 #endif
 
@@ -55,7 +56,7 @@ void ParticleSystemImporter::Save
 
 	size = sizeof(header)
 		// header of emitter (Size name + size Modules + check Resource) + content of Emitter
-		+ (sizeof(unsigned int) * 5 + sizeof(float) * 17 + sizeof(bool) * 6) * resource->GetNumEmitters();
+		+ (sizeof(unsigned int) * 5 + sizeof(float) * 17 + sizeof(bool) * 5) * resource->GetNumEmitters();
 
 	for(size_t i = 0; i < header[0]; i++)
 	{
@@ -214,12 +215,10 @@ void ParticleSystemImporter::Save
 
 		cursor += bytes;
 
-		//This last probably go to the meta because is exclusive of the Engine 
-		bytes = sizeof(bool);
-		bool visibleConfig = emitter->IsVisibleConfig();
-		memcpy(cursor, &visibleConfig, bytes);
+#ifdef ENGINE
+		jsonVisibleConfig[i] = emitter->IsVisibleConfig();
+#endif // ENGINE
 
-		cursor += bytes;
 	}
 
 #ifdef ENGINE
