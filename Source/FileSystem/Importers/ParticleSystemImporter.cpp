@@ -392,5 +392,7 @@ void ParticleSystemImporter::Load
 #ifdef ENGINE
 		emitter->SetVisibleConfig(jsonVisibleConfig[i]);
 #endif // ENGINE
+
+		resource->AddEmitter(emitter);
 	}
 }
