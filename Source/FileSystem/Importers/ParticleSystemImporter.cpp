@@ -43,6 +43,9 @@ void ParticleSystemImporter::Save
 	Json meta(doc, doc);
 	meta.fromBuffer(metaBuffer);
 	delete metaBuffer;
+
+	Json jsonTextures = meta["TexturesAssetPaths"];
+	unsigned int countParticleTextures = 0;
 #endif
 
 	unsigned int header[1] =
@@ -103,6 +106,11 @@ void ParticleSystemImporter::Save
 
 		if(emitterHeader[2])
 		{
+#ifdef ENGINE
+			jsonTextures[countParticleTextures] = emitter->GetParticleTexture()->GetAssetsPath().c_str();
+			++countParticleTextures;
+#endif // ENGINE
+
 			bytes = sizeof(UID);
 			UID textureUID = emitter->GetParticleTexture()->GetUID();
 			memcpy(cursor, &textureUID, bytes);
