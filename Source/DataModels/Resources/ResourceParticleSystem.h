@@ -14,7 +14,7 @@ public:
 	~ResourceParticleSystem();
 
 	size_t GetNumEmitters() const;
-	ParticleEmitter* GetEmitter(size_t emitterIndex) const;
+	ParticleEmitter* GetEmitter(unsigned int emitterIndex) const;
 	void AddEmitter(const std::unique_ptr<ParticleEmitter>& emitter);
 	void ClearAllEmitters();
 
