@@ -3,8 +3,8 @@
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
 
-#include "Resources/ResourceModel.h"
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -82,7 +82,6 @@ public:
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetDirectionalLight(GameObject* directionalLight);
 
-
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
@@ -102,9 +101,7 @@ public:
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
-	const std::vector<GameObject*> CacheBoneHierarchy(
-		GameObject* gameObjectNode,
-		const std::vector<Bone>& bones);
+	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
 
 	std::unique_ptr<Skybox> skybox;
@@ -125,9 +122,9 @@ private:
 	unsigned uboDirectional;
 	unsigned ssboPoint;
 	unsigned ssboSpot;
-	
+
 	AABB rootQuadtreeAABB;
-	//Render Objects
+	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
 	std::vector<GameObject*> nonStaticObjects;
 };

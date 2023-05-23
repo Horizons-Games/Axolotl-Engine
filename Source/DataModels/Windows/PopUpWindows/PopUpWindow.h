@@ -13,4 +13,3 @@ protected:
 	PopUpWindow(const std::string& name);
 	virtual void DrawWindowContents() = 0;
 };
-

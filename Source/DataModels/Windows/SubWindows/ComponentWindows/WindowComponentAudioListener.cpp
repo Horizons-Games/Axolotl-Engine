@@ -22,4 +22,3 @@ void WindowComponentAudioListener::DrawWindowContents()
 		ImGui::Text("Audio Listener");
 	}
 }
-

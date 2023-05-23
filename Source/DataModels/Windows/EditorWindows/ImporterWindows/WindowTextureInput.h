@@ -3,8 +3,7 @@
 
 class WindowComponentMeshRenderer;
 
-class WindowTextureInput :
-    public WindowFileBrowser
+class WindowTextureInput : public WindowFileBrowser
 {
 public:
 	WindowTextureInput(WindowComponentMeshRenderer* meshRendererComponent, TextureType textureType);

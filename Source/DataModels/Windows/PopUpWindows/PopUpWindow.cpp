@@ -18,17 +18,16 @@ void PopUpWindow::Draw(bool& enabled)
 		// Center the PopUp
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(
-			ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
-			ImGuiCond_Always,
-			ImVec2(0.5f, 0.5f));
+			ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 	}
-	enabled = ImGui::BeginPopupModal(name.c_str(), &enabled,
-		ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoMove
-		| ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking);
+	enabled =
+		ImGui::BeginPopupModal(name.c_str(),
+							   &enabled,
+							   ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoMove |
+								   ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking);
 	if (enabled)
 	{
 		DrawWindowContents();
 		ImGui::EndPopup();
 	}
 }
-
