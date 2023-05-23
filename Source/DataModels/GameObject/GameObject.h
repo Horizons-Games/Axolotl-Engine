@@ -60,7 +60,7 @@ public:
 	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
 	GameObjectView GetChildren() const;
-	std::list<GameObject*> GetAllDesdendants();
+	std::list<GameObject*> GetAllDescendants();
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);

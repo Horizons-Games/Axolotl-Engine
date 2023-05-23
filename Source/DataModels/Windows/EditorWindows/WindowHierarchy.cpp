@@ -199,7 +199,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 				GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
 				if (selectedGameObject && selectedGameObject->GetParent())
 				{
-					std::list<GameObject*> listSGO = selectedGameObject->GetAllDesdendants();
+					std::list<GameObject*> listSGO = selectedGameObject->GetAllDescendants();
 					bool actualParentSelected =
 						std::find(std::begin(listSGO), std::end(listSGO), parentGameObject) != std::end(listSGO);
 					bool newParentSelected =

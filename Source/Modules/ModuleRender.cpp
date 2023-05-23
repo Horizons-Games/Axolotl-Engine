@@ -486,7 +486,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 void ModuleRender::InsertToRenderList(GameObject* goSelected)
 {
 	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
-	std::list<GameObject*> goSList = goSelected->GetAllDesdendants();
+	std::list<GameObject*> goSList = goSelected->GetAllDescendants();
 	for (GameObject* gameObject : goSList)
 	{
 		const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();

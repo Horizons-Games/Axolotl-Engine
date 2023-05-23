@@ -404,7 +404,7 @@ void CameraEngine::Focus(GameObject* gameObject)
 	Component* transform = gameObject->GetComponent<ComponentTransform>();
 	if (transform)
 	{
-		std::list<GameObject*> insideGameObjects = gameObject->GetAllDesdendants();
+		std::list<GameObject*> insideGameObjects = gameObject->GetAllDescendants();
 		AABB minimalAABB;
 		std::vector<math::vec> outputArray{};
 		for (GameObject* object : insideGameObjects)

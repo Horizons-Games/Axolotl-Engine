@@ -416,7 +416,7 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 
 			go->SetRootGO(rootGo);
 
-			for (GameObject* child : go->GetAllDesdendants())
+			for (GameObject* child : go->GetAllDescendants())
 			{
 				child->SetRootGO(rootGo);
 			}

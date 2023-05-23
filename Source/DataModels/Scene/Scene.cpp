@@ -327,7 +327,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 	gameObjectModel->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
 
-	for (GameObject* child : gameObjectModel->GetAllDesdendants())
+	for (GameObject* child : gameObjectModel->GetAllDescendants())
 	{
 		child->SetRootGO(gameObjectNodes[0]);
 

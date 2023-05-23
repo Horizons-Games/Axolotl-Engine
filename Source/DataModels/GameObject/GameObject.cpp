@@ -687,13 +687,13 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	return false;
 }
 
-std::list<GameObject*> GameObject::GetAllDesdendants()
+std::list<GameObject*> GameObject::GetAllDescendants()
 {
 	std::list<GameObject*> familyObjects = {};
 	familyObjects.push_back(this);
 	for (std::unique_ptr<GameObject>& children : children)
 	{
-		std::list<GameObject*> objectsChildren = children->GetAllDesdendants();
+		std::list<GameObject*> objectsChildren = children->GetAllDescendants();
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;

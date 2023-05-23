@@ -75,7 +75,7 @@ void ComponentAnimation::Update()
 
 				if (controller->GetPlay())
 				{
-					std::list<GameObject*> children = owner->GetAllDesdendants();
+					std::list<GameObject*> children = owner->GetAllDescendants();
 
 					for (auto child : children)
 					{
