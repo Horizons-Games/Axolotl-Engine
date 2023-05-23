@@ -1,10 +1,9 @@
 #include "WindowComponentCamera.h"
 
-#include "DataModels/Components/ComponentCamera.h"
 #include "Camera/CameraGameObject.h"
+#include "DataModels/Components/ComponentCamera.h"
 
-WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) :
-	ComponentWindow("CAMERA", component)
+WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) : ComponentWindow("CAMERA", component)
 {
 }
 
@@ -29,10 +28,12 @@ void WindowComponentCamera::DrawWindowContents()
 		int frustumModeAsNumber = static_cast<int>(frustumMode);
 		float frustumOffset = asCamera->GetCamera()->GetFrustumOffset();
 
-		ImGui::Text("Draw Frustum"); ImGui::SameLine();
+		ImGui::Text("Draw Frustum");
+		ImGui::SameLine();
 		ImGui::Checkbox("##Draw Frustum", &drawFrustum);
 
-		ImGui::ListBox("Frustum Mode\n(single select)", &frustumModeAsNumber, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
+		ImGui::ListBox(
+			"Frustum Mode\n(single select)", &frustumModeAsNumber, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
 		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
 
 		asCamera->GetCamera()->SetIsDrawFrustum(drawFrustum);
