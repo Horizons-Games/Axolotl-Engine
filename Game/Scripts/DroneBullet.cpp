@@ -38,20 +38,38 @@ void DroneBullet::Start()
 void DroneBullet::Update(float deltaTime)
 {
 	ShootBullet(deltaTime);
+
+	CheckCollision();
+
+	if (SDL_GetTicks() / 1000.0f > bulletLifeTime);
+
 }
 
 void DroneBullet::ShootBullet(float deltaTime)
 {
 	transform->SetPosition(transform->GetGlobalPosition() + transform->GetLocalForward() * velocity * deltaTime * 1000);
 	transform->UpdateTransformMatrices();
+}
 
+void DroneBullet::CheckCollision()
+{
 	Ray ray(transform->GetPosition(), transform->GetLocalForward());
-	LineSegment line(ray, 3.0f);
-	if (Physics::RaycastFirst(line, transform->GetOwner()))
+	LineSegment line(ray, 10.0f);
+	RaycastHit hit;
+	if (Physics::Raycast(line, hit, transform->GetOwner()))
 	{
-		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
+		if (hit.gameObject->CompareTag("Player"))
+		{
+			//get component health and do damage
+		}
 
+		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
 
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 	}
+}
+
+void DroneBullet::DestroyBullet()
+{
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

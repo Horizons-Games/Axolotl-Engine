@@ -22,6 +22,7 @@ private:
 
 	void PerformAttack();
 	bool isAttackAvailable();
+	void CheckCollision();
 
 	float attackCooldown;
 	float lastAttackTime;

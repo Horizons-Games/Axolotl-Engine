@@ -66,12 +66,22 @@ void BixAttackScript::PerformAttack()
 
 		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_SWING);
 
-		Ray ray(transform->GetPosition(), transform->GetLocalForward());
-		LineSegment line(ray, rayAttackSize);
-		if (Physics::RaycastFirst(line, owner))
+		CheckCollision();
+	}
+}
+
+void BixAttackScript::CheckCollision()
+{
+	Ray ray(transform->GetPosition(), transform->GetLocalForward());
+	LineSegment line(ray, 10.0f);
+	RaycastHit hit;
+	if (Physics::Raycast(line, hit, transform->GetOwner()))
+	{
+		if (hit.gameObject->CompareTag("Enemy"))
 		{
-			audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
+			//get component health and do damage
 		}
+		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
 	}
 }
 

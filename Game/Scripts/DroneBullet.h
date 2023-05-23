@@ -19,8 +19,11 @@ private:
 	void Update(float deltaTime) override;
 
 	void ShootBullet(float deltaTime);
+	void CheckCollision();
+	void DestroyBullet();
 
 	float velocity;
+	float bulletLifeTime;
 
 	ComponentTransform* transform;
 	ComponentAudioSource* audioSource;
