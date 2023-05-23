@@ -5,6 +5,7 @@
 #include "FileSystem/Json.h"
 #include "ParticleSystem/ParticleEmitter.h"
 #include "Resources/ResourceTexture.h"
+#include "ParticleSystem/ParticleModule.h"
 
 ParticleSystemImporter::ParticleSystemImporter()
 {
@@ -66,7 +67,8 @@ void ParticleSystemImporter::Save
 		{
 			size += sizeof(UID);
 		}
-		//size += emitter->GetModules().size();
+		size += emitter->GetModules().size();
+		size += (sizeof(int) + sizeof(bool)) * emitter->GetModules().size();
 	}
 
 	char* cursor = new char[size];
@@ -99,11 +101,20 @@ void ParticleSystemImporter::Save
 
 		cursor += bytes;
 
-		/* Modules
-		bytes = sizeof(char) * emitterHeader[0];
-		memcpy(cursor, &(emitter->GetName()[0]), bytes);
+		for (ParticleModule* module : emitter->GetModules())
+		{
+			bytes = sizeof(int);
+			int type = static_cast<int>(module->GetType());
+			memcpy(cursor, &type, bytes);
 
-		cursor += bytes;*/
+			cursor += bytes;
+
+			bytes = sizeof(bool);
+			bool enabled = module->IsEnabled();
+			memcpy(cursor, &enabled, bytes);
+
+			cursor += bytes;
+		}
 
 		if(emitterHeader[2])
 		{
