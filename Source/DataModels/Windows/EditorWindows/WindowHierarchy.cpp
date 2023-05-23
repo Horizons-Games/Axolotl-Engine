@@ -89,28 +89,21 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 		ImGui::SetNextItemOpen(true);
 	}
 
-	if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED &&
-		StateOfSelection::SELECTED == moduleScene->GetSelectedGameObject()->GetStateOfSelection())
-	{
-		ImGui::SetNextItemOpen(true);
-	}
-
 	if (gameObject == moduleScene->GetSelectedGameObject())
 	{
 		flags |= ImGuiTreeNodeFlags_Selected;
 	}
 
-	ImGui::PushID(gameObjectLabel);
-	if ((ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
-		 ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)) ||
-		(ImGui::IsMouseReleased(ImGuiMouseButton_Right) &&
-		 ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
-	{
-		moduleScene->SetSelectedGameObject(gameObject);
-	}
 	ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
 	bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
 	ImGui::PopStyleColor();
+
+	ImGui::PushID(gameObjectLabel);
+	if ((ImGui::IsMouseReleased(ImGuiMouseButton_Left) || ImGui::IsMouseReleased(ImGuiMouseButton_Right)) &&
+		ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
+	{
+		moduleScene->SetSelectedGameObject(gameObject);
+	}
 
 	if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
 	{
