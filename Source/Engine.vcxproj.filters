@@ -385,6 +385,9 @@
     <ClCompile Include="moveale.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -743,9 +746,6 @@
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
-      <Filter>Enums</Filter>
-    </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
@@ -772,6 +772,10 @@
     </ClInclude>
     <ClInclude Include="moveale.h">
       <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -867,6 +871,9 @@
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Level">
+      <UniqueIdentifier>{baa08fe2-1b03-4716-a1e9-9cb01a6070fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
