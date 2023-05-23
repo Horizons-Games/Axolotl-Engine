@@ -10,10 +10,6 @@
 
 class ModuleBase : public ParticleModule
 {
-
-public:
-	enum class Alignment { SCREEN, WORLD, AXIAL };
-
 public:
 	ModuleBase(ParticleEmitter* emitter);
 	~ModuleBase() override;
@@ -23,11 +19,9 @@ public:
 
 	void SetOrigin(const float3& origin);
 	void SetRotation(const Quat& rotation);
-	void SetAlignment(Alignment alignment);
 
 	float3 GetOrigin() const;
 	Quat GetRotation() const;
-	Alignment GetAlignment() const;
 
 	void DrawDD(EmitterInstance* instance) override;
 	void DrawImGui() override;
@@ -36,7 +30,6 @@ private:
 	float4x4 originTransform;
 	float3 originLocation;
 	Quat originRotation;
-	Alignment alignment;
 };
 
 inline void ModuleBase::SetOrigin(const float3& origin)
@@ -49,11 +42,6 @@ inline void ModuleBase::SetRotation(const Quat& rotation)
 	originRotation = rotation;
 }
 
-inline void ModuleBase::SetAlignment(Alignment alignment)
-{
-	this->alignment = alignment;
-}
-
 inline float3 ModuleBase::GetOrigin() const
 {
 	return originLocation;
@@ -62,9 +50,4 @@ inline float3 ModuleBase::GetOrigin() const
 inline Quat ModuleBase::GetRotation() const
 {
 	return originRotation;
-}
-
-inline ModuleBase::Alignment ModuleBase::GetAlignment() const
-{
-	return alignment;
 }

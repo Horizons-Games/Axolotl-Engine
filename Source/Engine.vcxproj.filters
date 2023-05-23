@@ -400,6 +400,7 @@
     <ClCompile Include="DataModels\ParticleSystem\ModuleColor.cpp">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -803,6 +804,7 @@
     <ClInclude Include="DataModels\ParticleSystem\ModuleColor.h">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1648,9 +1650,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1727,9 +1726,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">

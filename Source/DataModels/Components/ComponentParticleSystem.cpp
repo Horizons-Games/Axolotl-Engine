@@ -42,6 +42,10 @@ void ComponentParticleSystem::Draw() const
 	}
 }
 
+void ComponentParticleSystem::Render()
+{
+}
+
 void ComponentParticleSystem::Reset()
 {
 }

@@ -4,6 +4,7 @@
 #include "ModuleBase.h"
 #include "ModuleSpawn.h"
 #include "ModulePosition.h"
+#include "ModuleRenderer.h"
 #include "ParticleModule.h"
 
 
@@ -11,10 +12,12 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 {
 	ModuleBase* base = new ModuleBase(this);
 	ModuleSpawn* spawn = new ModuleSpawn(this);
+	ModuleRenderer* render = new ModuleRenderer(this);
 	ModulePosition* position = new ModulePosition(this);
 
 	modules.push_back(base);
 	modules.push_back(spawn);
+	modules.push_back(render);
 	modules.push_back(position);
 
 	angle = DEFAULT_ANGLE;

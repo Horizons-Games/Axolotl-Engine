@@ -24,6 +24,7 @@ public:
 	void Update() override;
 	void Reset();
 	void Draw() const override;
+	void Render();
 
 	void CreateEmitterInstance();
 	void CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter);

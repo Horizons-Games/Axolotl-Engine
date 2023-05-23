@@ -6,7 +6,7 @@ class ParticleEmitter;
 class ParticleModule
 {
 public:
-	enum class ModuleType { BASE, SPAWN, POSITION, COLOR };
+	enum class ModuleType { BASE, SPAWN, RENDER, POSITION, COLOR };
 
 public:
 	ParticleModule(ModuleType type, ParticleEmitter* emitter);
