@@ -17,6 +17,7 @@ ComponentBreakable::ComponentBreakable(const bool active, GameObject* owner)
 
 ComponentBreakable::~ComponentBreakable()
 {
+	UnsubscribeToOnCollisionEnter();
 	delete lcg;
 }
 
@@ -32,6 +33,7 @@ void ComponentBreakable::SaveOptions(Json& meta)
 	meta["active"] = (bool)active;
 	meta["removed"] = (bool)canBeRemoved;
 	meta["subscribed"] = (bool)subscribed;
+	meta["impulsion"] = (float)impulsionForce;
 }
 
 void ComponentBreakable::LoadOptions(Json& meta)
@@ -41,6 +43,7 @@ void ComponentBreakable::LoadOptions(Json& meta)
 	active = (bool)meta["active"];
 	canBeRemoved = (bool)meta["removed"];
 	subscribed = (bool)meta["subscribed"];
+	impulsionForce = (float)meta["impulsion"];
 }
 
 void ComponentBreakable::SubscribeToOnCollisionEnter()
@@ -96,7 +99,7 @@ void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 			const ComponentRigidBody* childRigidBody = 
 				static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
 			//randomize the impulsion
-			float3 test = test.RandomDir(*lcg,1.0f);
+			float3 test = test.RandomDir(*lcg, impulsionForce);
 			btVector3 impulsionMul{test.x,test.y,test.z};
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);

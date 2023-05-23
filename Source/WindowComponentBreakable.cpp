@@ -36,5 +36,20 @@ void WindowComponentBreakable::DrawWindowContents()
 				componentBreakable->UnsubscribeToOnCollisionEnter();
 			}
 		}
+
+		float impulsion = componentBreakable->GetImpulsionMul();
+		ImGui::Text("");
+		ImGui::Text("Impulsion"); ImGui::SameLine();
+		if(ImGui::DragFloat("Impulsion power", &impulsion, 0.01f, 0.1f, 4.0f))
+		{
+			if (impulsion <= 4.0f)
+			{
+				componentBreakable->SetImpulsionMul(impulsion);
+			}
+			else
+			{
+				componentBreakable->SetImpulsionMul(1.0f);
+			}
+		}
 	}
 }
