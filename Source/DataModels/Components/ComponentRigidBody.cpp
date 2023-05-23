@@ -44,36 +44,27 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 }
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
-	Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true)
+	Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true),
+	isKinematic(toCopy.isKinematic),
+	isStatic(toCopy.isStatic),
+	currentShape(toCopy.currentShape),
+	boxSize(toCopy.boxSize),
+	radius(toCopy.radius),
+	factor(toCopy.factor),
+	height(toCopy.height),
+	usePositionController(toCopy.usePositionController),
+	useRotationController(toCopy.useRotationController),
+	KpForce(toCopy.KpForce),
+	KpTorque(toCopy.KpTorque),
+	mass(toCopy.mass)
 {
 	id = GenerateId();
 
 	transform = toCopy.transform;
-	boxSize = toCopy.boxSize;
-	radius = toCopy.radius;
-	factor = toCopy.factor;
-	height = toCopy.height;
 
-	currentShape = toCopy.currentShape;
 	motionState = std::unique_ptr<btDefaultMotionState>(new btDefaultMotionState(*toCopy.motionState.get()));
-	switch (static_cast<Shape>(currentShape))
-	{
-		default:
-		case Shape::BOX:
-			shape = std::unique_ptr<btBoxShape>(new btBoxShape(*static_cast<btBoxShape*>(toCopy.shape.get())));
-			break;
-		case Shape::SPHERE:
-			shape = std::unique_ptr<btSphereShape>(new btSphereShape(*static_cast<btSphereShape*>(toCopy.shape.get())));
-			break;
-		case Shape::CAPSULE:
-			shape =
-				std::unique_ptr<btCapsuleShape>(new btCapsuleShape(*static_cast<btCapsuleShape*>(toCopy.shape.get())));
-			break;
-		case Shape::CONE:
-			shape = std::unique_ptr<btConeShape>(new btConeShape(*static_cast<btConeShape*>(toCopy.shape.get())));
-			break;
-	}
-	rigidBody = std::make_unique<btRigidBody>(toCopy.rigidBody->getMass(), motionState.get(), shape.get());
+
+	rigidBody = std::make_unique<btRigidBody>(toCopy.mass, motionState.get(), toCopy.shape.get());
 
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
@@ -81,10 +72,14 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
 	rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
 
-	SetLinearDamping(linearDamping);
-	SetAngularDamping(angularDamping);
+	SetLinearDamping(toCopy.linearDamping);
+	SetAngularDamping(toCopy.angularDamping);
+	SetRestitution(toCopy.restitution);
 
-	SetCollisionShape(Shape::BOX);
+	SetCollisionShape(currentShape);
+
+	SetGravity(toCopy.gravity);
+
 	UpdateRigidBody();
 }
 
@@ -178,8 +173,6 @@ void ComponentRigidBody::SetOwner(GameObject* owner)
 {
 	Component::SetOwner(owner);
 	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
-	radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 }
 
 void ComponentRigidBody::UpdateRigidBody()
