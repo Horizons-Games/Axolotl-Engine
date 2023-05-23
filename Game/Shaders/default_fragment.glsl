@@ -235,9 +235,9 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         float dotABRefle = dot(AB, R);
         float num = dot(R, PA) * dotABRefle - dot(AB, PA);
-        float distAB = length(AB);
-        float denom = distAB*distAB - dotABRefle * dotABRefle;
-        //float denom = dot(AB, AB) - dotABRefle * dotABRefle;
+        //float distAB = length(AB);
+        //float denom = distAB*distAB - dotABRefle * dotABRefle;
+        float denom = dot(AB, AB) - dotABRefle * dotABRefle;
         float t = clamp(num/denom, 0.0f, 1.0f);
         
         vec3 closest = posA + AB * t;
@@ -276,7 +276,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float attenuationDiffuse = maxValue/(pow(distance,2) + 1);
 
         vec3 Li = color * intensity;
-        vec3 LoSpecular = (FS * SV * GGXND) * Li * attenuationSpecular * specularDotNL;
+        vec3 LoSpecular = (0.25 * FS * SV * GGXND) * Li * attenuationSpecular * specularDotNL;
         vec3 LoDiffuse = (Cd * (1 - f0)) * Li * attenuationDiffuse * diffuseDotNL;
         Lo += LoDiffuse + LoSpecular;
     }
