@@ -4,38 +4,38 @@
 
 #include "Application.h"
 
+#include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
 #include "Program/Program.h"
-#include "FileSystem/ModuleResources.h"
-#include "FileSystem/ModuleFileSystem.h"
-#include "FileSystem/Json.h"
 
-#include "Resources/ResourceMesh.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
-#include "GameObject/GameObject.h"
 #include "Cubemap/Cubemap.h"
+#include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
 
 #include <GL/glew.h>
 
-
 #ifdef ENGINE
 
-#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
+	#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
 
 #endif
 
-ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner)
-	: Component(ComponentType::MESHRENDERER, active, owner, true)
+ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
+	Component(ComponentType::MESHRENDERER, active, owner, true)
 {
 }
 
-ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer):
-	Component(componentMeshRenderer), 
-	mesh(componentMeshRenderer.GetMesh()), material(componentMeshRenderer.GetMaterial())
+ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer) :
+	Component(componentMeshRenderer),
+	mesh(componentMeshRenderer.GetMesh()),
+	material(componentMeshRenderer.GetMaterial())
 {
 }
 
@@ -53,7 +53,7 @@ void ComponentMeshRenderer::InitBones()
 
 	skinPalette.resize(numBones);
 
-	for (unsigned int i = 0; i < numBones; ++i) 
+	for (unsigned int i = 0; i < numBones; ++i)
 	{
 		skinPalette[i] = float4x4::identity;
 	}
@@ -79,8 +79,9 @@ void ComponentMeshRenderer::Update()
 
 				if (boneNode)
 				{
-					skinPalette[i] = static_cast<ComponentTransform*>(boneNode->
-						GetComponent(ComponentType::TRANSFORM))->CalculatePaletteGlobalMatrix() * bindBones[i].transform;
+					skinPalette[i] = static_cast<ComponentTransform*>(boneNode->GetComponent(ComponentType::TRANSFORM))
+										 ->CalculatePaletteGlobalMatrix() *
+									 bindBones[i].transform;
 				}
 				else
 				{
@@ -95,8 +96,7 @@ void ComponentMeshRenderer::Draw() const
 {
 	if (material)
 	{
-		Program* program = App->GetModule<ModuleProgram>()->GetProgram
-		(ProgramType(material->GetShaderType()));
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType(material->GetShaderType()));
 
 		if (program)
 		{
@@ -112,13 +112,11 @@ void ComponentMeshRenderer::Draw() const
 
 void ComponentMeshRenderer::DrawMeshes(Program* program) const
 {
-
 #ifdef ENGINE
 
-	//this should be in an EditorComponent class, or something of the like
-	//but for now have it here
-	if (mesh &&
-		std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
+	// this should be in an EditorComponent class, or something of the like
+	// but for now have it here
+	if (mesh && std::dynamic_pointer_cast<EditorResourceInterface>(mesh)->ToDelete())
 	{
 		mesh = nullptr;
 	}
@@ -154,12 +152,11 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 	const float4x4& model =
-		static_cast<ComponentTransform*>(GetOwner()
-			->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+		static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
-	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
-	glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
+	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
+	glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
 
 	glBindVertexArray(mesh->GetVAO());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
@@ -174,13 +171,11 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 void ComponentMeshRenderer::DrawMaterial(Program* program) const
 {
-
 #ifdef ENGINE
 
-	//this should be in an EditorComponent class, or something of the like
-	//but for now have it here
-	if (material && 
-		std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
+	// this should be in an EditorComponent class, or something of the like
+	// but for now have it here
+	if (material && std::dynamic_pointer_cast<EditorResourceInterface>(material)->ToDelete())
 	{
 		material = nullptr;
 	}
@@ -191,8 +186,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 	{
 		const float4& diffuseColor = material->GetDiffuseColor();
 
-		glUniform4f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z,
-			diffuseColor.w);
+		glUniform4f(3, diffuseColor.x, diffuseColor.y, diffuseColor.z, diffuseColor.w);
 
 		std::shared_ptr<ResourceTexture> texture = material->GetDiffuse();
 
@@ -216,8 +210,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 		glUniform1f(5, material->GetSmoothness());
 		glUniform1f(6, material->GetNormalStrength());
 
-		texture =
-			std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
+		texture = std::dynamic_pointer_cast<ResourceTexture>(material->GetNormal());
 
 		if (texture)
 		{
@@ -237,54 +230,53 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 
 		switch (material->GetShaderType())
 		{
-		case 0:
+			case 0:
 
-			glUniform1f(8, material->GetMetalness());
+				glUniform1f(8, material->GetMetalness());
 
-			texture = material->GetMetallic();
-			if (texture)
-			{
-				if (!texture->IsLoaded())
+				texture = material->GetMetallic();
+				if (texture)
 				{
-					texture->Load();
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
+
+					glUniform1i(9, 1);
+					glActiveTexture(GL_TEXTURE7);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				}
+				else
+				{
+					glUniform1i(9, 0);
 				}
 
-				glUniform1i(9, 1);
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			}
-			else
-			{
-				glUniform1i(9, 0);
-			}
+				break;
 
-			break;
+			case 1:
 
-		case 1:
+				const float3& specularColor = material->GetSpecularColor();
+				glUniform3f(8, specularColor.x, specularColor.y, specularColor.z);
 
-			const float3 & specularColor = material->GetSpecularColor();
-			glUniform3f
-			(8, specularColor.x, specularColor.y, specularColor.z);
+				texture = material->GetSpecular();
 
-			texture = material->GetSpecular();
-
-			if (texture)
-			{
-				if (!texture->IsLoaded())
+				if (texture)
 				{
-					texture->Load();
+					if (!texture->IsLoaded())
+					{
+						texture->Load();
+					}
+
+					glUniform1i(9, 1);
+					glActiveTexture(GL_TEXTURE7);
+					glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+				}
+				else
+				{
+					glUniform1i(9, 0);
 				}
 
-				glUniform1i(9, 1);
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			}
-			else
-			{
-				glUniform1i(9, 0);
-			}
-
-			break;
+				break;
 		}
 
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
@@ -311,33 +303,29 @@ void ComponentMeshRenderer::DrawHighlight() const
 		mesh->Load();
 	}
 
-		float scale = 10.1f;
-		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::HIGHLIGHT);
+	float scale = 10.1f;
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::HIGHLIGHT);
 
-		if (program)
-		{
-			program->Activate();
-			const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-			const float4x4& proj = 
-							App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-			const float4x4& model =
-				static_cast<ComponentTransform*>(GetOwner()
-					->GetComponent(ComponentType::TRANSFORM))
-														->GetGlobalMatrix();
+	if (program)
+	{
+		program->Activate();
+		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+		const float4x4& model =
+			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
 		GLint programInUse;
 
 		glGetIntegerv(GL_CURRENT_PROGRAM, &programInUse);
 
-		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
-		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
-		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
 
 		glBindVertexArray(mesh->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, 
-												GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumFaces() * 3, GL_UNSIGNED_INT, nullptr);
 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -354,7 +342,7 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	UID uid = 0;
 	std::string assetPath = "";
 
-	if(mesh)
+	if (mesh)
 	{
 		uid = mesh->GetUID();
 		assetPath = mesh->GetAssetsPath();
@@ -386,7 +374,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	if (meshExists)
 	{
-		std::shared_ptr<ResourceMesh> resourceMesh = 
+		std::shared_ptr<ResourceMesh> resourceMesh =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>(path);
 
 		if (resourceMesh)
@@ -400,7 +388,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 	if (materialExists)
 	{
-		std::shared_ptr<ResourceMaterial> resourceMaterial = 
+		std::shared_ptr<ResourceMaterial> resourceMaterial =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>(path);
 
 		if (resourceMaterial)
@@ -411,7 +399,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 #else
 
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = 
+	std::shared_ptr<ResourceMesh> resourceMesh =
 		App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
@@ -420,7 +408,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	}
 
 	UID uidMaterial = meta["materialUID"];
-	std::shared_ptr<ResourceMaterial> resourceMaterial = 
+	std::shared_ptr<ResourceMaterial> resourceMaterial =
 		App->GetModule<ModuleResources>()->SearchResource<ResourceMaterial>(uidMaterial);
 
 	if (resourceMaterial)
@@ -431,8 +419,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 #endif
 }
 
-void ComponentMeshRenderer::SetMesh
-			(const std::shared_ptr<ResourceMesh>& newMesh)
+void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh)
 {
 	mesh = newMesh;
 
@@ -440,17 +427,14 @@ void ComponentMeshRenderer::SetMesh
 	{
 		mesh->Load();
 
-		ComponentTransform* transform = 
-			static_cast<ComponentTransform*>
-			(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-		
-		transform->Encapsule
-				(mesh->GetVertices().data(), mesh->GetNumVertices());
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+
+		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}
 }
 
-void ComponentMeshRenderer::SetMaterial
-			(const std::shared_ptr<ResourceMaterial>& newMaterial)
+void ComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial)
 {
 	material = newMaterial;
 
@@ -525,7 +509,7 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 				break;
 
 			case TextureType::METALLIC:
-				
+
 				if (material->GetMetallic())
 				{
 					material->GetMetallic()->Unload();
@@ -541,7 +525,6 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 				}
 
 				break;
-
 		}
 	}
 }

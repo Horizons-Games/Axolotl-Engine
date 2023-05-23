@@ -1,11 +1,11 @@
 #ifdef ENGINE
-#include "EngineLog.h"
+	#include "EngineLog.h"
 
 void EngineLog::Log(const char file[], int line, const char* format, ...)
 {
 	static char tmpString[4096];
 	static char tmpString2[4096];
-	static va_list  ap;
+	static va_list ap;
 
 	// Construct the string from variable arguments
 	va_start(ap, format);

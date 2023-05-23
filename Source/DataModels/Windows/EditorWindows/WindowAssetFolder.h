@@ -1,7 +1,7 @@
 #pragma once
 #include "EditorWindow.h"
-#include <memory>
 #include "Resources/Resource.h"
+#include <memory>
 
 class WindowFileBrowser;
 
@@ -17,4 +17,3 @@ protected:
 	ResourceType type;
 	std::string name;
 };
-

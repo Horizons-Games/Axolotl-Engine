@@ -22,9 +22,7 @@ private:
 	void OpenCreateNewScriptPopUp();
 	void AddNewScriptToProject(const std::string& scriptName);
 
-	void ReplaceSubstringsInString(std::string& stringToReplace,
-		const std::string& from, const std::string& to);
+	void ReplaceSubstringsInString(std::string& stringToReplace, const std::string& from, const std::string& to);
 
 	UID windowUID;
 };
-

@@ -15,7 +15,7 @@ void WindowComponentMockStates::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
 
-	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
+	ImGui::Text(""); // used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 
 	ComponentMockState* asMockState = static_cast<ComponentMockState*>(component);
 
@@ -27,13 +27,15 @@ void WindowComponentMockStates::DrawWindowContents()
 		bool isFailState = asMockState->GetIsFailState();
 		std::string sceneName = asMockState->GetSceneName();
 
-		ImGui::Text("Is win state"); ImGui::SameLine();
+		ImGui::Text("Is win state");
+		ImGui::SameLine();
 		if (ImGui::Checkbox("##Is win state", &isWinState))
 		{
 			asMockState->SetIsWinState(isWinState);
 		}
 
-		ImGui::Text("Is fail state"); ImGui::SameLine();
+		ImGui::Text("Is fail state");
+		ImGui::SameLine();
 		if (ImGui::Checkbox("##Is fail state", &isFailState))
 		{
 			asMockState->SetIsFailState(isFailState);

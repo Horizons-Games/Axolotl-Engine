@@ -67,5 +67,5 @@ void EnemyCollidesFloorScript::PreUpdate(float deltaTime)
 	//}
 
 	//trans->UpdateTransformMatrices();
-	
+
 }
