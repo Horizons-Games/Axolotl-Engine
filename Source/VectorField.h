@@ -13,40 +13,20 @@ public:
     VectorField(const std::string& name,
         const std::function<T(void)>& getter,
         const std::function<void(const T&)>& setter) :
-        Field<T>(name, getter, setter)
+        Field<T>(name, getter, setter),
+        type(GetType())
     {
-        type = GetType();
     }
 
 private:
-    template<typename U>
-    static FieldType GetTypeImpl()
+    FieldType GetType()
     {
-        if constexpr (std::is_same_v<U, float>)
+        if constexpr (std::is_same_v<typename T::value_type, float>)
             return FieldType::FLOAT;
-        else if constexpr (std::is_same_v<U, std::string>)
+        else if constexpr (std::is_same_v<typename T::value_type, std::string>)
             return FieldType::STRING;
         // More types here
         else
             return FieldType::UNKNOWN;
-    }
-
-    FieldType GetType()
-    {
-        try
-        {
-            T test;
-            if (!test.empty())
-            {
-                using ElementType = typename T::value_type;
-                return GetTypeImpl<ElementType>();
-            }
-        }
-        catch (const std::bad_any_cast&)
-        {
-            return FieldType::UNKNOWN;
-        }
-
-        return FieldType::UNKNOWN;
     }
 };

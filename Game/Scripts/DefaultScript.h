@@ -23,7 +23,9 @@ public:
 	void SetVector3(const float3& vec3);
 	
 	const std::vector<std::any>& GetVector() const;
-	//void SetVector(const std::vector<std::any>& vec);
+	template <typename T>
+	void SetVector(const std::vector<T>& vec);
+
 
 	GameObject* GetCharacter() const;
 	void SetCharacter(GameObject* character);

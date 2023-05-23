@@ -129,22 +129,41 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::VECTOR:
 			{
-				VectorField<std::vector<std::any>> vectorField = std::get<VectorField<std::vector<std::any>>>(member);
-				FieldType fieldType = vectorField.type;
+				std::visit([](auto& member) {
+					using T = std::decay_t<decltype(member)>;
+					ENGINE_LOG("Type of member: %s", typeid(T).name());
+					if constexpr (std::is_same_v<T, VectorField<std::vector<std::any>>>) {
+					ENGINE_LOG("Es un VECTOR");
+						VectorField<std::vector<std::any>>& vectorField = member;
+						FieldType fieldType = vectorField.type;
 
-				if (fieldType == FieldType::FLOAT)
-				{
-					std::vector<std::any> value = vectorField.getter();
+						if (fieldType == FieldType::FLOAT) {
+							std::vector<std::any> value1 = vectorField.getter();
+							std::vector<float> value;
+							for (const auto& elem : value1) {
+								try {
+									float floatValue = std::any_cast<float>(elem);
+									value.push_back(floatValue);
+								}
+								catch (const std::bad_any_cast&) {
+								}
+							}
 
-					// Convert to float
-				}
-				else if (fieldType == FieldType::STRING)
-				{
-					std::vector<std::any> value = vectorField.getter();
+							ENGINE_LOG("Es un FLOAT");
 
-					// Convert to string
-				}
-				// More types here
+							if (ImGui::DragFloat3(vectorField.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+							{
+								vectorField.setter(value1);
+							}
+						}
+						else if (fieldType == FieldType::STRING) {
+							std::vector<std::any> value = vectorField.getter();
+
+							// Convert to string
+						}
+						// More types here
+					}
+					}, member);
 
 				break;
 			}
