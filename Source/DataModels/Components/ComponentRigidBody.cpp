@@ -279,7 +279,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 
 	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
 	meta["isStatic"] = static_cast<bool>(IsStatic());
-	meta["isTrigger"] = static_cast<bool> IsTrigger();
+	meta["isTrigger"] = static_cast<bool>(IsTrigger());
 	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
 	meta["mass"] = static_cast<float>(GetMass());
 	meta["linearDamping"] = static_cast<float>(GetLinearDamping());
@@ -309,7 +309,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
 	SetIsStatic(static_cast<bool>(meta["isStatic"]));
 	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
-	SetIsTrigger(static_cast<bool> meta["isTrigger"]);
+	SetIsTrigger(static_cast<bool>(meta["isTrigger"]));
 	SetMass(static_cast<float>(meta["mass"]));
 	SetLinearDamping(static_cast<float>(meta["linearDamping"]));
 	SetAngularDamping(static_cast<float>(meta["angularDamping"]));
