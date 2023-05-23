@@ -49,8 +49,9 @@ void DroneBullet::ShootBullet(float deltaTime)
 	LineSegment line(ray, 3.0f);
 	if (Physics::RaycastFirst(line, transform->GetOwner()))
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
-
 		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
+
+
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 	}
 }
