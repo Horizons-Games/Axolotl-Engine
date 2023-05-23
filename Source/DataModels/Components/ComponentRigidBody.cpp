@@ -265,53 +265,53 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 {
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
+	meta["active"] = static_cast<bool>(active);
+	meta["removed"] = static_cast<bool>(canBeRemoved);
 
-	meta["isKinematic"] = (bool) GetIsKinematic();
-	meta["isStatic"] = (bool) IsStatic();
-	meta["drawCollider"] = (bool) GetDrawCollider();
-	meta["mass"] = (float) GetMass();
-	meta["linearDamping"] = (float) GetLinearDamping();
-	meta["angularDamping"] = (float) GetAngularDamping();
-	meta["restitution"] = (float) GetRestitution();
-	meta["currentShape"] = (int) GetShape();
-	meta["usePositionController"] = (bool) GetUsePositionController();
-	meta["useRotationController"] = (bool) GetUseRotationController();
-	meta["KpForce"] = (float) GetKpForce();
-	meta["KpTorque"] = (float) GetKpTorque();
-	meta["gravity_Y"] = (float) GetGravity().getY();
-	meta["boxSize_X"] = (float) GetBoxSize().x;
-	meta["boxSize_Y"] = (float) GetBoxSize().y;
-	meta["boxSize_Z"] = (float) GetBoxSize().z;
-	meta["radius"] = (float) GetRadius();
-	meta["factor"] = (float) GetFactor();
-	meta["height"] = (float) GetHeight();
+	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
+	meta["isStatic"] = static_cast<bool>(IsStatic());
+	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
+	meta["mass"] = static_cast<float>(GetMass());
+	meta["linearDamping"] = static_cast<float>(GetLinearDamping());
+	meta["angularDamping"] = static_cast<float>(GetAngularDamping());
+	meta["restitution"] = static_cast<float>(GetRestitution());
+	meta["currentShape"] = static_cast<int>(GetShape());
+	meta["usePositionController"] = static_cast<bool>(GetUsePositionController());
+	meta["useRotationController"] = static_cast<bool>(GetUseRotationController());
+	meta["KpForce"] = static_cast<float>(GetKpForce());
+	meta["KpTorque"] = static_cast<float>(GetKpTorque());
+	meta["gravity_Y"] = static_cast<float>(GetGravity().getY());
+	meta["boxSize_X"] = static_cast<float>(GetBoxSize().x);
+	meta["boxSize_Y"] = static_cast<float>(GetBoxSize().y);
+	meta["boxSize_Z"] = static_cast<float>(GetBoxSize().z);
+	meta["radius"] = static_cast<float>(GetRadius());
+	meta["factor"] = static_cast<float>(GetFactor());
+	meta["height"] = static_cast<float>(GetHeight());
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
 {
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
+	active = static_cast<bool>(meta["active"]);
+	canBeRemoved = static_cast<bool>(meta["removed"]);
 
-	SetIsKinematic((bool) meta["isKinematic"]);
-	SetIsStatic((bool) meta["isStatic"]);
-	SetDrawCollider((bool) meta["drawCollider"], false);
-	SetMass((float) meta["mass"]);
-	SetLinearDamping((float) meta["linearDamping"]);
-	SetAngularDamping((float) meta["angularDamping"]);
+	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
+	SetIsStatic(static_cast<bool>(meta["isStatic"]));
+	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
+	SetMass(static_cast<float>(meta["mass"]));
+	SetLinearDamping(static_cast<float>(meta["linearDamping"]));
+	SetAngularDamping(static_cast<float>(meta["angularDamping"]));
 
-	SetRestitution((float) meta["restitution"]);
-	SetUsePositionController((bool) meta["usePositionController"]);
-	SetUseRotationController((bool) meta["useRotationController"]);
-	SetKpForce((float) meta["KpForce"]);
-	SetKpTorque((float) meta["KpTorque"]);
-	SetBoxSize({ (float) meta["boxSize_X"], (float) meta["boxSize_Y"], (float) meta["boxSize_Z"] });
-	SetRadius((float) meta["radius"]);
-	SetFactor((float) meta["factor"]);
-	SetHeight((float) meta["height"]);
+	SetRestitution(static_cast<float>(meta["restitution"]));
+	SetUsePositionController(static_cast<bool>(meta["usePositionController"]));
+	SetUseRotationController(static_cast<bool>(meta["useRotationController"]));
+	SetKpForce(static_cast<float>(meta["KpForce"]));
+	SetKpTorque(static_cast<float>(meta["KpTorque"]));
+	SetBoxSize({ static_cast<float>(meta["boxSize_X"]), static_cast<float>(meta["boxSize_Y"]), static_cast<float>(meta["boxSize_Z"]) });
+	SetRadius(static_cast<float>(meta["radius"]));
+	SetFactor(static_cast<float>(meta["factor"]));
+	SetHeight(static_cast<float>(meta["height"]));
 
 	int currentShape = (int) meta["currentShape"];
 
@@ -321,7 +321,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	}
 
 	SetUpMobility();
-	SetGravity({ 0, (float) meta["gravity_Y"], 0 });
+	SetGravity({ 0, static_cast<float>(meta["gravity_Y"]), 0 });
 }
 
 void ComponentRigidBody::Enable()
