@@ -56,7 +56,7 @@ void MoveAle::Start()
 		jumps = 1;
 	}
 
-	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
+	componentPlayer = owner->GetComponent<ComponentPlayer>();
 
 	isDashing = false;
 }
@@ -74,9 +74,8 @@ void MoveAle::Update(float deltaTime)
 void MoveAle::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	ComponentTransform* objectTransform =
-		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+	ComponentTransform* objectTransform = owner->GetComponent<ComponentTransform>();
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
@@ -163,7 +162,7 @@ void MoveAle::Move()
 void MoveAle::Rotate()
 {
 	float deltaTime = App->GetDeltaTime();
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 

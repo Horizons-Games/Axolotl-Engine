@@ -585,44 +585,14 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 bool GameObject::RemoveComponent(const Component* component)
 {
-	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
-	{
-		if ((*it).get() == component)
-		{
-			if ((*it)->GetType() == ComponentType::LIGHT)
-			{
-				ComponentLight* light = static_cast<ComponentLight*>((*it).get());
-				LightType type = light->GetLightType();
-
-				Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-
-				components.erase(it);
-
-				switch (type)
-				{
-					case LightType::POINT:
-						loadedScene->UpdateScenePointLights();
-						loadedScene->RenderPointLights();
-
-						break;
-
-					case LightType::SPOT:
-						loadedScene->UpdateSceneSpotLights();
-						loadedScene->RenderSpotLights();
-
-						break;
-				}
-			}
-			else
-			{
-				components.erase(it);
-			}
-
-			return true;
-		}
-	}
-
-	return false;
+	auto removeIfResult = std::remove_if(std::begin(components),
+										 std::end(components),
+										 [&component](const std::unique_ptr<Component>& comp)
+										 {
+											 return comp.get() == component;
+										 });
+	components.erase(removeIfResult, std::end(components));
+	return removeIfResult != std::end(components);
 }
 
 GameObject* GameObject::FindGameObject(const std::string& name)
@@ -717,13 +687,13 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	return false;
 }
 
-std::list<GameObject*> GameObject::GetGameObjectsInside()
+std::list<GameObject*> GameObject::GetAllDesdendants()
 {
 	std::list<GameObject*> familyObjects = {};
 	familyObjects.push_back(this);
 	for (std::unique_ptr<GameObject>& children : children)
 	{
-		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside();
+		std::list<GameObject*> objectsChildren = children->GetAllDesdendants();
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;

@@ -16,8 +16,7 @@ void EnemyDroneScript::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{

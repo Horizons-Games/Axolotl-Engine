@@ -71,9 +71,9 @@ void PlayerMobilityScript::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 
-	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ComponentTransform* trans = owner->GetComponent<ComponentTransform>();
+	ComponentMeshCollider* collider = owner->GetComponent<ComponentMeshCollider>();
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	//ComponentAnimation* animation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 
 	math::vec points[8];
@@ -135,9 +135,9 @@ void PlayerMobilityScript::Move()
 		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
-			if (child->GetComponent(ComponentType::CAMERA))
+			if (child->GetComponent<ComponentCamera>())
 			{
-				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* childTrans = child->GetComponent<ComponentTransform>();
 				childTrans->SetScale(childTrans->GetScale() * 2);
 			}
 
@@ -151,9 +151,9 @@ void PlayerMobilityScript::Move()
 		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
-			if (child->GetComponent(ComponentType::CAMERA))
+			if (child->GetComponent<ComponentCamera>())
 			{
-				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* childTrans = child->GetComponent<ComponentTransform>();
 				childTrans->SetScale(childTrans->GetScale() / 2);
 			}
 		}
@@ -379,7 +379,7 @@ void PlayerMobilityScript::Move()
 void PlayerMobilityScript::Rotate()
 {
 	float deltaTime = App->GetDeltaTime();
-	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* trans = owner->GetComponent<ComponentTransform>();
 	float3 newRot = trans->GetRotationXYZ();
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	newRot.y += -input->GetMouseMotion().x * deltaTime;
@@ -388,7 +388,7 @@ void PlayerMobilityScript::Rotate()
 
 
 	//Corroborate that you don't fuse with a owner
-	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
+	ComponentMeshCollider* collider = owner->GetComponent<ComponentMeshCollider>();
 	math::vec points[8];
 	trans->GetObjectOBB().GetCornerPoints(points);
 	std::vector<float3> frontPoints = { points[1], points[3], points[5], points[7] };
@@ -396,7 +396,7 @@ void PlayerMobilityScript::Rotate()
 	if (collider->IsColliding(frontPoints, -direction, trans->GetLocalAABB().Size().z * 0.5f))
 	{
 		float deltaTime = App->GetDeltaTime();
-		ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* trans = owner->GetComponent<ComponentTransform>();
 		float3 newRot = trans->GetRotationXYZ();
 		newRot.y += input->GetMouseMotion().x * deltaTime;
 		trans->SetRotation(newRot);

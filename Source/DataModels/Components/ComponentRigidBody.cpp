@@ -18,7 +18,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 
 	btTransform startTransform;
 	startTransform.setIdentity();
-	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	transform = GetOwner()->GetComponent<ComponentTransform>();
 	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
 	radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 	factor = 0.5f;
@@ -177,7 +177,7 @@ void ComponentRigidBody::Update()
 void ComponentRigidBody::SetOwner(GameObject* owner)
 {
 	Component::SetOwner(owner);
-	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	transform = GetOwner()->GetComponent<ComponentTransform>();
 	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
 	radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 }

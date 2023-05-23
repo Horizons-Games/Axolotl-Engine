@@ -49,9 +49,9 @@ void NewPlayerMobilityTest::Start()
 		jumps = 1;
 	}
 
-	componentPlayer = static_cast<ComponentPlayer*>(owner->GetComponent(ComponentType::PLAYER));
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	componentPlayer = owner->GetComponent<ComponentPlayer>();
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	isDashing = false;
 }
@@ -71,8 +71,8 @@ void NewPlayerMobilityTest::Update(float deltaTime)
 void NewPlayerMobilityTest::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+	ComponentTransform* objectTransform = owner->GetComponent<ComponentTransform>();
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
@@ -217,7 +217,7 @@ void NewPlayerMobilityTest::Move()
 void NewPlayerMobilityTest::Rotate()
 {
 	float deltaTime = App->GetDeltaTime();
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 

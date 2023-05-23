@@ -388,8 +388,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						opaqueGOToDraw.insert(gameObject);
 					else
 					{
-						const ComponentTransform* transform =
-							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+						const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 						while (transparentGOToDraw[dist] !=
 							   nullptr) // If an object is at the same position as another one
@@ -412,8 +411,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						opaqueGOToDraw.insert(gameObject);
 					else
 					{
-						const ComponentTransform* transform =
-							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+						const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 						while (transparentGOToDraw[dist] != nullptr)
 						{
@@ -449,8 +447,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 		return;
 	}
 
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 	// If an object doesn't have transform component it doesn't need to draw
 	if (transform == nullptr)
 	{
@@ -465,8 +462,7 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 				opaqueGOToDraw.insert(gameObject);
 			else
 			{
-				const ComponentTransform* transform =
-					static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+				const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 				float dist = Length(cameraPos - transform->GetGlobalPosition());
 				while (transparentGOToDraw[dist] != nullptr)
 				{
@@ -490,11 +486,10 @@ void ModuleRender::AddToRenderList(GameObject* gameObject)
 void ModuleRender::InsertToRenderList(GameObject* goSelected)
 {
 	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
-	std::list<GameObject*> goSList = goSelected->GetGameObjectsInside();
+	std::list<GameObject*> goSList = goSelected->GetAllDesdendants();
 	for (GameObject* gameObject : goSList)
 	{
-		const ComponentTransform* transform =
-			static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+		const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 		// If an object doesn't have transform component it doesn't need to draw
 		if (transform == nullptr)
 		{
@@ -613,7 +608,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 			}
 		}
 		std::vector<ComponentMeshRenderer*> meshes =
-			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+			currentGo->GetComponents<ComponentMeshRenderer>();
 		for (ComponentMeshRenderer* mesh : meshes)
 		{
 			mesh->DrawHighlight();
@@ -623,8 +618,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	ComponentMeshRenderer* material =
-		static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
+	ComponentMeshRenderer* material = gameObject->GetComponent<ComponentMeshRenderer>();
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->GetTransparent())

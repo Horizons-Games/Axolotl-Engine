@@ -60,10 +60,9 @@ public:
 	void SetStateOfSelection(StateOfSelection stateOfSelection);
 
 	GameObjectView GetChildren() const;
-	std::list<GameObject*> GetGameObjectsInside();
+	std::list<GameObject*> GetAllDesdendants();
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
-	ComponentView GetComponents() const;
 	void SetComponents(std::vector<std::unique_ptr<Component>>& components);
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
@@ -72,8 +71,13 @@ public:
 	C* CreateComponent();
 	template<typename C>
 	C* GetComponent() const;
+	ComponentView GetComponents() const;
 	template<typename C>
-	const std::vector<C*> GetComponentsByType(ComponentType type) const;
+	std::vector<C*> GetComponents() const;
+	template<typename C>
+	bool RemoveComponent();
+	template<typename C>
+	bool RemoveComponents();
 	bool RemoveComponent(const Component* component);
 
 	Component* CreateComponentLight(LightType lightType);

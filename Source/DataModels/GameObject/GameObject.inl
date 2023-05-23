@@ -1,3 +1,4 @@
+#include "GameObject.h"
 #pragma once
 
 template<typename C>
@@ -9,31 +10,50 @@ C* GameObject::CreateComponent()
 template<typename C>
 C* GameObject::GetComponent() const
 {
-	/*auto firstElement = std::ranges::find_if(components,
+	auto firstElement = std::ranges::find_if(components,
 											 [](const std::unique_ptr<Component>& comp)
 											 {
-												 return compt->GetType() == ComponentToEnum<C>::value;
+												 return comp->GetType() == ComponentToEnum<C>::value;
 											 });
 	if (firstElement == std::end(components))
 	{
 		return nullptr;
 	}
-	return static_cast<C*>(firstElement.get());*/
-	return nullptr;
+	return reinterpret_cast<C*>((*firstElement).get());
 }
 
-template<typename T>
-const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
+template<typename C>
+std::vector<C*> GameObject::GetComponents() const
 {
-	std::vector<T*> components;
+	auto filteredComponents = components |
+							  std::views::filter(
+								  [](const std::unique_ptr<Component>& comp)
+								  {
+									  return comp->GetType() == ComponentToEnum<C>::value;
+								  }) |
+							  std::views::transform(
+								  [](const std::unique_ptr<Component>& comp)
+								  {
+									  return static_cast<C*>(comp.get());
+								  });
+	return std::vector<C*>(std::begin(filteredComponents), std::end(filteredComponents));
+}
 
-	for (const std::unique_ptr<Component>& component : this->components)
-	{
-		if (component && component->GetType() == type)
-		{
-			components.push_back(dynamic_cast<T*>(component.get()));
-		}
-	}
+template<typename C>
+inline bool GameObject::RemoveComponent()
+{
+	return RemoveComponent(GetComponent<C>());
+}
 
-	return components;
+template<typename C>
+inline bool GameObject::RemoveComponents()
+{
+	auto removeIfResult = std::remove_if(std::begin(components),
+										 std::end(components),
+										 [](const std::unique_ptr<Component>& comp)
+										 {
+											 return comp->GetType() == ComponentToEnum<C>::value;
+										 });
+	components.erase(removeIfResult, std::end(components));
+	return removeIfResult != std::end(components);
 }

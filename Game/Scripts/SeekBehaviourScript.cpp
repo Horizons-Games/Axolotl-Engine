@@ -18,15 +18,15 @@ void SeekBehaviourScript::Start()
 {
 	if (target)
 	{
-		targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
+		targetTransform = target->GetComponent<ComponentTransform>();
 	}
-	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 }
 
 void SeekBehaviourScript::Update(float deltaTime)
 {
 	ENGINE_LOG("%s", "Now seeking...");
-	ComponentTransform* ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
 	// When this behaviour is triggered, the enemy will go towards its target
 
 	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());

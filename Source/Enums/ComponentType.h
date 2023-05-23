@@ -26,7 +26,7 @@ class ComponentAudioListener;
 class ComponentAudioSource;
 class ComponentCamera;
 class ComponentLight;
-class ComponentMeshColider;
+class ComponentMeshCollider;
 class ComponentMeshRenderer;
 class ComponentMockState;
 class ComponentPlayer;
@@ -75,7 +75,7 @@ struct ComponentToEnum<ComponentLight>
 };
 
 template<>
-struct ComponentToEnum<ComponentMeshColider>
+struct ComponentToEnum<ComponentMeshCollider>
 {
 	const static ComponentType value = ComponentType::MESHCOLLIDER;
 };

@@ -75,7 +75,7 @@ void ComponentAnimation::Update()
 
 				if (controller->GetPlay())
 				{
-					std::list<GameObject*> children = owner->GetGameObjectsInside();
+					std::list<GameObject*> children = owner->GetAllDesdendants();
 
 					for (auto child : children)
 					{
@@ -84,14 +84,12 @@ void ComponentAnimation::Update()
 
 						if (controller->GetTransform(&child->GetName()[0], pos, rot))
 						{
-							ComponentTransform* transform =
-								static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+							ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 							transform->SetPosition(pos);
 							transform->SetRotation(rot);
 						}
 					}
-					static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))
-						->UpdateTransformMatrices();
+					owner->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
 				}
 				else if (state->resource && state->loop)
 				{
@@ -111,8 +109,7 @@ void ComponentAnimation::Update()
 			{
 				controller->Stop();
 				LoadModelTransform(owner);
-				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))
-					->UpdateTransformMatrices();
+				owner->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
 			}
 		}
 		lastState = actualState;
@@ -133,14 +130,12 @@ void ComponentAnimation::Draw() const
 
 void ComponentAnimation::DrawBones(GameObject* parent) const
 {
-	ComponentTransform* parentTransform =
-		static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 	GameObject::GameObjectView children = parent->GetChildren();
 	for (GameObject* child : children)
 	{
-		ComponentTransform* childTransform =
-			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
 		dd::line(childTransform->GetGlobalPosition(), parentTransform->GetGlobalPosition(), dd::colors::Blue);
 		dd::axisTriad(childTransform->GetGlobalMatrix(), 0.1f, 2.0f);
 
@@ -259,8 +254,7 @@ bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
 
 void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
 {
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 
 	defaultPosition[gameObject] = transform->GetLocalMatrix();
 
@@ -272,8 +266,7 @@ void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
 
 void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 {
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 
 	float3 position;
 	float3 scale;

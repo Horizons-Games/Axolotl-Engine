@@ -79,8 +79,7 @@ void ComponentMeshRenderer::Update()
 
 				if (boneNode)
 				{
-					skinPalette[i] = static_cast<ComponentTransform*>(boneNode->GetComponent(ComponentType::TRANSFORM))
-										 ->CalculatePaletteGlobalMatrix() *
+					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
 									 bindBones[i].transform;
 				}
 				else
@@ -151,8 +150,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-	const float4x4& model =
-		static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+	const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
 	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
@@ -311,8 +309,7 @@ void ComponentMeshRenderer::DrawHighlight() const
 		program->Activate();
 		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-		const float4x4& model =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+		const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 		GLint programInUse;
 
@@ -427,8 +424,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	{
 		mesh->Load();
 
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
 		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 	}

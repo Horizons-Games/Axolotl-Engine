@@ -184,7 +184,7 @@ bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObje
 
 bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
 {
-	ComponentTransform* transform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 	if (transform)
 	{
 		bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
@@ -283,8 +283,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 		const GameObject* actualGameObject = hitGameObject.second;
 		if (actualGameObject)
 		{
-			ComponentMeshRenderer* componentMeshRenderer =
-				static_cast<ComponentMeshRenderer*>(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+			ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
 
 			if (!componentMeshRenderer)
 			{
@@ -298,8 +297,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 			}
 
 			const float4x4& gameObjectModelMatrix =
-				static_cast<ComponentTransform*>(actualGameObject->GetComponent(ComponentType::TRANSFORM))
-					->GetGlobalMatrix();
+				actualGameObject->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 
@@ -359,8 +357,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 		isInside = it != children.end();
 		if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
 		{
-			ComponentMeshRenderer* componentMeshRenderer =
-				static_cast<ComponentMeshRenderer*>(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+			ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
 
 			if (!componentMeshRenderer)
 			{
@@ -374,8 +371,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 			}
 
 			const float4x4& gameObjectModelMatrix =
-				static_cast<ComponentTransform*>(actualGameObject->GetComponent(ComponentType::TRANSFORM))
-					->GetGlobalMatrix();
+				actualGameObject->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 

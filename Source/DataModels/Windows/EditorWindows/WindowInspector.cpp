@@ -21,9 +21,9 @@ WindowInspector::WindowInspector() :
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
-	auto gameObjectDoesNotHaveComponent = [](GameObject* gameObject, ComponentType componentType)
+	auto gameObjectDoesNotHaveComponent = []<typename C>(GameObject* gameObject)
 	{
-		return gameObject->GetComponent(componentType) == nullptr;
+		return gameObject->GetComponent<C>() == nullptr;
 	};
 
 	actions.push_back(AddComponentAction("Create Mesh Renderer Component",
@@ -31,7 +31,10 @@ WindowInspector::WindowInspector() :
 
 	auto isNotALight = [gameObjectDoesNotHaveComponent](GameObject* gameObject)
 	{
-		return gameObjectDoesNotHaveComponent(gameObject, ComponentType::LIGHT);
+		// C++ is a great language with perfectly readable syntax
+		// because of course you shouldn't be able to just do gameObjectDoesNotHaveComponent<ComponentLight>
+		// that'd be too easy
+		return gameObjectDoesNotHaveComponent.template operator()<ComponentLight>(gameObject);
 	};
 	actions.push_back(AddComponentAction("Create Spot Light Component",
 										 std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT),
@@ -47,7 +50,7 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentPlayer, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::PLAYER);
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayer>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
@@ -56,7 +59,7 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentRigidBody, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::RIGIDBODY);
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentRigidBody>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
 
@@ -65,7 +68,7 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentMockState, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::MOCKSTATE);
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentMockState>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
@@ -77,7 +80,7 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentAudioListener, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::AUDIOLISTENER);
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentAudioListener>(gameObject);
 		},
 		ComponentFunctionality::AUDIO));
 
@@ -86,7 +89,7 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentMeshCollider, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::MESHCOLLIDER);
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentMeshCollider>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
 
@@ -99,7 +102,7 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentAnimation, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::ANIMATION);
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentAnimation>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
