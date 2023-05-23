@@ -408,10 +408,10 @@ void ComponentRigidBody::SetIsTrigger(bool newTrigger)
 	isTrigger = newTrigger;
 	if (newTrigger)
 	{
-		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CO_GHOST_OBJECT);
 	}
 	else
 	{
-		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CO_GHOST_OBJECT);
 	}
 }

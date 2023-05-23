@@ -68,6 +68,16 @@ void NewPlayerMobilityTest::Update(float deltaTime)
 
 }
 
+void NewPlayerMobilityTest::OnCollisionEnter(ComponentRigidBody* other)
+{
+	ENGINE_LOG("%s", "Entrando al mambo");
+}
+
+void NewPlayerMobilityTest::OnCollisionExit(ComponentRigidBody* other)
+{
+	ENGINE_LOG("%s", "Saliendo del mambo");
+}
+
 void NewPlayerMobilityTest::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
