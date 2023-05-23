@@ -15,7 +15,7 @@ public:
 
 	void Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop);
 	void Stop();
-	
+
 	void Update();
 
 	bool GetTransform(const std::string& name, float3& pos, Quat& rot);

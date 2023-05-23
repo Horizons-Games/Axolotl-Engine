@@ -30,10 +30,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 244.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 244.0
+                            "worldAABB_min_x": 254.5,
+                            "worldAABB_min_y": 261.5,
+                            "worldAABB_max_x": 254.5,
+                            "worldAABB_max_y": 261.5
                         }
                     },
                     {
@@ -41,7 +41,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 8892669964159245027,
+                            "imageUID": 8863442549008823875,
                             "assetPathImage": "Assets/Textures/Creditsgamescene.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -111,10 +111,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 352.0,
-                            "worldAABB_min_y": 244.0,
-                            "worldAABB_max_x": 352.0,
-                            "worldAABB_max_y": 244.0
+                            "worldAABB_min_x": 254.5,
+                            "worldAABB_min_y": 261.5,
+                            "worldAABB_max_x": 254.5,
+                            "worldAABB_max_y": 261.5
                         }
                     },
                     {
@@ -240,6 +240,13 @@
                             "frustumOfset": 1.0,
                             "drawFrustum": false
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioListener",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
@@ -274,10 +281,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 297.0,
-                            "worldAABB_min_y": 400.933349609375,
-                            "worldAABB_max_x": 407.0,
-                            "worldAABB_max_y": 424.4000244140625
+                            "worldAABB_min_x": 214.734375,
+                            "worldAABB_min_y": 374.964599609375,
+                            "worldAABB_max_x": 294.265625,
+                            "worldAABB_max_y": 391.9312744140625
                         }
                     },
                     {
@@ -285,7 +292,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 13601831036421055306,
+                            "imageUID": 1256961786287549880,
                             "assetPathImage": "Assets/Textures/ButtonContinue.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -306,7 +313,23 @@
                             "colorClicked_y": 0.501960813999176,
                             "colorClicked_z": 0.501960813999176,
                             "colorClicked_w": 1.0,
-                            "sceneName": "MainMenuVS1"
+                            "sceneName": "MainMenuScriptsVS2"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -328,11 +351,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 2819121758081834511,
+        "skyboxUID": 8827808863826909032,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 15512669924688363963,
+        "cubemapUID": 13881553922914957835,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }
