@@ -68,8 +68,8 @@ void ModulePlayer::LoadNewPlayer()
 			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
 			loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			scene->RemoveGameObjectAndChildren(parentOfOwner);
-#endif // ENGINE
+			scene->RemoveGameObjectAndChildren(player);
+#endif // ENGINE			
 			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 
 			if (componentPlayer->HaveMouseActivated())
