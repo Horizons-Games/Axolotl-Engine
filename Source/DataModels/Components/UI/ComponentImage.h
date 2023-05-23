@@ -1,6 +1,6 @@
 #pragma once
-#include "Auxiliar/Generics/Drawable.h"
 #include "DataModels/Components/Component.h"
+#include "Auxiliar/Generics/Drawable.h"
 
 #include "Math/float4.h"
 #include <memory>
@@ -51,3 +51,4 @@ inline void ComponentImage::SetColor(const float4& color)
 {
 	this->color = color;
 }
+

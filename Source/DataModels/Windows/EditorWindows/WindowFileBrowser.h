@@ -3,9 +3,9 @@
 
 #include <future>
 
-#include "DataModels/Windows/PopUpWindows/WindowLoading.h"
-#include "FontIcons/CustomFont.h"
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
+#include "FontIcons/CustomFont.h"
+#include "DataModels/Windows/EditorWindows/WindowLoading.h"
 
 class Resource;
 class Timer;
@@ -19,7 +19,7 @@ public:
 	void SaveAsWindow(bool& isSaving);
 	virtual void DoThisIfOk();
 	virtual void Browser();
-
+	
 protected:
 	void ImportResourceAsync(const std::string& filePath);
 	virtual void GetResourceAfterImport();
@@ -33,7 +33,7 @@ protected:
 
 	ImGuiFileDialog fileDialogBrowser;
 	ImGuiFileDialog fileDialogImporter;
-
+	
 	bool showFileDialog = false;
 	bool isLoading;
 	std::future<std::shared_ptr<Resource>> futureResource;

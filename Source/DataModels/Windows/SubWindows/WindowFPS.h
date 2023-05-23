@@ -19,3 +19,4 @@ private:
 	std::vector<float> fpsHist;
 	std::vector<float> timeHist;
 };
+

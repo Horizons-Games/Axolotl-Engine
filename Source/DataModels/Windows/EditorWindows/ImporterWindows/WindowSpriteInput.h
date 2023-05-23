@@ -3,7 +3,8 @@
 
 class ComponentImage;
 
-class WindowSpriteInput : public WindowFileBrowser
+class WindowSpriteInput :
+	public WindowFileBrowser
 {
 public:
 	WindowSpriteInput(ComponentImage* image);

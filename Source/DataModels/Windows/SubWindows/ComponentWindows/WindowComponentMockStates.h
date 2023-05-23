@@ -4,7 +4,8 @@
 
 class ComponentMockState;
 
-class WindowComponentMockStates : public ComponentWindow
+class WindowComponentMockStates :
+	public ComponentWindow
 {
 public:
 	WindowComponentMockStates(ComponentMockState* component);
@@ -12,4 +13,7 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+
 };
+
+

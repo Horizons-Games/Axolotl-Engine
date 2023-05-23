@@ -1,13 +1,13 @@
 #pragma once
-#include "Auxiliar/Generics/Drawable.h"
 #include "Component.h"
+#include "Auxiliar/Generics/Drawable.h"
 
 #include "Math/Quat.h"
 #include "Math/float4x4.h"
 
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "Geometry/AABB.h"
 #include "Geometry/OBB.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 
 class Json;
 class ComponentLight;
@@ -64,7 +64,7 @@ public:
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
 								   bool rotationModified);
-
+	
 	void CalculateBoundingBoxes();
 	void Encapsule(const vec* vertices, unsigned numVertices);
 
@@ -101,7 +101,7 @@ inline const float3& ComponentTransform::GetGlobalPosition() const
 	return globalPos;
 }
 
-inline const Quat& ComponentTransform::GetRotation() const
+inline const Quat& ComponentTransform::GetRotation() const 
 {
 	return rot;
 }
@@ -237,8 +237,7 @@ inline void ComponentTransform::SetUniformScale(const float3& scale, Axis modifi
 		sca.x = std::max(scale.x * scale.y / sca.y, 0.0001f);
 		sca.y = std::max(scale.y, 0.0001f);
 	}
-	else
-	{
+	else {
 		sca.x = std::max(scale.x * scale.z / sca.z, 0.0001f);
 		sca.y = std::max(scale.y * scale.z / sca.z, 0.0001f);
 		sca.z = std::max(scale.z, 0.0001f);

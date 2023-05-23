@@ -1,12 +1,12 @@
 #pragma once
 
-#include <functional>
 #include <memory>
+#include <functional>
 
-#include <list>
-#include <map>
 #include <set>
 #include <vector>
+#include <map>
+#include <list>
 
 template<typename Pointer, typename MapKey = unsigned long long /*key of the Resources map*/>
 class CollectionAwareDeleter
@@ -25,7 +25,7 @@ public:
 	void AddCollection(std::set<std::weak_ptr<Pointer>> set);
 	void AddCollection(std::list<std::weak_ptr<Pointer>> list);
 
-	void operator()(Pointer* p)
+	void operator() (Pointer* p)
 	{
 		for (const std::reference_wrapper<std::vector<Pointer*>>& vector : rawVectors)
 		{
@@ -33,7 +33,7 @@ public:
 		}
 		for (const std::reference_wrapper<std::map<MapKey, Pointer*>>& map : rawMaps)
 		{
-			for (auto it = std::begin(map.get()); it != std::end(map.get());)
+			for (auto it = std::begin(map.get()); it != std::end(map.get()); )
 			{
 				if (it->second == p)
 				{
@@ -55,7 +55,7 @@ public:
 		}
 		for (const std::reference_wrapper<std::vector<std::weak_ptr<Pointer>>>& vector : weakVectors)
 		{
-			for (auto it = std::begin(vector.get()); it != std::end(vector.get());)
+			for (auto it = std::begin(vector.get()); it != std::end(vector.get()); )
 			{
 				if (it->expired())
 				{
@@ -69,7 +69,7 @@ public:
 		}
 		for (const std::reference_wrapper<std::map<MapKey, std::weak_ptr<Pointer>>>& map : weakMaps)
 		{
-			for (auto it = std::begin(map.get()); it != std::end(map.get());)
+			for (auto it = std::begin(map.get()); it != std::end(map.get()); )
 			{
 				if (it->second.expired())
 				{
@@ -83,7 +83,7 @@ public:
 		}
 		for (const std::reference_wrapper<std::set<std::weak_ptr<Pointer>>>& set : weakSets)
 		{
-			for (auto it = std::begin(set.get()); it != std::end(set.get());)
+			for (auto it = std::begin(set.get()); it != std::end(set.get()); )
 			{
 				if (it->expired())
 				{
@@ -97,7 +97,7 @@ public:
 		}
 		for (const std::reference_wrapper<std::list<std::weak_ptr<Pointer>>>& list : weakLists)
 		{
-			for (auto it = std::begin(list.get()); it != std::end(list.get());)
+			for (auto it = std::begin(list.get()); it != std::end(list.get()); )
 			{
 				if (it->expired())
 				{

@@ -4,8 +4,8 @@
 #include "Resources/EditorResource/EditorResourceInterface.h"
 #include "Resources/Resource.h"
 
-// ideally this template should be safeguarded like in GameObject::GetComponentByType
-// but I had some issues and I don't want to waste time on it
+//ideally this template should be safeguarded like in GameObject::GetComponentByType
+//but I had some issues and I don't want to waste time on it
 template<typename R = Resource>
 class EditorResource : public R, public EditorResourceInterface
 {

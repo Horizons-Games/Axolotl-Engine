@@ -10,6 +10,7 @@ class ScriptFactory;
 class Application
 {
 public:
+
 	Application();
 	~Application();
 
@@ -36,7 +37,7 @@ public:
 	template<typename M>
 	M* GetModule();
 
-private:
+private:	
 	std::unique_ptr<ScriptFactory> scriptFactory;
 
 	std::vector<std::unique_ptr<Module>> modules;
@@ -47,6 +48,7 @@ private:
 	float deltaTime = 0.f;
 	bool debuggingGame;
 	bool isOnPlayMode;
+
 };
 
 extern std::unique_ptr<Application> App;

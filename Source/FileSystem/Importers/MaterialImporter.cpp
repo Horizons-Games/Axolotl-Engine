@@ -1,8 +1,8 @@
 #include "MaterialImporter.h"
 #include "Application.h"
-#include "DataModels/Resources/ResourceTexture.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "DataModels/Resources/ResourceTexture.h"
 
 MaterialImporter::MaterialImporter()
 {
@@ -12,7 +12,8 @@ MaterialImporter::~MaterialImporter()
 {
 }
 
-void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
+void MaterialImporter::Import
+	(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
 {
 	char* bufferPaths;
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
@@ -32,10 +33,11 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 		memcpy(pathPointer, bufferPaths, header[i]);
 		std::string path(pathPointer, pathPointer + header[i]);
 
-		if (!path.empty())
+		if (!path.empty()) 
 		{
-			resourceTexture.push_back(
-				std::dynamic_pointer_cast<ResourceTexture>(App->GetModule<ModuleResources>()->ImportResource(path)));
+			resourceTexture.push_back
+			(std::dynamic_pointer_cast<ResourceTexture>
+				(App->GetModule<ModuleResources>()->ImportResource(path)));
 		}
 		else
 		{
@@ -51,17 +53,17 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 	{
 		resource->SetDiffuse(resourceTexture[0]);
 	}
-
+	
 	if (resourceTexture[1] != 0)
 	{
 		resource->SetNormal(resourceTexture[1]);
 	}
-
+	
 	if (resourceTexture[2] != 0)
 	{
 		resource->SetOcclusion(resourceTexture[2]);
 	}
-
+	
 	if (resourceTexture[3] != 0)
 	{
 		switch (resource->GetShaderType())
@@ -71,12 +73,13 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 				resource->SetMetallic(resourceTexture[3]);
 
 				break;
-
+				
 			case 1:
 
 				resource->SetSpecular(resourceTexture[3]);
 
 				break;
+
 		}
 	}
 
@@ -84,12 +87,16 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 	unsigned int size;
 
 	Save(resource, buffer, size);
-	fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	fileSystem->Save
+		((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(),
+			buffer, size);
 
 	delete buffer;
 }
 
-void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, char*& fileBuffer, unsigned int& size)
+void MaterialImporter::Save
+	(const std::shared_ptr<ResourceMaterial>& resource, 
+		char*& fileBuffer, unsigned int& size)
 {
 #ifdef ENGINE
 
@@ -106,7 +113,8 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 	if (resource->GetDiffuse())
 	{
-		meta["DiffuseAssetPath"] = resource->GetDiffuse()->GetAssetsPath().c_str();
+		meta["DiffuseAssetPath"] = 
+			resource->GetDiffuse()->GetAssetsPath().c_str();
 	}
 	else
 	{
@@ -115,7 +123,8 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 	if (resource->GetNormal())
 	{
-		meta["NormalAssetPath"] = resource->GetNormal()->GetAssetsPath().c_str();
+		meta["NormalAssetPath"] = 
+			resource->GetNormal()->GetAssetsPath().c_str();
 	}
 	else
 	{
@@ -124,7 +133,8 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 	if (resource->GetOcclusion())
 	{
-		meta["OcclusionAssetPath"] = resource->GetOcclusion()->GetAssetsPath().c_str();
+		meta["OcclusionAssetPath"] = 
+			resource->GetOcclusion()->GetAssetsPath().c_str();
 	}
 	else
 	{
@@ -137,7 +147,8 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 			if (resource->GetMetallic())
 			{
-				meta["SpecularAssetPath"] = resource->GetMetallic()->GetAssetsPath().c_str();
+				meta["SpecularAssetPath"] =
+					resource->GetMetallic()->GetAssetsPath().c_str();
 			}
 			else
 			{
@@ -149,7 +160,8 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 			if (resource->GetSpecular())
 			{
-				meta["SpecularAssetPath"] = resource->GetSpecular()->GetAssetsPath().c_str();
+				meta["SpecularAssetPath"] =
+					resource->GetSpecular()->GetAssetsPath().c_str();
 			}
 			else
 			{
@@ -196,16 +208,19 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 			break;
 	}
 
-	UID texturesUIDs[4] = { resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
-							resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
-							resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
-							specularUID };
+	UID texturesUIDs[4] =
+	{
+		resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
+		resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
+		resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
+		specularUID
+	};
 
 	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
 	float3 specularColor[1] = { resource->GetSpecularColor() };
-
-	size = sizeof(texturesUIDs) + sizeof(diffuseColor) + sizeof(specularColor) + sizeof(float) * 3 + sizeof(bool) +
-		   sizeof(unsigned int);
+	
+	size = sizeof(texturesUIDs) + sizeof(diffuseColor) 
+		+ sizeof(specularColor)  + sizeof(float) * 3 + sizeof(bool) + sizeof(unsigned int);
 
 	char* cursor = new char[size];
 
@@ -215,7 +230,7 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 	memcpy(cursor, texturesUIDs, bytes);
 
 	cursor += bytes;
-
+		
 	bytes = sizeof(unsigned int);
 	memcpy(cursor, &resource->GetShaderType(), bytes);
 
@@ -250,7 +265,8 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 	memcpy(cursor, &resource->GetMetalness(), bytes);
 }
 
-void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
+void MaterialImporter::Load
+	(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
 	UID texturesUIDs[4];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
@@ -280,10 +296,10 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	std::string assetPath = meta["DiffuseAssetPath"];
 
-	if (assetPath != "")
-	{
+	if (assetPath != "") 
+	{ 
 		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
-		if (materialExists)
+		if (materialExists) 
 		{
 			resource->SetDiffuse(resources->RequestResource<ResourceTexture>(assetPath));
 		}
@@ -303,7 +319,7 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	assetPath = meta["OcclusionAssetPath"];
 
 	if (assetPath != "")
-	{
+	{ 
 		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
 		if (materialExists)
 		{
@@ -314,7 +330,7 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	assetPath = meta["SpecularAssetPath"];
 
 	if (assetPath != "")
-	{
+	{ 
 		switch (*shaderType)
 		{
 			case 0:
@@ -338,39 +354,47 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	}
 
 #else
-
+	
 	if (texturesUIDs[0] != 0)
 	{
-		resource->SetDiffuse(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texturesUIDs[0]));
+		resource->SetDiffuse
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
+												(texturesUIDs[0]));
 	}
 
 	if (texturesUIDs[1] != 0)
 	{
-		resource->SetNormal(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texturesUIDs[1]));
+		resource->SetNormal
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
+												(texturesUIDs[1]));
 	}
-
+		
 	if (texturesUIDs[2] != 0)
 	{
-		resource->SetOcclusion(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texturesUIDs[2]));
+		resource->SetOcclusion
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
+												(texturesUIDs[2]));
 	}
-
+		
 	if (texturesUIDs[3] != 0)
 	{
 		switch (*shaderType)
 		{
-			case 0:
+		case 0:
 
-				resource->SetMetallic(
-					App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texturesUIDs[3]));
+			resource->SetMetallic
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
+				(texturesUIDs[3]));
 
-				break;
+			break;
 
-			case 1:
+		case 1:
 
-				resource->SetSpecular(
-					App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texturesUIDs[3]));
+			resource->SetSpecular
+			(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>
+				(texturesUIDs[3]));
 
-				break;
+			break;
 		}
 	}
 
@@ -425,4 +449,5 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	resource->LoadLoadOptions(meta);
 
 #endif
+
 }

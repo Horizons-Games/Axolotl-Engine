@@ -10,22 +10,23 @@ struct OptionsScene
 class ResourceScene : virtual public Resource
 {
 public:
-	ResourceScene(UID resourceUID,
-				  const std::string& fileName,
-				  const std::string& assetsPath,
-				  const std::string& libraryPath);
+	ResourceScene(UID resourceUID, const std::string& fileName, const std::string& assetsPath, const std::string& libraryPath);
 	virtual ~ResourceScene() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override{};
-	void LoadImporterOptions(Json& meta) override{};
+	void SaveImporterOptions(Json& meta) override {};
+	void LoadImporterOptions(Json& meta) override {};
+
+	//Getters
 
 	OptionsScene& GetOptions();
 
+	//Setters
+
 protected:
-	void InternalLoad() override{};
-	void InternalUnload() override{};
+	void InternalLoad() override {};
+	void InternalUnload() override {};
 
 private:
 	OptionsScene options;

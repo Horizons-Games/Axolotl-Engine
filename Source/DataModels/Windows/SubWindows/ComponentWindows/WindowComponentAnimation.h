@@ -4,7 +4,8 @@
 class ComponentAnimation;
 class WindowStateMachineInput;
 
-class WindowComponentAnimation : public ComponentWindow
+class WindowComponentAnimation :
+	public ComponentWindow
 {
 public:
 	WindowComponentAnimation(ComponentAnimation* component);
@@ -12,7 +13,7 @@ public:
 
 protected:
 	void DrawWindowContents() override;
-
 private:
 	std::unique_ptr<WindowStateMachineInput> inputState;
 };
+

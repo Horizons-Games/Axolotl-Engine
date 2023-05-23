@@ -13,10 +13,10 @@ enum class update_status
 	UPDATE_ERROR
 };
 
-enum class TextureType
-{
-	DIFFUSE,
-	NORMAL,
+enum class TextureType 
+{ 
+	DIFFUSE, 
+	NORMAL, 
 	OCCLUSION,
 	METALLIC,
 	SPECULAR
@@ -27,12 +27,12 @@ enum class TextureType
 #define VERSION "0.3.0"
 
 // Configuration -----------
-#define MAX_FRAMERATE 80
+#define MAX_FRAMERATE 80 
 
 // Configuration (Frustum)
 #define QUADRANT_CAPACITY 30
 #define MIN_CUBE_SIZE 100.0f
-
+ 
 // Window ------------------
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
@@ -80,3 +80,4 @@ enum class TextureType
 // QuadTree standard -------
 #define QUADTREE_INITIAL_SIZE 50
 #define QUADTREE_INITIAL_ALTITUDE 10
+

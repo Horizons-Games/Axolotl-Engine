@@ -5,11 +5,11 @@
 
 #include "Components/Component.h"
 
-#include "Math/float4x4.h"
 #include "Resources/ResourceStateMachine.h"
+#include "Math/float4x4.h"
+#include <vector>
 #include <memory>
 #include <unordered_map>
-#include <vector>
 
 #define NON_STATE 9999
 

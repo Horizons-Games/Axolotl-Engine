@@ -43,3 +43,4 @@ inline const bool WindowDebug::GetDrawDirLight() const
 {
 	return drawDirLight;
 }
+

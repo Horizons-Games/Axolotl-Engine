@@ -11,6 +11,7 @@ class ResourceTexture;
 
 class WindowComponentMeshRenderer : public ComponentWindow
 {
+
 public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override;
@@ -52,22 +53,26 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 };
 
-inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
+inline void WindowComponentMeshRenderer::SetDiffuse
+		(const std::shared_ptr<ResourceTexture>& diffuseTexture)
 {
 	this->diffuseTexture = diffuseTexture;
 }
 
-inline void WindowComponentMeshRenderer::SetNormal(const std::shared_ptr<ResourceTexture>& normalMap)
+inline void WindowComponentMeshRenderer::SetNormal
+		(const std::shared_ptr<ResourceTexture>& normalMap)
 {
 	this->normalMap = normalMap;
 }
 
-inline void WindowComponentMeshRenderer::SetMetallic(const std::shared_ptr<ResourceTexture>& metallicMap)
+inline void WindowComponentMeshRenderer::SetMetallic
+(const std::shared_ptr<ResourceTexture>& metallicMap)
 {
 	this->metallicMap = metallicMap;
 }
 
-inline void WindowComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specularMap)
+inline void WindowComponentMeshRenderer::SetSpecular
+		(const std::shared_ptr<ResourceTexture>& specularMap)
 {
 	this->specularMap = specularMap;
 }

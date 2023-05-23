@@ -9,6 +9,7 @@ class Json;
 class Cubemap
 {
 public:
+
 	Cubemap();
 	~Cubemap();
 	Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes);
@@ -16,14 +17,15 @@ public:
 	void SaveOptions(Json& json) const;
 	void LoadOptions(Json& json);
 
-	void DebugNSight(); // DEBUG purpouse
-
+	void DebugNSight(); //DEBUG purpouse
+	
 	GLuint GetIrradiance();
 	GLuint GetPrefiltered();
 	GLuint GetEnvironmentBRDF();
 	int GetNumMiMaps();
 
 private:
+	
 	void GenerateMaps();
 	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
 	void CreateVAO();

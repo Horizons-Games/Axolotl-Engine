@@ -1,38 +1,30 @@
 #include "moveale.h"
 
 #include "Application.h"
-#include "ModuleCamera.h"
 #include "ModuleInput.h"
+#include "ModuleCamera.h"
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
 
-#include "Components/ComponentAnimation.h"
-#include "Components/ComponentAudioSource.h"
-#include "Components/ComponentCamera.h"
 #include "Components/ComponentMeshCollider.h"
-#include "Components/ComponentPlayer.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentPlayer.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
 
 #include "GameObject/GameObject.h"
 
-#include "Auxiliar/Audio/AudioData.h"
 #include "DataStructures/Quadtree.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(MoveAle);
 
-MoveAle::MoveAle() :
-	Script(),
-	componentPlayer(nullptr),
-	speed(6.0f),
-	jumpParameter(80.0f),
-	dashForce(50.0f),
-	canDash(true),
-	canDoubleJump(true),
-	jumps(0),
-	isCrouch(false),
-	playerState(PlayerActions::IDLE)
+MoveAle::MoveAle() : Script(), componentPlayer(nullptr), speed(6.0f),
+jumpParameter(80.0f), dashForce(50.0f), canDash(true),
+canDoubleJump(true), jumps(0), isCrouch(false), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
 	REGISTER_FIELD_WITH_ACCESSORS(JumpParameter, float);
@@ -63,20 +55,21 @@ void MoveAle::Start()
 
 void MoveAle::Update(float deltaTime)
 {
-	if (!componentPlayer->IsStatic() && App->GetModule<ModuleCamera>()->GetSelectedPosition() == 0 &&
-		!SDL_ShowCursor(SDL_QUERY))
+
+	if (!componentPlayer->IsStatic() && App->GetModule<ModuleCamera>()->GetSelectedPosition() == 0
+		&& !SDL_ShowCursor(SDL_QUERY))
 	{
 		Move();
 		Rotate();
 	}
+
 }
 
 void MoveAle::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	ComponentTransform* objectTransform =
-		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
@@ -88,56 +81,76 @@ void MoveAle::Move()
 	{
 		direction = objectTransform->GetLocalForward().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		direction = -objectTransform->GetLocalForward().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
+
 		direction = -objectTransform->GetGlobalRight().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		direction = objectTransform->GetGlobalRight().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_X) != KeyState::IDLE)
 	{
 		direction = objectTransform->GetGlobalRight().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
 	{
 		direction = objectTransform->GetGlobalRight().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+
+
+
 	}
 
 	if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE)
 	{
 		direction = objectTransform->GetGlobalRight().Normalized();
 		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
+
+
 	}
 
 	btVector3 currentVelocity = btRb->getLinearVelocity();
+
+
+
+
 
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
 		if (!isDashing)
 		{
-			if (!movement.isZero())
-			{
+			if (!movement.isZero()) {
 				btRb->applyCentralImpulse(movement.normalized() * dashForce);
 				isDashing = true;
 			}
 		}
+
 	}
 	else
 	{
@@ -156,6 +169,7 @@ void MoveAle::Move()
 			{
 				isDashing = false;
 			}
+
 		}
 	}
 }

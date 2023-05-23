@@ -1,7 +1,7 @@
 #pragma once
+#include "Module.h"
 #include "GL/glew.h"
 #include "Math/float4.h"
-#include "Module.h"
 
 #include <map>
 #include <set>
@@ -25,7 +25,7 @@ public:
 	update_status PreUpdate() override;
 	update_status Update() override;
 	update_status PostUpdate() override;
-
+	
 	bool CleanUp() override;
 
 	void WindowResized(unsigned width, unsigned height);
@@ -45,7 +45,7 @@ public:
 	bool IsSupportedPath(const std::string& modelPath);
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	// const std::vector<const GameObject*> GetGameObjectsToDraw() const;
+	//const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
 	void UpdateProgram();
@@ -59,10 +59,10 @@ private:
 	float4 backgroundColor;
 
 	unsigned vbo;
-
+	
 	std::set<const GameObject*> opaqueGOToDraw;
 	std::map<float, const GameObject*> transparentGOToDraw;
-	// to avoid gameobjects being drawn twice
+	//to avoid gameobjects being drawn twice
 	std::vector<unsigned long long> drawnGameObjects;
 	const std::vector<std::string> modelTypes;
 

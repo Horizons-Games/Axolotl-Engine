@@ -1,21 +1,24 @@
 #include "CameraGameObject.h"
 
 #include "Application.h"
+#include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
-#include "ModuleWindow.h"
 
-CameraGameObject::CameraGameObject() : Camera(CameraType::C_GAMEOBJECT)
+CameraGameObject::CameraGameObject()
+	: Camera(CameraType::C_GAMEOBJECT)
 {
-}
+};
 
-CameraGameObject::CameraGameObject(const std::unique_ptr<Camera>& camera) : Camera(camera, CameraType::C_GAMEOBJECT)
+CameraGameObject::CameraGameObject(const std::unique_ptr<Camera>& camera)
+	: Camera(camera, CameraType::C_GAMEOBJECT)
 {
 }
 
 CameraGameObject::~CameraGameObject()
 {
-}
+};
+
 
 bool CameraGameObject::Update()
 {

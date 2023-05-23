@@ -4,7 +4,9 @@
 
 #include "Application.h"
 
-WindowComponentPlayer::WindowComponentPlayer(ComponentPlayer* component) : ComponentWindow("PLAYER", component)
+
+WindowComponentPlayer::WindowComponentPlayer(ComponentPlayer* component) :
+	ComponentWindow("PLAYER", component)
 {
 }
 
@@ -21,14 +23,14 @@ void WindowComponentPlayer::DrawWindowContents()
 	if (asPlayer)
 	{
 		bool isStatic = asPlayer->IsStatic();
-
+	
 		if (ImGui::Checkbox("Static Player", &isStatic))
 		{
 			asPlayer->SetStatic(isStatic);
 		}
-
+	
 		bool haveMouse = asPlayer->HaveMouseActivated();
-
+	
 		if (ImGui::Checkbox("Mouse when Player", &haveMouse))
 		{
 			asPlayer->SetMouse(haveMouse);

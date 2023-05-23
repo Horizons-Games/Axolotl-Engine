@@ -14,7 +14,8 @@ enum class Direction
 	DOWN
 };
 
-class ComponentMeshCollider : public Component
+class ComponentMeshCollider :
+	public Component
 {
 public:
 	ComponentMeshCollider(bool active, GameObject* owner);
@@ -33,10 +34,10 @@ public:
 	void GetMinMaxPoints(const std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const;
 
 private:
+
 	bool isTrigger;
 
-	void
-		GetPointsGivenDirection(std::vector<float3>& newPoints, std::vector<float3>& points, Direction direction) const;
+	void GetPointsGivenDirection(std::vector<float3>& newPoints, std::vector<float3>& points, Direction direction)const;
 	float3 GetMovementGivenDirection(std::vector<float3>& points, Direction direction);
 };
 

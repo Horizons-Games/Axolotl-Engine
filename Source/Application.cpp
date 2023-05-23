@@ -1,21 +1,22 @@
 #pragma once
 #include "Application.h"
 
+#include "ModuleWindow.h"
+#include "ModuleRender.h"
+#include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "ModuleProgram.h"
+#include "ModuleCamera.h"
+#include "ModulePhysics.h"
+#include "ModuleAudio.h"
+#include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "ModuleAudio.h"
-#include "ModuleCamera.h"
-#include "ModuleCommand.h"
+#include "ModuleScene.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
-#include "ModuleInput.h"
-#include "ModulePhysics.h"
 #include "ModulePlayer.h"
-#include "ModuleProgram.h"
-#include "ModuleRender.h"
-#include "ModuleScene.h"
-#include "ModuleUI.h"
-#include "ModuleWindow.h"
+#include "ModuleCommand.h"
 #include "ScriptFactory.h"
 
 #include <ranges>
@@ -119,7 +120,7 @@ update_status Application::Update()
 
 	if (dt < minframeTime)
 	{
-		SDL_Delay((Uint32) (minframeTime - dt));
+		SDL_Delay((Uint32)(minframeTime - dt));
 	}
 
 	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
@@ -152,7 +153,7 @@ void Application::OnPlay()
 		isOnPlayMode = false;
 	}
 
-	// Active Scripts
+	//Active Scripts
 	GetModule<ModuleScene>()->OnPlay();
 }
 

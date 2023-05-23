@@ -3,7 +3,8 @@
 
 class ComponentPlayer;
 
-class WindowComponentPlayer : public ComponentWindow
+class WindowComponentPlayer :
+    public ComponentWindow
 {
 public:
 	WindowComponentPlayer(ComponentPlayer* component);
@@ -11,4 +12,6 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+
 };
+

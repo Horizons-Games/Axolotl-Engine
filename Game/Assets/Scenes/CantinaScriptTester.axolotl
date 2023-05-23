@@ -39894,16 +39894,21 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerMoveScript",
+                            "constructName": "NewPlayerMobilityTest",
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 400.0,
+                                    "value": 300.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 80.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "DashForce",
-                                    "value": 4000.0,
+                                    "value": 1000.0,
                                     "type": 0
                                 },
                                 {
@@ -39945,35 +39950,6 @@
                             "type": "Component_AudioSource",
                             "active": true,
                             "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PlayerJumpScript",
-                            "fields": [
-                                {
-                                    "name": "JumpParameter",
-                                    "value": 1500.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CanDoubleJump",
-                                    "value": true,
-                                    "type": 4
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PlayerRotationScript",
-                            "fields": null
                         }
                     }
                 ]
@@ -41478,14 +41454,71 @@
                             "active": true,
                             "removed": true
                         }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "Forzable",
+                "uid": 7333581853901901891,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 90.62064361572266,
+                            "localPos_Y": 2.5054879188537598,
+                            "localPos_Z": 24.97209930419922,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -20.962778091430664,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
                     },
                     {
                         "Component": {
-                            "type": "Component_Script",
+                            "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerCameraRotationVerticalScript",
-                            "fields": null
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.03999999910593033,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.0,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 1.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0
                         }
                     }
                 ]

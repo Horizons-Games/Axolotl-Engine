@@ -20,3 +20,4 @@ protected:
 private:
 	static bool defaultEnabled;
 };
+

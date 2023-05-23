@@ -11,9 +11,9 @@
 
 #include "FileSystem/UniqueID.h"
 
-#include "Math/float3.h"
-#include "Math/float4.h"
 #include "Math/float4x4.h"
+#include "Math/float4.h"
+#include "Math/float3.h"
 
 #include "Program/Program.h"
 
@@ -40,7 +40,7 @@ public:
 
 	void Draw() const override;
 	void DrawMeshes(Program* program) const;
-	void DrawMaterial(Program* program) const;
+	void DrawMaterial(Program* program) const; 
 	void DrawHighlight() const;
 
 	void SaveOptions(Json& meta) override;
@@ -62,7 +62,7 @@ public:
 
 	// Specular shader attributes (setters)
 	void SetSpecularColor(float3& specularColor);
-
+	
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	const unsigned int GetShaderType() const;
@@ -85,8 +85,8 @@ private:
 	bool IsMeshLoaded() const;
 	bool IsMaterialLoaded() const;
 
-	// declared "mutable" so Draw can be const
-	// as said in Draw, this should be modified in a separate class, so the idea is for this change to be temporal
+	//declared "mutable" so Draw can be const
+	//as said in Draw, this should be modified in a separate class, so the idea is for this change to be temporal
 	mutable std::shared_ptr<ResourceMesh> mesh;
 	mutable std::shared_ptr<ResourceMaterial> material;
 

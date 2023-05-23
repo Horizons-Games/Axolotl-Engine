@@ -19,16 +19,17 @@ void WindowDebug::Draw(bool& enabled)
 {
 	if (App->IsDebuggingGame())
 	{
-		// Activating the cursor like this for now
+		//De momento asi estoy activando el cursor
 		SDL_ShowCursor(SDL_ENABLE);
 		ImGuiIO& io = ImGui::GetIO();
-		ImGui::SetNextWindowPos(
-			ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
+								ImGuiCond_Always,
+								ImVec2(0.5f, 0.5f));
 		ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x * 0.25f, io.DisplaySize.y * 0.25f), ImGuiCond_Always);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		if (ImGui::Begin(this->name.c_str(), NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize))
 		{
-			if (ImGui::Checkbox("Wireframe Mode", &wireframeMode))
+			if(ImGui::Checkbox("Wireframe Mode", &wireframeMode))
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, wireframeMode ? GL_LINE : GL_FILL);
 			}

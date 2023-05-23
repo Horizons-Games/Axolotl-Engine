@@ -340,6 +340,9 @@
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -358,9 +361,6 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Auxiliar\GameBuilder.cpp">
-      <Filter>Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
@@ -370,12 +370,6 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp">
-      <Filter>DataModels\Windows\PopUpWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
-      <Filter>DataModels\Windows\PopUpWindows</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
@@ -383,18 +377,6 @@
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -731,6 +713,9 @@
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -752,6 +737,9 @@
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
     </ClInclude>
@@ -761,17 +749,8 @@
     <ClInclude Include="Auxiliar\AddComponentAction.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\GameBuilder.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h">
-      <Filter>DataModels\Windows\PopUpWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
-      <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
       <Filter>UserScripts\Player</Filter>
@@ -780,19 +759,6 @@
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Enums\FieldType.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>
@@ -886,9 +852,6 @@
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Windows\PopUpWindows">
-      <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1186,6 +1149,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleCommand.cpp">
       <Filter>Modules</Filter>
@@ -1902,8 +1868,14 @@
     <ClInclude Include="Modules\ModuleCommand.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{63d396b9-4239-47e8-b629-8ccdfeb9ed44}</UniqueIdentifier>
+    </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{c91453bb-e0c9-4c12-a995-0c020d2586ef}</UniqueIdentifier>
     </Filter>
@@ -1940,6 +1912,13 @@
     <Filter Include="External\ImGuiFileDialog\stb">
       <UniqueIdentifier>{a01da323-8d90-4ae9-b233-e4cde3b5028a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Enums">
+      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DataStructures">
+      <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
       <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
     </Filter>

@@ -1,20 +1,20 @@
 #pragma once
 
+#include <string>
+#include <memory>
 #include "Geometry/Frustum.h"
 #include <map>
-#include <memory>
-#include <string>
 
-#include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
-#include "Math/Quat.h"
+#include "Geometry/Frustum.h"
 #include "Math/float4x4.h"
+#include "Math/Quat.h"
 
-enum class EFrustumMode
-{
-	normalFrustum,
-	offsetFrustum,
-	noFrustum
+enum class EFrustumMode 
+{ 
+	normalFrustum, 
+	offsetFrustum, 
+	noFrustum 
 };
 
 #define DEFAULT_MOVE_SPEED 9.f
@@ -27,11 +27,11 @@ enum class EFrustumMode
 #define DEFAULT_FRUSTUM_OFFSET 1.f
 #define DEFAULT_FRUSTUM_DISTANCE 20000.f
 #define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 2000.f
-enum class CameraType
-{
-	C_ENGINE,
-	C_GOD,
-	C_GAMEOBJECT
+enum class CameraType 
+{ 
+	C_ENGINE, 
+	C_GOD, 
+	C_GAMEOBJECT 
 };
 
 class GameObject;
@@ -43,7 +43,7 @@ class Camera
 public:
 	Camera(const CameraType type);
 	Camera(Camera& camera);
-	Camera(const std::unique_ptr<Camera>& camera, const CameraType type);
+	Camera(const std::unique_ptr<Camera>& camera,const CameraType type);
 	virtual ~Camera();
 
 	virtual bool Init();
@@ -58,11 +58,12 @@ public:
 	void ApplyRotation(const Quat& rotationQuat);
 	void ApplyRotationWithFixedUp(const float3x3& rotationMatrix, const float3& fixedUp);
 	void ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fixedUp);
-
+	
 	void Run();
 	void Walk();
 	void KeyboardRotate();
 	void FreeLook();
+
 
 	bool IsInside(const OBB& obb);
 	bool IsInside(const AABB& aabb);
@@ -109,6 +110,7 @@ public:
 	const Quat& GetRotation() const;
 
 protected:
+	
 	void SetNewSelectedGameObject(GameObject* gameObject);
 
 	CameraType type;

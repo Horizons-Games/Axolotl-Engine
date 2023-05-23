@@ -1,28 +1,19 @@
 #include "ComponentTransform2D.h"
 #include "FileSystem/Json.h"
 
-#include "ComponentCanvas.h"
 #include "GameObject/GameObject.h"
-#include "Math/TransformOps.h"
+#include "ComponentCanvas.h"
 #include "Math/float3x3.h"
+#include "Math/TransformOps.h"
 
-ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner) :
-	Component(ComponentType::TRANSFORM2D, active, owner, true),
-	pos(float3::zero),
-	rot(float4x4::identity),
-	sca(float3::one),
-	globalPos(float3::zero),
-	globalRot(float4x4::identity),
-	globalSca(float3::one),
-	rotXYZ(float3::zero),
-	localMatrix(float4x4::identity),
-	globalMatrix(float4x4::identity),
-	pivot(float2(0.5, 0.5)),
-	size(float2(200, 200)),
-	anchorMin(float2(0.5, 0.5)),
-	anchorMax(float2(0.5, 0.5)),
-	localAABB({ { -0.5f, -0.5f }, { 0.5f, 0.5f } }),
-	worldAABB(localAABB)
+ComponentTransform2D::ComponentTransform2D(const bool active, GameObject* owner)
+	: Component(ComponentType::TRANSFORM2D, active, owner, true),
+	pos(float3::zero), rot(float4x4::identity), sca(float3::one),
+	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one),
+	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity),
+	pivot(float2(0.5,0.5)), size(float2(200,200)),
+	anchorMin(float2(0.5, 0.5)), anchorMax(float2(0.5, 0.5)),
+	localAABB({ {-0.5f,-0.5f},{0.5f,0.5f} }), worldAABB(localAABB)
 {
 	CalculateWorldBoundingBox();
 }
@@ -57,7 +48,7 @@ void ComponentTransform2D::SaveOptions(Json& meta)
 	meta["sizeX"] = static_cast<float>(size.x);
 	meta["sizeY"] = static_cast<float>(size.y);
 
-	// BoundingBox
+	//BoundingBox
 	meta["localAABB_min_x"] = static_cast<float>(localAABB.minPoint.x);
 	meta["localAABB_min_y"] = static_cast<float>(localAABB.minPoint.y);
 	meta["localAABB_max_x"] = static_cast<float>(localAABB.maxPoint.x);
@@ -93,31 +84,47 @@ void ComponentTransform2D::LoadOptions(Json& meta)
 	size.y = static_cast<float>(meta["sizeY"]);
 	CalculateMatrices();
 
-	vec2d localMin = { static_cast<float>(meta["localAABB_min_x"]), static_cast<float>(meta["localAABB_min_y"]) };
-	vec2d localMax = { static_cast<float>(meta["localAABB_max_x"]), static_cast<float>(meta["localAABB_max_y"]) };
+	vec2d localMin = 
+	{ 
+		 static_cast<float>(meta["localAABB_min_x"]), 
+		 static_cast<float>(meta["localAABB_min_y"]) 
+	};
+	vec2d localMax = 
+	{ 
+		 static_cast<float>(meta["localAABB_max_x"]), 
+		 static_cast<float>(meta["localAABB_max_y"]) 
+	};
 
-	localAABB = { localMin, localMax };
+	localAABB = { localMin,localMax };
 
-	vec2d worldMin = { static_cast<float>(meta["worldAABB_min_x"]), static_cast<float>(meta["worldAABB_min_y"]) };
-	vec2d worldMax = { static_cast<float>(meta["worldAABB_max_x"]), static_cast<float>(meta["worldAABB_max_y"]) };
+	vec2d worldMin = 
+	{ 
+		 static_cast<float>(meta["worldAABB_min_x"]), 
+		 static_cast<float>(meta["worldAABB_min_y"]) 
+	};
+	vec2d worldMax = 
+	{ 
+		 static_cast<float>(meta["worldAABB_max_x"]), 
+		 static_cast<float>(meta["worldAABB_max_y"]) 
+	};
 
-	worldAABB = { worldMin, worldMax };
+	worldAABB = { worldMin,worldMax };
 	CalculateWorldBoundingBox();
 }
 
+
 void ComponentTransform2D::CalculateMatrices()
 {
-	localMatrix = float4x4::FromTRS(GetPositionRelativeToParent(), rot, sca) *
-				  float4x4::Translate(float3((-pivot + float2(0.5f, 0.5f)).Mul(size), 0.0f));
+	localMatrix = float4x4::FromTRS(GetPositionRelativeToParent(), rot, sca) * float4x4::Translate(float3((-pivot + float2(0.5f, 0.5f)).Mul(size), 0.0f));
 
 	const GameObject* parent = GetOwner()->GetParent();
 
 	if (parent)
 	{
-		ComponentTransform2D* parentTransform =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* parentTransform = static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
 		if (parentTransform)
 		{
+
 			// Set global matrix
 			globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
 
@@ -132,13 +139,14 @@ void ComponentTransform2D::CalculateMatrices()
 			globalPos = globalMatrix.TranslatePart();
 			globalRot = static_cast<float4x4>(globalMatrix.RotatePart());
 			globalSca = globalMatrix.GetScale();
+
 		}
 	}
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform2D* childTransform =
-			static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
+			(child->GetComponent(ComponentType::TRANSFORM2D));
 		childTransform->CalculateMatrices();
 	}
 
@@ -150,19 +158,16 @@ float3 ComponentTransform2D::GetPositionRelativeToParent()
 	float2 parentSize(0, 0);
 
 	GameObject* parent = GetOwner()->GetParent();
-	if (parent != nullptr)
-	{
-		ComponentCanvas* parentCanvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
-		ComponentTransform2D* parentTransform2D =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
-		if (parentTransform2D != nullptr)
-		{
-			if (parentCanvas != nullptr)
-			{
+	if (parent != nullptr) {
+		ComponentCanvas* parentCanvas = static_cast<ComponentCanvas*>
+			(parent->GetComponent(ComponentType::CANVAS));
+		ComponentTransform2D* parentTransform2D = static_cast<ComponentTransform2D*>
+			(parent->GetComponent(ComponentType::TRANSFORM2D));
+		if (parentTransform2D != nullptr) {
+			if (parentCanvas != nullptr) {
 				parentSize = parentCanvas->GetSize() / parentCanvas->GetScreenFactor();
 			}
-			else
-			{
+			else {
 				parentSize = parentTransform2D->GetSize();
 			}
 		}
@@ -179,17 +184,16 @@ float3 ComponentTransform2D::GetScreenPosition()
 {
 	float3 screenPosition = GetPositionRelativeToParent();
 	GameObject* parent = GetOwner()->GetParent();
-	while (parent != nullptr)
-	{
-		ComponentTransform2D* parentTransform2D =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
-		if (parentTransform2D == nullptr)
-			break;
+	while (parent != nullptr) {
+		ComponentTransform2D* parentTransform2D = static_cast<ComponentTransform2D*>
+			(parent->GetComponent(ComponentType::TRANSFORM2D));
+		if (parentTransform2D == nullptr) break;
 		screenPosition += parentTransform2D->GetPositionRelativeToParent();
 		parent = parent->GetParent();
 	}
 	return screenPosition;
 }
+
 
 void ComponentTransform2D::CalculateWorldBoundingBox()
 {
@@ -210,10 +214,10 @@ void ComponentTransform2D::CalculateWorldBoundingBox()
 	pivotDifference.x = -pivotPosition.x + 0.5f;
 	pivotDifference.y = pivotPosition.y - 0.5f;
 
-	worldAABB.minPoint = position.xy().Mul(float2(1.0f, -1.0f).Mul(screenFactor)) + screenSize / 2.0f +
-						 (localAABB.minPoint + pivotDifference).Mul(size.Mul(sca.xy()).Mul(screenFactor));
-	worldAABB.maxPoint = position.xy().Mul(float2(1.0f, -1.0f).Mul(screenFactor)) + screenSize / 2.0f +
-						 (localAABB.maxPoint + pivotDifference).Mul(size.Mul(sca.xy()).Mul(screenFactor));
+	worldAABB.minPoint = position.xy().Mul(float2(1.0f, -1.0f).Mul(screenFactor)) + screenSize / 2.0f
+		+ (localAABB.minPoint + pivotDifference).Mul(size.Mul(sca.xy()).Mul(screenFactor));
+	worldAABB.maxPoint = position.xy().Mul(float2(1.0f, -1.0f).Mul(screenFactor)) + screenSize / 2.0f
+		+ (localAABB.maxPoint + pivotDifference).Mul(size.Mul(sca.xy()).Mul(screenFactor));
 
 	/*ModulelWindow* window = App->GetModule<ModuleWindow>();
 	float2 windowPos = float2(window->GetPositionX(), window->GetPositionY());

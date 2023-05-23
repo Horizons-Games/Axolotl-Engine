@@ -1,13 +1,10 @@
 #include "WindowAssetFolder.h"
+#include "WindowFileBrowser.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
-#include "WindowFileBrowser.h"
 
-WindowAssetFolder::WindowAssetFolder() :
-	EditorWindow("File Browser"),
-	browser(std::make_unique<WindowFileBrowser>()),
-	type(ResourceType::Unknown),
-	name("New")
+WindowAssetFolder::WindowAssetFolder() : EditorWindow("File Browser"), browser(std::make_unique<WindowFileBrowser>()),
+type(ResourceType::Unknown), name("New")
 {
 }
 

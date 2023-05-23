@@ -16,7 +16,7 @@ void WindowWindow::DrawWindowContents()
 	ModuleWindow* window = App->GetModule<ModuleWindow>();
 	float brightness = window->GetBrightness();
 	ImGui::TextUnformatted("Window Brightness");
-	bool brightnessChanged =
+	bool brightnessChanged = 
 		ImGui::SliderFloat("##bright", &brightness, .25f, 1.f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 	if (brightnessChanged)
 	{
@@ -26,10 +26,10 @@ void WindowWindow::DrawWindowContents()
 	std::pair<int, int> windowDimensions;
 	windowDimensions = window->GetWindowSize();
 	ImGui::TextUnformatted("Window Width");
-	bool widthChanged =
+	bool widthChanged = 
 		ImGui::SliderInt("##width", &windowDimensions.first, 640, 1920, "%d", ImGuiSliderFlags_AlwaysClamp);
 	ImGui::TextUnformatted("Window Height");
-	bool heighChanged =
+	bool heighChanged = 
 		ImGui::SliderInt("##height", &windowDimensions.second, 360, 1080, "%d", ImGuiSliderFlags_AlwaysClamp);
 	if (widthChanged || heighChanged)
 	{
@@ -49,7 +49,7 @@ void WindowWindow::DrawWindowContents()
 	{
 		window->SetResizable(resizable);
 	}
-
+		
 	bool borderless = window->IsWindowBorderless();
 	if (ImGui::Checkbox("Borderless", &borderless))
 	{
@@ -63,4 +63,6 @@ void WindowWindow::DrawWindowContents()
 	{
 		window->SetDesktopFullscreen(fullDesktop);
 	}
+
+	
 }

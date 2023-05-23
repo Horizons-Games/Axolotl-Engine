@@ -3,7 +3,8 @@
 
 class ComponentAnimation;
 
-class WindowStateMachineInput : public WindowFileBrowser
+class WindowStateMachineInput :
+	public WindowFileBrowser
 {
 public:
 	WindowStateMachineInput(ComponentAnimation* state);

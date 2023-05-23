@@ -6,8 +6,8 @@
 
 REGISTERCLASS(EnemyDroneScript);
 
-EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr),
-droneState(DroneBehaviours::IDLE), ownerTransform(nullptr)
+EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), 
+		droneState(DroneBehaviours::IDLE), ownerTransform(nullptr)
 {
 
 }
@@ -16,7 +16,7 @@ void EnemyDroneScript::Start()
 {
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
-	std::vector<ComponentScript*> gameObjectScripts =
+	std::vector<ComponentScript*> gameObjectScripts = 
 		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
@@ -44,7 +44,7 @@ void EnemyDroneScript::Update(float deltaTime)
 	GameObject* seekTarget = seekScript->GetScript()->GetField<GameObject*>("Target")->getter();
 	if (seekTarget)
 	{
-		ComponentTransform* seekTargetTransform =
+		ComponentTransform* seekTargetTransform = 
 			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
 
 		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)

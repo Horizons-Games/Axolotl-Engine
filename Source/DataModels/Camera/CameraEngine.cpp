@@ -1,42 +1,46 @@
 #include "CameraEngine.h"
 
 #include "Application.h"
-#include "ModuleEditor.h"
+#include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModuleEditor.h"
 #include "ModuleScene.h"
-#include "ModuleWindow.h"
 
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 
-#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "Resources/ResourceMesh.h"
 
 #include "Windows/EditorWindows/WindowScene.h"
 
+#include "Math/float3x3.h"
+#include "Math/Quat.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Triangle.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
 #include "Physics/Physics.h"
 
-CameraEngine::CameraEngine() : Camera(CameraType::C_ENGINE)
+CameraEngine::CameraEngine() 
+: Camera(CameraType::C_ENGINE)
 {
 	currentFocusDir = frustum->Front().Normalized();
 	currentFocusPos = position;
 };
 
-CameraEngine::CameraEngine(const std::unique_ptr<Camera>& camera) : Camera(camera, CameraType::C_ENGINE)
+CameraEngine::CameraEngine(const std::unique_ptr<Camera>& camera)
+	: Camera(camera, CameraType::C_ENGINE)
 {
 	currentFocusDir = frustum->Front().Normalized();
 	currentFocusPos = position;
 }
 
-CameraEngine::~CameraEngine(){};
+CameraEngine::~CameraEngine()
+{
+};
 
 bool CameraEngine::Update()
 {
@@ -53,19 +57,20 @@ bool CameraEngine::Update()
 
 	if (sceneFocused && !App->IsOnPlayMode())
 	{
+		
 		if (isFocusing)
 		{
 			Focus(scene->GetSelectedGameObject());
 		}
 		else
 		{
-			// Shift speed
+			//Shift speed
 			if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 				Run();
 			else
 				Walk();
 
-			// this should probably be encapsulated in a method, or moved to the Physics part of the Engine
+			//this should probably be encapsulated in a method, or moved to the Physics part of the Engine
 			// --RAYCAST CALCULATION-- //
 			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN &&
 				input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
@@ -74,7 +79,7 @@ bool CameraEngine::Update()
 				if (Physics::ScreenPointToRay(input->GetMousePosition(), ray))
 				{
 					RaycastHit hit;
-					if (Physics::Raycast(ray, hit))
+					if (Physics::Raycast(ray, hit)) 
 					{
 						SetNewSelectedGameObject(hit.gameObject);
 					}
@@ -82,7 +87,7 @@ bool CameraEngine::Update()
 			}
 			// --RAYCAST CALCULATION-- //
 
-			// Move and rotate with right buttons and ASDWQE
+			//Move and rotate with right buttons and ASDWQE
 			if (input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
 				input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
 			{
@@ -92,13 +97,13 @@ bool CameraEngine::Update()
 				FreeLook();
 			}
 
-			// Zoom with mouse wheel
+			//Zoom with mouse wheel
 			if (input->IsMouseWheelScrolled() && input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
 			{
 				Zoom();
 			}
 
-			// Move camera UP/DOWN and RIGHT/LEFT with mouse mid button
+			//Move camera UP/DOWN and RIGHT/LEFT with mouse mid button
 			if (input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 			{
 				input->SetMoveCursor();
@@ -107,25 +112,24 @@ bool CameraEngine::Update()
 			}
 			Scene* loadedScene = scene->GetLoadedScene();
 
-			// Focus
+			//Focus
 			if (scene->GetSelectedGameObject() != loadedScene->GetRoot() &&
 				input->GetKey(SDL_SCANCODE_F) != KeyState::IDLE)
 			{
-				if (!isUsingProportionalController)
-				{
+				if (!isUsingProportionalController) {
 					currentFocusDir = frustum->Front().Normalized();
 					currentFocusPos = position;
 				}
 				isFocusing = true;
 			}
 
-			// Orbit object with ALT + LEFT MOUSE CLICK
+			//Orbit object with ALT + LEFT MOUSE CLICK
 			if (scene->GetSelectedGameObject() != loadedScene->GetRoot() &&
 				input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
-				ComponentTransform* transform = static_cast<ComponentTransform*>(
-					scene->GetSelectedGameObject()->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform =
+					static_cast<ComponentTransform*>(scene->GetSelectedGameObject()->GetComponent(ComponentType::TRANSFORM));
 				const OBB& obb = transform->GetObjectOBB();
 
 				input->SetOrbitCursor();
@@ -133,10 +137,10 @@ bool CameraEngine::Update()
 				Orbit(obb);
 			}
 
-			// Zoom with ALT + RIGHT MOUSE CLICK
+			//Zoom with ALT + RIGHT MOUSE CLICK
 			if (input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
-				input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE) // Not pressing mouse left button
+				input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE) //Not pressing mouse left button
 			{
 				input->SetZoomCursor();
 				UnlimitedCursor();
@@ -159,7 +163,7 @@ void CameraEngine::Move()
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	// Increase/decrease camera velocity with mouse wheel
+	//Increase/decrease camera velocity with mouse wheel
 	if (input->IsMouseWheelScrolled() && input->GetMouseButton(SDL_BUTTON_MIDDLE) == KeyState::IDLE)
 	{
 		moveSpeed += input->GetMouseWheel().y;
@@ -173,49 +177,51 @@ void CameraEngine::Move()
 		}
 	}
 
-	// Forward
+	//Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
-		position += frustum->Front().Normalized() * moveSpeed * acceleration * App->GetDeltaTime();
+		position += frustum->Front().Normalized() *
+			moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
-	// Backward
+	//Backward
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
-		position += -(frustum->Front().Normalized()) * moveSpeed * acceleration * App->GetDeltaTime();
+		position += -(frustum->Front().Normalized()) *
+			moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
-	// Left
+	//Left
 	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		position += -(frustum->WorldRight()) * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
-	// Right
+	//Right
 	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
 		position += frustum->WorldRight() * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
-	// Up
+	//Up
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
 	{
 		position += frustum->Up() * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
-	// Down
+	//Down
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
 		position += -(frustum->Up()) * moveSpeed * acceleration * App->GetDeltaTime();
 		SetPosition(position);
 	}
 
-	// Move UP/DOWN and RIGHT/LEFT with mid mouse button
+	//Move UP/DOWN and RIGHT/LEFT with mid mouse button
 	if (input->GetMouseButton(SDL_BUTTON_MIDDLE) != KeyState::IDLE)
 	{
 		float mouseSpeedPercentage = 0.05f;
@@ -236,13 +242,15 @@ void CameraEngine::Zoom()
 	{
 		float zoomSpeed = input->GetMouseWheel().y * DEFAULT_MOUSE_ZOOM_SPEED;
 
-		position += frustum->Front().Normalized() * zoomSpeed * App->GetDeltaTime();
+		position += frustum->Front().Normalized() *
+			zoomSpeed * App->GetDeltaTime();
 	}
 	else
 	{
 		float zoomSpeed = input->GetMouseMotion().x * DEFAULT_MOUSE_ZOOM_SPEED;
 
-		position += frustum->Front().Normalized() * zoomSpeed * App->GetDeltaTime();
+		position += frustum->Front().Normalized() *
+			zoomSpeed * App->GetDeltaTime();
 	}
 	SetPosition(position);
 }
@@ -252,8 +260,7 @@ void CameraEngine::FocusInterpolated(const OBB& obb)
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
 	float radius = boundingSphere.r;
-	if (boundingSphere.r < 1.f)
-		radius = 1.f;
+	if (boundingSphere.r < 1.f) radius = 1.f;
 	float fov = frustum->HorizontalFov();
 	float camDistance = radius / float(sin(fov / 2.0));
 	float3 camDirection = (boundingSphere.pos - currentFocusPos).Normalized();
@@ -266,7 +273,7 @@ void CameraEngine::FocusInterpolated(const OBB& obb)
 		interpolationTime = 0.0f;
 		isFocusing = false;
 	}
-	else
+	else 
 	{
 		interpolationTime += App->GetDeltaTime();
 
@@ -274,25 +281,23 @@ void CameraEngine::FocusInterpolated(const OBB& obb)
 
 		if (currentTimeRelation >= 1.0f)
 		{
-			Quat nextRotation =
-				Quat::LookAt(frustum->Front(), targetDirection.Normalized(), frustum->Up(), float3::unitY);
+			Quat nextRotation = Quat::LookAt(frustum->Front(), targetDirection.Normalized(), frustum->Up(), float3::unitY);
 			ApplyRotation(nextRotation);
 
 			SetPosition(endposition);
 
 			currentFocusPos = endposition;
 			currentFocusDir = camDirection;
-
+			
 			interpolationTime = 0.0f;
 			isFocusing = false;
 		}
-		else
+		else 
 		{
 			if (currentFocusPos.Equals(endposition))
 			{
 				float3 nextDirection = Quat::SlerpVector(currentFocusDir, targetDirection, currentTimeRelation);
-				Quat nextRotation =
-					Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
+				Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
 				ApplyRotation(nextRotation);
 			}
 			else if (currentFocusDir.Equals(camDirection))
@@ -303,23 +308,23 @@ void CameraEngine::FocusInterpolated(const OBB& obb)
 			else
 			{
 				float3 nextDirection = Quat::SlerpVector(currentFocusDir, targetDirection, currentTimeRelation);
-				Quat nextRotation =
-					Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
+				Quat nextRotation = Quat::LookAt(frustum->Front(), nextDirection.Normalized(), frustum->Up(), float3::unitY);
 				ApplyRotation(nextRotation);
 
 				float3 nextPos = currentFocusPos.Lerp(endposition, currentTimeRelation);
 				SetPosition(nextPos);
 			}
 		}
+		
 	}
+	
 }
 void CameraEngine::FocusProportional(const OBB& obb)
 {
 	Sphere boundingSphere = obb.MinimalEnclosingSphere();
 
 	float radius = boundingSphere.r;
-	if (boundingSphere.r < 1.f)
-		radius = 1.f;
+	if (boundingSphere.r < 1.f) radius = 1.f;
 	float fov = frustum->HorizontalFov();
 	float camDistance = radius / float(sin(fov / 2.0));
 
@@ -330,11 +335,11 @@ void CameraEngine::FocusProportional(const OBB& obb)
 	float3 camDirection = (boundingSphere.pos - position).Normalized();
 	float3 localForward = frustum->Front().Normalized();
 
-	if (localForward.Equals(camDirection, 0.05f))
+	if (localForward.Equals(camDirection, 0.05f)) 
 	{
 		rotationAchieved = true;
 	}
-	else
+	else 
 	{
 		targetRotation = Quat::RotateFromTo(localForward, camDirection);
 		targetRotation.Normalize();
@@ -346,31 +351,33 @@ void CameraEngine::FocusProportional(const OBB& obb)
 
 	if (!positionAchieved)
 	{
-		// Position proportional
+		//Position proportional
 		float3 positionError = endposition - position;
-		if (positionError.Equals(float3::zero, 0.05f))
+		if (positionError.Equals(float3::zero, 0.05f)) 
 		{
 			positionAchieved = true;
 		}
-		else
+		else 
 		{
 			float3 velocityPosition = positionError * KpPosition;
 			float3 nextPos = position + velocityPosition * deltaTime;
 			SetPosition(nextPos);
 		}
+		
 	}
+
 
 	if (!rotationAchieved)
 	{
-		// Rotation proportional
+		//Rotation proportional
 		Quat rotationError = targetRotation * rotation.Normalized().Inverted();
 		rotationError.Normalize();
 
-		if (rotationError.Equals(Quat::identity, 0.05f))
+		if (rotationError.Equals(Quat::identity, 0.05f)) 
 		{
 			rotationAchieved = true;
 		}
-		else
+		else 
 		{
 			float3 axis;
 			float angle;
@@ -381,24 +388,27 @@ void CameraEngine::FocusProportional(const OBB& obb)
 			Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
 			Quat wq_0 = angularVelocityQuat * rotation;
 
+
 			float deltaValue = 0.5f * deltaTime;
-			Quat deltaRotation =
-				Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+			Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
 
 			Quat nextRotation(rotation.x + deltaRotation.x,
-							  rotation.y + deltaRotation.y,
-							  rotation.z + deltaRotation.z,
-							  rotation.w + deltaRotation.w);
+				rotation.y + deltaRotation.y,
+				rotation.z + deltaRotation.z,
+				rotation.w + deltaRotation.w);
 			nextRotation.Normalize();
 
 			ApplyRotationWithFixedUp(nextRotation, float3::unitY);
+
 		}
+		
 	}
 
-	if (positionAchieved && rotationAchieved)
+	if (positionAchieved && rotationAchieved) 
 	{
 		isFocusing = false;
 	}
+
 }
 void CameraEngine::Focus(GameObject* gameObject)
 {
@@ -418,21 +428,23 @@ void CameraEngine::Focus(GameObject* gameObject)
 				outputArray.push_back(transform->GetEncapsuledAABB().maxPoint);
 			}
 		}
-		minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int) outputArray.size());
+		minimalAABB = minimalAABB.MinimalEnclosingAABB(outputArray.data(), (int)outputArray.size());
 
-		if (isUsingProportionalController)
+		if (isUsingProportionalController) 
 		{
 			FocusProportional(minimalAABB);
 		}
-		else
+		else 
 		{
 			FocusInterpolated(minimalAABB);
 		}
+		
 	}
 }
 
 void CameraEngine::Orbit(const OBB& obb)
 {
+
 	FreeLook();
 
 	float3 posToOrbit = obb.CenterPoint();

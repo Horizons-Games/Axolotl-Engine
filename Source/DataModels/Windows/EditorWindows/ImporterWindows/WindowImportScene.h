@@ -8,3 +8,4 @@ public:
 
 	void DoThisIfOk() override;
 };
+

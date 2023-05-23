@@ -1,6 +1,6 @@
 #pragma once
-#include "AK/SoundEngine/SampleLowLevelIO/Win32/AkFilePackageLowLevelIOBlocking.h"
 #include "Module.h"
+#include "AK/SoundEngine/SampleLowLevelIO/Win32/AkFilePackageLowLevelIOBlocking.h"
 
 class ModuleAudio : public Module
 {

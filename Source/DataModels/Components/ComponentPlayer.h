@@ -15,7 +15,6 @@ public:
 
 	bool HaveMouseActivated();
 	void SetMouse(bool newMouse);
-
 private:
 	bool staticPlayer = false;
 	bool mousePlayer = false;
@@ -41,3 +40,4 @@ inline void ComponentPlayer::SetMouse(bool newMouse)
 	mousePlayer = newMouse;
 	staticPlayer = newMouse;
 }
+

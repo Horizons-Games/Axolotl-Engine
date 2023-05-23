@@ -22,4 +22,5 @@ private:
 	uint64_t listenerID;
 	AkTransform listenerTransform;
 	ComponentTransform* transform;
+
 };

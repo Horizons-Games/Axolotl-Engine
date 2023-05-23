@@ -2,7 +2,8 @@
 
 #include "DataModels/Components/ComponentLight.h"
 
-WindowComponentLight::WindowComponentLight(ComponentLight* component) : ComponentWindow("BASIC LIGHT", component)
+WindowComponentLight::WindowComponentLight(ComponentLight* component) :
+	ComponentWindow("BASIC LIGHT", component)
 {
 }
 
@@ -14,3 +15,4 @@ WindowComponentLight::WindowComponentLight(const std::string& name, ComponentLig
 WindowComponentLight::~WindowComponentLight()
 {
 }
+

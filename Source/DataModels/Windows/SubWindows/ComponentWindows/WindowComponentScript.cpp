@@ -3,20 +3,20 @@
 #include "Application.h"
 #include "Scene/Scene.h"
 
-#include "FileSystem/ModuleFileSystem.h"
 #include "Modules/ModuleScene.h"
+#include "FileSystem/ModuleFileSystem.h"
 
 #include "Components/ComponentScript.h"
 
+#include "ScriptFactory.h"
 #include "IScript.h"
 #include "Math/float3.h"
-#include "ScriptFactory.h"
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
-	ComponentWindow("SCRIPT", component),
-	windowUID(UniqueID::GenerateUID())
+	ComponentWindow("SCRIPT", component), windowUID(UniqueID::GenerateUID())
 {
 }
+
 
 WindowComponentScript::~WindowComponentScript()
 {
@@ -45,8 +45,7 @@ void WindowComponentScript::DrawWindowContents()
 
 	if (!scriptObject)
 	{
-		if (ImGui::ListBox(
-				finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
+		if (ImGui::ListBox(finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
 			ChangeScript(script, constructors[current_item]);
 			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
@@ -61,8 +60,8 @@ void WindowComponentScript::DrawWindowContents()
 
 		ImGui::SetNextWindowSize(ImVec2(280, 75));
 
-		if (ImGui::BeginPopupModal(
-				"Create new script", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar))
+		if (ImGui::BeginPopupModal("Create new script", nullptr,
+			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar))
 		{
 			OpenCreateNewScriptPopUp();
 			ImGui::EndPopup();
@@ -120,8 +119,7 @@ void WindowComponentScript::DrawWindowContents()
 			{
 				Field<float3> float3Field = std::get<Field<float3>>(member);
 				float3 value = float3Field.getter();
-				if (ImGui::DragFloat3(
-						float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+				if(ImGui::DragFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
 				{
 					float3Field.setter(value);
 				}
@@ -132,7 +130,7 @@ void WindowComponentScript::DrawWindowContents()
 			{
 				Field<std::string> stringField = std::get<Field<std::string>>(member);
 				std::string value = stringField.getter();
-
+			
 				label = stringField.name;
 				finalLabel = label + separator + thisID;
 				if (ImGui::InputText(finalLabel.c_str(), value.data(), 24))
@@ -161,7 +159,7 @@ void WindowComponentScript::DrawWindowContents()
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
 					{
-						UID draggedGameObjectID = *(UID*) payload->Data;
+						UID draggedGameObjectID = *(UID*)payload->Data;
 						GameObject* draggedGameObject =
 							App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
 
@@ -205,6 +203,7 @@ void WindowComponentScript::DrawWindowContents()
 			default:
 				break;
 		}
+
 	}
 }
 
@@ -276,8 +275,7 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 }
 
 void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToReplace,
-													  const std::string& from,
-													  const std::string& to)
+	const std::string& from, const std::string& to)
 {
 	if (from.empty())
 	{

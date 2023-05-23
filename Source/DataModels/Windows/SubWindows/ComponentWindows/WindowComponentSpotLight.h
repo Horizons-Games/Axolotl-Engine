@@ -13,3 +13,4 @@ public:
 protected:
 	void DrawWindowContents() override;
 };
+

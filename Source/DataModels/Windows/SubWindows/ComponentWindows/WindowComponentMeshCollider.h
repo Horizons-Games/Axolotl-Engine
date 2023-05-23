@@ -4,7 +4,8 @@
 
 class ComponentMeshCollider;
 
-class WindowComponentMeshCollider : public ComponentWindow
+class WindowComponentMeshCollider :
+	public ComponentWindow
 {
 public:
 	WindowComponentMeshCollider(ComponentMeshCollider* component);
@@ -12,4 +13,5 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+
 };

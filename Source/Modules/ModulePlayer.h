@@ -23,11 +23,13 @@ public:
 	bool IsStatic();
 
 private:
-	GameObject* player;
+	GameObject*  player;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
 
 	float speed;
 
 	bool bootsOnGround = false;
+	
 };
+

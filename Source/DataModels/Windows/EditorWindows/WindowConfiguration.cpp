@@ -1,11 +1,11 @@
 #include "WindowConfiguration.h"
 
-#include "Windows/SubWindows/WindowCamera.h"
 #include "Windows/SubWindows/WindowFPS.h"
-#include "Windows/SubWindows/WindowFrustum.h"
-#include "Windows/SubWindows/WindowHardware.h"
 #include "Windows/SubWindows/WindowRenderer.h"
+#include "Windows/SubWindows/WindowHardware.h"
 #include "Windows/SubWindows/WindowWindow.h"
+#include "Windows/SubWindows/WindowCamera.h"
+#include "Windows/SubWindows/WindowFrustum.h"
 
 WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 {

@@ -43,3 +43,4 @@ private:
 	std::string usedRam;
 	std::string reservedRam;
 };
+
