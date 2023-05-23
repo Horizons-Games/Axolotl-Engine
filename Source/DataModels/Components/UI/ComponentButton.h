@@ -2,8 +2,7 @@
 #include "../Component.h"
 #include "Math/float4.h"
 
-class ComponentButton :
-	public Component
+class ComponentButton : public Component
 {
 public:
 	ComponentButton(bool active, GameObject* owner);
@@ -11,6 +10,8 @@ public:
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
+
+	void Disable() override;
 
 	void OnClicked();
 

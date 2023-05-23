@@ -1,15 +1,15 @@
 #include "WindowComponentAnimation.h"
 
-#include "Windows/EditorWindows/ImporterWindows/WindowStateMachineInput.h"
 #include "Components/ComponentAnimation.h"
+#include "Windows/EditorWindows/ImporterWindows/WindowStateMachineInput.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "Resources/ResourceStateMachine.h"
 
-
 WindowComponentAnimation::WindowComponentAnimation(ComponentAnimation* component) :
-	ComponentWindow("ANIMATION", component), inputState(std::make_unique<WindowStateMachineInput>(component))
+	ComponentWindow("ANIMATION", component),
+	inputState(std::make_unique<WindowStateMachineInput>(component))
 {
 }
 
@@ -22,7 +22,7 @@ void WindowComponentAnimation::DrawWindowContents()
 	DrawEnableAndDeleteComponent();
 	ImGui::Text("");
 	ComponentAnimation* asAnimation = static_cast<ComponentAnimation*>(component);
-	if(asAnimation) 
+	if (asAnimation)
 	{
 		bool drawBones = asAnimation->IsDrawBonesActivated();
 		ImGui::Text("Draw Bones:");
