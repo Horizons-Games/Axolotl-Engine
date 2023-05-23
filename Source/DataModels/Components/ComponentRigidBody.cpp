@@ -328,6 +328,7 @@ void ComponentRigidBody::Enable()
 {
 	Component::Enable();
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::Disable()
