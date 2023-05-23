@@ -148,20 +148,21 @@ void WindowInspector::InspectSelectedGameObject()
 		ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
+		std::string name = lastSelectedGameObject->GetName();
+		bool nameChanged = ImGui::InputText("##GameObject", name.data(), 32);
+
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
-			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name.data(), 32))
+			if (nameChanged)
 			{
 				std::string scene = " Scene";
-				std::string sceneName = name + scene;
-				lastSelectedGameObject->SetName(sceneName.c_str());
+				std::string sceneName = name.c_str() + scene;
+				lastSelectedGameObject->SetName(sceneName);
 			}
 		}
 		else
 		{
-			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", name.data(), 32))
+			if (nameChanged)
 			{
 				lastSelectedGameObject->SetName(name.c_str());
 			}
