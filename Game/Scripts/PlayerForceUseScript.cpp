@@ -37,7 +37,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && !gameObjectAttached)
 	{
 		RaycastHit hit;
-		Ray ray(trans->GetPosition(), trans->GetGlobalForward());
+		Ray ray(trans->GetGlobalPosition(), trans->GetGlobalForward());
 		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 		bool hasHit = Physics::RaycastToTag(line, hit, owner, tag);
 		if (Physics::RaycastToTag(line, hit, owner, tag))
