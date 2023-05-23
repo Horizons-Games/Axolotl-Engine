@@ -8,8 +8,8 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
-#include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentCanvas.h"
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -92,8 +92,7 @@ update_status ModuleScene::PreUpdate()
 		App->GetScriptFactory()->LoadCompiledModules();
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (ComponentScript* componentScript :
-				 gameObject->GetComponents<ComponentScript>())
+			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 			{
 				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
@@ -106,8 +105,7 @@ update_status ModuleScene::PreUpdate()
 		}
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (ComponentScript* componentScript :
-				 gameObject->GetComponents<ComponentScript>())
+			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 			{
 				if (componentScript->IsEnabled())
 				{

@@ -607,8 +607,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 				gameObjectQueue.push(child);
 			}
 		}
-		std::vector<ComponentMeshRenderer*> meshes =
-			currentGo->GetComponents<ComponentMeshRenderer>();
+		std::vector<ComponentMeshRenderer*> meshes = currentGo->GetComponents<ComponentMeshRenderer>();
 		for (ComponentMeshRenderer* mesh : meshes)
 		{
 			mesh->DrawHighlight();

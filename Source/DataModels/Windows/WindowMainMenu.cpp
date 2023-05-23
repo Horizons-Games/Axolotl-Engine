@@ -1,6 +1,5 @@
 #include "WindowMainMenu.h"
 #include "Application.h"
-#include "Application.h"
 #include "Auxiliar/GameBuilder.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
 #include "DataModels/Scene/Scene.h"

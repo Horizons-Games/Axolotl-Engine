@@ -81,7 +81,7 @@ public:
 	bool RemoveComponent(const Component* component);
 
 	Component* CreateComponentLight(LightType lightType);
-	
+
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
 	void Disable();
