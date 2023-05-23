@@ -13,7 +13,7 @@ REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
 componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(false)
+dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
 {
 	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
 	REGISTER_FIELD_WITH_ACCESSORS(DashForce, float);
@@ -34,7 +34,6 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	float nDeltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
@@ -62,7 +61,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		direction = componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
 
 	}
 
@@ -76,7 +75,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 		direction = -componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
 
 	}
 
@@ -91,7 +90,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		direction = -componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
 
 	}
 
@@ -106,7 +105,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		direction = componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * nDeltaTime * nspeed;
+		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
@@ -122,7 +121,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 		
-	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
 	{
 		if (!isDashing)
 		{
@@ -130,6 +129,12 @@ void PlayerMoveScript::Move(float deltaTime)
 				btRb->applyCentralImpulse(movement.normalized() * dashForce);
 				isDashing = true;
 			}
+		}
+
+		if (nextDash == 0)
+		{
+			canDash = false;
+			nextDash = 3000 + static_cast<float>(SDL_GetTicks());
 		}
 	}
 	else
@@ -145,9 +150,17 @@ void PlayerMoveScript::Move(float deltaTime)
 		{
 			if (math::Abs(currentVelocity.getX()) < dashForce/100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
 			{
+				btRb->setLinearVelocity(newVelocity);
 				isDashing = false;
 			}
 		}
+	}
+
+	// Cooldown Dash
+	if (nextDash != 0 && nextDash < SDL_GetTicks())
+	{
+		canDash = true;
+		nextDash = 0;
 	}
 }
 
