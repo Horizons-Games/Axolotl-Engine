@@ -22,13 +22,17 @@ public:
 	void UnsubscribeToOnCollisionEnter();
 	//TODO:Unsuscribe on destroy
 
+	float GetImpulsionMul();
+	void  SetImpulsionMul(float impulsion);
+
 	void OnCollisionEnter(class ComponentRigidBody* other);
 	bool GetSubscribed();
 
 private:
 
+	float impulsionForce = 1.0f;
 	LCG* lcg = new LCG();
-	btVector3 impulsion{ 2.0f,2.0f,2.0f };
+	btVector3 impulsion{ 1.0f,1.0f,1.0f };
 	bool subscribed = false;
 };
 
@@ -36,4 +40,15 @@ inline bool ComponentBreakable::GetSubscribed()
 {
 	return subscribed;
 }
+
+inline float ComponentBreakable::GetImpulsionMul()
+{
+	return impulsionForce;
+}
+
+inline void ComponentBreakable::SetImpulsionMul(float impulsion)
+{
+	impulsionForce = impulsion;
+}
+
 
