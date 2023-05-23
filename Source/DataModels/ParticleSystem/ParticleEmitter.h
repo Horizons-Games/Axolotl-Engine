@@ -70,6 +70,7 @@ public:
 	void SetShape(ShapeType shape);
 	void SetAngle(float angle); 
 	void SetRadius(float radius);
+	void SetParticleTexture(const std::shared_ptr<ResourceTexture>& particleTexture);
 
 	bool IsRandomLife() const;
 	bool IsRandomSpeed() const;
@@ -89,6 +90,7 @@ public:
 	float4 GetColor() const;
 	ShapeType GetShape() const;
 	std::vector<ParticleModule*> GetModules() const;
+	const std::shared_ptr<ResourceTexture>& GetParticleTexture() const;
 
 	//ImGui functions
 	void SetVisibleConfig(bool visible);
@@ -215,6 +217,11 @@ inline void ParticleEmitter::SetRadius(float radius)
 	this->radius = radius;
 }
 
+inline void ParticleEmitter::SetParticleTexture(const std::shared_ptr<ResourceTexture>& particleTexture)
+{
+	this->particleTexture = particleTexture;
+}
+
 inline bool ParticleEmitter::IsRandomLife() const
 {
 	return randomLife;
@@ -303,6 +310,11 @@ inline ParticleEmitter::ShapeType ParticleEmitter::GetShape() const
 inline std::vector<ParticleModule*> ParticleEmitter::GetModules() const
 {
 	return modules;
+}
+
+inline const std::shared_ptr<ResourceTexture>& ParticleEmitter::GetParticleTexture() const
+{
+	return particleTexture;
 }
 
 inline void ParticleEmitter::SetVisibleConfig(bool visible)
