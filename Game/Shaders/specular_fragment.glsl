@@ -310,8 +310,9 @@ void main()
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
-        norm = normalize(space * norm);
+        norm = space * norm;
 	}
+    norm = normalize(norm);
 
     // Specular
     vec4 specularMat = vec4(material.specular_color, 1.0);

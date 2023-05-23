@@ -307,9 +307,10 @@ void main()
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
-        norm = normalize(space * norm);
+        norm = space * norm;
 	}
-    
+    norm = normalize(norm);
+
     vec4 colorMetallic = texture(metallic_map, TexCoord);
     float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * material.metalness;
 
