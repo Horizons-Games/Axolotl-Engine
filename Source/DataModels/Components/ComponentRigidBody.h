@@ -109,14 +109,20 @@ public:
     void SetPositionTarget(const float3& targetPos);
     void SetRotationTarget(const Quat& targetRot);
 
+	bool GetUsePositionController() const;
+	void SetUsePositionController(bool newUsePositionController);
+
 	bool GetUseRotationController() const;
-	void SetUseRotationController(bool newUsePositionController);
+	void SetUseRotationController(bool newUseRotationController);
 
 	void DisablePositionController();
 	void DisableRotationController();
 
 	float GetKpForce() const;
 	void SetKpForce(float newKpForce);
+
+	float GetKpTorque() const;
+	void SetKpTorque(float newKpTorque);
 
     void TranslateCenterOfMass();
 
@@ -125,8 +131,6 @@ public:
     btRigidBody* GetRigidBody() const;
     ComponentTransform* GetOwnerTransform() const;
 	void SetUpMobility();
-
-	void RemoveRigidBodyFromSimulation();
 
 	void UpdateRigidBody();
 
@@ -376,7 +380,7 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
 { 
-    return rigidBody; 
+    return rigidBody.get(); 
 }
 
 inline ComponentTransform* ComponentRigidBody::GetOwnerTransform() const

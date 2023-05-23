@@ -116,7 +116,7 @@ void WindowComponentRigidBody::DrawWindowContents()
         ImGui::Text("Collider Size"); ImGui::SameLine();
         if (ImGui::Button("Reset size", ImVec2(120, 0)))
         {
-            asRigidBody->SetDefaultSize(currentShape);
+			asRigidBody->SetDefaultSize(static_cast<ComponentRigidBody::Shape>(currentShape));
         }
 
 		// Box shape
