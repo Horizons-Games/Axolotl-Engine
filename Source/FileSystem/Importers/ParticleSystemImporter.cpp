@@ -4,6 +4,7 @@
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/Json.h"
 #include "ParticleSystem/ParticleEmitter.h"
+#include "Resources/ResourceTexture.h"
 
 ParticleSystemImporter::ParticleSystemImporter()
 {
@@ -50,13 +51,17 @@ void ParticleSystemImporter::Save
 	};
 
 	size = sizeof(header)
-		// header of emitter (Size name + size Modules) + content of Emitter
-		+ (sizeof(unsigned int) * 4 + sizeof(float) * 17 + sizeof(bool) * 6) * resource->GetNumEmitters();
+		// header of emitter (Size name + size Modules + check Resource) + content of Emitter
+		+ (sizeof(unsigned int) * 5 + sizeof(float) * 17 + sizeof(bool) * 6) * resource->GetNumEmitters();
 
 	for(size_t i = 0; i < header[0]; i++)
 	{
 		const ParticleEmitter* emitter = resource->GetEmitter(i);
 		size += emitter->GetName().size();
+		if(emitter->GetParticleTexture() != nullptr)
+		{
+			size += sizeof(UID);
+		}
 		//size += emitter->GetModules().size();
 	}
 
@@ -73,11 +78,11 @@ void ParticleSystemImporter::Save
 	{
 		const ParticleEmitter* emitter = resource->GetEmitter(i);
 
-		unsigned int emitterHeader[2] =
+		unsigned int emitterHeader[3] =
 		{
 			emitter->GetName().size(),
-			emitter->GetModules().size()
-			//emitter->resource != nullptr ? true : false,
+			emitter->GetModules().size(),
+			emitter->GetParticleTexture() != nullptr ? true : false
 		};
 
 		bytes = sizeof(emitterHeader);
@@ -95,6 +100,15 @@ void ParticleSystemImporter::Save
 		memcpy(cursor, &(emitter->GetName()[0]), bytes);
 
 		cursor += bytes;*/
+
+		if(emitterHeader[2])
+		{
+			bytes = sizeof(UID);
+			UID textureUID = emitter->GetParticleTexture()->GetUID();
+			memcpy(cursor, &textureUID, bytes);
+
+			cursor += bytes;
+		}
 
 		bytes = sizeof(int);
 		int maxParticles = emitter->GetMaxParticles();
