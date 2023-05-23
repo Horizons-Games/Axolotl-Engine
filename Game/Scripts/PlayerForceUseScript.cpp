@@ -5,6 +5,7 @@
 #include "ModuleScene.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "Scene/Scene.h"
 #include "DataStructures/Quadtree.h"
@@ -15,7 +16,7 @@
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-gameObjectAttachedParent(nullptr), tag("Forzable")
+gameObjectAttachedParent(nullptr), tag("Forzable"), gameObjectAttachedGravity(btVector3(0, 0, 0))
 {
 }
 
@@ -44,20 +45,20 @@ void PlayerForceUseScript::Update(float deltaTime)
 			gameObjectAttached = hit.gameObject;
 			gameObjectAttachedParent = gameObjectAttached->GetParent();
 			gameObjectAttached->SetParent(owner);
+
+			ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>
+				(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+			gameObjectAttachedGravity = rigidBody->GetGravity();
+			rigidBody->SetGravity(btVector3(0,0,0));
+			
 		}
 	}
 	else if (input->GetKey(SDL_SCANCODE_Q) == KeyState::IDLE && gameObjectAttached)
 	{
 		gameObjectAttached->SetParent(gameObjectAttachedParent);
+		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>
+			(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+		rigidBody->SetGravity(gameObjectAttachedGravity);
 		gameObjectAttached = nullptr;
 	}
-
-	if (gameObjectAttached)
-	{
-		ComponentTransform* trans2 = static_cast<ComponentTransform*>(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
-
-		ENGINE_LOG("%f, %f, %f", trans2->GetPosition().x, trans2->GetPosition().y, trans2->GetPosition().z);
-	}
-	ENGINE_LOG("%f, %f, %f", trans->GetPosition().x, trans->GetPosition().y, trans->GetPosition().z);
-
 }

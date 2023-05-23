@@ -2,6 +2,8 @@
 
 #include "Scripting\Script.h"
 
+#include "Bullet/LinearMath/btVector3.h"
+
 class PlayerForceUseScript :
     public Script
 {
@@ -14,6 +16,7 @@ public:
 
 private:
 
+	btVector3 gameObjectAttachedGravity;
     GameObject* gameObjectAttached;
     GameObject* gameObjectAttachedParent;
     std::string tag;
