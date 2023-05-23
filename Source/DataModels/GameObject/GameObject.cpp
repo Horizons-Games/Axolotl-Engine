@@ -218,7 +218,9 @@ void GameObject::LinkChild(GameObject* child)
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 
-		ComponentTransform* transform = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+
 		if (transform)
 		{
 			transform->UpdateTransformMatrices();
