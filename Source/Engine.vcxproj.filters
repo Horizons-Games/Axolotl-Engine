@@ -370,6 +370,9 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HealthSystem.cpp">
+      <Filter>UserScripts\Health System</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
@@ -704,6 +707,9 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
+      <Filter>UserScripts\Auxiliar</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
@@ -745,6 +751,12 @@
     </ClInclude>
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HealthSystem.h">
+      <Filter>UserScripts\Health System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
@@ -844,6 +856,9 @@
     </Filter>
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Health System">
+      <UniqueIdentifier>{562f5fbe-0e28-41cf-b6f2-8398f0b8bbfa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
