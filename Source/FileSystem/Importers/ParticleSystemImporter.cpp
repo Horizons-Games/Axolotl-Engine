@@ -231,5 +231,155 @@ void ParticleSystemImporter::Save
 void ParticleSystemImporter::Load
 (const char* fileBuffer, std::shared_ptr<ResourceParticleSystem> resource)
 {
-	
+#ifdef ENGINE
+	//Update Meta
+	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
+	char* metaBuffer = {};
+	App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+	rapidjson::Document doc;
+	Json meta(doc, doc);
+	meta.fromBuffer(metaBuffer);
+	delete metaBuffer;
+
+	Json jsonTextures = meta["TexturesAssetPaths"];
+	Json jsonVisibleConfig = meta["ConfigEmitters"];
+	unsigned int countParticleTextures = 0;
+#endif
+
+	unsigned int header[1];
+	unsigned int bytes = sizeof(header);
+	memcpy(header, fileBuffer, bytes);
+	fileBuffer += bytes;
+
+	resource->ClearAllEmitters();
+	for (unsigned int i = 0; i < header[0]; ++i)
+	{
+		std::unique_ptr<ParticleEmitter> emitter = std::make_unique<ParticleEmitter>();
+
+		unsigned int emitterHeader[3];
+		bytes = sizeof(emitterHeader);
+		memcpy(emitterHeader, fileBuffer, bytes);
+		fileBuffer += bytes;
+
+		char* name = new char[emitterHeader[0]]{};
+		bytes = sizeof(char) * emitterHeader[0];
+		memcpy(name, fileBuffer, bytes);
+		emitter->SetName(name);
+		delete[] name;
+
+		fileBuffer += bytes;
+
+		if (emitterHeader[2])
+		{
+#ifdef ENGINE
+			std::string resourcePath = jsonTextures[countParticleTextures];
+			std::shared_ptr<ResourceTexture> resourceParticleTexture = App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(resourcePath);
+
+			emitter->SetParticleTexture(resourceParticleTexture);
+			++countParticleTextures;
+			fileBuffer += sizeof(UID);
+#else
+			UID resourcePointer;
+			bytes = sizeof(UID);
+			memcpy(&resourcePointer, fileBuffer, bytes);
+			std::shared_ptr<ResourceTexture> resourceParticleTexture = App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(resourceParticleTexture);
+			emitter->SetParticleTexture(resourceParticleTexture);
+			fileBuffer += bytes;
+#endif
+		}
+
+		bytes = sizeof(bool);
+		int maxParticles;
+		memcpy(&maxParticles, fileBuffer, bytes);
+		emitter->SetMaxParticles(maxParticles);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float);
+		float duration;
+		memcpy(&duration, fileBuffer, bytes);
+		emitter->SetDuration(duration);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float) * 2;
+		float2 lifeSpan;
+		memcpy(&lifeSpan, fileBuffer, bytes);
+		emitter->SetLifespanRange(lifeSpan);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float) * 2;
+		float2 speed;
+		memcpy(&speed, fileBuffer, bytes);
+		emitter->SetSizeRange(speed);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float) * 2;
+		float2 rotation;
+		memcpy(&rotation, fileBuffer, bytes);
+		emitter->SetRotationRange(rotation);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float) * 2;
+		float2 gravity;
+		memcpy(&gravity, fileBuffer, bytes);
+		emitter->SetGravityRange(gravity);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float) * 4;
+		float4 color;
+		memcpy(&color, fileBuffer, bytes);
+		emitter->SetColor(color);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float);
+		float angle;
+		memcpy(&angle, fileBuffer, bytes);
+		emitter->SetAngle(angle);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float);
+		float radius;
+		memcpy(&radius, fileBuffer, bytes);
+		emitter->SetAngle(radius);
+		fileBuffer += bytes;
+
+		bytes = sizeof(bool);
+		bool randomLife;
+		memcpy(&randomLife, fileBuffer, bytes);
+		emitter->SetRandomLife(randomLife);
+		fileBuffer += bytes;
+
+		bytes = sizeof(bool);
+		bool randomSpeed;
+		memcpy(&randomSpeed, fileBuffer, bytes);
+		emitter->SetRandomSpeed(randomSpeed);
+		fileBuffer += bytes;
+
+		bytes = sizeof(bool);
+		bool randomSize;
+		memcpy(&randomSize, fileBuffer, bytes);
+		emitter->SetRandomSize(randomSize);
+		fileBuffer += bytes;
+
+		bytes = sizeof(bool);
+		bool randomRot;
+		memcpy(&randomRot, fileBuffer, bytes);
+		emitter->SetRandomRotation(randomRot);
+		fileBuffer += bytes;
+
+		bytes = sizeof(bool);
+		bool randomGrav;
+		memcpy(&randomGrav, fileBuffer, bytes);
+		emitter->SetRandomGravity(randomGrav);
+		fileBuffer += bytes;
+
+		bytes = sizeof(int);
+		int type;
+		memcpy(&type, fileBuffer, bytes);
+		emitter->SetShape(static_cast<ParticleEmitter::ShapeType>(type));
+		fileBuffer += bytes;
+
+#ifdef ENGINE
+		emitter->SetVisibleConfig(jsonVisibleConfig[i]);
+#endif // ENGINE
+	}
 }
