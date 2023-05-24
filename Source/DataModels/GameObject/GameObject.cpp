@@ -591,8 +591,12 @@ bool GameObject::RemoveComponent(const Component* component)
 										 {
 											 return comp.get() == component;
 										 });
+	if (removeIfResult == std::end(components))
+	{
+		return false;
+	}
 	components.erase(removeIfResult, std::end(components));
-	return removeIfResult != std::end(components);
+	return true;
 }
 
 GameObject* GameObject::FindGameObject(const std::string& name)
