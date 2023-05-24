@@ -3,7 +3,7 @@
 #include "Resource.h"
 #include <memory>
 
-enum class TextureCompression 
+enum class TextureCompression
 {
 	NONE,
 	DXT1,
@@ -12,7 +12,7 @@ enum class TextureCompression
 	BC7
 };
 
-enum class TextureMinFilter 
+enum class TextureMinFilter
 {
 	NEAREST,
 	LINEAR,
@@ -22,13 +22,13 @@ enum class TextureMinFilter
 	LINEAR_MIPMAP_LINEAR
 };
 
-enum class TextureMagFilter 
+enum class TextureMagFilter
 {
 	NEAREST,
 	LINEAR
 };
 
-enum class TextureWrap 
+enum class TextureWrap
 {
 	REPEAT,
 	CLAMP_TO_EDGE,
@@ -51,7 +51,8 @@ struct LoadOptionsTexture
 		wrapS(TextureWrap::REPEAT),
 		wrapT(TextureWrap::REPEAT),
 		mipMap(true)
-	{}
+	{
+	}
 };
 
 struct ImportOptionsTexture
@@ -59,19 +60,18 @@ struct ImportOptionsTexture
 	bool flipVertical;
 	bool flipHorizontal;
 
-	ImportOptionsTexture() :
-		flipVertical(true),
-		flipHorizontal(false)
-	{}
+	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false)
+	{
+	}
 };
 
 class ResourceTexture : virtual public Resource
 {
 public:
-	ResourceTexture(UID resourceUID, 
-		const std::string& fileName, 
-		const std::string& assetsPath, 
-		const std::string& libraryPath);
+	ResourceTexture(UID resourceUID,
+					const std::string& fileName,
+					const std::string& assetsPath,
+					const std::string& libraryPath);
 	virtual ~ResourceTexture() override;
 
 	ResourceType GetType() const override;
@@ -106,6 +106,7 @@ public:
 protected:
 	void InternalLoad() override;
 	void InternalUnload() override;
+
 private:
 	void CreateTexture();
 

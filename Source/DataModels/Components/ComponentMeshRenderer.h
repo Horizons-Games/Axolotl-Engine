@@ -19,9 +19,9 @@
 
 #include "FileSystem/UniqueID.h"
 
-#include "Math/float4x4.h"
-#include "Math/float4.h"
 #include "Math/float3.h"
+#include "Math/float4.h"
+#include "Math/float4x4.h"
 
 #include "Program/Program.h"
 
@@ -48,7 +48,7 @@ public:
 
 	void Draw() const override;
 	void DrawMeshes(Program* program) const;
-	void DrawMaterial(Program* program) const; 
+	void DrawMaterial(Program* program) const;
 	void DrawHighlight() const;
 
 	void SaveOptions(Json& meta) override;

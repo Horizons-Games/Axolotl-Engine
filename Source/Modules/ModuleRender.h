@@ -8,6 +8,7 @@
 
 #include "GL/glew.h"
 #include "Math/float4.h"
+#include "Module.h"
 
 #include <map>
 #include <unordered_map>
@@ -33,7 +34,7 @@ public:
 	update_status PreUpdate() override;
 	update_status Update() override;
 	update_status PostUpdate() override;
-	
+
 	bool CleanUp() override;
 
 	void WindowResized(unsigned width, unsigned height);
@@ -50,14 +51,18 @@ public:
 	BatchManager* GetBatchManager() const;
 
 	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(const GameObject* gameObject);
+	void AddToRenderList(GameObject* gameObject);
+	void InsertToRenderList(GameObject* gameObject);
 
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 	bool IsSupportedPath(const std::string& modelPath);
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
-private:	
+	// const std::vector<const GameObject*> GetGameObjectsToDraw() const;
+
+private:
+	void UpdateProgram();
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawHighlight(GameObject* gameObject);

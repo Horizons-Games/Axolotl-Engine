@@ -1,15 +1,15 @@
 #pragma once
 #include "Module.h"
 
+#include <future>
 #include <map>
 #include <thread>
-#include <future>
 
 #include "DataModels/Resources/Resource.h"
 
 #include "Application.h"
-#include "ModuleFileSystem.h"
 #include "Json.h"
+#include "ModuleFileSystem.h"
 
 class ModelImporter;
 class TextureImporter;
@@ -31,21 +31,21 @@ public:
 	ModuleResources();
 	~ModuleResources() override;
 
-	//inherited methods from Module
+	// inherited methods from Module
 	bool Init() override;
 	bool CleanUp() override;
 
 	void CreateDefaultResource(ResourceType type, const std::string& fileName);
 
-	//Create Bin and .meta from path
+	// Create Bin and .meta from path
 	std::shared_ptr<Resource> ImportResource(const std::string& originalPath);
 	std::future<std::shared_ptr<Resource>> ImportThread(const std::string& originalPath);
 
-	//request resource and Import if is necessary
+	// request resource and Import if is necessary
 	template<class R = Resource>
 	const std::shared_ptr<R> RequestResource(const std::string assetPath);
 
-	//Search resource
+	// Search resource
 	template<class R = Resource>
 	const std::shared_ptr<R> SearchResource(UID uid);
 
@@ -55,38 +55,37 @@ public:
 	void CleanResourceBin();
 
 private:
-	//resource creation and deletition
-	std::shared_ptr<Resource> CreateNewResource(const std::string& fileName,
-												const std::string& assetsPath,
-												ResourceType type);
+	// resource creation and deletition
+	std::shared_ptr<Resource>
+		CreateNewResource(const std::string& fileName, const std::string& assetsPath, ResourceType type);
 	std::shared_ptr<Resource> CreateResourceOfType(UID uid,
 												   const std::string& fileName,
 												   const std::string& assetsPath,
 												   const std::string& libraryPath,
 												   ResourceType type);
 	void AddResource(std::shared_ptr<Resource>& resource, const std::string& originalPath);
-	//I wont guard this with #ifdef beacuse this needs to go on a different Module that will only exist in ENGINE
+	// I wont guard this with #ifdef beacuse this needs to go on a different Module that will only exist in ENGINE
 	void DeleteResource(const std::shared_ptr<EditorResourceInterface>& resToDelete);
 
-	//create resources from binaries
+	// create resources from binaries
 	std::shared_ptr<Resource> LoadResourceStored(const char* filePath, const char* fileNameToStore);
 	void ImportResourceFromLibrary(std::shared_ptr<Resource>& resource);
 
-	//importing: creation of binary and meta
+	// importing: creation of binary and meta
 	void CreateMetaFileOfResource(std::shared_ptr<Resource>& resource);
 	void ImportResourceFromSystem(const std::string& originalPath,
 								  std::shared_ptr<Resource>& resource,
 								  ResourceType type);
 
-	//folder and file management
-	void CreateAssetAndLibFolders();	
+	// folder and file management
+	void CreateAssetAndLibFolders();
 	void MonitorResources();
 	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 
 	ResourceType FindTypeByFolder(const std::string& path);
 
-	//utility methods
+	// utility methods
 	ResourceType FindTypeByExtension(const std::string& path);
 	const std::string GetNameOfType(ResourceType type);
 	ResourceType GetTypeOfName(const std::string& typeName);
@@ -95,8 +94,8 @@ private:
 	const std::string CreateLibraryPath(UID resourceUID, ResourceType type);
 
 	static const std::string assetsFolder;
-	static const std::string libraryFolder;	
-	std::map<UID, std::weak_ptr<Resource> > resources;
+	static const std::string libraryFolder;
+	std::map<UID, std::weak_ptr<Resource>> resources;
 
 	std::unique_ptr<ModelImporter> modelImporter;
 	std::unique_ptr<TextureImporter> textureImporter;
@@ -123,16 +122,16 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	{
 		ENGINE_LOG("Extension not supported");
 	}
-	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(path);
-	std::string extension = App->GetModule<ModuleFileSystem>()->GetFileExtension(path);
-	std::string assetPath = path;
-
-	assetPath = CreateAssetsPath(fileName + extension, type);
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	std::string fileName = fileSystem->GetFileName(path);
+	std::string extension = fileSystem->GetFileExtension(path);
+	std::string assetPath = CreateAssetsPath(fileName + extension, type);
 
 	std::string metaPath = assetPath + META_EXTENSION;
-	if (App->GetModule<ModuleFileSystem>()->Exists(metaPath.c_str())) {
+	if (fileSystem->Exists(metaPath.c_str()))
+	{
 		char* metaBuffer = {};
-		App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+		fileSystem->Load(metaPath.c_str(), metaBuffer);
 
 		rapidjson::Document doc;
 		Json meta(doc, doc);
@@ -140,29 +139,29 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		meta.fromBuffer(metaBuffer);
 		delete metaBuffer;
 
-		UID uid = (UID)meta["UID"];
+		UID uid = (UID) meta["UID"];
 
-		//If that resource is already on the map because another component uses it, we return it
+		// If that resource is already on the map because another component uses it, we return it
 		auto it = resources.find(uid);
 		if (it != resources.end() && !(it->second).expired())
 		{
 			return std::dynamic_pointer_cast<R>(it->second.lock());
 		}
 
-		//If that resource has binaries and they are new, we load them
+		// If that resource has binaries and they are new, we load them
 		ResourceType type = GetTypeOfName(std::string(meta["Type"]));
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
-		long long assetTime = App->GetModule<ModuleFileSystem>()->GetModificationDate(assetPath.c_str());
-		long long libTime = App->GetModule<ModuleFileSystem>()->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
+		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
-
-			std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
 			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, App->GetModule<ModuleFileSystem>()->GetFileName(assetPath), assetPath, libraryPath, type);
+			std::shared_ptr<Resource> resource =
+				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
 			ImportResourceFromLibrary(resource);
 
@@ -174,13 +173,13 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		}
 	}
 
-	//If that resource does not have any of the two options, we will import it again
+	// If that resource does not have any of the two options, we will import it again
 	ImportResource(path);
 	metaPath = assetPath + META_EXTENSION;
-	if (App->GetModule<ModuleFileSystem>()->Exists(metaPath.c_str())) {
-
+	if (fileSystem->Exists(metaPath.c_str()))
+	{
 		char* metaBuffer = {};
-		App->GetModule<ModuleFileSystem>()->Load(metaPath.c_str(), metaBuffer);
+		fileSystem->Load(metaPath.c_str(), metaBuffer);
 
 		rapidjson::Document doc;
 		Json meta(doc, doc);
@@ -188,19 +187,20 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		meta.fromBuffer(metaBuffer);
 		delete metaBuffer;
 
-		UID uid = (UID)meta["UID"];
+		UID uid = (UID) meta["UID"];
 		ResourceType type = GetTypeOfName(std::string(meta["Type"]));
 
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
-		long long assetTime = App->GetModule<ModuleFileSystem>()->GetModificationDate(assetPath.c_str());
-		long long libTime = App->GetModule<ModuleFileSystem>()->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
+		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
-			std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
 			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource = CreateResourceOfType(uid, App->GetModule<ModuleFileSystem>()->GetFileName(assetPath), assetPath, libraryPath, type);
+			std::shared_ptr<Resource> resource =
+				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
 			ImportResourceFromLibrary(resource);
 			if (resource)
@@ -231,7 +231,7 @@ const std::shared_ptr<R> ModuleResources::SearchResource(UID uid)
 	}
 
 	std::shared_ptr<Resource> shared = LoadResourceStored(LIB_FOLDER, std::to_string(uid).c_str());
-	if(shared)
+	if (shared)
 	{
 		resources.insert({ shared->GetUID(), shared });
 		return std::move(std::dynamic_pointer_cast<R>(shared));
