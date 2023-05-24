@@ -54,7 +54,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 	if (emitter)
 	{
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-		ImGui::Text(emitter->GetName());
+		ImGui::Text(emitter->GetName().c_str());
 
 		bool open = emitter->IsVisibleConfig();
 
