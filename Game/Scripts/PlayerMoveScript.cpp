@@ -43,11 +43,13 @@ void PlayerMoveScript::Move(float deltaTime)
 	float3 direction = float3::zero;
 	
 	float nspeed = speed;
+	bool shiftPressed = false;
 
 	//run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
 		nspeed *= 2;
+		shiftPressed = true;
 	}
 
 	// Forward
@@ -125,7 +127,13 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (!isDashing)
 		{
-			if (!movement.isZero()) {
+			if (!movement.isZero()) 
+			{
+				if (shiftPressed)
+				{
+					movement /= 2;
+				}
+				btRb->setLinearVelocity(movement);
 				btRb->applyCentralImpulse(movement.normalized() * dashForce);
 				isDashing = true;
 			}
