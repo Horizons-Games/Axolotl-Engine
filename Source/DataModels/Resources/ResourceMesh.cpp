@@ -39,12 +39,12 @@ unsigned int ResourceMesh::GetBonesPerVertex()
 
 void ResourceMesh::InternalLoad()
 {
-	glGenBuffers(1, &ssboPalette);
+	/*glGenBuffers(1, &ssboPalette);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float4x4) * bones.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);*/
 
 	CreateVBO();
 	CreateEBO();
@@ -189,11 +189,7 @@ void ResourceMesh::CreateVAO()
 	glVertexAttribIPointer(4, 4, GL_UNSIGNED_INT, 0, (void*) (sizeof(float) * (3 + 2 + 3 + 3) * numVertices));
 
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5,
-						  4,
-						  GL_FLOAT,
-						  GL_FALSE,
-						  0,
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0,
 						  (void*) ((sizeof(float) * (3 + 2 + 3 + 3) + sizeof(unsigned int) * 4) * numVertices));
 }
 

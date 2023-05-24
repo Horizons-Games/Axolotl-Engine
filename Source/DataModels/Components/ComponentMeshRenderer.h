@@ -13,7 +13,6 @@
 #include "ModuleProgram.h"
 
 #include "Auxiliar/Generics/Drawable.h"
-#include "Auxiliar/Generics/Updatable.h"
 
 #include "Components/Component.h"
 
@@ -35,7 +34,7 @@ class WindowMeshInput;
 class WindowMaterialInput;
 class WindowTextureInput;
 
-class ComponentMeshRenderer : public Component, public Drawable, public Updatable
+class ComponentMeshRenderer : public Component, public Drawable
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
@@ -44,7 +43,7 @@ public:
 
 	void InitBones();
 
-	void Update() override;
+	void UpdatePalette();
 
 	void Draw() const override;
 	void DrawMeshes(Program* program) const;
@@ -112,6 +111,8 @@ public:
 
 	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
 
+	const std::vector<float4x4>& GetPalette() const;
+
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
@@ -149,6 +150,11 @@ inline std::shared_ptr<ResourceMaterial> ComponentMeshRenderer::GetMaterial() co
 inline GeometryBatch* ComponentMeshRenderer::GetBatch() const
 {
 	return batch;
+}
+
+inline const std::vector<float4x4>& ComponentMeshRenderer::GetPalette() const
+{
+	return skinPalette;
 }
 
 inline void ComponentMeshRenderer::SetBatch(GeometryBatch* geometryBatch)

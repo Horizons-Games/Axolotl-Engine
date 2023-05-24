@@ -70,7 +70,7 @@ void ComponentMeshRenderer::InitBones()
 	}
 }
 
-void ComponentMeshRenderer::Update()
+void ComponentMeshRenderer::UpdatePalette()
 {
 	if (mesh && mesh->GetNumBones() > 0)
 	{
@@ -88,7 +88,7 @@ void ComponentMeshRenderer::Update()
 			{
 				const GameObject* boneNode = root->FindGameObject(bindBones[i].name);
 
-				if (boneNode)
+				if (boneNode && App->IsOnPlayMode())
 				{
 					skinPalette[i] = static_cast<ComponentTransform*>(boneNode->GetComponent(ComponentType::TRANSFORM))
 										 ->CalculatePaletteGlobalMatrix() *
