@@ -70,7 +70,6 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		{
 			// this should not be done, see issue #240
 			meshPath = (char*) (meshAsShared->GetLibraryPath().c_str());
-			showMeshBrowser = false;
 		}
 		else
 		{

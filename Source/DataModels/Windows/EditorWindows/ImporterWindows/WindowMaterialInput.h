@@ -2,18 +2,18 @@
 
 #include "Windows/EditorWindows/WindowFileBrowser.h"
 
-class WindowComponentMeshRenderer;
+class ComponentMeshRenderer;
 
 class WindowMaterialInput : public WindowFileBrowser
 {
 public:
-	WindowMaterialInput(WindowComponentMeshRenderer* window);
+	WindowMaterialInput(ComponentMeshRenderer* window);
 	~WindowMaterialInput() override;
 
 	void DoThisIfOk() override;
 
 private:
-	WindowComponentMeshRenderer* windowComponentMeshRenderer;
+	ComponentMeshRenderer* componentMeshRenderer;
 
 	friend class WindowComponentMeshRenderer;
 };

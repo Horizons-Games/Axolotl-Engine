@@ -23,7 +23,7 @@ WindowMaterialInput::~WindowMaterialInput()
 
 void WindowMaterialInput::DoThisIfOk()
 {
-	if (windowComponentMeshRenderer)
+	if (componentMeshRenderer)
 	{
 		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());

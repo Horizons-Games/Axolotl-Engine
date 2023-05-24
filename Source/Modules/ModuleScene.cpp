@@ -281,6 +281,8 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
 
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+
 	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
 	char* buffer{};
 #ifdef ENGINE

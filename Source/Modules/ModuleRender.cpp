@@ -470,29 +470,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 					objectsInFrustrumDistances[gameObject] = dist;
 				}
 			}
-		}
-		else if (!gameObjectsToRender.empty()) // If the node is not a leaf but has GameObjects shared by all children
-		{
-			for (const GameObject* gameObject : gameObjectsToRender) // We draw all these objects
-			{
-				if (gameObject->IsEnabled())
-				{
-					if (!CheckIfTransparent(gameObject))
-						opaqueGOToDraw.insert(gameObject);
-					else
-					{
-						const ComponentTransform* transform =
-							static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-						float dist = Length(cameraPos - transform->GetGlobalPosition());
-						while (transparentGOToDraw[dist] != nullptr)
-						{
-							float addDistance = 0.0001f;
-							dist += addDistance;
-						}
-						transparentGOToDraw[dist] = gameObject;
-					}
-				}
-			}
+
 			FillRenderList(quadtree->GetFrontRightNode()); // And also call all the children to render
 			FillRenderList(quadtree->GetFrontLeftNode());
 			FillRenderList(quadtree->GetBackRightNode());
@@ -544,37 +522,6 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		for (GameObject* children : gameObject->GetChildren())
 		{
 			AddToRenderList(children);
-		}
-	}
-}
-
-void ModuleRender::InsertToRenderList(GameObject* goSelected)
-{
-	float3 cameraPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
-	std::list<GameObject*> goSList = goSelected->GetGameObjectsInside();
-	for (GameObject* gameObject : goSList)
-	{
-		const ComponentTransform* transform =
-			static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-		// If an object doesn't have transform component it doesn't need to draw
-		if (transform == nullptr)
-		{
-			continue;
-		}
-		if (gameObject->IsActive())
-		{
-			if (!CheckIfTransparent(gameObject))
-				opaqueGOToDraw.insert(gameObject);
-			else
-			{
-				float dist = Length(cameraPos - transform->GetGlobalPosition());
-				while (transparentGOToDraw[dist] != nullptr)
-				{
-					float addDistance = 0.0001f;
-					dist += addDistance;
-				}
-				transparentGOToDraw[dist] = gameObject;
-			}
 		}
 	}
 }

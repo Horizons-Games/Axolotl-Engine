@@ -305,23 +305,29 @@ void GeometryBatch::CreateVAO()
 	{
 		glGenBuffers(1, &materials);
 	}
-	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, 
-		componentsInBatch.size() * sizeof(float4x4));
 
 	if (flags & BatchManager::HAS_METALLIC)
 	{
-		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialMetallic), nullptr, createFlags);
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * 
+			sizeof(MaterialMetallic));
 
-		metallicMaterialData = static_cast<MaterialMetallic*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch
-			.size() * sizeof(float4x4), mapFlags));
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialMetallic), nullptr, 
+			createFlags);
+
+		metallicMaterialData = static_cast<MaterialMetallic*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
+			componentsInBatch.size() * sizeof(MaterialMetallic), mapFlags));
 	}
 	
 	else if (flags & BatchManager::HAS_SPECULAR)
 	{
-		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialSpecular), nullptr, createFlags);
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials, 0, componentsInBatch.size() * 
+			sizeof(MaterialSpecular));
 
-		specularMaterialData = static_cast<MaterialSpecular*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, componentsInBatch
-			.size() * sizeof(float4x4), mapFlags));
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, componentsInBatch.size() * sizeof(MaterialSpecular), nullptr, 
+			createFlags);
+
+		specularMaterialData = static_cast<MaterialSpecular*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
+			componentsInBatch.size() * sizeof(MaterialSpecular), mapFlags));
 	}
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
