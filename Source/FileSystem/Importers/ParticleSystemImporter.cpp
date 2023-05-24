@@ -280,6 +280,26 @@ void ParticleSystemImporter::Load
 
 		fileBuffer += bytes;
 
+		for (int i = 0; i < emitterHeader[1]; ++i)
+		{
+			bytes = sizeof(int);
+			int type;
+			memcpy(&type, fileBuffer, bytes);
+
+			fileBuffer += bytes;
+
+			ParticleModule* module = new ParticleModule(static_cast<ParticleModule::ModuleType>(type), emitter.get());
+
+			bytes = sizeof(bool);
+			bool enabled;
+			memcpy(&enabled, &fileBuffer, bytes);
+
+			fileBuffer += bytes;
+
+			module->SetEnabled(enabled);
+			emitter->AddModule(module);
+		}
+
 		if (emitterHeader[2])
 		{
 #ifdef ENGINE
