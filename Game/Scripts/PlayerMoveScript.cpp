@@ -40,7 +40,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
-	float3 direction = float3::zero;
+	float3 totalDirection = float3::zero;
 	
 	float nspeed = speed;
 	bool shiftPressed = false;
@@ -62,8 +62,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		direction = componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += componentTransform->GetLocalForward().Normalized();
 
 	}
 
@@ -76,8 +75,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
-		direction = -componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += -componentTransform->GetLocalForward().Normalized();
 
 	}
 
@@ -91,8 +89,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		direction = -componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += -componentTransform->GetGlobalRight().Normalized();
 
 	}
 
@@ -106,8 +103,13 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		direction = componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += componentTransform->GetGlobalRight().Normalized();
+	}
+
+	if (!totalDirection.IsZero())
+	{
+		totalDirection = totalDirection.Normalized();
+		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
