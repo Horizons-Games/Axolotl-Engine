@@ -1242,6 +1242,9 @@
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Auxiliar\Utils\View.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

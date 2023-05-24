@@ -397,7 +397,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	for (GameObject* obj : loadedObjects)
 	{
-		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
+		auto camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
 		ComponentCanvas* canvas = obj->GetComponent<ComponentCanvas>();
@@ -416,7 +416,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			loadedParticle.push_back(static_cast<ComponentParticleSystem*>(particle));
 		}
 
-		std::vector<ComponentLight*> lightsOfObj = obj->GetComponents<ComponentLight>();
+		GameObject::FilteredComponentView<ComponentLight> lightsOfObj = obj->GetComponents<ComponentLight>();
 		for (const ComponentLight* light : lightsOfObj)
 		{
 			if (light->GetLightType() == LightType::DIRECTIONAL)

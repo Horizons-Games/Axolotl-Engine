@@ -3,7 +3,8 @@
 #include "FileSystem/UID.h"
 #include "MathGeoLib/Include/Math/vec2d.h"
 
-#include <ranges>
+
+#include "Auxiliar/Utils/View.h"
 
 class Component;
 class ComponentMeshRenderer;
@@ -26,14 +27,20 @@ enum class StateOfSelection
 
 class GameObject
 {
-public:
-	using GameObjectView =
-		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>,
-									std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
-	using ComponentView =
-		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>,
-									std::function<Component*(const std::unique_ptr<Component>&)>>;
+private:
+	template<typename T>
+	using CommonTransformView = axo::transform_view<axo::ref_unique_vector_view<T>, std::unique_ptr<T>, T*>;
 
+public:
+	using GameObjectView = CommonTransformView<GameObject>;
+	using ComponentView = CommonTransformView<Component>;
+	template<typename C>
+	using FilteredComponentView =
+		axo::transform_view<axo::filter_view<axo::ref_unique_vector_view<Component>, std::unique_ptr<Component>>,
+							std::unique_ptr<Component>,
+							C*>;
+
+public:
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
 	GameObject(const std::string& name, GameObject* parent);
@@ -73,7 +80,7 @@ public:
 	template<typename C>
 	C* GetComponent() const;
 	template<typename C>
-	std::vector<C*> GetComponents() const;
+	FilteredComponentView<C> GetComponents() const;
 	template<typename C>
 	bool RemoveComponent();
 	template<typename C>
@@ -231,7 +238,7 @@ inline bool GameObject::IsActive() const
 
 inline GameObject::GameObjectView GameObject::GetChildren() const
 {
-	// I haven't found a way allow for an anonymous function
+	// I haven't found a way to allow for an anonymous function
 	std::function<GameObject*(const std::unique_ptr<GameObject>&)> lambda = [](const std::unique_ptr<GameObject>& go)
 	{
 		return go.get();
@@ -250,7 +257,7 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 
 inline GameObject::ComponentView GameObject::GetComponents() const
 {
-	// I haven't found a way allow for an anonymous function
+	// I haven't found a way to allow for an anonymous function
 	std::function<Component*(const std::unique_ptr<Component>&)> lambda = [](const std::unique_ptr<Component>& c)
 	{
 		return c.get();

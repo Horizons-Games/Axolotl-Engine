@@ -18,20 +18,17 @@ C* GameObject::GetComponent() const
 }
 
 template<typename C>
-std::vector<C*> GameObject::GetComponents() const
+GameObject::FilteredComponentView<C> GameObject::GetComponents() const
 {
-	auto filteredComponents = components |
-							  std::views::filter(
-								  [](const std::unique_ptr<Component>& comp)
-								  {
-									  return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
-								  }) |
-							  std::views::transform(
-								  [](const std::unique_ptr<Component>& comp)
-								  {
-									  return static_cast<C*>(comp.get());
-								  });
-	return std::vector<C*>(std::begin(filteredComponents), std::end(filteredComponents));
+	std::function<bool(const std::unique_ptr<Component>&)> filter = [](const std::unique_ptr<Component>& comp)
+	{
+		return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
+	};
+	std::function<C*(const std::unique_ptr<Component>&)> transform = [](const std::unique_ptr<Component>& comp)
+	{
+		return static_cast<C*>(comp.get());
+	};
+	return std::ranges::transform_view(std::ranges::filter_view(components, filter), transform);
 }
 
 template<typename C>
