@@ -39,12 +39,12 @@ unsigned int ResourceMesh::GetBonesPerVertex()
 
 void ResourceMesh::InternalLoad()
 {
-	/*glGenBuffers(1, &ssboPalette);
+	glGenBuffers(1, &ssboPalette);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float4x4) * bones.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);*/
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	CreateVBO();
 	CreateEBO();

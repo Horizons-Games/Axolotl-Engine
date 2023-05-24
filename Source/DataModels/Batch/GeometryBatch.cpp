@@ -381,15 +381,19 @@ void GeometryBatch::CreateVAO()
 	}
 
 	// Palettes
-	if (palettes == 0)
+	for (int i = 0; i < DOUBLE_BUFFERS; i++)
 	{
-		glGenBuffers(1, &palettes);
-	}
-	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointPalette, palettes, 0, totalNumBones * sizeof(float4x4));
-	glBufferStorage(GL_SHADER_STORAGE_BUFFER, totalNumBones * sizeof(float4x4), nullptr, createFlags);
+		if (palettes[i] == 0)
+		{
+			glGenBuffers(1, &palettes[i]);
+		}
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointPalette, palettes[i], 0, 
+						  totalNumBones * sizeof(float4x4));
+		glBufferStorage(GL_SHADER_STORAGE_BUFFER, totalNumBones * sizeof(float4x4), nullptr, createFlags);
 
-	paletteData = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
-										 totalNumBones * sizeof(float4x4), mapFlags));
+		paletteData[i] = static_cast<float4x4*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, 
+											    totalNumBones * sizeof(float4x4), mapFlags));
+	}
 
 	// PerInstances
 	if (perInstancesBuffer == 0)
@@ -424,10 +428,10 @@ void GeometryBatch::ClearBuffer()
 	glDeleteBuffers(1, &tangentsBuffer);
 	glDeleteBuffers(1, &weightsBuffer);
 	glDeleteBuffers(1, &bonesBuffer);
-	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(1, &materials);
-	glDeleteBuffers(1, &palettes);
 	glDeleteBuffers(1, &perInstancesBuffer);
+	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
+	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }
 
 void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent)
@@ -584,6 +588,7 @@ void GeometryBatch::BindBatch(bool selected)
 
 	frame = (frame + 1) % DOUBLE_BUFFERS;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[frame]);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPalette, palettes[frame]);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 
 	WaitBuffer();
@@ -687,7 +692,7 @@ void GeometryBatch::BindBatch(bool selected)
 				if (component->GetMesh()->GetNumBones() > 0 && component->GetPalette().size() > 0)
 				{
 
-					memcpy(&paletteData[perInstances[instanceIndex].paletteOffset],
+					memcpy(&paletteData[frame][perInstances[instanceIndex].paletteOffset],
 						   &component->GetPalette()[0],
 						   perInstances[instanceIndex].numBones * sizeof(float4x4));
 				}
@@ -810,10 +815,10 @@ void GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &tangentsBuffer);
 	glDeleteBuffers(1, &weightsBuffer);
 	glDeleteBuffers(1, &bonesBuffer);
-	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(1, &materials);
-	glDeleteBuffers(1, &palettes);
 	glDeleteBuffers(1, &perInstancesBuffer);
+	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
+	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }
 
 void GeometryBatch::UpdateBatchComponents()

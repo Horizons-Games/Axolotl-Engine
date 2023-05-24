@@ -134,9 +134,9 @@ private:
 	unsigned int tangentsBuffer;
 	unsigned int bonesBuffer;
 	unsigned int weightsBuffer;
-	unsigned int transforms[DOUBLE_BUFFERS] = {0, 0};
+	unsigned int transforms[DOUBLE_BUFFERS] = { 0, 0 };
+	unsigned int palettes[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int materials = 0;
-	unsigned int palettes = 0;
 	unsigned int perInstancesBuffer;
 
 	bool createBuffers;
@@ -159,7 +159,7 @@ private:
 	GLbitfield createFlags;
 
 	float4x4* transformData[DOUBLE_BUFFERS];
-	float4x4* paletteData;
+	float4x4* paletteData[DOUBLE_BUFFERS];
 	PerInstance* perInstanceData;
 	MaterialMetallic* metallicMaterialData;
 	MaterialSpecular* specularMaterialData;
