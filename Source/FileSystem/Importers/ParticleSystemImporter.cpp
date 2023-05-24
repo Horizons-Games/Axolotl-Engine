@@ -101,7 +101,7 @@ void ParticleSystemImporter::Save
 
 		cursor += bytes;
 
-		for (ParticleModule* module : emitter->GetModules())
+		for (const ParticleModule* module : emitter->GetModules())
 		{
 			bytes = sizeof(int);
 			int type = static_cast<int>(module->GetType());
