@@ -13,16 +13,16 @@ public:
 		const std::string& libraryPath);
 	~ResourceParticleSystem();
 
-	size_t GetNumEmitters() const;
+	unsigned int GetNumEmitters() const;
 	ParticleEmitter* GetEmitter(unsigned int emitterIndex) const;
-	void AddEmitter(const std::unique_ptr<ParticleEmitter>& emitter);
+	void AddEmitter(std::unique_ptr<ParticleEmitter> emitter);
 	void ClearAllEmitters();
 
 private:
     std::vector<std::unique_ptr<ParticleEmitter>> emitters;
 };
 
-inline size_t ResourceParticleSystem::GetNumEmitters() const
+inline unsigned int ResourceParticleSystem::GetNumEmitters() const
 {
 	return emitters.size();
 }
@@ -36,7 +36,7 @@ inline ParticleEmitter* ResourceParticleSystem::GetEmitter(unsigned int emitterI
 	return emitters[emitterIndex].get();
 }
 
-inline void ResourceParticleSystem::AddEmitter(const std::unique_ptr<ParticleEmitter>& emitter)
+inline void ResourceParticleSystem::AddEmitter(std::unique_ptr<ParticleEmitter> emitter)
 {
 	emitters.push_back(std::move(emitter));
 }

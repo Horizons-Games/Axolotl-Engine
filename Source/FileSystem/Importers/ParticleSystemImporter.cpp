@@ -393,6 +393,6 @@ void ParticleSystemImporter::Load
 		emitter->SetVisibleConfig(static_cast<bool>(jsonVisibleConfig[i]));
 #endif // ENGINE
 
-		resource->AddEmitter(emitter);
+		resource->AddEmitter(std::move(emitter));
 	}
 }
