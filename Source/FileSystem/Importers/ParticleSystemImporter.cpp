@@ -227,7 +227,7 @@ void ParticleSystemImporter::Save
 		cursor += bytes;
 
 #ifdef ENGINE
-		jsonVisibleConfig[i] = emitter->IsVisibleConfig();
+		jsonVisibleConfig[i] = static_cast<bool>(emitter->IsVisibleConfig());
 #endif // ENGINE
 
 	}
@@ -390,7 +390,7 @@ void ParticleSystemImporter::Load
 		fileBuffer += bytes;
 
 #ifdef ENGINE
-		emitter->SetVisibleConfig(jsonVisibleConfig[i]);
+		emitter->SetVisibleConfig(static_cast<bool>(jsonVisibleConfig[i]));
 #endif // ENGINE
 
 		resource->AddEmitter(emitter);
