@@ -1,5 +1,5 @@
-#include "GameObject.h"
 #pragma once
+#include "GameObject.h"
 
 template<typename C>
 C* GameObject::CreateComponent()
