@@ -35,6 +35,15 @@ private:
 
 	ModuleInput* input;
 
-
+	//Provisional
+	GameObject* ray1GO;
+	GameObject* ray2GO;
+	GameObject* ray3GO;
+	GameObject* ray4GO;
+	ComponentTransform* ray1Transform;
+	ComponentTransform* ray2Transform;
+	ComponentTransform* ray3Transform;
+	ComponentTransform* ray4Transform;
+	//--Provisional
 
 };
