@@ -22,14 +22,11 @@
 #endif // !ENGINE
 
 GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
-createBuffers(true), reserveModelSpace(true), flags(flags), fillMaterials(false), 
-defaultMaterial(new ResourceMaterial(0, "", "", "")), 
-mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
-createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
+	createBuffers(true), reserveModelSpace(true), flags(flags), fillMaterials(false), 
+	defaultMaterial(new ResourceMaterial(0, "", "", "")), 
+	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
+	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	// Setting the default framgent as the METALLIC (in case the mesh didn't had a material)
-	this->flags |= (flags & BatchManager::HAS_SPECULAR || flags & BatchManager::HAS_METALLIC) ? 0 : BatchManager::HAS_METALLIC;
-
 	if (this->flags & BatchManager::HAS_SPECULAR)
 	{
 		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
