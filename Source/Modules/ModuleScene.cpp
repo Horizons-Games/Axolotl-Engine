@@ -8,8 +8,11 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
-#include "Components/UI/ComponentButton.h"
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentButton.h"
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -62,23 +65,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/MainMenuVS1.axolotl", false);
-	}
-
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-		{
-			componentScript->Init();
-		}
-	}
-
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-		{
-			componentScript->Start();
-		}
+		LoadScene("Lib/Scenes/MainMenuScriptsVS2.axolotl", false);
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
@@ -92,7 +79,8 @@ update_status ModuleScene::PreUpdate()
 		App->GetScriptFactory()->LoadCompiledModules();
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
+			for (ComponentScript* componentScript :
+				 gameObject->GetComponents<ComponentScript>())
 			{
 				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
@@ -200,23 +188,7 @@ void ModuleScene::OnPlay()
 
 	SaveSceneToJson(jsonScene);
 
-	// First Init
-	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-		{
-			componentScript->Init();
-		}
-	}
-
-	// Then Start
-	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-		{
-			componentScript->Start();
-		}
-	}
+	InitAndStartScriptingComponents();
 }
 
 void ModuleScene::OnStop()
@@ -237,6 +209,27 @@ void ModuleScene::OnStop()
 
 	// clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
+}
+
+void ModuleScene::InitAndStartScriptingComponents()
+{
+	//First Init
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
+		{
+			componentScript->Init();
+		}
+	}
+
+	//Then Start
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
+		{
+			componentScript->Start();
+		}
+	}
 }
 
 std::unique_ptr<Scene> ModuleScene::CreateEmptyScene() const
@@ -310,11 +303,14 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	LoadSceneFromJson(Json, mantainActualScene);
 
 #ifndef ENGINE
-	ModulePlayer* player = App->GetModule<ModulePlayer>();
-	if (player->GetPlayer())
-	{
-		player->LoadNewPlayer();
-	}
+		ModulePlayer* player = App->GetModule<ModulePlayer>();
+		if (player->GetPlayer())
+		{
+
+			player->LoadNewPlayer();
+		}
+
+		InitAndStartScriptingComponents();
 #endif // !ENGINE
 }
 
@@ -380,6 +376,16 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			// Quadtree treatment
 			AddGameObject(obj);
 		}
+
+		ComponentTransform* transform = obj->GetComponent<ComponentTransform>();
+
+		ComponentRigidBody* rigidBody = obj->GetComponent<ComponentRigidBody>();
+
+		if (rigidBody)
+		{
+			transform->UpdateTransformMatrices();
+			rigidBody->UpdateRigidBody();
+		}
 	}
 
 	SetSceneRootAnimObjects(loadedObjects);
@@ -388,7 +394,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	if (!mantainActualScene)
 	{
-		App->GetModule<ModuleRender>()->FillRenderList(rootQuadtree);
 		loadedScene->SetSceneCameras(loadedCameras);
 		loadedScene->SetSceneCanvas(loadedCanvas);
 		loadedScene->SetSceneInteractable(loadedInteractable);

@@ -23,13 +23,13 @@ void ButtonSoundScript::Update(float deltaTime)
 {
 	if (buttonComponent->IsHovered() && buttonState == ButtonStates::OUTSIDE)
 	{
-		buttonAudio->PostEvent(audio::SFX_UI_BUTTON_HOVER);
+		buttonAudio->PostEvent(AUDIO::SFX::UI::BUTTON_HOVER);
 		buttonState = ButtonStates::HOVER;
 	}
 
 	if (buttonComponent->IsClicked() && buttonState == ButtonStates::HOVER)
 	{
-		buttonAudio->PostEvent(audio::SFX_UI_BUTTON_PRESS);
+		buttonAudio->PostEvent(AUDIO::SFX::UI::BUTTON_PRESS);
 		buttonState = ButtonStates::CLICK;
 	}
 

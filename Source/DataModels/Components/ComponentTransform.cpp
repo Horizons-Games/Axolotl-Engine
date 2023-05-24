@@ -170,8 +170,13 @@ void ComponentTransform::UpdateTransformMatrices()
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
-		childTransform->UpdateTransformMatrices();
+		ComponentTransform* childTransform = 
+			child->GetComponent<ComponentTransform>();
+
+		if(childTransform)
+		{
+			childTransform->UpdateTransformMatrices();
+		}
 	}
 }
 
