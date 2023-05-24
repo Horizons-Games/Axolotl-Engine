@@ -11,8 +11,8 @@ public:
     FieldType type;
 
     VectorField(const std::string& name,
-        const std::function<T(void)>& getter,
-        const std::function<void(const T&)>& setter) :
+        const std::function<std::vector<T>(void)>& getter,
+        const std::function<void(const std::vector<T>&)>& setter) :
         Field<T>(name, getter, setter),
         type(GetType())
     {
@@ -21,12 +21,6 @@ public:
 private:
     FieldType GetType()
     {
-        if constexpr (std::is_same_v<typename T::value_type, float>)
-            return FieldType::FLOAT;
-        else if constexpr (std::is_same_v<typename T::value_type, std::string>)
-            return FieldType::STRING;
-        // More types here
-        else
-            return FieldType::UNKNOWN;
+        return TypeToEnum<T>::value;
     }
 };

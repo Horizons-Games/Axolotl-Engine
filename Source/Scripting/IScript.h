@@ -8,6 +8,7 @@
 #include <variant>
 #include <optional>
 #include "Math/float3.h"
+#include <VectorField.h>
 
 class GameObject;
 class Application;
@@ -26,6 +27,13 @@ class Application;
         #Name, \
         [this] { return this->Get##Name(); }, \
         [this](Type value) { this->Set##Name(value); } \
+    )));
+
+#define REGISTER_VECTORFIELD_WITH_ACCESSORS(Name, Type) \
+    this->members.push_back(std::make_pair(FieldType::VECTOR, VectorField<Type>( \
+        #Name, \
+        [this] (){ return this->Get##Name(); }, \
+        [this](const std::vector<Type>& value) { this->Set##Name(value); } \
     )));
 
 using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::vector<std::any>>, Field<std::string>, Field<GameObject*>, Field<bool>>;
