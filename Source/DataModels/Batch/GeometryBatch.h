@@ -127,17 +127,17 @@ private:
 	unsigned int ebo;
 	unsigned int vao;
 	
-	unsigned int indirectBuffer = 0;
 	unsigned int verticesBuffer;
 	unsigned int textureBuffer;
 	unsigned int normalsBuffer;
 	unsigned int tangentsBuffer;
 	unsigned int bonesBuffer;
 	unsigned int weightsBuffer;
+	unsigned int indirectBuffer = 0;
+	unsigned int materials = 0;
+	unsigned int perInstancesBuffer = 0;
 	unsigned int transforms[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int palettes[DOUBLE_BUFFERS] = { 0, 0 };
-	unsigned int materials = 0;
-	unsigned int perInstancesBuffer;
 
 	bool createBuffers;
 	bool reserveModelSpace;

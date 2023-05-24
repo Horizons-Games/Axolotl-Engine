@@ -56,6 +56,7 @@ GeometryBatch::~GeometryBatch()
 
 	objectIndexes.clear();
 	instanceData.clear();
+	perInstances.clear();
 
 	CleanUp();
 	
@@ -681,9 +682,8 @@ void GeometryBatch::BindBatch(bool selected)
 
 				ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
 				std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
-				//find position in components vector
-				auto it = std::find(componentsInBatch.begin(), componentsInBatch.end(), component);
 
+				// find position in components vector
 				unsigned int instanceIndex = objectIndexes[component];
 
 				transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
@@ -710,14 +710,23 @@ void GeometryBatch::BindBatch(bool selected)
 				drawCount++;
 			}
 #else
+			component->UpdatePalette();
+
 			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
 			std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
 
 			//find position in components vector
 			unsigned int instanceIndex = objectIndexes[component];
 
-			transformsAux[instanceIndex] = static_cast<ComponentTransform*>(component->GetOwner()
-				->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+			transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
+				component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+
+			if (component->GetMesh()->GetNumBones() > 0 && component->GetPalette().size() > 0)
+			{
+				memcpy(&paletteData[frame][perInstances[instanceIndex].paletteOffset],
+					   &component->GetPalette()[0],
+					   perInstances[instanceIndex].numBones * sizeof(float4x4));
+			}
 
 			//do a for for all the instaces existing
 			Command newCommand = {
