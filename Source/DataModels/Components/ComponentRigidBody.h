@@ -124,8 +124,6 @@ public:
 	float GetKpTorque() const;
 	void SetKpTorque(float newKpTorque);
 
-    void TranslateCenterOfMass();
-
     void RemoveRigidBodyFromSimulation();
 
     btRigidBody* GetRigidBody() const;

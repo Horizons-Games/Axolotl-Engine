@@ -151,31 +151,6 @@ void WindowComponentRigidBody::DrawWindowContents()
 				{
 					dirty = true;
 				}
-				ImGui::Text("x:");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				if (ImGui::DragFloat("##XTrans", &boxSize.x, 0.5f))
-				{
-					dirty = true;
-				}
-
-				ImGui::SameLine();
-				ImGui::Text("y:");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				if (ImGui::DragFloat("##YTrans", &boxSize.y, 0.5f))
-				{
-					dirty = true;
-				}
-
-				ImGui::SameLine();
-				ImGui::Text("z:");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				if (ImGui::DragFloat("##ZTrans", &boxSize.z, 0.5f))
-				{
-					dirty = true;
-				}
 
 				if (dirty)
 				{
