@@ -144,15 +144,6 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
 
-	if (newObject->IsStatic())
-	{
-		loadedScene->AddStaticObject(gameObject);
-	}
-	else
-	{
-		loadedScene->AddNonStaticObject(gameObject);
-	}
-
 	return gameObject;
 }
 
@@ -730,6 +721,14 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
 {
 	sceneGameObjects.push_back(gameObject);
+	if (gameObject->IsStatic())
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+	}
+	else
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+	}
 	for (GameObject* children : gameObject->GetChildren())
 	{
 		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
