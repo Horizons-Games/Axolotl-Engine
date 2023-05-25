@@ -114,7 +114,7 @@ void PlayerMoveScript::Move()
 	{
 		isCrouch = true;
 		componentTransform->SetScale(componentTransform->GetScale() / 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
@@ -130,7 +130,7 @@ void PlayerMoveScript::Move()
 	{
 		isCrouch = false;
 		componentTransform->SetScale(componentTransform->GetScale() * 2);
-		std::vector<GameObject*> children = owner->GetChildren();
+		GameObject::GameObjectView children = owner->GetChildren();
 		for (auto child : children)
 		{
 			if (child->GetComponent(ComponentType::CAMERA))
@@ -303,7 +303,7 @@ void PlayerMoveScript::Move()
 	//rigidBody->AddForce(forceVector * forceParameter);
 
 	// Jump
-	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
+	/*if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
 	{
 		sizeJump = deltaTime * jumpParameter;
 		jumps -= 1;
@@ -345,5 +345,5 @@ void PlayerMoveScript::Move()
 		}
 	}
 
-	rigidBody->SetBottomHitPoint(maxHeight);
+	rigidBody->SetBottomHitPoint(maxHeight);*/
 }

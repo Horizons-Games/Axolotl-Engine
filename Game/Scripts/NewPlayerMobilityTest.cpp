@@ -155,15 +155,6 @@ void NewPlayerMobilityTest::Move()
 
 	}
 
-	if (input->GetKey(SDL_SCANCODE_SPACE) != KeyState::IDLE)
-	{
-		//direction = objectTransform->GetGlobalRight().Normalized();
-		//movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
-		componentAnimation->SetParameter("IsAttacking", true);
-
-
-	}
-
 	if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE)
 	{
 		//direction = objectTransform->GetGlobalRight().Normalized();

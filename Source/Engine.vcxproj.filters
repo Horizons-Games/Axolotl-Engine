@@ -382,6 +382,17 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -707,9 +718,6 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
@@ -770,6 +778,17 @@
     <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
+    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
+      <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

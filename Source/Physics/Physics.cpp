@@ -346,7 +346,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	float3 nearestHitPoint = float3::zero;
 	float3 hitNormal = float3::zero;
 
-	std::vector<GameObject*> children = exceptionGameObject->GetChildren();
+	GameObject::GameObjectView children = exceptionGameObject->GetChildren();
 
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{

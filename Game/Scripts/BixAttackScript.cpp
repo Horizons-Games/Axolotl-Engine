@@ -102,7 +102,7 @@ void BixAttackScript::PerformAttack()
 	if (isAttackAvailable())
 	{
 		if (animation)
-			animation->SetParameter("attack", true);
+			animation->SetParameter("IsAttacking", true);
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
