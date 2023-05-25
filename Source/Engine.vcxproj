@@ -800,6 +800,7 @@
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />
     <ClInclude Include="Scripting\LogSystem.h" />
+    <ClInclude Include="Scripting\RegisterFieldMacros.h" />
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
     <ClInclude Include="VectorField.h" />

@@ -746,6 +746,9 @@
     <ClInclude Include="VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\RegisterFieldMacros.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1588,9 +1591,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1667,9 +1667,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
