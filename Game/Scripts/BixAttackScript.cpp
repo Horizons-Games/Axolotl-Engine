@@ -59,24 +59,25 @@ void BixAttackScript::Start()
 	ray3Transform = static_cast<ComponentTransform*>(ray3GO->GetComponent(ComponentType::TRANSFORM));
 	ray4Transform = static_cast<ComponentTransform*>(ray4GO->GetComponent(ComponentType::TRANSFORM));
 	//--Provisional
+
+#ifdef DEBUG
+	rays.reserve(5);
+	rays.push_back(Ray(transform->GetPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(ray1Transform->GetPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(ray2Transform->GetPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(ray3Transform->GetPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(ray4Transform->GetPosition(), transform->GetLocalForward()));
+	Ray ray(transform->GetPosition(), transform->GetLocalForward());
+
+	for (const Ray& ray : rays)
+	{
+		dd::arrow(ray.pos, ray.pos + ray.dir * rayAttackSize, dd::colors::Red, 0.05f);
+	}
+#endif // DEBUG
 }
 
 void BixAttackScript::Update(float deltaTime)
 {
-	//DEBUG
-	Ray ray(transform->GetPosition(), transform->GetLocalForward());
-	dd::arrow(ray.pos, ray.pos + ray.dir * rayAttackSize, dd::colors::Red, 0.05f);
-	//Provisional
-	Ray ray1(ray1Transform->GetGlobalPosition(), transform->GetLocalForward());
-	dd::arrow(ray1.pos, ray1.pos + ray1.dir * rayAttackSize, dd::colors::Red, 0.05f);
-	Ray ray2(ray2Transform->GetGlobalPosition(), transform->GetLocalForward());
-	dd::arrow(ray2.pos, ray2.pos + ray2.dir * rayAttackSize, dd::colors::Red, 0.05f);
-	Ray ray3(ray3Transform->GetGlobalPosition(), transform->GetLocalForward());
-	dd::arrow(ray3.pos, ray3.pos + ray3.dir * rayAttackSize, dd::colors::Red, 0.05f);
-	Ray ray4(ray4Transform->GetGlobalPosition(), transform->GetLocalForward());
-	dd::arrow(ray4.pos, ray4.pos + ray4.dir * rayAttackSize, dd::colors::Red, 0.05f);
-	//--Provisional
-
 	// Attack
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
@@ -102,20 +103,9 @@ void BixAttackScript::PerformAttack()
 void BixAttackScript::CheckCollision()
 {
 	//Provisional
-	std::vector<Ray> rays;
-	Ray ray1(transform->GetPosition(), transform->GetLocalForward());
-	Ray ray2(ray1Transform->GetGlobalPosition(), transform->GetLocalForward());
-	Ray ray3(ray2Transform->GetGlobalPosition(), transform->GetLocalForward());
-	Ray ray4(ray3Transform->GetGlobalPosition(), transform->GetLocalForward());
-	Ray ray5(ray4Transform->GetGlobalPosition(), transform->GetLocalForward());
-	rays.push_back(ray1);
-	rays.push_back(ray2);
-	rays.push_back(ray3);
-	rays.push_back(ray4);
-	rays.push_back(ray5);
-
-	for (int i = 0; i < rays.size(); i++) {
-		LineSegment line(rays[i], rayAttackSize);
+	for (const Ray& ray : rays) 
+	{
+		LineSegment line(ray, rayAttackSize);
 		RaycastHit hit;
 		if (Physics::Raycast(line, hit, transform->GetOwner()))
 		{
