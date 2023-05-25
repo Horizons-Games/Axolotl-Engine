@@ -96217,25 +96217,15 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "NewPlayerMobilityTest",
+                            "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
-                                    "name": "Speed",
-                                    "value": 300.0,
-                                    "type": 0
-                                },
-                                {
                                     "name": "JumpParameter",
-                                    "value": 80.0,
+                                    "value": 1500.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "DashForce",
-                                    "value": 1000.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CanDash",
+                                    "name": "CanDoubleJump",
                                     "value": true,
                                     "type": 4
                                 }
@@ -96273,6 +96263,40 @@
                             "type": "Component_AudioSource",
                             "active": true,
                             "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerMoveScript",
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 500.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 10000.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": true,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerRotationScript",
+                            "fields": null
                         }
                     }
                 ]
@@ -97776,6 +97800,15 @@
                             "type": "Component_AudioListener",
                             "active": true,
                             "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerCameraRotationVerticalScript",
+                            "fields": null
                         }
                     }
                 ]
