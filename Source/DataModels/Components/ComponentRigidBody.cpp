@@ -265,22 +265,6 @@ void ComponentRigidBody::SetCollisionShape(Shape newShape)
 	}
 }
 
-void ComponentRigidBody::TranslateCenterOfMass()
-{
-    btTransform transformRb = rigidBody->getCenterOfMassTransform();
-    float3 position = transform->GetPosition();
-    btVector3 originRb;
-
-    originRb.setValue(
-        position.x + centerOfMass.getX(),
-        position.y + centerOfMass.getY(),
-        position.z + centerOfMass.getZ()
-    );
-    
-    transformRb.setOrigin(originRb);
-    rigidBody->setCenterOfMassTransform(transformRb);
-}
-
 void ComponentRigidBody::SaveOptions(Json& meta)
 {
 	// Do not delete these
@@ -404,5 +388,7 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 			height = 2.0f;
 			break;
 	}
+
+	SetCollisionShape(resetShape);
 	// WIP: reset 5th shape
 }
