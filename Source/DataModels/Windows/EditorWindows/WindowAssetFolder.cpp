@@ -32,11 +32,11 @@ void WindowAssetFolder::DrawWindowContents()
 
 	ImGui::SameLine(0.0f, -1.0f);
 
-	if (ImGui::Button("Create ParticleEmitter"))
+	if (ImGui::Button("Create ParticleSystem"))
 	{
 		ImGui::OpenPopup("Select Name");
-		type = ResourceType::Emitter;
-		name = "NewStateMachine";
+		type = ResourceType::ParticleSystem;
+		name = "NewParticleSystem";
 	}
 
 	if (ImGui::BeginPopupModal("Select Name", NULL, ImGuiWindowFlags_AlwaysAutoResize))
