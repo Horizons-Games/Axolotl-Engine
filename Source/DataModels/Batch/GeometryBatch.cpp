@@ -420,15 +420,7 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::ClearBuffer()
 {
-	//glDeleteVertexArrays(1, &vao);
-	//glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &indirectBuffer);
-	glDeleteBuffers(1, &verticesBuffer);
-	glDeleteBuffers(1, &textureBuffer);
-	glDeleteBuffers(1, &normalsBuffer);
-	glDeleteBuffers(1, &tangentsBuffer);
-	glDeleteBuffers(1, &weightsBuffer);
-	glDeleteBuffers(1, &bonesBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
