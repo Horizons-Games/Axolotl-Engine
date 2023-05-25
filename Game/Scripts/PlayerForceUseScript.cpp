@@ -18,7 +18,8 @@
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-gameObjectAttachedParent(nullptr), tag("Forzable"), hitPointGameObjectAttached(float3(0, 0, 0))
+gameObjectAttachedParent(nullptr), tag("Forzable"), distancePointGameObjectAttached(0.0f),
+ownerLastForward(float3(0,0,0)), gameObjectAttachedLastForward(float3(0,0,0))
 {
 }
 
@@ -33,43 +34,66 @@ void PlayerForceUseScript::Start()
 void PlayerForceUseScript::Update(float deltaTime)
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
-	ComponentTransform* trans = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
 
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && !gameObjectAttached)
 	{
 		RaycastHit hit;
-		Ray ray(trans->GetGlobalPosition(), trans->GetGlobalForward());
+		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
 		bool hasHit = Physics::RaycastToTag(line, hit, owner, tag);
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
+			ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
+				(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
+			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hittedTransform->GetGlobalPosition());
+
+			ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+			rigidBody->SetKpTorque(20.0f);
+
+			// set first rotation
+			ownerLastForward = transform->GetGlobalForward();
+			gameObjectAttachedLastForward = hittedTransform->GetGlobalForward();
 		}
 	}
 	else if (input->GetKey(SDL_SCANCODE_Q) == KeyState::IDLE && gameObjectAttached)
 	{
+		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 		gameObjectAttached = nullptr;
+		rigidBody->DisablePositionController();
+		rigidBody->DisableRotationController();
 	}
 
 	if (gameObjectAttached)
 	{
-		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
-		ModuleInput* input = App->GetModule<ModuleInput>();
-		btRigidBody* btRb = rigidBody->GetRigidBody();
-
-		ComponentTransform* transform = static_cast<ComponentTransform*>(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
-
-		ComponentCamera* camera = static_cast<ComponentCamera*>(owner->GetComponent(ComponentType::CAMERA));
-		float3 nextPosition = transform->GetGlobalPosition() - trans->GetGlobalPosition();
+		// Get next position of the gameObject
+		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
+		nextPosition *= distancePointGameObjectAttached;
+		nextPosition += transform->GetGlobalPosition();
 
-		float3 nextDirection = Quat::SlerpVector(camera->GetCamera()->GetFrustum()->Front(), nextPosition, deltaTime);
+		// Get next angle of the gameObject
+		ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
+			(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
 
-		btTransform trans;
-		trans = btRb->getWorldTransform();
-		trans.setOrigin(btVector3(nextDirection.x, nextDirection.y, nextDirection.z));
-		btRb->setWorldTransform(trans);
+		float3 ownerNewForward = transform->GetGlobalForward();
+		//ownerNewForward.Normalize();
+		//ownerLastForward.Normalize();
 
+		float3 ownerDiffForward = ownerLastForward - ownerNewForward;
+		gameObjectAttachedLastForward += ownerDiffForward;
+
+		Quat targetRotation = Quat::RotateFromTo(hittedTransform->GetGlobalForward(), gameObjectAttachedLastForward);
+
+
+		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+		rigidBody->SetPositionTarget(nextPosition);
+		rigidBody->SetRotationTarget(targetRotation);
+
+
+		ownerLastForward = transform->GetGlobalForward();
+		gameObjectAttachedLastForward = hittedTransform->GetGlobalForward();
 	}
 }

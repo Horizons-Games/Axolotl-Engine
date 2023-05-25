@@ -18,7 +18,11 @@ private:
 
     GameObject* gameObjectAttached;
     GameObject* gameObjectAttachedParent;
-	float3 hitPointGameObjectAttached;
+	float distancePointGameObjectAttached;
+
+	float3 ownerLastForward;
+	float3 gameObjectAttachedLastForward;
+
     std::string tag;
 
 };
