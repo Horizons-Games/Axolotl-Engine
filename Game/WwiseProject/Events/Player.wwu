@@ -122,6 +122,71 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="sfx_force" ID="{E1F63349-D8DA-4AF5-9079-CEFCA5C6F7E4}">
+					<ChildrenList>
+						<Action Name="" ID="{D5626103-42F1-4628-94B8-8CE7358517CD}" ShortID="98686601">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_force-001" ID="{552C53EC-6E42-42E6-81EB-BE2FE8DC2D83}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7F801E5F-0018-4F63-A248-2E96A791DA94}" ShortID="974579847">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_forceWoosh-001" ID="{D6D491B2-C13B-4B59-85E8-34DCF4CAC1C8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_jump_01" ID="{327C9E20-7B06-460D-8AA7-78AC17987075}">
+					<ChildrenList>
+						<Action Name="" ID="{7142225C-0CDA-47E7-B15C-C61F5B5D883D}" ShortID="265547644">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_jump_whoosh-001" ID="{F55E066A-2E29-4774-A2AA-1DCADCDEB9D6}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_doubleJump_01" ID="{C87BD2D4-14AB-4ECC-835A-F5F34C01E872}">
+					<ChildrenList>
+						<Action Name="" ID="{8040306A-5A1A-423B-9848-59D0B49C12C6}" ShortID="723581742">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_doubleJump_whoosh-001" ID="{78D28486-0A38-4D4D-9365-4A7B3421397E}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dash_01" ID="{1F0B3F52-1BAB-48F4-A762-63146135EC3D}">
+					<ChildrenList>
+						<Action Name="" ID="{DD99CE5B-4C9C-4B6D-8828-6B48B2CF5F0A}" ShortID="68045622">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_dash_whoosh-001" ID="{243ADB21-8CF4-47B0-BE59-0D20C02A3BC9}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_force_stop" ID="{B3F7F965-3429-4F75-BB58-C03474627351}">
+					<ChildrenList>
+						<Action Name="" ID="{0079261E-1BAC-4CC9-A969-C7F46A6BB0E8}" ShortID="786056521">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_force-001" ID="{552C53EC-6E42-42E6-81EB-BE2FE8DC2D83}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

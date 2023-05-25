@@ -26,6 +26,10 @@ ComponentAudioSource::~ComponentAudioSource()
 
 void ComponentAudioSource::OnTransformChanged()
 {
+	if (!IsEnabled())
+	{
+		return;
+	}
 	const float3& pos = transform->GetGlobalPosition();
 	const float3& front = transform->GetGlobalForward();
 	const float3& correctFront = float3(front.x, front.y, front.z).Normalized();
@@ -34,6 +38,36 @@ void ComponentAudioSource::OnTransformChanged()
 	sourceTransform.Set(pos.x, pos.y, pos.z, correctFront.x, correctFront.y, correctFront.z, up.x, up.y, up.z);
 
 	AK::SoundEngine::SetPosition(sourceID, sourceTransform);
+}
+
+void ComponentAudioSource::PostEvent(const wchar_t* sound)
+{
+	if (!IsEnabled())
+	{
+		return;
+	}
+	AK::SoundEngine::PostEvent(sound,	// Name of the Event (not case sensitive).
+							   sourceID // Associated game object ID
+	);
+}
+
+void ComponentAudioSource::SetSwitch(const wchar_t* switchGroup, const wchar_t* switchSound)
+{
+	AK::SoundEngine::SetSwitch(switchGroup, switchSound, sourceID);
+}
+
+void ComponentAudioSource::Enable()
+{
+	Component::Enable();
+
+	OnTransformChanged();
+}
+
+void ComponentAudioSource::Disable()
+{
+	Component::Disable();
+
+	AK::SoundEngine::StopAll(sourceID);
 }
 
 void ComponentAudioSource::SaveOptions(Json& meta)
@@ -50,24 +84,4 @@ void ComponentAudioSource::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = (bool) meta["active"];
 	canBeRemoved = (bool) meta["removed"];
-}
-
-void ComponentAudioSource::Enable()
-{
-}
-
-void ComponentAudioSource::Disable()
-{
-}
-
-void ComponentAudioSource::PostEvent(const wchar_t* sound)
-{
-	AK::SoundEngine::PostEvent(sound,	// Name of the Event (not case sensitive).
-							   sourceID // Associated game object ID
-	);
-}
-
-void ComponentAudioSource::SetSwitch(const wchar_t* switchGroup, const wchar_t* switchSound)
-{
-	AK::SoundEngine::SetSwitch(switchGroup, switchSound, sourceID);
 }
