@@ -1,0 +1,11 @@
+{
+    "UID": 16277264266154132837,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/SkyLight.Plane.006_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/SkyLightDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

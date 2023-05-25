@@ -30,7 +30,7 @@ void PatrolBehaviourScript::Start()
 	{
 		// Initally set the first waypoint as the destiny
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		//ownerRigidBody->SetRotationTarget(Quat(wayPointOneTransform->GetRotation()));
+		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
 	}
 }
 
@@ -43,16 +43,14 @@ void PatrolBehaviourScript::Update(float deltaTime)
 	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
-		//ownerRigidBody->SetRotationTarget(Quat(wayPointTwoTransform->GetRotation()));
+		ownerRigidBody->SetRotationTarget(wayPointTwoTransform->GetRotation());
 	}
 
 	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		//ownerRigidBody->SetRotationTarget(Quat(wayPointOneTransform->GetRotation()));
+		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
 	}
-
-	//ownerTransform->UpdateTransformMatrices();
 }
 
 GameObject* PatrolBehaviourScript::GetWayPointOne() const

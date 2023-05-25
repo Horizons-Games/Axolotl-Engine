@@ -22,8 +22,6 @@ public:
 	void Orbit(const OBB& obb);
 
 private:
-
 	float3 currentFocusPos;
 	float3 currentFocusDir;
-
 };

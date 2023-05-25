@@ -10,7 +10,6 @@ class GameObject;
 class Quadtree;
 class Scene;
 
-
 class ModuleScene : public Module
 {
 public:
@@ -58,7 +57,7 @@ private:
 	GameObject* selectedGameObject;
 	std::string sceneToLoad;
 
-	//to store the tmp serialization of the Scene
+	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
 	std::map<UID, UID> uidMap;
 };
