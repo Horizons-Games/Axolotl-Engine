@@ -1,9 +1,9 @@
 #include "WindowComponentPointLight.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
-#include "ModuleEditor.h"
 #include "DataModels/Scene/Scene.h"
+#include "ModuleEditor.h"
+#include "ModuleScene.h"
 
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentSpotLight.h"
@@ -35,8 +35,11 @@ void WindowComponentPointLight::DrawWindowContents()
 
 		if (ImGui::BeginTable("PointLightTable", 2))
 		{
+			ModuleScene* scene = App->GetModule<ModuleScene>();
+			Scene* loadedScene = scene->GetLoadedScene();
 			ImGui::TableNextColumn();
-			ImGui::Text("Type"); ImGui::SameLine();
+			ImGui::Text("Type");
+			ImGui::SameLine();
 
 			if (ImGui::BeginCombo("##combo", currentType))
 			{
@@ -48,9 +51,8 @@ void WindowComponentPointLight::DrawWindowContents()
 					{
 						if (lightTypes[i] == "Spot")
 						{
-							ComponentSpotLight* newSpot =
-								static_cast<ComponentSpotLight*>(asPointLight->GetOwner()
-									->CreateComponentLight(LightType::SPOT));
+							ComponentSpotLight* newSpot = static_cast<ComponentSpotLight*>(
+								asPointLight->GetOwner()->CreateComponentLight(LightType::SPOT));
 
 							newSpot->SetColor(asPointLight->GetColor());
 							newSpot->SetIntensity(asPointLight->GetIntensity());
@@ -58,8 +60,8 @@ void WindowComponentPointLight::DrawWindowContents()
 
 							asPointLight->GetOwner()->RemoveComponent(asPointLight);
 
-							App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-							App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+							loadedScene->UpdateSceneSpotLights();
+							loadedScene->RenderSpotLights();
 
 							modified = true;
 							App->GetModule<ModuleEditor>()->RefreshInspector();
@@ -71,7 +73,7 @@ void WindowComponentPointLight::DrawWindowContents()
 
 					if (isSelected)
 					{
-						//Shows list of lights
+						// Shows list of lights
 						ImGui::SetItemDefaultFocus();
 					}
 				}
@@ -79,7 +81,8 @@ void WindowComponentPointLight::DrawWindowContents()
 				ImGui::EndCombo();
 			}
 
-			ImGui::Text("Intensity"); ImGui::SameLine();
+			ImGui::Text("Intensity");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float intensity = asPointLight->GetIntensity();
@@ -99,15 +102,17 @@ void WindowComponentPointLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			ImGui::Text("Color"); ImGui::SameLine();
+			ImGui::Text("Color");
+			ImGui::SameLine();
 			float3 color = asPointLight->GetColor();
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+			if (ImGui::ColorEdit3("MyColor##1", (float*) &color))
 			{
 				asPointLight->SetColor(color);
 				modified = true;
 			}
 
-			ImGui::Text("Radius"); ImGui::SameLine();
+			ImGui::Text("Radius");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float radius = asPointLight->GetRadius();
@@ -121,8 +126,8 @@ void WindowComponentPointLight::DrawWindowContents()
 
 			if (modified)
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+				loadedScene->UpdateScenePointLights();
+				loadedScene->RenderPointLights();
 			}
 
 			ImGui::EndTable();

@@ -1,15 +1,15 @@
 #pragma once
 
-#include <string>
 #include <assert.h>
+#include <string>
 
-enum class ComponentType 
+enum class ComponentType
 {
-	UNKNOWN, 
-	MESHRENDERER, 
+	UNKNOWN,
+	MESHRENDERER,
 	TRANSFORM,
 	TRANSFORM2D,
-	LIGHT, 
+	LIGHT,
 	CAMERA,
 	PLAYER,
 	ANIMATION,
@@ -61,16 +61,19 @@ protected:
 	bool canBeRemoved;
 };
 
-inline Component::Component(const ComponentType type,
-							const bool active,
-							GameObject* owner,
-							const bool canBeRemoved)
-	: type(type), active(active), owner(owner), canBeRemoved(canBeRemoved)
+inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved) :
+	type(type),
+	active(active),
+	owner(owner),
+	canBeRemoved(canBeRemoved)
 {
 }
 
-inline Component::Component(const Component& component) : 
-	type(component.type), active(component.active), owner(nullptr), canBeRemoved(component.canBeRemoved)
+inline Component::Component(const Component& component) :
+	type(component.type),
+	active(component.active),
+	owner(nullptr),
+	canBeRemoved(component.canBeRemoved)
 {
 }
 
@@ -213,7 +216,7 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::BUTTON;
 	}
-	
+
 	if (typeName == "Component_RigidBody")
 	{
 		return ComponentType::RIGIDBODY;
@@ -237,17 +240,17 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::AUDIOLISTENER;
 	}
-	
+
 	if (typeName == "Component_Script")
 	{
 		return ComponentType::SCRIPT;
 	}
-	
+
 	if (typeName == "Component_MeshCollider")
 	{
 		return ComponentType::MESHCOLLIDER;
 	}
-	
+
 	if (typeName == "Component_Animation")
 	{
 		return ComponentType::ANIMATION;
