@@ -11,6 +11,7 @@
 #include "FileSystem/Importers/CubemapImporter.h"
 #include "FileSystem/Importers/AnimationImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
+#include "FileSystem/Importers/ParticleSystemImporter.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceSkyBox.h"
@@ -45,6 +46,7 @@ bool ModuleResources::Init()
 	cubemapImporter = std::make_unique<CubemapImporter>();
 	animationImporter = std::make_unique<AnimationImporter>();
 	stateMachineImporter = std::make_unique<StateMachineImporter>();
+	particleSystemImporter = std::make_unique<ParticleSystemImporter>();
 	CreateAssetAndLibFolders();
 
 #ifdef ENGINE
