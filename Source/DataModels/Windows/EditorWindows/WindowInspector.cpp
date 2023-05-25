@@ -129,32 +129,42 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	ModuleScene* scene = App->GetModule<ModuleScene>();
-	Scene* loadedScene = scene->GetLoadedScene();
-	lastSelectedGameObject = scene->GetSelectedGameObject();
+	const ModuleScene* scene = App->GetModule<ModuleScene>();
+	const Scene* loadedScene = scene->GetLoadedScene();
 
+	if (lastSelectedGameObject != scene->GetSelectedGameObject())
+	{
+		ImGui::PushID(1);
+		lastSelectedGameObject = scene->GetSelectedGameObject();
+	}
+	else
+	{
+		ImGui::PushID(0);
+	}
+	
 	if (lastSelectedGameObject)
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
+		std::string name = lastSelectedGameObject->GetName();
+		bool nameChanged = ImGui::InputText("##GameObject", name.data(), 32);
+
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
-			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", &name[0], 24))
+			if (nameChanged)
 			{
 				std::string scene = " Scene";
-				std::string sceneName = name + scene;
+				std::string sceneName = name.c_str() + scene;
 				lastSelectedGameObject->SetName(sceneName);
 			}
 		}
 		else
 		{
-			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", &name[0], 24))
+			if (nameChanged)
 			{
-				lastSelectedGameObject->SetName(name);
+				lastSelectedGameObject->SetName(name.c_str());
 			}
 			ImGui::SameLine();
 			bool staticness = lastSelectedGameObject->IsStatic();
@@ -168,10 +178,9 @@ void WindowInspector::InspectSelectedGameObject()
 			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
-			tag.resize(24);
-			if (ImGui::InputText("##Tag", &tag[0], 24))
+			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
-				lastSelectedGameObject->SetTag(tag);
+				lastSelectedGameObject->SetTag(tag.c_str());
 			}
 		}
 
@@ -235,6 +244,8 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
+
+	ImGui::PopID();
 }
 
 void WindowInspector::InspectSelectedResource()

@@ -318,5 +318,6 @@ void ModuleFileSystem::ZipLibFolder() const
 {
 	struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
 	ZipFolder(zip, "Lib");
+    ZipFolder(zip, "WwiseProject");
 	zip_close(zip);
 }

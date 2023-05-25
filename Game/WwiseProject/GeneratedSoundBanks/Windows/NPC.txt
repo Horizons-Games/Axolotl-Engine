@@ -1,5 +1,5 @@
 Event	ID	Name			Wwise Object Path	Notes
-	480444447	sfx_dron_shot_01			\Default Work Unit\NPC\sfx_dron_shot_01	
+	480444447	sfx_dron_shot_01			\SFX\NPC\sfx_dron_shot_01	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	721259364	sfx_dron_shot_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\laser_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\sfx_dron_shot_01		42008
