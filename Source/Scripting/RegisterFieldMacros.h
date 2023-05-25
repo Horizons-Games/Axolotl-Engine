@@ -5,7 +5,7 @@
     this->members.push_back(std::make_pair(TypeToEnum<Type>::value, Field<Type>( \
         #name, \
         [this] { return this->name; }, \
-        [this](Type value) { this->name =value; } \
+        [this](Type value) { this->name = value; } \
     )));
 
 // The parameter Name must be one such that Get{Name} and Set{Name} functions exist as members of the class
@@ -16,20 +16,27 @@
         [this](Type value) { this->Set##Name(value); } \
     )));
 
-#define REGISTER_VECTOR_WITH_ACCESSORS(Name, Type) \
+// The parameter name must be the exact name of the field inside the class
+// Which must be a vector of the given type
+#define REGISTER_VECTOR(name, Type) \
     this->members.push_back(std::make_pair(FieldType::VECTOR, VectorField( \
-        #Name, \
-        [this] \
-		{ \
-			return TypeToAny<Type>(this->Get##Name()); \
-		}, \
-        [this](const std::vector<std::any>& value) \
-		{ \
-			this->Set##Name(AnyToType<Type>(value)); \
-		}, \
+        #name, \
+        [this] { return TypeToAny<Type>(this->name); }, \
+        [this](const std::vector<std::any>& value) { this->name = AnyToType<Type>(value); }, \
 		TypeToEnum<Type>::value \
     )));
 
+// The parameter Name must be one such that Get{ Name } and Set{ Name } functions exist as members of the class
+// And return a vector of the given type
+#define REGISTER_VECTOR_WITH_ACCESSORS(Name, Type) \
+    this->members.push_back(std::make_pair(FieldType::VECTOR, VectorField( \
+        #Name, \
+        [this] { return TypeToAny<Type>(this->Get##Name()); }, \
+        [this](const std::vector<std::any>& value) { this->Set##Name(AnyToType<Type>(value)); }, \
+		TypeToEnum<Type>::value \
+    )));
+
+// Ideally, all of this should be changed to use std::ranges::views
 namespace
 {
 	template<typename T>
