@@ -16,9 +16,9 @@ public:
 
 private:
 
-	btVector3 gameObjectAttachedGravity;
     GameObject* gameObjectAttached;
     GameObject* gameObjectAttachedParent;
+	float3 hitPointGameObjectAttached;
     std::string tag;
 
 };

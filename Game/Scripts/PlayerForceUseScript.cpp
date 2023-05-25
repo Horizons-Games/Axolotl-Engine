@@ -6,6 +6,8 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentCamera.h"
+#include "DataModels/Camera/CameraGameObject.h"
 
 #include "Scene/Scene.h"
 #include "DataStructures/Quadtree.h"
@@ -16,7 +18,7 @@
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-gameObjectAttachedParent(nullptr), tag("Forzable"), gameObjectAttachedGravity(btVector3(0, 0, 0))
+gameObjectAttachedParent(nullptr), tag("Forzable"), hitPointGameObjectAttached(float3(0, 0, 0))
 {
 }
 
@@ -43,22 +45,31 @@ void PlayerForceUseScript::Update(float deltaTime)
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
-			gameObjectAttachedParent = gameObjectAttached->GetParent();
-			gameObjectAttached->SetParent(owner);
-
-			ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>
-				(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
-			gameObjectAttachedGravity = rigidBody->GetGravity();
-			rigidBody->SetGravity(btVector3(0,0,0));
-			
 		}
 	}
 	else if (input->GetKey(SDL_SCANCODE_Q) == KeyState::IDLE && gameObjectAttached)
 	{
-		gameObjectAttached->SetParent(gameObjectAttachedParent);
-		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>
-			(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
-		rigidBody->SetGravity(gameObjectAttachedGravity);
 		gameObjectAttached = nullptr;
+	}
+
+	if (gameObjectAttached)
+	{
+		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+		ModuleInput* input = App->GetModule<ModuleInput>();
+		btRigidBody* btRb = rigidBody->GetRigidBody();
+
+		ComponentTransform* transform = static_cast<ComponentTransform*>(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
+
+		ComponentCamera* camera = static_cast<ComponentCamera*>(owner->GetComponent(ComponentType::CAMERA));
+		float3 nextPosition = transform->GetGlobalPosition() - trans->GetGlobalPosition();
+		nextPosition.Normalize();
+
+		float3 nextDirection = Quat::SlerpVector(camera->GetCamera()->GetFrustum()->Front(), nextPosition, deltaTime);
+
+		btTransform trans;
+		trans = btRb->getWorldTransform();
+		trans.setOrigin(btVector3(nextDirection.x, nextDirection.y, nextDirection.z));
+		btRb->setWorldTransform(trans);
+
 	}
 }
