@@ -391,5 +391,7 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 			height = 2.0f;
 			break;
 	}
+
+	SetCollisionShape(resetShape);
 	// WIP: reset 5th shape
 }
