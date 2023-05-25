@@ -1,5 +1,7 @@
 #include "WindowComponentParticle.h"
 
+#include "Windows/EditorWindows/ImporterWindows/WindowParticleSystemInput.h"
+#include "Resources/ResourceParticleSystem.h"
 #include "Components/ComponentParticleSystem.h"
 
 #include "ParticleSystem/EmitterInstance.h"
@@ -7,7 +9,8 @@
 #include "ParticleSystem/ParticleModule.h"
 
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
-	ComponentWindow("Particle System", component)
+	ComponentWindow("Particle System", component), 
+	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
 {
 }
 
@@ -27,21 +30,35 @@ void WindowComponentParticle::DrawWindowContents()
 	ImGui::Text("");
 
 	ComponentParticleSystem* component = static_cast<ComponentParticleSystem*>(this->component);
-	
-	int id = 0;
-	for (EmitterInstance* instance : component->GetEmitters())
+	std::shared_ptr<ResourceParticleSystem> resource = component->GetResource();
+	if(resource)
 	{
-		DrawEmitter(instance, id);
-		++id;
-	}
+		ImGui::Text(resource->GetFileName().c_str());
+		ImGui::SameLine();
+		if (ImGui::Button("x"))
+		{
+			component->SetResource(nullptr);
+		}
 
-	if (ImGui::Button("Add an Emitter"))
+		int id = 0;
+		for (EmitterInstance* instance : component->GetEmitters())
+		{
+			DrawEmitter(instance, id);
+			++id;
+		}
+
+		if (ImGui::Button("Add an Emitter"))
+		{
+			std::shared_ptr<ParticleEmitter> emitter = std::make_shared<ParticleEmitter>();
+			std::string name = "DefaultEmitter_" + std::to_string(component->GetEmitters().size());
+
+			emitter->SetName(&name[0]);
+			component->CreateEmitterInstance(emitter);
+		}
+	}
+	else 
 	{
-		std::shared_ptr<ParticleEmitter> emitter = std::make_shared<ParticleEmitter>();
-		std::string name = "DefaultEmitter_" + std::to_string(component->GetEmitters().size());
-		
-		emitter->SetName(&name[0]);
-		component->CreateEmitterInstance(emitter);
+		inputParticleSystem->DrawWindowContents();
 	}
 }
 

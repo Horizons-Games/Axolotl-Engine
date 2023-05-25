@@ -4,6 +4,7 @@
 #include "Resources/ResourceParticleSystem.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "ParticleSystem/ParticleEmitter.h"
 
 WindowParticleSystemInput::WindowParticleSystemInput(ComponentParticleSystem* state) :
 	WindowFileBrowser(), component(state)

@@ -4,6 +4,8 @@
 
 #include "Components/ComponentParticleSystem.h"
 
+class WindowParticleSystemInput;
+
 class WindowComponentParticle : public ComponentWindow
 {
 public:
@@ -15,6 +17,6 @@ protected:
 
 private:
 	void DrawEmitter(EmitterInstance* instance, int id);
-
+	std::unique_ptr<WindowParticleSystemInput> inputParticleSystem;
 };
 
