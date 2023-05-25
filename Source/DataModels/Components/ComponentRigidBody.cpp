@@ -137,7 +137,7 @@ void ComponentRigidBody::Update()
 		transform->UpdateTransformMatrices();
 	}
 
-	if (usePositionController)
+	/*if (usePositionController)
 	{
 		float3 x = transform->GetPosition();
 		float3 positionError = targetPosition - x;
@@ -145,25 +145,22 @@ void ComponentRigidBody::Update()
 
 		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
 		rigidBody->setLinearVelocity(velocity);
-	}
+	}*/
 
 	if (useRotationController)
 	{
-		btTransform trans;
-		trans = rigidBody->getWorldTransform();
-
-		btQuaternion bulletQ = trans.getRotation();
-		Quat q = Quat(bulletQ.getX(), bulletQ.getY(), bulletQ.getZ(), bulletQ.getW());
-		Quat rotationError = targetRotation * q.Normalized().Inverted();
-		rotationError.Normalize();
+		
+		/*Quat q = transform->GetGlobalRotation();
+		Quat rotationError = targetRotation.Mul(q.Normalized().Inverted());
+		rotationError.Normalize();*/
 
 		float3 axis;
 		float angle;
-		rotationError.ToAxisAngle(axis, angle);
+		targetRotation.ToAxisAngle(axis, angle);
 		axis.Normalize();
 
 		float3 angularVelocity = axis * angle * KpTorque;
-		btVector3 bulletAngularVelocity(angularVelocity.x, angularVelocity.y, angularVelocity.z);
+		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
 		rigidBody->setAngularVelocity(bulletAngularVelocity);
 	}
 }
