@@ -743,11 +743,11 @@
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="VectorField.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting\RegisterFieldMacros.h">
       <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\VectorField.h">
+      <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

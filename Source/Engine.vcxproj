@@ -474,6 +474,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
+    <ClInclude Include="Auxiliar\Reflection\VectorField.h" />
     <ClInclude Include="DataModels\Commands\Command.h" />
     <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
@@ -803,7 +804,6 @@
     <ClInclude Include="Scripting\RegisterFieldMacros.h" />
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
-    <ClInclude Include="VectorField.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

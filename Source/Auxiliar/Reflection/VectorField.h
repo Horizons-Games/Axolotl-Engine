@@ -1,8 +1,9 @@
 #pragma once
+#include "Auxiliar/Reflection/Field.h"
+#include "Enums/FieldType.h"
 
 #include <vector>
 #include <any>
-#include <type_traits>
 
 struct VectorField : public Field<std::vector<std::any>>
 {
