@@ -11,7 +11,6 @@
 #include "ScriptFactory.h"
 #include "IScript.h"
 #include "Math/float3.h"
-#include "VectorField.h"
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component), windowUID(UniqueID::GenerateUID())
