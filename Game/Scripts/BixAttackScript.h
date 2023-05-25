@@ -36,7 +36,6 @@ private:
 	ModuleInput* input;
 
 	//Provisional
-	std::vector<Ray> rays;
 	GameObject* ray1GO;
 	GameObject* ray2GO;
 	GameObject* ray3GO;

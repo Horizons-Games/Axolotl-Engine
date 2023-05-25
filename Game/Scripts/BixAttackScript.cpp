@@ -21,6 +21,11 @@
 
 REGISTERCLASS(BixAttackScript);
 
+namespace
+{
+	std::vector<Ray> rays;
+}
+
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
 input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr),
 transform(nullptr), 
@@ -60,24 +65,31 @@ void BixAttackScript::Start()
 	ray4Transform = static_cast<ComponentTransform*>(ray4GO->GetComponent(ComponentType::TRANSFORM));
 	//--Provisional
 
-#ifdef DEBUG
 	rays.reserve(5);
 	rays.push_back(Ray(transform->GetPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray1Transform->GetPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray2Transform->GetPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray3Transform->GetPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray4Transform->GetPosition(), transform->GetLocalForward()));
-	Ray ray(transform->GetPosition(), transform->GetLocalForward());
+	rays.push_back(Ray(ray1Transform->GetGlobalPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
 
+}
+
+void BixAttackScript::Update(float deltaTime)
+{
+	rays[0] = Ray(transform->GetPosition(), transform->GetLocalForward());
+	rays[1] = Ray(ray1Transform->GetGlobalPosition(), transform->GetLocalForward());
+	rays[2] = Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward());
+	rays[3] = Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward());
+	rays[4] = Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward());
+
+
+#ifdef DEBUG
 	for (const Ray& ray : rays)
 	{
 		dd::arrow(ray.pos, ray.pos + ray.dir * rayAttackSize, dd::colors::Red, 0.05f);
 	}
 #endif // DEBUG
-}
 
-void BixAttackScript::Update(float deltaTime)
-{
 	// Attack
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
 	{
