@@ -17,6 +17,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBreakable.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"

@@ -113,7 +113,6 @@ public:
 	void SetKpTorque(float newKpForce);
 
     void RemoveRigidBodyFromSimulation();
-    void UpdateNonSimulatedTransform();
 	void SetPositionTarget(const float3& targetPos);
 	void SetRotationTarget(const Quat& targetRot);
 
@@ -121,8 +120,6 @@ public:
 	void DisableRotationController();
 
 	void SetUpMobility();
-
-	void RemoveRigidBodyFromSimulation();
 
 	btRigidBody* GetRigidBody() const;
 

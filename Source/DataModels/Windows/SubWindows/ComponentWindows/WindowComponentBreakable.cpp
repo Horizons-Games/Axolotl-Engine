@@ -1,5 +1,5 @@
 #include "WindowComponentBreakable.h"
-#include "ComponentBreakable.h"
+#include "Components/ComponentBreakable.h"
 
 WindowComponentBreakable::WindowComponentBreakable(ComponentBreakable* component) :
 	ComponentWindow("Breakable", component)
