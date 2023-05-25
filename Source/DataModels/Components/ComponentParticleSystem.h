@@ -32,6 +32,7 @@ public:
 	bool IsEmittersEmpty() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
 
+	const std::shared_ptr<ResourceParticleSystem>& GetResource() const;
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
 
 private:
@@ -42,6 +43,11 @@ private:
 inline bool ComponentParticleSystem::IsEmittersEmpty() const
 {
 	return emitters.empty();
+}
+
+inline const std::shared_ptr<ResourceParticleSystem>& ComponentParticleSystem::GetResource() const
+{
+	return resource;
 }
 
 inline void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
