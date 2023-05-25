@@ -19,6 +19,8 @@
 
 #include "debugdraw.h"
 
+#include <set>
+
 REGISTERCLASS(BixAttackScript);
 
 namespace
@@ -28,7 +30,7 @@ namespace
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
 input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr),
-transform(nullptr), 
+transform(nullptr),
 //Provisional
 ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
 ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr)
@@ -114,19 +116,30 @@ void BixAttackScript::PerformAttack()
 
 void BixAttackScript::CheckCollision()
 {
+	std::set<UID> hitObjects;
+	bool playSFX = false;
 	//Provisional
-	for (const Ray& ray : rays) 
+	for (const Ray& ray : rays)
 	{
 		LineSegment line(ray, rayAttackSize);
 		RaycastHit hit;
 		if (Physics::Raycast(line, hit, transform->GetOwner()))
 		{
+			playSFX = true;
 			if (hit.gameObject->CompareTag("Enemy"))
 			{
-				//get component health and do damage
+				if (hitObjects.insert(hit.gameObject->GetUID()).second)
+				{
+					// insertion could take place -> element not hit yet
+					//get component health and do damage
+				}
 			}
-			audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
 		}
+	}
+
+	if (playSFX)
+	{
+		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
 	}
 	//--Provisional
 }
