@@ -4,23 +4,17 @@
 #include <any>
 #include <type_traits>
 
-template<typename T>
-struct VectorField : public Field<T>
+struct VectorField : public Field<std::vector<std::any>>
 {
 public:
-    FieldType type;
+	FieldType innerType;
 
-    VectorField(const std::string& name,
-        const std::function<std::vector<T>(void)>& getter,
-        const std::function<void(const std::vector<T>&)>& setter) :
-        Field<T>(name, getter, setter),
-        type(GetType())
-    {
-    }
-
-private:
-    FieldType GetType()
-    {
-        return TypeToEnum<T>::value;
-    }
+	VectorField(const std::string& name,
+		const std::function<std::vector<std::any>(void)>& getter,
+		const std::function<void(const std::vector<std::any>&)>& setter,
+		FieldType innerType) :
+		Field<std::vector<std::any>>(name, getter, setter),
+		innerType(innerType)
+	{
+	}
 };

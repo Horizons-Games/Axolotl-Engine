@@ -29,11 +29,31 @@ class Application;
         [this](Type value) { this->Set##Name(value); } \
     )));
 
-#define REGISTER_VECTORFIELD_WITH_ACCESSORS(Name, Type) \
-    this->members.push_back(std::make_pair(FieldType::VECTOR, VectorField<Type>( \
+#define REGISTER_VECTOR_WITH_ACCESSORS(Name, Type) \
+    this->members.push_back(std::make_pair(FieldType::VECTOR, VectorField( \
         #Name, \
-        [this] (){ return this->Get##Name(); }, \
-        [this](const std::vector<Type>& value) { this->Set##Name(value); } \
+        [this] \
+		{ \
+			std::vector<Type> vector = this->Get##Name(); \
+			std::vector<std::any> convertedVector; \
+			convertedVector.reserve(vector.size()); \
+			for (const Type& element : vector) \
+			{ \
+				convertedVector.push_back(element); \
+			} \
+			return convertedVector; \
+		}, \
+        [this](const std::vector<std::any>& value) \
+		{ \
+			std::vector<Type> convertedVector; \
+			convertedVector.reserve(value.size()); \
+			for (const std::any& element : vec) \
+			{ \
+				convertedVector.push_back(std::any_cast<Type>(element)); \
+			} \
+			this->Set##Name(convertedVector); \
+		}, \
+		TypeToEnum<Type>::value \
     )));
 
 using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::vector<std::any>>, Field<std::string>, Field<GameObject*>, Field<bool>>;
@@ -106,62 +126,62 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 	{
 		switch (enumAndField.first)
 		{
-			case FieldType::FLOAT:
-			{
-				Field<float> field = std::get<Field<float>>(enumAndField.second);
-				float value  = field.getter();
-				pSerializer->SerializeProperty(field.name.c_str(), value);
-				field.setter(value);
-				break;
-			}
+		case FieldType::FLOAT:
+		{
+			Field<float> field = std::get<Field<float>>(enumAndField.second);
+			float value = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+			break;
+		}
 
-			case FieldType::VECTOR3:
-			{
-				Field<float3> field = std::get<Field<float3>>(enumAndField.second);
-				float3 value = field.getter();
-				pSerializer->SerializeProperty(field.name.c_str(), value);
-				field.setter(value);
-				break;
-			}
+		case FieldType::VECTOR3:
+		{
+			Field<float3> field = std::get<Field<float3>>(enumAndField.second);
+			float3 value = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+			break;
+		}
 
-			case FieldType::VECTOR:
-			{
-				Field<std::vector<std::any>> field = std::get<Field<std::vector<std::any>>>(enumAndField.second);
-				std::vector<std::any> value = field.getter();
-				pSerializer->SerializeProperty(field.name.c_str(), value);
-				field.setter(value);
-				break;
-			}
+		case FieldType::VECTOR:
+		{
+			Field<std::vector<std::any>> field = std::get<Field<std::vector<std::any>>>(enumAndField.second);
+			std::vector<std::any> value = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+			break;
+		}
 
-			case FieldType::STRING:
-			{
-				Field<std::string> field = std::get<Field<std::string>>(enumAndField.second);
-				std::string value = field.getter();
-				pSerializer->SerializeProperty(field.name.c_str(), value);
-				field.setter(value);
-				break;
-			}
+		case FieldType::STRING:
+		{
+			Field<std::string> field = std::get<Field<std::string>>(enumAndField.second);
+			std::string value = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+			break;
+		}
 
-			case FieldType::GAMEOBJECT:
-			{
-				Field<GameObject*> field = std::get<Field<GameObject*>>(enumAndField.second);
-				GameObject* value = field.getter();
-				pSerializer->SerializeProperty(field.name.c_str(), value);
-				field.setter(value);
-				break;
-			}
+		case FieldType::GAMEOBJECT:
+		{
+			Field<GameObject*> field = std::get<Field<GameObject*>>(enumAndField.second);
+			GameObject* value = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+			break;
+		}
 
-			case FieldType::BOOLEAN:
-			{
-				Field<bool> field = std::get<Field<bool>>(enumAndField.second);
-				bool value = field.getter();
-				pSerializer->SerializeProperty(field.name.c_str(), value);
-				field.setter(value);
-				break;
-			}
+		case FieldType::BOOLEAN:
+		{
+			Field<bool> field = std::get<Field<bool>>(enumAndField.second);
+			bool value = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+			break;
+		}
 
-			default:
-				break;
+		default:
+			break;
 		}
 	}
 }

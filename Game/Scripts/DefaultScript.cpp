@@ -7,7 +7,7 @@ DefaultScript::DefaultScript() : Script(), value(10), vec{ 1.2f,2.3f,3.3f }, vec
 	REGISTER_FIELD(value, float);
 	REGISTER_FIELD(sentence, std::string);
 	REGISTER_FIELD_WITH_ACCESSORS(Vector3, float3);
-	REGISTER_VECTORFIELD_WITH_ACCESSORS(Vector, float);
+	REGISTER_VECTOR_WITH_ACCESSORS(Vector, float);
 	REGISTER_FIELD_WITH_ACCESSORS(Character, GameObject*);
 	REGISTER_FIELD(check, bool);
 }
@@ -36,19 +36,19 @@ void DefaultScript::SetVector3(const float3& vec3)
 	this->vec3 = vec3;
 }
 
-const std::vector<std::any>& DefaultScript::GetVector() const
+const std::vector<float>& DefaultScript::GetVector() const
 {
-	convertedVec.reserve(vec.size());
+	/*convertedVec.reserve(vec.size());
 	for (const auto& value : vec) {
 		convertedVec.push_back(value);
 	}
-	return convertedVec;
+	return convertedVec;*/
+	return vec;
 }
 
-template <typename T>
-void DefaultScript::SetVector(const std::vector<T>& vec)
+void DefaultScript::SetVector(const std::vector<float>& vec)
 {
-	convertedVec = vec;
+	this->vec = vec;
 }
 
 GameObject* DefaultScript::GetCharacter() const

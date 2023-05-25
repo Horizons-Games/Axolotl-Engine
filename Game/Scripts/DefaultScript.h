@@ -22,9 +22,8 @@ public:
 	const float3& GetVector3() const;
 	void SetVector3(const float3& vec3);
 	
-	const std::vector<std::any>& GetVector() const;
-	template <typename T>
-	void SetVector(const std::vector<T>& vec);
+	const std::vector<float>& GetVector() const;
+	void SetVector(const std::vector<float>& vec);
 
 
 	GameObject* GetCharacter() const;
@@ -34,7 +33,6 @@ private:
 	float value;
 	float3 vec3;
 	std::vector<float> vec;
-	mutable std::vector<std::any> convertedVec;
 	std::string sentence;
 	GameObject* character;
 	bool check;
