@@ -13,10 +13,10 @@ enum class ResourceType
 	Scene,
 	Material,
 	SkyBox,
-	Emitter,
 	Cubemap,
 	Animation,
-	StateMachine
+	StateMachine,
+	ParticleSystem
 };
 
 class Resource
