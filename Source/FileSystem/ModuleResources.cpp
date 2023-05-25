@@ -20,6 +20,7 @@
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceParticleSystem.h"
+#include "ParticleSystem/ParticleEmitter.h"
 
 #include "Auxiliar/CollectionAwareDeleter.h"
 
@@ -86,9 +87,9 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 		break;
 	case ResourceType::ParticleSystem:
 		assetsPath += PARTICLESYSTEM_EXTENSION;
-		importedRes = CreateNewResource("DefaultParticleSystem", assetsPath, ResourceType::StateMachine);
-		particleSystemImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(importedRes));
-		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultParticleSystem.emit", assetsPath);
+		/*importedRes = CreateNewResource("DefaultParticleSystem", assetsPath, ResourceType::ParticleSystem);
+		particleSystemImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(importedRes));*/
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/ParticleSystemDefault.particle", assetsPath);
 		ImportResource(assetsPath);
 		break;
 	default:
