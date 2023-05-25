@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "ParticleSystem/ParticleEmitter.h"
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
 	Component(ComponentType::PARTICLE, active, owner, true), resource(nullptr)
