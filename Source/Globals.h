@@ -72,7 +72,7 @@ enum class TextureType
 #define CUBEMAP_EXTENSION ".cube"
 #define MATERIAL_EXTENSION ".mat"
 #define STATEMACHINE_EXTENSION ".state"
-#define EMITTER_EXTENSION ".emit"
+#define PARTICLESYSTEM_EXTENSION ".particle"
 #define MESH_EXTENSION ".mesh"
 #define ANIMATION_EXTENSION ".anim"
 #define META_EXTENSION ".meta"

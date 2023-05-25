@@ -19,6 +19,7 @@
 #include "Resources/ResourceTexture.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceAnimation.h"
+#include "Resources/ResourceParticleSystem.h"
 
 #include "Auxiliar/CollectionAwareDeleter.h"
 
@@ -83,11 +84,11 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/StateMachineDefault.state", assetsPath);
 		ImportResource(assetsPath);
 		break;
-	case ResourceType::Emitter:
-		assetsPath += EMITTER_EXTENSION;
-		/*importedRes = CreateNewResource("DefaultEmitter", assetsPath, ResourceType::StateMachine);
-		emitterImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(importedRes));*/
-		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultEmitter.emit", assetsPath);
+	case ResourceType::ParticleSystem:
+		assetsPath += PARTICLESYSTEM_EXTENSION;
+		importedRes = CreateNewResource("DefaultParticleSystem", assetsPath, ResourceType::StateMachine);
+		particleSystemImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(importedRes));
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultParticleSystem.emit", assetsPath);
 		ImportResource(assetsPath);
 		break;
 	default:
@@ -172,6 +173,9 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	case ResourceType::StateMachine:
 		res = std::shared_ptr<EditorResource<ResourceStateMachine>>(new EditorResource<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
 		break;
+	case ResourceType::ParticleSystem:
+		res = std::shared_ptr<EditorResource<ResourceParticleSystem>>(new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), CollectionAwareDeleter<Resource>());
+		break;
 	default:
 		return nullptr;
 	}
@@ -199,6 +203,8 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		return std::make_shared<ResourceAnimation>(uid, fileName, assetsPath, libraryPath);
 	case ResourceType::StateMachine:
 		return std::make_shared<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath);
+	case ResourceType::ParticleSystem:
+		return std::make_shared<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath);
 	default:
 		return nullptr;
 	}
@@ -317,6 +323,8 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 			case ResourceType::StateMachine:
 				stateMachineImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 				break;
+			case ResourceType::ParticleSystem:
+				particleSystemImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
 			default:
 				break;
 			}
@@ -408,6 +416,8 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 	case ResourceType::StateMachine:
 		stateMachineImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 		break;
+	case ResourceType::ParticleSystem:
+		particleSystemImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
 	default:
 		break;
 	}
@@ -440,7 +450,8 @@ void ModuleResources::CreateAssetAndLibFolders()
 		ResourceType::SkyBox,
 		ResourceType::Cubemap,
 		ResourceType::Animation,
-		ResourceType::StateMachine
+		ResourceType::StateMachine,
+		ResourceType::ParticleSystem
 	};
 	
 	for (ResourceType type : allResourceTypes)
@@ -676,6 +687,10 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::StateMachine;
 	}
+	else if (normalizedExtension == PARTICLESYSTEM_EXTENSION)
+	{
+		return ResourceType::ParticleSystem;
+	}
 
 	return ResourceType::Unknown;
 }
@@ -702,6 +717,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 		return "Animation";
 	case ResourceType::StateMachine:
 		return "StateMachine";
+	case ResourceType::ParticleSystem:
+		return "ParticleSystem";
 	case ResourceType::Unknown:
 	default:
 		return "Unknown";
@@ -745,6 +762,10 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 	if (typeName == "StateMachine")
 	{
 		return ResourceType::StateMachine;
+	}
+	if (typeName == "ParticleSystem")
+	{
+		return ResourceType::ParticleSystem;
 	}
 	return ResourceType::Unknown;
 }
