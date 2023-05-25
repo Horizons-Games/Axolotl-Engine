@@ -418,6 +418,9 @@
     <ClCompile Include="FileSystem\Importers\ParticleSystemImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -838,6 +841,9 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\ParticleSystemImporter.h">
       <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

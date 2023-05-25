@@ -178,6 +178,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp" />
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
@@ -502,6 +503,7 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
