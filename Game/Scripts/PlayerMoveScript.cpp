@@ -15,9 +15,9 @@ PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform
 componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
 dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
-	REGISTER_FIELD_WITH_ACCESSORS(DashForce, float);
-	REGISTER_FIELD_WITH_ACCESSORS(CanDash, bool);
+	REGISTER_FIELD(speed, float);
+	REGISTER_FIELD(dashForce, float);
+	REGISTER_FIELD(canDash, bool);
 }
 
 void PlayerMoveScript::Start()
@@ -40,14 +40,16 @@ void PlayerMoveScript::Move(float deltaTime)
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
-	float3 direction = float3::zero;
+	float3 totalDirection = float3::zero;
 	
 	float nspeed = speed;
+	bool shiftPressed = false;
 
 	//run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
 		nspeed *= 2;
+		shiftPressed = true;
 	}
 
 	// Forward
@@ -55,13 +57,12 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		direction = componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += componentTransform->GetLocalForward().Normalized();
 
 	}
 
@@ -70,12 +71,11 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
-		direction = -componentTransform->GetLocalForward().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += -componentTransform->GetLocalForward().Normalized();
 
 	}
 
@@ -84,13 +84,12 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		direction = -componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += -componentTransform->GetGlobalRight().Normalized();
 
 	}
 
@@ -99,13 +98,18 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		direction = componentTransform->GetGlobalRight().Normalized();
-		movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * nspeed;
+		totalDirection += componentTransform->GetGlobalRight().Normalized();
+	}
+
+	if (!totalDirection.IsZero())
+	{
+		totalDirection = totalDirection.Normalized();
+		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
@@ -115,7 +119,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (playerState == PlayerActions::WALKING)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK_STOP);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
@@ -125,7 +129,13 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (!isDashing)
 		{
-			if (!movement.isZero()) {
+			if (!movement.isZero()) 
+			{
+				if (shiftPressed)
+				{
+					movement /= 2;
+				}
+				btRb->setLinearVelocity(movement);
 				btRb->applyCentralImpulse(movement.normalized() * dashForce);
 				isDashing = true;
 			}
@@ -162,34 +172,4 @@ void PlayerMoveScript::Move(float deltaTime)
 		canDash = true;
 		nextDash = 0;
 	}
-}
-
-float PlayerMoveScript::GetSpeed() const
-{
-	return speed;
-}
-
-void PlayerMoveScript::SetSpeed(float speed)
-{
-	this->speed = speed;
-}
-
-float PlayerMoveScript::GetDashForce() const
-{
-	return dashForce;
-}
-
-void PlayerMoveScript::SetDashForce(float dashForce)
-{
-	this->dashForce = dashForce;
-}
-
-bool PlayerMoveScript::GetCanDash() const
-{
-	return canDash;
-}
-
-void PlayerMoveScript::SetCanDash(bool canDash)
-{
-	this->canDash = canDash;
 }
