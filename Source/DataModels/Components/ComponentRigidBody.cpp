@@ -137,7 +137,7 @@ void ComponentRigidBody::Update()
 		transform->UpdateTransformMatrices();
 	}
 
-	/*if (usePositionController)
+	if (usePositionController)
 	{
 		float3 x = transform->GetPosition();
 		float3 positionError = targetPosition - x;
@@ -145,7 +145,7 @@ void ComponentRigidBody::Update()
 
 		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
 		rigidBody->setLinearVelocity(velocity);
-	}*/
+	}
 
 	if (useRotationController)
 	{
@@ -161,6 +161,7 @@ void ComponentRigidBody::Update()
 
 		float3 angularVelocity = axis * angle * KpTorque;
 		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
+		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
 		rigidBody->setAngularVelocity(bulletAngularVelocity);
 	}
 }
