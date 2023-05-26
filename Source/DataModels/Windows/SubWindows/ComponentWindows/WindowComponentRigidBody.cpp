@@ -126,6 +126,8 @@ void WindowComponentRigidBody::DrawWindowContents()
             float yValue = btPosition.getY();
             float zValue = btPosition.getZ();
 
+			bool dirty = false;
+
 			ImGui::Text("Translation");
 			
             ImGui::Text("x:"); ImGui::SameLine();
@@ -133,6 +135,7 @@ void WindowComponentRigidBody::DrawWindowContents()
             if (ImGui::DragFloat("##XTrans", &xValue, 0.5f))
             {
                 btPosition.setX(xValue);
+				dirty = true;
             }
 
             ImGui::SameLine();
@@ -141,6 +144,7 @@ void WindowComponentRigidBody::DrawWindowContents()
             if (ImGui::DragFloat("##YTrans", &yValue, 0.5f))
             {
                 btPosition.setY(yValue);
+				dirty = true;
             }
 
             ImGui::SameLine();
@@ -149,14 +153,20 @@ void WindowComponentRigidBody::DrawWindowContents()
             if (ImGui::DragFloat("##ZTrans", &zValue, 0.5f))
             {
                 btPosition.setZ(zValue);
+				dirty = true;
             }
 
             asRigidBody->SetRigidBodyOrigin(btPosition);
+			if (dirty) 
+			{
+				asRigidBody->UpdateRigidBodyTranslation();
+			}
+            
             
         }
 		if (ImGui::Button("Reset RigidBody position"))
 		{
-			asRigidBody->UpdateRigidBody();
+			asRigidBody->SetDefaultPosition();
 		}
 		ImGui::Text("");
 		// Resize RigidBody

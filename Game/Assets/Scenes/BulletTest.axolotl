@@ -85,7 +85,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 14.29781723022461,
+                            "localPos_X": 0.7284696102142334,
                             "localPos_Y": 6.497121810913086,
                             "localPos_Z": 25.44462013244629,
                             "localRot_X": 0.0,
@@ -139,7 +139,7 @@
                                 {
                                     "name": "CanDash",
                                     "value": true,
-                                    "type": 3
+                                    "type": 4
                                 }
                             ]
                         }
@@ -164,11 +164,11 @@
                             "gravity_Y": -10.0,
                             "boxSize_X": 4.0,
                             "boxSize_Y": 4.0,
-                            "boxSize_Z": 1.5,
+                            "boxSize_Z": 4.0,
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -14.856348037719727,
+                            "rbPos_X": 0.7284696102142334,
                             "rbPos_Y": 6.497121810913086,
                             "rbPos_Z": 25.44462013244629
                         }
@@ -396,7 +396,7 @@
                             "removed": false,
                             "localPos_X": 0.0000171661376953125,
                             "localPos_Y": 4.76837158203125e-7,
-                            "localPos_Z": -0.000004805624485015869,
+                            "localPos_Z": -0.0000057220458984375,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -1770,7 +1770,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.2705426216125488,
+                            "localPos_X": -0.525752067565918,
                             "localPos_Y": 14.003867149353027,
                             "localPos_Z": -16.14756965637207,
                             "localRot_X": 0.0,
@@ -1816,7 +1816,7 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 4.873124599456787,
+                            "rbPos_X": 5.617915153503418,
                             "rbPos_Y": 22.627132415771484,
                             "rbPos_Z": -16.14756965637207
                         }

@@ -99,12 +99,13 @@ public:
 	void SetHeight(float newHeight);
 
 	void SetDefaultSize(Shape resetShape);
-
-    btVector3 GetCenterOfMass() const;
-    void SetCenterOfMass(btVector3 newCenterOfMass);
+	void SetDefaultPosition();
 
     btVector3 GetRigidBodyOrigin() const;
     void SetRigidBodyOrigin(btVector3 origin);
+
+	btVector3 GetRigidBodyTranslation() const;
+	void UpdateRigidBodyTranslation();
 
     void SetPositionTarget(const float3& targetPos);
     void SetRotationTarget(const Quat& targetRot);
@@ -146,7 +147,7 @@ private:
 	std::unique_ptr<btCollisionShape> shape = nullptr;
 
     btVector3 gravity = { 0, -9.81f, 0 };
-    btVector3 centerOfMass = { 0.0f, 0.0f, 0.0f };
+    btVector3 translation = { 0.0f, 0.0f, 0.0f };
     float linearDamping = 0.1f;
     float angularDamping = 0.1f;
     float mass = 100.0f;
@@ -168,6 +169,8 @@ private:
 	bool useRotationController = false;
 	float KpForce = 5.0f;
 	float KpTorque = 0.05f;
+
+	bool isFromSceneLoad = true;
 
 	ComponentTransform* transform;
 
@@ -386,17 +389,12 @@ inline ComponentTransform* ComponentRigidBody::GetOwnerTransform() const
     return transform;
 }
 
-inline btVector3 ComponentRigidBody::GetCenterOfMass() const
-{
-    return centerOfMass;
-}
-
-inline void ComponentRigidBody::SetCenterOfMass(btVector3 newCenterOfMass)
-{
-    centerOfMass.setValue(newCenterOfMass.getX(), newCenterOfMass.getY(), newCenterOfMass.getZ());
-}
-
 inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
 {
     return rigidBody->getWorldTransform().getOrigin();
+}
+
+inline btVector3 ComponentRigidBody::GetRigidBodyTranslation() const
+{
+	return translation;
 }
