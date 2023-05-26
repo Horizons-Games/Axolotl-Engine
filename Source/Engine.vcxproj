@@ -181,6 +181,10 @@
     <ClCompile Include="DataModels\Components\ComponentBreakable.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
     <ClCompile Include="DataModels\Cubemap\Cubemap.cpp" />
     <ClCompile Include="DataModels\Animation\AnimationController.cpp" />
@@ -465,7 +469,6 @@
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
@@ -495,6 +498,10 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
@@ -813,7 +820,6 @@
     <ClInclude Include="Scripting\LogSystem.h" />
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

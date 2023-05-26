@@ -1,5 +1,5 @@
 #pragma once
-#include "Windows/SubWindows/ComponentWindows/ComponentWindow.h"
+#include "ComponentWindow.h"
 class ComponentBreakable;
 class WindowComponentBreakable : public ComponentWindow
 {
