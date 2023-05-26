@@ -34,6 +34,7 @@ void PatrolBehaviourScript::StartPatrol() const
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
+		ownerRigidBody->SetKpForce(1.5f);
 		
 		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 				(wayPointOneTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
@@ -53,7 +54,6 @@ void PatrolBehaviourScript::Patrolling() const
 		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 			(wayPointTwoTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
 		ownerRigidBody->SetRotationTarget(targetRotation);
-		ownerRigidBody->SetKpTorque(15.0f);
 	}
 
 	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
@@ -63,6 +63,5 @@ void PatrolBehaviourScript::Patrolling() const
 		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 			(wayPointOneTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
 		ownerRigidBody->SetRotationTarget(targetRotation);
-		ownerRigidBody->SetKpTorque(15.0f);
 	}
 }

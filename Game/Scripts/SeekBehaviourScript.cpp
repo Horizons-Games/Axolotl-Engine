@@ -34,5 +34,4 @@ void SeekBehaviourScript::Seeking() const
 	Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 		(targetTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
 	ownerRigidBody->SetRotationTarget(targetRotation);
-	ownerRigidBody->SetKpTorque(15.0f);
 }
