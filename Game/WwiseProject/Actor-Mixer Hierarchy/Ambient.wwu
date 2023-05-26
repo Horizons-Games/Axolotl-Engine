@@ -85,7 +85,8 @@
 						</Sound>
 						<Sound Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" ShortID="471174214">
 							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="EnableDiffraction" Type="bool" Value="True"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="OverrideEffect" Type="bool" Value="True"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
@@ -106,8 +107,9 @@
 									<Custom>
 										<Effect Name="Matrix Reverb (Custom)" ID="{0B680566-0A3E-4ADE-B242-D5270AA9CD5E}" ShortID="829913711" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
 											<PropertyList>
-												<Property Name="DryLevel" Type="Real32" Value="-2.3"/>
-												<Property Name="WetLevel" Type="Real32" Value="-32"/>
+												<Property Name="DryLevel" Type="Real32" Value="-1.3"/>
+												<Property Name="HFRatio" Type="Real32" Value="2.9"/>
+												<Property Name="WetLevel" Type="Real32" Value="-41"/>
 											</PropertyList>
 										</Effect>
 									</Custom>
@@ -132,6 +134,46 @@
 									</PropertyList>
 								</Position>
 							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{03122E65-4BD6-49FF-BB59-4D943652186C}" ShortID="860951133">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Lowpass"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="ListenerOrientation" ID="{65102F9C-5A37-4143-8856-B08D069BD536}" WorkUnitID="{2CF8BCEB-2271-4245-B45E-25E43F0E79B4}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{4080C236-119A-42A2-BEDF-573163DBFEB8}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-100</YPos>
+																		<Flags>5</Flags>
+																		<SegmentShape>Log3</SegmentShape>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>37</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="cantina_music" ID="{F3848FFD-FC5D-4D88-9E54-BFBEE3D6FCCA}" Platform="Linked"/>
 							</ActiveSourceList>

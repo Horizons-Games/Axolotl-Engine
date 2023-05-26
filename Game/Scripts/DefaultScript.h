@@ -21,7 +21,7 @@ public:
 
 	const float3& GetVector3() const;
 	void SetVector3(const float3& vec3);
-	
+
 	GameObject* GetCharacter() const;
 	void SetCharacter(GameObject* character);
 

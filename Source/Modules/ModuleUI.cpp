@@ -2,25 +2,22 @@
 
 #include "ModuleScene.h"
 
-#include "Scene/Scene.h"
 #include "Application.h"
-#include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
+#include "Scene/Scene.h"
 
-#include "GL/glew.h"
-#include "Physics/Physics.h"
-#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "GL/glew.h"
+#include "Physics/Physics.h"
 
-ModuleUI::ModuleUI() 
-{
-};
+ModuleUI::ModuleUI(){};
 
-ModuleUI::~ModuleUI() {
-};
+ModuleUI::~ModuleUI(){};
 
 bool ModuleUI::Init()
 {
@@ -44,12 +41,13 @@ update_status ModuleUI::Update()
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
 		const GameObject* canvasGameObject = canvas->GetOwner();
-		DetectInteractionWithGameObject(canvasGameObject, point, leftClickDown, !canvasGameObject->GetParent()->IsEnabled());
+		DetectInteractionWithGameObject(
+			canvasGameObject, point, leftClickDown, !canvasGameObject->GetParent()->IsEnabled());
 	}
 
 	int width, height;
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
-	
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, height, 0, 1, -1);
@@ -84,14 +82,14 @@ update_status ModuleUI::PostUpdate()
 	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
-		if(button->IsClicked())
+		if (button->IsClicked())
 		{
 			if (App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
 			{
 #ifndef ENGINE
 				button->OnClicked();
 #endif // ENGINE
-				//button->SetHovered(false);
+	   // button->SetHovered(false);
 				button->SetClicked(false);
 			}
 		}
@@ -112,7 +110,7 @@ void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 
 	for (Component* interactable : loadedScene->GetSceneInteractable())
 	{
-		ComponentTransform2D* transform = 
+		ComponentTransform2D* transform =
 			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
 		transform->CalculateWorldBoundingBox();
 	}
@@ -120,14 +118,9 @@ void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 
 void ModuleUI::LoadVBO()
 {
-	float vertices[] = {
-		// positions          
-		-0.5,  0.5, 0.0f, 1.0f,
-		-0.5, -0.5, 0.0f, 0.0f,
-		 0.5, -0.5, 1.0f, 0.0f,
-		 0.5, -0.5, 1.0f, 0.0f,
-		 0.5,  0.5, 1.0f, 1.0f,
-		-0.5,  0.5, 0.0f, 1.0f
+	float vertices[] = { // positions
+						 -0.5, 0.5,	 0.0f, 1.0f, -0.5, -0.5, 0.0f, 0.0f, 0.5,  -0.5, 1.0f, 0.0f,
+						 0.5,  -0.5, 1.0f, 0.0f, 0.5,  0.5,	 1.0f, 1.0f, -0.5, 0.5,	 0.0f, 1.0f
 	};
 
 	glGenBuffers(1, &quadVBO);
@@ -141,21 +134,24 @@ void ModuleUI::CreateVAO()
 	glBindVertexArray(quadVAO);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*) 0);
 
 	glBindVertexArray(0);
 }
 
-void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject, float2 mousePosition, bool leftClicked, bool disabledHierarchy)
+void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
+											   float2 mousePosition,
+											   bool leftClicked,
+											   bool disabledHierarchy)
 {
-	if(!gameObject->IsEnabled()) 
+	if (!gameObject->IsEnabled())
 	{
 		disabledHierarchy = true;
 	}
 
 	for (ComponentButton* button : gameObject->GetComponentsByType<ComponentButton>(ComponentType::BUTTON))
 	{
-		if(disabledHierarchy) 
+		if (disabledHierarchy)
 		{
 			button->SetHovered(false);
 			button->SetClicked(false);
@@ -195,7 +191,7 @@ void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
 	{
 		for (const ComponentImage* image : gameObject->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
 		{
-			if(image->IsEnabled())
+			if (image->IsEnabled())
 			{
 				image->Draw();
 			}
