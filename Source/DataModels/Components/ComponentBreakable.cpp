@@ -74,8 +74,8 @@ void ComponentBreakable::UnsubscribeToOnCollisionEnter()
 
 void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 {
-	if (abs(rigidbody->GetVelocity().getX()) > 1.0f || abs(rigidbody->GetVelocity().getZ()) > 1.0f)
-	{
+	//if (abs(rigidbody->GetVelocity().getX()) > 1.0f || abs(rigidbody->GetVelocity().getZ()) > 1.0f)
+	//{
 		if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 		{
 			rb->RemoveRigidBodyFromSimulation();
@@ -96,14 +96,15 @@ void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 			}
 			
 			child->CreateComponent(ComponentType::RIGIDBODY);
-			const ComponentRigidBody* childRigidBody = 
+			ComponentRigidBody* childRigidBody = 
 				static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
+			childRigidBody->UpdateRigidBody();
 			//randomize the impulsion
 			float3 test = test.RandomDir(*lcg, impulsionForce);
 			btVector3 impulsionMul{test.x,test.y,test.z};
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 		}
-	}
+	//}
 
 }
