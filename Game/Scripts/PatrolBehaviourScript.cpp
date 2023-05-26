@@ -28,30 +28,41 @@ void PatrolBehaviourScript::Start()
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 }
 
+// Initally set the first waypoint as the destiny
 void PatrolBehaviourScript::StartPatrol() const
 {
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
-		// Initally set the first waypoint as the destiny
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+		
+		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+				(wayPointOneTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
+		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
 }
 
+// When this behaviour is triggered, the enemy will patrol between its waypoints
+// (This can be modularized into any amout of waypoints once the scripts can accept vectors)
 void PatrolBehaviourScript::Patrolling() const
 {
-	// When this behaviour is triggered, the enemy will patrol between its waypoints
-	// (This can be modularized into any amout when the scripts can accept vectors)
-
 	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointTwoTransform->GetRotation());
+		
+		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+			(wayPointTwoTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
+		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
 
 	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+		
+		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+			(wayPointOneTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
+		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
 }

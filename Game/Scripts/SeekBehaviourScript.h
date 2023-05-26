@@ -22,4 +22,5 @@ private:
 
 	ComponentTransform* targetTransform;
 	ComponentRigidBody* ownerRigidBody;
+	ComponentTransform* ownerTransform;
 };

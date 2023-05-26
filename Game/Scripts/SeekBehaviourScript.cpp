@@ -10,7 +10,7 @@
 REGISTERCLASS(SeekBehaviourScript);
 
 SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr), 
-	ownerRigidBody(nullptr), targetTransform(nullptr)
+	ownerRigidBody(nullptr), targetTransform(nullptr), ownerTransform(nullptr)
 {
 	REGISTER_FIELD(target, GameObject*);
 }
@@ -23,11 +23,16 @@ void SeekBehaviourScript::Start()
 	}
 
 	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 }
 
+// When this behaviour is triggered, the enemy will go towards its target
 void SeekBehaviourScript::Seeking() const
 {
-	// When this behaviour is triggered, the enemy will go towards its target
 	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
-	ownerRigidBody->SetRotationTarget(targetTransform->GetRotation());
+	
+	Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+		(targetTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
+	ownerRigidBody->SetRotationTarget(targetRotation);
+	ownerRigidBody->SetKpTorque(15.0f);
 }
