@@ -19,6 +19,10 @@ private:
     GameObject* gameObjectAttached;
     GameObject* gameObjectAttachedParent;
 	float distancePointGameObjectAttached;
+	float maxDistanceForce;
+	float minDistanceForce;
+	float maxTimeForce;
+	float currentTimeForce;
 
 	float3 ownerLastForward;
 	float3 gameObjectAttachedLastForward;

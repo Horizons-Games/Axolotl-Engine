@@ -19,8 +19,11 @@ REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forzable"), distancePointGameObjectAttached(0.0f),
-ownerLastForward(float3(0,0,0)), gameObjectAttachedLastForward(float3(0,0,0))
+maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), 
+currentTimeForce(0.0f)
 {
+	REGISTER_FIELD(maxDistanceForce, float);
+	REGISTER_FIELD(maxTimeForce, float);
 }
 
 PlayerForceUseScript::~PlayerForceUseScript()
@@ -29,6 +32,7 @@ PlayerForceUseScript::~PlayerForceUseScript()
 
 void PlayerForceUseScript::Start()
 {
+	currentTimeForce = maxTimeForce;
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -37,28 +41,33 @@ void PlayerForceUseScript::Update(float deltaTime)
 	ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
 
-	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && !gameObjectAttached)
+	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
 		RaycastHit hit;
 		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-		bool hasHit = Physics::RaycastToTag(line, hit, owner, tag);
 		if (Physics::RaycastToTag(line, hit, owner, tag))
-		{
+		{	
 			gameObjectAttached = hit.gameObject;
 			ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
 				(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hittedTransform->GetGlobalPosition());
 
+			if (distancePointGameObjectAttached > maxDistanceForce)
+			{
+				gameObjectAttached = nullptr;
+				return;
+			}
+			else if (distancePointGameObjectAttached < minDistanceForce)
+			{
+				distancePointGameObjectAttached = minDistanceForce;
+			}
+
 			ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 			rigidBody->SetKpTorque(20.0f);
-
-			// set first rotation
-			ownerLastForward = transform->GetGlobalForward();
-			gameObjectAttachedLastForward = hittedTransform->GetGlobalForward();
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_Q) == KeyState::IDLE && gameObjectAttached)
+	else if ((input->GetKey(SDL_SCANCODE_Q) == KeyState::IDLE && gameObjectAttached) || currentTimeForce < 0.0f)
 	{
 		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 		gameObjectAttached = nullptr;
@@ -68,32 +77,27 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (gameObjectAttached)
 	{
+		if (input->IsMouseWheelScrolled())
+		{
+			distancePointGameObjectAttached += (input->GetMouseWheel().y);
+
+			distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
+			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
+		}
 		// Get next position of the gameObject
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
 
-		// Get next angle of the gameObject
-		ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
-			(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
-
-		float3 ownerNewForward = transform->GetGlobalForward();
-		//ownerNewForward.Normalize();
-		//ownerLastForward.Normalize();
-
-		float3 ownerDiffForward = ownerLastForward - ownerNewForward;
-		gameObjectAttachedLastForward += ownerDiffForward;
-
-		Quat targetRotation = Quat::RotateFromTo(hittedTransform->GetGlobalForward(), gameObjectAttachedLastForward);
-
-
 		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 		rigidBody->SetPositionTarget(nextPosition);
-		rigidBody->SetRotationTarget(targetRotation);
 
-
-		ownerLastForward = transform->GetGlobalForward();
-		gameObjectAttachedLastForward = hittedTransform->GetGlobalForward();
+		currentTimeForce -= deltaTime;
 	}
+	else if(currentTimeForce < maxTimeForce)
+	{
+		currentTimeForce = std::min(maxTimeForce, currentTimeForce + (deltaTime * 4));
+	}
+	ENGINE_LOG("Current time force : % f", currentTimeForce)
 }

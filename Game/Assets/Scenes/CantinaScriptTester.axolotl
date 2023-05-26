@@ -41494,7 +41494,18 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceUseScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "MaxDistanceForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]
