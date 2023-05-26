@@ -139,7 +139,7 @@ void ComponentRigidBody::Update()
 
 	if (usePositionController)
 	{
-		float3 x = transform->GetPosition();
+		float3 x = transform->GetGlobalPosition();
 		float3 positionError = targetPosition - x;
 		float3 velocityPosition = positionError * KpForce;
 
