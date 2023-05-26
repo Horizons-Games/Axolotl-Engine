@@ -379,9 +379,6 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
-    <ClCompile Include="moveale.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
@@ -774,9 +771,6 @@
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="moveale.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="Enums\FieldType.h" />

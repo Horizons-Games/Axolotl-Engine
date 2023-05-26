@@ -131,10 +131,7 @@ update_status ModuleInput::Update()
 				}
 				break;
 			case SDL_KEYDOWN:
-				if (keysState[sdlEvent.key.keysym.scancode] != KeyState::REPEAT)
-				{
 					keysState[sdlEvent.key.keysym.scancode] = KeyState::DOWN;
-				}
 				break;
 			case SDL_KEYUP:
 				keysState[sdlEvent.key.keysym.scancode] = KeyState::UP;
