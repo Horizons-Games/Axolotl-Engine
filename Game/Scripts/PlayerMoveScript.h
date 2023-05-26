@@ -24,15 +24,6 @@ public:
 
     void Move(float deltaTime);
 
-    float GetSpeed() const;
-    void SetSpeed(float speed);
-
-    float GetDashForce() const;
-    void SetDashForce(float dashForce);
-
-    bool GetCanDash() const;
-    void SetCanDash(bool canDash);
-
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;

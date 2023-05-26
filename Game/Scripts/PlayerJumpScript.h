@@ -9,12 +9,6 @@ public:
     void Start() override;
     void PreUpdate(float deltaTime) override;
 
-    float GetJumpParameter() const;
-    void SetJumpParameter(float jumpParameter);
-
-    bool GetCanDoubleJump() const;
-    void SetCanDoubleJump(bool canDoubleJump);
-
 private:
     void Jump(float deltatime);
 

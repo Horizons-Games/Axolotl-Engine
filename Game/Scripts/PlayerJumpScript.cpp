@@ -10,8 +10,8 @@ REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoubleJump(false) , jumpReset(0)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(JumpParameter, float);
-	REGISTER_FIELD_WITH_ACCESSORS(CanDoubleJump, bool);
+	REGISTER_FIELD(jumpParameter, float);
+	REGISTER_FIELD(canDoubleJump, bool);
 }
 
 void PlayerJumpScript::Start()
@@ -22,26 +22,6 @@ void PlayerJumpScript::Start()
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
 	Jump(deltaTime);
-}
-
-float PlayerJumpScript::GetJumpParameter() const
-{
-	return jumpParameter;
-}
-
-void PlayerJumpScript::SetJumpParameter(float jumpParameter)
-{
-	this->jumpParameter = jumpParameter;
-}
-
-bool PlayerJumpScript::GetCanDoubleJump() const
-{
-	return canDoubleJump;
-}
-
-void PlayerJumpScript::SetCanDoubleJump(bool canDoubleJump)
-{
-	this->canDoubleJump = canDoubleJump;
 }
 
 void PlayerJumpScript::Jump(float deltatime)

@@ -15,9 +15,9 @@ PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform
 componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
 dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(Speed, float);
-	REGISTER_FIELD_WITH_ACCESSORS(DashForce, float);
-	REGISTER_FIELD_WITH_ACCESSORS(CanDash, bool);
+	REGISTER_FIELD(speed, float);
+	REGISTER_FIELD(dashForce, float);
+	REGISTER_FIELD(canDash, bool);
 }
 
 void PlayerMoveScript::Start()
@@ -172,34 +172,4 @@ void PlayerMoveScript::Move(float deltaTime)
 		canDash = true;
 		nextDash = 0;
 	}
-}
-
-float PlayerMoveScript::GetSpeed() const
-{
-	return speed;
-}
-
-void PlayerMoveScript::SetSpeed(float speed)
-{
-	this->speed = speed;
-}
-
-float PlayerMoveScript::GetDashForce() const
-{
-	return dashForce;
-}
-
-void PlayerMoveScript::SetDashForce(float dashForce)
-{
-	this->dashForce = dashForce;
-}
-
-bool PlayerMoveScript::GetCanDash() const
-{
-	return canDash;
-}
-
-void PlayerMoveScript::SetCanDash(bool canDash)
-{
-	this->canDash = canDash;
 }
