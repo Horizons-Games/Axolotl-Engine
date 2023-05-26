@@ -379,11 +379,14 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 			boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
 			break;
 		case Shape::SPHERE:
-			break;
-		case Shape::CONE:
 			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 			factor = 0.5f;
+			break;
 		case Shape::CAPSULE:
+			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+			height = 2.0f;
+			break;
+		case Shape::CONE:
 			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 			height = 2.0f;
 			break;
