@@ -10,8 +10,11 @@
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr),
-	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr)
+	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f)
 {
+	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
+	REGISTER_FIELD(attackDistance, float);
+	REGISTER_FIELD(seekDistance, float);
 }
 
 void EnemyDroneScript::Start()
@@ -46,17 +49,22 @@ void EnemyDroneScript::Update(float deltaTime)
 		const ComponentTransform* seekTargetTransform =
 			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
+		if (droneState != DroneBehaviours::PATROL)
+		{
+			droneState = DroneBehaviours::PATROL;
+			patrolScript->StartPatrol();
+		}
+
+		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), seekDistance)
 			&& droneState != DroneBehaviours::SEEK)
 		{
 			droneState = DroneBehaviours::SEEK;
 		}
 
-		else if (!ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f) 
-			&& droneState != DroneBehaviours::PATROL)
+		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), attackDistance)
+			&& droneState != DroneBehaviours::ATTACK)
 		{
-			droneState = DroneBehaviours::PATROL;
-			patrolScript->StartPatrol();
+			droneState = DroneBehaviours::ATTACK;
 		}
 	}
 
@@ -68,5 +76,10 @@ void EnemyDroneScript::Update(float deltaTime)
 	if (seekScript && droneState == DroneBehaviours::SEEK)
 	{
 		seekScript->Seeking();
+	}
+
+	if (seekScript && droneState == DroneBehaviours::ATTACK)
+	{
+		seekScript->StopSeeking();
 	}
 }

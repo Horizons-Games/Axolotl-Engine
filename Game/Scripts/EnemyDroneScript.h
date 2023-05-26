@@ -13,7 +13,8 @@ enum class DroneBehaviours
 {
 	IDLE,
 	PATROL,
-	SEEK
+	SEEK,
+	ATTACK
 };
 
 class EnemyDroneScript : public Script
@@ -27,6 +28,9 @@ public:
 
 private:
 	DroneBehaviours droneState;
+
+	float attackDistance;
+	float seekDistance;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;

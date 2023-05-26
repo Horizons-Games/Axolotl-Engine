@@ -16,6 +16,7 @@ public:
 	void Start() override;
 
 	void Seeking() const;
+	void StopSeeking() const;
 
 private:
 	GameObject* target;

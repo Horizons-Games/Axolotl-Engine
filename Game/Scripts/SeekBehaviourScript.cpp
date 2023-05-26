@@ -35,3 +35,8 @@ void SeekBehaviourScript::Seeking() const
 		(targetTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
 	ownerRigidBody->SetRotationTarget(targetRotation);
 }
+
+void SeekBehaviourScript::StopSeeking() const
+{
+	ownerRigidBody->SetPositionTarget(ownerTransform->GetPosition());
+}

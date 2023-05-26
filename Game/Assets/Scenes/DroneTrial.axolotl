@@ -41501,7 +41501,18 @@
                             "active": true,
                             "removed": true,
                             "constructName": "EnemyDroneScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "AttackDistance",
+                                    "value": 3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "SeekDistance",
+                                    "value": 6.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     },
                     {
