@@ -13,6 +13,9 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentScript.h"
+
+#include "HealthSystem.h"
 
 #include "GameObject/GameObject.h"
 
@@ -24,9 +27,9 @@
 
 REGISTERCLASS(DroneBullet);
 
-DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr)
+DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), bulletLifeTime(10.0f),
+damageAttack(10.0f), rayAttackSize(10.0f)
 {
-	REGISTER_FIELD(velocity, float);
 }
 
 void DroneBullet::Start()
@@ -40,9 +43,6 @@ void DroneBullet::Update(float deltaTime)
 	ShootBullet(deltaTime);
 
 	CheckCollision();
-
-	if (SDL_GetTicks() / 1000.0f > bulletLifeTime);
-
 }
 
 void DroneBullet::ShootBullet(float deltaTime)
@@ -54,18 +54,28 @@ void DroneBullet::ShootBullet(float deltaTime)
 void DroneBullet::CheckCollision()
 {
 	Ray ray(transform->GetPosition(), transform->GetLocalForward());
-	LineSegment line(ray, 10.0f);
+	LineSegment line(ray, rayAttackSize);
 	RaycastHit hit;
 	if (Physics::Raycast(line, hit, transform->GetOwner()))
 	{
 		if (hit.gameObject->CompareTag("Player"))
 		{
-			//get component health and do damage
+			std::vector<ComponentScript*> gameObjectScripts =
+				hit.gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+
+			for (int i = 0; i < gameObjectScripts.size(); ++i)
+			{
+				if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+				{
+					HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+					healthScript->TakeDamage(damageAttack);
+				}
+			}
 		}
 
-		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
+		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);//Provisional sfx
 
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+		DestroyBullet();
 	}
 }
 

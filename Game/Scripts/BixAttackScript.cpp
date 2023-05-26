@@ -10,6 +10,9 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentScript.h"
+
+#include "HealthSystem.h"
 
 #include "GameObject/GameObject.h"
 
@@ -29,7 +32,7 @@ namespace
 }
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr),
+input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
 transform(nullptr),
 //Provisional
 ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
@@ -38,6 +41,7 @@ ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Tran
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
+	REGISTER_FIELD(damageAttack, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 
 	//Provisional
@@ -65,7 +69,6 @@ void BixAttackScript::Start()
 	ray2Transform = static_cast<ComponentTransform*>(ray2GO->GetComponent(ComponentType::TRANSFORM));
 	ray3Transform = static_cast<ComponentTransform*>(ray3GO->GetComponent(ComponentType::TRANSFORM));
 	ray4Transform = static_cast<ComponentTransform*>(ray4GO->GetComponent(ComponentType::TRANSFORM));
-	//--Provisional
 
 	rays.reserve(5);
 	rays.push_back(Ray(transform->GetPosition(), transform->GetLocalForward()));
@@ -73,16 +76,19 @@ void BixAttackScript::Start()
 	rays.push_back(Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
+	//--Provisional
 
 }
 
 void BixAttackScript::Update(float deltaTime)
 {
 	rays[0] = Ray(transform->GetPosition(), transform->GetLocalForward());
+	//Provisional
 	rays[1] = Ray(ray1Transform->GetGlobalPosition(), transform->GetLocalForward());
 	rays[2] = Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward());
 	rays[3] = Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward());
 	rays[4] = Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward());
+	//--Provisional
 
 
 #ifdef DEBUG
@@ -116,9 +122,9 @@ void BixAttackScript::PerformAttack()
 
 void BixAttackScript::CheckCollision()
 {
+	//Provisional
 	std::set<UID> hitObjects;
 	bool playSFX = false;
-	//Provisional
 	for (const Ray& ray : rays)
 	{
 		LineSegment line(ray, rayAttackSize);
@@ -132,6 +138,17 @@ void BixAttackScript::CheckCollision()
 				{
 					// insertion could take place -> element not hit yet
 					//get component health and do damage
+					std::vector<ComponentScript*> gameObjectScripts =
+						hit.gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+
+					for (int i = 0; i < gameObjectScripts.size(); ++i)
+					{
+						if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+						{
+							HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+							healthScript->TakeDamage(damageAttack);
+						}
+					}
 				}
 			}
 		}

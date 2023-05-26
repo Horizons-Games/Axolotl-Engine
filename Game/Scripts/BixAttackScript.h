@@ -27,6 +27,7 @@ private:
 	float attackCooldown;
 	float lastAttackTime;
 	float rayAttackSize;
+	float damageAttack;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
