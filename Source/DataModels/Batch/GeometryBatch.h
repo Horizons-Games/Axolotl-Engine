@@ -120,9 +120,10 @@ private:
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::unordered_map<const ComponentMeshRenderer*, int>  objectIndexes;
+	std::unordered_map<const ComponentMeshRenderer*, int>  paletteIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
-	std::vector<int> instanceData;
 	std::vector<PerInstance> perInstances;
+	std::vector<int> instanceData;
 
 	unsigned int ebo;
 	unsigned int vao;
@@ -160,7 +161,6 @@ private:
 
 	float4x4* transformData[DOUBLE_BUFFERS];
 	float4x4* paletteData[DOUBLE_BUFFERS];
-	PerInstance* perInstanceData;
 	MaterialMetallic* metallicMaterialData;
 	MaterialSpecular* specularMaterialData;
 

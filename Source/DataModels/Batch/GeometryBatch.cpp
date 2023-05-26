@@ -57,6 +57,7 @@ GeometryBatch::~GeometryBatch()
 	objectIndexes.clear();
 	instanceData.clear();
 	perInstances.clear();
+	paletteIndexes.clear();
 
 	CleanUp();
 	
@@ -366,19 +367,23 @@ void GeometryBatch::CreateVAO()
 
 	// Palettes & PerInstances
 	unsigned int totalNumBones = 0;
+	unsigned count = 0;
 
 	for (const ComponentMeshRenderer* component : componentsInBatch)
 	{
 		PerInstance instance;
 
 		int numBones = component->GetMesh()->GetNumBones();
-		
+
 		instance.numBones = numBones;
 		instance.paletteOffset = totalNumBones;
 
 		perInstances.push_back(instance);
-		
+
+		paletteIndexes[component] = count;
+
 		totalNumBones += numBones;
+		++count;
 	}
 
 	// Palettes
@@ -420,6 +425,12 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::ClearBuffer()
 {
+	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, bonesBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, weightsBuffer);
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
@@ -442,6 +453,10 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		objectIndexes[newComponent] = CreateInstanceResourceMaterial(materialShared);
 		newComponent->SetBatch(this);
 		componentsInBatch.push_back(newComponent);
+
+		perInstances.clear();
+		paletteIndexes.clear();
+
 		fillMaterials = true;
 		reserveModelSpace = true;
 		dirtyBatch = true;
@@ -502,6 +517,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	resourcesMaterial.clear();
 	instanceData.clear();
 	perInstances.clear();
+	paletteIndexes.clear();
 
 	fillMaterials = true;
 	reserveModelSpace = true;
@@ -558,6 +574,7 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 	resourcesMaterial.clear();
 	instanceData.clear();
 	perInstances.clear();
+	paletteIndexes.clear();
 
 	reserveModelSpace = true;
 	fillMaterials = true;
@@ -582,6 +599,7 @@ void GeometryBatch::BindBatch(bool selected)
 	frame = (frame + 1) % DOUBLE_BUFFERS;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[frame]);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPalette, palettes[frame]);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 
 	WaitBuffer();
@@ -646,7 +664,7 @@ void GeometryBatch::BindBatch(bool selected)
 #ifdef ENGINE
 			bool draw = false;
 
-			if (!isRoot)
+			if (!App->IsOnPlayMode() && !isRoot)
 			{
 				if (!selected)
 				{
@@ -677,16 +695,20 @@ void GeometryBatch::BindBatch(bool selected)
 
 				// find position in components vector
 				unsigned int instanceIndex = objectIndexes[component];
+				unsigned int paletteIndex = paletteIndexes[component];
 
 				transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
 					component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 				
-				if (component->GetMesh()->GetNumBones() > 0 && component->GetPalette().size() > 0)
+				if (component->GetPalette().size() > 0)
 				{
-
-					memcpy(&paletteData[frame][perInstances[instanceIndex].paletteOffset],
-						   &component->GetPalette()[0],
-						   perInstances[instanceIndex].numBones * sizeof(float4x4));
+					memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
+						&component->GetPalette()[0],
+						perInstances[paletteIndex].numBones * sizeof(float4x4));
+				}
+				else
+				{
+					memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset], nullptr, 0);
 				}
 
 				//do a for for all the instaces existing
@@ -707,27 +729,33 @@ void GeometryBatch::BindBatch(bool selected)
 			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
 			std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
 
-			//find position in components vector
+			// find position in components vector
 			unsigned int instanceIndex = objectIndexes[component];
+			unsigned int paletteIndex = paletteIndexes[component];
 
 			transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
 				component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			if (component->GetMesh()->GetNumBones() > 0 && component->GetPalette().size() > 0)
+			if (component->GetPalette().size() > 0)
 			{
-				memcpy(&paletteData[frame][perInstances[instanceIndex].paletteOffset],
-					   &component->GetPalette()[0],
-					   perInstances[instanceIndex].numBones * sizeof(float4x4));
+				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
+					&component->GetPalette()[0],
+					perInstances[paletteIndex].numBones * sizeof(float4x4));
+			}
+			else
+			{
+				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset], nullptr, 0);
 			}
 
 			//do a for for all the instaces existing
-			Command newCommand = {
+			Command newCommand{
 				resource->GetNumIndexes(),	// Number of indices in the mesh
 				1,							// Number of instances to render
 				resourceInfo->indexOffset,	// Index offset in the EBO
-				resourceInfo->vertexOffset,	// Vertex offset in the VBO
+				resourceInfo->vertexOffset, // Vertex offset in the VBO
 				instanceIndex				// Instance Index
 			};
+
 			commands.push_back(newCommand);
 			drawCount++;
 #endif //ENGINE

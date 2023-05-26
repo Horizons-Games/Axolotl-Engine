@@ -547,6 +547,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 {
 	std::queue<GameObject*> gameObjectQueue;
 	gameObjectQueue.push(gameObject);
+
 	while (!gameObjectQueue.empty())
 	{
 		const GameObject* currentGo = gameObjectQueue.front();
@@ -560,9 +561,13 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 		}
 		std::vector<ComponentMeshRenderer*> meshes =
 			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
-		for (const ComponentMeshRenderer* mesh : meshes)
+		
+		if (gameObjectsInFrustrum.find(currentGo) != gameObjectsInFrustrum.end())
 		{
-			mesh->DrawHighlight();
+			for (const ComponentMeshRenderer* mesh : meshes)
+			{
+				mesh->DrawHighlight();
+			}
 		}
 	}
 }
