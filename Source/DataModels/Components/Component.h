@@ -159,6 +159,8 @@ const std::string GetNameByType(ComponentType type)
 		return "Component_MeshCollider";
 	case ComponentType::SCRIPT:
 		return "Component_Script";
+	case ComponentType::PARTICLE:
+		return "Component_Particle";
 	default:
 		assert(false && "Wrong component type introduced");
 		return "";
@@ -235,6 +237,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Script")
 	{
 		return ComponentType::SCRIPT;
+	}
+
+	if (typeName == "Component_Particle")
+	{
+		return ComponentType::PARTICLE;
 	}
 	
 	if (typeName == "Component_MeshCollider")
