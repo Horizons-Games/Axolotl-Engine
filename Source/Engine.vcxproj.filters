@@ -340,9 +340,6 @@
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -382,7 +379,16 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
-    <ClCompile Include="moveale.cpp">
+    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleAudio.cpp">
@@ -722,9 +728,6 @@
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -770,10 +773,19 @@
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
-    <ClInclude Include="moveale.h">
+    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
