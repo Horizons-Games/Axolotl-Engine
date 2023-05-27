@@ -102,29 +102,37 @@ public:
 	void SetHeight(float newHeight);
 
 	void SetDefaultSize(Shape resetShape);
+	void SetDefaultPosition();
+
+    btVector3 GetRigidBodyOrigin() const;
+    void SetRigidBodyOrigin(btVector3 origin);
+
+	btVector3 GetRigidBodyTranslation() const;
+	void UpdateRigidBodyTranslation();
+
+    void SetPositionTarget(const float3& targetPos);
+    void SetRotationTarget(const Quat& targetRot);
 
 	bool GetUsePositionController() const;
 	void SetUsePositionController(bool newUsePositionController);
 
 	bool GetUseRotationController() const;
-	void SetUseRotationController(bool newUsePositionController);
+	void SetUseRotationController(bool newUseRotationController);
+
+	void DisablePositionController();
+	void DisableRotationController();
 
 	float GetKpForce() const;
 	void SetKpForce(float newKpForce);
 
 	float GetKpTorque() const;
-	void SetKpTorque(float newKpForce);
+	void SetKpTorque(float newKpTorque);
 
     void RemoveRigidBodyFromSimulation();
-	void SetPositionTarget(const float3& targetPos);
-	void SetRotationTarget(const Quat& targetRot);
 
-	void DisablePositionController();
-	void DisableRotationController();
-
+    btRigidBody* GetRigidBody() const;
+    ComponentTransform* GetOwnerTransform() const;
 	void SetUpMobility();
-
-	btRigidBody* GetRigidBody() const;
 
 	void UpdateRigidBody();
 
@@ -143,15 +151,16 @@ private:
 	std::unique_ptr<btDefaultMotionState> motionState = nullptr;
 	std::unique_ptr<btCollisionShape> shape = nullptr;
 
-	btVector3 gravity = { 0, -9.81f, 0 };
-	float linearDamping = 0.1f;
-	float angularDamping = 0.1f;
-	float mass = 100.0f;
-	float restitution = 0.f;
-	float3 boxSize;
-	float radius;
-	float factor;
-	float height;
+    btVector3 gravity = { 0, -9.81f, 0 };
+    btVector3 translation = { 0.0f, 0.0f, 0.0f };
+    float linearDamping = 0.1f;
+    float angularDamping = 0.1f;
+    float mass = 100.0f;
+    float restitution = 0.f;
+    float3 boxSize;
+    float radius;
+    float factor;
+    float height;
 
 	bool isKinematic = false;
 	bool isStatic = false;
@@ -166,6 +175,8 @@ private:
 	bool useRotationController = false;
 	float KpForce = 5.0f;
 	float KpTorque = 0.05f;
+
+	bool isFromSceneLoad = true;
 
 	ComponentTransform* transform;
 
@@ -380,6 +391,21 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 }
 
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
+{ 
+    return rigidBody.get(); 
+}
+
+inline ComponentTransform* ComponentRigidBody::GetOwnerTransform() const
 {
-	return rigidBody.get();
+    return transform;
+}
+
+inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
+{
+    return rigidBody->getWorldTransform().getOrigin();
+}
+
+inline btVector3 ComponentRigidBody::GetRigidBodyTranslation() const
+{
+	return translation;
 }
