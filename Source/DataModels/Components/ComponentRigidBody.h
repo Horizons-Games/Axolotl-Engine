@@ -139,6 +139,8 @@ public:
 		delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
 	}
 
+    void ClearCollisionEnterDelegate();
+
 private:
 	int GenerateId() const;
 

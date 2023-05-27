@@ -19,6 +19,7 @@
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentTransform2D.h"
+#include "../Components/ComponentBreakable.h"
 
 #include "Application.h"
 
@@ -479,6 +480,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(true, this);
+			break;
+		}
+		case ComponentType::BREAKABLE:
+		{
+			newComponent = std::make_unique<ComponentBreakable>(true, this);
 			break;
 		}
 
