@@ -7,6 +7,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentScript.h"
 #include "DataModels/Camera/CameraGameObject.h"
 
 #include "Scene/Scene.h"
@@ -14,6 +15,10 @@
 #include "Physics/Physics.h"
 
 #include "MathGeoLib/Include/Geometry/Ray.h"
+
+#include "PlayerRotationScript.h"
+#include "PlayerCameraRotationVerticalScript.h"
+#include "PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerForceUseScript);
 
@@ -33,6 +38,30 @@ PlayerForceUseScript::~PlayerForceUseScript()
 void PlayerForceUseScript::Start()
 {
 	currentTimeForce = maxTimeForce;
+
+	std::vector<ComponentScript*> gameObjectScripts =
+		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	for (int i = 0; i < gameObjectScripts.size(); ++i)
+	{
+		if (gameObjectScripts[i]->GetConstructName() == "PlayerRotationScript")
+		{
+			rotationHorizontalScript = static_cast<PlayerRotationScript*>(gameObjectScripts[i]->GetScript());
+		}
+		else if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
+		{
+			moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
+		}
+	}
+
+	gameObjectScripts =
+		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	for (int i = 0; i < gameObjectScripts.size(); ++i)
+	{
+		if (gameObjectScripts[i]->GetConstructName() == "PlayerCameraRotationVerticalScript")
+		{
+			rotationVerticalScript = static_cast<PlayerCameraRotationVerticalScript*>(gameObjectScripts[i]->GetScript());
+		}
+	}
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -62,7 +91,26 @@ void PlayerForceUseScript::Update(float deltaTime)
 			{
 				distancePointGameObjectAttached = minDistanceForce;
 			}
-			ownerLastForward = hittedTransform->GetGlobalForward();
+
+			if (rotationHorizontalScript)
+			{
+				lastHorizontalSensitivity = rotationHorizontalScript->GetField<float>("RotationSensitivity")->getter();
+				rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity / 4.0f);
+			}
+
+			if (rotationVerticalScript)
+			{
+				lastVerticalSensitivity = rotationVerticalScript->GetField<float>("RotationSensitivity")->getter();
+				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 4.0f);
+			}
+
+			if (rotationVerticalScript)
+			{
+				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
+				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 4.0f);
+			}
+
+			//ownerLastForward = hittedTransform->GetGlobalForward();
 
 			ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 			rigidBody->SetKpForce(50.0f);
@@ -75,13 +123,28 @@ void PlayerForceUseScript::Update(float deltaTime)
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		//rigidBody->DisableRotationController();
+
+		if (rotationHorizontalScript)
+		{
+			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
+		}
+
+		if(rotationVerticalScript)
+		{
+			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
+		}
+
+		if (moveScript)
+		{
+			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 4.0f);
+		}
 	}
 
 	if (gameObjectAttached)
 	{
 		if (input->IsMouseWheelScrolled())
 		{
-			distancePointGameObjectAttached += (input->GetMouseWheel().y);
+			distancePointGameObjectAttached += (input->GetMouseWheel().y) / 4.0f;
 
 			distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);

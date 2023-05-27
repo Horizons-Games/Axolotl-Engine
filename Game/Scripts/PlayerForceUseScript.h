@@ -4,6 +4,11 @@
 
 #include "Bullet/LinearMath/btVector3.h"
 
+
+class PlayerCameraRotationVerticalScript;
+class PlayerRotationScript;
+class PlayerMoveScript;
+
 class PlayerForceUseScript :
     public Script
 {
@@ -23,9 +28,15 @@ private:
 	float minDistanceForce;
 	float maxTimeForce;
 	float currentTimeForce;
+	float lastHorizontalSensitivity;
+	float lastVerticalSensitivity;
+	float lastMoveSpeed;
 
 	float3 ownerLastForward;
 
     std::string tag;
-
+	
+	PlayerRotationScript* rotationHorizontalScript;
+	PlayerCameraRotationVerticalScript* rotationVerticalScript;
+	PlayerMoveScript* moveScript;
 };
