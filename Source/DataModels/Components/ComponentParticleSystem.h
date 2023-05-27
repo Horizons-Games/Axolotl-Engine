@@ -35,7 +35,7 @@ public:
 
 private:
 	void CreateEmitterInstance();
-	void CreateEmitterInstance(const ParticleEmitter* emitter);
+	void CreateEmitterInstance(ParticleEmitter* emitter);
 	void AddEmitterInstance(EmitterInstance* emitter);
 
 	void ClearEmitters();

@@ -7,10 +7,13 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ParticleSystem/ParticleEmitter.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
 	Component(ComponentType::PARTICLE, active, owner, true), resource(nullptr)
 {
+	App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(this);
 }
 
 ComponentParticleSystem::~ComponentParticleSystem()
@@ -91,7 +94,7 @@ void ComponentParticleSystem::CreateEmitterInstance()
 	emitters.push_back(instance);
 }
 
-void ComponentParticleSystem::CreateEmitterInstance(const ParticleEmitter* emitter)
+void ComponentParticleSystem::CreateEmitterInstance(ParticleEmitter* emitter)
 {
 	EmitterInstance* instance = new EmitterInstance(emitter, this);
 	instance->Init();
@@ -131,7 +134,7 @@ void ComponentParticleSystem::CheckEmitterInstances()
 
 void ComponentParticleSystem::InitEmitterInstances()
 {
-	emitters.resize(resource->GetNumEmitters());
+	emitters.reserve(resource->GetNumEmitters());
 	for(int i = 0; i < resource->GetNumEmitters(); ++i)
 	{
 		CreateEmitterInstance(resource->GetEmitter(i));
