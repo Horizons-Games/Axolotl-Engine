@@ -19,13 +19,7 @@
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentTransform2D.h"
-#include "../Components/ComponentRigidBody.h"
 #include "../Components/ComponentBreakable.h"
-#include "../Components/ComponentMockState.h"
-#include "../Components/ComponentAudioSource.h"
-#include "../Components/ComponentAudioListener.h"
-#include "../Components/ComponentMeshCollider.h"
-#include "../Components/ComponentScript.h"
 
 #include "Application.h"
 
