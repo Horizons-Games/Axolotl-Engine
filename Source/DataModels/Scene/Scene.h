@@ -82,14 +82,16 @@ public:
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
+	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
 	void SetDirectionalLight(GameObject* directionalLight);
-
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
+	void AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
 
+	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
@@ -195,6 +197,11 @@ inline void Scene::SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 inline void Scene::SetSceneInteractable(const std::vector<Component*>& interactable)
 {
 	sceneInteractableComponents = interactable;
+}
+
+inline void Scene::SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
+{
+	sceneParticleSystems = particleSystems;
 }
 
 inline void Scene::SetDirectionalLight(GameObject* directionalLight)

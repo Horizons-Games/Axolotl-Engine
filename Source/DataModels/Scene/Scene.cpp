@@ -789,7 +789,6 @@ void Scene::AddSceneCameras(const std::vector<ComponentCamera*>& cameras)
 	sceneCameras.insert(std::end(sceneCameras), std::begin(cameras), std::end(cameras));
 }
 
-
 void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 {
 	sceneCanvas.insert(std::end(sceneCanvas), std::begin(canvas), std::end(canvas));
@@ -798,4 +797,14 @@ void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 {
 	sceneInteractableComponents.insert(std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
+
+void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
+{
+	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
+}
+
+void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
+{
+	sceneParticleSystems.push_back(particleSystem);
 }

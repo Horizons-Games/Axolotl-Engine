@@ -325,7 +325,6 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 
 void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 {
-
 	Quadtree* rootQuadtree;
 
 	if(!mantainActualScene)
@@ -355,6 +354,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	std::vector<ComponentCamera*> loadedCameras{};
 	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
+	std::vector<ComponentParticleSystem*> loadedParticle{};
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
@@ -371,6 +371,11 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		if (button != nullptr)
 		{
 			loadedInteractable.push_back(button);
+		}
+		Component* particle = obj->GetComponent(ComponentType::PARTICLE);
+		if (particle != nullptr)
+		{
+			loadedParticle.push_back(static_cast<ComponentParticleSystem*>(particle));
 		}
 
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
@@ -405,6 +410,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		loadedScene->AddSceneCameras(loadedCameras);
 		loadedScene->AddSceneCanvas(loadedCanvas);
 		loadedScene->AddSceneInteractable(loadedInteractable);
+		loadedScene->AddSceneParticleSystem(loadedParticle);
 		RemoveGameObject(directionalLight);
 		loadedScene->DestroyGameObject(directionalLight);
 	}
