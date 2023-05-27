@@ -139,7 +139,7 @@
                                 {
                                     "name": "CanDash",
                                     "value": true,
-                                    "type": 3
+                                    "type": 4
                                 }
                             ]
                         }
@@ -151,6 +151,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": false,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -167,7 +168,10 @@
                             "boxSize_Z": 1.5,
                             "radius": 0.0,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 6.497121810913086,
+                            "rbPos_Z": 0.0
                         }
                     },
                     {
