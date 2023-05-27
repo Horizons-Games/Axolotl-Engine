@@ -29,11 +29,11 @@ void WindowComponentBreakable::DrawWindowContents()
 		{
 			if (isBreakable)
 			{
-				componentBreakable->SubscribeToOnCollisionEnter();
+				componentBreakable->SetSubscribed(isBreakable);
 			}
 			else
 			{
-				componentBreakable->UnsubscribeToOnCollisionEnter();
+				componentBreakable->SetSubscribed(isBreakable);
 			}
 		}
 

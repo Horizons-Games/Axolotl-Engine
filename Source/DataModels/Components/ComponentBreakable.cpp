@@ -12,18 +12,15 @@
 ComponentBreakable::ComponentBreakable(const bool active, GameObject* owner)
 	: Component(ComponentType::BREAKABLE, active, owner, true)
 {
-	SubscribeToOnCollisionEnter();
 }
 
 ComponentBreakable::~ComponentBreakable()
 {
-	UnsubscribeToOnCollisionEnter();
 	delete lcg;
 }
 
 void ComponentBreakable::Update()
 {
-	SubscribeToOnCollisionEnter();
 }
 
 void ComponentBreakable::SaveOptions(Json& meta)
@@ -46,40 +43,53 @@ void ComponentBreakable::LoadOptions(Json& meta)
 	impulsionForce = (float)meta["impulsion"];
 }
 
-void ComponentBreakable::SubscribeToOnCollisionEnter()
+void ComponentBreakable::BreakComponentBy(ComponentRigidBody* rigidbody)
 {
 	if (subscribed)
 	{
-		return;
-	}
-	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
-	{
-		rb->AddCollisionEnterDelegate(&ComponentBreakable::OnCollisionEnter, this);
-		subscribed = true;
+		if (abs(rigidbody->GetVelocity().getX()) > 1.0f || abs(rigidbody->GetVelocity().getZ()) > 1.0f)
+		{
+			if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
+			{
+				rb->RemoveRigidBodyFromSimulation();
+				subscribed = false;
+			}
+
+			auto lastChildren = owner->GetGameObjectsInside() | std::views::filter(
+				[](const GameObject* child)
+				{
+					return child->GetChildren().empty();
+				});
+
+			for (auto child : lastChildren)
+			{
+				if (child->GetComponent(ComponentType::RIGIDBODY))
+				{
+					continue;
+				}
+
+				child->CreateComponent(ComponentType::RIGIDBODY);
+				ComponentRigidBody* childRigidBody =
+					static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
+				childRigidBody->UpdateRigidBody();
+				//randomize the impulsion
+				float3 test = test.RandomDir(*lcg, impulsionForce);//max 4.0f min 0.0f
+				btVector3 impulsionMul{ test.x,test.y,test.z };
+				impulsion = impulsion.cross(impulsionMul);
+				childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
+			}
+		}
 	}
 }
 
-void ComponentBreakable::UnsubscribeToOnCollisionEnter()
+void ComponentBreakable::BreakComponent()
 {
-	if (!subscribed)
+	if (subscribed)
 	{
-		return;
-	}
-	if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
-	{
-		rb->ClearCollisionEnterDelegate();
-		subscribed = false;
-	}
-}
-
-void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
-{
-	//if (abs(rigidbody->GetVelocity().getX()) > 1.0f || abs(rigidbody->GetVelocity().getZ()) > 1.0f)
-	//{
 		if (auto rb = static_cast<ComponentRigidBody*>(GetOwner()->GetComponent(ComponentType::RIGIDBODY)))
 		{
 			rb->RemoveRigidBodyFromSimulation();
-			UnsubscribeToOnCollisionEnter();
+			subscribed = false;
 		}
 
 		auto lastChildren = owner->GetGameObjectsInside() | std::views::filter(
@@ -94,17 +104,16 @@ void ComponentBreakable::OnCollisionEnter(ComponentRigidBody* rigidbody)
 			{
 				continue;
 			}
-			
+
 			child->CreateComponent(ComponentType::RIGIDBODY);
-			ComponentRigidBody* childRigidBody = 
+			ComponentRigidBody* childRigidBody =
 				static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
 			childRigidBody->UpdateRigidBody();
 			//randomize the impulsion
 			float3 test = test.RandomDir(*lcg, impulsionForce);
-			btVector3 impulsionMul{test.x,test.y,test.z};
+			btVector3 impulsionMul{ test.x,test.y,test.z };
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 		}
-	//}
-
+	}
 }

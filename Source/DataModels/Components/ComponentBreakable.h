@@ -24,8 +24,10 @@ public:
 
 	float GetImpulsionMul();
 	void  SetImpulsionMul(float impulsion);
+	void  SetSubscribed(bool subscribe);
 
-	void OnCollisionEnter(class ComponentRigidBody* other);
+	void BreakComponentBy(class ComponentRigidBody* other);
+	void BreakComponent();
 	bool GetSubscribed();
 
 private:
@@ -33,7 +35,7 @@ private:
 	float impulsionForce = 1.0f;
 	LCG* lcg = new LCG();
 	btVector3 impulsion{ 1.0f,1.0f,1.0f };
-	bool subscribed = false;
+	bool subscribed = true;
 };
 
 inline bool ComponentBreakable::GetSubscribed()
@@ -49,6 +51,11 @@ inline float ComponentBreakable::GetImpulsionMul()
 inline void ComponentBreakable::SetImpulsionMul(float impulsion)
 {
 	impulsionForce = impulsion;
+}
+
+inline void ComponentBreakable::SetSubscribed(bool subscribe)
+{
+	subscribed = subscribe;
 }
 
 
