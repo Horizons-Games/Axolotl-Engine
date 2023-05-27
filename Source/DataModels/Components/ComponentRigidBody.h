@@ -129,12 +129,6 @@ public:
 
 	void UpdateRigidBody();
 
-	template<typename T>
-	void AddCollisionEnterDelegate(void (T::*func)(ComponentRigidBody*), T* obj)
-	{
-		delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
-	}
-
 private:
 	int GenerateId() const;
 
@@ -169,9 +163,6 @@ private:
 	ComponentTransform* transform;
 
 	uint32_t id = 0;
-
-	// Delegate for collision enter event the parameter is the other collider
-	std::vector<std::function<void(ComponentRigidBody*)>> delegateCollisionEnter;
 };
 
 inline bool ComponentRigidBody::GetIsKinematic() const
