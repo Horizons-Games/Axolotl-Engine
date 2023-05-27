@@ -43,6 +43,8 @@ public:
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(GameObject* object);
 
+	void ParticlesSystemUpdate();
+
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 

@@ -12,6 +12,7 @@
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
+class ComponentParticleSystem;
 class GameObject;
 class Quadtree;
 class Skybox;
@@ -68,6 +69,7 @@ public:
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
+	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
@@ -116,6 +118,9 @@ private:
 	std::vector<ComponentCanvas*> sceneCanvas;
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
+
+	//Draw is const so I need this vector
+	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 
 	GameObject* directionalLight;
 
@@ -170,6 +175,11 @@ inline const std::vector<Component*>& Scene::GetSceneInteractable() const
 inline const std::vector<Updatable*>& Scene::GetSceneUpdatable() const
 {
 	return sceneUpdatableObjects;
+}
+
+inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticleSystems() const
+{
+	return sceneParticleSystems;
 }
 
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)

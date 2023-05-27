@@ -22,6 +22,7 @@
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -119,6 +120,8 @@ update_status ModuleScene::PreUpdate()
 	{
 		App->GetScriptFactory()->UpdateNotifier();
 	}
+
+
 
 	if (App->IsOnPlayMode())
 	{
@@ -574,6 +577,14 @@ void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
 	for (GameObject* child : object->GetChildren())
 	{
 		RemoveGameObjectAndChildren(child);
+	}
+}
+
+void ModuleScene::ParticlesSystemUpdate()
+{
+	for(ComponentParticleSystem* particleComponent : loadedScene->GetSceneParticleSystems())
+	{
+		particleComponent->CheckEmitterInstances();
 	}
 }
 
