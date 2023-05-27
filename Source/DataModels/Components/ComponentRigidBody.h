@@ -62,6 +62,9 @@ public:
 	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
+	void SetIsTrigger(bool isTrigger);
+	bool IsTrigger() const;
+
 	void SetDrawCollider(bool newDrawCollider, bool substract = true);
 	bool GetDrawCollider() const;
 
@@ -162,6 +165,7 @@ private:
 	bool isKinematic = false;
 	bool isStatic = false;
 	bool drawCollider = false;
+	bool isTrigger = false;
 
 	Shape currentShape = Shape::NONE;
 
@@ -200,6 +204,11 @@ inline bool ComponentRigidBody::IsStatic() const
 inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
 {
 	isStatic = newIsStatic;
+}
+
+inline bool ComponentRigidBody::IsTrigger() const
+{
+	return isTrigger;
 }
 
 inline bool ComponentRigidBody::GetDrawCollider() const

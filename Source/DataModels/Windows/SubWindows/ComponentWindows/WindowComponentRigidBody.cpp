@@ -48,10 +48,17 @@ void WindowComponentRigidBody::DrawWindowContents()
 			asRigidBody->SetIsStatic(isStatic);
 			asRigidBody->SetUpMobility();
 		}
-
 		ImGui::SameLine();
 		ImGui::Text("Is Static");
 
+		bool isTrigger = asRigidBody->IsTrigger();
+
+		if (ImGui::Checkbox("##Is a Trigger", &isTrigger))
+		{
+			asRigidBody->SetIsTrigger(isTrigger);
+		}
+		ImGui::SameLine();
+		ImGui::Text("Is a Trigger");
 		ImGui::Text("");
 
 		if (!isStatic)

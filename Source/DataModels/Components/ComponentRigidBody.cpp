@@ -11,6 +11,8 @@
 #include "debugdraw.h"
 #include <ImGui/imgui.h>
 
+#include "ComponentScript.h"
+
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	Component(ComponentType::RIGIDBODY, active, owner, true)
 {
@@ -88,9 +90,12 @@ ComponentRigidBody::~ComponentRigidBody()
 void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 {
 	assert(other);
-	// delegate to notify other components
-	for (auto& delegate : delegateCollisionEnter)
-		delegate(other);
+
+	for (ComponentScript* script : owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+	{
+		script->OnCollisionEnter(other);
+	}
+
 }
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
@@ -101,8 +106,12 @@ void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 {
-	// TODO: Implement delegate for this
 	assert(other);
+
+	for (ComponentScript* script : owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+	{
+		script->OnCollisionExit(other);
+	}
 }
 
 void ComponentRigidBody::OnTransformChanged()
@@ -293,6 +302,7 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["removed"] = static_cast<bool>(canBeRemoved);
 	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
 	meta["isStatic"] = static_cast<bool>(IsStatic());
+	meta["isTrigger"] = static_cast<bool>(IsTrigger());
 	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
 	meta["mass"] = static_cast<float>(GetMass());
 	meta["linearDamping"] = static_cast<float>(GetLinearDamping());
@@ -324,6 +334,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
 	SetIsStatic(static_cast<bool>(meta["isStatic"]));
 	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
+	SetIsTrigger(static_cast<bool>(meta["isTrigger"]));
 	SetMass(static_cast<float>(meta["mass"]));
 	SetLinearDamping(static_cast<float>(meta["linearDamping"]));
 	SetAngularDamping(static_cast<float>(meta["angularDamping"]));
@@ -418,6 +429,19 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 
 	SetCollisionShape(resetShape);
 	// WIP: reset 5th shape
+}
+
+void ComponentRigidBody::SetIsTrigger(bool newTrigger)
+{
+	isTrigger = newTrigger;
+	if (newTrigger)
+	{
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CO_GHOST_OBJECT);
+	}
+	else
+	{
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CO_GHOST_OBJECT);
+	}
 }
 
 void ComponentRigidBody::SetDefaultPosition()
