@@ -96,7 +96,7 @@ void ComponentParticleSystem::CreateEmitterInstance()
 	emitters.push_back(instance);
 }
 
-void ComponentParticleSystem::CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter)
+void ComponentParticleSystem::CreateEmitterInstance(const ParticleEmitter* emitter)
 {
 	EmitterInstance* instance = new EmitterInstance(emitter, this);
 	instance->Init();

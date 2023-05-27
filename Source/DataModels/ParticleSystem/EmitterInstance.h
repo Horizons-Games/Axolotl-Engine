@@ -36,7 +36,7 @@ public:
 	};
 
 public:
-	EmitterInstance(const std::shared_ptr<ParticleEmitter> emitter, ComponentParticleSystem* owner);
+	EmitterInstance(const ParticleEmitter* emitter, ComponentParticleSystem* owner);
 	~EmitterInstance();
 
 	void Init();
@@ -50,7 +50,7 @@ public:
 
 
 	ComponentParticleSystem* GetOwner() const;
-	std::shared_ptr<ParticleEmitter> GetEmitter() const;
+	const ParticleEmitter* GetEmitter() const;
 	std::vector<Particle>& GetParticles();
 	const float GetLastEmission() const;
 	const unsigned GetAliveParticles() const;
@@ -66,8 +66,7 @@ private:
 	unsigned lastParticleUsed;
 	float lastEmission;
 
-
-	std::shared_ptr<ParticleEmitter> emitter;
+	const ParticleEmitter* emitter;
 	ComponentParticleSystem* owner;
 };
 
@@ -79,7 +78,7 @@ inline float3 EmitterInstance::lerp(float3 a, float3 b, float fraction)
 	return float3(xLerp, yLerp, zLerp);
 }
 
-inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
+inline const ParticleEmitter* EmitterInstance::GetEmitter() const
 {
 	return emitter;
 }

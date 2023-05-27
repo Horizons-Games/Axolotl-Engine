@@ -36,6 +36,7 @@ public:
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
 
 private:
+	void CreateEmitterInstance(const ParticleEmitter* emitter);
 	std::vector<EmitterInstance*> emitters;
 	std::shared_ptr<ResourceParticleSystem> resource;
 };
