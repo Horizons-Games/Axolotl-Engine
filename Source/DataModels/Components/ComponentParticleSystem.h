@@ -25,18 +25,22 @@ public:
 	void Reset();
 	void Draw() const override;
 
-	void CreateEmitterInstance();
-	void CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter);
-	void AddEmitterInstance(EmitterInstance* emitter);
-
 	bool IsEmittersEmpty() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
 
 	const std::shared_ptr<ResourceParticleSystem>& GetResource() const;
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
 
+	void CheckEmitterInstances();
+
 private:
+	void CreateEmitterInstance();
 	void CreateEmitterInstance(const ParticleEmitter* emitter);
+	void AddEmitterInstance(EmitterInstance* emitter);
+
+	void ClearEmitters();
+	void InitEmitterInstances();
+
 	std::vector<EmitterInstance*> emitters;
 	std::shared_ptr<ResourceParticleSystem> resource;
 };
@@ -49,11 +53,6 @@ inline bool ComponentParticleSystem::IsEmittersEmpty() const
 inline const std::shared_ptr<ResourceParticleSystem>& ComponentParticleSystem::GetResource() const
 {
 	return resource;
-}
-
-inline void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
-{
-	this->resource = resource;
 }
 
 inline std::vector<EmitterInstance*> ComponentParticleSystem::GetEmitters() const

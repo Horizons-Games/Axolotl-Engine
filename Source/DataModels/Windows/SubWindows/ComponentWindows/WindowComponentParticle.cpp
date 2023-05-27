@@ -8,6 +8,9 @@
 #include "ParticleSystem/ParticleEmitter.h"
 #include "ParticleSystem/ParticleModule.h"
 
+#include "Application.h"
+#include "ModuleScene.h"
+
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
 	ComponentWindow("Particle System", component), 
 	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
@@ -38,6 +41,7 @@ void WindowComponentParticle::DrawWindowContents()
 		if (ImGui::Button("x"))
 		{
 			component->SetResource(nullptr);
+			return;
 		}
 
 		int id = 0;
@@ -49,11 +53,13 @@ void WindowComponentParticle::DrawWindowContents()
 
 		if (ImGui::Button("Add an Emitter"))
 		{
-			std::shared_ptr<ParticleEmitter> emitter = std::make_shared<ParticleEmitter>();
+			std::unique_ptr<ParticleEmitter> emitter = std::make_unique<ParticleEmitter>();
+			//This is naming is not correct but we will do it like this for the moment
 			std::string name = "DefaultEmitter_" + std::to_string(component->GetEmitters().size());
 
 			emitter->SetName(&name[0]);
-			component->CreateEmitterInstance(emitter);
+			//You need to update the resource and THEN all the components detect that change and update their instances
+			resource->AddEmitter(std::move(emitter));
 		}
 	}
 	else 

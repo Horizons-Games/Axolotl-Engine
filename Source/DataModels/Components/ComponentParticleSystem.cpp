@@ -15,12 +15,7 @@ ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* 
 
 ComponentParticleSystem::~ComponentParticleSystem()
 {
-	for (EmitterInstance* instance : emitters)
-	{
-		delete instance;
-	}
-
-	emitters.clear();
+	ClearEmitters();
 }
 
 void ComponentParticleSystem::SaveOptions(Json& meta)
@@ -106,4 +101,49 @@ void ComponentParticleSystem::CreateEmitterInstance(const ParticleEmitter* emitt
 void ComponentParticleSystem::AddEmitterInstance(EmitterInstance* emitter)
 {
 	emitters.push_back(emitter);
+}
+
+void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
+{
+	this->resource = resource;
+	ClearEmitters();
+
+	if(resource != nullptr)
+	{
+		InitEmitterInstances();
+	}
+}
+
+void ComponentParticleSystem::CheckEmitterInstances()
+{
+	if (resource == nullptr) 
+	{
+		ClearEmitters();
+		return;
+	}
+
+	if (emitters.size() != resource->GetNumEmitters())
+	{
+		ClearEmitters();
+		InitEmitterInstances();
+	}
+}
+
+void ComponentParticleSystem::InitEmitterInstances()
+{
+	emitters.resize(resource->GetNumEmitters());
+	for(int i = 0; i < resource->GetNumEmitters(); ++i)
+	{
+		CreateEmitterInstance(resource->GetEmitter(i));
+	}
+}
+
+void ComponentParticleSystem::ClearEmitters()
+{
+	for (EmitterInstance* instance : emitters)
+	{
+		delete instance;
+	}
+
+	emitters.clear();
 }
