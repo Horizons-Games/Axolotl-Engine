@@ -115,6 +115,7 @@ private:
 	std::vector<Updatable*> sceneUpdatableObjects;
 
 	GameObject* directionalLight;
+	GameObject* cubeMapGameObject;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;

@@ -22,6 +22,7 @@ public:
 	GLuint GetPrefiltered();
 	GLuint GetEnvironmentBRDF();
 	int GetNumMiMaps();
+	void SetIntensity(float intensity);
 
 private:
 	void GenerateMaps();
@@ -62,3 +63,9 @@ inline int Cubemap::GetNumMiMaps()
 {
 	return numMipMaps;
 }
+
+inline void Cubemap::SetIntensity(float intensity)
+{
+	return;
+}
+

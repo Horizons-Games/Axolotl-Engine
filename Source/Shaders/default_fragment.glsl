@@ -224,7 +224,7 @@ void main()
 
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL);
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL, directionalColor.a);
     vec3 color = ambient + Lo;
     
 	//hdr rendering

@@ -388,6 +388,12 @@
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentCubeMap.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowComponentCubeMap.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -779,6 +785,12 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Audio\AudioData.h">
       <Filter>Auxiliar\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCubeMap.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowComponentCubeMap.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
