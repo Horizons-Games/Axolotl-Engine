@@ -45,9 +45,9 @@ bool ModuleResources::Init()
 	cubemapImporter = std::make_unique<CubemapImporter>();
 	animationImporter = std::make_unique<AnimationImporter>();
 	stateMachineImporter = std::make_unique<StateMachineImporter>();
-	CreateAssetAndLibFolders();
 
 #ifdef ENGINE
+	CreateAssetAndLibFolders();
 	monitorThread = std::thread(&ModuleResources::MonitorResources, this);
 #endif
 	return true;

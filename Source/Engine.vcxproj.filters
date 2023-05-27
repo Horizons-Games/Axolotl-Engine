@@ -382,16 +382,11 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+    <ClCompile Include="moveale.cpp">
       <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleAudio.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -718,6 +713,9 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
+      <Filter>UserScripts\Auxiliar</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
@@ -779,16 +777,12 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
-    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
-      <Filter>UserScripts\Enemies</Filter>
+    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
-      <Filter>UserScripts\Player</Filter>
+    <ClInclude Include="Auxiliar\Audio\AudioData.h">
+      <Filter>Auxiliar\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -884,6 +878,9 @@
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Audio">
+      <UniqueIdentifier>{31a144c8-77e2-4122-82e4-529826c280dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1163,7 +1160,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleAudio.cpp" />
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -1883,8 +1879,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h" />
-    <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>

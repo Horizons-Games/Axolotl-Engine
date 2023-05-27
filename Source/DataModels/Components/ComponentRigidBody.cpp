@@ -40,40 +40,30 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	SetAngularDamping(angularDamping);
 
 	SetCollisionShape(static_cast<ComponentRigidBody::Shape>(Shape::BOX));
-	UpdateRigidBody();
 }
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
-	Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true)
+	Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true),
+	isKinematic(toCopy.isKinematic),
+	isStatic(toCopy.isStatic),
+	currentShape(toCopy.currentShape),
+	boxSize(toCopy.boxSize),
+	radius(toCopy.radius),
+	factor(toCopy.factor),
+	height(toCopy.height),
+	usePositionController(toCopy.usePositionController),
+	useRotationController(toCopy.useRotationController),
+	KpForce(toCopy.KpForce),
+	KpTorque(toCopy.KpTorque),
+	mass(toCopy.mass)
 {
 	id = GenerateId();
 
 	transform = toCopy.transform;
-	boxSize = toCopy.boxSize;
-	radius = toCopy.radius;
-	factor = toCopy.factor;
-	height = toCopy.height;
 
-	currentShape = toCopy.currentShape;
 	motionState = std::unique_ptr<btDefaultMotionState>(new btDefaultMotionState(*toCopy.motionState.get()));
-	switch (static_cast<Shape>(currentShape))
-	{
-		default:
-		case Shape::BOX:
-			shape = std::unique_ptr<btBoxShape>(new btBoxShape(*static_cast<btBoxShape*>(toCopy.shape.get())));
-			break;
-		case Shape::SPHERE:
-			shape = std::unique_ptr<btSphereShape>(new btSphereShape(*static_cast<btSphereShape*>(toCopy.shape.get())));
-			break;
-		case Shape::CAPSULE:
-			shape =
-				std::unique_ptr<btCapsuleShape>(new btCapsuleShape(*static_cast<btCapsuleShape*>(toCopy.shape.get())));
-			break;
-		case Shape::CONE:
-			shape = std::unique_ptr<btConeShape>(new btConeShape(*static_cast<btConeShape*>(toCopy.shape.get())));
-			break;
-	}
-	rigidBody = std::make_unique<btRigidBody>(toCopy.rigidBody->getMass(), motionState.get(), shape.get());
+
+	rigidBody = std::make_unique<btRigidBody>(toCopy.mass, motionState.get(), toCopy.shape.get());
 
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
@@ -81,11 +71,13 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
 	rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
 
-	SetLinearDamping(linearDamping);
-	SetAngularDamping(angularDamping);
+	SetLinearDamping(toCopy.linearDamping);
+	SetAngularDamping(toCopy.angularDamping);
+	SetRestitution(toCopy.restitution);
 
-	SetCollisionShape(Shape::BOX);
-	UpdateRigidBody();
+	SetCollisionShape(currentShape);
+
+	SetGravity(toCopy.gravity);
 }
 
 ComponentRigidBody::~ComponentRigidBody()
@@ -115,10 +107,12 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnTransformChanged()
 {
-	if (!App->IsOnPlayMode())
-	{
-		UpdateRigidBody();
-	}
+#ifdef ENGINE
+    if (!App->IsOnPlayMode())
+    {
+        UpdateRigidBody();
+    }
+#endif
 }
 
 void ComponentRigidBody::Update()
@@ -178,8 +172,6 @@ void ComponentRigidBody::SetOwner(GameObject* owner)
 {
 	Component::SetOwner(owner);
 	transform = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
-	radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 }
 
 void ComponentRigidBody::UpdateRigidBody()
@@ -273,55 +265,55 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 {
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
+	meta["active"] = static_cast<bool>(active);
+	meta["removed"] = static_cast<bool>(canBeRemoved);
 
-	meta["isKinematic"] = (bool) GetIsKinematic();
-	meta["isStatic"] = (bool) IsStatic();
-	meta["drawCollider"] = (bool) GetDrawCollider();
-	meta["mass"] = (float) GetMass();
-	meta["linearDamping"] = (float) GetLinearDamping();
-	meta["angularDamping"] = (float) GetAngularDamping();
-	meta["restitution"] = (float) GetRestitution();
-	meta["currentShape"] = (int) GetShape();
-	meta["usePositionController"] = (bool) GetUsePositionController();
-	meta["useRotationController"] = (bool) GetUseRotationController();
-	meta["KpForce"] = (float) GetKpForce();
-	meta["KpTorque"] = (float) GetKpTorque();
-	meta["gravity_Y"] = (float) GetGravity().getY();
-	meta["boxSize_X"] = (float) GetBoxSize().x;
-	meta["boxSize_Y"] = (float) GetBoxSize().y;
-	meta["boxSize_Z"] = (float) GetBoxSize().z;
-	meta["radius"] = (float) GetRadius();
-	meta["factor"] = (float) GetFactor();
-	meta["height"] = (float) GetHeight();
+	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
+	meta["isStatic"] = static_cast<bool>(IsStatic());
+	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
+	meta["mass"] = static_cast<float>(GetMass());
+	meta["linearDamping"] = static_cast<float>(GetLinearDamping());
+	meta["angularDamping"] = static_cast<float>(GetAngularDamping());
+	meta["restitution"] = static_cast<float>(GetRestitution());
+	meta["currentShape"] = static_cast<int>(GetShape());
+	meta["usePositionController"] = static_cast<bool>(GetUsePositionController());
+	meta["useRotationController"] = static_cast<bool>(GetUseRotationController());
+	meta["KpForce"] = static_cast<float>(GetKpForce());
+	meta["KpTorque"] = static_cast<float>(GetKpTorque());
+	meta["gravity_Y"] = static_cast<float>(GetGravity().getY());
+	meta["boxSize_X"] = static_cast<float>(GetBoxSize().x);
+	meta["boxSize_Y"] = static_cast<float>(GetBoxSize().y);
+	meta["boxSize_Z"] = static_cast<float>(GetBoxSize().z);
+	meta["radius"] = static_cast<float>(GetRadius());
+	meta["factor"] = static_cast<float>(GetFactor());
+	meta["height"] = static_cast<float>(GetHeight());
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
 {
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
+	active = static_cast<bool>(meta["active"]);
+	canBeRemoved = static_cast<bool>(meta["removed"]);
 
-	SetIsKinematic((bool) meta["isKinematic"]);
-	SetIsStatic((bool) meta["isStatic"]);
-	SetDrawCollider((bool) meta["drawCollider"], false);
-	SetMass((float) meta["mass"]);
-	SetLinearDamping((float) meta["linearDamping"]);
-	SetAngularDamping((float) meta["angularDamping"]);
+	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
+	SetIsStatic(static_cast<bool>(meta["isStatic"]));
+	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
+	SetMass(static_cast<float>(meta["mass"]));
+	SetLinearDamping(static_cast<float>(meta["linearDamping"]));
+	SetAngularDamping(static_cast<float>(meta["angularDamping"]));
 
-	SetRestitution((float) meta["restitution"]);
-	SetUsePositionController((bool) meta["usePositionController"]);
-	SetUseRotationController((bool) meta["useRotationController"]);
-	SetKpForce((float) meta["KpForce"]);
-	SetKpTorque((float) meta["KpTorque"]);
-	SetBoxSize({ (float) meta["boxSize_X"], (float) meta["boxSize_Y"], (float) meta["boxSize_Z"] });
-	SetRadius((float) meta["radius"]);
-	SetFactor((float) meta["factor"]);
-	SetHeight((float) meta["height"]);
+	SetRestitution(static_cast<float>(meta["restitution"]));
+	SetUsePositionController(static_cast<bool>(meta["usePositionController"]));
+	SetUseRotationController(static_cast<bool>(meta["useRotationController"]));
+	SetKpForce(static_cast<float>(meta["KpForce"]));
+	SetKpTorque(static_cast<float>(meta["KpTorque"]));
+	SetBoxSize({ static_cast<float>(meta["boxSize_X"]), static_cast<float>(meta["boxSize_Y"]), static_cast<float>(meta["boxSize_Z"]) });
+	SetRadius(static_cast<float>(meta["radius"]));
+	SetFactor(static_cast<float>(meta["factor"]));
+	SetHeight(static_cast<float>(meta["height"]));
 
-	int currentShape = (int) meta["currentShape"];
+	int currentShape = static_cast<int>(meta["currentShape"]);
 
 	if (currentShape != 0)
 	{
@@ -329,13 +321,14 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	}
 
 	SetUpMobility();
-	SetGravity({ 0, (float) meta["gravity_Y"], 0 });
+	SetGravity({ 0, static_cast<float>(meta["gravity_Y"]), 0 });
 }
 
 void ComponentRigidBody::Enable()
 {
 	Component::Enable();
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::Disable()
