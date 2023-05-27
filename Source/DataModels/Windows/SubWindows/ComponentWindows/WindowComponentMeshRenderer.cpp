@@ -22,7 +22,7 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	currentShaderTypeIndex(0),
 	currentTransparentIndex(0),
 	inputMesh(std::make_unique<WindowMeshInput>(component)),
-	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
+	inputMaterial(std::make_unique<WindowMaterialInput>(this)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
