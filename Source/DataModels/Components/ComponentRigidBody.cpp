@@ -342,6 +342,10 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
+void ComponentRigidBody::ClearCollisionEnterDelegate()
+{
+    delegateCollisionEnter.clear();
+}
 void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
 {
 	drawCollider = newDrawCollider;
