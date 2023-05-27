@@ -60,6 +60,7 @@ void WindowComponentParticle::DrawWindowContents()
 			emitter->SetName(&name[0]);
 			//You need to update the resource and THEN all the components detect that change and update their instances
 			resource->AddEmitter(std::move(emitter));
+			App->GetModule<ModuleScene>()->ParticlesSystemUpdate();
 		}
 	}
 	else 
