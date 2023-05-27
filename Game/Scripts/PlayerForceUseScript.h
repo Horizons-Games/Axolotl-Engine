@@ -25,7 +25,6 @@ private:
 	float currentTimeForce;
 
 	float3 ownerLastForward;
-	float3 gameObjectAttachedLastForward;
 
     std::string tag;
 
