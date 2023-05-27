@@ -33,15 +33,18 @@ public:
 
 	const AreaType GetAreaType();
 	const float GetShapeRadius();
+	const float GetHeight();
 	const float GetAttRadius();
 
 	void SetAreaType(AreaType newType);
 	void SetShapeRadius(float newRadius);
+	void SetHeight(float newHeight);
 	void SetLightRadius(float newRadius);
 
 private:
 	AreaType areaType;
 	float shapeRadius;
+	float height;
 	float attRadius;
 };
 
@@ -53,6 +56,11 @@ inline const AreaType ComponentAreaLight::GetAreaType()
 inline const float ComponentAreaLight::GetShapeRadius()
 {
 	return shapeRadius;
+}
+
+inline const float ComponentAreaLight::GetHeight()
+{
+	return height;
 }
 
 inline const float ComponentAreaLight::GetAttRadius()
@@ -68,6 +76,11 @@ inline void ComponentAreaLight::SetAreaType(AreaType newType)
 inline void ComponentAreaLight::SetShapeRadius(float newRadius)
 {
 	shapeRadius = newRadius;
+}
+
+inline void ComponentAreaLight::SetHeight(float newHeight)
+{
+	height = newHeight;
 }
 
 inline void ComponentAreaLight::SetLightRadius(float newRadius)

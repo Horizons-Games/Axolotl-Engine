@@ -119,6 +119,20 @@ void WindowComponentAreaLight::DrawWindowContents()
 				modified = true;
 			}
 
+			if (currentType == "TUBE")
+			{
+				ImGui::Text("Height"); ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+				float height = asAreaLight->GetHeight();
+				if (ImGui::DragFloat("##Height", &height, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
+				{
+					asAreaLight->SetHeight(height);
+					modified = true;
+				}
+				ImGui::PopStyleVar();
+			}
+
 			ImGui::Text("Shape Radius"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));

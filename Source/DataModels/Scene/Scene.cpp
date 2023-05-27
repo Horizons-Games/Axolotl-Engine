@@ -751,8 +751,8 @@ void Scene::UpdateSceneAreaLights()
 				{
 					float3x3 matrixRotation = transform->GetGlobalRotation().Float3x3Part();
 					float3 translation = transform->GetGlobalPosition();
-					float3 pointA = float3(0, areaLightComp->GetShapeRadius(), 0);
-					float3 pointB = float3(0, -areaLightComp->GetShapeRadius(), 0);
+					float3 pointA = float3(0, 0.5f, 0) * areaLightComp->GetHeight();
+					float3 pointB = float3(0, -0.5f, 0) * areaLightComp->GetHeight();
 
 					// Apply rotation & translation
 					pointA = (matrixRotation * pointA) + translation;
