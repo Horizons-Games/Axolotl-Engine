@@ -61,8 +61,8 @@ void BixAttackScript::Start()
 
 	input = App->GetModule<ModuleInput>();
 
-	audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_OPEN);
-	audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_HUM);
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
 
 	//Provisional
 	ray1Transform = static_cast<ComponentTransform*>(ray1GO->GetComponent(ComponentType::TRANSFORM));
@@ -114,7 +114,7 @@ void BixAttackScript::PerformAttack()
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
-		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_SWING);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 		CheckCollision();
 	}
@@ -156,7 +156,7 @@ void BixAttackScript::CheckCollision()
 
 	if (playSFX)
 	{
-		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 	}
 	//--Provisional
 }

@@ -73,7 +73,7 @@ void DroneBullet::CheckCollision()
 			}
 		}
 
-		audioSource->PostEvent(audio::SFX_PLAYER_LIGHTSABER_CLASH);//Provisional sfx
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);//Provisional sfx
 
 		DestroyBullet();
 	}

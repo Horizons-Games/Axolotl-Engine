@@ -87,7 +87,7 @@ void DroneAttack::PerformAttack()
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
-		audioSource->PostEvent(audio::SFX_DRON_SHOT_01);
+		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
 	}
 }
 
