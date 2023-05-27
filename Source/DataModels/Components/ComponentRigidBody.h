@@ -115,6 +115,7 @@ public:
 	float GetKpTorque() const;
 	void SetKpTorque(float newKpForce);
 
+    void RemoveRigidBodyFromSimulation();
 	void SetPositionTarget(const float3& targetPos);
 	void SetRotationTarget(const Quat& targetRot);
 
@@ -122,8 +123,6 @@ public:
 	void DisableRotationController();
 
 	void SetUpMobility();
-
-	void RemoveRigidBodyFromSimulation();
 
 	btRigidBody* GetRigidBody() const;
 
@@ -134,6 +133,8 @@ public:
 	{
 		delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
 	}
+
+    void ClearCollisionEnterDelegate();
 
 private:
 	int GenerateId() const;
