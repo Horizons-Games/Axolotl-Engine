@@ -117,13 +117,8 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 void ComponentRigidBody::OnTransformChanged()
 {
 #ifdef ENGINE
-    if (!App->IsOnPlayMode())
+	if (!App->IsOnPlayMode())
     {
-		if (isFromSceneLoad) 
-		{
-			UpdateRigidBodyTranslation();
-			isFromSceneLoad = false;
-		}
         UpdateRigidBody();
     }
 #endif
