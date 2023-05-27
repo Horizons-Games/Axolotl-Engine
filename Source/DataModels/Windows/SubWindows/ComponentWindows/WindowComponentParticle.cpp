@@ -71,7 +71,7 @@ void WindowComponentParticle::DrawWindowContents()
 
 void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 {
-	std::shared_ptr<ParticleEmitter> emitter = instance->GetEmitter();
+	ParticleEmitter* emitter = instance->GetEmitter();
 
 	ImGui::PushID(id);
 
