@@ -21,6 +21,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 
 #include "Application.h"
 #include "Components/ComponentAnimation.h"
@@ -37,6 +38,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
@@ -88,6 +90,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
 			case ComponentType::SCRIPT:
 				return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
+			case ComponentType::CUBEMAP:
+				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
 			case ComponentType::LIGHT:
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())

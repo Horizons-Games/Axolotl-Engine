@@ -21,7 +21,8 @@ enum class ComponentType
 	AUDIOSOURCE,
 	AUDIOLISTENER,
 	MESHCOLLIDER,
-	SCRIPT
+	SCRIPT,
+	CUBEMAP
 };
 
 const static std::string GetNameByType(ComponentType type);
@@ -161,6 +162,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_MeshCollider";
 		case ComponentType::SCRIPT:
 			return "Component_Script";
+		case ComponentType::CUBEMAP:
+			return "Component_Cubemap";
 		default:
 			assert(false && "Wrong component type introduced");
 			return "";
@@ -247,6 +250,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Animation")
 	{
 		return ComponentType::ANIMATION;
+	}
+	if (typeName == "Component_Cubemap")
+	{
+		return ComponentType::CUBEMAP;
 	}
 
 	return ComponentType::UNKNOWN;

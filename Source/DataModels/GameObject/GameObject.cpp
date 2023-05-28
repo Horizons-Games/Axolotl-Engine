@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAnimation.h"
+#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentCamera.h"
@@ -533,6 +534,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::SCRIPT:
 		{
 			newComponent = std::make_unique<ComponentScript>(true, this);
+			break;
+		}
+		case ComponentType::CUBEMAP:
+		{
+			newComponent = std::make_unique<ComponentCubemap>(true,this);
 			break;
 		}
 
