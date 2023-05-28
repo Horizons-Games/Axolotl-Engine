@@ -64,7 +64,7 @@ readonly layout(std430, binding = 11) buffer Materials {
 // IBL
 layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
-layout(binding = 10) uniform sampler2D environmentBRDF;
+layout(binding = 12) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
 

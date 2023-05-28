@@ -65,7 +65,7 @@ readonly layout(std430, binding = 11) buffer Materials {
 // IBL
 layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
-layout(binding = 10) uniform sampler2D environmentBRDF;
+layout(binding = 12) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
 
@@ -223,9 +223,11 @@ void main()
     vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
 
     // smoothness and roughness
-    //float roughness = pow(1-material.smoothness,2) + EPSILON;
-    float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * 
-        (1.0 * colorMetallic.a)) + EPSILON;
+    float roughness = pow(1-material.smoothness,2) + EPSILON;
+    if (material.has_metallic_map == 1)
+	{
+        roughness = pow(1.0 * colorMetallic.a,2) + EPSILON;
+    }
 
     // Lights
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
@@ -246,6 +248,7 @@ void main()
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF,
         numLevels_IBL);
     vec3 color = ambient + Lo;
+    //vec3 color = ambient;
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
