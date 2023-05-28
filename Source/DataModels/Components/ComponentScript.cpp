@@ -12,6 +12,8 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
+#include "ComponentRigidBody.h"
+
 ComponentScript::ComponentScript(bool active, GameObject* owner) :
 	Component(ComponentType::SCRIPT, active, owner, true),
 	script(nullptr)
@@ -61,6 +63,24 @@ void ComponentScript::PostUpdate()
 		script->PostUpdate(App->GetDeltaTime());
 	}
 }
+
+void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	{
+		script->OnCollisionEnter(other);
+	}
+
+}
+void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
+{
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	{
+		script->OnCollisionExit(other);
+	}
+}
+
+
 
 void ComponentScript::CleanUp()
 {

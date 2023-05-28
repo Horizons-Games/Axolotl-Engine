@@ -62,6 +62,9 @@ public:
 	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
+	void SetIsTrigger(bool isTrigger);
+	bool IsTrigger() const;
+
 	void SetDrawCollider(bool newDrawCollider, bool substract = true);
 	bool GetDrawCollider() const;
 
@@ -99,30 +102,37 @@ public:
 	void SetHeight(float newHeight);
 
 	void SetDefaultSize(Shape resetShape);
+	void SetDefaultPosition();
+
+    btVector3 GetRigidBodyOrigin() const;
+    void SetRigidBodyOrigin(btVector3 origin);
+
+	btVector3 GetRigidBodyTranslation() const;
+	void UpdateRigidBodyTranslation();
+
+    void SetPositionTarget(const float3& targetPos);
+    void SetRotationTarget(const Quat& targetRot);
 
 	bool GetUsePositionController() const;
 	void SetUsePositionController(bool newUsePositionController);
 
 	bool GetUseRotationController() const;
-	void SetUseRotationController(bool newUsePositionController);
+	void SetUseRotationController(bool newUseRotationController);
+
+	void DisablePositionController();
+	void DisableRotationController();
 
 	float GetKpForce() const;
 	void SetKpForce(float newKpForce);
 
 	float GetKpTorque() const;
-	void SetKpTorque(float newKpForce);
+	void SetKpTorque(float newKpTorque);
 
-	void SetPositionTarget(const float3& targetPos);
-	void SetRotationTarget(const Quat& targetRot);
+    void RemoveRigidBodyFromSimulation();
 
-	void DisablePositionController();
-	void DisableRotationController();
-
+    btRigidBody* GetRigidBody() const;
+    ComponentTransform* GetOwnerTransform() const;
 	void SetUpMobility();
-
-	void RemoveRigidBodyFromSimulation();
-
-	btRigidBody* GetRigidBody() const;
 
 	void UpdateRigidBody();
 
@@ -132,6 +142,8 @@ public:
 		delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
 	}
 
+    void ClearCollisionEnterDelegate();
+
 private:
 	int GenerateId() const;
 
@@ -139,19 +151,21 @@ private:
 	std::unique_ptr<btDefaultMotionState> motionState = nullptr;
 	std::unique_ptr<btCollisionShape> shape = nullptr;
 
-	btVector3 gravity = { 0, -9.81f, 0 };
-	float linearDamping = 0.1f;
-	float angularDamping = 0.1f;
-	float mass = 100.0f;
-	float restitution = 0.f;
-	float3 boxSize;
-	float radius;
-	float factor;
-	float height;
+    btVector3 gravity = { 0, -9.81f, 0 };
+    btVector3 translation = { 0.0f, 0.0f, 0.0f };
+    float linearDamping = 0.1f;
+    float angularDamping = 0.1f;
+    float mass = 100.0f;
+    float restitution = 0.f;
+    float3 boxSize;
+    float radius;
+    float factor;
+    float height;
 
 	bool isKinematic = false;
 	bool isStatic = false;
 	bool drawCollider = false;
+	bool isTrigger = false;
 
 	Shape currentShape = Shape::NONE;
 
@@ -161,6 +175,8 @@ private:
 	bool useRotationController = false;
 	float KpForce = 5.0f;
 	float KpTorque = 0.05f;
+
+	bool isFromSceneLoad = true;
 
 	ComponentTransform* transform;
 
@@ -188,6 +204,11 @@ inline bool ComponentRigidBody::IsStatic() const
 inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
 {
 	isStatic = newIsStatic;
+}
+
+inline bool ComponentRigidBody::IsTrigger() const
+{
+	return isTrigger;
 }
 
 inline bool ComponentRigidBody::GetDrawCollider() const
@@ -370,6 +391,21 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 }
 
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
+{ 
+    return rigidBody.get(); 
+}
+
+inline ComponentTransform* ComponentRigidBody::GetOwnerTransform() const
 {
-	return rigidBody.get();
+    return transform;
+}
+
+inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
+{
+    return rigidBody->getWorldTransform().getOrigin();
+}
+
+inline btVector3 ComponentRigidBody::GetRigidBodyTranslation() const
+{
+	return translation;
 }
