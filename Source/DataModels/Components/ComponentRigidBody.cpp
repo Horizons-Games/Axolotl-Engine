@@ -119,12 +119,15 @@ void ComponentRigidBody::OnTransformChanged()
 #ifdef ENGINE
     if (!App->IsOnPlayMode())
     {
-		/*if (isFromSceneLoad) 
+		if (!isSceneOnLoad)
 		{
-			UpdateRigidBodyTranslation();
-			isFromSceneLoad = false;
-		}*/
-        UpdateRigidBody();
+			UpdateRigidBody();
+		}
+		else 
+		{
+			isSceneOnLoad = false;
+		}
+        
     }
 #endif
 }
@@ -320,9 +323,9 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["radius"] = static_cast<float>(GetRadius());
 	meta["factor"] = static_cast<float>(GetFactor());
 	meta["height"] = static_cast<float>(GetHeight());
-	/*meta["rbPos_X"] = static_cast<float>(GetRigidBodyOrigin().getX());
+	meta["rbPos_X"] = static_cast<float>(GetRigidBodyOrigin().getX());
     meta["rbPos_Y"] = static_cast<float>(GetRigidBodyOrigin().getY());
-    meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());*/
+    meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -348,7 +351,7 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetRadius(static_cast<float>(meta["radius"]));
 	SetFactor(static_cast<float>(meta["factor"]));
 	SetHeight(static_cast<float>(meta["height"]));
-	//SetRigidBodyOrigin({ static_cast<float>(meta["rbPos_X"]), static_cast<float>(meta["rbPos_Y"]), static_cast<float>(meta["rbPos_Z"]) });
+	SetRigidBodyOrigin({ static_cast<float>(meta["rbPos_X"]), static_cast<float>(meta["rbPos_Y"]), static_cast<float>(meta["rbPos_Z"]) });
 	
 	int currentShape = static_cast<int>(meta["currentShape"]);
 
