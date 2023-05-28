@@ -1,5 +1,5 @@
 #include "WindowComponentCubemap.h"
-#include "ComponentCubemap.h"
+#include "Components/ComponentCubemap.h"
 #include "ModuleScene.h"
 #include "Application.h"
 #include "Scene/Scene.h"

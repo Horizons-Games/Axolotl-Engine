@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAnimation.h"
-#include "ComponentCubemap.h"
+#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentCamera.h"
