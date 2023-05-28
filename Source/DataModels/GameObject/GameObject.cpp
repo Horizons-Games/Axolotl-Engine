@@ -761,15 +761,6 @@ void GameObject::MoveDownChild(const GameObject* childToMove)
 	MoveChild(childToMove, HierarchyDirection::DOWN);
 }
 
-void GameObject::SetParentAsChildSelected()
-{
-	if (parent)
-	{
-		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
-		parent->SetParentAsChildSelected();
-	}
-}
-
 void GameObject::SpreadStatic()
 {
 	for (const std::unique_ptr<GameObject>& child : children)
