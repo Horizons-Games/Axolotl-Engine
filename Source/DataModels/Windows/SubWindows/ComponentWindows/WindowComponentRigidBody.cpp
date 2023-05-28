@@ -125,8 +125,8 @@ void WindowComponentRigidBody::DrawWindowContents()
 
 		ImGui::Text("");
 
-		// Translate RigidBody
-        if (currentShape > 0)
+		// Translate RigidBody  -> WORK IN PROGRESS
+        /*if (currentShape > 0)
         {
             btVector3 btPosition = asRigidBody->GetRigidBodyOrigin();
             float xValue = btPosition.getX();
@@ -174,7 +174,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 		if (ImGui::Button("Reset RigidBody position"))
 		{
 			asRigidBody->SetDefaultPosition();
-		}
+		}*/
 		ImGui::Text("");
 		// Resize RigidBody
 		bool dirty = false;

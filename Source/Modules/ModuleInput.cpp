@@ -129,9 +129,7 @@ update_status ModuleInput::Update()
 				{
 					inFocus = true;
 				}
-
 				break;
-
 			case SDL_KEYDOWN:
 				if (sdlEvent.key.repeat == 0)
 				{
@@ -144,7 +142,6 @@ update_status ModuleInput::Update()
 					keysState[sdlEvent.key.keysym.scancode] = KeyState::UP;
 				}
 				break;
-
 			case SDL_MOUSEBUTTONDOWN:
 				mouseButtonState[sdlEvent.button.button] = KeyState::DOWN;
 				break;

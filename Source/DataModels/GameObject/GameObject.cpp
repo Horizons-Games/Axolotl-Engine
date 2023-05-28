@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAnimation.h"
+#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentCamera.h"
@@ -541,6 +542,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentScript>(true, this);
 			break;
 		}
+		case ComponentType::CUBEMAP:
+		{
+			newComponent = std::make_unique<ComponentCubemap>(true,this);
+			break;
+		}
 
 		default:
 			assert(false && "Wrong component type introduced");
@@ -759,15 +765,6 @@ void GameObject::MoveUpChild(const GameObject* childToMove)
 void GameObject::MoveDownChild(const GameObject* childToMove)
 {
 	MoveChild(childToMove, HierarchyDirection::DOWN);
-}
-
-void GameObject::SetParentAsChildSelected()
-{
-	if (parent)
-	{
-		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
-		parent->SetParentAsChildSelected();
-	}
 }
 
 void GameObject::SpreadStatic()
