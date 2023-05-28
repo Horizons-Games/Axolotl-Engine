@@ -681,9 +681,8 @@ void Scene::InitNewEmptyScene()
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
-	cubeMapGameObject = CreateGameObject("Cube Map", root.get());
-	cubeMapGameObject->CreateComponent(ComponentType::CUBEMAP);
 
+	root.get()->CreateComponent(ComponentType::CUBEMAP);
 	if (resourceCubemap)
 	{
 		cubemap = std::make_unique<Cubemap>(resourceCubemap);
@@ -793,4 +792,9 @@ void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 {
 	sceneInteractableComponents.insert(
 		std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
+
+void Scene::InitCubemap()
+{
+	root.get()->CreateComponent(ComponentType::CUBEMAP);
 }

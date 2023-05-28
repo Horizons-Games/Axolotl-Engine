@@ -411,6 +411,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	}
 
 	loadedScene->InitLights();
+	loadedScene->InitCubemap();
 }
 
 void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)

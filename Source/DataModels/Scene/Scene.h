@@ -98,6 +98,8 @@ public:
 	void InitLights();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	
+	void InitCubemap();
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);

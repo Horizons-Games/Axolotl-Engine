@@ -178,7 +178,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="ComponentCubeMap.cpp" />
+    <ClCompile Include="ComponentCubemap.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp" />
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
@@ -465,7 +465,7 @@
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
-    <ClCompile Include="WindowComponentCubeMap.cpp">
+    <ClCompile Include="WindowComponentCubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -487,7 +487,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="ComponentCubeMap.h" />
+    <ClInclude Include="ComponentCubemap.h" />
     <ClInclude Include="DataModels\Commands\Command.h" />
     <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
@@ -816,7 +816,7 @@
     <ClInclude Include="Scripting\LogSystem.h" />
     <ClInclude Include="Scripting\Script.h" />
     <ClInclude Include="Scripting\ScriptFactory.h" />
-    <ClInclude Include="WindowComponentCubeMap.h">
+    <ClInclude Include="WindowComponentCubemap.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
