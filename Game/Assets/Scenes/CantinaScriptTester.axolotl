@@ -39973,7 +39973,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerRotationScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivity",
+                                    "value": 50.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]
@@ -41485,7 +41491,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerCameraRotationVerticalScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivity",
+                                    "value": 50.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     },
                     {
@@ -41526,9 +41538,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 99.26222229003906,
+                            "localPos_X": 99.26419830322266,
                             "localPos_Y": 1.3773088455200195,
-                            "localPos_Z": 23.425146102905273,
+                            "localPos_Z": 23.79572296142578,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,

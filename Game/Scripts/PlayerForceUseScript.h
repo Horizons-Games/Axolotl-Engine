@@ -32,7 +32,7 @@ private:
 	float lastVerticalSensitivity;
 	float lastMoveSpeed;
 
-	float3 ownerLastForward;
+	bool breakForce;
 
     std::string tag;
 	

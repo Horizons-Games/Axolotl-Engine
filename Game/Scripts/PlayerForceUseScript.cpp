@@ -25,7 +25,7 @@ REGISTERCLASS(PlayerForceUseScript);
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forzable"), distancePointGameObjectAttached(0.0f),
 maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), 
-currentTimeForce(0.0f), ownerLastForward(float3(0,0,0))
+currentTimeForce(0.0f), breakForce(false)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -69,7 +69,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
-
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
 		RaycastHit hit;
@@ -95,34 +94,32 @@ void PlayerForceUseScript::Update(float deltaTime)
 			if (rotationHorizontalScript)
 			{
 				lastHorizontalSensitivity = rotationHorizontalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity / 4.0f);
+				rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity / 2.0f);
 			}
 
 			if (rotationVerticalScript)
 			{
 				lastVerticalSensitivity = rotationVerticalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 4.0f);
+				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 2.0f);
 			}
 
 			if (rotationVerticalScript)
 			{
 				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
-				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 4.0f);
+				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
 			}
-
-			//ownerLastForward = hittedTransform->GetGlobalForward();
 
 			ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
 		}
 	}
-	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE && gameObjectAttached) || currentTimeForce < 0.0f)
+	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE && gameObjectAttached) || currentTimeForce < 0.0f || breakForce)
 	{
 		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
-		//rigidBody->DisableRotationController();
+		rigidBody->DisableRotationController();
 
 		if (rotationHorizontalScript)
 		{
@@ -136,16 +133,23 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		if (moveScript)
 		{
-			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 4.0f);
+			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed);
 		}
+
+		breakForce = false;
 	}
 
 	if (gameObjectAttached)
 	{
+		ComponentRigidBody* hittedRigidBody = static_cast<ComponentRigidBody*>
+			(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+		btRigidBody* hittedbtRb = hittedRigidBody->GetRigidBody();
+		ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
+			(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
+
 		if (input->IsMouseWheelScrolled())
 		{
-			distancePointGameObjectAttached += (input->GetMouseWheel().y) / 4.0f;
-
+			distancePointGameObjectAttached += (input->GetMouseWheel().y) / 3.0f;
 			distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 		}
@@ -155,23 +159,31 @@ void PlayerForceUseScript::Update(float deltaTime)
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
 
+		float currentDistance = hittedTransform->GetGlobalPosition().Distance(nextPosition);
+
+		if (std::abs(currentDistance) > 1.5f && currentTimeForce < 14.5f)
+		{
+			breakForce = true;
+			currentTimeForce = 10;
+			return;
+		}
+
 		// Get next rotation of game object
-		/*ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
-			(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = static_cast<ComponentTransform*>
+			(owner->GetParent()->GetComponent(ComponentType::TRANSFORM));
+	
 		Quat targetRotation =
-			Quat::RotateFromTo((transform->GetGlobalForward()).Normalized(), (ownerLastForward).Normalized());*/
+			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
+				(parentTransform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
 
 		// Set position and rotation
-		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
-		rigidBody->SetPositionTarget(nextPosition);
-		//rigidBody->SetRotationTarget(targetRotation);
+		hittedRigidBody->SetPositionTarget(nextPosition);
+		hittedRigidBody->SetRotationTarget(targetRotation);
 
-		ownerLastForward = transform->GetGlobalForward();
 		currentTimeForce -= deltaTime;
 	}
 	else if(currentTimeForce < maxTimeForce)
 	{
 		currentTimeForce = std::min(maxTimeForce, currentTimeForce + (deltaTime * 4));
 	}
-	ENGINE_LOG("Current time force : % f", currentTimeForce)
 }
