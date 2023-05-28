@@ -223,9 +223,9 @@ void main()
     vec3 f0 = mix(vec3(0.04), textureMat.rgb, metalnessMask);
 
     // smoothness and roughness
-    float roughness = pow(1-material.smoothness,2) + EPSILON;
-    //float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * 
-    //    (1.0 * colorMetallic.a)) + EPSILON;
+    //float roughness = pow(1-material.smoothness,2) + EPSILON;
+    float roughness = (1 - material.smoothness * (1.0 * colorMetallic.a)) * (1 - material.smoothness * 
+        (1.0 * colorMetallic.a)) + EPSILON;
 
     // Lights
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
