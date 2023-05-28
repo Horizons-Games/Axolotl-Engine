@@ -29,7 +29,7 @@ public:
 	ComponentAreaLight(AreaType areaType, GameObject* parent);
 	ComponentAreaLight(const float3& color, float intensity, AreaType areaType);
 	ComponentAreaLight(const float3& color, float intensity, GameObject* parent, AreaType areaType);
-	~ComponentAreaLight();
+	~ComponentAreaLight() override;
 
 	const AreaType GetAreaType();
 	const float GetShapeRadius();
@@ -41,7 +41,13 @@ public:
 	void SetHeight(float newHeight);
 	void SetLightRadius(float newRadius);
 
+	void SaveOptions(Json& meta) override;
+	void LoadOptions(Json& meta) override;
+
 private:
+	const std::string GetNameByAreaType(AreaType type);
+	const AreaType GetAreaTypeByName(const std::string& typeName);
+
 	AreaType areaType;
 	float shapeRadius;
 	float height;
@@ -86,4 +92,46 @@ inline void ComponentAreaLight::SetHeight(float newHeight)
 inline void ComponentAreaLight::SetLightRadius(float newRadius)
 {
 	attRadius = newRadius;
+}
+
+inline const std::string ComponentAreaLight::GetNameByAreaType(AreaType type)
+{
+	switch (type)
+	{
+	case AreaType::QUAD:
+		return "AreaType_Quad";
+	case AreaType::TUBE:
+		return "AreaType_Tube";
+	case AreaType::SPHERE:
+		return "AreaType_Sphere";
+	case AreaType::DISC:
+		return "AreaType_Disc";
+	default:
+		assert(false && "Wrong area type introduced");
+		return "";
+	}
+}
+
+inline const AreaType ComponentAreaLight::GetAreaTypeByName(const std::string& typeName)
+{
+	if (typeName == "AreaType_Quad")
+	{
+		return AreaType::QUAD;
+	}
+
+	if (typeName == "AreaType_Tube")
+	{
+		return AreaType::TUBE;
+	}
+
+	if (typeName == "AreaType_Sphere")
+	{
+		return AreaType::SPHERE;
+	}
+
+	if (typeName == "AreaType_Disc")
+	{
+		return AreaType::DISC;
+	}
+	return AreaType::NONE;
 }
