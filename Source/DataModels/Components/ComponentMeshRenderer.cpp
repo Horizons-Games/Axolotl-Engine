@@ -80,19 +80,15 @@ void ComponentMeshRenderer::UpdatePalette()
 		{
 			const std::vector<Bone>& bindBones = mesh->GetBones();
 
-			const unsigned int numBones = mesh->GetNumBones();
-
-			skinPalette.resize(numBones);
-
 			for (unsigned int i = 0; i < mesh->GetNumBones(); ++i)
 			{
 				const GameObject* boneNode = root->FindGameObject(bindBones[i].name);
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = static_cast<ComponentTransform*>(boneNode->GetComponent(ComponentType::TRANSFORM))
-										 ->CalculatePaletteGlobalMatrix() *
-									 bindBones[i].transform;
+					skinPalette[i] = static_cast<ComponentTransform*>(
+						boneNode->GetComponent(ComponentType::TRANSFORM))->CalculatePaletteGlobalMatrix() *
+						bindBones[i].transform;
 				}
 				else
 				{
@@ -433,6 +429,8 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 		transform->Encapsule
 		(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
+
+		InitBones();
 	}
 	else
 	{

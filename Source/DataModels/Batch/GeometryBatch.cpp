@@ -425,12 +425,12 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::ClearBuffer()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, tangentsBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, bonesBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, weightsBuffer);
+	/*glDeleteBuffers(1, &verticesBuffer);
+	glDeleteBuffers(1, &textureBuffer);
+	glDeleteBuffers(1, &normalsBuffer);
+	glDeleteBuffers(1, &tangentsBuffer);
+	glDeleteBuffers(1, &bonesBuffer);
+	glDeleteBuffers(1, &weightsBuffer);*/
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
@@ -589,7 +589,8 @@ void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelet
 	resourcesMaterial.erase(
 			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial()));
 	reserveModelSpace = true;
-	//dirtyBatch = true;
+	
+	fillMaterials = true;
 }
 
 void GeometryBatch::BindBatch(bool selected)
@@ -688,6 +689,7 @@ void GeometryBatch::BindBatch(bool selected)
 
 			if (draw)
 			{
+				//component->InitBones();
 				component->UpdatePalette();
 
 				ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
@@ -700,15 +702,11 @@ void GeometryBatch::BindBatch(bool selected)
 				transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
 					component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 				
-				if (component->GetPalette().size() > 0)
+				if (component->GetMesh()->GetNumBones() > 0)
 				{
 					memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 						&component->GetPalette()[0],
 						perInstances[paletteIndex].numBones * sizeof(float4x4));
-				}
-				else
-				{
-					memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset], nullptr, 0);
 				}
 
 				//do a for for all the instaces existing
@@ -736,15 +734,11 @@ void GeometryBatch::BindBatch(bool selected)
 			transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
 				component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
 
-			if (component->GetPalette().size() > 0)
+			if (component->GetMesh()->GetNumBones() > 0)
 			{
 				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 					&component->GetPalette()[0],
 					perInstances[paletteIndex].numBones * sizeof(float4x4));
-			}
-			else
-			{
-				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset], nullptr, 0);
 			}
 
 			//do a for for all the instaces existing

@@ -357,7 +357,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 				{
 					GameObject* rootBone = FindRootBone(gameObjectModel, bones);
 					meshRenderer->SetBones(CacheBoneHierarchy(rootBone, bones));
-					meshRenderer->InitBones();
 				}
 			}
 		}
