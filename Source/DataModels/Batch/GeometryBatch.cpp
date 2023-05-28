@@ -588,9 +588,13 @@ void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelet
 {
 	resourcesMaterial.erase(
 			std::find(resourcesMaterial.begin(), resourcesMaterial.end(), componentToDelete->GetMaterial()));
-	reserveModelSpace = true;
 	
+	perInstances.clear();
+	paletteIndexes.clear();
+
+	reserveModelSpace = true;
 	fillMaterials = true;
+	dirtyBatch = true;
 }
 
 void GeometryBatch::BindBatch(bool selected)
