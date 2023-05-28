@@ -23,6 +23,7 @@ public:
 	GLuint GetEnvironmentBRDF();
 	int GetNumMiMaps();
 	void SetIntensity(float intensity);
+	float GetIntensity();
 
 private:
 	void GenerateMaps();
@@ -42,6 +43,8 @@ private:
 	int numMipMaps;
 
 	std::shared_ptr<ResourceCubemap> cubemapRes;
+
+	float intensity = 1.0f;
 };
 
 inline GLuint Cubemap::GetIrradiance()
@@ -66,6 +69,11 @@ inline int Cubemap::GetNumMiMaps()
 
 inline void Cubemap::SetIntensity(float intensity)
 {
-	return;
+	this->intensity = intensity;
+}
+
+inline float Cubemap::GetIntensity()
+{
+	return intensity;
 }
 

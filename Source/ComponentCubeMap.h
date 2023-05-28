@@ -18,7 +18,7 @@ public:
 	float GetIntensity();
 
 private:
-	float intensity;
+	float intensity = 1.0;
 };
 
 inline float ComponentCubeMap::GetIntensity()

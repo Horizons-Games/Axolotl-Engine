@@ -20,6 +20,10 @@ void WindowComponentCubeMap::DrawWindowContents()
 		ImGui::Text("");
 		float intensity = ascubeMap->GetIntensity();
 		float max_intensity = 1.0;
+		ImGui::Dummy(ImVec2(5.0f, 0.0f));
+		ImGui::Text("Intensity:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(60.0f);
 		if (ImGui::DragFloat("##Intensity", &intensity, 0.01f, 0.0f, max_intensity))
 		{
 			if (intensity > max_intensity)

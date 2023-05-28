@@ -33,10 +33,10 @@ void ComponentCubeMap::LoadOptions(Json& meta)
 	active = (bool) meta["active"];
 	canBeRemoved = (bool) meta["removed"];
 
-	intensity = (bool) meta["intensity"];
+	this->SetIntensity((float) meta["intensity"]);
 }
 
-inline void ComponentCubeMap::SetIntensity(float intensity)
+void ComponentCubeMap::SetIntensity(float intensity)
 {
 	this->intensity = intensity;
 	const ModuleScene* scene = App->GetModule<ModuleScene>();
