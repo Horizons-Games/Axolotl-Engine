@@ -59,7 +59,6 @@ layout(binding = 10) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
 uniform float cubemap_intensity;
-uniform Light light;
 
 in vec3 FragTangent;
 in vec3 Normal;
@@ -319,7 +318,7 @@ void main()
     // Lights
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL) * cubeMap_intensity;
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 

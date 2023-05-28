@@ -59,7 +59,6 @@ layout(binding = 10) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
 uniform float cubemap_intensity;
-uniform Light light;
 
 in vec3 FragTangent;
 in vec3 Normal;
@@ -338,7 +337,7 @@ void main()
 
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL) * cubeMap_intensity;
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL) * cubemap_intensity;
     vec3 color = ambient + Lo;
     
 	//hdr rendering
