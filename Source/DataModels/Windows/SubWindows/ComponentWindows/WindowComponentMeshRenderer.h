@@ -8,6 +8,7 @@ class WindowMeshInput;
 class WindowTextureInput;
 class WindowMaterialInput;
 class ResourceTexture;
+class ResourceMaterial;
 
 class WindowComponentMeshRenderer : public ComponentWindow
 {
@@ -15,6 +16,7 @@ public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override;
 
+	void SetMaterial(const std::shared_ptr<ResourceMaterial>& material);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normalMap);
 	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallicMap);
@@ -30,6 +32,7 @@ private:
 
 	float4 colorDiffuse;
 	float3 colorSpecular;
+	std::shared_ptr<ResourceMaterial> material;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
 	std::shared_ptr<ResourceTexture> normalMap;
 	std::shared_ptr<ResourceTexture> metallicMap;
@@ -50,7 +53,19 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureNormal;
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
+
+	ComponentMeshRenderer* oldComponent;
+
+	bool reset;
+	bool newMaterial;
+	bool changeBatch;
 };
+
+inline void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& material)
+{
+	this->material = material;
+	newMaterial = true;
+}
 
 inline void WindowComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuseTexture)
 {
@@ -71,3 +86,4 @@ inline void WindowComponentMeshRenderer::SetSpecular(const std::shared_ptr<Resou
 {
 	this->specularMap = specularMap;
 }
+
