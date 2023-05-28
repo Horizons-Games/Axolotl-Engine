@@ -11,7 +11,7 @@ samplerCube diffuse_IBL, samplerCube prefiltered_IBL, sampler2D environmentBRDF,
     vec3 radiance = textureLod(prefiltered_IBL, R, roughness * numLevels_IBL).rgb;
     vec2 fab = texture(environmentBRDF, vec2(NdotV, roughness)).rg;
     vec3 diffuse = (diffuseColor * (1 - specularColor));
-    return (diffuse * irradiance + radiance * (specularColor * fab.x + fab.y));
+    return diffuse * irradiance + radiance * (specularColor * fab.x + fab.y);
 }
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)

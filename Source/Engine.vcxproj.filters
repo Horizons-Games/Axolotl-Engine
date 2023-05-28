@@ -388,10 +388,10 @@
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentCubeMap.cpp">
+    <ClCompile Include="ComponentCubemap.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="WindowComponentCubeMap.cpp">
+    <ClCompile Include="WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
   </ItemGroup>
@@ -786,10 +786,10 @@
     <ClInclude Include="Auxiliar\Audio\AudioData.h">
       <Filter>Auxiliar\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentCubeMap.h">
+    <ClInclude Include="ComponentCubemap.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="WindowComponentCubeMap.h">
+    <ClInclude Include="WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>

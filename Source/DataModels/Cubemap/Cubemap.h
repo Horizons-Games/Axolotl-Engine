@@ -44,7 +44,7 @@ private:
 
 	std::shared_ptr<ResourceCubemap> cubemapRes;
 
-	float intensity = 1.0f;
+	float intensity;
 };
 
 inline GLuint Cubemap::GetIrradiance()

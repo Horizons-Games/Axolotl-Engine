@@ -1,25 +1,34 @@
-#include "WindowComponentCubeMap.h"
-#include "ComponentCubeMap.h"
+#include "WindowComponentCubemap.h"
+#include "ComponentCubemap.h"
+#include "ModuleScene.h"
+#include "Application.h"
+#include "Scene/Scene.h"
+#include "Cubemap/Cubemap.h"
 
-WindowComponentCubeMap::WindowComponentCubeMap(ComponentCubeMap* component) : ComponentWindow("Cube Map", component)
+
+WindowComponentCubemap::WindowComponentCubemap(ComponentCubemap* component) : ComponentWindow("Cube Map", component)
 {
 }
 
-WindowComponentCubeMap::~WindowComponentCubeMap()
+WindowComponentCubemap::~WindowComponentCubemap()
 {
 }
 
-void WindowComponentCubeMap::DrawWindowContents()
+void WindowComponentCubemap::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
 
-	ComponentCubeMap* ascubeMap = static_cast<ComponentCubeMap*>(component);
+	ComponentCubemap* asCubemap = static_cast<ComponentCubemap*>(component);
 
-	if (ascubeMap)
+	if (asCubemap)
 	{
 		ImGui::Text("");
-		float intensity = ascubeMap->GetIntensity();
-		float max_intensity = 1.0;
+
+		const ModuleScene* scene = App->GetModule<ModuleScene>();
+		const Scene* loadedScene = scene->GetLoadedScene();
+		Cubemap* currentCubemap = loadedScene->GetCubemap();
+
+		float intensity = currentCubemap->GetIntensity();
 		ImGui::Dummy(ImVec2(5.0f, 0.0f));
 		ImGui::Text("Intensity:");
 		ImGui::SameLine();
@@ -35,7 +44,7 @@ void WindowComponentCubeMap::DrawWindowContents()
 				intensity = 0.0f;
 			}
 
-			ascubeMap->SetIntensity(intensity);
+			currentCubemap->SetIntensity(intensity);
 		}
 		
 	}

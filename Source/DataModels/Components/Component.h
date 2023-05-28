@@ -163,7 +163,7 @@ const std::string GetNameByType(ComponentType type)
 		case ComponentType::SCRIPT:
 			return "Component_Script";
 		case ComponentType::CUBEMAP:
-			return "Component_CubeMap";
+			return "Component_Cubemap";
 		default:
 			assert(false && "Wrong component type introduced");
 			return "";
@@ -251,7 +251,7 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::ANIMATION;
 	}
-	if (typeName == "Component_CubeMap")
+	if (typeName == "Component_Cubemap")
 	{
 		return ComponentType::CUBEMAP;
 	}
