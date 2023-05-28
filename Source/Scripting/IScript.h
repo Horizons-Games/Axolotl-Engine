@@ -11,6 +11,7 @@
 
 class GameObject;
 class Application;
+class ComponentRigidBody;
 
 // The parameter name must be the exact name of the field inside the class
 #define REGISTER_FIELD(name, Type)                                     \
@@ -53,6 +54,8 @@ public:
 	virtual void PreUpdate(float deltaTime) = 0;
 	virtual void Update(float deltaTime) = 0;
 	virtual void PostUpdate(float deltaTime) = 0;
+	virtual void OnCollisionEnter(ComponentRigidBody* other) = 0;
+	virtual void OnCollisionExit(ComponentRigidBody* other) = 0;
 	virtual void CleanUp() = 0;
 
 	void SetGameObject(GameObject* owner);

@@ -17,6 +17,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBreakable.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
@@ -35,6 +36,7 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentBreakable.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
@@ -80,6 +82,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentButton>(static_cast<ComponentButton*>(component));
 			case ComponentType::RIGIDBODY:
 				return std::make_unique<WindowComponentRigidBody>(static_cast<ComponentRigidBody*>(component));
+			case ComponentType::BREAKABLE:
+				return std::make_unique<WindowComponentBreakable>(static_cast<ComponentBreakable*>(component));
 			case ComponentType::AUDIOSOURCE:
 				return std::make_unique<WindowComponentAudioSource>(static_cast<ComponentAudioSource*>(component));
 			case ComponentType::AUDIOLISTENER:

@@ -394,6 +394,12 @@
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentBreakable.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentCubemap.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -797,6 +803,12 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Audio\AudioData.h">
       <Filter>Auxiliar\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentBreakable.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCubemap.h">
       <Filter>DataModels\Components</Filter>

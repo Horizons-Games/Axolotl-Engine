@@ -17,6 +17,7 @@ enum class ComponentType
 	IMAGE,
 	BUTTON,
 	RIGIDBODY,
+	BREAKABLE,
 	MOCKSTATE,
 	AUDIOSOURCE,
 	AUDIOLISTENER,
@@ -152,6 +153,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Button";
 		case ComponentType::RIGIDBODY:
 			return "Component_RigidBody";
+		case ComponentType::BREAKABLE:
+			return "Component_Breakable";
 		case ComponentType::MOCKSTATE:
 			return "Component_MockState";
 		case ComponentType::AUDIOSOURCE:
@@ -220,6 +223,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_RigidBody")
 	{
 		return ComponentType::RIGIDBODY;
+	}
+	if (typeName == "Component_Breakable")
+	{
+		return ComponentType::BREAKABLE;
 	}
 
 	if (typeName == "Component_MockState")
