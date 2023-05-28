@@ -4,7 +4,7 @@
 
 #include "ModuleScene.h"
 
-#include "DataModels/Scene/Scene.h"
+#include "Scene/Scene.h"
 
 #include "Components/ComponentAreaLight.h"
 
