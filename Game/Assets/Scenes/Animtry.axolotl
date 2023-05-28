@@ -25,6 +25,14 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 1.0
+                        }
                     }
                 ]
             }
@@ -168,7 +176,10 @@
                             "boxSize_Z": 1.5,
                             "radius": 0.0,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 6.497121810913086,
+                            "rbPos_Z": 0.0
                         }
                     },
                     {
