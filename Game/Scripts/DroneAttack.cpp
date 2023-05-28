@@ -42,9 +42,13 @@ void DroneAttack::Start()
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (animationGO)
+	{
 		animation = static_cast<ComponentAnimation*>(animationGO->GetComponent(ComponentType::ANIMATION));
+	}
 	if (bulletOriginGO)
+	{
 		bulletOrigin = static_cast<ComponentTransform*>(bulletOriginGO->GetComponent(ComponentType::TRANSFORM));
+	}
 
 	input = App->GetModule<ModuleInput>();
 }
@@ -62,7 +66,9 @@ void DroneAttack::PerformAttack()
 	if (isAttackAvailable())
 	{
 		if (animation)
+		{
 			animation->SetParameter("attack", true);
+		}
 		
 		GameObject* root = loadedScene->GetRoot();
 

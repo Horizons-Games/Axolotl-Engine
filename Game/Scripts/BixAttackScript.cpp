@@ -57,7 +57,9 @@ void BixAttackScript::Start()
 	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	if (animationGO)
+	{
 		animation = static_cast<ComponentAnimation*>(animationGO->GetComponent(ComponentType::ANIMATION));
+	}
 
 	input = App->GetModule<ModuleInput>();
 
@@ -110,7 +112,9 @@ void BixAttackScript::PerformAttack()
 	if (isAttackAvailable())
 	{
 		if (animation)
+		{
 			animation->SetParameter("IsAttacking", true);
+		}
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 
