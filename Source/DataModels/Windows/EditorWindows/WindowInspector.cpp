@@ -1,12 +1,12 @@
 #include "WindowInspector.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModuleScene.h"
 
-#include "Scene/Scene.h"
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
+#include "Scene/Scene.h"
 
 #include "Components/ComponentLight.h"
 
@@ -14,7 +14,10 @@
 
 #include "Auxiliar/AddComponentAction.h"
 
-WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObjectUID(0), lastSelectedGameObject(nullptr)
+WindowInspector::WindowInspector() :
+	EditorWindow("Inspector"),
+	lastSelectedObjectUID(0),
+	lastSelectedGameObject(nullptr)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
@@ -23,8 +26,8 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		return gameObject->GetComponent(componentType) == nullptr;
 	};
 
-	actions.push_back(
-		AddComponentAction("Create Mesh Renderer Component", std::bind(&WindowInspector::AddComponentMeshRenderer, this)));
+	actions.push_back(AddComponentAction("Create Mesh Renderer Component",
+										 std::bind(&WindowInspector::AddComponentMeshRenderer, this)));
 
 	auto isNotALight = [gameObjectDoesNotHaveComponent](GameObject* gameObject)
 	{
@@ -49,7 +52,8 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		isNotALight,
 		ComponentFunctionality::GRAPHICS));
 
-	actions.push_back(AddComponentAction("Create Player Component",
+	actions.push_back(AddComponentAction(
+		"Create Player Component",
 		std::bind(&WindowInspector::AddComponentPlayer, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
@@ -57,7 +61,8 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		},
 		ComponentFunctionality::GAMEPLAY));
 
-	actions.push_back(AddComponentAction("Create RigidBody Component",
+	actions.push_back(AddComponentAction(
+		"Create RigidBody Component",
 		std::bind(&WindowInspector::AddComponentRigidBody, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
@@ -65,7 +70,8 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		},
 		ComponentFunctionality::PHYSICS));
 
-	actions.push_back(AddComponentAction("Create MockState Component",
+	actions.push_back(AddComponentAction(
+		"Create MockState Component",
 		std::bind(&WindowInspector::AddComponentMockState, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
@@ -74,9 +80,10 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		ComponentFunctionality::GAMEPLAY));
 
 	actions.push_back(AddComponentAction("Create AudioSource Component",
-		std::bind(&WindowInspector::AddComponentAudioSource, this),
-		ComponentFunctionality::AUDIO));
-	actions.push_back(AddComponentAction("Create AudioListener Component",
+										 std::bind(&WindowInspector::AddComponentAudioSource, this),
+										 ComponentFunctionality::AUDIO));
+	actions.push_back(AddComponentAction(
+		"Create AudioListener Component",
 		std::bind(&WindowInspector::AddComponentAudioListener, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
@@ -84,7 +91,8 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		},
 		ComponentFunctionality::AUDIO));
 
-	actions.push_back(AddComponentAction("Create Mesh Collider Component",
+	actions.push_back(AddComponentAction(
+		"Create Mesh Collider Component",
 		std::bind(&WindowInspector::AddComponentMeshCollider, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
@@ -93,10 +101,11 @@ WindowInspector::WindowInspector() : EditorWindow("Inspector"), lastSelectedObje
 		ComponentFunctionality::PHYSICS));
 
 	actions.push_back(AddComponentAction("Create Script Component",
-		std::bind(&WindowInspector::AddComponentScript, this),
-		ComponentFunctionality::GAMEPLAY));
+										 std::bind(&WindowInspector::AddComponentScript, this),
+										 ComponentFunctionality::GAMEPLAY));
 
-	actions.push_back(AddComponentAction("Create Animation Component",
+	actions.push_back(AddComponentAction(
+		"Create Animation Component",
 		std::bind(&WindowInspector::AddComponentAnimation, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
@@ -130,35 +139,46 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	lastSelectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	const ModuleScene* scene = App->GetModule<ModuleScene>();
+	const Scene* loadedScene = scene->GetLoadedScene();
 
+	if (lastSelectedGameObject != scene->GetSelectedGameObject())
+	{
+		ImGui::PushID(1);
+		lastSelectedGameObject = scene->GetSelectedGameObject();
+	}
+	else
+	{
+		ImGui::PushID(0);
+	}
+	
 	if (lastSelectedGameObject)
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
 		ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
+		std::string name = lastSelectedGameObject->GetName();
+		bool nameChanged = ImGui::InputText("##GameObject", name.data(), 32);
+
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
-			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", &name[0], 24))
+			if (nameChanged)
 			{
 				std::string scene = " Scene";
-				std::string sceneName = name + scene;
+				std::string sceneName = name.c_str() + scene;
 				lastSelectedGameObject->SetName(sceneName);
 			}
-
 		}
 		else
 		{
-			std::string name = lastSelectedGameObject->GetName();
-			if (ImGui::InputText("##GameObject", &name[0], 24))
+			if (nameChanged)
 			{
-				lastSelectedGameObject->SetName(name);
+				lastSelectedGameObject->SetName(name.c_str());
 			}
 			ImGui::SameLine();
 			bool staticness = lastSelectedGameObject->IsStatic();
-			//This should be changed into a pop-up windows 
+			// This should be changed into a pop-up windows
 			if (ImGui::Checkbox("Static", &staticness))
 			{
 				lastSelectedGameObject->SetStatic(staticness);
@@ -168,15 +188,14 @@ void WindowInspector::InspectSelectedGameObject()
 			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
-			tag.resize(24);
-			if (ImGui::InputText("##Tag", &tag[0], 24))
+			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
-				lastSelectedGameObject->SetTag(tag);
+				lastSelectedGameObject->SetTag(tag.c_str());
 			}
 		}
 
-		if (lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-			lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
+		if (lastSelectedGameObject != loadedScene->GetRoot() &&
+			lastSelectedGameObject != loadedScene->GetDirectionalLight())
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
 		}
@@ -184,9 +203,8 @@ void WindowInspector::InspectSelectedGameObject()
 
 	ImGui::Separator();
 
-	if (WindowRightClick() &&
-		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() &&
-		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight())
+	if (WindowRightClick() && lastSelectedGameObject != loadedScene->GetRoot() &&
+		lastSelectedGameObject != loadedScene->GetDirectionalLight())
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -214,11 +232,11 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (lastSelectedGameObject)
 	{
-		//if the selected game object has changed
-		//or number of components is different
-		//create the windows again
-		if (lastSelectedGameObject->GetUID() != lastSelectedObjectUID
-			|| lastSelectedGameObject->GetComponents().size() != windowsForComponentsOfSelectedObject.size())
+		// if the selected game object has changed
+		// or number of components is different
+		// create the windows again
+		if (lastSelectedGameObject->GetUID() != lastSelectedObjectUID ||
+			lastSelectedGameObject->GetComponents().size() != windowsForComponentsOfSelectedObject.size())
 		{
 			windowsForComponentsOfSelectedObject.clear();
 
@@ -236,6 +254,8 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
+
+	ImGui::PopID();
 }
 
 void WindowInspector::InspectSelectedResource()
@@ -248,17 +268,17 @@ void WindowInspector::InspectSelectedResource()
 		ImGui::Text(resourceAsShared->GetFileName().c_str());
 		switch (resourceAsShared->GetType())
 		{
-		case ResourceType::Texture:
-			DrawTextureOptions();
-			break;
-		default:
-			break;
+			case ResourceType::Texture:
+				DrawTextureOptions();
+				break;
+			default:
+				break;
 		}
 	}
 }
 
-void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource) {
-
+void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource)
+{
 	this->resource = resource;
 
 	std::shared_ptr<Resource> resourceAsShared = resource.lock();
@@ -266,12 +286,12 @@ void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource) {
 	{
 		switch (resourceAsShared->GetType())
 		{
-		case ResourceType::Texture:
-			InitTextureImportOptions();
-			InitTextureLoadOptions();
-			break;
-		default:
-			break;
+			case ResourceType::Texture:
+				InitTextureImportOptions();
+				InitTextureLoadOptions();
+				break;
+			default:
+				break;
 		}
 	}
 }
@@ -300,7 +320,7 @@ void WindowInspector::DrawTextureOptions()
 	if (ImGui::BeginTable("table1", 2))
 	{
 		ImGui::TableNextColumn();
-		ImGui::Image((void*)resourceTexture->GetGlTexture(), ImVec2(100, 100));
+		ImGui::Image((void*) resourceTexture->GetGlTexture(), ImVec2(100, 100));
 		ImGui::TableNextColumn();
 		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
 		ImGui::Text("Height %.2f", resourceTexture->GetHeight());
@@ -317,17 +337,22 @@ void WindowInspector::DrawTextureOptions()
 	{
 		ImGui::Checkbox("MipMap", &mipMap);
 
-		const char* minFilters[] = { "NEAREST", "LINEAR", "NEAREST_MIPMAP_NEAREST", "LINEAR_MIPMAP_NEAREST", "NEAREST_MIPMAP_LINEAR", "LINEAR_MIPMAP_LINEAR" };
+		const char* minFilters[] = { "NEAREST",
+									 "LINEAR",
+									 "NEAREST_MIPMAP_NEAREST",
+									 "LINEAR_MIPMAP_NEAREST",
+									 "NEAREST_MIPMAP_LINEAR",
+									 "LINEAR_MIPMAP_LINEAR" };
 		ImGui::Combo("MinFilter", &min, minFilters, IM_ARRAYSIZE(minFilters));
 
 		const char* magFilters[] = { "NEAREST", "LINEAR" };
 		ImGui::Combo("MagFilter", &mag, magFilters, IM_ARRAYSIZE(magFilters));
 
-		const char* wrapFilters[] = { "REPEAT", "CLAMP_TO_EDGE", "CLAMP_TO_BORDER", "MIRROR_REPEAT", "MIRROR_CLAMP_TO_EDGE" };
+		const char* wrapFilters[] = {
+			"REPEAT", "CLAMP_TO_EDGE", "CLAMP_TO_BORDER", "MIRROR_REPEAT", "MIRROR_CLAMP_TO_EDGE"
+		};
 		ImGui::Combo("WrapFilterS", &wrapS, wrapFilters, IM_ARRAYSIZE(wrapFilters));
 		ImGui::Combo("WrapFilterT", &wrapT, wrapFilters, IM_ARRAYSIZE(wrapFilters));
-
-
 	}
 	ImGui::Separator();
 	ImGui::Text("");
@@ -343,10 +368,10 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->GetImportOptions().flipVertical = flipVertical;
 		resourceTexture->GetImportOptions().flipHorizontal = flipHorizontal;
 		resourceTexture->GetLoadOptions().mipMap = mipMap;
-		resourceTexture->GetLoadOptions().min = (TextureMinFilter)min;
-		resourceTexture->GetLoadOptions().mag = (TextureMagFilter)mag;
-		resourceTexture->GetLoadOptions().wrapS = (TextureWrap)wrapS;
-		resourceTexture->GetLoadOptions().wrapT = (TextureWrap)wrapT;
+		resourceTexture->GetLoadOptions().min = (TextureMinFilter) min;
+		resourceTexture->GetLoadOptions().mag = (TextureMagFilter) mag;
+		resourceTexture->GetLoadOptions().wrapS = (TextureWrap) wrapS;
+		resourceTexture->GetLoadOptions().wrapT = (TextureWrap) wrapT;
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());

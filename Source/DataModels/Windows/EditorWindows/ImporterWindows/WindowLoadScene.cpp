@@ -1,10 +1,10 @@
 #include "WindowLoadScene.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
+#include "ModuleScene.h"
 
-WindowLoadScene::WindowLoadScene() :WindowFileBrowser()
+WindowLoadScene::WindowLoadScene() : WindowFileBrowser()
 {
 	dialogName = " Load Scene";
 	title = ConvertU8String(ICON_IGFD_FOLDER) + " Load Scene";
@@ -20,5 +20,5 @@ void WindowLoadScene::DoThisIfOk()
 {
 	this->isLoading = false;
 	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	App->GetModule<ModuleScene>()->LoadSceneFromJson(filePath);
+	App->GetModule<ModuleScene>()->LoadScene(filePath);
 }

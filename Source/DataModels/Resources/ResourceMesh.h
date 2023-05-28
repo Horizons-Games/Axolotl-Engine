@@ -12,8 +12,8 @@ struct Bone
 
 struct Attach
 {
-	unsigned int bones[4] = {0u, 0u, 0u, 0u};
-	float weights[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+	unsigned int bones[4] = { 0u, 0u, 0u, 0u };
+	float weights[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	unsigned int numBones = 0u;
 };
 
@@ -23,22 +23,20 @@ struct OptionsMesh
 
 class ResourceMesh : virtual public Resource
 {
-
 public:
-	ResourceMesh(UID resourceUID, 
-		const std::string& fileName, 
-		const std::string& assetsPath, 
-		const std::string& libraryPath);
-	ResourceMesh();
+	ResourceMesh(UID resourceUID,
+				 const std::string& fileName,
+				 const std::string& assetsPath,
+				 const std::string& libraryPath);
 	virtual ~ResourceMesh() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
 
-	void SaveLoadOptions(Json& meta) override {};
-	void LoadLoadOptions(Json& meta) override {};
+	void SaveLoadOptions(Json& meta) override{};
+	void LoadLoadOptions(Json& meta) override{};
 
 	unsigned int GetVBO() const;
 	unsigned int GetEBO() const;
@@ -55,8 +53,8 @@ public:
 	const std::vector<float3>& GetTextureCoords() const;
 	const std::vector<float3>& GetNormals() const;
 	const std::vector<float3>& GetTangents() const;
-	const std::vector<std::vector<unsigned int> >& GetFacesIndices() const;
-	const std::vector<Bone>& GetBones() const ;
+	const std::vector<std::vector<unsigned int>>& GetFacesIndices() const;
+	const std::vector<Bone>& GetBones() const;
 	const std::vector<Attach>& GetAttaches() const;
 	const std::vector<unsigned int>& GetNumWeights() const;
 	unsigned int GetBonesPerVertex();
@@ -72,7 +70,7 @@ public:
 	void SetTextureCoords(const std::vector<float3>& textureCoords);
 	void SetNormals(const std::vector<float3>& normals);
 	void SetTangents(const std::vector<float3>& tangents);
-	void SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices);
+	void SetFacesIndices(const std::vector<std::vector<unsigned int>>& facesIndices);
 	void SetBones(const std::vector<Bone>& bones);
 	void SetAttachResize();
 	void SetAttachBones(const unsigned int vertexId, const unsigned int boneId);
@@ -95,7 +93,7 @@ private:
 	void CreateEBO();
 	void CreateVAO();
 
-	/* Due to GPU limitations, the number of bones influencing a single vertex 
+	/* Due to GPU limitations, the number of bones influencing a single vertex
 	must be limited. The most widespread limitation is 4 bones per vertex.*/
 	static constexpr unsigned int bonesPerVertex = 4;
 
@@ -103,7 +101,7 @@ private:
 	unsigned int ebo;
 	unsigned int vao;
 
-	//parameters for buffer object creation
+	// parameters for buffer object creation
 	unsigned int numVertices;
 	unsigned int numFaces;
 	unsigned int numIndexes;
@@ -115,7 +113,7 @@ private:
 	std::vector<float3> textureCoords;
 	std::vector<float3> normals;
 	std::vector<float3> tangents;
-	std::vector<std::vector<unsigned int> > facesIndices;
+	std::vector<std::vector<unsigned int>> facesIndices;
 	std::vector<Bone> bones;
 	std::vector<Attach> attaches;
 	std::vector<unsigned int> numWeights;
@@ -193,17 +191,17 @@ inline const std::vector<float3>& ResourceMesh::GetTangents() const
 	return tangents;
 }
 
-inline const std::vector<std::vector<unsigned int> >& ResourceMesh::GetFacesIndices() const
+inline const std::vector<std::vector<unsigned int>>& ResourceMesh::GetFacesIndices() const
 {
 	return facesIndices;
 }
 
-inline const std::vector<Bone>& ResourceMesh::GetBones() const 
+inline const std::vector<Bone>& ResourceMesh::GetBones() const
 {
 	return bones;
 }
 
-inline const std::vector<Attach>& ResourceMesh::GetAttaches() const 
+inline const std::vector<Attach>& ResourceMesh::GetAttaches() const
 {
 	return attaches;
 }
@@ -269,7 +267,7 @@ inline void ResourceMesh::SetTangents(const std::vector<float3>& tangents)
 	this->tangents = tangents;
 }
 
-inline void ResourceMesh::SetFacesIndices(const std::vector<std::vector<unsigned int> >& facesIndices)
+inline void ResourceMesh::SetFacesIndices(const std::vector<std::vector<unsigned int>>& facesIndices)
 {
 	this->facesIndices = facesIndices;
 }
@@ -320,8 +318,7 @@ inline void ResourceMesh::NormalizeWeights(const unsigned int attachId)
 	{
 		for (unsigned int i = 0; i < bonesPerVertex; ++i)
 		{
-			attaches[attachId].weights[i] = 
-				attaches[attachId].weights[i] / totalWeight;
+			attaches[attachId].weights[i] = attaches[attachId].weights[i] / totalWeight;
 		}
 	}
 }

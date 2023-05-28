@@ -6,36 +6,43 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
+#include "DataModels/Skybox/Skybox.h"
 
 #include "Modules/ModuleProgram.h"
-#include "Modules/ModuleScene.h"
 #include "Modules/ModuleRender.h"
+#include "Modules/ModuleScene.h"
 
 #include "FileSystem/ModuleResources.h"
 
+#include "Resources/ResourceAnimation.h"
+#include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
-#include "Resources/ResourceCubemap.h"
-#include "Resources/ResourceAnimation.h"
 
-#include <stack>
-#include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentCamera.h"
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
-#include "Components/UI/ComponentButton.h"
-#include "Components/ComponentAudioSource.h"
-#include "Components/UI/ComponentCanvas.h"
+#include <stack>
 
 #include "DataStructures/Quadtree.h"
 
-Scene::Scene() : root(nullptr), directionalLight(nullptr), uboDirectional(0), ssboPoint(0), ssboSpot(0), rootQuadtree(nullptr),
-rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2), float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
+Scene::Scene() :
+	root(nullptr),
+	directionalLight(nullptr),
+	uboDirectional(0),
+	ssboPoint(0),
+	ssboSpot(0),
+	rootQuadtree(nullptr),
+	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
+						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
 
@@ -85,12 +92,11 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 	if (is3D)
 	{
 		// Update the transform respect its parent when created
-		ComponentTransform* childTransform = static_cast<ComponentTransform*>
-			(gameObject->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform =
+			static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 		childTransform->UpdateTransformMatrices();
 
-
-		//Quadtree treatment
+		// Quadtree treatment
 		if (gameObject->IsStatic())
 		{
 			AddStaticObject(gameObject);
@@ -99,15 +105,13 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 		{
 			AddNonStaticObject(gameObject);
 		}
-
 	}
 	else
 	{
 		// Update the transform respect its parent when created
-		ComponentTransform2D* childTransform = static_cast<ComponentTransform2D*>
-			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* childTransform =
+			static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
 		childTransform->CalculateMatrices();
-
 	}
 
 	return gameObject;
@@ -115,22 +119,23 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 
 GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newObject, GameObject* parent)
 {
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = new GameObject(*newObject);
 	gameObject->SetParent(parent);
 
 	// Update the transform respect its parent when created
-	ComponentTransform* transform = static_cast<ComponentTransform*>
-		(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform =
+		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
 	if (transform)
 	{
 		transform->UpdateTransformMatrices();
 	}
 	else
 	{
-		ComponentTransform2D* transform2D = static_cast<ComponentTransform2D*>
-			(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* transform2D =
+			static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
 		if (transform2D)
 		{
 			transform2D->CalculateMatrices();
@@ -141,11 +146,11 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	if (newObject->IsStatic())
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+		loadedScene->AddStaticObject(gameObject);
 	}
 	else
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+		loadedScene->AddNonStaticObject(gameObject);
 	}
 
 	return gameObject;
@@ -165,7 +170,8 @@ GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* p
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
-	ComponentTransform2D* trans = static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+	ComponentTransform2D* trans =
+		static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
 	trans->SetPosition(float3(0, 0, -2));
 	trans->CalculateMatrices();
 	Component* canvas = gameObject->CreateComponent(ComponentType::CANVAS);
@@ -179,15 +185,15 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 	GameObject* gameObject = CreateGameObject(name, parent, false);
 	switch (type)
 	{
-	case ComponentType::IMAGE:
-		gameObject->CreateComponent(ComponentType::IMAGE);
-		break;
-	case ComponentType::BUTTON:
-		gameObject->CreateComponent(ComponentType::IMAGE);
-		sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
-		break;
-	default:
-		break;
+		case ComponentType::IMAGE:
+			gameObject->CreateComponent(ComponentType::IMAGE);
+			break;
+		case ComponentType::BUTTON:
+			gameObject->CreateComponent(ComponentType::IMAGE);
+			sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
+			break;
+		default:
+			break;
 	}
 	return gameObject;
 }
@@ -195,33 +201,35 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
+	ModuleResources* resources = App->GetModule<ModuleResources>();
+
 	ComponentMeshRenderer* meshComponent =
 		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
-	meshComponent->SetMaterial(App->GetModule<ModuleResources>()->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
+	meshComponent->SetMaterial(resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	std::shared_ptr<ResourceMesh> mesh;
 
 	switch (type)
 	{
-	case Premade3D::CUBE:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
-		break;
-	case Premade3D::SPHERE:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/sphere.sphere_0.mesh");
-		break;
-	case Premade3D::PLANE:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
-		break;
-	case Premade3D::CYLINDER:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
-		break;
-	case Premade3D::CAPSULE:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
-		break;
-	case Premade3D::CHARACTER:
-		mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
-		break;
-	default:
-		break;
+		case Premade3D::CUBE:
+			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+			break;
+		case Premade3D::SPHERE:
+			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/sphere.sphere_0.mesh");
+			break;
+		case Premade3D::PLANE:
+			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
+			break;
+		case Premade3D::CYLINDER:
+			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
+			break;
+		case Premade3D::CAPSULE:
+			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
+			break;
+		case Premade3D::CHARACTER:
+			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
+			break;
+		default:
+			break;
 	}
 
 	meshComponent->SetMesh(mesh);
@@ -253,7 +261,8 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
 {
-	std::shared_ptr<ResourceModel> resourceModel = App->GetModule<ModuleResources>()->RequestResource<ResourceModel>(model);
+	std::shared_ptr<ResourceModel> resourceModel =
+		App->GetModule<ModuleResources>()->RequestResource<ResourceModel>(model);
 	std::vector<std::shared_ptr<ResourceAnimation>> animations = resourceModel->GetAnimations();
 	std::string modelName = App->GetModule<ModuleFileSystem>()->GetFileName(model);
 
@@ -265,7 +274,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 			static_cast<ComponentAnimation*>(gameObjectModel->CreateComponent(ComponentType::ANIMATION));
 		animation->SetAnimations(animations);
 	}*/
-	
+
 	// For each node of the model, create its child GameObjects in preOrder and
 	// assign its corresponding vector of pairs <Material, Mesh>
 
@@ -278,7 +287,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 	for (int i = 0; i < nodes.size(); ++i)
 	{
 		const ResourceModel::Node* node = nodes[i];
-		
+
 		while (node->parent < parentsStack.top().first)
 		{
 			parentsStack.pop();
@@ -286,13 +295,13 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		GameObject* gameObjectNode = CreateGameObject(&node->name[0], parentsStack.top().second);
 
-		ComponentTransform* transformNode = 
+		ComponentTransform* transformNode =
 			static_cast<ComponentTransform*>(gameObjectNode->GetComponent(ComponentType::TRANSFORM));
 		gameObjectNodes.push_back(gameObjectNode);
 
 		float3 pos;
 		float3 scale;
-		float4x4 rot;
+		Quat rot;
 
 		node->transform.Decompose(pos, rot, scale);
 
@@ -301,16 +310,15 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		transformNode->SetScale(scale);
 
 		parentsStack.push(std::make_pair(i, gameObjectNode));
-		
+
 		for (std::pair<std::shared_ptr<ResourceMesh>, std::shared_ptr<ResourceMaterial>> meshRenderer :
-			node->meshRenderers)
+			 node->meshRenderers)
 		{
-			std::shared_ptr<ResourceMesh> mesh =
-				std::dynamic_pointer_cast<ResourceMesh>(meshRenderer.first);
+			std::shared_ptr<ResourceMesh> mesh = std::dynamic_pointer_cast<ResourceMesh>(meshRenderer.first);
 
 			unsigned int materialIndex = mesh->GetMaterialIndex();
 
-			std::shared_ptr<ResourceMaterial> material = 
+			std::shared_ptr<ResourceMaterial> material =
 				std::dynamic_pointer_cast<ResourceMaterial>(meshRenderer.second);
 
 			std::string meshName = mesh->GetFileName();
@@ -320,8 +328,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 			GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectNode);
 
 			ComponentMeshRenderer* meshRenderer =
-				static_cast<ComponentMeshRenderer*>(gameObjectModelMesh
-					->CreateComponent(ComponentType::MESHRENDERER));
+				static_cast<ComponentMeshRenderer*>(gameObjectModelMesh->CreateComponent(ComponentType::MESHRENDERER));
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material);
 
@@ -329,7 +336,8 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		}
 	}
 
-	static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+	static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))
+		->UpdateTransformMatrices();
 
 	for (GameObject* child : gameObjectModel->GetGameObjectsInside())
 	{
@@ -339,11 +347,9 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		{
 			if (component->GetType() == ComponentType::MESHRENDERER)
 			{
-				ComponentMeshRenderer* meshRenderer = 
-					static_cast<ComponentMeshRenderer*>(component);
+				ComponentMeshRenderer* meshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
-				const std::vector<Bone>& bones = 
-					meshRenderer->GetMesh()->GetBones();
+				const std::vector<Bone>& bones = meshRenderer->GetMesh()->GetBones();
 
 				if (!bones.empty())
 				{
@@ -412,7 +418,7 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 	}
 
 	GameObject* rootBone = nullptr;
-	
+
 	for (GameObject* child : node->GetChildren())
 	{
 		rootBone = FindRootBone(child, bones);
@@ -429,10 +435,10 @@ GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones
 const std::vector<GameObject*> Scene::CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones)
 {
 	std::vector<GameObject*> boneHierarchy;
-	
+
 	boneHierarchy.push_back(gameObjectNode);
 
-	const std::vector<GameObject*>& children = gameObjectNode->GetChildren();
+	GameObject::GameObjectView children = gameObjectNode->GetChildren();
 
 	for (GameObject* child : children)
 	{
@@ -462,52 +468,52 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 		RemoveFatherAndChildren(child);
 	}
 
-	sceneCameras.erase(
-		std::remove_if(std::begin(sceneCameras), std::end(sceneCameras),
-			[gameObject](const ComponentCamera* camera)
-			{
-				return camera->GetOwner() == gameObject;
-			}),
-		std::end(sceneCameras));
+	sceneCameras.erase(std::remove_if(std::begin(sceneCameras),
+									  std::end(sceneCameras),
+									  [gameObject](const ComponentCamera* camera)
+									  {
+										  return camera->GetOwner() == gameObject;
+									  }),
+					   std::end(sceneCameras));
 
-	sceneCanvas.erase(
-		std::remove_if(std::begin(sceneCanvas), std::end(sceneCanvas),
-			[gameObject](const ComponentCanvas* canvas)
-			{
-				return canvas->GetOwner() == gameObject;
-			}),
-		std::end(sceneCanvas));
+	sceneCanvas.erase(std::remove_if(std::begin(sceneCanvas),
+									 std::end(sceneCanvas),
+									 [gameObject](const ComponentCanvas* canvas)
+									 {
+										 return canvas->GetOwner() == gameObject;
+									 }),
+					  std::end(sceneCanvas));
 
-	sceneInteractableComponents.erase(
-		std::remove_if(std::begin(sceneInteractableComponents), std::end(sceneInteractableComponents),
-			[gameObject](const Component* interactible)
-			{
-				return interactible->GetOwner() == gameObject;
-			}),
-		std::end(sceneInteractableComponents));
-	
-	sceneUpdatableObjects.erase(
-		std::remove_if(std::begin(sceneUpdatableObjects), std::end(sceneUpdatableObjects),
-			[gameObject](const Updatable* updatable)
-			{
-				const Component* component = dynamic_cast<const Component*>(updatable);
-				return component == nullptr || component->GetOwner() == gameObject;
-			}),
-		std::end(sceneUpdatableObjects));
+	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
+													 std::end(sceneInteractableComponents),
+													 [gameObject](const Component* interactible)
+													 {
+														 return interactible->GetOwner() == gameObject;
+													 }),
+									  std::end(sceneInteractableComponents));
 
-	sceneGameObjects.erase(
-		std::remove_if(std::begin(sceneGameObjects),
-			std::end(sceneGameObjects),
-			[gameObject](GameObject* gameObjectToCompare)
-			{
-				return gameObject == gameObjectToCompare;
-			}),
-		std::end(sceneGameObjects));
+	sceneUpdatableObjects.erase(std::remove_if(std::begin(sceneUpdatableObjects),
+											   std::end(sceneUpdatableObjects),
+											   [gameObject](const Updatable* updatable)
+											   {
+												   const Component* component =
+													   dynamic_cast<const Component*>(updatable);
+												   return component == nullptr || component->GetOwner() == gameObject;
+											   }),
+								std::end(sceneUpdatableObjects));
+
+	sceneGameObjects.erase(std::remove_if(std::begin(sceneGameObjects),
+										  std::end(sceneGameObjects),
+										  [gameObject](GameObject* gameObjectToCompare)
+										  {
+											  return gameObject == gameObjectToCompare;
+										  }),
+						   std::end(sceneGameObjects));
 }
 
 void Scene::GenerateLights()
 {
-	// Directional 
+	// Directional
 
 	glGenBuffers(1, &uboDirectional);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
@@ -575,8 +581,7 @@ void Scene::RenderDirectionalLight() const
 {
 	ComponentTransform* dirTransform =
 		static_cast<ComponentTransform*>(directionalLight->GetComponent(ComponentType::TRANSFORM));
-	ComponentLight* dirComp =
-		static_cast<ComponentLight*>(directionalLight->GetComponent(ComponentType::LIGHT));
+	ComponentLight* dirComp = static_cast<ComponentLight*>(directionalLight->GetComponent(ComponentType::LIGHT));
 
 	float3 directionalDir = dirTransform->GetGlobalForward();
 	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
@@ -793,6 +798,11 @@ void Scene::InitNewEmptyScene()
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
+	
+	if (root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
+	{
+		root.get()->CreateComponent(ComponentType::CUBEMAP);
+	}
 
 	if (resourceCubemap)
 	{
@@ -852,7 +862,7 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 
 void Scene::AddStaticObject(GameObject* gameObject)
 {
-	//Quadtree treatment
+	// Quadtree treatment
 	if (!rootQuadtree->InQuadrant(gameObject))
 	{
 		if (!rootQuadtree->IsFreezed())
@@ -875,19 +885,16 @@ void Scene::RemoveStaticObject(GameObject* gameObject)
 	rootQuadtree->Remove(gameObject);
 }
 
-
 void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 {
-	nonStaticObjects.erase(
-		std::remove_if(std::begin(nonStaticObjects),
-			std::end(nonStaticObjects),
-			[&gameObject](GameObject* anotherObject)
-			{
-				return anotherObject == gameObject;
-			}),
-		std::end(nonStaticObjects));
+	nonStaticObjects.erase(std::remove_if(std::begin(nonStaticObjects),
+										  std::end(nonStaticObjects),
+										  [&gameObject](GameObject* anotherObject)
+										  {
+											  return anotherObject == gameObject;
+										  }),
+						   std::end(nonStaticObjects));
 }
-
 
 void Scene::AddSceneGameObjects(const std::vector<GameObject*>& gameObjects)
 {
@@ -899,7 +906,6 @@ void Scene::AddSceneCameras(const std::vector<ComponentCamera*>& cameras)
 	sceneCameras.insert(std::end(sceneCameras), std::begin(cameras), std::end(cameras));
 }
 
-
 void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 {
 	sceneCanvas.insert(std::end(sceneCanvas), std::begin(canvas), std::end(canvas));
@@ -907,5 +913,14 @@ void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 
 void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 {
-	sceneInteractableComponents.insert(std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+	sceneInteractableComponents.insert(
+		std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
+
+void Scene::InitCubemap()
+{
+	if(root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
+	{
+		root.get()->CreateComponent(ComponentType::CUBEMAP);
+	}
 }

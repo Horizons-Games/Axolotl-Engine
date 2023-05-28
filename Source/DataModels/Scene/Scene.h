@@ -3,8 +3,8 @@
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
 
-#include "Resources/ResourceModel.h"
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -86,7 +86,6 @@ public:
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetDirectionalLight(GameObject* directionalLight);
 
-
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
@@ -103,12 +102,12 @@ public:
 	void InitLights();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	
+	void InitCubemap();
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
-	const std::vector<GameObject*> CacheBoneHierarchy(
-		GameObject* gameObjectNode,
-		const std::vector<Bone>& bones);
+	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
 	void GenerateLights();
 
@@ -123,6 +122,7 @@ private:
 	std::vector<Updatable*> sceneUpdatableObjects;
 
 	GameObject* directionalLight;
+	GameObject* cubeMapGameObject;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;
@@ -136,7 +136,7 @@ private:
 	unsigned ssboTube;
 	
 	AABB rootQuadtreeAABB;
-	//Render Objects
+	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
 	std::vector<GameObject*> nonStaticObjects;
 };

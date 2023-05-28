@@ -4,6 +4,15 @@
 		<WorkUnit Name="Player" ID="{B25A62E8-E04C-4721-B4E4-39F493968C65}" OwnerID="{C302772C-A0A9-4317-9387-4E1FA6616738}" PersistMode="Nested">
 			<ChildrenList>
 				<ActorMixer Name="PlayerLocomotions" ID="{81D45AB7-DE6F-4143-BE1A-C916F1F6C121}" ShortID="828138206">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{476B5D22-8747-411E-B596-5C4684BAA5BC}"/>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -93,9 +102,141 @@
 								<ActiveSource Name="sfx_footsteps_walk_01" ID="{62687DA4-6181-499D-9E07-FE682AD3E1A4}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="sfx_doubleJump_whoosh-001" ID="{78D28486-0A38-4D4D-9365-4A7B3421397E}" ShortID="96484205">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{83BD8D94-55E4-4C0C-A1BC-42D1290B880E}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="202"/>
+													<Property Name="Min" Type="Real64" Value="-202"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-8</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_doubleJump_whoosh-001" ID="{E368730B-A508-4D05-94F9-F9F9273B0345}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_doubleJump_whoosh-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="137412610"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_doubleJump_whoosh-001" ID="{E368730B-A508-4D05-94F9-F9F9273B0345}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_jump_whoosh-001" ID="{F55E066A-2E29-4774-A2AA-1DCADCDEB9D6}" ShortID="1073639836">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{07A2190A-A82F-48CA-AAD7-C26AEDB01A67}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="202"/>
+													<Property Name="Min" Type="Real64" Value="-202"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_jump_whoosh-001" ID="{3F0CAC1A-F9FE-4FD3-BF4B-BE3B124019CD}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_jump_whoosh-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="580951369"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_jump_whoosh-001" ID="{3F0CAC1A-F9FE-4FD3-BF4B-BE3B124019CD}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_dash_whoosh-001" ID="{243ADB21-8CF4-47B0-BE59-0D20C02A3BC9}" ShortID="991839544">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>100</Value>
+									</ValueList>
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{DEC878A8-4FE8-430C-B695-1E212217D1EF}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="202"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_dash_whoosh-001" ID="{30580A0D-7331-4C72-8100-33BB14FD4872}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_dash_whoosh-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="759745302"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_dash_whoosh-001" ID="{30580A0D-7331-4C72-8100-33BB14FD4872}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="PlayerWeapons" ID="{575130A6-8F22-44CA-B788-17B12A3838A4}" ShortID="350583839">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{D78674BD-E124-43D8-9294-166C37B9E376}"/>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -107,6 +248,13 @@
 					<ChildrenList>
 						<RandomSequenceContainer Name="sfx_lightsaber_swing" ID="{3A3B7B84-14B1-4B04-9E19-95288A5ABCC9}" ShortID="779695362">
 							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{7045D244-796B-48ED-8553-42E333007520}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
 								<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
 							</PropertyList>
 							<ReferenceList>
@@ -256,6 +404,13 @@
 						<Sound Name="sfx_lightsaber_close_01" ID="{032482E1-90A0-4160-A198-8728744956C7}" ShortID="20646811">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{692357B2-A370-4ABC-9A94-BB72EB93ACB0}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
@@ -346,6 +501,11 @@
 										</ModifierInfo>
 									</ModifierList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-8</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
@@ -382,6 +542,71 @@
 							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="sfx_force-001" ID="{552C53EC-6E42-42E6-81EB-BE2FE8DC2D83}" ShortID="627098055">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{8D2CA975-4031-4AFA-B725-B225BCA42706}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_force-001" ID="{65BBC9C2-0A22-4FC1-B9BB-CA10C67899EF}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_force-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="87008145"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_force-001" ID="{65BBC9C2-0A22-4FC1-B9BB-CA10C67899EF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_forceWoosh-001" ID="{D6D491B2-C13B-4B59-85E8-34DCF4CAC1C8}" ShortID="977904785">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{E6E286A6-01AF-4CB5-BFAF-EEB9EA0BAF1A}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_forceWoosh-001" ID="{A9E8C9B0-02F3-4E6C-BDD7-7238021DB3B3}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_forceWoosh-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="883987314"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_forceWoosh-001" ID="{A9E8C9B0-02F3-4E6C-BDD7-7238021DB3B3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
 				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>
