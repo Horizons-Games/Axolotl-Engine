@@ -189,7 +189,11 @@ void ResourceMesh::CreateVAO()
 	glVertexAttribIPointer(4, 4, GL_UNSIGNED_INT, 0, (void*) (sizeof(float) * (3 + 2 + 3 + 3) * numVertices));
 
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0,
+	glVertexAttribPointer(5,
+						  4,
+						  GL_FLOAT,
+						  GL_FALSE,
+						  0,
 						  (void*) ((sizeof(float) * (3 + 2 + 3 + 3) + sizeof(unsigned int) * 4) * numVertices));
 }
 

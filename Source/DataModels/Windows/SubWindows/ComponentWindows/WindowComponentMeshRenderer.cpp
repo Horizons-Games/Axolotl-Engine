@@ -4,7 +4,6 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
-#include "ModuleRender.h"
 
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
@@ -22,12 +21,11 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	currentShaderTypeIndex(0),
 	currentTransparentIndex(0),
 	inputMesh(std::make_unique<WindowMeshInput>(component)),
-	inputMaterial(std::make_unique<WindowMaterialInput>(this)),
+	inputMaterial(std::make_unique<WindowMaterialInput>(component)),
 	inputTextureDiffuse(std::make_unique<WindowTextureInput>(this, TextureType::DIFFUSE)),
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
-	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
-	reset(false), newMaterial(false)
+	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR))
 {
 	InitMaterialValues();
 }
@@ -48,51 +46,35 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	if (asMeshRenderer)
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
-		std::shared_ptr<ResourceMaterial> materialAsShared = asMeshRenderer->GetMaterial();
-		static char* meshPath = (char*)("unknown");
 
-		if (newMaterial)
-		{
-			asMeshRenderer->SetMaterial(material);
-			if (asMeshRenderer->GetBatch())
-			{
-				asMeshRenderer->GetBatch()->ReserveModelSpace();
-				asMeshRenderer->RemoveFromBatch();
-			}
-
-			App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(asMeshRenderer);
-
-			InitMaterialValues();
-			newMaterial = false;
-		}
+		char* meshPath;
+		bool showMeshBrowser = true;
+		ImGuiInputTextFlags flags = ImGuiInputTextFlags_None;
 
 		if (meshAsShared)
 		{
 			// this should not be done, see issue #240
 			meshPath = (char*) (meshAsShared->GetLibraryPath().c_str());
+			showMeshBrowser = false;
 		}
 		else
 		{
-			meshPath = (char*)("unknown");
-		}
-
-		if (materialAsShared)
-		{
-			DrawSetMaterial();
-		}
-		else
-		{
-			DrawEmptyMaterial();
+			meshPath = _strdup("unknown");
+			flags |= ImGuiInputTextFlags_ReadOnly;
 		}
 
 		ImGui::InputText("##Mesh path", meshPath, 128);
 		ImGui::SameLine();
+
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
-				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-				//TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
+				// Double pointer to keep track correctly
+				UID draggedMeshUID = *static_cast<UID*>(payload->Data);
+
+				/*TODO: this should be Asset Path of the asset not the UID
+				(Because new filesystem cache)*/
 				std::shared_ptr<ResourceMesh> newMesh =
 					App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(draggedMeshUID);
 				// And then this should be RequestResource not SearchResource
@@ -106,12 +88,6 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 			ImGui::EndDragDropTarget();
 		}
-		
-
-		bool showMeshBrowser;
-
-		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
-
 
 		if (showMeshBrowser)
 		{
@@ -128,15 +104,23 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of vertices: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumVertices() : 0);
+			ImGui::TextColored(
+				ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ? meshAsShared->GetNumVertices() : 0);
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of triangles: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumFaces() : 0); // faces = triangles
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ? meshAsShared->GetNumFaces() : 0);
 
 			ImGui::EndTable();
+		}
+
+		if (asMeshRenderer->GetMaterial())
+		{
+			DrawSetMaterial();
+		}
+		else
+		{
+			DrawEmptyMaterial();
 		}
 	}
 }
@@ -147,9 +131,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 	if (asMeshRenderer)
 	{
-		bool updateMaterials = false;
-
-		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
+		const std::shared_ptr<ResourceMaterial>& materialResource = asMeshRenderer->GetMaterial();
 
 		if (materialResource)
 		{
@@ -162,7 +144,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Remove Material"))
 			{
-				asMeshRenderer->GetBatch()->DeleteMaterial(asMeshRenderer);
 				materialResource->Unload();
 				asMeshRenderer->SetMaterial(nullptr);
 				return;
@@ -268,27 +249,30 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
 			{
 				asMeshRenderer->UnloadTextures();
+
 				materialResource->SetDiffuse(nullptr);
 				materialResource->SetNormal(nullptr);
 				materialResource->SetOcclusion(nullptr);
 				materialResource->SetMetallic(nullptr);
 				materialResource->SetSpecular(nullptr);
+
 				materialResource->SetChanged(true);
-				updateMaterials = true;
 			}
 
 			ImGui::Separator();
 
 			ImGui::Text("Diffuse Texture");
+
 			if (diffuseTexture)
 			{
 				diffuseTexture->Load();
-				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+
+				ImGui::Image((void*) (intptr_t) diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+
 				if (ImGui::Button("Remove Texture Diffuse"))
 				{
 					diffuseTexture->Unload();
 					diffuseTexture = nullptr;
-					updateMaterials = true;
 				}
 			}
 			else
@@ -310,7 +294,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					{
 						metallicMap->Unload();
 						metallicMap = nullptr;
-						updateMaterials = true;
 					}
 				}
 				else
@@ -360,7 +343,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				{
 					normalMap->Unload();
 					normalMap = nullptr;
-					updateMaterials = true;
 				}
 			}
 			else
@@ -382,46 +364,18 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Apply"))
 			{
-				if (asMeshRenderer->IsTransparent() != isTransparent || 
-					asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
-				{
-					changeBatch = true;
-				}
-
-				asMeshRenderer->SetShaderType(currentShaderTypeIndex);
-				asMeshRenderer->SetDiffuseColor(colorDiffuse);
-				asMeshRenderer->SetSpecularColor(colorSpecular);
-				asMeshRenderer->SetDiffuse(diffuseTexture);
-				asMeshRenderer->SetMetallic(metallicMap);
-				asMeshRenderer->SetNormal(normalMap);
-				asMeshRenderer->SetSmoothness(smoothness);
-				asMeshRenderer->SetMetalness(metalness);
-				asMeshRenderer->SetNormalStrength(normalStrength);
-				asMeshRenderer->SetTransparent(isTransparent);
+				materialResource->SetShaderType(currentShaderTypeIndex);
+				materialResource->SetDiffuseColor(colorDiffuse);
+				materialResource->SetSpecularColor(colorSpecular);
+				materialResource->SetDiffuse(diffuseTexture);
+				materialResource->SetMetallic(metallicMap);
+				materialResource->SetNormal(normalMap);
+				materialResource->SetSmoothness(smoothness);
+				materialResource->SetMetalness(metalness);
+				materialResource->SetNormalStrength(normalStrength);
+				materialResource->SetTransparent(isTransparent);
 				materialResource->SetChanged(true);
-
 				App->GetModule<ModuleResources>()->ReimportResource(materialResource->GetUID());
-
-				updateMaterials = true;
-			}
-		}
-		if (changeBatch)
-		{
-			std::vector<ComponentMeshRenderer*> componentToMove;
-			componentToMove.clear();
-			componentToMove = asMeshRenderer->ChangeOfBatch();
-			for (ComponentMeshRenderer* component : componentToMove)
-			{
-				App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(component);
-			}
-			changeBatch = false;
-		}
-
-		if (updateMaterials)
-		{
-			if (asMeshRenderer->GetBatch())
-			{
-				asMeshRenderer->GetBatch()->SetFillMaterials(true);
 			}
 		}
 	}
@@ -431,12 +385,9 @@ void WindowComponentMeshRenderer::DrawEmptyMaterial()
 {
 	const ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
-	if (asMeshRenderer)
+	if (asMeshRenderer && !asMeshRenderer->GetMaterial())
 	{
-		if (asMeshRenderer->GetMaterial() == nullptr)
-		{
-			inputMaterial->DrawWindowContents();
-		}
+		inputMaterial->DrawWindowContents();
 	}
 }
 
@@ -460,7 +411,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();
-			isTransparent = materialResource->IsTransparent();
+			isTransparent = materialResource->GetTransparent();
 		}
 	}
 }

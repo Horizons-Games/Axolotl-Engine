@@ -48,10 +48,10 @@ update_status ModuleUI::Update()
 	int width, height;
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
-	/*glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, height, 0, 1, -1);
-	glMatrixMode(GL_MODELVIEW);*/
+	glMatrixMode(GL_MODELVIEW);
 
 	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
 	Camera* camera = moduleCamera->GetCamera();
@@ -69,10 +69,10 @@ update_status ModuleUI::Update()
 	glEnable(GL_DEPTH_TEST);
 	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), camera->GetAspectRatio());
 
-	/*glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1, 1, -1, 1, -1, 1);
-	glMatrixMode(GL_MODELVIEW);*/
+	glMatrixMode(GL_MODELVIEW);
 
 	return update_status::UPDATE_CONTINUE;
 }

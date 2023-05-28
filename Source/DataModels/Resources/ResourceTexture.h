@@ -90,7 +90,6 @@ public:
 	unsigned int GetImageType() const;
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
-	const uint64_t& GetHandle();
 
 	ImportOptionsTexture& GetImportOptions();
 	LoadOptionsTexture& GetLoadOptions();
@@ -124,8 +123,6 @@ private:
 	unsigned int imageType = 0;
 	std::vector<uint8_t> pixels;
 	unsigned int pixelsSize;
-
-	uint64_t handle;
 
 	LoadOptionsTexture loadOptions;
 	ImportOptionsTexture importOptions;
