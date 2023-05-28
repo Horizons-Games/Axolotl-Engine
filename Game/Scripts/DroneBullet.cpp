@@ -28,7 +28,7 @@
 REGISTERCLASS(DroneBullet);
 
 DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), bulletLifeTime(10.0f),
-damageAttack(10.0f), rayAttackSize(10.0f)
+damageAttack(10.0f), rayAttackSize(10.0f), originTime(0.0f)
 {
 }
 
@@ -36,6 +36,8 @@ void DroneBullet::Start()
 {
 	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+
+	originTime = SDL_GetTicks() / 1000.0f;
 }
 
 void DroneBullet::Update(float deltaTime)
@@ -43,6 +45,11 @@ void DroneBullet::Update(float deltaTime)
 	ShootBullet(deltaTime);
 
 	CheckCollision();
+
+	if (SDL_GetTicks() / 1000.0f > originTime + bulletLifeTime)
+	{
+		DestroyBullet();
+	}
 }
 
 void DroneBullet::ShootBullet(float deltaTime)
