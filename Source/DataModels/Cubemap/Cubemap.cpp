@@ -29,6 +29,7 @@ Cubemap::Cubemap() :
 	cubeVBO(0),
 	numMipMaps(0)
 {
+	intensity = 1.0f;
 }
 
 Cubemap::~Cubemap()
@@ -45,6 +46,7 @@ Cubemap::~Cubemap()
 Cubemap::Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes) : cubemapRes(cubemapRes)
 {
 	GenerateMaps();
+	intensity = 1.0f;
 }
 
 void Cubemap::SaveOptions(Json& json) const
