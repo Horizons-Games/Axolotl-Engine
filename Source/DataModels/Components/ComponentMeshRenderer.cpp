@@ -296,7 +296,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 		glActiveTexture(GL_TEXTURE10);
 		glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 		program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
-		program->BindUniformFloat("cubeMap_intensity", cubemap->GetIntensity());
+		program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	}
 }

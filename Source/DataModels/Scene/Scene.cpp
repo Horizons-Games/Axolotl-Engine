@@ -754,7 +754,7 @@ void Scene::UpdateSceneAreaLights()
 				}
 				else if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{
-					float3x3 matrixRotation = transform->GetGlobalRotation().Float3x3Part();
+					Quat matrixRotation = transform->GetGlobalRotation();
 					float3 translation = transform->GetGlobalPosition();
 					float3 pointA = float3(0, 0.5f, 0) * areaLightComp->GetHeight();
 					float3 pointB = float3(0, -0.5f, 0) * areaLightComp->GetHeight();

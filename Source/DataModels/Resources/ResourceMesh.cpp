@@ -24,10 +24,6 @@ ResourceMesh::ResourceMesh(UID resourceUID,
 {
 }
 
-ResourceMesh::ResourceMesh() : Resource(), vbo(0), ebo(0), vao(0), numVertices(0), numFaces(0), numIndexes(0), numBones(0), materialIndex(0)
-{
-}
-
 ResourceMesh::~ResourceMesh()
 {
 	Unload();
