@@ -9,18 +9,18 @@ class ResourceCubemap : virtual public Resource
 {
 public:
 	ResourceCubemap(UID resourceUID,
-		const std::string& fileName,
-		const std::string& assetsPath,
-		const std::string& libraryPath);
+					const std::string& fileName,
+					const std::string& assetsPath,
+					const std::string& libraryPath);
 	virtual ~ResourceCubemap() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
 
-	void SaveLoadOptions(Json& meta) override {};
-	void LoadLoadOptions(Json& meta) override {};
+	void SaveLoadOptions(Json& meta) override{};
+	void LoadLoadOptions(Json& meta) override{};
 
 	std::shared_ptr<ResourceTexture> GetHDRTexture() const;
 
@@ -50,4 +50,3 @@ inline void ResourceCubemap::SetHDRTexture(const std::shared_ptr<ResourceTexture
 {
 	this->hdrTexture = hdrTexture;
 }
-

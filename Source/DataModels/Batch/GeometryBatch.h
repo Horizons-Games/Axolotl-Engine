@@ -93,6 +93,18 @@ private:
 		unsigned int indexOffset;
 	};
 
+	struct PerInstance
+	{
+		unsigned int numBones;
+		unsigned int paletteOffset;
+		unsigned int padding0, padding1;
+	};
+
+	struct uint4
+	{
+		unsigned int x, y, z, w;
+	};
+
 private:
 	void FillBuffers();
 	void FillEBO();
@@ -108,20 +120,25 @@ private:
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::unordered_map<const ComponentMeshRenderer*, int>  objectIndexes;
+	std::unordered_map<const ComponentMeshRenderer*, int>  paletteIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
+	std::vector<PerInstance> perInstances;
 	std::vector<int> instanceData;
-
 
 	unsigned int ebo;
 	unsigned int vao;
 	
-	unsigned int indirectBuffer;
 	unsigned int verticesBuffer;
 	unsigned int textureBuffer;
 	unsigned int normalsBuffer;
 	unsigned int tangentsBuffer;
-	unsigned int transforms[DOUBLE_BUFFERS];
-	unsigned int materials;
+	unsigned int bonesBuffer;
+	unsigned int weightsBuffer;
+	unsigned int indirectBuffer = 0;
+	unsigned int materials = 0;
+	unsigned int perInstancesBuffer = 0;
+	unsigned int transforms[DOUBLE_BUFFERS] = { 0, 0 };
+	unsigned int palettes[DOUBLE_BUFFERS] = { 0, 0 };
 
 	bool createBuffers;
 	bool reserveModelSpace;
@@ -130,18 +147,22 @@ private:
 	unsigned int numTotalVertices;
 	unsigned int numTotalIndices;
 	unsigned int numTotalFaces;
+	unsigned int frame;
 
-	GLsync gSync[DOUBLE_BUFFERS] = { nullptr,nullptr };
+	GLsync gSync[DOUBLE_BUFFERS] = { nullptr, nullptr };
 
+	const GLuint bindingPointPalette = 7;
+	const GLuint bindingPointPerInstance = 6;
 	const GLuint bindingPointModel = 10;
 	const GLuint bindingPointMaterial = 11;
 
 	GLbitfield mapFlags;
 	GLbitfield createFlags;
+
 	float4x4* transformData[DOUBLE_BUFFERS];
+	float4x4* paletteData[DOUBLE_BUFFERS];
 	MaterialMetallic* metallicMaterialData;
 	MaterialSpecular* specularMaterialData;
-	unsigned int frame = 0;
 
 	std::shared_ptr<ResourceMaterial> defaultMaterial;
 

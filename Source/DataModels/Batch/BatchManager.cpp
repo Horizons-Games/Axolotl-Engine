@@ -75,6 +75,10 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 			flags |= HAS_SPECULAR;
 		}
 	}
+	else
+	{
+		flags |= HAS_METALLIC;
+	}
 
 	//verify if it's transparent or opaque
 	std::vector<GeometryBatch*>& geometry_batches = 

@@ -12,7 +12,6 @@ class ResourceMaterial;
 
 class WindowComponentMeshRenderer : public ComponentWindow
 {
-
 public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override;

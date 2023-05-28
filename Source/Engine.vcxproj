@@ -176,6 +176,12 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\Batch\BatchManager.cpp" />
     <ClCompile Include="DataModels\Batch\GeometryBatch.cpp" />
+    <ClCompile Include="Auxiliar\GameBuilder.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp" />
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
     <ClCompile Include="DataModels\Cubemap\Cubemap.cpp" />
     <ClCompile Include="DataModels\Animation\AnimationController.cpp" />
@@ -275,10 +281,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -459,6 +461,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp" />
+    <ClCompile Include="moveale.cpp" />
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
@@ -476,17 +480,22 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
+    <ClInclude Include="Auxiliar\GameBuilder.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Commands\Command.h" />
     <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
     <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="DataModels\Animation\AnimationController.h" />
     <ClInclude Include="Auxiliar\Reflection\Field.h" />
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h" />
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
     <ClInclude Include="DataModels\Batch\BatchManager.h" />
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
+    <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
@@ -593,10 +602,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -748,6 +753,7 @@
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="FileSystem\Importers\AnimationImporter.h" />
     <ClInclude Include="Enums\ModuleType.h" />
     <ClInclude Include="FileSystem\Importers\Importer.h" />
@@ -800,6 +806,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h" />
+    <ClInclude Include="moveale.h" />
     <ClInclude Include="Physics\Physics.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />

@@ -4,7 +4,7 @@
 
 class GameObject;
 
-class CameraGod : public  Camera
+class CameraGod : public Camera
 {
 public:
 	CameraGod();
@@ -20,4 +20,3 @@ private:
 
 	bool backFromDebugging = false;
 };
-
