@@ -59,7 +59,7 @@ void DroneAttack::Start()
 
 void DroneAttack::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE)//Provisional for testing: delete it when using attack from drone script
 	{
 		PerformAttack();
 	}
@@ -78,36 +78,12 @@ void DroneAttack::PerformAttack()
 
 		GameObject* bullet = loadedScene->DuplicateGameObject(
 			bulletPrefab->GetName(), bulletPrefab, root);
-		ComponentTransform* bulletTransf = static_cast<ComponentTransform*>(bullet->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* bulletTransf = static_cast<ComponentTransform*>
+			(bullet->GetComponent(ComponentType::TRANSFORM));
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
 		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
 		bulletTransf->SetRotation(transform->GetRotation());
 		bulletTransf->UpdateTransformMatrices();
-
-		/*std::vector<ComponentScript*> gameObjectScripts =
-			bullet->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "DroneBullet")
-			{
-				DroneBullet* droneBulletScript = static_cast<DroneBullet*>(gameObjectScripts[i]->GetScript());
-				droneBulletScript->Start();
-			}
-		}*/
-
-
-		//Create bullet object that is going to be shooted
-		//GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
-		
-		//Set all components for the bullet manually as we still don't have prefabs
-		/*ComponentTransform* bulletTransf = static_cast<ComponentTransform*>(bullet->GetComponent(ComponentType::TRANSFORM));
-		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
-		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-		bulletTransf->SetRotation(transform->GetRotation());
-		bulletTransf->UpdateTransformMatrices();
-
-		bullet->CreateComponent(ComponentType::AUDIOSOURCE);*/
 
 		ComponentScript* script = static_cast<ComponentScript*>(bullet->CreateComponent(ComponentType::SCRIPT));
 		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));

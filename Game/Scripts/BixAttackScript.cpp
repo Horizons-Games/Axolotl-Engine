@@ -101,7 +101,7 @@ void BixAttackScript::Update(float deltaTime)
 #endif // DEBUG
 
 	// Attack
-	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE)
+	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
 	{
 		PerformAttack();
 	}

@@ -696,7 +696,7 @@
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 6.0,
+                                    "value": 1000.0,
                                     "type": 0
                                 },
                                 {
@@ -2598,8 +2598,8 @@
                 "tag": "",
                 "uid": 18238092081916207893,
                 "parentUID": 16740414096688062829,
-                "enabled": true,
-                "active": true,
+                "enabled": false,
+                "active": false,
                 "static": false,
                 "Components": [
                     {
