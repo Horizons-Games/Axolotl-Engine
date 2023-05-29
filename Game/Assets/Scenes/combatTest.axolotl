@@ -25,6 +25,14 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 1.0
+                        }
                     }
                 ]
             }
@@ -172,6 +180,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -267,6 +276,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -333,6 +343,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -685,7 +696,7 @@
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 300.0,
+                                    "value": 6.0,
                                     "type": 0
                                 },
                                 {
@@ -695,7 +706,7 @@
                                 },
                                 {
                                     "name": "DashForce",
-                                    "value": 1000.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -713,6 +724,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isStatic": false,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.800000011920929,
@@ -2521,7 +2533,7 @@
                                 },
                                 {
                                     "name": "BulletPrefab",
-                                    "value": 17392156318262064816,
+                                    "value": 18238092081916207893,
                                     "type": 2
                                 },
                                 {
@@ -2584,7 +2596,7 @@
             "GameObject": {
                 "name": "BulletPrefab",
                 "tag": "",
-                "uid": 17392156318262064816,
+                "uid": 18238092081916207893,
                 "parentUID": 16740414096688062829,
                 "enabled": true,
                 "active": true,
@@ -2596,14 +2608,14 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0000019073486328125,
-                            "localPos_Y": 2.523261785507202,
+                            "localPos_Y": 3.0313398838043213,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": 90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 0.13321726024150848,
-                            "localSca_Y": 0.10622896254062653,
-                            "localSca_Z": 0.5048139095306396
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
                         }
                     },
                     {
@@ -2611,8 +2623,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5838496268976162218,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "meshUID": 1852737626034071509,
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -2622,15 +2634,6 @@
                             "type": "Component_AudioSource",
                             "active": true,
                             "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "DroneBullet",
-                            "fields": null
                         }
                     }
                 ]
