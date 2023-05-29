@@ -242,14 +242,14 @@ void GeometryBatch::FillEBO()
 
 void GeometryBatch::CreateVAO()
 {
-	if (!glIsBuffer(vao))
+	if (vao == 0)
 	{
 		glGenVertexArrays(1, &vao);
 	}
 	glBindVertexArray(vao);
 
 	//verify which data to send in buffer
-	if (!glIsBuffer(ebo))
+	if (ebo == 0)
 	{
 		glGenBuffers(1, &ebo);
 	}
@@ -257,7 +257,7 @@ void GeometryBatch::CreateVAO()
 
 	//vertices
 	glEnableVertexAttribArray(0);
-	if (!glIsBuffer(verticesBuffer))
+	if (verticesBuffer == 0)
 	{
 		glGenBuffers(1, &verticesBuffer);
 	}
@@ -266,7 +266,7 @@ void GeometryBatch::CreateVAO()
 
 	//texture
 	glEnableVertexAttribArray(1);
-	if (!glIsBuffer(textureBuffer))
+	if (textureBuffer == 0)
 	{
 		glGenBuffers(1, &textureBuffer);
 	}
@@ -275,7 +275,7 @@ void GeometryBatch::CreateVAO()
 
 	//normals
 	glEnableVertexAttribArray(2);
-	if (!glIsBuffer(normalsBuffer))
+	if (normalsBuffer == 0)
 	{
 		glGenBuffers(1, &normalsBuffer);
 	}
@@ -284,7 +284,7 @@ void GeometryBatch::CreateVAO()
 
 	//tangents
 	glEnableVertexAttribArray(3);
-	if (!glIsBuffer(tangentsBuffer))
+	if (tangentsBuffer == 0)
 	{
 		glGenBuffers(1, &tangentsBuffer);
 	}
@@ -296,7 +296,7 @@ void GeometryBatch::CreateVAO()
 
 	//bones
 	glEnableVertexAttribArray(4);
-	if (!glIsBuffer(bonesBuffer))
+	if (bonesBuffer == 0)
 	{
 		glGenBuffers(1, &bonesBuffer);
 	}
@@ -305,7 +305,7 @@ void GeometryBatch::CreateVAO()
 
 	//weights
 	glEnableVertexAttribArray(5);
-	if (!glIsBuffer(weightsBuffer))
+	if (weightsBuffer == 0)
 	{
 		glGenBuffers(1, &weightsBuffer);
 	}
@@ -425,12 +425,6 @@ void GeometryBatch::CreateVAO()
 
 void GeometryBatch::ClearBuffer()
 {
-	/*glDeleteBuffers(1, &verticesBuffer);
-	glDeleteBuffers(1, &textureBuffer);
-	glDeleteBuffers(1, &normalsBuffer);
-	glDeleteBuffers(1, &tangentsBuffer);
-	glDeleteBuffers(1, &bonesBuffer);
-	glDeleteBuffers(1, &weightsBuffer);*/
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);

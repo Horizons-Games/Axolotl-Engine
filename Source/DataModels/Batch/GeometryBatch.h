@@ -125,15 +125,15 @@ private:
 	std::vector<PerInstance> perInstances;
 	std::vector<int> instanceData;
 
-	unsigned int ebo;
-	unsigned int vao;
+	unsigned int ebo = 0;
+	unsigned int vao = 0;
 	
-	unsigned int verticesBuffer;
-	unsigned int textureBuffer;
-	unsigned int normalsBuffer;
-	unsigned int tangentsBuffer;
-	unsigned int bonesBuffer;
-	unsigned int weightsBuffer;
+	unsigned int verticesBuffer = 0;
+	unsigned int textureBuffer = 0;
+	unsigned int normalsBuffer = 0;
+	unsigned int tangentsBuffer = 0;
+	unsigned int bonesBuffer = 0;
+	unsigned int weightsBuffer = 0;
 	unsigned int indirectBuffer = 0;
 	unsigned int materials = 0;
 	unsigned int perInstancesBuffer = 0;
