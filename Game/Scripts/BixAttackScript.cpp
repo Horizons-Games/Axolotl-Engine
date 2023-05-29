@@ -136,14 +136,14 @@ void BixAttackScript::CheckCollision()
 		if (Physics::Raycast(line, hit, transform->GetOwner()))
 		{
 			playSFX = true;
-			if (hit.gameObject->CompareTag("Enemy"))
+			if (hit.gameObject->GetRootGO()->CompareTag("Enemy"))
 			{
-				if (hitObjects.insert(hit.gameObject->GetUID()).second)
+				if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
 				{
 					// insertion could take place -> element not hit yet
 					//get component health and do damage
 					std::vector<ComponentScript*> gameObjectScripts =
-						hit.gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+						hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 
 					for (int i = 0; i < gameObjectScripts.size(); ++i)
 					{

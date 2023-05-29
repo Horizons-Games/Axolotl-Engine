@@ -42,6 +42,13 @@ void DroneBullet::Start()
 
 void DroneBullet::Update(float deltaTime)
 {
+#ifdef DEBUG
+
+	Ray rayDebug(transform->GetPosition(), transform->GetLocalForward());
+	dd::arrow(rayDebug.pos, rayDebug.pos + rayDebug.dir * rayAttackSize, dd::colors::Red, 0.05f);
+	
+#endif // DEBUG
+
 	ShootBullet(deltaTime);
 
 	CheckCollision();
@@ -65,10 +72,10 @@ void DroneBullet::CheckCollision()
 	RaycastHit hit;
 	if (Physics::Raycast(line, hit, transform->GetOwner()))
 	{
-		if (hit.gameObject->CompareTag("Player"))
+		if (hit.gameObject->GetRootGO()->CompareTag("Player"))
 		{
 			std::vector<ComponentScript*> gameObjectScripts =
-				hit.gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+				hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 
 			for (int i = 0; i < gameObjectScripts.size(); ++i)
 			{

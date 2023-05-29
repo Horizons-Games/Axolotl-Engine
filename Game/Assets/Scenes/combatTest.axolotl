@@ -820,6 +820,26 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -2475,7 +2495,7 @@
         {
             "GameObject": {
                 "name": "Cube",
-                "tag": "",
+                "tag": "Enemy",
                 "uid": 16740414096688062829,
                 "parentUID": 5457140795048261378,
                 "enabled": true,
@@ -2488,14 +2508,14 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 86.92646026611328,
-                            "localPos_Y": 2.56715989112854,
+                            "localPos_Y": 0.7503823637962341,
                             "localPos_Z": 30.485088348388672,
                             "localRot_X": -0.0,
                             "localRot_Y": 55.1740608215332,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.675000011920929,
+                            "localSca_Y": 0.675000011920929,
+                            "localSca_Z": 0.675000011920929
                         }
                     },
                     {
@@ -2559,6 +2579,26 @@
                             "stateUID": 0,
                             "assetPathState": ""
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -2599,7 +2639,7 @@
                 "uid": 18238092081916207893,
                 "parentUID": 16740414096688062829,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": false,
                 "Components": [
                     {
