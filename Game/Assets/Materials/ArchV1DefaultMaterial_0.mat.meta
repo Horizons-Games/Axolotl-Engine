@@ -8,10 +8,11 @@
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
     "normalStrength": 1.0,
-    "smoothness": 0.5,
-    "metalness": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/ArchV1_DefaultMaterial_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/ArchV1_DefaultMaterial_Normal.png",
+    "smoothness": 0.6499999761581421,
+    "metalness": 0.119999997317791,
+    "DiffuseAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/ArchV1_DefaultMaterial_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_MetallicSmoothness.png",
+    "MetallicAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_MetallicSmoothness.png"
 }
