@@ -17,6 +17,7 @@
 							</ChildrenList>
 						</Bus>
 						<Bus Name="SFX" ID="{A1D9984C-C6D2-468F-BA36-458C95164D58}">
+							<ReferenceList/>
 							<ChildrenList>
 								<Bus Name="PlayerMaster" ID="{9CBFE594-4CA5-4B08-871F-56070985381F}">
 									<ChildrenList>

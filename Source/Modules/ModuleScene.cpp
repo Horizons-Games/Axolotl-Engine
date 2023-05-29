@@ -8,7 +8,11 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/Component.h"
+#include "Components/ComponentScript.h"
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -16,11 +20,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 
-#include "Components/Component.h"
-#include "Components/ComponentCamera.h"
-#include "Components/ComponentLight.h"
-#include "Components/ComponentScript.h"
-#include "Components/UI/ComponentCanvas.h"
+
+
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -61,23 +62,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/MainMenuVS1.axolotl", false);
-	}
-
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Init();
-		}
-	}
-
-	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Start();
-		}
+		LoadScene("Lib/Scenes/MainMenuScriptsVS2.axolotl", false);
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
@@ -189,8 +174,11 @@ void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 
 void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
-	gameObject->SetParentAsChildSelected();
+	AddGameObjectAndChildren(selectedGameObject);
+	selectedGameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
 	selectedGameObject = gameObject;
+	selectedGameObject->SetStateOfSelection(StateOfSelection::SELECTED);
+	RemoveGameObjectAndChildren(selectedGameObject);
 }
 
 void ModuleScene::OnPlay()
@@ -201,23 +189,7 @@ void ModuleScene::OnPlay()
 
 	SaveSceneToJson(jsonScene);
 
-	// First Init
-	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Init();
-		}
-	}
-
-	// Then Start
-	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
-	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
-		{
-			componentScript->Start();
-		}
-	}
+	InitAndStartScriptingComponents();
 }
 
 void ModuleScene::OnStop()
@@ -238,6 +210,27 @@ void ModuleScene::OnStop()
 
 	// clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
+}
+
+void ModuleScene::InitAndStartScriptingComponents()
+{
+	//First Init
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Init();
+		}
+	}
+
+	//Then Start
+	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		{
+			componentScript->Start();
+		}
+	}
 }
 
 std::unique_ptr<Scene> ModuleScene::CreateEmptyScene() const
@@ -311,11 +304,14 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	LoadSceneFromJson(Json, mantainActualScene);
 
 #ifndef ENGINE
-	ModulePlayer* player = App->GetModule<ModulePlayer>();
-	if (player->GetPlayer())
-	{
-		player->LoadNewPlayer();
-	}
+		ModulePlayer* player = App->GetModule<ModulePlayer>();
+		if (player->GetPlayer())
+		{
+
+			player->LoadNewPlayer();
+		}
+
+		InitAndStartScriptingComponents();
 #endif // !ENGINE
 }
 
@@ -381,6 +377,18 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			// Quadtree treatment
 			AddGameObject(obj);
 		}
+
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(obj->GetComponent(ComponentType::TRANSFORM));
+
+		ComponentRigidBody* rigidBody =
+			static_cast<ComponentRigidBody*>(obj->GetComponent(ComponentType::RIGIDBODY));
+
+		if (rigidBody)
+		{
+			transform->UpdateTransformMatrices();
+			rigidBody->UpdateRigidBody();
+		}
 	}
 
 	SetSceneRootAnimObjects(loadedObjects);
@@ -389,7 +397,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	if (!mantainActualScene)
 	{
-		App->GetModule<ModuleRender>()->FillRenderList(rootQuadtree);
 		loadedScene->SetSceneCameras(loadedCameras);
 		loadedScene->SetSceneCanvas(loadedCanvas);
 		loadedScene->SetSceneInteractable(loadedInteractable);
@@ -405,6 +412,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	}
 
 	loadedScene->InitLights();
+	loadedScene->InitCubemap();
 }
 
 void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
@@ -423,16 +431,6 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 			}
 		}
 	}
-}
-
-/*
-This have the same functionality as SetSelectedGameObject but implies changes in the quadtree
-*/
-void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
-{
-	AddGameObjectAndChildren(selectedGameObject);
-	selectedGameObject = gameObject;
-	RemoveGameObjectAndChildren(selectedGameObject);
 }
 
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy)

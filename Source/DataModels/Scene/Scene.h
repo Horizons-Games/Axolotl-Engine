@@ -98,6 +98,8 @@ public:
 	void InitLights();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	
+	void InitCubemap();
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
@@ -115,6 +117,7 @@ private:
 	std::vector<Updatable*> sceneUpdatableObjects;
 
 	GameObject* directionalLight;
+	GameObject* cubeMapGameObject;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;

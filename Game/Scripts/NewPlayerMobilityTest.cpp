@@ -92,7 +92,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -106,7 +106,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -119,7 +119,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -133,7 +133,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -149,7 +149,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::WALKING)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK_STOP);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
