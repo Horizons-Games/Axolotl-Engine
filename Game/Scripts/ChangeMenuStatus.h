@@ -17,6 +17,7 @@ private:
 
 	GameObject* DisableMenu;
 	GameObject* EnableMenu;
+	GameObject* ButtonHover;
 	ComponentButton* buttonComponent;
 };
 
