@@ -17,6 +17,8 @@ public:
 	void PreUpdate(float deltaTime) override {};
 	void Update(float deltaTime) override;
 	void PostUpdate(float deltaTime) override {};
+	virtual void OnCollisionEnter(ComponentRigidBody* other) override {};
+	virtual void OnCollisionExit(ComponentRigidBody* other) override {};
 	void CleanUp() override {};
 
 	const float3& GetVector3() const;

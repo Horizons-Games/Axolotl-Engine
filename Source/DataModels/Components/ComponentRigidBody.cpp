@@ -11,6 +11,8 @@
 #include "debugdraw.h"
 #include <ImGui/imgui.h>
 
+#include "ComponentScript.h"
+
 ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	Component(ComponentType::RIGIDBODY, active, owner, true)
 {
@@ -88,9 +90,12 @@ ComponentRigidBody::~ComponentRigidBody()
 void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 {
 	assert(other);
-	// delegate to notify other components
-	for (auto& delegate : delegateCollisionEnter)
-		delegate(other);
+
+	for (ComponentScript* script : owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+	{
+		script->OnCollisionEnter(other);
+	}
+
 }
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
@@ -101,8 +106,12 @@ void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 {
-	// TODO: Implement delegate for this
 	assert(other);
+
+	for (ComponentScript* script : owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+	{
+		script->OnCollisionExit(other);
+	}
 }
 
 void ComponentRigidBody::OnTransformChanged()
@@ -110,6 +119,11 @@ void ComponentRigidBody::OnTransformChanged()
 #ifdef ENGINE
     if (!App->IsOnPlayMode())
     {
+		/*if (isFromSceneLoad) 
+		{
+			UpdateRigidBodyTranslation();
+			isFromSceneLoad = false;
+		}*/
         UpdateRigidBody();
     }
 #endif
@@ -132,14 +146,16 @@ void ComponentRigidBody::Update()
 		btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
 		float3 centerPoint = transform->GetLocalAABB().CenterPoint();
 		btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
-		transform->SetGlobalPosition({ pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() });
+		float3 newPos = { pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() };
+		newPos -= float3(translation.x(),translation.y(),translation.z());
+		transform->SetGlobalPosition(newPos);
 		transform->RecalculateLocalMatrix();
 		transform->UpdateTransformMatrices();
 	}
 
 	if (usePositionController)
 	{
-		float3 x = transform->GetPosition();
+		float3 x = transform->GetGlobalPosition();
 		float3 positionError = targetPosition - x;
 		float3 velocityPosition = positionError * KpForce;
 
@@ -149,21 +165,19 @@ void ComponentRigidBody::Update()
 
 	if (useRotationController)
 	{
-		btTransform trans;
-		trans = rigidBody->getWorldTransform();
-
-		btQuaternion bulletQ = trans.getRotation();
-		Quat q = Quat(bulletQ.getX(), bulletQ.getY(), bulletQ.getZ(), bulletQ.getW());
-		Quat rotationError = targetRotation * q.Normalized().Inverted();
-		rotationError.Normalize();
+		
+		/*Quat q = transform->GetGlobalRotation();
+		Quat rotationError = targetRotation.Mul(q.Normalized().Inverted());
+		rotationError.Normalize();*/
 
 		float3 axis;
 		float angle;
-		rotationError.ToAxisAngle(axis, angle);
+		targetRotation.ToAxisAngle(axis, angle);
 		axis.Normalize();
 
 		float3 angularVelocity = axis * angle * KpTorque;
-		btVector3 bulletAngularVelocity(angularVelocity.x, angularVelocity.y, angularVelocity.z);
+		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
+		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
 		rigidBody->setAngularVelocity(bulletAngularVelocity);
 	}
 }
@@ -176,9 +190,10 @@ void ComponentRigidBody::SetOwner(GameObject* owner)
 
 void ComponentRigidBody::UpdateRigidBody()
 {
-	btTransform worldTransform;
-	float3 pos = transform->GetGlobalPosition();
-	worldTransform.setOrigin({ pos.x, pos.y, pos.z });
+	btTransform worldTransform = rigidBody->getWorldTransform();
+	float3 transPos = transform->GetGlobalPosition();
+	btVector3 transPosBt = btVector3(transPos.x, transPos.y, transPos.z);
+	worldTransform.setOrigin(transPosBt + translation);
 	Quat rot = transform->GetGlobalRotation();
 	worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
 	rigidBody->setWorldTransform(worldTransform);
@@ -193,6 +208,24 @@ int ComponentRigidBody::GenerateId() const
 
 	return nextId++;
 }
+
+void ComponentRigidBody::SetRigidBodyOrigin(btVector3 origin) 
+{
+    btTransform worldTransform = rigidBody->getWorldTransform();
+    worldTransform.setOrigin(origin);
+    rigidBody->setWorldTransform(worldTransform);
+}
+
+
+void ComponentRigidBody::UpdateRigidBodyTranslation()
+{
+	float3 transPos = transform->GetGlobalPosition();
+	btVector3 transPosBt = btVector3(transPos.x, transPos.y, transPos.z);
+
+	translation = (rigidBody->getWorldTransform().getOrigin() - transPosBt);
+}
+
+
 void ComponentRigidBody::SetUpMobility()
 {
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
@@ -267,9 +300,9 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["type"] = GetNameByType(type).c_str();
 	meta["active"] = static_cast<bool>(active);
 	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
 	meta["isStatic"] = static_cast<bool>(IsStatic());
+	meta["isTrigger"] = static_cast<bool>(IsTrigger());
 	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
 	meta["mass"] = static_cast<float>(GetMass());
 	meta["linearDamping"] = static_cast<float>(GetLinearDamping());
@@ -287,6 +320,9 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["radius"] = static_cast<float>(GetRadius());
 	meta["factor"] = static_cast<float>(GetFactor());
 	meta["height"] = static_cast<float>(GetHeight());
+	/*meta["rbPos_X"] = static_cast<float>(GetRigidBodyOrigin().getX());
+    meta["rbPos_Y"] = static_cast<float>(GetRigidBodyOrigin().getY());
+    meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());*/
 }
 
 void ComponentRigidBody::LoadOptions(Json& meta)
@@ -295,10 +331,10 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = static_cast<bool>(meta["active"]);
 	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
 	SetIsStatic(static_cast<bool>(meta["isStatic"]));
 	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
+	SetIsTrigger(static_cast<bool>(meta["isTrigger"]));
 	SetMass(static_cast<float>(meta["mass"]));
 	SetLinearDamping(static_cast<float>(meta["linearDamping"]));
 	SetAngularDamping(static_cast<float>(meta["angularDamping"]));
@@ -312,7 +348,8 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetRadius(static_cast<float>(meta["radius"]));
 	SetFactor(static_cast<float>(meta["factor"]));
 	SetHeight(static_cast<float>(meta["height"]));
-
+	//SetRigidBodyOrigin({ static_cast<float>(meta["rbPos_X"]), static_cast<float>(meta["rbPos_Y"]), static_cast<float>(meta["rbPos_Z"]) });
+	
 	int currentShape = static_cast<int>(meta["currentShape"]);
 
 	if (currentShape != 0)
@@ -342,6 +379,10 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
+void ComponentRigidBody::ClearCollisionEnterDelegate()
+{
+    delegateCollisionEnter.clear();
+}
 void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
 {
 	drawCollider = newDrawCollider;
@@ -373,14 +414,41 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 			boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
 			break;
 		case Shape::SPHERE:
-			break;
-		case Shape::CONE:
 			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 			factor = 0.5f;
+			break;
 		case Shape::CAPSULE:
 			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 			height = 2.0f;
 			break;
+		case Shape::CONE:
+			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
+			height = 2.0f;
+			break;
 	}
+
+	SetCollisionShape(resetShape);
 	// WIP: reset 5th shape
+}
+
+void ComponentRigidBody::SetIsTrigger(bool newTrigger)
+{
+	isTrigger = newTrigger;
+	if (newTrigger)
+	{
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CO_GHOST_OBJECT);
+	}
+	else
+	{
+		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CO_GHOST_OBJECT);
+	}
+}
+
+void ComponentRigidBody::SetDefaultPosition()
+{
+	float3 transPos = transform->GetGlobalPosition();
+	btVector3 transPosBt = btVector3(transPos.x, transPos.y, transPos.z);
+	SetRigidBodyOrigin(transPosBt);
+	UpdateRigidBodyTranslation();
+	UpdateRigidBody();
 }
