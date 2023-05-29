@@ -2,7 +2,7 @@
     "UID": 15968547123337228130,
     "Type": "StateMachine",
     "ResourcesAssetPaths": [
-        "Assets/Animation/g_Door2Low.Armature.001_Open.anim",
-        "Assets/Animation/g_Door2Low.Armature.001_Closed.anim"
+        "Assets/Animation/Sewers_Door.Armature.001_Open.anim",
+        "Assets/Animation/Sewers_Door.Armature.001_Closed.anim"
     ]
 }
