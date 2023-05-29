@@ -1,43 +1,40 @@
 #pragma once
 
-#include "Scripting\Script.h"
+#include "Script.h"
 
-// Little fix until we could check if an audio is being reproduced
+class ComponentAudioSource;
+class ComponentAnimation;
+class ComponentTransform;
+
 enum class PlayerActions
 {
-	IDLE,
-	WALKING
+    IDLE,
+    WALKING
 };
-
-class ComponentPlayer;
-class ComponentTransform;
-class ComponentAudioSource;
 
 class PlayerMoveScript :
     public Script
 {
 public:
-	PlayerMoveScript();
-	~PlayerMoveScript() override = default;
 
-	void Start() override;
-	void PreUpdate(float deltaTime) override;
+    PlayerMoveScript();
+
+    void Start() override;
+    void PreUpdate(float deltaTime) override;
+
+    void Move(float deltaTime);
 
 private:
-	void Move();
+    ComponentTransform* componentTransform;
+    ComponentAudioSource* componentAudio;
+    ComponentAnimation* componentAnimation;
+    PlayerActions playerState;
 
-private:
-	ComponentTransform* componentTransform;
+    float speed;
+    float dashForce;
+    float nextDash;
+    bool isDashing;
+    bool canDash;
 
-	float speed;
-	float jumpParameter;
-	float dashForce;
-	float nextDash;
-	bool canDash;
-	bool canDoubleJump;
-	bool isCrouch;
-	unsigned int jumps;
-
-	ComponentAudioSource* componentAudio;
-	PlayerActions playerState;
 };
+

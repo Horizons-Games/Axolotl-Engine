@@ -1,0 +1,19 @@
+{
+    "UID": 12228232202748777817,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+        "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+        "Assets/Meshes/Sewers_Door.Cube.018_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Sewers_DoorMaterial_0.mat",
+        "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat",
+        "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/Sewers_Door.Open.anim",
+        "Assets/Animation/Sewers_Door.Armature.001_Closed.anim",
+        "Assets/Animation/Sewers_Door.Armature.001_Open.anim"
+    ]
+}

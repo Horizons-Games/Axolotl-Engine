@@ -1,22 +1,15 @@
 #pragma once
 #include "Script.h"
-
-class ComponentTransform;
-
 class PlayerRotationScript :
     public Script
 {
 public:
-	PlayerRotationScript();
-	~PlayerRotationScript() override = default;
 
-	void Start() override;
-	void PreUpdate(float deltaTime) override;
+    PlayerRotationScript();
 
-private:
-	void Rotate();
+    void PreUpdate(float deltaTime) override;
 
 private:
-	ComponentTransform* componentTransform;
+    void Rotation(float deltaTime);
 };
 

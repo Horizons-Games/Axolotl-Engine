@@ -1,32 +1,21 @@
 #include "PlayerMoveScript.h"
 
-#include "Application.h"
 #include "ModuleInput.h"
-#include "ModuleCamera.h"
-#include "ModuleScene.h"
 
-#include "Scene/Scene.h"
-
-#include "Components/ComponentScript.h"
-#include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
 
-#include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
-PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
-										componentAudio(nullptr), playerState(PlayerActions::IDLE),
-										speed(6.0f),
-										jumpParameter(80.0f), dashForce(50.0f), canDash(true),
-										canDoubleJump(true), jumps(0), isCrouch(false),
-										nextDash(0)
+PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
+componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
+dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
 {
 	REGISTER_FIELD(speed, float);
-	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
 }
@@ -35,114 +24,32 @@ void PlayerMoveScript::Start()
 {
 	componentTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-
-	if (canDoubleJump)
-	{
-		jumps = 2;
-	}
-	else
-	{
-		jumps = 1;
-	}
+	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	Move();
+	Move(deltaTime);
 }
 
-void PlayerMoveScript::Move()
+void PlayerMoveScript::Move(float deltaTime)
 {
-	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
-
-	ComponentMeshCollider* collider = static_cast<ComponentMeshCollider*>(owner->GetComponent(ComponentType::MESHCOLLIDER));
 	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-
-	math::vec points[8];
-	componentTransform->GetObjectOBB().GetCornerPoints(points);
-	std::vector<float3> bottomPoints = { points[0], points[1], points[4], points[5] };
-
-	float3 direction = (points[1] - points[0]).Normalized();
-	float3 sideDirection = (points[0] - points[4]).Normalized();
-	float3 verticalDirection = float3::unitY;
-
-	RaycastHit hit;
-
-	float forceParameter = 50.0f;
-
-	float size = 0.0f;
-	float sizeForce = 0.0f;
-	float sizeJump = 0.0f;
-
-	float3 jumpVector = float3::unitY;
-	float3 forceVector = float3::zero;
-
-	size = speed * deltaTime * 1.1f;
-
-	// Dash pressing E during 0.2 sec
 	ModuleInput* input = App->GetModule<ModuleInput>();
-	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && canDash)
-	{
-		sizeForce = deltaTime * dashForce;
-		if (nextDash == 0)
-		{
-			nextDash = static_cast<float>(SDL_GetTicks()) + 200.0f;
-		}
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
-		if (nextDash < SDL_GetTicks())
-		{
-			canDash = false;
-			nextDash += 5000;
-		}
-	}
+	btVector3 movement(0, 0, 0);
+	float3 totalDirection = float3::zero;
+	
+	float nspeed = speed;
+	bool shiftPressed = false;
 
-	// Cooldown Dash
-	if (nextDash > 0 && nextDash < SDL_GetTicks())
-	{
-		canDash = true;
-		nextDash = 0;
-	}
-
-	// Run, duplicate the speed
+	//run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
-		size *= 2;
-	}
-
-	// Crouch
-	if (input->GetKey(SDL_SCANCODE_LCTRL) != KeyState::IDLE && !isCrouch)
-	{
-		isCrouch = true;
-		componentTransform->SetScale(componentTransform->GetScale() / 2);
-		GameObject::GameObjectView children = owner->GetChildren();
-		for (auto child : children)
-		{
-			if (child->GetComponent(ComponentType::CAMERA))
-			{
-				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-				childTrans->SetScale(childTrans->GetScale() * 2);
-			}
-
-		}
-		size /= 4.f;
-	}
-	else if (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::IDLE && isCrouch)
-	{
-		isCrouch = false;
-		componentTransform->SetScale(componentTransform->GetScale() * 2);
-		GameObject::GameObjectView children = owner->GetChildren();
-		for (auto child : children)
-		{
-			if (child->GetComponent(ComponentType::CAMERA))
-			{
-				ComponentTransform* childTrans = static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-				childTrans->SetScale(childTrans->GetScale() / 2);
-			}
-		}
-	}
-	else if (isCrouch)
-	{
-		size /= 4.f;
+		nspeed *= 2;
+		shiftPressed = true;
 	}
 
 	// Forward
@@ -151,104 +58,25 @@ void PlayerMoveScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		forceVector += direction;
-		jumpVector += componentTransform->GetGlobalForward().Normalized();
+		totalDirection += componentTransform->GetLocalForward().Normalized();
 
-		if (sizeForce == 0.0f)
-		{
-			forceVector += -direction;
-		}
-		if (sizeJump == 0.0f)
-		{
-			jumpVector += -componentTransform->GetGlobalForward().Normalized();
-		}
-
-		if (!collider->Move(Direction::FRONT, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
-		{
-			if (sizeForce != 0.0f)
-			{
-				forceVector += -direction;
-			}
-			if (sizeJump != 0.0f)
-			{
-				jumpVector += -componentTransform->GetGlobalForward().Normalized();
-			}
-		}
 	}
 
-	// Backward
+	// Back
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
+		totalDirection += -componentTransform->GetLocalForward().Normalized();
 
-		forceVector += -direction;
-		jumpVector += -componentTransform->GetGlobalForward().Normalized();
-
-		if (sizeForce == 0.0f)
-		{
-			forceVector += direction;
-		}
-
-		if (sizeJump == 0.0f)
-		{
-			jumpVector += componentTransform->GetGlobalForward().Normalized();
-		}
-
-		if (!collider->Move(Direction::BACK, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
-		{
-			if (sizeForce != 0.0f)
-			{
-				forceVector += direction;
-			}
-
-			if (sizeJump != 0.0f)
-			{
-				jumpVector += componentTransform->GetGlobalForward().Normalized();
-			}
-		}
-	}
-
-	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
-	{
-		if (playerState == PlayerActions::IDLE)
-		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			playerState = PlayerActions::WALKING;
-		}
-
-		forceVector += -sideDirection;
-		jumpVector += -componentTransform->GetGlobalRight().Normalized();
-
-		if (sizeForce == 0.0f)
-		{
-			forceVector += sideDirection;
-		}
-
-		if (sizeJump == 0.0f)
-		{
-			jumpVector += componentTransform->GetGlobalRight().Normalized();
-		}
-
-		if (!collider->Move(Direction::LEFT, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
-		{
-			if (sizeForce != 0.0f)
-			{
-				forceVector += sideDirection;
-			}
-
-			if (sizeJump != 0.0f)
-			{
-				jumpVector += componentTransform->GetGlobalRight().Normalized();;
-			}
-		}
 	}
 
 	// Right
@@ -257,37 +85,33 @@ void PlayerMoveScript::Move()
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		forceVector += sideDirection;
-		jumpVector += -componentTransform->GetGlobalRight().Normalized();
+		totalDirection += -componentTransform->GetGlobalRight().Normalized();
 
-		if (sizeForce == 0.0f)
-		{
-			forceVector += -sideDirection;
-		}
-
-		if (sizeJump == 0.0f)
-		{
-			jumpVector += componentTransform->GetGlobalRight().Normalized();
-		}
-
-		if (!collider->Move(Direction::RIGHT, size + sizeForce + sizeJump, componentTransform->GetLocalAABB().Size().y * 0.5f))
-		{
-			if (sizeForce != 0.0f)
-			{
-				forceVector += -sideDirection;
-			}
-
-			if (sizeJump != 0.0f)
-			{
-				jumpVector += componentTransform->GetGlobalRight().Normalized();
-			}
-		}
 	}
 
-	// No movement input
+	// Left
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	{
+		if (playerState == PlayerActions::IDLE)
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
+			playerState = PlayerActions::WALKING;
+		}
+
+		totalDirection += componentTransform->GetGlobalRight().Normalized();
+	}
+
+	if (!totalDirection.IsZero())
+	{
+		totalDirection = totalDirection.Normalized();
+		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
+	}
+
 	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
 		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
 		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
@@ -296,54 +120,56 @@ void PlayerMoveScript::Move()
 		if (playerState == PlayerActions::WALKING)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
 	}
-
-	//rigidBody->AddForce(forceVector * forceParameter);
-
-	// Jump
-	/*if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
+		
+	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
 	{
-		sizeJump = deltaTime * jumpParameter;
-		jumps -= 1;
-		if (rigidBody->IsOnGround() || jumps > 0)
+		if (!isDashing)
 		{
-			rigidBody->AddForce(jumpVector * jumpParameter, ForceMode::Acceleration);
+			if (!movement.isZero()) 
+			{
+				if (shiftPressed)
+				{
+					movement /= 2;
+				}
+				btRb->setLinearVelocity(movement);
+				btRb->applyCentralImpulse(movement.normalized() * dashForce);
+				isDashing = true;
+			}
 		}
 
-	}
-
-	// Control Double Jump
-	if (rigidBody->IsOnGround() && canDoubleJump)
-	{
-		jumps = 2;
-	}
-	else if (rigidBody->IsOnGround() && !canDoubleJump)
-	{
-		jumps = 1;
-	}
-
-
-	componentTransform->UpdateTransformMatrices();
-
-	//bottom
-	float maxHeight = -math::inf;
-
-	std::vector<float3> extraPoints;
-	collider->GetMinMaxPoints(bottomPoints, extraPoints, 0);
-	for (float3 bottomPoint : extraPoints)
-	{
-		bottomPoint.y += math::Abs(componentTransform->GetEncapsuledAABB().MinY() - componentTransform->GetPosition().y) / 5;
-		Ray ray(bottomPoint, -float3::unitY);
-		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
-		bool hasHit = Physics::Raycast(line, hit, owner);
-
-		if (hasHit && hit.hitPoint.y > maxHeight)
+		if (nextDash == 0)
 		{
-			maxHeight = hit.hitPoint.y;
+			canDash = false;
+			nextDash = 3000 + static_cast<float>(SDL_GetTicks());
+		}
+	}
+	else
+	{
+		btVector3 currentVelocity = btRb->getLinearVelocity();
+		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
+
+		if (!isDashing)
+		{
+			btRb->setLinearVelocity(newVelocity);
+		}
+		else
+		{
+			if (math::Abs(currentVelocity.getX()) < dashForce/100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+			{
+				btRb->setLinearVelocity(newVelocity);
+				isDashing = false;
+			}
 		}
 	}
 
-	rigidBody->SetBottomHitPoint(maxHeight);*/
+	// Cooldown Dash
+	if (nextDash != 0 && nextDash < SDL_GetTicks())
+	{
+		canDash = true;
+		nextDash = 0;
+	}
 }
