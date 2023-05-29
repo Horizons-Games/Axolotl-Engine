@@ -128,6 +128,31 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::VECTOR:
 			{
+				Field<std::vector<std::any>>& vectorField = std::get<Field<std::vector<std::any>>>(member);
+				std::vector<std::any> value = vectorField.getter();
+				ENGINE_LOG("Es un VECTOR");
+				for (const auto& elem : value)
+				{
+					if (elem.type() == typeid(float))
+					{
+						ENGINE_LOG("Es un FLOAT");
+						// Handle float elements
+						float floatValue = std::any_cast<float>(elem);
+						if (ImGui::DragFloat3(vectorField.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+										{
+											vectorField.setter(value1);
+										}
+					}
+					else if (elem.type() == typeid(std::string))
+					{
+						// Handle string elements
+						std::string stringValue = std::any_cast<std::string>(elem);
+						// Process the string value accordingly
+					}
+					// Add more type checks for other supported types
+
+					// ...
+				}
 				//std::visit([](auto& member) {
 				//	using T = std::decay_t<decltype(member)>;
 				//	ENGINE_LOG("Type of member: %s", typeid(T).name());
