@@ -8,6 +8,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentAnimation.h"
 #include "DataModels/Camera/CameraGameObject.h"
 
 #include "Scene/Scene.h"
@@ -25,7 +26,7 @@ REGISTERCLASS(PlayerForceUseScript);
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forzable"), distancePointGameObjectAttached(0.0f),
 maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), 
-currentTimeForce(0.0f), breakForce(false)
+currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -37,6 +38,8 @@ PlayerForceUseScript::~PlayerForceUseScript()
 
 void PlayerForceUseScript::Start()
 {
+	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+
 	currentTimeForce = maxTimeForce;
 
 	std::vector<ComponentScript*> gameObjectScripts =
@@ -66,11 +69,12 @@ void PlayerForceUseScript::Start()
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	ModuleInput* input = App->GetModule<ModuleInput>();
-	ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	const ModuleInput* input = App->GetModule<ModuleInput>();
+	const ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
+		//componentAnimation->SetParameter("IsUsingForce", true);
 		RaycastHit hit;
 		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
@@ -120,6 +124,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 		|| currentTimeForce < 0.0f 
 		|| breakForce)
 	{
+		//componentAnimation->SetParameter("IsUsingForce", false);
+
 		ComponentRigidBody* rigidBody = 
 			static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 		gameObjectAttached = nullptr;
