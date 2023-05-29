@@ -32,4 +32,7 @@ private:
 
 	std::unique_ptr<GameObject> copyObject;
 	bool objectHasBeenCut;
+
+	// this is the second time I add such a member, this should be standardized in a module
+	GameObject* lastSelectedGameObject;
 };

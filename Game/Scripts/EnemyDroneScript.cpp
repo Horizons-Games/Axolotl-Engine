@@ -47,13 +47,13 @@ void EnemyDroneScript::Update(float deltaTime)
 		ComponentTransform* seekTargetTransform =
 			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
+		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), 5.0f)
 			&& droneState != DroneBehaviours::SEEK)
 		{
 			droneState = DroneBehaviours::SEEK;
 		}
 
-		else if (!ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), 5.0f)
+		else if (!ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), 5.0f)
 			&& droneState != DroneBehaviours::PATROL)
 		{
 			droneState = DroneBehaviours::PATROL;

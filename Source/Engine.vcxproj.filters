@@ -340,9 +340,6 @@
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -382,8 +379,32 @@
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
-    <ClCompile Include="moveale.cpp">
+    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
       <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleAudio.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentBreakable.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentCubemap.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -719,9 +740,6 @@
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -742,9 +760,6 @@
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
-      <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
@@ -770,8 +785,36 @@
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
-    <ClInclude Include="moveale.h">
+    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
       <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Audio\AudioData.h">
+      <Filter>Auxiliar\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentBreakable.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentCubemap.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -867,6 +910,9 @@
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Audio">
+      <UniqueIdentifier>{31a144c8-77e2-4122-82e4-529826c280dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1146,7 +1192,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleAudio.cpp" />
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -1866,8 +1911,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h" />
-    <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>

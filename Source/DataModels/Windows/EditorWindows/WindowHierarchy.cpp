@@ -14,7 +14,7 @@
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false)
+WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false), lastSelectedGameObject()
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -33,6 +33,8 @@ void WindowHierarchy::DrawWindowContents()
 	{
 		ProcessInput();
 	}
+
+	lastSelectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 }
 
 bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
@@ -50,23 +52,19 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
 	GameObject::GameObjectView children = gameObject->GetChildren();
-
 	if (gameObject == loadedScene->GetRoot())
 	{
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
 	}
-	else
+	else if (children.empty())
 	{
-		if (children.empty())
-		{
-			flags |= ImGuiTreeNodeFlags_Leaf;
-		}
+		flags |= ImGuiTreeNodeFlags_Leaf;
+	}
 
-		if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED &&
-			StateOfSelection::SELECTED == moduleScene->GetSelectedGameObject()->GetStateOfSelection())
-		{
-			ImGui::SetNextItemOpen(true);
-		}
+	if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED &&
+		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	{
+		ImGui::SetNextItemOpen(true);
 	}
 
 	if (gameObject == moduleScene->GetSelectedGameObject())
@@ -79,12 +77,10 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 	ImGui::PopStyleColor();
 
 	ImGui::PushID(gameObjectLabel);
-	if ((ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
-		 ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)) ||
-		(ImGui::IsMouseReleased(ImGuiMouseButton_Right) &&
-		 ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
+	if ((ImGui::IsMouseReleased(ImGuiMouseButton_Left) || ImGui::IsMouseReleased(ImGuiMouseButton_Right)) &&
+		ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
 	{
-		moduleScene->ChangeSelectedGameObject(gameObject);
+		moduleScene->SetSelectedGameObject(gameObject);
 	}
 
 	if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))

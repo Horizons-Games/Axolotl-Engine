@@ -81,9 +81,8 @@ update_status ModulePhysics::PreUpdate()
 	}
 
 #else
-	dynamicsWorld->stepSimulation(App->GetDeltaTime(), 10);
-	ManageCollisions();
-
+    dynamicsWorld->stepSimulation(App->GetDeltaTime());
+    ManageCollisions();
 #endif
 
 	return update_status::UPDATE_CONTINUE;
@@ -141,6 +140,7 @@ void ModulePhysics::ManageCollisions()
 					if (collisions.find(key) == collisions.end())
 					{
 						rb->OnCollisionEnter(other);
+						other->OnCollisionEnter(rb);
 					}
 					else
 					{
@@ -171,6 +171,7 @@ void ModulePhysics::ManageCollisions()
 		if (!result.collisionDetected)
 		{
 			rb->OnCollisionExit(other);
+			other->OnCollisionExit(rb);
 			it = collisions.erase(it);
 		}
 		else
