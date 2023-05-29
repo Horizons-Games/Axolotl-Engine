@@ -177,6 +177,7 @@
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageControl.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
@@ -493,6 +494,7 @@
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
+    <ClInclude Include="..\Game\Scripts\UIGameStates.h" />
     <ClInclude Include="..\Game\Scripts\UIImageControl.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
