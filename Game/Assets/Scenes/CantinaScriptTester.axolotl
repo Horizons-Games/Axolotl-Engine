@@ -39973,7 +39973,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerRotationScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivity",
+                                    "value": 50.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]
@@ -41485,7 +41491,99 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerCameraRotationVerticalScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivity",
+                                    "value": 50.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerForceUseScript",
+                            "fields": [
+                                {
+                                    "name": "MaxDistanceForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "Forzable",
+                "uid": 2406161276137074145,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 99.26419830322266,
+                            "localPos_Y": 1.3773088455200195,
+                            "localPos_Z": 23.79572296142578,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.0,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 1.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0
                         }
                     }
                 ]
