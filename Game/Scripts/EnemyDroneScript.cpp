@@ -55,13 +55,13 @@ void EnemyDroneScript::Update(float deltaTime)
 			patrolScript->StartPatrol();
 		}
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), seekDistance)
+		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance)
 			&& droneState != DroneBehaviours::SEEK)
 		{
 			droneState = DroneBehaviours::SEEK;
 		}
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetPosition(), attackDistance)
+		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
 			&& droneState != DroneBehaviours::ATTACK)
 		{
 			droneState = DroneBehaviours::ATTACK;

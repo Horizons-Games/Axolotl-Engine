@@ -33,11 +33,11 @@ void PatrolBehaviourScript::StartPatrol() const
 {
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
-		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
+		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
 		ownerRigidBody->SetKpForce(1.5f);
 		
 		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
-				(wayPointOneTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
+				(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 		ownerRigidBody->SetRotationTarget(targetRotation);
 		ownerRigidBody->SetKpTorque(15.0f);
 	}
@@ -47,21 +47,21 @@ void PatrolBehaviourScript::StartPatrol() const
 // (This can be modularized into any amout of waypoints once the scripts can accept vectors)
 void PatrolBehaviourScript::Patrolling() const
 {
-	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
+	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 1.0f))
 	{
-		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
+		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetGlobalPosition());
 		
 		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
-			(wayPointTwoTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
+			(wayPointTwoTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 		ownerRigidBody->SetRotationTarget(targetRotation);
 	}
 
-	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
+	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 1.0f))
 	{
-		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
+		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
 		
 		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
-			(wayPointOneTransform->GetPosition() - ownerTransform->GetPosition()).Normalized());
+			(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 		ownerRigidBody->SetRotationTarget(targetRotation);
 	}
 }

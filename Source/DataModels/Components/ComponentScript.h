@@ -5,6 +5,8 @@
 class Json;
 class IScript;
 
+class ComponentRigidBody;
+
 class ComponentScript : public Component, public Updatable
 {
 public:
@@ -17,12 +19,18 @@ public:
 	virtual void PreUpdate() override;
 	virtual void Update() override;
 	virtual void PostUpdate() override;
+
+	void OnCollisionEnter(ComponentRigidBody* other);
+	void OnCollisionExit(ComponentRigidBody* other);
+
 	virtual void CleanUp();
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
 	std::string GetConstructName() const;
+
+	
 
 	void SetConstuctor(const std::string& constructor);
 	void SetScript(IScript* script);
