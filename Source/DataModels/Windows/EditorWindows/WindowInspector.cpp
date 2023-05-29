@@ -103,6 +103,14 @@ WindowInspector::WindowInspector() :
 		},
 		ComponentFunctionality::GAMEPLAY));
 
+	actions.push_back(AddComponentAction("Create Breakable Component",
+		std::bind(&WindowInspector::AddComponentBreakable, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::BREAKABLE);
+		},
+		ComponentFunctionality::PHYSICS));
+
 	std::sort(std::begin(actions), std::end(actions));
 }
 
@@ -422,4 +430,9 @@ void WindowInspector::AddComponentMeshCollider()
 void WindowInspector::AddComponentScript()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
+}
+
+void WindowInspector::AddComponentBreakable()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
 }

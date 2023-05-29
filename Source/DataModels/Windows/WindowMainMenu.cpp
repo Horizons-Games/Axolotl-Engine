@@ -1,4 +1,5 @@
 #include "WindowMainMenu.h"
+
 #include "Application.h"
 #include "Auxiliar/GameBuilder.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
@@ -91,7 +92,7 @@ void WindowMainMenu::DrawPopup()
 	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 
-	if (ImGui::BeginPopupModal("Are you sure?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("Are you sure?", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("Do you want to save the scene?\nAll your changes will be lost if you don't save them.");
 		ImGui::Separator();
@@ -113,6 +114,13 @@ void WindowMainMenu::DrawPopup()
 			openPopup = false;
 			ImGui::CloseCurrentPopup();
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel"))
+		{
+			isSaving = false;
+			openPopup = false;
+			action = Actions::NONE;
+		}
 		ImGui::EndPopup();
 	}
 }
@@ -120,6 +128,12 @@ void WindowMainMenu::DrawPopup()
 void WindowMainMenu::DrawFileMenu()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
+
+	bool onPlayMode = App->IsOnPlayMode();
+	if (onPlayMode)
+	{
+		ImGui::BeginDisabled();
+	}
 
 	if (ImGui::BeginMenu("File"))
 	{
@@ -147,6 +161,11 @@ void WindowMainMenu::DrawFileMenu()
 			action = Actions::EXIT;
 		}
 		ImGui::EndMenu();
+	}
+
+	if (onPlayMode)
+	{
+		ImGui::EndDisabled();
 	}
 }
 

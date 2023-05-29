@@ -10,8 +10,9 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/ComponentAnimation.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/Component.h"
+#include "Components/ComponentScript.h"
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -19,11 +20,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 
-#include "Components/Component.h"
-#include "Components/ComponentCamera.h"
-#include "Components/ComponentLight.h"
-#include "Components/ComponentScript.h"
-#include "Components/UI/ComponentCanvas.h"
+
+
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -176,8 +174,11 @@ void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 
 void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
-	gameObject->SetParentAsChildSelected();
+	AddGameObjectAndChildren(selectedGameObject);
+	selectedGameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
 	selectedGameObject = gameObject;
+	selectedGameObject->SetStateOfSelection(StateOfSelection::SELECTED);
+	RemoveGameObjectAndChildren(selectedGameObject);
 }
 
 void ModuleScene::OnPlay()
@@ -411,6 +412,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	}
 
 	loadedScene->InitLights();
+	loadedScene->InitCubemap();
 }
 
 void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
@@ -429,16 +431,6 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 			}
 		}
 	}
-}
-
-/*
-This have the same functionality as SetSelectedGameObject but implies changes in the quadtree
-*/
-void ModuleScene::ChangeSelectedGameObject(GameObject* gameObject)
-{
-	AddGameObjectAndChildren(selectedGameObject);
-	selectedGameObject = gameObject;
-	RemoveGameObjectAndChildren(selectedGameObject);
 }
 
 std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy)
