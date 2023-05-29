@@ -103,6 +103,15 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 13450203144240708209,
+                            "assetPathState": "Assets/StateMachine/BixAnimationController.state"
+                        }
                     }
                 ]
             }
