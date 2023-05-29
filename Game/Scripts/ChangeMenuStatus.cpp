@@ -2,6 +2,7 @@
 
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
+#include "ModuleInput.h"
 
 
 REGISTERCLASS(ChangeMenuStatus);
@@ -21,18 +22,63 @@ void ChangeMenuStatus::Start()
 
 void ChangeMenuStatus::Update(float deltaTime)
 {
-	if (buttonComponent->IsClicked() && DisableMenu != nullptr && EnableMenu!= nullptr)
-	{
-		DisableMenu->Disable();
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	
+	/*if (buttonComponent->IsClicked() && EnableMenu != nullptr && DisableMenu != nullptr)
+	{	
 		EnableMenu->Enable();
-	}
+		DisableMenu->Disable();
 
-	if (buttonComponent->IsHovered() && ButtonHover != nullptr)
+		if (EnableMenu != nullptr)
+		{
+			EnableMenu->Enable(); 
+		}
+		
+		if (DisableMenu != nullptr)
+		{
+			DisableMenu->Disable();
+		}
+	}*/
+
+	if (ButtonHover != nullptr)
 	{
-		ButtonHover->Enable();
+		if (buttonComponent->IsHovered())
+		{
+			ButtonHover->Enable();
+		}
+		if (!buttonComponent->IsHovered())
+		{
+			ButtonHover->Disable();
+		}
 	}
-	if (!buttonComponent->IsHovered() && ButtonHover != nullptr)
+	if (EnableMenu != nullptr)
 	{
-		ButtonHover->Disable();
+		if (forceStatus != true)
+		{
+			if (input->GetKey(SDL_SCANCODE_P) == KeyState::DOWN)
+			{
+				forceTimer = deltaTime + 5.f;
+				forceStatus = true;
+				EnableMenu->Enable();
+			}
+		}
+		else if (forceTimer == deltaTime)
+		{
+			forceTimer = 0;
+			forceStatus = false;
+			EnableMenu->Disable();
+		}
 	}
+	/*
+	if (EnableMenu != nullptr)
+	{
+		if (input->GetKey(SDL_SCANCODE_P) == KeyState::DOWN)
+		{
+			EnableMenu->Enable();
+		}
+		if (input->GetKey(SDL_SCANCODE_M) == KeyState::DOWN)
+		{
+			EnableMenu->Disable();
+		}
+	}*/
 }

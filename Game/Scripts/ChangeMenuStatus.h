@@ -14,11 +14,14 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	float forceTimer = 0;
+	bool forceStatus = false;
 
 	GameObject* DisableMenu;
 	GameObject* EnableMenu;
 	GameObject* ButtonHover;
 	ComponentButton* buttonComponent;
+	ModuleInput* input;
 };
 
 
