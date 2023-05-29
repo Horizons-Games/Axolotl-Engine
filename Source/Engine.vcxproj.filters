@@ -382,6 +382,9 @@
     <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
@@ -798,6 +801,10 @@
     <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
@@ -928,6 +935,9 @@
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Level">
+      <UniqueIdentifier>{baa08fe2-1b03-4716-a1e9-9cb01a6070fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Auxiliar\Audio">
       <UniqueIdentifier>{31a144c8-77e2-4122-82e4-529826c280dd}</UniqueIdentifier>
