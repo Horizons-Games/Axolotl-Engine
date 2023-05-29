@@ -3,6 +3,8 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "debugdraw.h"
+
 REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
@@ -36,8 +38,13 @@ void PatrolBehaviourScript::StartPatrol() const
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
 		ownerRigidBody->SetKpForce(1.5f);
 		
-		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+		Quat targetRotation =
+			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 				(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+
+		dd::arrow(ownerTransform->GetGlobalPosition(),
+			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointOneTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
 		ownerRigidBody->SetRotationTarget(targetRotation);
 		ownerRigidBody->SetKpTorque(15.0f);
 	}
@@ -51,17 +58,29 @@ void PatrolBehaviourScript::Patrolling() const
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetGlobalPosition());
 		
-		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
-			(wayPointTwoTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+		Quat targetRotation =
+			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+				(wayPointTwoTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+
+		dd::arrow(ownerTransform->GetGlobalPosition(),
+			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointTwoTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
 		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
 
 	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 1.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
 		
-		Quat targetRotation = Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
-			(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+		Quat targetRotation =
+			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+				(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+
+		dd::arrow(ownerTransform->GetGlobalPosition(),
+			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointOneTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
 		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
 }
