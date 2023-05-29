@@ -25,14 +25,18 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
-#include <stack>
 
 #include "DataStructures/Quadtree.h"
+
+#include "Scripting/IScript.h"
+
+#include <stack>
 
 Scene::Scene() :
 	root(nullptr),
@@ -250,10 +254,15 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
-	RemoveFatherAndChildren(gameObject);
-	rootQuadtree->RemoveGameObjectAndChildren(gameObject);
-	RemoveNonStaticObject(gameObject);
-	delete gameObject->GetParent()->UnlinkChild(gameObject);
+	pendingCreateAndDeleteActions.emplace(
+		[=]
+		{
+			RemoveFatherAndChildren(gameObject);
+			rootQuadtree->RemoveGameObjectAndChildren(gameObject);
+			RemoveNonStaticObject(gameObject);
+			RemoveGameObjectFromScripts(gameObject);
+			delete gameObject->GetParent()->UnlinkChild(gameObject);
+		});
 }
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
@@ -508,6 +517,66 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 						   std::end(sceneGameObjects));
 }
 
+// This function is quite complex, but it's the best I could come up with without heavily refactoring the way
+// scripts and game objects work. I considered having the game object store a reference to the fields that reference it
+// so it can remove itself in its destructor. But that has a problem the other way around:
+// if the script is deleted before the game object, the object will have references to garbage memory
+void Scene::RemoveGameObjectFromScripts(const GameObject* gameObject)
+{
+	// This is a view of all the vectors of fields in all scripts
+	// Basically, a vector of vectors of TypeFieldPair
+	auto allFields = sceneUpdatableObjects |
+					 // cast all updatables to ComponentScript
+					 std::views::transform(
+						 [](Updatable* updatable)
+						 {
+							 return dynamic_cast<ComponentScript*>(updatable);
+						 }) |
+					 // remove null values (those objects that could not be cast)
+					 // and those that don't have a script object
+					 std::views::filter(
+						 [](const ComponentScript* script)
+						 {
+							 return script != nullptr && script->GetScript() != nullptr;
+						 }) |
+					 // get all the fields of all scripts
+					 std::views::transform(
+						 [](ComponentScript* script)
+						 {
+							 return script->GetScript()->GetFields();
+						 });
+	// this is a view to all Fields that hold a reference to the game object
+	auto allReferencesToGameObject =
+		// first, flatten the previous view
+		// so, convert a vector of vectors to a single vector
+		// visual studio shows a compiler error here, but it actually compiles fine
+		std::ranges::join_view(allFields) |
+		// only take the fields that hold a reference to the game object
+		// this has a potential issue of calling the getter at unexpected times. Depending on
+		// the logic that might need to be added to the getters, this might not become a viable option
+		std::views::filter(
+			[gameObject](const TypeFieldPair& pair)
+			{
+				if (pair.first != FieldType::GAMEOBJECT)
+				{
+					return false;
+				}
+				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(pair.second);
+				return gameObjectField.getter() == gameObject;
+			}) |
+		// for ease of use, convert the vector to one of game object fields
+		std::views::transform(
+			[](const TypeFieldPair& pair)
+			{
+				return std::get<Field<GameObject*>>(pair.second);
+			});
+	// now iterate the view and set all objects to nullptr. voila!
+	for (const Field<GameObject*>& referenceToObject : allReferencesToGameObject)
+	{
+		referenceToObject.setter(nullptr);
+	}
+}
+
 void Scene::GenerateLights()
 {
 	// Directional
@@ -681,7 +750,7 @@ void Scene::InitNewEmptyScene()
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
-	
+
 	if (root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
 	{
 		root.get()->CreateComponent(ComponentType::CUBEMAP);
@@ -800,8 +869,18 @@ void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 
 void Scene::InitCubemap()
 {
-	if(root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
+	if (root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
 	{
 		root.get()->CreateComponent(ComponentType::CUBEMAP);
+	}
+}
+
+void Scene::ExecutePendingActions()
+{
+	while (!pendingCreateAndDeleteActions.empty())
+	{
+		std::function<void(void)> action = pendingCreateAndDeleteActions.front();
+		action();
+		pendingCreateAndDeleteActions.pop();
 	}
 }
