@@ -103,20 +103,25 @@ void PlayerForceUseScript::Update(float deltaTime)
 				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 2.0f);
 			}
 
-			if (rotationVerticalScript)
+			if (moveScript)
 			{
 				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
 				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
 			}
 
-			ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+			ComponentRigidBody* rigidBody = 
+				static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
 		}
 	}
-	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE && gameObjectAttached) || currentTimeForce < 0.0f || breakForce)
+	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE 
+		&& gameObjectAttached) 
+		|| currentTimeForce < 0.0f 
+		|| breakForce)
 	{
-		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+		ComponentRigidBody* rigidBody = 
+			static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();

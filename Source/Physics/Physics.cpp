@@ -131,7 +131,8 @@ bool Physics::RaycastToTag(const LineSegment& ray, RaycastHit& hit, GameObject* 
 	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
 #endif
 	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
-	AddIntersectionDynamicObjects(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+	AddIntersectionDynamicObjects(hitGameObjects, 
+		ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfoWithTag(hitGameObjects, ray, hit, exceptionGameObject, tag);
 
