@@ -2475,9 +2475,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 86.6056137084961,
+                            "localPos_X": 86.92646026611328,
                             "localPos_Y": 2.56715989112854,
-                            "localPos_Z": 30.946250915527344,
+                            "localPos_Z": 30.485088348388672,
                             "localRot_X": -0.0,
                             "localRot_Y": 55.1740608215332,
                             "localRot_Z": -0.0,
@@ -2520,6 +2520,11 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "BulletPrefab",
+                                    "value": 17392156318262064816,
+                                    "type": 2
+                                },
+                                {
                                     "name": "BulletVelocity",
                                     "value": 0.20000000298023224,
                                     "type": 0
@@ -2548,7 +2553,7 @@
         },
         {
             "GameObject": {
-                "name": "Empty GameObject",
+                "name": "BulletOrigin",
                 "tag": "",
                 "uid": 14721096319733225807,
                 "parentUID": 16740414096688062829,
@@ -2570,6 +2575,62 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BulletPrefab",
+                "tag": "",
+                "uid": 17392156318262064816,
+                "parentUID": 16740414096688062829,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0000019073486328125,
+                            "localPos_Y": 2.523261785507202,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.13321726024150848,
+                            "localSca_Y": 0.10622896254062653,
+                            "localSca_Z": 0.5048139095306396
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "DroneBullet",
+                            "fields": null
                         }
                     }
                 ]

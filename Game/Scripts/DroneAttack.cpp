@@ -14,6 +14,8 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
+#include "DroneBullet.h"
+
 #include "GameObject/GameObject.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -25,12 +27,14 @@
 REGISTERCLASS(DroneAttack);
 
 DroneAttack::DroneAttack() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-							input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
-							bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), bulletVelocity(0.2f)
+input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
+bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), bulletVelocity(0.2f),
+bulletPrefab(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(bulletOriginGO, GameObject*);
+	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
 }
 
@@ -69,27 +73,48 @@ void DroneAttack::PerformAttack()
 		{
 			animation->SetParameter("attack", true);
 		}
-		
+
 		GameObject* root = loadedScene->GetRoot();
 
-		//Create bullet object that is going to be shooted
-		GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
-		
-		//Set all components for the bullet manually as we still don't have prefabs
+		GameObject* bullet = loadedScene->DuplicateGameObject(
+			bulletPrefab->GetName(), bulletPrefab, root);
 		ComponentTransform* bulletTransf = static_cast<ComponentTransform*>(bullet->GetComponent(ComponentType::TRANSFORM));
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
 		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
 		bulletTransf->SetRotation(transform->GetRotation());
 		bulletTransf->UpdateTransformMatrices();
 
-		bullet->CreateComponent(ComponentType::AUDIOSOURCE);
+		/*std::vector<ComponentScript*> gameObjectScripts =
+			bullet->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 
-		ComponentScript* script = static_cast<ComponentScript*>(bullet->CreateComponent(ComponentType::SCRIPT));
-		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
-		script->SetConstuctor("DroneBullet");
-		script->GetScript()->SetGameObject(bullet);
-		script->GetScript()->SetApplication(App);
-		script->Start();//Should be done automatically but the engine still does not do the Start for runtime created scripts
+		for (int i = 0; i < gameObjectScripts.size(); ++i)
+		{
+			if (gameObjectScripts[i]->GetConstructName() == "DroneBullet")
+			{
+				DroneBullet* droneBulletScript = static_cast<DroneBullet*>(gameObjectScripts[i]->GetScript());
+				droneBulletScript->Start();
+			}
+		}*/
+
+
+		//Create bullet object that is going to be shooted
+		//GameObject* bullet = loadedScene->Create3DGameObject("Cube", root, Premade3D::CUBE);
+		//
+		////Set all components for the bullet manually as we still don't have prefabs
+		//ComponentTransform* bulletTransf = static_cast<ComponentTransform*>(bullet->GetComponent(ComponentType::TRANSFORM));
+		//bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
+		//bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
+		//bulletTransf->SetRotation(transform->GetRotation());
+		//bulletTransf->UpdateTransformMatrices();
+
+		//bullet->CreateComponent(ComponentType::AUDIOSOURCE);
+
+		//ComponentScript* script = static_cast<ComponentScript*>(bullet->CreateComponent(ComponentType::SCRIPT));
+		//script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
+		//script->SetConstuctor("DroneBullet");
+		//script->GetScript()->SetGameObject(bullet);
+		//script->GetScript()->SetApplication(App);
+		//script->Start();//Should be done automatically but the engine still does not do the Start for runtime created scripts
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 

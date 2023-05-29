@@ -33,6 +33,7 @@ private:
 	GameObject* animationGO;
 	ComponentTransform* bulletOrigin;
 	GameObject* bulletOriginGO;
+	GameObject* bulletPrefab;
 	Scene* loadedScene;
 
 	//Provisional
