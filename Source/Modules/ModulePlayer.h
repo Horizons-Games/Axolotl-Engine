@@ -12,6 +12,7 @@ public:
 	~ModulePlayer() override;
 
 	bool Start() override;
+	update_status PreUpdate() override;
 
 	GameObject* GetPlayer();
 	void SetPlayer(GameObject* player);
@@ -26,6 +27,8 @@ private:
 	GameObject* player;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
+
+	void CheckIfActivateMouse();
 
 	float speed;
 
