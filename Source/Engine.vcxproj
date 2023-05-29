@@ -167,7 +167,7 @@
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
@@ -177,6 +177,7 @@
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIImageControl.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -482,7 +483,7 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
+    <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
@@ -492,6 +493,7 @@
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
+    <ClInclude Include="..\Game\Scripts\UIImageControl.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />

@@ -4,21 +4,18 @@
 
 class ComponentButton;
 
-class ChangeMenuStatus : public Script
+class UIButtonControl : public Script
 {
 public:
-	ChangeMenuStatus();
-	~ChangeMenuStatus() override = default;
+	UIButtonControl();
+	~UIButtonControl() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
 
 private:
-	float forceTimer = 0;
-	bool forceStatus = false;
-
-	GameObject* DisableMenu;
-	GameObject* EnableMenu;
+	GameObject* DisableObject;
+	GameObject* EnableObject;
 	GameObject* ButtonHover;
 	ComponentButton* buttonComponent;
 	ModuleInput* input;
