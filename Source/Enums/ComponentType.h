@@ -18,13 +18,17 @@ enum class ComponentType
 	AUDIOSOURCE,
 	AUDIOLISTENER,
 	MESHCOLLIDER,
-	SCRIPT
+	SCRIPT,
+	BREAKABLE,
+	CUBEMAP
 };
 
 class ComponentAnimation;
 class ComponentAudioListener;
 class ComponentAudioSource;
+class ComponentBreakable;
 class ComponentCamera;
+class ComponentCubemap;
 class ComponentLight;
 class ComponentMeshCollider;
 class ComponentMeshRenderer;
@@ -63,9 +67,21 @@ struct ComponentToEnum<ComponentAudioSource>
 };
 
 template<>
+struct ComponentToEnum<ComponentBreakable>
+{
+	const static ComponentType value = ComponentType::BREAKABLE;
+};
+
+template<>
 struct ComponentToEnum<ComponentCamera>
 {
 	const static ComponentType value = ComponentType::CAMERA;
+};
+
+template<>
+struct ComponentToEnum<ComponentCubemap>
+{
+	const static ComponentType value = ComponentType::CUBEMAP;
 };
 
 template<>

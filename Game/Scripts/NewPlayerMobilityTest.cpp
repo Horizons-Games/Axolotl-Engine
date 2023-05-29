@@ -68,6 +68,14 @@ void NewPlayerMobilityTest::Update(float deltaTime)
 
 }
 
+void NewPlayerMobilityTest::OnCollisionEnter(ComponentRigidBody* other)
+{
+}
+
+void NewPlayerMobilityTest::OnCollisionExit(ComponentRigidBody* other)
+{
+}
+
 void NewPlayerMobilityTest::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;

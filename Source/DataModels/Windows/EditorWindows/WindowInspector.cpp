@@ -106,6 +106,14 @@ WindowInspector::WindowInspector() :
 		},
 		ComponentFunctionality::GAMEPLAY));
 
+	actions.push_back(AddComponentAction("Create Breakable Component",
+		std::bind(&WindowInspector::AddComponentBreakable, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentBreakable>(gameObject);
+		},
+		ComponentFunctionality::PHYSICS));
+
 	std::sort(std::begin(actions), std::end(actions));
 }
 
@@ -132,10 +140,19 @@ void WindowInspector::DrawWindowContents()
 
 void WindowInspector::InspectSelectedGameObject()
 {
-	ModuleScene* scene = App->GetModule<ModuleScene>();
-	Scene* loadedScene = scene->GetLoadedScene();
-	lastSelectedGameObject = scene->GetSelectedGameObject();
+	const ModuleScene* scene = App->GetModule<ModuleScene>();
+	const Scene* loadedScene = scene->GetLoadedScene();
 
+	if (lastSelectedGameObject != scene->GetSelectedGameObject())
+	{
+		ImGui::PushID(1);
+		lastSelectedGameObject = scene->GetSelectedGameObject();
+	}
+	else
+	{
+		ImGui::PushID(0);
+	}
+	
 	if (lastSelectedGameObject)
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
@@ -143,8 +160,7 @@ void WindowInspector::InspectSelectedGameObject()
 		ImGui::SameLine();
 
 		std::string name = lastSelectedGameObject->GetName();
-		name.resize(24);
-		bool nameChanged = ImGui::InputText("##GameObject", name.data(), 24);
+		bool nameChanged = ImGui::InputText("##GameObject", name.data(), 32);
 
 		if (!lastSelectedGameObject->GetParent()) // Keep the word Scene in the root
 		{
@@ -159,7 +175,7 @@ void WindowInspector::InspectSelectedGameObject()
 		{
 			if (nameChanged)
 			{
-				lastSelectedGameObject->SetName(name);
+				lastSelectedGameObject->SetName(name.c_str());
 			}
 			ImGui::SameLine();
 			bool staticness = lastSelectedGameObject->IsStatic();
@@ -173,10 +189,9 @@ void WindowInspector::InspectSelectedGameObject()
 			std::string tag = lastSelectedGameObject->GetTag();
 			ImGui::Text("Tag");
 			ImGui::SameLine();
-			tag.resize(24);
-			if (ImGui::InputText("##Tag", tag.data(), 24))
+			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
-				lastSelectedGameObject->SetTag(tag);
+				lastSelectedGameObject->SetTag(tag.c_str());
 			}
 		}
 
@@ -240,6 +255,8 @@ void WindowInspector::InspectSelectedGameObject()
 		}
 		lastSelectedObjectUID = lastSelectedGameObject->GetUID();
 	}
+
+	ImGui::PopID();
 }
 
 void WindowInspector::InspectSelectedResource()
@@ -416,4 +433,9 @@ void WindowInspector::AddComponentMeshCollider()
 void WindowInspector::AddComponentScript()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
+}
+
+void WindowInspector::AddComponentBreakable()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
 }

@@ -84,6 +84,7 @@ inline void Application::SetDebuggingGame(bool debuggingGame)
 inline void Application::SetIsOnPlayMode(bool newIsOnPlayMode)
 {
 	isOnPlayMode = newIsOnPlayMode;
+	isOnPlayMode ? OnPlay() : OnStop();
 }
 
 inline void Application::SwitchDebuggingGame()

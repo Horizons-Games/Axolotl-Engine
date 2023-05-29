@@ -24,6 +24,7 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
@@ -670,6 +671,11 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
+	if (root->GetComponent<ComponentCubemap>() == nullptr)
+	{
+		root->CreateComponent<ComponentCubemap>();
+	}
+
 	if (resourceCubemap)
 	{
 		cubemap = std::make_unique<Cubemap>(resourceCubemap);
@@ -779,4 +785,12 @@ void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 {
 	sceneInteractableComponents.insert(
 		std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
+
+void Scene::InitCubemap()
+{
+	if (root->GetComponent<ComponentCubemap>() == nullptr)
+	{
+		root->CreateComponent<ComponentCubemap>();
+	}
 }

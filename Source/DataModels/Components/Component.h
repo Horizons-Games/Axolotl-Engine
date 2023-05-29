@@ -132,6 +132,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Button";
 		case ComponentType::RIGIDBODY:
 			return "Component_RigidBody";
+		case ComponentType::BREAKABLE:
+			return "Component_Breakable";
 		case ComponentType::MOCKSTATE:
 			return "Component_MockState";
 		case ComponentType::AUDIOSOURCE:
@@ -142,6 +144,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_MeshCollider";
 		case ComponentType::SCRIPT:
 			return "Component_Script";
+		case ComponentType::CUBEMAP:
+			return "Component_Cubemap";
 		default:
 			assert(false && "Wrong component type introduced");
 			return "";
@@ -199,6 +203,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::RIGIDBODY;
 	}
+	if (typeName == "Component_Breakable")
+	{
+		return ComponentType::BREAKABLE;
+	}
 
 	if (typeName == "Component_MockState")
 	{
@@ -228,6 +236,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Animation")
 	{
 		return ComponentType::ANIMATION;
+	}
+	if (typeName == "Component_Cubemap")
+	{
+		return ComponentType::CUBEMAP;
 	}
 
 	return ComponentType::UNKNOWN;

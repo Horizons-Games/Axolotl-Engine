@@ -12,14 +12,16 @@
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
-#include "DataModels/Resources/ResourceMaterial.h"
-#include "DataModels/Skybox/Skybox.h"
-#include "DataStructures/Quadtree.h"
-#include "Scene/Scene.h"
 
 #include "DataModels/GameObject/GameObject.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Skybox/Skybox.h"
 
-#include "Components/ComponentTransform.h"
+#include "DataStructures/Quadtree.h"
+
+#include "Scene/Scene.h"
+
+
 #ifdef DEBUG
 	#include "optick.h"
 #endif // DEBUG

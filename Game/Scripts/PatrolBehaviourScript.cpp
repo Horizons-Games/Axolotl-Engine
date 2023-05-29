@@ -29,8 +29,8 @@ void PatrolBehaviourScript::Start()
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
 		// Initally set the first waypoint as the destiny
-		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
+		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetGlobalRotation());
 	}
 }
 
@@ -40,16 +40,16 @@ void PatrolBehaviourScript::Update(float deltaTime)
 
 	// When this behaviour is triggered, the enemy will patrol between its waypoints
 	// (This can be modularized into any amout when the scripts can accept vectors)
-	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
+	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 1.0f))
 	{
-		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointTwoTransform->GetRotation());
+		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetGlobalPosition());
+		ownerRigidBody->SetRotationTarget(wayPointTwoTransform->GetGlobalRotation());
 	}
 
-	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
+	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 1.0f))
 	{
-		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
+		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetGlobalRotation());
 	}
 }
 

@@ -6,6 +6,7 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "debugdraw.h"
 
 REGISTERCLASS(SeekBehaviourScript);
 
@@ -29,8 +30,15 @@ void SeekBehaviourScript::Update(float deltaTime)
 	ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
 	// When this behaviour is triggered, the enemy will go towards its target
 
-	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
-	ownerRigidBody->SetRotationTarget(targetTransform->GetRotation());
+	ownerRigidBody->SetPositionTarget(targetTransform->GetGlobalPosition());
+	Quat targetRotation = 
+		Quat::RotateFromTo(ownerTransform->GetGlobalForward(), 
+			(targetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+
+	dd::arrow(ownerTransform->GetGlobalPosition(), ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward()*5.0f, dd::colors::Yellow, 1.0f);
+	dd::arrow(ownerTransform->GetGlobalPosition(), targetTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+	ownerRigidBody->SetRotationTarget(targetRotation);
+	ownerRigidBody->SetKpTorque(15.0f);
 
 }
 
