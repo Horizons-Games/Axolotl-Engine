@@ -2,10 +2,11 @@
 
 #include "Scripting\Script.h"
 
-// This script handles the movement/rotation and abilities of the player
+// This script handles the activation of the doors
 
 class ComponentAudioSource;
 class ComponentAnimation;
+class ComponentRigidBody;
 
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
@@ -31,4 +32,5 @@ private:
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
+	ComponentRigidBody* componentRigidBody;
 };
