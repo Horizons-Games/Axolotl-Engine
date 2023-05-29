@@ -23,5 +23,7 @@ public:
 	virtual void PreUpdate(float deltaTime) override{};
 	virtual void Update(float deltaTime) override{};
 	virtual void PostUpdate(float deltaTime) override{};
+	virtual void OnCollisionEnter(ComponentRigidBody* other) override{};
+	virtual void OnCollisionExit(ComponentRigidBody* other) override{};
 	virtual void CleanUp() override{};
 };
