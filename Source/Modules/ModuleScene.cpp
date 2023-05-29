@@ -157,6 +157,8 @@ update_status ModuleScene::PostUpdate()
 		sceneToLoad = "";
 	}
 
+	loadedScene->ExecutePendingActions();
+
 	return update_status::UPDATE_CONTINUE;
 }
 
