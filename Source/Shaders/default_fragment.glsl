@@ -192,7 +192,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation from the closest point view
-        float distance = length(FragPos-closest);
+        float distance = length(FragPos-sP);
         float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
         
@@ -205,7 +205,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 Li = color*intensity;
         vec3 LoSpecular = 0.25 * FS * SV * GGXND * Li * attenuation * specularDotNL;
         vec3 LoDiffuse = (Cd * (1 - f0)) * Li * attenuation * diffuseDotNL;
-        Lo += LoDiffuse + LoSpecular;
+        Lo +=  LoSpecular;
     }
 
     return Lo;
