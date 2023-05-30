@@ -412,6 +412,16 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
+    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -737,9 +747,6 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
@@ -834,6 +841,16 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
+    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
+      <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
