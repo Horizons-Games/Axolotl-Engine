@@ -45,7 +45,12 @@ void SeekBehaviourScript::Seeking() const
 	ownerRigidBody->SetRotationTarget(errorRotation);
 }
 
-void SeekBehaviourScript::StopSeeking() const
+void SeekBehaviourScript::DisableMovement() const
 {
 	ownerRigidBody->DisablePositionController();
+}
+
+void SeekBehaviourScript::DisableRotation() const
+{
+	ownerRigidBody->DisableRotationController();
 }

@@ -16,7 +16,8 @@ public:
 	void Start() override;
 
 	void Seeking() const;
-	void StopSeeking() const;
+	void DisableMovement() const;
+	void DisableRotation() const;
 
 private:
 	GameObject* target;
