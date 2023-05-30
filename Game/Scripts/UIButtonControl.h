@@ -23,7 +23,6 @@ private:
 	GameObject* buttonHover;
 	GameObject* setGameStateObject;
 	ComponentButton* buttonComponent;
-	ComponentScript* uiGameStateScript;
 	UIGameStates* uiGameStatesClass;
 	ModuleInput* input;
 };

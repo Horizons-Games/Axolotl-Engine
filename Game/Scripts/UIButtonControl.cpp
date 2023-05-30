@@ -11,7 +11,7 @@
 REGISTERCLASS(UIButtonControl);
 
 UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), buttonComponent(nullptr),
-buttonHover(nullptr), isGameExit(false), isGameResume(false), setGameStateObject(nullptr), uiGameStateScript(nullptr)
+buttonHover(nullptr), isGameExit(false), isGameResume(false), setGameStateObject(nullptr), uiGameStatesClass(nullptr)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
@@ -24,22 +24,25 @@ buttonHover(nullptr), isGameExit(false), isGameResume(false), setGameStateObject
 void UIButtonControl::Start()
 {
 	buttonComponent = static_cast<ComponentButton*>(owner->GetComponent(ComponentType::BUTTON));
+	
+	if (isGameResume != false)
+	{
+		std::vector<ComponentScript*> gameObjectScripts =
+			setGameStateObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		for (int i = 0; i < gameObjectScripts.size(); ++i)
+		{
+			if (gameObjectScripts[i]->GetConstructName() == "UIgameStates")
+			{
+				uiGameStatesClass = static_cast<UIGameStates*>(gameObjectScripts[i]->GetScript());
+				break;
+			}
+		}
+	}
 }
 
 void UIButtonControl::Update(float deltaTime)
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "UIgameStates")
-		{
-			uiGameStateScript = gameObjectScripts[i];
-			break;
-		}
-	}
 
 	if (isGameExit != false)
 	{
@@ -57,11 +60,8 @@ void UIButtonControl::Update(float deltaTime)
 
 			if (isGameResume != false)
 			{
-				input = App->
 				uiGameStatesClass->SetMenuIsOpen(false);
 				uiGameStatesClass->MenuIsOpen();
-				uiGameStateScript->
-				uiGameStateScript->MenuIsOpen();
 			}
 		}
 	}
