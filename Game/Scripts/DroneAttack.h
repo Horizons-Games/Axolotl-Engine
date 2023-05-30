@@ -17,11 +17,12 @@ public:
 	DroneAttack();
 	~DroneAttack() override = default;
 
+	void PerformAttack();
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void PerformAttack();
 	bool isAttackAvailable();
 
 	float attackCooldown;

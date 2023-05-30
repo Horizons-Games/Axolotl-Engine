@@ -6,10 +6,11 @@
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
+#include "../Scripts/DroneAttack.h"
 
 REGISTERCLASS(EnemyDroneScript);
 
-EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr),
+EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
@@ -34,6 +35,11 @@ void EnemyDroneScript::Start()
 		else if (gameObjectScripts[i]->GetConstructName() == "SeekBehaviourScript")
 		{
 			seekScript = static_cast<SeekBehaviourScript*>(gameObjectScripts[i]->GetScript());
+		}
+
+		else if (gameObjectScripts[i]->GetConstructName() == "DroneAttack")
+		{
+			attackScript = static_cast<DroneAttack*>(gameObjectScripts[i]->GetScript());
 		}
 	}
 
@@ -78,8 +84,9 @@ void EnemyDroneScript::Update(float deltaTime)
 		seekScript->Seeking();
 	}
 
-	if (seekScript && droneState == DroneBehaviours::ATTACK)
+	if (seekScript && attackScript && droneState == DroneBehaviours::ATTACK)
 	{
 		seekScript->StopSeeking();
+		attackScript->PerformAttack();
 	}
 }
