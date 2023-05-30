@@ -72,18 +72,21 @@ void DroneBullet::CheckCollision()
 	RaycastHit hit;
 	if (Physics::Raycast(line, hit, transform->GetOwner()))
 	{
-		if (hit.gameObject->GetRootGO()->CompareTag("Player"))
+		if (hit.gameObject->GetRootGO())
 		{
-			std::vector<ComponentScript*> gameObjectScripts =
-				hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-			for (int i = 0; i < gameObjectScripts.size(); ++i)
+			if (hit.gameObject->GetRootGO()->CompareTag("Player"))
 			{
-				if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-				{
-					HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-					healthScript->TakeDamage(damageAttack);
-				}
+				std::vector<ComponentScript*> gameObjectScripts =
+					hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+
+					for (int i = 0; i < gameObjectScripts.size(); ++i)
+					{
+						if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+						{
+							HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+							healthScript->TakeDamage(damageAttack);
+						}
+					}
 			}
 		}
 

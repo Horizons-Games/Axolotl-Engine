@@ -228,12 +228,12 @@
                             "fields": [
                                 {
                                     "name": "Speed",
-                                    "value": 6.0,
+                                    "value": 300.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "DashForce",
-                                    "value": 2000.0,
+                                    "value": 10000.0,
                                     "type": 0
                                 },
                                 {
@@ -264,51 +264,16 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerCameraRotationVerticalScript",
-                            "fields": [
-                                {
-                                    "name": "RotationSensitivity",
-                                    "value": 50.0,
-                                    "type": 0
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PlayerForceUseScript",
-                            "fields": [
-                                {
-                                    "name": "MaxDistanceForce",
-                                    "value": 20.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "MaxTimeForce",
-                                    "value": 15.0,
-                                    "type": 0
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
                             "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
                                     "name": "JumpParameter",
-                                    "value": 2000.0,
+                                    "value": 1500.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "CanDoubleJump",
-                                    "value": false,
+                                    "value": true,
                                     "type": 4
                                 }
                             ]
@@ -332,7 +297,7 @@
                             "useRotationController": false,
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -9.8100004196167,
+                            "gravity_Y": -100.0,
                             "boxSize_X": 2.0,
                             "boxSize_Y": 2.0999999046325684,
                             "boxSize_Z": 1.0,
@@ -1885,7 +1850,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 1.0,
-                            "localPos_Y": 4.0,
+                            "localPos_Y": 3.5,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -1914,7 +1879,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -1.0,
-                            "localPos_Y": 4.0,
+                            "localPos_Y": 3.5,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -1943,7 +1908,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 1.0,
-                            "localPos_Y": 0.0,
+                            "localPos_Y": 1.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -1972,7 +1937,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -1.0,
-                            "localPos_Y": 0.0,
+                            "localPos_Y": 1.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -2001,8 +1966,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 3.0,
-                            "localPos_Z": -6.5,
+                            "localPos_Y": 4.300000190734863,
+                            "localPos_Z": -11.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -2025,6 +1990,41 @@
                             "type": "Component_AudioListener",
                             "active": true,
                             "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerCameraRotationVerticalScript",
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivity",
+                                    "value": 50.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerForceUseScript",
+                            "fields": [
+                                {
+                                    "name": "MaxDistanceForce",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]

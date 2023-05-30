@@ -158,21 +158,24 @@ void BixAttackScript::CheckCollision()
 		if (Physics::Raycast(line, hit, transform->GetOwner()))
 		{
 			playSFX = true;
-			if (hit.gameObject->GetRootGO()->CompareTag("Enemy"))
+			if (hit.gameObject->GetRootGO())
 			{
-				if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
+				if (hit.gameObject->GetRootGO()->CompareTag("Enemy"))
 				{
-					// insertion could take place -> element not hit yet
-					//get component health and do damage
-					std::vector<ComponentScript*> gameObjectScripts =
-						hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-					for (int i = 0; i < gameObjectScripts.size(); ++i)
+					if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
 					{
-						if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+						// insertion could take place -> element not hit yet
+						//get component health and do damage
+						std::vector<ComponentScript*> gameObjectScripts =
+							hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+
+						for (int i = 0; i < gameObjectScripts.size(); ++i)
 						{
-							HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-							healthScript->TakeDamage(damageAttack);
+							if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+							{
+								HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+								healthScript->TakeDamage(damageAttack);
+							}
 						}
 					}
 				}
