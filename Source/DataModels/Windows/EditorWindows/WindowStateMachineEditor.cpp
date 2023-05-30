@@ -548,8 +548,8 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 				if (stateIdSelected == i)
 				{
 					colorRectFilled = IM_COL32(240, 180, 20, 255);
-					colorRectMultiColorUp = IM_COL32(65, 65, 75, 255);
-					colorRectMultiColorDown = IM_COL32(25, 25, 45, 255);
+					colorRectMultiColorUp = IM_COL32(245, 208, 11, 255);
+					colorRectMultiColorDown = IM_COL32(186, 120, 2, 255);
 				}
 
 				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
