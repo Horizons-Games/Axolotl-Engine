@@ -10,9 +10,11 @@
 
 REGISTERCLASS(SeekBehaviourScript);
 
-SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr)
+SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr), 
+	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), targetTransform(nullptr), ownerTransform(nullptr)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(Target, GameObject*);
+	REGISTER_FIELD(target, GameObject*);
+	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void SeekBehaviourScript::Start()
@@ -22,32 +24,28 @@ void SeekBehaviourScript::Start()
 		targetTransform = target->GetComponent<ComponentTransform>();
 	}
 	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 }
 
-void SeekBehaviourScript::Update(float deltaTime)
+// When this behaviour is triggered, the enemy will go towards its target
+void SeekBehaviourScript::Seeking() const
 {
-	ENGINE_LOG("%s", "Now seeking...");
-	ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
-	// When this behaviour is triggered, the enemy will go towards its target
-
 	ownerRigidBody->SetPositionTarget(targetTransform->GetGlobalPosition());
 	Quat targetRotation = 
 		Quat::RotateFromTo(ownerTransform->GetGlobalForward(), 
 			(targetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 
-	dd::arrow(ownerTransform->GetGlobalPosition(), ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward()*5.0f, dd::colors::Yellow, 1.0f);
+#ifdef DEBUG
+	dd::arrow(ownerTransform->GetGlobalPosition(),
+		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
 	dd::arrow(ownerTransform->GetGlobalPosition(), targetTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
 	ownerRigidBody->SetRotationTarget(targetRotation);
 	ownerRigidBody->SetKpTorque(15.0f);
-
 }
 
-GameObject* SeekBehaviourScript::GetTarget() const
+void SeekBehaviourScript::StopSeeking() const
 {
-	return target;
-}
-
-void SeekBehaviourScript::SetTarget(GameObject* target)
-{
-	this->target = target;
+	ownerRigidBody->SetPositionTarget(ownerTransform->GetPosition());
 }

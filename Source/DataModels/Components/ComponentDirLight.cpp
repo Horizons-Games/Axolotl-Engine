@@ -46,7 +46,34 @@ void ComponentDirLight::Draw() const
 	{
 		return;
 	}
-#endif // ENGINE
+	if (IsEnabled())
+	{
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+
+		float3 position = transform->GetGlobalPosition();
+		float3 forward = transform->GetGlobalForward();
+
+		float radius = 0.2f;
+
+		for (int i = 0; i < 5; ++i)
+		{
+			float theta = (2.0f * math::pi * float(i)) / 5.0f;
+			float x = radius * math::Cos(theta);
+			float y = radius * math::Sin(theta);
+
+			float3 from = position;
+			from.x += x;
+			from.y += y;
+
+			float3 to = position + forward;
+			to.x += x;
+			to.y += y;
+
+			dd::arrow(from, to, dd::colors::White, 0.05f);
+		}
+	}
+#else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
@@ -73,6 +100,7 @@ void ComponentDirLight::Draw() const
 			dd::arrow(from, to, dd::colors::White, 0.05f);
 		}
 	}
+#endif // ENGINE
 }
 
 void ComponentDirLight::SaveOptions(Json& meta)

@@ -76,7 +76,18 @@ void ComponentSpotLight::Draw() const
 	{
 		return;
 	}
-#endif // ENGINE
+	if (IsEnabled())
+	{
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+
+		float3 position = transform->GetGlobalPosition();
+		float3 forward = transform->GetGlobalForward().Normalized();
+
+		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
+		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
+	}
+#else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
@@ -87,6 +98,7 @@ void ComponentSpotLight::Draw() const
 		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
+#endif // ENGINE
 }
 
 void ComponentSpotLight::SaveOptions(Json& meta)

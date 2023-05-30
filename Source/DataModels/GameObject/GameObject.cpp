@@ -353,6 +353,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::BREAKABLE:
+		{
+			newComponent = std::make_unique<ComponentBreakable>(*static_cast<ComponentBreakable*>(component));
+			break;
+		}
+
 		default:
 			ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
 	}

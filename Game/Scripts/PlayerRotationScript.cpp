@@ -7,8 +7,14 @@
 
 REGISTERCLASS(PlayerRotationScript);
 
-PlayerRotationScript::PlayerRotationScript() : Script()
+PlayerRotationScript::PlayerRotationScript() : Script(), rotationSensitivity(50.0f)
 {
+	REGISTER_FIELD(rotationSensitivity, float);
+}
+
+void PlayerRotationScript::Start()
+{
+	rotationSensitivity /= 50.0f;
 }
 
 void PlayerRotationScript::PreUpdate(float deltaTime)
@@ -21,7 +27,7 @@ void PlayerRotationScript::Rotation(float deltaTime)
 	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 
-	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x;
+	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivity;
 	btVector3 angularVelocity(0, 0, 0);
 
 	if (horizontalMotion != 0)
