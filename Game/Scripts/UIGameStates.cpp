@@ -30,7 +30,6 @@ void UIGameStates::Update(float deltaTime)
 			enableObject->Disable();
 			disableObject->Enable();
 			player->SetMouse(false);
-			input->
 		}
 		if (menuIsOpen == false)
 		{

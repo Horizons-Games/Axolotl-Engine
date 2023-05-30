@@ -7,12 +7,13 @@
 
 REGISTERCLASS(UIButtonControl);
 
-UIButtonControl::UIButtonControl() : Script(), DisableObject(nullptr), EnableObject(nullptr), buttonComponent(nullptr),
-ButtonHover(nullptr)
+UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), buttonComponent(nullptr),
+buttonHover(nullptr), isGameExit(false)
 {
-	REGISTER_FIELD(EnableObject, GameObject*);
-	REGISTER_FIELD(DisableObject, GameObject*);
-	REGISTER_FIELD(ButtonHover, GameObject*);
+	REGISTER_FIELD(enableObject, GameObject*);
+	REGISTER_FIELD(disableObject, GameObject*);
+	REGISTER_FIELD(buttonHover, GameObject*);
+	REGISTER_FIELD(isGameExit, bool);
 }
 
 void UIButtonControl::Start()
@@ -24,21 +25,30 @@ void UIButtonControl::Update(float deltaTime)
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	if (buttonComponent->IsClicked())
-	{	
-		EnableObject->Enable();
-		DisableObject->Disable();
+	if (isGameExit != false)
+	{
+		if (buttonComponent->IsClicked())
+		{
+			App->SetCloseGame(true);
+		}		
 	}
-
-	if (ButtonHover != nullptr)
+	else if (enableObject != nullptr && disableObject != nullptr)
+	{
+		if (buttonComponent->IsClicked())
+		{
+			enableObject->Enable();
+			disableObject->Disable();
+		}
+	}
+	if (buttonHover != nullptr)
 	{
 		if (buttonComponent->IsHovered())
 		{
-			ButtonHover->Enable();
+			buttonHover->Enable();
 		}
 		if (!buttonComponent->IsHovered())
 		{
-			ButtonHover->Disable();
+			buttonHover->Disable();
 		}
 	}
 }

@@ -22,7 +22,7 @@
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false)
+Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false), closeGame(false)
 {
 	modules.resize(static_cast<int>(ModuleType::LAST));
 	modules[static_cast<int>(ModuleToEnum<ModuleWindow>::value)] = std::make_unique<ModuleWindow>();
@@ -84,6 +84,11 @@ bool Application::Start()
 
 update_status Application::Update()
 {
+	if (closeGame == true)
+	{
+		return update_status::UPDATE_STOP;
+	}
+
 	bool playMode = isOnPlayMode;
 	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 

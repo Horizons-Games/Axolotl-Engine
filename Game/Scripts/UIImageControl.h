@@ -24,12 +24,12 @@ private:
 	bool hudStatus = false; //This is to show the complete HUD just hardcode
 	bool check; //This is to show the complete HUD just hardcode
 
-	GameObject* DisableImgObject;
-	GameObject* EnableImgObject;
-	GameObject* EnableImgObject02; //Hardcode for pwr up
-	GameObject* EnableImgObject03; //Hardcode for pwr up
-	GameObject* EnableImgObject04; //Hardcode for pwr up
-	ComponentImage* ImageComponent;
+	GameObject* disableImgObject;
+	GameObject* enableImgObject;
+	GameObject* enableImgObject02; //Hardcode for pwr up
+	GameObject* enableImgObject03; //Hardcode for pwr up
+	GameObject* enableImgObject04; //Hardcode for pwr up
+	ComponentImage* imageComponent;
 	ModuleInput* input;
 };
 

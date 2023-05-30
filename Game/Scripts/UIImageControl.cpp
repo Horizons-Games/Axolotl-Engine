@@ -2,35 +2,35 @@
 
 REGISTERCLASS(UIImageControl);
 
-UIImageControl::UIImageControl() : Script(), DisableImgObject(nullptr), EnableImgObject(nullptr), ImageComponent(nullptr),
-check(false), EnableImgObject02(nullptr), EnableImgObject03(nullptr), EnableImgObject04(nullptr)
+UIImageControl::UIImageControl() : Script(), disableImgObject(nullptr), enableImgObject(nullptr), imageComponent(nullptr),
+check(false), enableImgObject02(nullptr), enableImgObject03(nullptr), enableImgObject04(nullptr)
 {
-	REGISTER_FIELD(EnableImgObject, GameObject*);
-	REGISTER_FIELD(DisableImgObject, GameObject*);
+	REGISTER_FIELD(enableImgObject, GameObject*);
+	REGISTER_FIELD(disableImgObject, GameObject*);
 	//hardcode to delete
 	REGISTER_FIELD(check, bool);
-	REGISTER_FIELD(EnableImgObject02, GameObject*);
-	REGISTER_FIELD(EnableImgObject03, GameObject*);
-	REGISTER_FIELD(EnableImgObject04, GameObject*);
+	REGISTER_FIELD(enableImgObject02, GameObject*);
+	REGISTER_FIELD(enableImgObject03, GameObject*);
+	REGISTER_FIELD(enableImgObject04, GameObject*);
 }
 
 void UIImageControl::Start()
 {
-	ImageComponent = static_cast<ComponentImage*>(owner->GetComponent(ComponentType::IMAGE));
+	imageComponent = static_cast<ComponentImage*>(owner->GetComponent(ComponentType::IMAGE));
 }
 
 void UIImageControl::Update(float deltaTime)
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	if (EnableImgObject != nullptr)
+	if (enableImgObject != nullptr)
 	{
 		if (powerupStatus == false && check == true)
 		{
 			if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 			{
 				powerupStatus = true;
-				EnableImgObject->Enable();
+				enableImgObject->Enable();
 			}
 		}
 		if (powerupStatus == true && powerupTimer <= 15.0f && check == true)
@@ -38,23 +38,23 @@ void UIImageControl::Update(float deltaTime)
 			powerupTimer += deltaTime;
 			if (powerupTimer >= 3.75f)
 			{
-				EnableImgObject->Disable();
-				EnableImgObject02->Enable();
+				enableImgObject->Disable();
+				enableImgObject02->Enable();
 			}
 			if (powerupTimer >= 3.75f*2) 
 			{
-				EnableImgObject02->Disable();
-				EnableImgObject03->Enable();
+				enableImgObject02->Disable();
+				enableImgObject03->Enable();
 			}
 			if (powerupTimer >= 3.75f*3) 
 			{
-				EnableImgObject03->Disable();
-				EnableImgObject04->Enable();
+				enableImgObject03->Disable();
+				enableImgObject04->Enable();
 			}
 		}
 		else if (powerupStatus == true && powerupTimer >= 15.0f && check == true)
 		{
-			EnableImgObject04->Disable();
+			enableImgObject04->Disable();
 			ENGINE_LOG("Entra con un tiempo de %f", powerupTimer);
 			powerupTimer = 0.0f;
 			powerupStatus = false;
@@ -66,13 +66,13 @@ void UIImageControl::Update(float deltaTime)
 			if (hudStatus == false)
 			{
 				hudStatus = true;
-				EnableImgObject->Enable();
+				enableImgObject->Enable();
 				ENGINE_LOG("Complete HUD ON");
 			}
 			else
 			{
 				hudStatus = false;
-				EnableImgObject->Disable();
+				enableImgObject->Disable();
 				ENGINE_LOG("Complete HUD OFF");
 			}
 		}

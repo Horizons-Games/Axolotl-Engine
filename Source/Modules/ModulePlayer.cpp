@@ -34,13 +34,6 @@ bool ModulePlayer::Start()
 	return true;
 }
 
-update_status ModulePlayer::PreUpdate()
-{
-	CheckIfActivateMouse();
-
-	return update_status::UPDATE_CONTINUE;
-}
-
 GameObject* ModulePlayer::GetPlayer()
 {
 	return player;

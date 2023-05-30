@@ -1,5 +1,6 @@
 #include "ComponentPlayer.h"
-
+#include "Application.h"
+#include "ModulePlayer.h"
 #include "GameObject/GameObject.h"
 
 #include "FileSystem/Json.h"
@@ -32,4 +33,11 @@ void ComponentPlayer::LoadOptions(Json& meta)
 
 	staticPlayer = (bool) meta["static"];
 	mousePlayer = (bool) meta["mouse"];
+}
+
+void ComponentPlayer::SetMouse(bool newMouse)
+{
+	mousePlayer = newMouse;
+	staticPlayer = newMouse;
+	App->GetModule<ModulePlayer>()->CheckIfActivateMouse();
 }

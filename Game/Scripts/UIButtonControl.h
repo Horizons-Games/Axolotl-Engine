@@ -14,9 +14,10 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	GameObject* DisableObject;
-	GameObject* EnableObject;
-	GameObject* ButtonHover;
+	bool isGameExit;
+	GameObject* disableObject;
+	GameObject* enableObject;
+	GameObject* buttonHover;
 	ComponentButton* buttonComponent;
 	ModuleInput* input;
 };
