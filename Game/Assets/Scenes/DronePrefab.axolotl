@@ -141,6 +141,50 @@
                             "stateUID": 238316357823381726,
                             "assetPathState": "Assets/StateMachine/DroneAnimationController.state"
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "SeekBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "Target",
+                                    "value": 0,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PatrolBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "WayPointOne",
+                                    "value": 10197724959374757767,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "WayPointTwo",
+                                    "value": 12078123005813096923,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyDroneScript",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -2797,6 +2841,120 @@
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Drone Rigidbody",
+                "tag": "",
+                "uid": 11029239525338608290,
+                "parentUID": 5716735143033173282,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.5712919235229492,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.800000011920929,
+                            "boxSize_Y": 0.699999988079071,
+                            "boxSize_Z": 0.800000011920929,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 2",
+                "tag": "",
+                "uid": 12078123005813096923,
+                "parentUID": 3799328107096056596,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 5.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 1",
+                "tag": "",
+                "uid": 10197724959374757767,
+                "parentUID": 3799328107096056596,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -5.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0

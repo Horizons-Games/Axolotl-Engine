@@ -34,8 +34,8 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	ModuleInput* input = App->GetModule<ModuleInput>();
+	const ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
@@ -48,8 +48,14 @@ void PlayerMoveScript::Move(float deltaTime)
 	//run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
+		componentAnimation->SetParameter("IsRunning", true);
 		nspeed *= 2;
 		shiftPressed = true;
+	}
+
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", false);
 	}
 
 	// Forward
@@ -129,6 +135,9 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (!isDashing)
 		{
+			componentAnimation->SetParameter("IsRolling", true);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+
 			if (!movement.isZero()) 
 			{
 				if (shiftPressed)
@@ -149,6 +158,8 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 	else
 	{
+		componentAnimation->SetParameter("IsRolling", false);
+
 		btVector3 currentVelocity = btRb->getLinearVelocity();
 		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 
