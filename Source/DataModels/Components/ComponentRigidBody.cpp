@@ -48,6 +48,7 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true),
 	isKinematic(toCopy.isKinematic),
 	isStatic(toCopy.isStatic),
+	isTrigger(toCopy.isTrigger),
 	currentShape(toCopy.currentShape),
 	boxSize(toCopy.boxSize),
 	radius(toCopy.radius),

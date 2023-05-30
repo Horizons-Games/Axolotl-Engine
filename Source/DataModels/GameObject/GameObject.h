@@ -95,7 +95,7 @@ public:
 	void DeactivateChildren();
 	void ActivateChildren();
 
-	bool IsStatic();
+	bool IsStatic() const;
 	void SetStatic(bool newStatic);
 	void SpreadStatic();
 
@@ -254,7 +254,7 @@ inline bool GameObject::CompareTag(const std::string& commingTag) const
 	return tag == commingTag;
 }
 
-inline bool GameObject::IsStatic()
+inline bool GameObject::IsStatic() const
 {
 	return staticObject;
 }

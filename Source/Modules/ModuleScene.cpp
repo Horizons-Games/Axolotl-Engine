@@ -60,7 +60,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/MainMenuScriptsVS2.axolotl", false);
+		LoadScene("Lib/Scenes/00_MainMenu_V02.axolotl", false);
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
@@ -152,6 +152,8 @@ update_status ModuleScene::PostUpdate()
 		LoadScene(sceneToLoad);
 		sceneToLoad = "";
 	}
+
+	loadedScene->ExecutePendingActions();
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -550,7 +552,7 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 	}
 }
 
-void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
+void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 {
 	if (object->GetParent() == nullptr || object->GetComponent<ComponentTransform>() == nullptr)
 	{
@@ -576,7 +578,7 @@ void ModuleScene::AddGameObject(GameObject* object)
 	}
 }
 
-void ModuleScene::RemoveGameObject(GameObject* object)
+void ModuleScene::RemoveGameObject(const GameObject* object)
 {
 	if (object->IsStatic())
 	{
