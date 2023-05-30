@@ -166,11 +166,6 @@ void ComponentRigidBody::Update()
 
 	if (useRotationController)
 	{
-		
-		/*Quat q = transform->GetGlobalRotation();
-		Quat rotationError = targetRotation.Mul(q.Normalized().Inverted());
-		rotationError.Normalize();*/
-
 		float3 axis;
 		float angle;
 		targetRotation.ToAxisAngle(axis, angle);

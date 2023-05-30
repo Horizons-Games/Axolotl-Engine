@@ -69,10 +69,8 @@ void PatrolBehaviourScript::SetProportionalController() const
 	ownerRigidBody->SetPositionTarget(currentWayPointTransform->GetGlobalPosition());
 
 	Quat errorRotation =
-		Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
 			(currentWayPointTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
-
-	//Quat targetRotation = errorRotation.Mul(ownerTransform->GetGlobalRotation());
 
 #ifdef DEBUG
 	dd::arrow(ownerTransform->GetGlobalPosition(),
@@ -80,5 +78,5 @@ void PatrolBehaviourScript::SetProportionalController() const
 	dd::arrow(ownerTransform->GetGlobalPosition(), currentWayPointTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
 #endif // DEBUG
 
-	ownerRigidBody->SetRotationTarget(errorRotation);
+	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
 }

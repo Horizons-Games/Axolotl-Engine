@@ -33,16 +33,16 @@ void SeekBehaviourScript::Seeking() const
 {
 	ownerRigidBody->SetPositionTarget(targetTransform->GetGlobalPosition());
 	Quat errorRotation = 
-		Quat::RotateFromTo(ownerTransform->GetGlobalForward(), 
+		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(), 
 			(targetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 
-	//Quat targetRotation = errorRotation.Mul(ownerTransform->GetGlobalRotation());
+#ifdef DEBUG
 	dd::arrow(ownerTransform->GetGlobalPosition(),
 		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
 	dd::arrow(ownerTransform->GetGlobalPosition(), targetTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
 
-
-	ownerRigidBody->SetRotationTarget(errorRotation);
+	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
 }
 
 void SeekBehaviourScript::DisableMovement() const
