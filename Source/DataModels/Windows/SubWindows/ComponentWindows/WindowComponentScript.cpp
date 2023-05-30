@@ -12,6 +12,8 @@
 #include "IScript.h"
 #include "Math/float3.h"
 
+#include "Auxiliar/Reflection/VectorField.h"
+
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component), windowUID(UniqueID::GenerateUID())
 {
@@ -128,66 +130,57 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::VECTOR:
 			{
-				Field<std::vector<std::any>>& vectorField = std::get<Field<std::vector<std::any>>>(member);
-				std::vector<std::any> value = vectorField.getter();
-				ENGINE_LOG("Es un VECTOR");
-				for (const auto& elem : value)
+				VectorField vectorField = std::get<VectorField>(member);
+				std::vector<std::any> vectorValue = vectorField.getter();
+
+				for (const auto& elem : vectorValue)
 				{
-					if (elem.type() == typeid(float))
+					if (elem.type() == typeid(float)) 
 					{
-						ENGINE_LOG("Es un FLOAT");
-						// Handle float elements
 						float floatValue = std::any_cast<float>(elem);
-						if (ImGui::DragFloat3(vectorField.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
-										{
-											vectorField.setter(value1);
-										}
+						std::vector<float> value;
+						for (const auto& elem : vectorValue) {
+							try {
+								float floatValue = std::any_cast<float>(elem);
+								value.push_back(floatValue);
+							}
+							catch (const std::bad_any_cast&) {
+							}
+						}
+						if (ImGui::DragFloat3(vectorField.name.c_str() , (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+						{
+							vectorValue = { value[0], value[1], value[2] };
+							vectorField.setter(vectorValue);
+						}
 					}
 					else if (elem.type() == typeid(std::string))
 					{
-						// Handle string elements
 						std::string stringValue = std::any_cast<std::string>(elem);
-						// Process the string value accordingly
+						std::vector<std::string> value;
+						for (const auto& elem : vectorValue) {
+							try {
+								std::string stringValue = std::any_cast<std::string>(elem);
+								value.push_back(stringValue);
+							}
+							catch (const std::bad_any_cast&) {
+							}
+						}
+						for (int i = 0; i < 3; i++) 
+						{
+							if (ImGui::InputText((vectorField.name + std::to_string(i)).c_str(), value[i].data(), 24))
+							{
+								vectorValue[i] = value[i].c_str();
+								ENGINE_LOG(value[0].data(), value[1].data(), value[2].data());
+								vectorField.setter(vectorValue);
+							}
+						}
+							
 					}
 					// Add more type checks for other supported types
 
 					// ...
+					break;
 				}
-				//std::visit([](auto& member) {
-				//	using T = std::decay_t<decltype(member)>;
-				//	ENGINE_LOG("Type of member: %s", typeid(T).name());
-				//	if constexpr (std::is_same_v<T, VectorField<std::vector<std::any>>>) {
-				//	ENGINE_LOG("Es un VECTOR");
-				//		VectorField<std::vector<std::any>>& vectorField = member;
-				//		FieldType fieldType = vectorField.type;
-
-				//		if (fieldType == FieldType::FLOAT) {
-				//			std::vector<std::any> value1 = vectorField.getter();
-				//			std::vector<float> value;
-				//			for (const auto& elem : value1) {
-				//				try {
-				//					float floatValue = std::any_cast<float>(elem);
-				//					value.push_back(floatValue);
-				//				}
-				//				catch (const std::bad_any_cast&) {
-				//				}
-				//			}
-
-				//			ENGINE_LOG("Es un FLOAT");
-
-				//			if (ImGui::DragFloat3(vectorField.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
-				//			{
-				//				vectorField.setter(value1);
-				//			}
-				//		}
-				//		else if (fieldType == FieldType::STRING) {
-				//			std::vector<std::any> value = vectorField.getter();
-
-				//			// Convert to string
-				//		}
-				//		// More types here
-				//	}
-				//	}, member);
 
 				break;
 			}

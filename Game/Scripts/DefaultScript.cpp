@@ -2,12 +2,13 @@
 
 REGISTERCLASS(DefaultScript);
 
-DefaultScript::DefaultScript() : Script(), value(10), vec{ 1.2f,2.3f,3.3f }, vec3(2.1f, 1.2f, 1.4f), sentence("Horizons"), character(nullptr), check(true)
+DefaultScript::DefaultScript() : Script(), value(10), vecStr{"holaaaaaaaaaa", "prueba", "pe"}, vec{1.2f,2.3f,3.3f}, vec3(2.1f, 1.2f, 1.4f), sentence("Horizons"), character(nullptr), check(true)
 {
 	REGISTER_FIELD(value, float);
 	REGISTER_FIELD(sentence, std::string);
 	REGISTER_FIELD_WITH_ACCESSORS(Vector3, float3);
 	REGISTER_VECTOR_WITH_ACCESSORS(Vector, float);
+	REGISTER_VECTOR_WITH_ACCESSORS(VectorStr, std::string);
 	REGISTER_FIELD_WITH_ACCESSORS(Character, GameObject*);
 	REGISTER_FIELD(check, bool);
 }
@@ -38,17 +39,22 @@ void DefaultScript::SetVector3(const float3& vec3)
 
 const std::vector<float>& DefaultScript::GetVector() const
 {
-	/*convertedVec.reserve(vec.size());
-	for (const auto& value : vec) {
-		convertedVec.push_back(value);
-	}
-	return convertedVec;*/
 	return vec;
 }
 
 void DefaultScript::SetVector(const std::vector<float>& vec)
 {
 	this->vec = vec;
+}
+
+const std::vector<std::string>& DefaultScript::GetVectorStr() const
+{
+	return vecStr;
+}
+
+void DefaultScript::SetVectorStr(const std::vector<std::string>& vec)
+{
+	this->vecStr = vec;
 }
 
 GameObject* DefaultScript::GetCharacter() const

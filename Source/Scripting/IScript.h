@@ -17,7 +17,7 @@ class Application;
 
 #include "Scripting/RegisterFieldMacros.h"
 
-using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::vector<std::any>>, Field<std::string>, Field<GameObject*>, Field<bool>>;
+using ValidFieldType = std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -107,7 +107,7 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 
 		case FieldType::VECTOR:
 		{
-			Field<std::vector<std::any>> field = std::get<Field<std::vector<std::any>>>(enumAndField.second);
+			VectorField field = std::get<VectorField>(enumAndField.second);
 			std::vector<std::any> value = field.getter();
 			pSerializer->SerializeProperty(field.name.c_str(), value);
 			field.setter(value);
