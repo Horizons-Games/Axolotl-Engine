@@ -24,7 +24,6 @@ buttonHover(nullptr), isGameExit(false), isGameResume(false), setGameStateObject
 void UIButtonControl::Start()
 {
 	buttonComponent = static_cast<ComponentButton*>(owner->GetComponent(ComponentType::BUTTON));
-	uiGameStateScript = static_cast<ComponentScript*>(owner->GetComponent(ComponentType::SCRIPT));
 }
 
 void UIButtonControl::Update(float deltaTime)
@@ -32,6 +31,15 @@ void UIButtonControl::Update(float deltaTime)
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	std::vector<ComponentScript*> gameObjectScripts =
 		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+
+	for (int i = 0; i < gameObjectScripts.size(); ++i)
+	{
+		if (gameObjectScripts[i]->GetConstructName() == "UIgameStates")
+		{
+			uiGameStateScript = gameObjectScripts[i];
+			break;
+		}
+	}
 
 	if (isGameExit != false)
 	{
@@ -46,12 +54,15 @@ void UIButtonControl::Update(float deltaTime)
 		{
 			enableObject->Enable();
 			disableObject->Disable();
-			/*
+
 			if (isGameResume != false)
 			{
-				uiGameState->SetMenuIsOpen(false);
-				uiGameState->MenuIsOpen();
-			}*/
+				input = App->
+				uiGameStatesClass->SetMenuIsOpen(false);
+				uiGameStatesClass->MenuIsOpen();
+				uiGameStateScript->
+				uiGameStateScript->MenuIsOpen();
+			}
 		}
 	}
 	if (buttonHover != nullptr)
@@ -70,21 +81,5 @@ void UIButtonControl::Update(float deltaTime)
 
 void SearchScript()
 {
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "PatrolBehaviourScript")
-		{
-			patrolScript = gameObjectScripts[i];
-			patrolScript->GetScript()->Start();
-		}
-
-		else if (gameObjectScripts[i]->GetConstructName() == "SeekBehaviourScript")
-		{
-			seekScript = gameObjectScripts[i];
-			seekScript->GetScript()->Start();
-		}
-	}
 }

@@ -4,6 +4,7 @@
 
 class ComponentButton;
 class ComponentScript;
+class UIGameStates;
 
 class UIButtonControl : public Script
 {
@@ -22,8 +23,9 @@ private:
 	GameObject* buttonHover;
 	GameObject* setGameStateObject;
 	ComponentButton* buttonComponent;
-	ModuleInput* input;
 	ComponentScript* uiGameStateScript;
+	UIGameStates* uiGameStatesClass;
+	ModuleInput* input;
 };
 
 
