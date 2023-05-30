@@ -1,6 +1,15 @@
 #include "ComponentAreaLight.h"
 
+#include "ComponentTransform.h"
+
 #include "FileSystem/Json.h"
+
+#include "Application.h"
+
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
+#include "debugdraw.h"
 
 ComponentAreaLight::ComponentAreaLight() : ComponentLight(LightType::AREA, true), areaType(AreaType::SPHERE), shapeRadius(1.f), 
 	attRadius(2.f), height(1.f)
@@ -31,6 +40,47 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 
 ComponentAreaLight::~ComponentAreaLight()
 {
+}
+
+void ComponentAreaLight::Draw() const
+{
+#ifndef ENGINE
+	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight())
+	{
+		return;
+	}
+#endif // ENGINE
+	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	{
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+
+		float3 position = transform->GetGlobalPosition();
+		if (areaType == AreaType::SPHERE)
+		{
+			dd::sphere(position, dd::colors::White, shapeRadius);
+			dd::sphere(position, dd::colors::Red, attRadius);
+		}
+		else if (areaType == AreaType::TUBE)
+		{
+			Quat matrixRotation = transform->GetGlobalRotation();
+			float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
+			float3 translation = transform->GetGlobalPosition();
+			float3 pointB = float3(0, -0.5f, 0) * height;
+
+			// Apply rotation & translation
+			pointB = (matrixRotation * pointB) + translation;
+
+			dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
+			dd::sphere(position, dd::colors::Red, attRadius);
+		}
+		else if (areaType == AreaType::QUAD)
+		{
+		}
+		else if (areaType == AreaType::DISC)
+		{
+		}
+	}
 }
 
 void ComponentAreaLight::SaveOptions(Json& meta)
