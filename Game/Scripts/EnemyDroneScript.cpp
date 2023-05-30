@@ -25,7 +25,7 @@ EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScri
 void EnemyDroneScript::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
