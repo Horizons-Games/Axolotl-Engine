@@ -14,6 +14,7 @@
 #include "EditorWindows/ImporterWindows/WindowLoadScene.h"
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
 #include "EditorWindows/WindowAbout.h"
+#include "PopUpWindows/WindowBuild.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
@@ -27,7 +28,8 @@ WindowMainMenu::WindowMainMenu(Json& json) :
 	about(std::make_unique<WindowAbout>()),
 	loadScene(std::make_unique<WindowLoadScene>()),
 	saveScene(std::make_unique<WindowSaveScene>()),
-	importScene(std::make_unique<WindowImportScene>())
+	importScene(std::make_unique<WindowImportScene>()),
+	build(std::make_unique<WindowBuild>())
 {
 	about = std::make_unique<WindowAbout>();
 
@@ -210,16 +212,10 @@ void WindowMainMenu::ShortcutSave()
 
 void WindowMainMenu::DrawBuildGameMenu()
 {
-	if (ImGui::BeginMenu("Build"))
+	ImGui::MenuItem("Build", nullptr, &showBuild);
+	build->Draw(showBuild);
+	if (showBuild)
 	{
-		if (ImGui::MenuItem("Debug"))
-		{
-			builder::BuildGame(builder::BuildType::DEBUG_GAME);
-		}
-		if (ImGui::MenuItem("Release"))
-		{
-			builder::BuildGame(builder::BuildType::RELEASE_GAME);
-		}
-		ImGui::EndMenu();
+		showBuild = !build->StartedBuild();
 	}
 }

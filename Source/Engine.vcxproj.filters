@@ -409,6 +409,10 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -822,6 +826,10 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
