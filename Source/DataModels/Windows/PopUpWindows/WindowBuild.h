@@ -8,6 +8,7 @@ public:
 	~WindowBuild() override;
 
 	bool StartedBuild() const;
+	void Reset();
 
 protected:
 	void DrawWindowContents() override;
@@ -18,11 +19,11 @@ private:
 	void DrawGenerateZipCheckmark();
 	void DrawBuildButton();
 
-	std::string selectedScene = "-";
-	std::string selectedBuild = "-";
-	bool generateZip = true;
+	std::string selectedScene;
+	std::string selectedBuild;
+	bool generateZip;
 
-	bool startedBuild = false;
+	bool startedBuild;
 };
 
 inline bool WindowBuild::StartedBuild() const

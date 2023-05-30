@@ -213,9 +213,14 @@ void WindowMainMenu::ShortcutSave()
 void WindowMainMenu::DrawBuildGameMenu()
 {
 	ImGui::MenuItem("Build", nullptr, &showBuild);
-	build->Draw(showBuild);
 	if (showBuild)
 	{
-		showBuild = !build->StartedBuild();
+		build->Draw(showBuild);
+		// if the window was closed, either by actually closing it or by starting the build process, reset its values
+		if (!showBuild || build->StartedBuild())
+		{
+			showBuild = false;
+			build->Reset();
+		}
 	}
 }

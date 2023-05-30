@@ -185,9 +185,18 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentBreakable.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCubemap.cpp" />
-    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp" />
-    <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
-    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp" />
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -512,9 +521,18 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
-    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h" />
-    <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
-    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h" />
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>

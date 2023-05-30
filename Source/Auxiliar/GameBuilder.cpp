@@ -73,7 +73,7 @@ void CreateZip()
 	ENGINE_LOG("Done creating ZIP!");
 }
 } // namespace
-void BuildGame(BuildType buildType)
+void BuildGame(BuildType buildType, bool generateZip)
 {
 	std::wstring buildScriptPath = L"..\\Source\\BuildScripts\\";
 	std::wstring buildScript = buildScriptPath;
@@ -91,7 +91,10 @@ void BuildGame(BuildType buildType)
 	buildScript += L".bat";
 
 	compileThread = std::async(std::launch::async, &CompileGame, buildScript);
-	zipThread = std::async(std::launch::async, &CreateZip);
+	if (generateZip)
+	{
+		zipThread = std::async(std::launch::async, &CreateZip);
+	}
 }
 
 void Terminate()

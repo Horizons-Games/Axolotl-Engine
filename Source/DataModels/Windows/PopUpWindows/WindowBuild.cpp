@@ -9,16 +9,30 @@
 
 namespace
 {
+const std::string noneSelected = "-";
 const std::map<std::string, builder::BuildType> buildTypes = { { "Debug", builder::BuildType::DEBUG_GAME },
 															   { "Release", builder::BuildType::RELEASE_GAME } };
 }
 
-WindowBuild::WindowBuild() : PopUpWindow("Build Game")
+WindowBuild::WindowBuild() :
+	PopUpWindow("Build Game"),
+	selectedScene(noneSelected),
+	selectedBuild(noneSelected),
+	generateZip(true),
+	startedBuild(false)
 {
 }
 
 WindowBuild::~WindowBuild()
 {
+}
+
+void WindowBuild::Reset()
+{
+	selectedScene = noneSelected;
+	selectedBuild = noneSelected;
+	generateZip = true;
+	startedBuild = false;
 }
 
 void WindowBuild::DrawWindowContents()
@@ -79,7 +93,7 @@ void WindowBuild::DrawGenerateZipCheckmark()
 
 void WindowBuild::DrawBuildButton()
 {
-	bool formNotFilled = selectedScene == "-" || selectedBuild == "-";
+	bool formNotFilled = selectedScene == noneSelected || selectedBuild == noneSelected;
 	if (formNotFilled)
 	{
 		ImGui::BeginDisabled();
@@ -88,7 +102,7 @@ void WindowBuild::DrawBuildButton()
 	if (ImGui::Button("Build game"))
 	{
 		startedBuild = true;
-		builder::BuildGame(buildTypes.find(selectedBuild)->second);
+		builder::BuildGame(buildTypes.find(selectedBuild)->second, generateZip);
 	}
 	if (formNotFilled)
 	{
