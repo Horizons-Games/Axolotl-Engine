@@ -559,7 +559,7 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 	}
 }
 
-void ModuleScene::RemoveGameObjectAndChildren(GameObject* object)
+void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 {
 	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
 	{
@@ -585,7 +585,7 @@ void ModuleScene::AddGameObject(GameObject* object)
 	}
 }
 
-void ModuleScene::RemoveGameObject(GameObject* object)
+void ModuleScene::RemoveGameObject(const GameObject* object)
 {
 	if (object->IsStatic())
 	{
