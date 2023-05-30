@@ -4,11 +4,26 @@
 
 #include "Animation/AnimationController.h"
 
+#include "Batch/BatchManager.h"
+
 #include "Camera/CameraGameObject.h"
 
+#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentAnimation.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
+#include "Components/ComponentAudioSource.h"
+#include "Components/UI/ComponentCanvas.h"
+
+#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 #include "DataModels/Skybox/Skybox.h"
+
+#include "DataStructures/Quadtree.h"
 
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
@@ -21,18 +36,8 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include "Components/ComponentAnimation.h"
-#include "Components/ComponentAudioSource.h"
-#include "Components/ComponentCamera.h"
-#include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentTransform.h"
-#include "Components/UI/ComponentButton.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include <stack>
-
-#include "DataStructures/Quadtree.h"
+#include <GL/glew.h>
 
 Scene::Scene() :
 	root(nullptr),
@@ -352,7 +357,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 				{
 					GameObject* rootBone = FindRootBone(gameObjectModel, bones);
 					meshRenderer->SetBones(CacheBoneHierarchy(rootBone, bones));
-					meshRenderer->InitBones();
 				}
 			}
 		}
@@ -575,6 +579,11 @@ void Scene::RenderPointLights() const
 	{
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
 	}
+	else
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
+	}
+
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
@@ -661,6 +670,8 @@ void Scene::UpdateSceneSpotLights()
 
 void Scene::InitNewEmptyScene()
 {
+	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
 
