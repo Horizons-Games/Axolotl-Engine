@@ -42,9 +42,12 @@ void PatrolBehaviourScript::StartPatrol() const
 			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 				(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 
+#ifdef DEBUG
 		dd::arrow(ownerTransform->GetGlobalPosition(),
 			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
 		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointOneTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
 		ownerRigidBody->SetRotationTarget(targetRotation);
 		ownerRigidBody->SetKpTorque(15.0f);
 	}
@@ -62,9 +65,12 @@ void PatrolBehaviourScript::Patrolling() const
 			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 				(wayPointTwoTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 
+#ifdef DEBUG
 		dd::arrow(ownerTransform->GetGlobalPosition(),
 			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
 		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointTwoTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
 		ownerRigidBody->SetRotationTarget(targetRotation);
 		ownerRigidBody->SetKpTorque(15.0f);
 	}
@@ -76,10 +82,12 @@ void PatrolBehaviourScript::Patrolling() const
 		Quat targetRotation =
 			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
 				(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
-
+#ifdef DEBUG
 		dd::arrow(ownerTransform->GetGlobalPosition(),
 			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
 		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointOneTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
 		ownerRigidBody->SetRotationTarget(targetRotation);
 		ownerRigidBody->SetKpTorque(15.0f);
 	}
