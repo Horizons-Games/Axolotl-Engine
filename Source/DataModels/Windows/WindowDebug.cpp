@@ -36,6 +36,7 @@ void WindowDebug::Draw(bool& enabled)
 			ImGui::Checkbox("Draw Spot Lights", &drawSpotLight);
 			ImGui::Checkbox("Draw Directional Lights", &drawDirLight);
 			ImGui::Checkbox("Draw Point Lights", &drawPointLight);
+			ImGui::Checkbox("Draw Physics", &drawPhysics);
 
 			ImGui::End();
 		}
