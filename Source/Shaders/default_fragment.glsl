@@ -186,8 +186,8 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 L = normalize(closest - FragPos);
         vec3 H = normalize(L + V);
         float specularDotNL = max(dot(N,L), EPSILON);
-
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        
+        vec3 FS = fresnelSchlick(f0, max(dot(-L,H), EPSILON));
         float SV = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
@@ -205,7 +205,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 Li = color*intensity;
         vec3 LoSpecular = 0.25 * FS * SV * GGXND * Li * attenuation * specularDotNL;
         vec3 LoDiffuse = (Cd * (1 - f0)) * Li * attenuation * diffuseDotNL;
-        Lo +=  LoSpecular;
+        Lo += LoDiffuse + LoSpecular;
     }
 
     return Lo;
@@ -246,7 +246,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         float specularDotNL = max(dot(N,L), EPSILON);
 
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        vec3 FS = fresnelSchlick(f0, max(dot(-L,H), EPSILON));
         float SV = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
