@@ -12,9 +12,11 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+	void SetMenuIsOpen(bool menuState);
+	void MenuIsOpen();
+	bool menuIsOpen;
 
 private:
-	bool menuIsOpen = false;
 
 	GameObject* disableObject;
 	GameObject* enableObject;
@@ -23,6 +25,11 @@ private:
 	ModuleInput* input;
 
 };
+
+inline void UIGameStates::SetMenuIsOpen(bool menuState)
+{
+	menuIsOpen = menuState;
+}
 
 
 

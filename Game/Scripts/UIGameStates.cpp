@@ -6,7 +6,7 @@
 
 REGISTERCLASS(UIGameStates);
 
-UIGameStates::UIGameStates() : Script(), disableObject(nullptr), enableObject(nullptr), player(nullptr)
+UIGameStates::UIGameStates() : Script(), disableObject(nullptr), enableObject(nullptr), player(nullptr), menuIsOpen(false)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
@@ -24,20 +24,24 @@ void UIGameStates::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_M) == KeyState::DOWN)
 	{
-		if (menuIsOpen == true)
-		{
-			menuIsOpen = false;
-			enableObject->Disable();
-			disableObject->Enable();
-			player->SetMouse(false);
-		}
-		if (menuIsOpen == false)
-		{
-			menuIsOpen = true;
-			enableObject->Enable();
-			disableObject->Disable();
-			player->SetMouse(true);
+		menuIsOpen = !menuIsOpen;
+		MenuIsOpen();
+	}
+}
 
-		}
+void UIGameStates::MenuIsOpen()
+{
+	if (menuIsOpen == true)
+	{
+		enableObject->Disable();
+		disableObject->Enable();
+		player->SetMouse(false);
+	}
+	if (menuIsOpen == false)
+	{
+		enableObject->Enable();
+		disableObject->Disable();
+		player->SetMouse(true);
+
 	}
 }

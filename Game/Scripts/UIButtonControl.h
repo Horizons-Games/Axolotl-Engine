@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 
 class ComponentButton;
+class ComponentScript;
 
 class UIButtonControl : public Script
 {
@@ -15,11 +16,14 @@ public:
 
 private:
 	bool isGameExit;
+	bool isGameResume;
 	GameObject* disableObject;
 	GameObject* enableObject;
 	GameObject* buttonHover;
+	GameObject* setGameStateObject;
 	ComponentButton* buttonComponent;
 	ModuleInput* input;
+	ComponentScript* uiGameStateScript;
 };
 
 
