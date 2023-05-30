@@ -100,7 +100,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{7B98FA82-2119-B05F-3FDF-713CA3DE83AB}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{C752A0C1-F399-C625-C4B7-AA50A5C13269}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -116,9 +116,25 @@
 					<ShortName>496565-Theresa-Cheer-Shout-Happy-3.wav</ShortName>
 					<CachePath>SFX/496565-Theresa-Cheer-Shout-Happy-3_10C4C929.wem</CachePath>
 				</File>
+				<File Id="352569210" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_patrol-002.wav</ShortName>
+					<CachePath>SFX/sfx_drone_patrol-002_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="457419217" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_alert-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_alert-001_31848A7C.wem</CachePath>
+				</File>
+				<File Id="566162525" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_patrol-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_patrol-001_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="566423542" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496525-Theresa-Pain-Shout_Short-Blazing-6.wav</ShortName>
 					<CachePath>SFX/496525-Theresa-Pain-Shout_Short-Blazing-6_10C4C929.wem</CachePath>
+				</File>
+				<File Id="568531453" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_shot_impact-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_shot_impact-001_10C4C929.wem</CachePath>
 				</File>
 				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>laser_01.wav</ShortName>
@@ -131,6 +147,10 @@
 				<File Id="778130062" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</ShortName>
 					<CachePath>SFX/495963-Theresa_Cartoon-Growl-Beastie-Angry-4_10C4C929.wem</CachePath>
+				</File>
+				<File Id="815114436" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_patrol-003.wav</ShortName>
+					<CachePath>SFX/sfx_drone_patrol-003_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="886104202" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</ShortName>
@@ -150,9 +170,28 @@
 				</File>
 			</Media>
 			<Events>
+				<Event Id="1852268823" Name="sfx_dron_alert">
+					<MediaRefs>
+						<MediaRef Id="457419217"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2553137074" Name="sfx_dron_alert_stop"/>
+				<Event Id="1216637029" Name="sfx_dron_patrol">
+					<MediaRefs>
+						<MediaRef Id="352569210"/>
+						<MediaRef Id="566162525"/>
+						<MediaRef Id="815114436"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3659993000" Name="sfx_dron_patrol_stop"/>
 				<Event Id="480444447" Name="sfx_dron_shot_01">
 					<MediaRefs>
 						<MediaRef Id="721259364"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="361939958" Name="sfx_dron_shot_impact_01">
+					<MediaRefs>
+						<MediaRef Id="568531453"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2814879688" Name="sfx_drunkNPC_sound_random">
@@ -742,5 +781,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{EFE93693-55C9-14B5-68C8-880571722463}</FileHash>
+	<FileHash>{792D4B4A-B25D-2405-3419-2DD957F597C0}</FileHash>
 </SoundBanksInfo>
