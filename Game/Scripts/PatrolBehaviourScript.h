@@ -14,13 +14,9 @@ public:
 	~PatrolBehaviourScript() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 
-	GameObject* GetWayPointOne() const;
-	void SetWayPointOne(GameObject* wayPointOne);
-
-	GameObject* GetWayPointTwo() const;
-	void SetWayPointTwo(GameObject* wayPointTwo);
+	void StartPatrol() const;
+	void Patrolling() const;
 
 private:
 	GameObject* wayPointOne;
