@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAnimation.h"
+#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentCamera.h"
@@ -19,6 +20,7 @@
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentTransform2D.h"
+#include "../Components/ComponentBreakable.h"
 
 #include "Application.h"
 
@@ -481,6 +483,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentRigidBody>(true, this);
 			break;
 		}
+		case ComponentType::BREAKABLE:
+		{
+			newComponent = std::make_unique<ComponentBreakable>(true, this);
+			break;
+		}
 
 		case ComponentType::ANIMATION:
 		{
@@ -533,6 +540,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::SCRIPT:
 		{
 			newComponent = std::make_unique<ComponentScript>(true, this);
+			break;
+		}
+		case ComponentType::CUBEMAP:
+		{
+			newComponent = std::make_unique<ComponentCubemap>(true,this);
 			break;
 		}
 
@@ -767,15 +779,6 @@ void GameObject::MoveUpChild(const GameObject* childToMove)
 void GameObject::MoveDownChild(const GameObject* childToMove)
 {
 	MoveChild(childToMove, HierarchyDirection::DOWN);
-}
-
-void GameObject::SetParentAsChildSelected()
-{
-	if (parent)
-	{
-		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
-		parent->SetParentAsChildSelected();
-	}
 }
 
 void GameObject::SpreadStatic()

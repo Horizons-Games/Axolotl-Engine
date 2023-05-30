@@ -27,7 +27,6 @@ public:
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
-	void ChangeSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
 	bool hasNewUID(UID oldUID, UID& newUID);
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
@@ -42,7 +41,7 @@ public:
 	void InitAndStartScriptingComponents();
 
 	void AddGameObjectAndChildren(GameObject* object);
-	void RemoveGameObjectAndChildren(GameObject* object);
+	void RemoveGameObjectAndChildren(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
@@ -52,7 +51,7 @@ private:
 	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy);
 
 	void AddGameObject(GameObject* object);
-	void RemoveGameObject(GameObject* object);
+	void RemoveGameObject(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;

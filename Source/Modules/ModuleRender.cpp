@@ -592,10 +592,11 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
 	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
-	glActiveTexture(GL_TEXTURE12);
+	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 
 	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
+	program->BindUniformFloat("cubeMap_intensity", cubemap->GetIntensity());
 
 	program->Deactivate();
 }

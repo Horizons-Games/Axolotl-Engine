@@ -76,14 +76,13 @@ public:
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
-	void MoveParent(GameObject* newParent);
 	void SetRootGO(GameObject* newRootGO);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
 	void ActivateChildren();
 
-	bool IsStatic();
+	bool IsStatic() const;
 	void SetStatic(bool newStatic);
 	void SpreadStatic();
 
@@ -98,7 +97,6 @@ public:
 	void MoveDownChild(const GameObject* childToMove);
 
 	bool IsADescendant(const GameObject* descendant);
-	void SetParentAsChildSelected();
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -147,14 +145,21 @@ inline UID GameObject::GetUID() const
 
 inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 {
-	if (stateOfSelection == StateOfSelection::NO_SELECTED)
-	{
-		if (parent)
-		{
-			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
-		}
-	}
 	this->stateOfSelection = stateOfSelection;
+	if (parent == nullptr)
+	{
+		return;
+	}
+	switch (stateOfSelection)
+	{
+	case StateOfSelection::NO_SELECTED:
+		parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+		break;
+	case StateOfSelection::SELECTED:
+	case StateOfSelection::CHILD_SELECTED:
+		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
+		break;
+	}
 }
 
 inline bool GameObject::IsEnabled() const
@@ -257,7 +262,7 @@ inline bool GameObject::CompareTag(const std::string& commingTag) const
 	return tag == commingTag;
 }
 
-inline bool GameObject::IsStatic()
+inline bool GameObject::IsStatic() const
 {
 	return staticObject;
 }

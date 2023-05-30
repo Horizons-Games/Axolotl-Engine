@@ -64,10 +64,10 @@ readonly layout(std430, binding = 11) buffer Materials {
 // IBL
 layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
-layout(binding = 12) uniform sampler2D environmentBRDF;
+layout(binding = 10) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
-
+uniform float cubeMap_intensity;
 uniform Light light;
 
 in vec3 FragTangent;
@@ -234,9 +234,8 @@ void main()
 
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL);
+        environmentBRDF, numLevels_IBL) * cubeMap_intensity;
 
     vec3 color = ambient + Lo;
     

@@ -85,7 +85,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 0.7284696102142334,
                             "localPos_Y": 6.497121810913086,
                             "localPos_Z": 25.44462013244629,
                             "localRot_X": 0.0,
@@ -139,7 +139,7 @@
                                 {
                                     "name": "CanDash",
                                     "value": true,
-                                    "type": 3
+                                    "type": 4
                                 }
                             ]
                         }
@@ -162,12 +162,15 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -10.0,
-                            "boxSize_X": 1.5,
-                            "boxSize_Y": 2.5,
-                            "boxSize_Z": 1.5,
+                            "boxSize_X": 4.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 4.0,
                             "radius": 0.0,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 0.7284696102142334,
+                            "rbPos_Y": 6.497121810913086,
+                            "rbPos_Z": 25.44462013244629
                         }
                     },
                     {
@@ -269,9 +272,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 12387388348239211582,
+                            "meshUID": 10209337947131085227,
                             "assetPathMesh": "Assets/Meshes/BixSolution.Cube.001_0.mesh",
-                            "materialUID": 10189295960361986836,
+                            "materialUID": 17152432179893230090,
                             "assetPathMaterial": "Assets/Materials/BixSolutionGlasses_0.mat"
                         }
                     }
@@ -338,9 +341,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 12530977590664565957,
+                            "meshUID": 17019108706277859034,
                             "assetPathMesh": "Assets/Meshes/BixSolution.Mesh.001_0.mesh",
-                            "materialUID": 12839866903067217367,
+                            "materialUID": 15779424896394901382,
                             "assetPathMaterial": "Assets/Materials/BixSolutionFace_0.mat"
                         }
                     }
@@ -393,7 +396,7 @@
                             "removed": false,
                             "localPos_X": 0.0000171661376953125,
                             "localPos_Y": 4.76837158203125e-7,
-                            "localPos_Z": -0.000004805624485015869,
+                            "localPos_Z": -0.0000057220458984375,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -407,9 +410,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 1927336338941699634,
+                            "meshUID": 14933883670055882795,
                             "assetPathMesh": "Assets/Meshes/BixSolution.Mesh.003_0.mesh",
-                            "materialUID": 12789937605103360422,
+                            "materialUID": 809646045329126614,
                             "assetPathMaterial": "Assets/Materials/BixSolutionBody_0.mat"
                         }
                     }
@@ -1520,9 +1523,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11750196588480664195,
+                            "meshUID": 1727292015656706237,
                             "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.002_0.mesh",
-                            "materialUID": 17938455816580072137,
+                            "materialUID": 3020584041972619210,
                             "assetPathMaterial": "Assets/Materials/BixSolutionLightSaber.001_0.mat"
                         }
                     }
@@ -1560,9 +1563,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 9717084525353413222,
+                            "meshUID": 14957373118533219765,
                             "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.002_1.mesh",
-                            "materialUID": 15365999035664225341,
+                            "materialUID": 7551340248941718784,
                             "assetPathMaterial": "Assets/Materials/BixSolutionLightSaberEmission_1.mat"
                         }
                     }
@@ -1629,9 +1632,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 2433907393973767469,
+                            "meshUID": 8527043813278729475,
                             "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.003_0.mesh",
-                            "materialUID": 17938455816580072137,
+                            "materialUID": 3020584041972619210,
                             "assetPathMaterial": "Assets/Materials/BixSolutionLightSaber.001_0.mat"
                         }
                     }
@@ -1714,9 +1717,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11935693928956840247,
+                            "meshUID": 5097944874115135421,
                             "assetPathMesh": "Assets/Meshes/Plane.mesh",
-                            "materialUID": 10749844959551884062,
+                            "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     },
@@ -1743,7 +1746,10 @@
                             "boxSize_Z": 51.514495849609375,
                             "radius": 8.485280990600586,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": -2.2203104496002197,
+                            "rbPos_Z": 0.0
                         }
                     }
                 ]
@@ -1764,7 +1770,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.2705426216125488,
+                            "localPos_X": -0.525752067565918,
                             "localPos_Y": 14.003867149353027,
                             "localPos_Z": -16.14756965637207,
                             "localRot_X": 0.0,
@@ -1780,9 +1786,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 7356052530050122696,
+                            "meshUID": 5838496268976162218,
                             "assetPathMesh": "Assets/Meshes/Cube.mesh",
-                            "materialUID": 10749844959551884062,
+                            "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     },
@@ -1809,7 +1815,10 @@
                             "boxSize_Z": 1.0,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 5.617915153503418,
+                            "rbPos_Y": 22.627132415771484,
+                            "rbPos_Z": -16.14756965637207
                         }
                     },
                     {
