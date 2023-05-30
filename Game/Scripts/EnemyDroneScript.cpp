@@ -106,7 +106,8 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (seekScript && attackScript && droneState == DroneBehaviours::ATTACK)
 	{
-		seekScript->StopSeeking();
+		seekScript->Seeking();
+		seekScript->DisableMovement();
 		attackScript->PerformAttack();
 
 		componentAnimation->SetParameter("IsAttacking", true);
