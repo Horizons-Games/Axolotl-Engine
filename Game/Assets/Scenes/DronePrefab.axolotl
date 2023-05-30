@@ -196,12 +196,12 @@
                             "fields": [
                                 {
                                     "name": "AttackDistance",
-                                    "value": 3.0,
+                                    "value": 5.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "SeekDistance",
-                                    "value": 6.0,
+                                    "value": 8.0,
                                     "type": 0
                                 }
                             ]

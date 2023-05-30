@@ -41,7 +41,7 @@ void PlayerJumpScript::Start()
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
-	if (!healthScript->EntityIsAlive())
+	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
 	}

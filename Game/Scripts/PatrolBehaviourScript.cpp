@@ -59,7 +59,7 @@ void PatrolBehaviourScript::StartPatrol() const
 // (This can be modularized into any amout of waypoints once the scripts can accept vectors)
 void PatrolBehaviourScript::Patrolling() const
 {
-	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 1.0f))
+	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 2.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetGlobalPosition());
 		
@@ -77,7 +77,7 @@ void PatrolBehaviourScript::Patrolling() const
 		ownerRigidBody->SetKpTorque(15.0f);
 	}
 
-	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 1.0f))
+	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 2.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
 		

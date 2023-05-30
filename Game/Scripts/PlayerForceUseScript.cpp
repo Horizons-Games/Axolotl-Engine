@@ -25,7 +25,7 @@
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-gameObjectAttachedParent(nullptr), tag("Forzable"), distancePointGameObjectAttached(0.0f),
+gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
 maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), 
 currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), healthScript(nullptr)
 {
@@ -74,7 +74,7 @@ void PlayerForceUseScript::Start()
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	if (!healthScript->EntityIsAlive())
+	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
 	}

@@ -42,7 +42,7 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	if (!healthScript->EntityIsAlive())
+	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
 	}

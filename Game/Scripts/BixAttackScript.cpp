@@ -97,7 +97,7 @@ void BixAttackScript::Start()
 
 void BixAttackScript::Update(float deltaTime)
 {
-	if (!healthScript->EntityIsAlive())
+	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
 	}
