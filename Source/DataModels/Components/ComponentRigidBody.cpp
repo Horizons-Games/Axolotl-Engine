@@ -36,7 +36,9 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
+#ifdef ENGINE
 	rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+#endif // ENGINE
 
 	SetLinearDamping(linearDamping);
 	SetAngularDamping(angularDamping);
@@ -72,7 +74,9 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
+#ifdef ENGINE
 	rigidBody->setCollisionFlags(btCollisionObject::CF_DISABLE_VISUALIZE_OBJECT);
+#endif
 
 	SetLinearDamping(toCopy.linearDamping);
 	SetAngularDamping(toCopy.angularDamping);
@@ -334,7 +338,9 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	canBeRemoved = static_cast<bool>(meta["removed"]);
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
 	SetIsStatic(static_cast<bool>(meta["isStatic"]));
+#ifdef ENGINE
 	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
+#endif
 	SetIsTrigger(static_cast<bool>(meta["isTrigger"]));
 	SetMass(static_cast<float>(meta["mass"]));
 	SetLinearDamping(static_cast<float>(meta["linearDamping"]));
