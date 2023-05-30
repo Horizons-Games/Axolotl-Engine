@@ -1,6 +1,27 @@
 Event	ID	Name			Wwise Object Path	Notes
+	361939958	sfx_dron_shot_impact_01			\SFX\NPC\sfx_dron_shot_impact_01	
 	480444447	sfx_dron_shot_01			\SFX\NPC\sfx_dron_shot_01	
+	1216637029	sfx_dron_patrol			\SFX\NPC\sfx_dron_patrol	
+	1852268823	sfx_dron_alert			\SFX\NPC\sfx_dron_alert	
+	2553137074	sfx_dron_alert_stop			\SFX\NPC\sfx_dron_alert_stop	
+	2814879688	sfx_drunkNPC_sound_random			\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound_random	
+	3659993000	sfx_dron_patrol_stop			\SFX\NPC\sfx_dron_patrol_stop	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	76274568	sfx_drunkNPC_sound-009	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496644-Theresa-Laugh-Hard-13_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-009		241760
+	99956401	sfx_drunkNPC_sound-006	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496612-Theresa-Drunk-Gibber_Talk-5_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-006		49760
+	240754137	sfx_drunkNPC_sound-005	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496565-Theresa-Cheer-Shout-Happy-3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-005		122040
+	352569210	sfx_drone_patrol-002	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_drone_patrol-002_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\sfx_drone_patrol-002		2493740
+	457419217	sfx_drone_alert-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_drone_alert-001_1BE37233.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\sfx_drone_alert-001		693024
+	566162525	sfx_drone_patrol-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_drone_patrol-001_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\sfx_drone_patrol-001		459788
+	566423542	sfx_drunkNPC_sound-004	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496525-Theresa-Pain-Shout_Short-Blazing-6_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-004		28256
+	568531453	sfx_drone_shot_impact-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_drone_shot_impact-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\sfx_drone_shot_impact-001		40852
 	721259364	sfx_dron_shot_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\laser_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\sfx_dron_shot_01		42008
+	734658739	sfx_NPC_deepVoiceTalk-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_NPC_deepVoiceTalk-001		373600
+	778130062	sfx_drunkNPC_sound-002	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\495963-Theresa_Cartoon-Growl-Beastie-Angry-4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-002		115956
+	815114436	sfx_drone_patrol-003	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_drone_patrol-003_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\sfx_drone_patrol-003		159032
+	886104202	sfx_drunkNPC_sound-003	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496397-Theresa-Attack-Shout_Long-Straight-Fatal-3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-003		167040
+	915073461	sfx_drunkNPC_sound-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-001		91232
+	922607347	sfx_drunkNPC_sound-008	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-008		186464
+	1008892742	sfx_drunkNPC_sound-007	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-007		162400
 

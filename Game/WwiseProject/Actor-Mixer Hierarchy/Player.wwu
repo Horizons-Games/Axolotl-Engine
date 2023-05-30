@@ -225,6 +225,28 @@
 								<ActiveSource Name="sfx_dash_whoosh-001" ID="{30580A0D-7331-4C72-8100-33BB14FD4872}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="sfx_footsteps_crouch_01" ID="{7E1C081E-DCB6-488C-A07C-C6BA7C2819D4}" ShortID="554793709">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_footsteps_crouch_01" ID="{9D2917F4-4AA3-4FC4-B39F-572F241DEC7D}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_footsteps_crouch_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="984190717"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_footsteps_crouch_01" ID="{9D2917F4-4AA3-4FC4-B39F-572F241DEC7D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="PlayerWeapons" ID="{575130A6-8F22-44CA-B788-17B12A3838A4}" ShortID="350583839">

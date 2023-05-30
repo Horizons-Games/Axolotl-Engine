@@ -73,6 +73,43 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="sfx_dron_shot_impact_01" ID="{ABFC1ACE-7A71-4CD7-91DE-77641751687E}">
+					<ChildrenList>
+						<Action Name="" ID="{5068EF63-F8FA-4F37-A72C-5C192A1B724C}" ShortID="69119051">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_shot_impact-001" ID="{3C9C8811-026F-4A69-84B1-6EDDE7387FD0}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dron_alert" ID="{E17BE6B3-01C7-449F-B203-EDFDD8BB57E7}">
+					<ChildrenList>
+						<Action Name="" ID="{6FBD132F-A6F6-489B-8192-BB2E68F0415B}" ShortID="431865857">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_alert-001" ID="{AAB92A0C-6EB2-41E5-BFC6-AAAE2261D47F}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dron_alert_stop" ID="{695FAA54-6039-44E2-9B27-86CD53854C4F}">
+					<ChildrenList>
+						<Action Name="" ID="{714247A3-EFAF-4D10-953B-303D48B0E5AC}" ShortID="874121152">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_alert-001" ID="{AAB92A0C-6EB2-41E5-BFC6-AAAE2261D47F}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<WorkUnit Name="NPCsCantina" ID="{FE576376-BB94-4EB1-84EF-142998372586}" PersistMode="Reference"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

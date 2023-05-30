@@ -1,6 +1,5 @@
 Event	ID	Name			Wwise Object Path	Notes
 	964751236	sfx_lightsaber_hum_stop			\SFX\Player\sfx_lightsaber_hum_stop	
-	977301039	sfx_force_play			\SFX\Player\sfx_force_play	
 	1430818805	sfx_footsteps_walk_stop			\SFX\Player\sfx_footsteps_walk_stop	
 	1494651949	sfx_dash_01			\SFX\Player\sfx_dash_01	
 	1792116364	sfx_lightsaber_clash			\SFX\Player\sfx_lightsaber_clash	
@@ -9,10 +8,14 @@ Event	ID	Name			Wwise Object Path	Notes
 	3050257279	sfx_footsteps_run_stop			\SFX\Player\sfx_footsteps_run_stop	
 	3222767057	sfx_lightsaber_open_01			\SFX\Player\sfx_lightsaber_open_01	
 	3335399033	sfx_lightsaber_swing			\SFX\Player\sfx_lightsaber_swing	
+	3736508461	sfx_force_stop			\SFX\Player\sfx_force_stop	
+	3824416186	sfx_footsteps_crouch_stop			\SFX\Player\sfx_footsteps_crouch_stop	
 	4115447157	sfx_jump_01			\SFX\Player\sfx_jump_01	
 	4135941005	sfx_lightsaber_hum_01			\SFX\Player\sfx_lightsaber_hum_01	
 	4171386676	sfx_footsteps_walk_01			\SFX\Player\sfx_footsteps_walk_01	
+	4185882835	sfx_footsteps_crouch_01			\SFX\Player\sfx_footsteps_crouch_01	
 	4219294839	sfx_lightsaber_close_01			\SFX\Player\sfx_lightsaber_close_01	
+	4238120494	sfx_force			\SFX\Player\sfx_force	
 
 Effect plug-ins	ID	Name	Type				Notes
 	674397401	Guitar Distortion (Custom)	Wwise Guitar Distortion			
@@ -30,5 +33,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	660733524	sfx_lightsaber_close_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_close_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_close_01		265592
 	759745302	sfx_dash_whoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_dash_whoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_dash_whoosh-001		69688
 	883987314	sfx_forceWoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_forceWoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\sfx_forceWoosh-001		514080
+	984190717	sfx_footsteps_crouch_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_crouch_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_crouch_01		1629300
 	1036642653	sfx_lightsaber_swing_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_swing_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_swing\sfx_lightsaber_swing_01		21472
 

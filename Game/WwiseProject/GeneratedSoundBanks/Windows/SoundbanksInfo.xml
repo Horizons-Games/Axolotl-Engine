@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{F9E11A83-709C-4D2A-FCEB-0CA0CD4BF1D1}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{468A7D14-117E-620D-70D0-D0EAB3AD32F0}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -21,9 +21,21 @@
 					<ShortName>First_Level_Sewers__v1.wav</ShortName>
 					<CachePath>SFX/First_Level_Sewers__v1_10C4C929.wem</CachePath>
 				</File>
+				<File Id="397861920" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>182680-amb-doomdrones-ripley-hall.wav</ShortName>
+					<CachePath>SFX/182680-amb-doomdrones-ripley-hall_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="649108800" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_bigDoor_close-001.wav</ShortName>
+					<CachePath>SFX/sfx_bigDoor_close-001_10C4C929.wem</CachePath>
+				</File>
 				<File Id="652056130" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ambient_crowd_talking_01.wav</ShortName>
 					<CachePath>SFX/sfx_ambient_crowd_talking_01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="789177941" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_bigDoor_open-001.wav</ShortName>
+					<CachePath>SFX/sfx_bigDoor_open-001_10C4C929.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -53,6 +65,16 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
+				<Event Id="3718347529" Name="sewers_ambient">
+					<MediaRefs>
+						<MediaRef Id="397861920"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4136005308" Name="sewers_ambient_stop">
+					<MediaRefs>
+						<MediaRef Id="397861920"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3000297385" Name="sewersMusic">
 					<MediaRefs>
 						<MediaRef Id="347047974"/>
@@ -63,29 +85,141 @@
 						<MediaRef Id="652056130"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="611136124" Name="sfx_bigDoor_close">
+					<MediaRefs>
+						<MediaRef Id="649108800"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3108491752" Name="sfx_bigDoor_open">
+					<MediaRefs>
+						<MediaRef Id="789177941"/>
+					</MediaRefs>
+				</Event>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{434CE934-E5FF-A25A-7B11-5B29500DF95B}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{04DCF061-0FFE-3A7D-76A0-DEF243512834}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
+				<File Id="76274568" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>496644-Theresa-Laugh-Hard-13.wav</ShortName>
+					<CachePath>SFX/496644-Theresa-Laugh-Hard-13_10C4C929.wem</CachePath>
+				</File>
+				<File Id="99956401" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>496612-Theresa-Drunk-Gibber_Talk-5.wav</ShortName>
+					<CachePath>SFX/496612-Theresa-Drunk-Gibber_Talk-5_10C4C929.wem</CachePath>
+				</File>
+				<File Id="240754137" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>496565-Theresa-Cheer-Shout-Happy-3.wav</ShortName>
+					<CachePath>SFX/496565-Theresa-Cheer-Shout-Happy-3_10C4C929.wem</CachePath>
+				</File>
+				<File Id="352569210" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_patrol-002.wav</ShortName>
+					<CachePath>SFX/sfx_drone_patrol-002_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="457419217" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_alert-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_alert-001_1BE37233.wem</CachePath>
+				</File>
+				<File Id="566162525" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_patrol-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_patrol-001_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="566423542" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>496525-Theresa-Pain-Shout_Short-Blazing-6.wav</ShortName>
+					<CachePath>SFX/496525-Theresa-Pain-Shout_Short-Blazing-6_10C4C929.wem</CachePath>
+				</File>
+				<File Id="568531453" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_shot_impact-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_shot_impact-001_10C4C929.wem</CachePath>
+				</File>
 				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>laser_01.wav</ShortName>
 					<CachePath>SFX/laser_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="734658739" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5.wav</ShortName>
+					<CachePath>SFX/374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5_10C4C929.wem</CachePath>
+				</File>
+				<File Id="778130062" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</ShortName>
+					<CachePath>SFX/495963-Theresa_Cartoon-Growl-Beastie-Angry-4_10C4C929.wem</CachePath>
+				</File>
+				<File Id="815114436" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_patrol-003.wav</ShortName>
+					<CachePath>SFX/sfx_drone_patrol-003_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="886104202" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</ShortName>
+					<CachePath>SFX/496397-Theresa-Attack-Shout_Long-Straight-Fatal-3_10C4C929.wem</CachePath>
+				</File>
+				<File Id="915073461" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3.wav</ShortName>
+					<CachePath>SFX/373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3_10C4C929.wem</CachePath>
+				</File>
+				<File Id="922607347" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10.wav</ShortName>
+					<CachePath>SFX/496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1008892742" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3.wav</ShortName>
+					<CachePath>SFX/496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3_10C4C929.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
+				<Event Id="1852268823" Name="sfx_dron_alert">
+					<MediaRefs>
+						<MediaRef Id="457419217"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2553137074" Name="sfx_dron_alert_stop">
+					<MediaRefs>
+						<MediaRef Id="457419217"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1216637029" Name="sfx_dron_patrol">
+					<MediaRefs>
+						<MediaRef Id="352569210"/>
+						<MediaRef Id="566162525"/>
+						<MediaRef Id="815114436"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3659993000" Name="sfx_dron_patrol_stop">
+					<MediaRefs>
+						<MediaRef Id="352569210"/>
+						<MediaRef Id="566162525"/>
+						<MediaRef Id="815114436"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="480444447" Name="sfx_dron_shot_01">
 					<MediaRefs>
 						<MediaRef Id="721259364"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="361939958" Name="sfx_dron_shot_impact_01">
+					<MediaRefs>
+						<MediaRef Id="568531453"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2814879688" Name="sfx_drunkNPC_sound_random">
+					<MediaRefs>
+						<MediaRef Id="76274568"/>
+						<MediaRef Id="99956401"/>
+						<MediaRef Id="240754137"/>
+						<MediaRef Id="566423542"/>
+						<MediaRef Id="778130062"/>
+						<MediaRef Id="886104202"/>
+						<MediaRef Id="915073461"/>
+						<MediaRef Id="922607347"/>
+						<MediaRef Id="1008892742"/>
+					</MediaRefs>
+				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{1560ED26-FAC4-B025-AB43-8A36106B2C76}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{811079D2-F0D4-11A1-86B3-DFD60D3628AC}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -137,6 +271,10 @@
 					<ShortName>sfx_forceWoosh-001.wav</ShortName>
 					<CachePath>SFX/sfx_forceWoosh-001_10C4C929.wem</CachePath>
 				</File>
+				<File Id="984190717" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_footsteps_crouch_01.wav</ShortName>
+					<CachePath>SFX/sfx_footsteps_crouch_01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="1036642653" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaber_swing_01.WAV</ShortName>
 					<CachePath>SFX/sfx_lightsaber_swing_01_10C4C929.wem</CachePath>
@@ -156,6 +294,16 @@
 				<Event Id="2967609084" Name="sfx_doubleJump_01">
 					<MediaRefs>
 						<MediaRef Id="137412610"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4185882835" Name="sfx_footsteps_crouch_01">
+					<MediaRefs>
+						<MediaRef Id="984190717"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3824416186" Name="sfx_footsteps_crouch_stop">
+					<MediaRefs>
+						<MediaRef Id="984190717"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2355582310" Name="sfx_footsteps_run_01">
@@ -178,10 +326,15 @@
 						<MediaRef Id="545082851"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="977301039" Name="sfx_force_play">
+				<Event Id="4238120494" Name="sfx_force">
 					<MediaRefs>
 						<MediaRef Id="87008145"/>
 						<MediaRef Id="883987314"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3736508461" Name="sfx_force_stop">
+					<MediaRefs>
+						<MediaRef Id="87008145"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4115447157" Name="sfx_jump_01">
@@ -604,5 +757,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{832B62D3-701C-2733-AC19-D64F1C9D3B63}</FileHash>
+	<FileHash>{1277F01A-6111-6AD7-01AE-F412F3D2872C}</FileHash>
 </SoundBanksInfo>

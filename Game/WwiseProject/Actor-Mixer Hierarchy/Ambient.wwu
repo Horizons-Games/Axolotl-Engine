@@ -35,6 +35,36 @@
 								<ActiveSource Name="First_Level_Sewers__v1" ID="{CC52A5C4-2BFA-4CEA-BA23-81EADBD2D02E}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="ambient_sewers" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" ShortID="458882770">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-17</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="182680-amb-doomdrones-ripley-hall" ID="{B98B8150-294B-4FED-A43F-57350EF22533}">
+									<Language>SFX</Language>
+									<AudioFile>182680-amb-doomdrones-ripley-hall.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="397861920"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="182680-amb-doomdrones-ripley-hall" ID="{B98B8150-294B-4FED-A43F-57350EF22533}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="CantinaAmbient" ID="{D24392DB-BFF1-438E-973B-81F45E2A15A4}" ShortID="1057592169">
@@ -176,6 +206,69 @@
 							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="cantina_music" ID="{F3848FFD-FC5D-4D88-9E54-BFBEE3D6FCCA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="3DAmbient" ID="{2DDB1159-80DA-444A-BC93-FAF45C4ED36D}" ShortID="42379436">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="sfx_bigDoor_close-001" ID="{A52D03B5-D2CB-4F69-9D1E-2D2D4799B46C}" ShortID="291914677">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_bigDoor_close-001" ID="{A2CFB540-9E2C-4636-9CDF-3EECABAF503E}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_bigDoor_close-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="649108800"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_bigDoor_close-001" ID="{A2CFB540-9E2C-4636-9CDF-3EECABAF503E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_bigDoor_open-001" ID="{2112B696-05EB-4522-B842-FD23A3F45B2D}" ShortID="1013381674">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_bigDoor_open-001" ID="{7CC29D05-E927-4F75-8CEC-6C84C678D84F}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_bigDoor_open-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="789177941"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_bigDoor_open-001" ID="{7CC29D05-E927-4F75-8CEC-6C84C678D84F}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
