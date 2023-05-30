@@ -15,8 +15,8 @@ public:
 
 	void Start() override;
 
-	void StartPatrol() const;
-	void Patrolling() const;
+	void StartPatrol();
+	void Patrolling();
 
 private:
 	GameObject* wayPointOne;
@@ -24,7 +24,10 @@ private:
 
 	ComponentTransform* wayPointOneTransform;
 	ComponentTransform* wayPointTwoTransform;
+	ComponentTransform* currentWayPointTransform;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;
 	GameObject* ownerRigidBodyGO;
+
+	void SetProportionalController() const;
 };
