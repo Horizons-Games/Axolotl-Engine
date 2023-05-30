@@ -14,7 +14,7 @@ ChangeMenuStatus::ChangeMenuStatus() : Script(), DisableMenu(nullptr), EnableMen
 
 void ChangeMenuStatus::Start()
 {
-	buttonComponent = static_cast<ComponentButton*>(owner->GetComponent(ComponentType::BUTTON));
+	buttonComponent = owner->GetComponent<ComponentButton>();
 }
 
 void ChangeMenuStatus::Update(float deltaTime)
