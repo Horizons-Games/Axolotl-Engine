@@ -62,7 +62,16 @@ void ComponentPointLight::Draw() const
 	{
 		return;
 	}
-#endif // ENGINE
+	if (IsEnabled())
+	{
+		ComponentTransform* transform =
+			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+
+		float3 position = transform->GetGlobalPosition();
+
+		dd::sphere(position, dd::colors::White, radius);
+	}
+#else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
@@ -72,6 +81,7 @@ void ComponentPointLight::Draw() const
 
 		dd::sphere(position, dd::colors::White, radius);
 	}
+#endif // ENGINE
 }
 
 void ComponentPointLight::SaveOptions(Json& meta)
