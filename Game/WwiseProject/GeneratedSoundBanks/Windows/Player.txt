@@ -33,6 +33,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	660733524	sfx_lightsaber_close_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_close_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_close_01		265592
 	759745302	sfx_dash_whoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_dash_whoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_dash_whoosh-001		69688
 	883987314	sfx_forceWoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_forceWoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\sfx_forceWoosh-001		514080
-	984190717	sfx_footsteps_crouch_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_crouch_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_crouch_01		1629300
+	984190717	sfx_footsteps_crouch_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_crouch_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_crouch_01		1629300
 	1036642653	sfx_lightsaber_swing_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_swing_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_swing\sfx_lightsaber_swing_01		21472
 

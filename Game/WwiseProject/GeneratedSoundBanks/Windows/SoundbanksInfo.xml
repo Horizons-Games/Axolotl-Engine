@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{61E61D18-B49D-DB5A-AD51-EA1197A384E7}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{943DE4B4-5E26-CE4E-54DD-D942281CEB52}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -208,7 +208,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{D94FB17B-9E3A-488E-808A-5327431997FE}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{1A472D07-E417-38AA-1FA8-391A6D5328E5}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -262,7 +262,7 @@
 				</File>
 				<File Id="984190717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_footsteps_crouch_01.wav</ShortName>
-					<CachePath>SFX/sfx_footsteps_crouch_01_10C4C929.wem</CachePath>
+					<CachePath>SFX/sfx_footsteps_crouch_01_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="1036642653" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaber_swing_01.WAV</ShortName>
@@ -814,5 +814,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{F894ED44-435A-B69A-05EE-C0FE9FB92406}</FileHash>
+	<FileHash>{D1BDCCF0-47E4-C289-5E34-2FA1EA463FEE}</FileHash>
 </SoundBanksInfo>

@@ -40,7 +40,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-17</Value>
+										<Value>-10</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
