@@ -11,9 +11,8 @@ namespace DRON
 static const wchar_t* SHOT_01 = L"sfx_dron_shot_01";
 static const wchar_t* SHOT_IMPACT_01 = L"sfx_dron_shot_impact_01";
 static const wchar_t* PATROL = L"sfx_dron_patrol";
-static const wchar_t* STOP_PATROL = L"sfx_dron_patrol_stop";
 static const wchar_t* ALERT = L"sfx_dron_alert";
-static const wchar_t* STOP_ALERT = L"sfx_dron_alert_stop";
+static const wchar_t* STOP_BEHAVIOURS = L"sfx_dron_behaviours_stop";
 } // namespace DRON
 namespace CANTINA
 {

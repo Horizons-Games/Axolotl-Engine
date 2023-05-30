@@ -100,7 +100,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{C752A0C1-F399-C625-C4B7-AA50A5C13269}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{8A460D55-2A14-3B4A-E245-E2E3DF04B195}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -175,7 +175,7 @@
 						<MediaRef Id="457419217"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2553137074" Name="sfx_dron_alert_stop"/>
+				<Event Id="3518287078" Name="sfx_dron_behaviours_stop"/>
 				<Event Id="1216637029" Name="sfx_dron_patrol">
 					<MediaRefs>
 						<MediaRef Id="352569210"/>
@@ -183,7 +183,6 @@
 						<MediaRef Id="815114436"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3659993000" Name="sfx_dron_patrol_stop"/>
 				<Event Id="480444447" Name="sfx_dron_shot_01">
 					<MediaRefs>
 						<MediaRef Id="721259364"/>
@@ -781,5 +780,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{792D4B4A-B25D-2405-3419-2DD957F597C0}</FileHash>
+	<FileHash>{3083691B-DB1D-438D-D991-ABA4046C5E8E}</FileHash>
 </SoundBanksInfo>

@@ -3,9 +3,8 @@ Event	ID	Name			Wwise Object Path	Notes
 	480444447	sfx_dron_shot_01			\SFX\NPC\DRON\sfx_dron_shot_01	
 	1216637029	sfx_dron_patrol			\SFX\NPC\DRON\sfx_dron_patrol	
 	1852268823	sfx_dron_alert			\SFX\NPC\DRON\sfx_dron_alert	
-	2553137074	sfx_dron_alert_stop			\SFX\NPC\DRON\sfx_dron_alert_stop	
 	2814879688	sfx_drunkNPC_sound_random			\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound_random	
-	3659993000	sfx_dron_patrol_stop			\SFX\NPC\DRON\sfx_dron_patrol_stop	
+	3518287078	sfx_dron_behaviours_stop			\SFX\NPC\DRON\sfx_dron_behaviours_stop	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	76274568	sfx_drunkNPC_sound-009	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\496644-Theresa-Laugh-Hard-13_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPCsCantina\sfx_drunkNPC_sound\sfx_drunkNPC_sound-009		241760
