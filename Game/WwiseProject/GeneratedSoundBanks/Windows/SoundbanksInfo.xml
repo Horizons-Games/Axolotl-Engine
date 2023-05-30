@@ -619,7 +619,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{6310B549-55F6-448E-9DC5-095FB4A6AB72}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{32CF7B0D-D3EF-C226-0845-42BDE891DE4D}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -638,6 +638,10 @@
 				<File Id="954958858" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>First_Level_Sewers__v1.wav</ShortName>
 					<CachePath>SFX/First_Level_Sewers__v1_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1007663920" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>silence.wav</ShortName>
+					<CachePath>SFX/silence_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="1053497374" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>273567-Game-Over-Robot-Hit-8.wav</ShortName>
@@ -743,6 +747,38 @@
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
+											<MediaRefs>
+												<MediaRef Id="1007663920"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
+											<MediaRefs>
+												<MediaRef Id="1007663920"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
 				<Event Id="1917263390" Name="StopMusic"/>
@@ -778,5 +814,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{CB54ACA2-F224-8EEC-4A9A-260918E2479E}</FileHash>
+	<FileHash>{F894ED44-435A-B69A-05EE-C0FE9FB92406}</FileHash>
 </SoundBanksInfo>

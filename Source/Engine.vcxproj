@@ -182,6 +182,8 @@
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp" />
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -502,6 +504,8 @@
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
