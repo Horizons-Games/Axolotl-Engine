@@ -8,10 +8,12 @@
 REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
-	ownerRigidBody(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), wayPointTwoTransform(nullptr)
+	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), 
+	wayPointTwoTransform(nullptr)
 {
 	REGISTER_FIELD(wayPointOne, GameObject*);
 	REGISTER_FIELD(wayPointTwo, GameObject*);
+	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void PatrolBehaviourScript::Start()
@@ -26,7 +28,7 @@ void PatrolBehaviourScript::Start()
 		wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
 	}
 
-	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerRigidBody = static_cast<ComponentRigidBody*>(ownerRigidBodyGO->GetComponent(ComponentType::RIGIDBODY));
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 }
 

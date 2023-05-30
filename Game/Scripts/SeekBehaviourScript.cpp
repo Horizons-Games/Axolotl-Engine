@@ -11,9 +11,10 @@
 REGISTERCLASS(SeekBehaviourScript);
 
 SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr), 
-	ownerRigidBody(nullptr), targetTransform(nullptr), ownerTransform(nullptr)
+	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), targetTransform(nullptr), ownerTransform(nullptr)
 {
 	REGISTER_FIELD(target, GameObject*);
+	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void SeekBehaviourScript::Start()
@@ -23,7 +24,7 @@ void SeekBehaviourScript::Start()
 		targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
 	}
 
-	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerRigidBody = static_cast<ComponentRigidBody*>(ownerRigidBodyGO->GetComponent(ComponentType::RIGIDBODY));
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 }
 
