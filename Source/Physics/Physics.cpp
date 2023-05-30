@@ -131,8 +131,8 @@ bool Physics::RaycastToTag(const LineSegment& ray, RaycastHit& hit, GameObject* 
 	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
 #endif
 	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
-	AddIntersectionDynamicObjects(hitGameObjects, 
-		ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+	AddIntersectionDynamicObjects(
+		hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
 
 	GetRaycastHitInfoWithTag(hitGameObjects, ray, hit, exceptionGameObject, tag);
 
@@ -426,7 +426,10 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 }
 
 void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>& hitGameObjects,
-	const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject, std::string tag)
+									   const LineSegment& ray,
+									   RaycastHit& hit,
+									   GameObject* exceptionGameObject,
+									   std::string tag)
 {
 	GameObject* newSelectedGameObject = nullptr;
 
@@ -451,8 +454,7 @@ void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>&
 			isInside = it != children.end();
 			if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
 			{
-				ComponentMeshRenderer* componentMeshRenderer = static_cast<ComponentMeshRenderer*>
-					(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+				ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
 
 				if (!componentMeshRenderer)
 				{
@@ -465,8 +467,8 @@ void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>&
 					continue;
 				}
 
-				const float4x4& gameObjectModelMatrix = static_cast<ComponentTransform*>
-					(actualGameObject->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+				const float4x4& gameObjectModelMatrix =
+					actualGameObject->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 				const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 
@@ -484,7 +486,7 @@ void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>&
 						continue;
 					}
 
-					// Only save a gameObject when any of its triangles is hit 
+					// Only save a gameObject when any of its triangles is hit
 					// and it is the nearest triangle to the frustum
 					newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
 					minCurrentDistance = thisDistance;

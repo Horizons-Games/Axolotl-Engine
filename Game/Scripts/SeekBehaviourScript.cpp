@@ -24,7 +24,7 @@ void SeekBehaviourScript::Start()
 		targetTransform = target->GetComponent<ComponentTransform>();
 	}
 	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
-	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ownerTransform = owner->GetComponent<ComponentTransform>();
 }
 
 // When this behaviour is triggered, the enemy will go towards its target

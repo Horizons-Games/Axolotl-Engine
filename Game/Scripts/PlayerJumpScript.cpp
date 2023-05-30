@@ -25,11 +25,11 @@ PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoub
 void PlayerJumpScript::Start()
 {
 	canDoubleJump ? jumps = 2 : jumps = 1;
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
 
 	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		owner->GetParent()->GetComponents<ComponentScript>();
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
 		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")

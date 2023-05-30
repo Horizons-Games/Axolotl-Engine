@@ -30,7 +30,7 @@ void PlayerMoveScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		owner->GetParent()->GetComponents<ComponentScript>();
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
 		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")

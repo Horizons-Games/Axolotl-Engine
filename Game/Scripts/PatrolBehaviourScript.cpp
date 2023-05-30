@@ -30,6 +30,7 @@ void PatrolBehaviourScript::Start()
 
 	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+}
 
 // Initally set the first waypoint as the destiny
 void PatrolBehaviourScript::StartPatrol() const
