@@ -100,7 +100,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{04DCF061-0FFE-3A7D-76A0-DEF243512834}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{7B98FA82-2119-B05F-3FDF-713CA3DE83AB}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -116,25 +116,9 @@
 					<ShortName>496565-Theresa-Cheer-Shout-Happy-3.wav</ShortName>
 					<CachePath>SFX/496565-Theresa-Cheer-Shout-Happy-3_10C4C929.wem</CachePath>
 				</File>
-				<File Id="352569210" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_patrol-002.wav</ShortName>
-					<CachePath>SFX/sfx_drone_patrol-002_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="457419217" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_alert-001.wav</ShortName>
-					<CachePath>SFX/sfx_drone_alert-001_1BE37233.wem</CachePath>
-				</File>
-				<File Id="566162525" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_patrol-001.wav</ShortName>
-					<CachePath>SFX/sfx_drone_patrol-001_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="566423542" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496525-Theresa-Pain-Shout_Short-Blazing-6.wav</ShortName>
 					<CachePath>SFX/496525-Theresa-Pain-Shout_Short-Blazing-6_10C4C929.wem</CachePath>
-				</File>
-				<File Id="568531453" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_shot_impact-001.wav</ShortName>
-					<CachePath>SFX/sfx_drone_shot_impact-001_10C4C929.wem</CachePath>
 				</File>
 				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>laser_01.wav</ShortName>
@@ -147,10 +131,6 @@
 				<File Id="778130062" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</ShortName>
 					<CachePath>SFX/495963-Theresa_Cartoon-Growl-Beastie-Angry-4_10C4C929.wem</CachePath>
-				</File>
-				<File Id="815114436" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_patrol-003.wav</ShortName>
-					<CachePath>SFX/sfx_drone_patrol-003_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="886104202" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</ShortName>
@@ -170,38 +150,9 @@
 				</File>
 			</Media>
 			<Events>
-				<Event Id="1852268823" Name="sfx_dron_alert">
-					<MediaRefs>
-						<MediaRef Id="457419217"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="2553137074" Name="sfx_dron_alert_stop">
-					<MediaRefs>
-						<MediaRef Id="457419217"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="1216637029" Name="sfx_dron_patrol">
-					<MediaRefs>
-						<MediaRef Id="352569210"/>
-						<MediaRef Id="566162525"/>
-						<MediaRef Id="815114436"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="3659993000" Name="sfx_dron_patrol_stop">
-					<MediaRefs>
-						<MediaRef Id="352569210"/>
-						<MediaRef Id="566162525"/>
-						<MediaRef Id="815114436"/>
-					</MediaRefs>
-				</Event>
 				<Event Id="480444447" Name="sfx_dron_shot_01">
 					<MediaRefs>
 						<MediaRef Id="721259364"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="361939958" Name="sfx_dron_shot_impact_01">
-					<MediaRefs>
-						<MediaRef Id="568531453"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2814879688" Name="sfx_drunkNPC_sound_random">
@@ -478,6 +429,7 @@
 					<Switches>
 						<Switch Id="2582085496" Name="Exploration"/>
 						<Switch Id="2764240573" Name="Combat"/>
+						<Switch Id="3604647259" Name="MainMenu"/>
 					</Switches>
 				</SwitchGroup>
 			</SwitchGroups>
@@ -631,13 +583,29 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{11F631FF-1F58-415A-AD05-4C6B2B417421}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{6310B549-55F6-448E-9DC5-095FB4A6AB72}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
+				<File Id="381488682" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Hangar_combat_v6.wav</ShortName>
+					<CachePath>SFX/Hangar_combat_v6_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="524503712" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Sewers_combat_150BPM_V05 (1).wav</ShortName>
+					<CachePath>SFX/Sewers_combat_150BPM_V05 (1)_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="856126812" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Hangar_A_140.wav</ShortName>
+					<CachePath>SFX/Hangar_A_140_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="954958858" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>First_Level_Sewers__v1.wav</ShortName>
 					<CachePath>SFX/First_Level_Sewers__v1_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1053497374" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>273567-Game-Over-Robot-Hit-8.wav</ShortName>
+					<CachePath>SFX/273567-Game-Over-Robot-Hit-8_D79FB2B7.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
@@ -652,7 +620,7 @@
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
 											<MediaRefs>
-												<MediaRef Id="954958858"/>
+												<MediaRef Id="1053497374"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -668,7 +636,7 @@
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
 											<MediaRefs>
-												<MediaRef Id="954958858"/>
+												<MediaRef Id="524503712"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -700,7 +668,7 @@
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
 											<MediaRefs>
-												<MediaRef Id="954958858"/>
+												<MediaRef Id="856126812"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -716,7 +684,23 @@
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
 											<MediaRefs>
-												<MediaRef Id="954958858"/>
+												<MediaRef Id="381488682"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="0"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="0"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="3604647259"/>
+											<MediaRefs>
+												<MediaRef Id="856126812"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -752,10 +736,11 @@
 					<Switches>
 						<Switch Id="2582085496" Name="Exploration"/>
 						<Switch Id="2764240573" Name="Combat"/>
+						<Switch Id="3604647259" Name="MainMenu"/>
 					</Switches>
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{1277F01A-6111-6AD7-01AE-F412F3D2872C}</FileHash>
+	<FileHash>{EFE93693-55C9-14B5-68C8-880571722463}</FileHash>
 </SoundBanksInfo>

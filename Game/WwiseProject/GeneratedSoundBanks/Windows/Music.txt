@@ -8,6 +8,7 @@ Switch Group	ID	Name			Wwise Object Path	Notes
 Switch	ID	Name	Switch Group			Notes
 	2582085496	Exploration	Gameplay			
 	2764240573	Combat	Gameplay			
+	3604647259	MainMenu	Gameplay			
 
 State Group	ID	Name			Wwise Object Path	Notes
 	444815956	PlayerLife			\Default Work Unit\PlayerLife	
@@ -26,5 +27,9 @@ State	ID	Name	State Group			Notes
 	3434002879	Cantina	Zone			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	954958858	sewersExploration	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\Defeated\sewersExploration		7690336
+	381488682	Hangar_combat_v6	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Hangar_combat_v6_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\HangarCombat\Hangar_combat_v6		17354344
+	524503712	Sewers_combat_150BPM_V05	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Sewers_combat_150BPM_V05 (1)_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\SewersCombat\Sewers_combat_150BPM_V05		15000096
+	856126812	Hangar_A_140	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Hangar_A_140_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\HangarExploration\Hangar_A_140		17354344
+	954958858	sewersExploration	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\SewersExploration\sewersExploration		7690336
+	1053497374	Defeated	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\273567-Game-Over-Robot-Hit-8_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\Defeated\Defeated		662084
 
