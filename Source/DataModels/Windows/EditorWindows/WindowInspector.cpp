@@ -8,7 +8,15 @@
 #include "DataModels/Resources/ResourceTexture.h"
 #include "Scene/Scene.h"
 
+#include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioListener.h"
+#include "Components/ComponentBreakable.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentMeshCollider.h"
+#include "Components/ComponentMockState.h"
+#include "Components/ComponentPlayer.h"
+#include "Components/ComponentRigidBody.h"
+#include "Components/ComponentTransform.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
@@ -106,7 +114,8 @@ WindowInspector::WindowInspector() :
 		},
 		ComponentFunctionality::GAMEPLAY));
 
-	actions.push_back(AddComponentAction("Create Breakable Component",
+	actions.push_back(AddComponentAction(
+		"Create Breakable Component",
 		std::bind(&WindowInspector::AddComponentBreakable, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
@@ -152,7 +161,7 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		ImGui::PushID(0);
 	}
-	
+
 	if (lastSelectedGameObject)
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();

@@ -7,6 +7,8 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
+#include "DataModels/Components/ComponentTransform.h"
+
 #include "DataStructures/Quadtree.h"
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);

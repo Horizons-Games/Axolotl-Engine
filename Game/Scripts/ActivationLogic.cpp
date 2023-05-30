@@ -10,6 +10,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentPlayer.h"
 
 #include "GameObject/GameObject.h"
 

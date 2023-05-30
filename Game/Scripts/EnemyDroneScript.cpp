@@ -27,7 +27,12 @@ void EnemyDroneScript::Start()
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
-	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
+	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	seekScript = owner->GetComponent<SeekBehaviourScript>();
+	attackScript = owner->GetComponent<DroneAttack>();
+	healthScript = owner->GetComponent<HealthSystem>();
+
+	/*std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
@@ -50,7 +55,7 @@ void EnemyDroneScript::Start()
 		{
 			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
 		}
-	}
+	}*/
 
 	droneState = DroneBehaviours::IDLE;
 }

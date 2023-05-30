@@ -40,13 +40,13 @@ std::vector<C*> GameObject::GetComponents() const
 }
 
 template<typename C>
-inline bool GameObject::RemoveComponent()
+bool GameObject::RemoveComponent()
 {
 	return RemoveComponent(GetComponent<C>());
 }
 
 template<typename C>
-inline bool GameObject::RemoveComponents()
+bool GameObject::RemoveComponents()
 {
 	auto removeIfResult = std::remove_if(std::begin(components),
 										 std::end(components),
@@ -56,4 +56,35 @@ inline bool GameObject::RemoveComponents()
 										 });
 	components.erase(removeIfResult, std::end(components));
 	return removeIfResult != std::end(components);
+}
+
+template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
+S* GameObject::GetComponent()
+{
+	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
+	auto componentWithScript = std::ranges::find_if(componentScripts,
+													[](const ComponentScript* component)
+													{
+														return dynamic_cast<S*>(component->GetScript()) != nullptr;
+													});
+	return componentWithScript != std::end(componentScripts) ? dynamic_cast<S*>((*componentWithScript)->GetScript())
+															 : nullptr;
+}
+
+template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
+std::vector<S*> GameObject::GetComponents()
+{
+	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
+	auto filteredScripts = componentScripts |
+						   std::views::transform(
+							   [](ComponentScript* component)
+							   {
+								   return dynamic_cast<S*>(component->GetScript());
+							   }) |
+						   std::views::filter(
+							   [](S* script)
+							   {
+								   return script != nullptr;
+							   });
+	return std::vector<S*>(std::begin(filteredScripts), std::end(filteredScripts));
 }
