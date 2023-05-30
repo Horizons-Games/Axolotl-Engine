@@ -87,7 +87,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		//componentAnimation->SetParameter("IsUsingForce", true);
 		RaycastHit hit;
 		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
-		LineSegment line(ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->GetBoundingBox().Size().y);
+		LineSegment line(ray, 300);
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{	
 			gameObjectAttached = hit.gameObject;
