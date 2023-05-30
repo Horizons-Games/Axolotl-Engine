@@ -6,9 +6,12 @@
 
 class ComponentScript;
 class ComponentTransform;
+class ComponentAnimation;
+
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
 class DroneAttack;
+class HealthSystem;
 
 enum class DroneBehaviours
 {
@@ -36,5 +39,8 @@ private:
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
 	DroneAttack* attackScript;
+	HealthSystem* healthScript;
+
 	ComponentTransform* ownerTransform;
+	ComponentAnimation* componentAnimation;
 };

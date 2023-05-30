@@ -2788,7 +2788,7 @@
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
-                                    "value": 2.0,
+                                    "value": 5.5,
                                     "type": 0
                                 },
                                 {

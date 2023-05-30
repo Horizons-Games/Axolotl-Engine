@@ -26,7 +26,7 @@
 
 REGISTERCLASS(DroneAttack);
 
-DroneAttack::DroneAttack() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
+DroneAttack::DroneAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
 input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
 bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), bulletVelocity(0.2f),
 bulletPrefab(nullptr)
@@ -59,10 +59,6 @@ void DroneAttack::Start()
 
 void DroneAttack::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE)//Provisional for testing: delete it when using attack from drone script
-	{
-		PerformAttack();
-	}
 }
 
 void DroneAttack::PerformAttack()

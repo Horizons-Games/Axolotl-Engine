@@ -6,14 +6,17 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
+
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
 componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
+dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), healthScript(nullptr)
 {
 	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(dashForce, float);
@@ -25,10 +28,25 @@ void PlayerMoveScript::Start()
 	componentTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+
+	std::vector<ComponentScript*> gameObjectScripts =
+		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	for (int i = 0; i < gameObjectScripts.size(); ++i)
+	{
+		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+		{
+			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+		}
+	}
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
+	if (!healthScript->EntityIsAlive())
+	{
+		return;
+	}
+
 	Move(deltaTime);
 }
 

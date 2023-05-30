@@ -3,6 +3,7 @@
 
 class ComponentAnimation;
 class ComponentAudioSource;
+class HealthSystem;
 
 class PlayerJumpScript : public Script
 {
@@ -23,5 +24,7 @@ private:
 
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
+
+	HealthSystem* healthScript;
 };
 

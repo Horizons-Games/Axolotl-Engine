@@ -20,13 +20,14 @@
 #include "PlayerRotationScript.h"
 #include "PlayerCameraRotationVerticalScript.h"
 #include "PlayerMoveScript.h"
+#include "HealthSystem.h"
 
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forzable"), distancePointGameObjectAttached(0.0f),
 maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), 
-currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr)
+currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), healthScript(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -54,6 +55,10 @@ void PlayerForceUseScript::Start()
 		{
 			moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
 		}
+		else if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+		{
+			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+		}
 	}
 
 	gameObjectScripts =
@@ -69,6 +74,11 @@ void PlayerForceUseScript::Start()
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
+	if (!healthScript->EntityIsAlive())
+	{
+		return;
+	}
+
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	const ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 

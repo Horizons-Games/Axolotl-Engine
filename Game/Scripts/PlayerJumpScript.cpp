@@ -7,13 +7,16 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
+
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoubleJump(false) , jumpReset(0), 
-	componentAnimation(nullptr), jumps(0), componentAudio(nullptr)
+	componentAnimation(nullptr), jumps(0), componentAudio(nullptr), healthScript(nullptr)
 {
 	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(canDoubleJump, bool);
@@ -24,10 +27,25 @@ void PlayerJumpScript::Start()
 	canDoubleJump ? jumps = 2 : jumps = 1;
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+
+	std::vector<ComponentScript*> gameObjectScripts =
+		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	for (int i = 0; i < gameObjectScripts.size(); ++i)
+	{
+		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+		{
+			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+		}
+	}
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
+	if (!healthScript->EntityIsAlive())
+	{
+		return;
+	}
+
 	Jump(deltaTime);
 }
 

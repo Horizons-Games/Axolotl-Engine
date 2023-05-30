@@ -103,15 +103,6 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Animation",
-                            "active": true,
-                            "removed": true,
-                            "stateUID": 13450203144240708209,
-                            "assetPathState": "Assets/StateMachine/BixAnimationController.state"
-                        }
                     }
                 ]
             }
@@ -131,7 +122,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 0.0001220703125,
                             "localPos_Y": 2.040283679962158,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
@@ -321,6 +312,33 @@
                                     "type": 4
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 2.0,
+                            "boxSize_Y": 2.0999999046325684,
+                            "boxSize_Z": 1.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0
                         }
                     }
                 ]

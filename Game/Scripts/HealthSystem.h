@@ -2,6 +2,8 @@
 
 #include "Scripting\Script.h"
 
+class ComponentAnimation;
+
 class HealthSystem : public Script
 {
 public:
@@ -14,7 +16,11 @@ public:
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
 
+	bool EntityIsAlive() const;
+
 private:
 	float currentHealth;
 	float maxHealth;
+
+	ComponentAnimation* componentAnimation;
 };
