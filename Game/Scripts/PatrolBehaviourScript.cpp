@@ -3,12 +3,17 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "debugdraw.h"
+
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr)
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
+	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), 
+	wayPointTwoTransform(nullptr)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(WayPointOne, GameObject*);
-	REGISTER_FIELD_WITH_ACCESSORS(WayPointTwo, GameObject*);
+	REGISTER_FIELD(wayPointOne, GameObject*);
+	REGISTER_FIELD(wayPointTwo, GameObject*);
+	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void PatrolBehaviourScript::Start()
@@ -23,52 +28,69 @@ void PatrolBehaviourScript::Start()
 		wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
 	}
 
-	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerRigidBody = static_cast<ComponentRigidBody*>(ownerRigidBodyGO->GetComponent(ComponentType::RIGIDBODY));
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+}
 
+// Initally set the first waypoint as the destiny
+void PatrolBehaviourScript::StartPatrol() const
+{
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
-		// Initally set the first waypoint as the destiny
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetGlobalRotation());
+		ownerRigidBody->SetKpForce(1.5f);
+		
+		Quat targetRotation =
+			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+				(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+
+#ifdef DEBUG
+		dd::arrow(ownerTransform->GetGlobalPosition(),
+			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointOneTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
+		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
 }
 
-void PatrolBehaviourScript::Update(float deltaTime)
+// When this behaviour is triggered, the enemy will patrol between its waypoints
+// (This can be modularized into any amout of waypoints once the scripts can accept vectors)
+void PatrolBehaviourScript::Patrolling() const
 {
-	ENGINE_LOG("%s", "Now patrolling...");
-
-	// When this behaviour is triggered, the enemy will patrol between its waypoints
-	// (This can be modularized into any amout when the scripts can accept vectors)
-	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 1.0f))
+	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 2.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetGlobalPosition());
-		ownerRigidBody->SetRotationTarget(wayPointTwoTransform->GetGlobalRotation());
+		
+		Quat targetRotation =
+			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+				(wayPointTwoTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+
+#ifdef DEBUG
+		dd::arrow(ownerTransform->GetGlobalPosition(),
+			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointTwoTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
+		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
 
-	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 1.0f))
+	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 2.0f))
 	{
 		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetGlobalPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetGlobalRotation());
+		
+		Quat targetRotation =
+			Quat::RotateFromTo(ownerTransform->GetGlobalForward(),
+				(wayPointOneTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+#ifdef DEBUG
+		dd::arrow(ownerTransform->GetGlobalPosition(),
+			ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+		dd::arrow(ownerTransform->GetGlobalPosition(), wayPointOneTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
+		ownerRigidBody->SetRotationTarget(targetRotation);
+		ownerRigidBody->SetKpTorque(15.0f);
 	}
-}
-
-GameObject* PatrolBehaviourScript::GetWayPointOne() const
-{
-	return wayPointOne;
-}
-
-void PatrolBehaviourScript::SetWayPointOne(GameObject* wayPointOne)
-{
-	this->wayPointOne = wayPointOne;
-}
-
-GameObject* PatrolBehaviourScript::GetWayPointTwo() const
-{
-	return wayPointTwo;
-}
-
-void PatrolBehaviourScript::SetWayPointTwo(GameObject* wayPointTwo)
-{
-	this->wayPointTwo = wayPointTwo;
 }

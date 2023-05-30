@@ -14,14 +14,15 @@ public:
 	~SeekBehaviourScript() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 
-	GameObject* GetTarget() const;
-	void SetTarget(GameObject* target);
+	void Seeking() const;
+	void StopSeeking() const;
 
 private:
 	GameObject* target;
 
 	ComponentTransform* targetTransform;
 	ComponentRigidBody* ownerRigidBody;
+	GameObject* ownerRigidBodyGO;
+	ComponentTransform* ownerTransform;
 };

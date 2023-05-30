@@ -258,8 +258,7 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
-			rootQuadtree->RemoveGameObjectAndChildren(gameObject);
-			RemoveNonStaticObject(gameObject);
+			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
 			RemoveGameObjectFromScripts(gameObject);
 			delete gameObject->GetParent()->UnlinkChild(gameObject);
 		});
@@ -830,7 +829,7 @@ void Scene::AddStaticObject(GameObject* gameObject)
 	}
 }
 
-void Scene::RemoveStaticObject(GameObject* gameObject)
+void Scene::RemoveStaticObject(const GameObject* gameObject)
 {
 	rootQuadtree->Remove(gameObject);
 }

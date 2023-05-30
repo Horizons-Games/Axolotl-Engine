@@ -331,9 +331,6 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
@@ -370,6 +367,9 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HealthSystem.cpp">
+      <Filter>UserScripts\Health System</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
@@ -377,6 +377,9 @@
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
@@ -408,6 +411,16 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
+    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
+      <Filter>UserScripts\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,12 +747,6 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
@@ -779,6 +786,12 @@
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HealthSystem.h">
+      <Filter>UserScripts\Health System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
@@ -788,7 +801,13 @@
     <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
     <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
@@ -822,6 +841,16 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
+    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
+      <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -900,9 +929,6 @@
     <Filter Include="UserScripts\Enemies">
       <UniqueIdentifier>{acde5fbc-7f38-40b9-bbf4-7d669f5813ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Auxiliar">
-      <UniqueIdentifier>{b64e48db-e074-4748-b95c-06af30b4bb9d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Basics">
       <UniqueIdentifier>{2efe8905-6d7a-43f9-8bd7-35f513304159}</UniqueIdentifier>
     </Filter>
@@ -911,6 +937,9 @@
     </Filter>
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Health System">
+      <UniqueIdentifier>{562f5fbe-0e28-41cf-b6f2-8398f0b8bbfa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
