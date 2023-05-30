@@ -29,6 +29,7 @@ private:
 inline void UIGameStates::SetMenuIsOpen(bool menuState)
 {
 	menuIsOpen = menuState;
+	MenuIsOpen();
 }
 
 

@@ -31,13 +31,13 @@ void UIGameStates::Update(float deltaTime)
 
 void UIGameStates::MenuIsOpen()
 {
-	if (menuIsOpen == true)
+	if (menuIsOpen == false)
 	{
 		enableObject->Disable();
 		disableObject->Enable();
 		player->SetMouse(false);
 	}
-	if (menuIsOpen == false)
+	if (menuIsOpen == true)
 	{
 		enableObject->Enable();
 		disableObject->Disable();

@@ -31,7 +31,7 @@ void UIButtonControl::Start()
 			setGameStateObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 		for (int i = 0; i < gameObjectScripts.size(); ++i)
 		{
-			if (gameObjectScripts[i]->GetConstructName() == "UIgameStates")
+			if (gameObjectScripts[i]->GetConstructName() == "UIGameStates")
 			{
 				uiGameStatesClass = static_cast<UIGameStates*>(gameObjectScripts[i]->GetScript());
 				break;
