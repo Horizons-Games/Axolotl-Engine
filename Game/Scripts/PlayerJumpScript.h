@@ -1,7 +1,10 @@
 #pragma once
 #include "Script.h"
-class PlayerJumpScript :
-    public Script
+
+class ComponentAnimation;
+class ComponentAudioSource;
+
+class PlayerJumpScript : public Script
 {
 public:
     PlayerJumpScript();
@@ -18,5 +21,7 @@ private:
     int jumpReset;
     bool canDoubleJump;
 
+	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* componentAudio;
 };
 

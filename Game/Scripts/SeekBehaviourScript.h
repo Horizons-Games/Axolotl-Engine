@@ -23,5 +23,6 @@ private:
 
 	ComponentTransform* targetTransform;
 	ComponentRigidBody* ownerRigidBody;
+	GameObject* ownerRigidBodyGO;
 	ComponentTransform* ownerTransform;
 };

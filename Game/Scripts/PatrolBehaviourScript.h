@@ -26,4 +26,5 @@ private:
 	ComponentTransform* wayPointTwoTransform;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;
+	GameObject* ownerRigidBodyGO;
 };

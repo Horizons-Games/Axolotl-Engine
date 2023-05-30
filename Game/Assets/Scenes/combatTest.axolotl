@@ -2,9 +2,9 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "DronePrefab",
+                "name": "combatTest",
                 "tag": "",
-                "uid": 5941666348512588090,
+                "uid": 5457140795048261378,
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
@@ -41,8 +41,873 @@
             "GameObject": {
                 "name": "Directional_Light",
                 "tag": "",
-                "uid": 6261472543220059770,
-                "parentUID": 5941666348512588090,
+                "uid": 6613241383893671849,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 10.103829383850098,
+                            "localPos_Z": 2.65077915173606e-7,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 0.5,
+                            "color_light_Y": 0.3294405937194824,
+                            "color_light_Z": 0.05392158031463623,
+                            "intensity": 1.3200000524520874,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "VS3_Cantina_v01",
+                "tag": "",
+                "uid": 13198455380570982692,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 94.49736022949219,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 46.454368591308594,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Structure",
+                "tag": "",
+                "uid": 3359754953108259037,
+                "parentUID": 5401980530941330854,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MAIN ",
+                "tag": "",
+                "uid": 9297854509086005337,
+                "parentUID": 11558903733938935861,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 26.0,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 20.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 15617062488788321985,
+                            "assetPathMaterial": "Assets/Materials/color03.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 26.0,
+                            "boxSize_Y": 0.00009999999747378752,
+                            "boxSize_Z": 20.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cantina",
+                "tag": "",
+                "uid": 5401980530941330854,
+                "parentUID": 13198455380570982692,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EAST",
+                "tag": "",
+                "uid": 15520852759220368970,
+                "parentUID": 3991943796866178275,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 31.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -9.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 5.0,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 11.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 5.0,
+                            "boxSize_Y": 0.00009999999747378752,
+                            "boxSize_Z": 11.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "NORT",
+                "tag": "",
+                "uid": 8036374236738038531,
+                "parentUID": 3991943796866178275,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 17.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -25.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 11.0,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 5.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 11.0,
+                            "boxSize_Y": 0.00009999999747378752,
+                            "boxSize_Z": 5.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Parkour",
+                "tag": "",
+                "uid": 3085281056874237771,
+                "parentUID": 18179243142206412001,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 13.636632919311523,
+                            "localPos_Y": 1.664926290512085,
+                            "localPos_Z": -37.46977615356445,
+                            "localRot_X": 179.99996948242188,
+                            "localRot_Y": -86.79325103759766,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bar",
+                "tag": "",
+                "uid": 12924687263931010714,
+                "parentUID": 18179243142206412001,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.6588656902313232,
+                            "localPos_Y": 3.564253091812134,
+                            "localPos_Z": 0.6082038879394531,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -225.75,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cameras",
+                "tag": "",
+                "uid": 18179243142206412001,
+                "parentUID": 13198455380570982692,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Music",
+                "tag": "",
+                "uid": 10437591789500420893,
+                "parentUID": 18179243142206412001,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.3150219917297363,
+                            "localPos_Y": 0.7213093638420105,
+                            "localPos_Z": 2.883545160293579,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -143.25,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Decoration",
+                "tag": "",
+                "uid": 12747319764704839653,
+                "parentUID": 18179243142206412001,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 10.655932426452637,
+                            "localPos_Y": 1.632331371307373,
+                            "localPos_Z": -64.53799438476563,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 146.14999389648438,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "semiboss",
+                "tag": "",
+                "uid": 9277257526996996048,
+                "parentUID": 18179243142206412001,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 38.9769287109375,
+                            "localPos_Y": 0.9315176010131836,
+                            "localPos_Z": -54.7125129699707,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FLOOR",
+                "tag": "",
+                "uid": 11558903733938935861,
+                "parentUID": 3359754953108259037,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "VIP",
+                "tag": "",
+                "uid": 3991943796866178275,
+                "parentUID": 11558903733938935861,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution",
+                "tag": "Player",
+                "uid": 4116430781813883725,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 106.3030776977539,
+                            "localPos_Y": 0.6956008672714233,
+                            "localPos_Z": 25.574209213256836,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": false,
+                            "mouse": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 3630888072495156538,
+                            "assetPathState": "Assets/StateMachine/BixAnimation.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "NewPlayerMobilityTest",
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 1000.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 80.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": true,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.800000011920929,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -50.0,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 0.6499999761581421,
+                            "boxSize_Z": 0.5,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BixAttackScript",
+                            "fields": [
+                                {
+                                    "name": "AttackCooldown",
+                                    "value": 0.6000000238418579,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "RayAttackSize",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DamageAttack",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AnimationGO",
+                                    "value": 4116430781813883725,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray1GO",
+                                    "value": 17654683552098771776,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray2GO",
+                                    "value": 16590577637842112503,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray3GO",
+                                    "value": 6660149871200234898,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray4GO",
+                                    "value": 8927814817595911080,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 16346928413580010082,
+                "parentUID": 4116430781813883725,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Glasses",
+                "tag": "",
+                "uid": 1107560727848288711,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cube.001_0",
+                "tag": "",
+                "uid": 6820376192821636991,
+                "parentUID": 1107560727848288711,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -65,14 +930,13 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Light",
+                            "type": "Component_MeshRenderer",
                             "active": true,
-                            "removed": false,
-                            "color_light_X": 1.0,
-                            "color_light_Y": 1.0,
-                            "color_light_Z": 1.0,
-                            "intensity": 1.0,
-                            "lightType": "LightType_Directional"
+                            "removed": true,
+                            "meshUID": 10209337947131085227,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cube.001_0.mesh",
+                            "materialUID": 17152432179893230090,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionGlasses_0.mat"
                         }
                     }
                 ]
@@ -80,10 +944,1415 @@
         },
         {
             "GameObject": {
-                "name": "DronePrefab",
+                "name": "Face",
                 "tag": "",
-                "uid": 3799328107096056596,
-                "parentUID": 5941666348512588090,
+                "uid": 14486076817889293514,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Mesh.001_0",
+                "tag": "",
+                "uid": 16500037313783626404,
+                "parentUID": 14486076817889293514,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17019108706277859034,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Mesh.001_0.mesh",
+                            "materialUID": 15779424896394901382,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionFace_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Body",
+                "tag": "",
+                "uid": 10162466495598052215,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Mesh.003_0",
+                "tag": "",
+                "uid": 720636288544556470,
+                "parentUID": 10162466495598052215,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14933883670055882795,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Mesh.003_0.mesh",
+                            "materialUID": 809646045329126614,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature",
+                "tag": "",
+                "uid": 15285152568996067886,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spine",
+                "tag": "",
+                "uid": 10283971023320087155,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.0002880426764022559,
+                            "localPos_Y": -0.00020399014465510845,
+                            "localPos_Z": 0.0023838982451707125,
+                            "localRot_X": 89.84274291992188,
+                            "localRot_Y": -1.688356637954712,
+                            "localRot_Z": 0.45476436614990234,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Chest",
+                "tag": "",
+                "uid": 7642511043986062267,
+                "parentUID": 10283971023320087155,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.410605131648481e-11,
+                            "localPos_Y": 0.014066309668123722,
+                            "localPos_Z": 8.185452315956354e-12,
+                            "localRot_X": -0.26612478494644165,
+                            "localRot_Y": -3.5265026092529297,
+                            "localRot_Z": 1.6666672229766846,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Head",
+                "tag": "",
+                "uid": 18277960208764121376,
+                "parentUID": 7642511043986062267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.8044374883174896e-9,
+                            "localPos_Y": 0.006922287400811911,
+                            "localPos_Z": 1.6079866327345371e-9,
+                            "localRot_X": -2.368114948272705,
+                            "localRot_Y": 1.7662789821624756,
+                            "localRot_Z": -2.7896389961242676,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Head_end",
+                "tag": "",
+                "uid": 11738440556441789779,
+                "parentUID": 18277960208764121376,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.017887240275740623,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.TopArm",
+                "tag": "",
+                "uid": 13478471966823367622,
+                "parentUID": 7642511043986062267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.011730628088116646,
+                            "localPos_Y": 0.0036492764484137297,
+                            "localPos_Z": 0.0005744084483012557,
+                            "localRot_X": -104.78337097167969,
+                            "localRot_Y": 69.16123962402344,
+                            "localRot_Z": -80.02182006835938,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.BottomArm",
+                "tag": "",
+                "uid": 3306306352320112509,
+                "parentUID": 13478471966823367622,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0372681319713593e-10,
+                            "localPos_Y": 0.0059615494683384895,
+                            "localPos_Z": 1.2496457202360034e-9,
+                            "localRot_X": -10.650410652160645,
+                            "localRot_Y": -11.249152183532715,
+                            "localRot_Z": -36.82023239135742,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Hand",
+                "tag": "",
+                "uid": 943113016120007683,
+                "parentUID": 3306306352320112509,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.566995918750763e-10,
+                            "localPos_Y": 0.008288348093628883,
+                            "localPos_Z": -1.1641532182693481e-10,
+                            "localRot_X": -100.05795288085938,
+                            "localRot_Y": -86.59284973144531,
+                            "localRot_Z": -93.64456939697266,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Hand_end",
+                "tag": "",
+                "uid": 6492797864294691196,
+                "parentUID": 943113016120007683,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.009160784073174,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.TopArm",
+                "tag": "",
+                "uid": 229431505213710001,
+                "parentUID": 7642511043986062267,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.011125165037810802,
+                            "localPos_Y": 0.0032274338882416487,
+                            "localPos_Z": -0.0010960762156173587,
+                            "localRot_X": 171.26405334472656,
+                            "localRot_Y": -4.75140380859375,
+                            "localRot_Z": 32.79710006713867,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.BottomArm",
+                "tag": "",
+                "uid": 13202438980364069453,
+                "parentUID": 229431505213710001,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.837623469531536e-10,
+                            "localPos_Y": 0.005773184355348349,
+                            "localPos_Z": -3.055902197957039e-10,
+                            "localRot_X": -31.376527786254883,
+                            "localRot_Y": 10.297079086303711,
+                            "localRot_Z": -4.354201316833496,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Hand",
+                "tag": "",
+                "uid": 2761637830679678377,
+                "parentUID": 13202438980364069453,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.153683453798294e-9,
+                            "localPos_Y": 0.006209468934684992,
+                            "localPos_Z": 9.313225746154785e-10,
+                            "localRot_X": 5.321479797363281,
+                            "localRot_Y": -87.11907196044922,
+                            "localRot_Z": -6.5050883293151855,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Hand_end",
+                "tag": "",
+                "uid": 16276655979325188619,
+                "parentUID": 2761637830679678377,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.010460860095918179,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BottomSpine",
+                "tag": "",
+                "uid": 13117965347581168847,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.00028804404428228736,
+                            "localPos_Y": -0.00020398884953465313,
+                            "localPos_Z": 0.002383898478001356,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.TopLeg",
+                "tag": "",
+                "uid": 8218945437025379053,
+                "parentUID": 13117965347581168847,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.007847767323255539,
+                            "localPos_Y": 0.009168612770736217,
+                            "localPos_Z": 0.00029120483668521047,
+                            "localRot_X": -10.194287300109863,
+                            "localRot_Y": -0.7615758776664734,
+                            "localRot_Z": -7.418130397796631,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.BottomLeg",
+                "tag": "",
+                "uid": 7539464988696478846,
+                "parentUID": 8218945437025379053,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.6202330850064754e-10,
+                            "localPos_Y": 0.008228359743952751,
+                            "localPos_Z": -7.275957614183426e-11,
+                            "localRot_X": 47.18397903442383,
+                            "localRot_Y": -6.500148296356201,
+                            "localRot_Z": 2.2627532482147217,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootFar",
+                "tag": "",
+                "uid": 1867413627919930160,
+                "parentUID": 7539464988696478846,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.656612873077393e-10,
+                            "localPos_Y": 0.006663274485617876,
+                            "localPos_Z": 2.3283064365386963e-10,
+                            "localRot_X": 118.41815185546875,
+                            "localRot_Y": -76.03475189208984,
+                            "localRot_Z": -119.46937561035156,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999998807907104,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootNear",
+                "tag": "",
+                "uid": 8651597876865324232,
+                "parentUID": 1867413627919930160,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.3096723705530167e-9,
+                            "localPos_Y": 0.003269556909799576,
+                            "localPos_Z": -1.0186340659856796e-10,
+                            "localRot_X": -0.07077906280755997,
+                            "localRot_Y": 0.0028068171814084053,
+                            "localRot_Z": -2.0970191955566406,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.FootNear_end",
+                "tag": "",
+                "uid": 13087081367008743709,
+                "parentUID": 8651597876865324232,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0036515705287456512,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.TopLeg",
+                "tag": "",
+                "uid": 14759180747384314317,
+                "parentUID": 13117965347581168847,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.006920638959854841,
+                            "localPos_Y": 0.009168602526187897,
+                            "localPos_Z": 0.0002912166528403759,
+                            "localRot_X": -2.0584349632263184,
+                            "localRot_Y": 7.438872337341309,
+                            "localRot_Z": 4.596408367156982,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.BottomLeg",
+                "tag": "",
+                "uid": 18170285037022475041,
+                "parentUID": 14759180747384314317,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.6189005691558123e-10,
+                            "localPos_Y": 0.008227942511439323,
+                            "localPos_Z": -5.093170329928398e-11,
+                            "localRot_X": 30.850313186645508,
+                            "localRot_Y": 5.774557590484619,
+                            "localRot_Z": -0.9745543003082275,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootFar",
+                "tag": "",
+                "uid": 16230989958531113505,
+                "parentUID": 18170285037022475041,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.9103830456733704e-10,
+                            "localPos_Y": 0.005493206903338432,
+                            "localPos_Z": 1.1641532182693481e-10,
+                            "localRot_X": 148.4006805419922,
+                            "localRot_Y": 77.656005859375,
+                            "localRot_Z": 102.37835693359375,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootNear",
+                "tag": "",
+                "uid": 7132199012935630784,
+                "parentUID": 16230989958531113505,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 7.275957614183426e-12,
+                            "localPos_Y": 0.003287533763796091,
+                            "localPos_Z": 4.656612873077393e-10,
+                            "localRot_X": -0.7176705598831177,
+                            "localRot_Y": 0.034603018313646317,
+                            "localRot_Z": -8.406660079956055,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.FootNear_end",
+                "tag": "",
+                "uid": 6176282382119508119,
+                "parentUID": 7132199012935630784,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0035662089940160513,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.1",
+                "tag": "",
+                "uid": 2941083642374623147,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.005114779807627201,
+                            "localPos_Y": 0.009498543106019497,
+                            "localPos_Z": 0.03529872000217438,
+                            "localRot_X": -89.29705810546875,
+                            "localRot_Y": -11.042596817016602,
+                            "localRot_Z": 3.863319158554077,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.2",
+                "tag": "",
+                "uid": 13588491751352563206,
+                "parentUID": 2941083642374623147,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.984919309616089e-10,
+                            "localPos_Y": 0.007114222273230553,
+                            "localPos_Z": -1.8335413187742233e-9,
+                            "localRot_X": -0.19200880825519562,
+                            "localRot_Y": 0.0016492466675117612,
+                            "localRot_Z": -0.98383629322052,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.3",
+                "tag": "",
+                "uid": 10049128143211858907,
+                "parentUID": 13588491751352563206,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.1641532182693481e-10,
+                            "localPos_Y": 0.007114216219633818,
+                            "localPos_Z": -4.220055416226387e-10,
+                            "localRot_X": -0.5689159035682678,
+                            "localRot_Y": 0.014442087151110172,
+                            "localRot_Z": -2.908473491668701,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.4",
+                "tag": "",
+                "uid": 2825475771205791741,
+                "parentUID": 10049128143211858907,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.8553691916167736e-10,
+                            "localPos_Y": 0.00711421761661768,
+                            "localPos_Z": -3.9472070056945086e-10,
+                            "localRot_X": -1.0725535154342651,
+                            "localRot_Y": 0.05142620950937271,
+                            "localRot_Z": -5.490224361419678,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.5",
+                "tag": "",
+                "uid": 13231820796888707982,
+                "parentUID": 2825475771205791741,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.984919309616089e-10,
+                            "localPos_Y": 0.007114218547940254,
+                            "localPos_Z": -1.1350493878126144e-9,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "R.Lekku.5_end",
+                "tag": "",
+                "uid": 12317344649254581122,
+                "parentUID": 13231820796888707982,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.007783820386976004,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.1",
+                "tag": "",
+                "uid": 14877907426398352690,
+                "parentUID": 15285152568996067886,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.005114899016916752,
+                            "localPos_Y": 0.009498543106019497,
+                            "localPos_Z": 0.035298481583595276,
+                            "localRot_X": 90.00345611572266,
+                            "localRot_Y": 0.8325443863868713,
+                            "localRot_Z": 179.14613342285156,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.2",
+                "tag": "",
+                "uid": 8292602704476246867,
+                "parentUID": 14877907426398352690,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.055902197957039e-10,
+                            "localPos_Y": 0.007114221807569265,
+                            "localPos_Z": 2.3785560188116506e-9,
+                            "localRot_X": -0.002194181550294161,
+                            "localRot_Y": -0.0000016713555623937282,
+                            "localRot_Z": 0.09481079876422882,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.3",
+                "tag": "",
+                "uid": 15141022164064866665,
+                "parentUID": 8292602704476246867,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.820766091346741e-11,
+                            "localPos_Y": 0.007114214822649956,
+                            "localPos_Z": 1.4240413293009624e-9,
+                            "localRot_X": -0.005883911624550819,
+                            "localRot_Y": -0.000020330788174760528,
+                            "localRot_Z": 0.3888649344444275,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.4",
+                "tag": "",
+                "uid": 2391736286582105256,
+                "parentUID": 15141022164064866665,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.8562575355172157e-10,
+                            "localPos_Y": 0.007114217150956392,
+                            "localPos_Z": 8.215010893763974e-10,
+                            "localRot_X": -0.005224783439189196,
+                            "localRot_Y": -0.00003939314410672523,
+                            "localRot_Z": 1.1349307298660278,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.5",
+                "tag": "",
+                "uid": 12148650248044078228,
+                "parentUID": 2391736286582105256,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.710738383233547e-10,
+                            "localPos_Y": 0.007114217150956392,
+                            "localPos_Z": -7.232756615849212e-10,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "L.Lekku.5_end",
+                "tag": "",
+                "uid": 10860310756680250284,
+                "parentUID": 12148650248044078228,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.007783820386976004,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "LightSaberOn",
+                "tag": "",
+                "uid": 5674448025518376234,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cylinder.002_0",
+                "tag": "",
+                "uid": 17354477732610721578,
+                "parentUID": 5674448025518376234,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1727292015656706237,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.002_0.mesh",
+                            "materialUID": 3020584041972619210,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionLightSaber.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cylinder.002_1",
+                "tag": "",
+                "uid": 17976341971582708784,
+                "parentUID": 5674448025518376234,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14957373118533219765,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.002_1.mesh",
+                            "materialUID": 7551340248941718784,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionLightSaberEmission_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "LightSaberOff",
+                "tag": "",
+                "uid": 17756212107508163987,
+                "parentUID": 16346928413580010082,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BixSolution.Cylinder.003_0",
+                "tag": "",
+                "uid": 18012914710832868914,
+                "parentUID": 17756212107508163987,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8527043813278729475,
+                            "assetPathMesh": "Assets/Meshes/BixSolution.Cylinder.003_0.mesh",
+                            "materialUID": 3020584041972619210,
+                            "assetPathMaterial": "Assets/Materials/BixSolutionLightSaber.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 9220686728754640642,
+                "parentUID": 4116430781813883725,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.2649803161621094,
+                            "localPos_Z": -6.7027082443237305,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioListener",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RaycastsAttack",
+                "tag": "",
+                "uid": 8980374323561521072,
+                "parentUID": 4116430781813883725,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -109,10 +2378,10 @@
         },
         {
             "GameObject": {
-                "name": "DRONE",
-                "tag": "Enemy",
-                "uid": 5716735143033173282,
-                "parentUID": 3799328107096056596,
+                "name": "Raycast1",
+                "tag": "",
+                "uid": 17654683552098771776,
+                "parentUID": 8980374323561521072,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -122,11 +2391,314 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
+                            "localPos_X": 1.571807861328125,
+                            "localPos_Y": 1.7023093700408936,
+                            "localPos_Z": 0.000030517578125,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Raycast2",
+                "tag": "",
+                "uid": 16590577637842112503,
+                "parentUID": 8980374323561521072,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.8577499389648438,
+                            "localPos_Y": 1.5774345397949219,
+                            "localPos_Z": 0.000030517578125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -4.07110976874403e-13,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Raycast3",
+                "tag": "",
+                "uid": 6660149871200234898,
+                "parentUID": 8980374323561521072,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.8220977783203125,
+                            "localPos_Y": -1.4753425121307373,
+                            "localPos_Z": -0.000030517578125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -4.07110976874403e-13,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Raycast4",
+                "tag": "",
+                "uid": 8927814817595911080,
+                "parentUID": 8980374323561521072,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0403594970703125,
+                            "localPos_Y": -1.4958436489105225,
+                            "localPos_Z": -0.000030517578125,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -4.07110976874403e-13,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "Enemy",
+                "uid": 16740414096688062829,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 86.92646026611328,
+                            "localPos_Y": 0.7503823637962341,
+                            "localPos_Z": 30.485088348388672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 55.1740608215332,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.675000011920929,
+                            "localSca_Y": 0.675000011920929,
+                            "localSca_Z": 0.675000011920929
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "DroneAttack",
+                            "fields": [
+                                {
+                                    "name": "AttackCooldown",
+                                    "value": 0.6000000238418579,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AnimationGO",
+                                    "value": 16740414096688062829,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletOriginGO",
+                                    "value": 14721096319733225807,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletPrefab",
+                                    "value": 18238092081916207893,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 0.20000000298023224,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 0,
+                            "assetPathState": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BulletOrigin",
+                "tag": "",
+                "uid": 14721096319733225807,
+                "parentUID": 16740414096688062829,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0000171661376953125,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 1.3166580200195313,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BulletPrefab",
+                "tag": "",
+                "uid": 18238092081916207893,
+                "parentUID": 16740414096688062829,
+                "enabled": false,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0000019073486328125,
+                            "localPos_Y": 3.0313398838043213,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1852737626034071509,
+                            "assetPathMesh": "Assets/Meshes/Cylinder.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DRONE",
+                "tag": "Enemy",
+                "uid": 16450666851786177497,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 93.33837890625,
+                            "localPos_Y": 3.9040818214416504,
+                            "localPos_Z": 25.215787887573242,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 53.1037483215332,
                             "localRot_Z": 180.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
@@ -151,12 +2723,12 @@
                             "fields": [
                                 {
                                     "name": "Target",
-                                    "value": 0,
+                                    "value": 4116430781813883725,
                                     "type": 2
                                 },
                                 {
                                     "name": "OwnerRigidBodyGO",
-                                    "value": 5716735143033173282,
+                                    "value": 16450666851786177497,
                                     "type": 2
                                 }
                             ]
@@ -171,17 +2743,17 @@
                             "fields": [
                                 {
                                     "name": "WayPointOne",
-                                    "value": 10197724959374757767,
+                                    "value": 17293262250611716611,
                                     "type": 2
                                 },
                                 {
                                     "name": "WayPointTwo",
-                                    "value": 12078123005813096923,
+                                    "value": 11260596646794967735,
                                     "type": 2
                                 },
                                 {
                                     "name": "OwnerRigidBodyGO",
-                                    "value": 5716735143033173282,
+                                    "value": 16450666851786177497,
                                     "type": 2
                                 }
                             ]
@@ -221,17 +2793,17 @@
                                 },
                                 {
                                     "name": "AnimationGO",
-                                    "value": 5716735143033173282,
+                                    "value": 16450666851786177497,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletOriginGO",
-                                    "value": 2731357607606056282,
+                                    "value": 16219123091922554802,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletPrefab",
-                                    "value": 13090149177772520264,
+                                    "value": 17440377658254051138,
                                     "type": 2
                                 },
                                 {
@@ -303,8 +2875,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 497268234319040485,
-                "parentUID": 5716735143033173282,
+                "uid": 13367609149099729289,
+                "parentUID": 16450666851786177497,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -317,9 +2889,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -332,8 +2904,8 @@
             "GameObject": {
                 "name": "WingRC",
                 "tag": "",
-                "uid": 3729480807669407108,
-                "parentUID": 497268234319040485,
+                "uid": 18247882280215748549,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -361,8 +2933,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.004_0",
                 "tag": "",
-                "uid": 7149298552805783983,
-                "parentUID": 3729480807669407108,
+                "uid": 11224402230055485664,
+                "parentUID": 18247882280215748549,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -401,8 +2973,8 @@
             "GameObject": {
                 "name": "WingRT",
                 "tag": "",
-                "uid": 9262632634846702659,
-                "parentUID": 497268234319040485,
+                "uid": 4732051429101674841,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -430,8 +3002,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.001_0",
                 "tag": "",
-                "uid": 17084918150076015866,
-                "parentUID": 9262632634846702659,
+                "uid": 4837117799350479645,
+                "parentUID": 4732051429101674841,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -470,8 +3042,8 @@
             "GameObject": {
                 "name": "WingRB",
                 "tag": "",
-                "uid": 373317024276112974,
-                "parentUID": 497268234319040485,
+                "uid": 2724585073576400267,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -499,8 +3071,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.006_0",
                 "tag": "",
-                "uid": 12890640690217803562,
-                "parentUID": 373317024276112974,
+                "uid": 9280457129925227059,
+                "parentUID": 2724585073576400267,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -539,8 +3111,8 @@
             "GameObject": {
                 "name": "CannonRT",
                 "tag": "",
-                "uid": 2071525533134209021,
-                "parentUID": 497268234319040485,
+                "uid": 17766199210719251385,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -568,8 +3140,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.035_0",
                 "tag": "",
-                "uid": 14475457272302001845,
-                "parentUID": 2071525533134209021,
+                "uid": 13136956193306521497,
+                "parentUID": 17766199210719251385,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -608,8 +3180,8 @@
             "GameObject": {
                 "name": "Cannon2RT",
                 "tag": "",
-                "uid": 18036576984266115398,
-                "parentUID": 497268234319040485,
+                "uid": 10263417762382930749,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -637,8 +3209,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.036_0",
                 "tag": "",
-                "uid": 11507593527127513342,
-                "parentUID": 18036576984266115398,
+                "uid": 8183075959800254926,
+                "parentUID": 10263417762382930749,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -677,8 +3249,8 @@
             "GameObject": {
                 "name": "Cannon4RT",
                 "tag": "",
-                "uid": 4913721341916768061,
-                "parentUID": 497268234319040485,
+                "uid": 8617871945596273043,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -706,8 +3278,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.037_0",
                 "tag": "",
-                "uid": 8998322008588468903,
-                "parentUID": 4913721341916768061,
+                "uid": 15448030997648111577,
+                "parentUID": 8617871945596273043,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -746,8 +3318,8 @@
             "GameObject": {
                 "name": "Cannon1RT",
                 "tag": "",
-                "uid": 15309765253502189943,
-                "parentUID": 497268234319040485,
+                "uid": 9413890606821768376,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -775,8 +3347,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.038_0",
                 "tag": "",
-                "uid": 1332788264004737550,
-                "parentUID": 15309765253502189943,
+                "uid": 3670389022859537090,
+                "parentUID": 9413890606821768376,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -815,8 +3387,8 @@
             "GameObject": {
                 "name": "DroneMain",
                 "tag": "",
-                "uid": 8033171315997152768,
-                "parentUID": 497268234319040485,
+                "uid": 6874820984578666509,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -844,8 +3416,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.055_0",
                 "tag": "",
-                "uid": 15569822095565692999,
-                "parentUID": 8033171315997152768,
+                "uid": 6882237025790530666,
+                "parentUID": 6874820984578666509,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -884,8 +3456,8 @@
             "GameObject": {
                 "name": "WingLB",
                 "tag": "",
-                "uid": 35935722247393554,
-                "parentUID": 497268234319040485,
+                "uid": 15239397459175828019,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -913,8 +3485,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.080_0",
                 "tag": "",
-                "uid": 7381476976147885395,
-                "parentUID": 35935722247393554,
+                "uid": 6020256511592661411,
+                "parentUID": 15239397459175828019,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -953,8 +3525,8 @@
             "GameObject": {
                 "name": "WingLC",
                 "tag": "",
-                "uid": 825903445036358401,
-                "parentUID": 497268234319040485,
+                "uid": 5983705871927354893,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -982,8 +3554,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.090_0",
                 "tag": "",
-                "uid": 4466416414906378068,
-                "parentUID": 825903445036358401,
+                "uid": 14919686111529173354,
+                "parentUID": 5983705871927354893,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1022,8 +3594,8 @@
             "GameObject": {
                 "name": "WingLT",
                 "tag": "",
-                "uid": 474403692393967768,
-                "parentUID": 497268234319040485,
+                "uid": 7499601596266258837,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1051,8 +3623,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.091_0",
                 "tag": "",
-                "uid": 6779159088841918234,
-                "parentUID": 474403692393967768,
+                "uid": 2582364575922875621,
+                "parentUID": 7499601596266258837,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1091,8 +3663,8 @@
             "GameObject": {
                 "name": "CannonRB",
                 "tag": "",
-                "uid": 6934528808134047578,
-                "parentUID": 497268234319040485,
+                "uid": 5362471978344384493,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1120,8 +3692,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.002_0",
                 "tag": "",
-                "uid": 9306674313062713513,
-                "parentUID": 6934528808134047578,
+                "uid": 10328919968130960637,
+                "parentUID": 5362471978344384493,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1160,8 +3732,8 @@
             "GameObject": {
                 "name": "Cannon2RT.001",
                 "tag": "",
-                "uid": 15191058002741872153,
-                "parentUID": 497268234319040485,
+                "uid": 4911155466303816414,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1189,8 +3761,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.003_0",
                 "tag": "",
-                "uid": 18255470899030122702,
-                "parentUID": 15191058002741872153,
+                "uid": 2212293354330672495,
+                "parentUID": 4911155466303816414,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1229,8 +3801,8 @@
             "GameObject": {
                 "name": "Cannon4RT.001",
                 "tag": "",
-                "uid": 4464692190642355218,
-                "parentUID": 497268234319040485,
+                "uid": 13018240936933495499,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1258,8 +3830,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.005_0",
                 "tag": "",
-                "uid": 3939087829752602668,
-                "parentUID": 4464692190642355218,
+                "uid": 33180822970541648,
+                "parentUID": 13018240936933495499,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1298,8 +3870,8 @@
             "GameObject": {
                 "name": "Cannon1RT.001",
                 "tag": "",
-                "uid": 7727469336285486543,
-                "parentUID": 497268234319040485,
+                "uid": 15343242938747412229,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1327,8 +3899,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.008_0",
                 "tag": "",
-                "uid": 11646698424154153524,
-                "parentUID": 7727469336285486543,
+                "uid": 4053467498376850984,
+                "parentUID": 15343242938747412229,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1367,8 +3939,8 @@
             "GameObject": {
                 "name": "CannonLT",
                 "tag": "",
-                "uid": 403942102198630169,
-                "parentUID": 497268234319040485,
+                "uid": 3894443263298890683,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1396,8 +3968,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.009_0",
                 "tag": "",
-                "uid": 13769790892319230003,
-                "parentUID": 403942102198630169,
+                "uid": 3437350879799969877,
+                "parentUID": 3894443263298890683,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1436,8 +4008,8 @@
             "GameObject": {
                 "name": "Cannon2RT.002",
                 "tag": "",
-                "uid": 8998123996858244407,
-                "parentUID": 497268234319040485,
+                "uid": 5176568910769956159,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1465,8 +4037,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.010_0",
                 "tag": "",
-                "uid": 3496156971940649559,
-                "parentUID": 8998123996858244407,
+                "uid": 11609046584832334952,
+                "parentUID": 5176568910769956159,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1505,8 +4077,8 @@
             "GameObject": {
                 "name": "Cannon4RT.002",
                 "tag": "",
-                "uid": 970263035663299463,
-                "parentUID": 497268234319040485,
+                "uid": 7937500169552634969,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1534,8 +4106,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.011_0",
                 "tag": "",
-                "uid": 1549212524172652184,
-                "parentUID": 970263035663299463,
+                "uid": 6385175726114371082,
+                "parentUID": 7937500169552634969,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1574,8 +4146,8 @@
             "GameObject": {
                 "name": "Cannon1RT.002",
                 "tag": "",
-                "uid": 4567244225329450547,
-                "parentUID": 497268234319040485,
+                "uid": 16790570981946255678,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1603,8 +4175,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.012_0",
                 "tag": "",
-                "uid": 3067233594913435964,
-                "parentUID": 4567244225329450547,
+                "uid": 7814958063274304856,
+                "parentUID": 16790570981946255678,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1643,8 +4215,8 @@
             "GameObject": {
                 "name": "CannonLB",
                 "tag": "",
-                "uid": 9423935948896182297,
-                "parentUID": 497268234319040485,
+                "uid": 9213304024811697399,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1672,8 +4244,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.013_0",
                 "tag": "",
-                "uid": 11409948568831627373,
-                "parentUID": 9423935948896182297,
+                "uid": 5562456037997121925,
+                "parentUID": 9213304024811697399,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1712,8 +4284,8 @@
             "GameObject": {
                 "name": "Cannon2RT.003",
                 "tag": "",
-                "uid": 13780775540954122886,
-                "parentUID": 497268234319040485,
+                "uid": 5916234851887480003,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1741,8 +4313,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.014_0",
                 "tag": "",
-                "uid": 15498455415088861932,
-                "parentUID": 13780775540954122886,
+                "uid": 6360107878974046440,
+                "parentUID": 5916234851887480003,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1781,8 +4353,8 @@
             "GameObject": {
                 "name": "Cannon4RT.003",
                 "tag": "",
-                "uid": 1237221659067794178,
-                "parentUID": 497268234319040485,
+                "uid": 14223854529614720193,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1810,8 +4382,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.015_0",
                 "tag": "",
-                "uid": 15027483421178159995,
-                "parentUID": 1237221659067794178,
+                "uid": 6905273615955841867,
+                "parentUID": 14223854529614720193,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1850,8 +4422,8 @@
             "GameObject": {
                 "name": "Cannon1RT.003",
                 "tag": "",
-                "uid": 2821262155125539066,
-                "parentUID": 497268234319040485,
+                "uid": 1760361576508931985,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1879,8 +4451,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.016_0",
                 "tag": "",
-                "uid": 1361517649005018292,
-                "parentUID": 2821262155125539066,
+                "uid": 9851524109471949593,
+                "parentUID": 1760361576508931985,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1919,8 +4491,8 @@
             "GameObject": {
                 "name": "Armature",
                 "tag": "",
-                "uid": 3177367816499748778,
-                "parentUID": 497268234319040485,
+                "uid": 15754347573361105543,
+                "parentUID": 13367609149099729289,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1948,8 +4520,8 @@
             "GameObject": {
                 "name": "DroneBody",
                 "tag": "",
-                "uid": 6425640319582586656,
-                "parentUID": 3177367816499748778,
+                "uid": 13832855266316302210,
+                "parentUID": 15754347573361105543,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -1977,8 +4549,8 @@
             "GameObject": {
                 "name": "Wing.l",
                 "tag": "",
-                "uid": 11138340805198659800,
-                "parentUID": 6425640319582586656,
+                "uid": 5703539587505837924,
+                "parentUID": 13832855266316302210,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2006,8 +4578,8 @@
             "GameObject": {
                 "name": "Upwing.l",
                 "tag": "",
-                "uid": 1439162392445177159,
-                "parentUID": 11138340805198659800,
+                "uid": 11766854012869742987,
+                "parentUID": 5703539587505837924,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2035,8 +4607,8 @@
             "GameObject": {
                 "name": "Upwing.l.001",
                 "tag": "",
-                "uid": 6824450151126755410,
-                "parentUID": 1439162392445177159,
+                "uid": 3606125610469384754,
+                "parentUID": 11766854012869742987,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2064,8 +4636,8 @@
             "GameObject": {
                 "name": "CannonTopMain.l",
                 "tag": "",
-                "uid": 11752012173179160014,
-                "parentUID": 6824450151126755410,
+                "uid": 7699369276516926530,
+                "parentUID": 3606125610469384754,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2093,8 +4665,8 @@
             "GameObject": {
                 "name": "CannonTop2.l",
                 "tag": "",
-                "uid": 1450770966570105127,
-                "parentUID": 11752012173179160014,
+                "uid": 3997641663131751784,
+                "parentUID": 7699369276516926530,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2122,8 +4694,8 @@
             "GameObject": {
                 "name": "CannonTop3.l",
                 "tag": "",
-                "uid": 4654095577091350023,
-                "parentUID": 1450770966570105127,
+                "uid": 17566493854297148808,
+                "parentUID": 3997641663131751784,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2151,8 +4723,8 @@
             "GameObject": {
                 "name": "CannonTop3.l_end",
                 "tag": "",
-                "uid": 11506240678701508702,
-                "parentUID": 4654095577091350023,
+                "uid": 12811874041038801484,
+                "parentUID": 17566493854297148808,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2180,8 +4752,8 @@
             "GameObject": {
                 "name": "CannonTopBack.l",
                 "tag": "",
-                "uid": 15403374022960078401,
-                "parentUID": 11752012173179160014,
+                "uid": 513168357477860316,
+                "parentUID": 7699369276516926530,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2209,8 +4781,8 @@
             "GameObject": {
                 "name": "CannonTopBack.l_end",
                 "tag": "",
-                "uid": 4180614552145653659,
-                "parentUID": 15403374022960078401,
+                "uid": 10371557919565128834,
+                "parentUID": 513168357477860316,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2238,8 +4810,8 @@
             "GameObject": {
                 "name": "Downwing.l",
                 "tag": "",
-                "uid": 5719063861475445355,
-                "parentUID": 11138340805198659800,
+                "uid": 654062860946251015,
+                "parentUID": 5703539587505837924,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2267,8 +4839,8 @@
             "GameObject": {
                 "name": "Downwing.l.001",
                 "tag": "",
-                "uid": 13708713420141483477,
-                "parentUID": 5719063861475445355,
+                "uid": 10377456985202308320,
+                "parentUID": 654062860946251015,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2296,8 +4868,8 @@
             "GameObject": {
                 "name": "CannonBottomMain.l",
                 "tag": "",
-                "uid": 7116353496839322623,
-                "parentUID": 13708713420141483477,
+                "uid": 6067716645385233722,
+                "parentUID": 10377456985202308320,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2325,8 +4897,8 @@
             "GameObject": {
                 "name": "CannonBottom2.l",
                 "tag": "",
-                "uid": 13066259495640230059,
-                "parentUID": 7116353496839322623,
+                "uid": 13039254051157102007,
+                "parentUID": 6067716645385233722,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2354,8 +4926,8 @@
             "GameObject": {
                 "name": "CannonBottom3.l",
                 "tag": "",
-                "uid": 2562242117906459689,
-                "parentUID": 13066259495640230059,
+                "uid": 7478078693033310232,
+                "parentUID": 13039254051157102007,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2383,8 +4955,8 @@
             "GameObject": {
                 "name": "CannonBottom3.l_end",
                 "tag": "",
-                "uid": 10981996355093784145,
-                "parentUID": 2562242117906459689,
+                "uid": 2817366225838501783,
+                "parentUID": 7478078693033310232,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2412,8 +4984,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.l",
                 "tag": "",
-                "uid": 15434651137123723716,
-                "parentUID": 7116353496839322623,
+                "uid": 16294777111666288201,
+                "parentUID": 6067716645385233722,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2441,8 +5013,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.l_end",
                 "tag": "",
-                "uid": 5561055437131179347,
-                "parentUID": 15434651137123723716,
+                "uid": 539230484522487158,
+                "parentUID": 16294777111666288201,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2470,8 +5042,8 @@
             "GameObject": {
                 "name": "Wing.r",
                 "tag": "",
-                "uid": 5753406435595871,
-                "parentUID": 6425640319582586656,
+                "uid": 5700864805638231143,
+                "parentUID": 13832855266316302210,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2499,8 +5071,8 @@
             "GameObject": {
                 "name": "Upwing.r",
                 "tag": "",
-                "uid": 6095696865207771946,
-                "parentUID": 5753406435595871,
+                "uid": 8818683585492003819,
+                "parentUID": 5700864805638231143,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2528,8 +5100,8 @@
             "GameObject": {
                 "name": "Upwing.r.001",
                 "tag": "",
-                "uid": 3692216576917914562,
-                "parentUID": 6095696865207771946,
+                "uid": 15746687401854861881,
+                "parentUID": 8818683585492003819,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2557,8 +5129,8 @@
             "GameObject": {
                 "name": "CannonTopMain.r",
                 "tag": "",
-                "uid": 2078140727951511536,
-                "parentUID": 3692216576917914562,
+                "uid": 10400020235006134585,
+                "parentUID": 15746687401854861881,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2586,8 +5158,8 @@
             "GameObject": {
                 "name": "CannonTop2.r",
                 "tag": "",
-                "uid": 5810566608812165151,
-                "parentUID": 2078140727951511536,
+                "uid": 13962973094044386917,
+                "parentUID": 10400020235006134585,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2615,8 +5187,8 @@
             "GameObject": {
                 "name": "CannonTop3.r",
                 "tag": "",
-                "uid": 4819863966728045019,
-                "parentUID": 5810566608812165151,
+                "uid": 7925271432047426918,
+                "parentUID": 13962973094044386917,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2644,8 +5216,8 @@
             "GameObject": {
                 "name": "CannonTop3.r_end",
                 "tag": "",
-                "uid": 8183624255338884075,
-                "parentUID": 4819863966728045019,
+                "uid": 2192729038373314880,
+                "parentUID": 7925271432047426918,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2673,8 +5245,8 @@
             "GameObject": {
                 "name": "CannonTopBack.r",
                 "tag": "",
-                "uid": 787000839571155028,
-                "parentUID": 2078140727951511536,
+                "uid": 6023637082448288327,
+                "parentUID": 10400020235006134585,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2702,8 +5274,8 @@
             "GameObject": {
                 "name": "CannonTopBack.r_end",
                 "tag": "",
-                "uid": 13624862804965932518,
-                "parentUID": 787000839571155028,
+                "uid": 9314882635779786239,
+                "parentUID": 6023637082448288327,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2731,8 +5303,8 @@
             "GameObject": {
                 "name": "Downwing.r",
                 "tag": "",
-                "uid": 2569769983963724793,
-                "parentUID": 5753406435595871,
+                "uid": 17836953496499666219,
+                "parentUID": 5700864805638231143,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2760,8 +5332,8 @@
             "GameObject": {
                 "name": "Downwing.r.001",
                 "tag": "",
-                "uid": 10797614802432588633,
-                "parentUID": 2569769983963724793,
+                "uid": 13094214819713008609,
+                "parentUID": 17836953496499666219,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2789,8 +5361,8 @@
             "GameObject": {
                 "name": "CannonBottomMain.r",
                 "tag": "",
-                "uid": 13522139857101948150,
-                "parentUID": 10797614802432588633,
+                "uid": 17600053569697415336,
+                "parentUID": 13094214819713008609,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2818,8 +5390,8 @@
             "GameObject": {
                 "name": "CannonBottom2.r",
                 "tag": "",
-                "uid": 14032975950181747990,
-                "parentUID": 13522139857101948150,
+                "uid": 7941702881348159559,
+                "parentUID": 17600053569697415336,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2847,8 +5419,8 @@
             "GameObject": {
                 "name": "CannonBottom3.r",
                 "tag": "",
-                "uid": 10329049088076693825,
-                "parentUID": 14032975950181747990,
+                "uid": 10905698160473148804,
+                "parentUID": 7941702881348159559,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2876,8 +5448,8 @@
             "GameObject": {
                 "name": "CannonBottom3.r_end",
                 "tag": "",
-                "uid": 4481678371489757321,
-                "parentUID": 10329049088076693825,
+                "uid": 6700774773822985566,
+                "parentUID": 10905698160473148804,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2905,8 +5477,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.r",
                 "tag": "",
-                "uid": 3658602875849784029,
-                "parentUID": 13522139857101948150,
+                "uid": 5472824803267293805,
+                "parentUID": 17600053569697415336,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2934,8 +5506,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.r_end",
                 "tag": "",
-                "uid": 1078053073490485547,
-                "parentUID": 3658602875849784029,
+                "uid": 10864032950028295825,
+                "parentUID": 5472824803267293805,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2963,8 +5535,8 @@
             "GameObject": {
                 "name": "Waypoint 2",
                 "tag": "",
-                "uid": 12078123005813096923,
-                "parentUID": 3799328107096056596,
+                "uid": 11260596646794967735,
+                "parentUID": 5457140795048261378,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2974,12 +5546,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 5.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localPos_X": 95.18644714355469,
+                            "localPos_Y": 0.002011659787967801,
+                            "localPos_Z": 34.481964111328125,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 53.103759765625,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -2992,8 +5564,8 @@
             "GameObject": {
                 "name": "Waypoint 1",
                 "tag": "",
-                "uid": 10197724959374757767,
-                "parentUID": 3799328107096056596,
+                "uid": 17293262250611716611,
+                "parentUID": 5457140795048261378,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -3003,12 +5575,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": -5.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localPos_X": 93.48382568359375,
+                            "localPos_Y": 0.0010523040546104312,
+                            "localPos_Z": 23.048885345458984,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 53.103759765625,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -3021,8 +5593,8 @@
             "GameObject": {
                 "name": "Capsule",
                 "tag": "",
-                "uid": 13090149177772520264,
-                "parentUID": 5716735143033173282,
+                "uid": 17440377658254051138,
+                "parentUID": 16450666851786177497,
                 "enabled": false,
                 "active": true,
                 "static": false,
@@ -3068,8 +5640,8 @@
             "GameObject": {
                 "name": "BulletOrigin",
                 "tag": "",
-                "uid": 2731357607606056282,
-                "parentUID": 5716735143033173282,
+                "uid": 16219123091922554802,
+                "parentUID": 16450666851786177497,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -3097,14 +5669,14 @@
     "Quadtree": {
         "BoundingBox": {
             "MinPoint": {
-                "x": -25.0,
-                "y": -10.0,
-                "z": -25.0
+                "x": -4925.0,
+                "y": -16.28067970275879,
+                "z": -4925.0
             },
             "MaxPoint": {
-                "x": 25.0,
-                "y": 10.0,
-                "z": 25.0
+                "x": 7875.0,
+                "y": 19587.66796875,
+                "z": 7875.0
             }
         }
     },

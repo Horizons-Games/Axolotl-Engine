@@ -103,6 +103,15 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 13450203144240708209,
+                            "assetPathState": "Assets/StateMachine/BixAnimationController.state"
+                        }
                     }
                 ]
             }
@@ -110,7 +119,7 @@
         {
             "GameObject": {
                 "name": "Bix_v11",
-                "tag": "",
+                "tag": "Player",
                 "uid": 12888537664377867136,
                 "parentUID": 16716536710352535958,
                 "enabled": true,
@@ -140,6 +149,178 @@
                             "removed": true,
                             "stateUID": 13450203144240708209,
                             "assetPathState": "Assets/StateMachine/BixAnimationController.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BixAttackScript",
+                            "fields": [
+                                {
+                                    "name": "AttackCooldown",
+                                    "value": 0.6000000238418579,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "RayAttackSize",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DamageAttack",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AnimationGO",
+                                    "value": 12888537664377867136,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray1GO",
+                                    "value": 1136860512333585120,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray2GO",
+                                    "value": 8195814660979920463,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray3GO",
+                                    "value": 12626459989137518266,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray4GO",
+                                    "value": 8952071589930640660,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerMoveScript",
+                            "fields": [
+                                {
+                                    "name": "Speed",
+                                    "value": 6.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashForce",
+                                    "value": 2000.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDash",
+                                    "value": true,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerRotationScript",
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivity",
+                                    "value": 50.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerCameraRotationVerticalScript",
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivity",
+                                    "value": 50.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerForceUseScript",
+                            "fields": [
+                                {
+                                    "name": "MaxDistanceForce",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerJumpScript",
+                            "fields": [
+                                {
+                                    "name": "JumpParameter",
+                                    "value": 2000.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CanDoubleJump",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
                         }
                     }
                 ]
@@ -1627,6 +1808,151 @@
                             "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.004_0.mesh",
                             "materialUID": 15249782332464096787,
                             "assetPathMaterial": "Assets/Materials/Bix_v11LightSaber.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RaycastsAttack",
+                "tag": "",
+                "uid": 16187382472204337351,
+                "parentUID": 12888537664377867136,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -2.040283679962158,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray1",
+                "tag": "",
+                "uid": 1136860512333585120,
+                "parentUID": 16187382472204337351,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.0,
+                            "localPos_Y": 4.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray2",
+                "tag": "",
+                "uid": 8195814660979920463,
+                "parentUID": 16187382472204337351,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.0,
+                            "localPos_Y": 4.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray3",
+                "tag": "",
+                "uid": 12626459989137518266,
+                "parentUID": 16187382472204337351,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray4",
+                "tag": "",
+                "uid": 8952071589930640660,
+                "parentUID": 16187382472204337351,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]

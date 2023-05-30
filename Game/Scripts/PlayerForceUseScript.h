@@ -8,6 +8,7 @@
 class PlayerCameraRotationVerticalScript;
 class PlayerRotationScript;
 class PlayerMoveScript;
+class ComponentAnimation;
 
 class PlayerForceUseScript :
     public Script
@@ -39,4 +40,5 @@ private:
 	PlayerRotationScript* rotationHorizontalScript;
 	PlayerCameraRotationVerticalScript* rotationVerticalScript;
 	PlayerMoveScript* moveScript;
+	ComponentAnimation* componentAnimation;
 };
