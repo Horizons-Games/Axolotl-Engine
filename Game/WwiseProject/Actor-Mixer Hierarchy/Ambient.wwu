@@ -69,11 +69,11 @@
 				</ActorMixer>
 				<ActorMixer Name="CantinaAmbient" ID="{D24392DB-BFF1-438E-973B-81F45E2A15A4}" ShortID="1057592169">
 					<PropertyList>
-						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Attenuation">
-							<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+							<ObjectRef Name="AttenuationCantina" ID="{8F5C4A8B-0004-4DF6-B892-7170338B8DBA}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
 						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -115,11 +115,10 @@
 						</Sound>
 						<Sound Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" ShortID="471174214">
 							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="EnableDiffraction" Type="bool" Value="True"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="OverrideEffect" Type="bool" Value="True"/>
-								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-2</Value>
@@ -128,7 +127,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+									<ObjectRef Name="AttenuationCantina" ID="{8F5C4A8B-0004-4DF6-B892-7170338B8DBA}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
 								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -211,7 +210,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="3DAmbient" ID="{2DDB1159-80DA-444A-BC93-FAF45C4ED36D}" ShortID="42379436">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 						</Reference>

@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{468A7D14-117E-620D-70D0-D0EAB3AD32F0}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{61E61D18-B49D-DB5A-AD51-EA1197A384E7}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -100,7 +100,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{8A460D55-2A14-3B4A-E245-E2E3DF04B195}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{97B7AC99-91CB-A461-C1C9-C5D117AD4DA4}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -122,7 +122,7 @@
 				</File>
 				<File Id="457419217" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_alert-001.wav</ShortName>
-					<CachePath>SFX/sfx_drone_alert-001_31848A7C.wem</CachePath>
+					<CachePath>SFX/sfx_drone_alert-001_C5579977.wem</CachePath>
 				</File>
 				<File Id="566162525" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_patrol-001.wav</ShortName>
@@ -208,7 +208,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{811079D2-F0D4-11A1-86B3-DFD60D3628AC}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{D94FB17B-9E3A-488E-808A-5327431997FE}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -374,7 +374,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{343C6143-4CA8-A73C-3006-206991983A39}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{1D437556-426F-86F3-7CD9-4916B4EB3710}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -384,11 +384,9 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
-				<Bus Id="356823645" Name="NPCWeapons"/>
 				<Bus Id="393239870" Name="SFX"/>
 				<Bus Id="466672200" Name="PlayerAbilities"/>
 				<Bus Id="986618877" Name="PlayerWeapons"/>
-				<Bus Id="1217116541" Name="NPCLocomotion"/>
 				<Bus Id="1459460693" Name="AmbientMaster"/>
 				<Bus Id="1551306167" Name="UI"/>
 				<Bus Id="2009782176" Name="MusicDiegetic"/>
@@ -780,5 +778,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{3083691B-DB1D-438D-D991-ABA4046C5E8E}</FileHash>
+	<FileHash>{CB54ACA2-F224-8EEC-4A9A-260918E2479E}</FileHash>
 </SoundBanksInfo>

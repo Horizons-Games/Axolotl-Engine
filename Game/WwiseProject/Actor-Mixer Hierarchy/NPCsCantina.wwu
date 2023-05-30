@@ -4,7 +4,13 @@
 		<WorkUnit Name="NPCsCantina" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" OwnerID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" PersistMode="Nested">
 			<ChildrenList>
 				<Sound Name="sfx_NPC_deepVoiceTalk-001" ID="{5D7A336A-E935-498E-A7F4-9C1D553543EB}" ShortID="432948759">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 						</Reference>
@@ -27,9 +33,13 @@
 				</Sound>
 				<RandomSequenceContainer Name="sfx_drunkNPC_sound" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" ShortID="743334271">
 					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
 						<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
 					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 						</Reference>

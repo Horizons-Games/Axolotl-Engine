@@ -31,11 +31,9 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4262522749	Wood_Bright			\Factory Acoustic Textures\Textures\Wood_Bright	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
-	356823645	NPCWeapons			\Default Work Unit\Master Audio Bus\SFX\NPCMaster\NPCWeapons	
 	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
 	466672200	PlayerAbilities			\Default Work Unit\Master Audio Bus\SFX\PlayerMaster\PlayerAbilities	
 	986618877	PlayerWeapons			\Default Work Unit\Master Audio Bus\SFX\PlayerMaster\PlayerWeapons	
-	1217116541	NPCLocomotion			\Default Work Unit\Master Audio Bus\SFX\NPCMaster\NPCLocomotion	
 	1459460693	AmbientMaster			\Default Work Unit\Master Audio Bus\SFX\AmbientMaster	
 	1551306167	UI			\Default Work Unit\Master Audio Bus\SFX\UI	
 	2009782176	MusicDiegetic			\Default Work Unit\Master Audio Bus\Music\MusicDiegetic	
