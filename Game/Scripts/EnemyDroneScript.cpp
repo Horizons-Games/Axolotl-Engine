@@ -106,6 +106,7 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (seekScript && attackScript && droneState == DroneBehaviours::ATTACK)
 	{
+		seekScript->Seeking();
 		seekScript->StopSeeking();
 		attackScript->PerformAttack();
 

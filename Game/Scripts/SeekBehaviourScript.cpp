@@ -47,5 +47,5 @@ void SeekBehaviourScript::Seeking() const
 
 void SeekBehaviourScript::StopSeeking() const
 {
-	ownerRigidBody->SetPositionTarget(ownerTransform->GetPosition());
+	ownerRigidBody->DisablePositionController();
 }
