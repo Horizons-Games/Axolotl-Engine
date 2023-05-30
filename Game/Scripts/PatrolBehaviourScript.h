@@ -15,7 +15,7 @@ public:
 
 	void Start() override;
 
-	void StartPatrol() const;
+	void StartPatrol();
 	void Patrolling();
 
 private:
@@ -28,4 +28,6 @@ private:
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;
 	GameObject* ownerRigidBodyGO;
+
+	void SetProportionalController() const;
 };
