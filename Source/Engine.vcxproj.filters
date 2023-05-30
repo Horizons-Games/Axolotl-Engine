@@ -428,6 +428,9 @@
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -863,6 +866,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h">
       <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MenuMusic.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
