@@ -282,7 +282,10 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
 {
-	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	if (!mantainActualScene)
+	{
+		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	}
 
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
