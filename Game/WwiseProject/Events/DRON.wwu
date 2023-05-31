@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{8BF6C5A8-C367-42AE-8C83-BAE60E304659}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}">
+	<Events>
+		<WorkUnit Name="DRON" ID="{8BF6C5A8-C367-42AE-8C83-BAE60E304659}" OwnerID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="sfx_dron_shot_impact_01" ID="{ABFC1ACE-7A71-4CD7-91DE-77641751687E}">
+					<ChildrenList>
+						<Action Name="" ID="{5068EF63-F8FA-4F37-A72C-5C192A1B724C}" ShortID="69119051">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_shot_impact-001" ID="{3C9C8811-026F-4A69-84B1-6EDDE7387FD0}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dron_alert" ID="{E17BE6B3-01C7-449F-B203-EDFDD8BB57E7}">
+					<ChildrenList>
+						<Action Name="" ID="{6FBD132F-A6F6-489B-8192-BB2E68F0415B}" ShortID="431865857">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_alert-001" ID="{AAB92A0C-6EB2-41E5-BFC6-AAAE2261D47F}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dron_patrol" ID="{07F7FBBD-9A04-4F18-8C67-10AA9BD836FF}">
+					<ChildrenList>
+						<Action Name="" ID="{6D2CDE5D-F4EF-4958-8426-97742003824E}" ShortID="65956787">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_patrol-001" ID="{D97D551A-7ED4-40FE-8F63-E19C44E14A30}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F4BB61C4-77F4-46C0-83F7-514DCA8B95B2}" ShortID="1066009472">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_patrol-002" ID="{432D6FF3-49BE-415D-92B8-9DCB37C08228}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{9F71FCEE-B5EC-4F4D-97B7-DDC9F65BDA1B}" ShortID="429515149">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_patrol-003" ID="{6C564C1A-D787-45A6-B1E2-EACD252FC454}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dron_shot_01" ID="{34B3CF60-0CEC-420F-BE9C-5E9B0DC231CE}">
+					<ChildrenList>
+						<Action Name="" ID="{2F63D42A-E610-4845-9EE6-1622352C44C4}" ShortID="260986510">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_dron_shot_01" ID="{67C099E8-D86A-4289-BDFD-EE05986663FD}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dron_behaviours_stop" ID="{21DDF4B3-CFB3-447C-970E-BF73B0FDD8E3}">
+					<ChildrenList>
+						<Action Name="" ID="{5C9D51DE-CE48-4EAF-A8AB-AA6FF7508B6A}" ShortID="339241622">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_patrol-003" ID="{6C564C1A-D787-45A6-B1E2-EACD252FC454}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{5ECB8DB2-FFE3-4A63-81A4-7F485C31240C}" ShortID="639565936">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_patrol-002" ID="{432D6FF3-49BE-415D-92B8-9DCB37C08228}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{344DFCB4-ADA1-4098-8097-0CBD61BBFE3A}" ShortID="631803627">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_patrol-001" ID="{D97D551A-7ED4-40FE-8F63-E19C44E14A30}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F8AAEB3A-B185-4677-8449-C13FD1F37E8C}" ShortID="361080517">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_alert-001" ID="{AAB92A0C-6EB2-41E5-BFC6-AAAE2261D47F}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
