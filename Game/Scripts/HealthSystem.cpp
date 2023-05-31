@@ -35,6 +35,7 @@ void HealthSystem::Update(float deltaTime)
 		componentAnimation->SetParameter("IsDead", true);
 		if (owner->CompareTag("Player"))
 		{
+
 			#ifndef ENGINE
 			if (LoseSceneName != "")
 			{
