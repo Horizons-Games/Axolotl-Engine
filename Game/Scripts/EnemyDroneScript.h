@@ -7,6 +7,7 @@
 class ComponentScript;
 class ComponentTransform;
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
@@ -43,4 +44,5 @@ private:
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* componentAudioSource;
 };
