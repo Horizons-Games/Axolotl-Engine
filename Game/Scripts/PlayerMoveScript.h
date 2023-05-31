@@ -5,6 +5,7 @@
 class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentTransform;
+class HealthSystem;
 
 enum class PlayerActions
 {
@@ -36,5 +37,6 @@ private:
     bool isDashing;
     bool canDash;
 
+	HealthSystem* healthScript;
 };
 

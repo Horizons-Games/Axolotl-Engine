@@ -6,14 +6,17 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
+
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
 componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
+dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), healthScript(nullptr)
 {
 	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(dashForce, float);
@@ -25,17 +28,32 @@ void PlayerMoveScript::Start()
 	componentTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+
+	std::vector<ComponentScript*> gameObjectScripts =
+		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	for (int i = 0; i < gameObjectScripts.size(); ++i)
+	{
+		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+		{
+			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
+		}
+	}
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
+	if (healthScript && !healthScript->EntityIsAlive())
+	{
+		return;
+	}
+
 	Move(deltaTime);
 }
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	ModuleInput* input = App->GetModule<ModuleInput>();
+	const ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
@@ -48,8 +66,14 @@ void PlayerMoveScript::Move(float deltaTime)
 	//run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
+		componentAnimation->SetParameter("IsRunning", true);
 		nspeed *= 2;
 		shiftPressed = true;
+	}
+
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", false);
 	}
 
 	// Forward
@@ -129,6 +153,10 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (!isDashing)
 		{
+			componentAnimation->SetParameter("IsRolling", true);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+
 			if (!movement.isZero()) 
 			{
 				if (shiftPressed)
@@ -149,6 +177,8 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 	else
 	{
+		componentAnimation->SetParameter("IsRolling", false);
+
 		btVector3 currentVelocity = btRb->getLinearVelocity();
 		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 

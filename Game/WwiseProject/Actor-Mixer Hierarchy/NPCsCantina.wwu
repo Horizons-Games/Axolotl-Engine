@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}">
+	<AudioObjects>
+		<WorkUnit Name="NPCsCantina" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" OwnerID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" PersistMode="Nested">
+			<ChildrenList>
+				<Sound Name="sfx_NPC_deepVoiceTalk-001" ID="{5D7A336A-E935-498E-A7F4-9C1D553543EB}" ShortID="432948759">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5" ID="{A460D903-625E-4276-8CD4-ED8D117AC9D3}">
+							<Language>SFX</Language>
+							<AudioFile>374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="734658739"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5" ID="{A460D903-625E-4276-8CD4-ED8D117AC9D3}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<RandomSequenceContainer Name="sfx_drunkNPC_sound" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" ShortID="743334271">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="sfx_drunkNPC_sound-005" ID="{BE5A0CA5-8022-4B0D-B3DC-DDF92B533CCB}" ShortID="438572975">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496565-Theresa-Cheer-Shout-Happy-3" ID="{8F2A90C4-344B-41C6-95DF-52ED0EC7D07B}">
+									<Language>SFX</Language>
+									<AudioFile>496565-Theresa-Cheer-Shout-Happy-3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="240754137"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496565-Theresa-Cheer-Shout-Happy-3" ID="{8F2A90C4-344B-41C6-95DF-52ED0EC7D07B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-006" ID="{19589471-AC7F-400D-A254-262E604263ED}" ShortID="788259864">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496612-Theresa-Drunk-Gibber_Talk-5" ID="{33A64FDF-84CA-4896-A692-14815B5CAE2C}">
+									<Language>SFX</Language>
+									<AudioFile>496612-Theresa-Drunk-Gibber_Talk-5.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="99956401"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496612-Theresa-Drunk-Gibber_Talk-5" ID="{33A64FDF-84CA-4896-A692-14815B5CAE2C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-003" ID="{16D27AE8-5603-4245-943C-6B18DF2DAE1C}" ShortID="60102985">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496397-Theresa-Attack-Shout_Long-Straight-Fatal-3" ID="{82316710-44CD-4B3A-AF4B-5CC7087146A3}">
+									<Language>SFX</Language>
+									<AudioFile>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="886104202"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496397-Theresa-Attack-Shout_Long-Straight-Fatal-3" ID="{82316710-44CD-4B3A-AF4B-5CC7087146A3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-002" ID="{2456D367-3FE5-48A6-A8B7-31D448062FB3}" ShortID="711930776">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="495963-Theresa_Cartoon-Growl-Beastie-Angry-4" ID="{97C8A5E3-ADEB-44A4-A297-ECF0F11888CE}">
+									<Language>SFX</Language>
+									<AudioFile>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="778130062"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="495963-Theresa_Cartoon-Growl-Beastie-Angry-4" ID="{97C8A5E3-ADEB-44A4-A297-ECF0F11888CE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-007" ID="{FEA8D81F-A5B3-4ACB-8C52-8D1F8FBB0E5D}" ShortID="184485182">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3" ID="{C53A12F0-F94F-4E35-A732-96E6910AD5DB}">
+									<Language>SFX</Language>
+									<AudioFile>496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1008892742"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3" ID="{C53A12F0-F94F-4E35-A732-96E6910AD5DB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-008" ID="{9BF89CFE-99C9-451D-AD77-AAE2B3278D72}" ShortID="154951082">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10" ID="{BD43D29C-85B8-4680-89BD-8DA78106B62F}">
+									<Language>SFX</Language>
+									<AudioFile>496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="922607347"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10" ID="{BD43D29C-85B8-4680-89BD-8DA78106B62F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-004" ID="{F3ED5852-76A5-4745-9068-01B8C9F79FEE}" ShortID="275632064">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496525-Theresa-Pain-Shout_Short-Blazing-6" ID="{204308E2-5567-4410-9F26-7E167717F002}">
+									<Language>SFX</Language>
+									<AudioFile>496525-Theresa-Pain-Shout_Short-Blazing-6.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="566423542"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496525-Theresa-Pain-Shout_Short-Blazing-6" ID="{204308E2-5567-4410-9F26-7E167717F002}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-001" ID="{75BA00F6-DDB2-4BD0-B8DB-FA8C58522A3B}" ShortID="971004403">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3" ID="{C6248C81-6490-4593-9892-6B0784D38B82}">
+									<Language>SFX</Language>
+									<AudioFile>373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="915073461"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3" ID="{C6248C81-6490-4593-9892-6B0784D38B82}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-009" ID="{58747471-CFBE-4DDD-81D5-516F391EEB0B}" ShortID="513910498">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496644-Theresa-Laugh-Hard-13" ID="{AEA878F6-DD02-4279-8ACF-4D58A601B9E1}">
+									<Language>SFX</Language>
+									<AudioFile>496644-Theresa-Laugh-Hard-13.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="76274568"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496644-Theresa-Laugh-Hard-13" ID="{AEA878F6-DD02-4279-8ACF-4D58A601B9E1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>
