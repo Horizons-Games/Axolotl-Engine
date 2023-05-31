@@ -10,8 +10,8 @@ REGISTERCLASS(UIGameStates);
 UIGameStates::UIGameStates() : Script(), loseStateObject(nullptr), winStateObject(nullptr), mainMenuObject(nullptr),
 player(nullptr), menuIsOpen(false), hudStateObject(nullptr), WinSceneName("00_WinScene_VS3"), LoseSceneName("00_LoseScene_VS3")
 {
-	//REGISTER_FIELD(winStateObject, GameObject*);
-	//REGISTER_FIELD(loseStateObject, GameObject*);
+	REGISTER_FIELD(winStateObject, GameObject*);
+	REGISTER_FIELD(loseStateObject, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudStateObject, GameObject*);
 	REGISTER_FIELD(setPlayer, GameObject*);
@@ -55,39 +55,28 @@ void UIGameStates::MenuIsOpen()
 void UIGameStates::WinStateScene(bool setState)
 {
 #ifndef ENGINE
-	if (WinSceneName != "")
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + WinSceneName + ".axolotl");
-	}
-#endif // ENGINE
-	if (WinSceneName != "")
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + WinSceneName + ".axolotl");
-	}
-
-	/*
 	if (setState == true)
 	{
 		winStateObject->Enable();
 		player->SetMouse(true);
-	}
+}
 	else
 	{
 		winStateObject->Disable();
 		player->SetMouse(false);
 	}
-	*/
+#else // ENGINE
+	if (WinSceneName != "")
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + WinSceneName + ".axolotl");
+	}
+
+#endif // GAME
 }
 
 void UIGameStates::LoseStateScene(bool setState)
 {
 #ifndef ENGINE
-	if (LoseSceneName != "")
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + LoseSceneName + ".axolotl");
-	}
-#endif // ENGINE
-	/*
 	if (setState == true)
 	{
 		loseStateObject->Enable();
@@ -98,5 +87,10 @@ void UIGameStates::LoseStateScene(bool setState)
 		loseStateObject->Disable();
 		player->SetMouse(false);
 	}
-	*/
+#else // ENGINE
+	if (LoseSceneName != "")
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + LoseSceneName + ".axolotl");
+	}
+#endif // GAME
 }

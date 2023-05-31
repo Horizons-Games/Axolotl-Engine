@@ -79,6 +79,22 @@
                             "active": true,
                             "removed": true
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "MenuMusic",
+                            "fields": null
+                        }
                     }
                 ]
             }

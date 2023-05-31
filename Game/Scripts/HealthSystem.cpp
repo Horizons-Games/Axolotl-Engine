@@ -33,6 +33,16 @@ void HealthSystem::Update(float deltaTime)
 	if (currentHealth <= 0)
 	{
 		componentAnimation->SetParameter("IsDead", true);
+		if (owner->CompareTag("Player"))
+		{
+			#ifndef ENGINE
+			if (LoseSceneName != "")
+			{
+				App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + LoseSceneName + ".axolotl");
+			}
+			#endif // ENGINE
+			ENGINE_LOG("Player is dead");
+		}
 	}
 }
 
