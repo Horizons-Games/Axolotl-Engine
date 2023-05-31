@@ -39,12 +39,12 @@ unsigned int ResourceMesh::GetBonesPerVertex()
 
 void ResourceMesh::InternalLoad()
 {
-	glGenBuffers(1, &ssboPalette);
+	/*glGenBuffers(1, &ssboPalette);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPalette);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(float4x4) * bones.size(), nullptr, GL_DYNAMIC_DRAW);
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);*/
 
 	CreateVBO();
 	CreateEBO();
@@ -109,7 +109,7 @@ void ResourceMesh::CreateVBO()
 		glBufferSubData(GL_ARRAY_BUFFER, tangentsOffset, tangentsSize, &tangents[0]);
 	}
 
-	unsigned bonesSize = sizeof(unsigned int) * 4 * numVertices;
+	/*unsigned bonesSize = sizeof(unsigned int) * 4 * numVertices;
 	unsigned weightSize = sizeof(float) * 4 * numVertices;
 	unsigned boneOffset = positionSize + uvSize + normalsSize + tangentsSize;
 	unsigned weightOffset = positionSize + uvSize + normalsSize + tangentsSize + bonesSize;
@@ -132,7 +132,7 @@ void ResourceMesh::CreateVBO()
 	}
 
 	glBufferSubData(GL_ARRAY_BUFFER, boneOffset, bonesSize, &bones[0]);
-	glBufferSubData(GL_ARRAY_BUFFER, weightOffset, weightSize, &weights[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, weightOffset, weightSize, &weights[0]);*/
 }
 
 void ResourceMesh::CreateEBO()
@@ -184,13 +184,13 @@ void ResourceMesh::CreateVAO()
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*) (sizeof(float) * (3 + 2 + 3) * numVertices));
 	}
 
-	// bone indices and weights
-	glEnableVertexAttribArray(4);
-	glVertexAttribIPointer(4, 4, GL_UNSIGNED_INT, 0, (void*) (sizeof(float) * (3 + 2 + 3 + 3) * numVertices));
+	//// bone indices and weights
+	//glEnableVertexAttribArray(4);
+	//glVertexAttribIPointer(4, 4, GL_UNSIGNED_INT, 0, (void*) (sizeof(float) * (3 + 2 + 3 + 3) * numVertices));
 
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0,
-						  (void*) ((sizeof(float) * (3 + 2 + 3 + 3) + sizeof(unsigned int) * 4) * numVertices));
+	//glEnableVertexAttribArray(5);
+	//glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0,
+	//					  (void*) ((sizeof(float) * (3 + 2 + 3 + 3) + sizeof(unsigned int) * 4) * numVertices));
 }
 
 // For mouse-picking purposes

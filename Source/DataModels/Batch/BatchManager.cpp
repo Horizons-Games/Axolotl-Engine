@@ -141,6 +141,18 @@ void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
 	batch->BindBatch(selected);
 }
 
+void BatchManager::SetDirtybatches()
+{
+	for (GeometryBatch* batch : geometryBatchesOpaques)
+	{
+		batch->SetDirty(true);
+	}
+	for (GeometryBatch* batch : geometryBatchesTransparent)
+	{
+		batch->SetDirty(true);
+	}
+}
+
 void BatchManager::CleanBatches()
 {
 #ifndef ENGINE

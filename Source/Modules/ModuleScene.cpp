@@ -286,6 +286,11 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	{
 		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
 	}
+	else
+	{
+		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
+	}
+	
 
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
