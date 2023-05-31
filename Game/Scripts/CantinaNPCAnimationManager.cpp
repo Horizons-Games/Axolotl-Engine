@@ -12,6 +12,7 @@ CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), animation(n
 void CantinaNPCAnimationManager::Start()
 {
 	animation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	std::srand(std::time(NULL));
 }
 
 void CantinaNPCAnimationManager::Update(float deltaTime)
