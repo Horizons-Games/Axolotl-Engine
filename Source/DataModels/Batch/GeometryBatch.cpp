@@ -386,6 +386,7 @@ void GeometryBatch::CreateVAO()
 		paletteIndexes[component] = count;
 
 		totalNumBones += numBones;
+
 		++count;
 	}
 
@@ -508,6 +509,10 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 			resourcesMaterial.erase(it);
 		}
 	}
+#else
+		App->GetModule<ModuleResources>()->FillResourceBin(componentToDelete->GetMaterial());
+	}
+#endif //ENGINE
 
 	componentsInBatch.erase(std::find(componentsInBatch.begin(), componentsInBatch.end(), componentToDelete));
 	resourcesInfo.clear();
@@ -520,11 +525,6 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	reserveModelSpace = true;
 	dirtyBatch = true;
 	componentToDelete->SetBatch(nullptr);
-
-#else
-		App->GetModule<ModuleResources>()->FillResourceBin(componentToDelete->GetMaterial());
-	}
-#endif //ENGINE
 }
 
 std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMeshRenderer* componentToDelete)
