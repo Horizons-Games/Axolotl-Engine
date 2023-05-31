@@ -8,6 +8,11 @@
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
 
+#ifndef ENGINE
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
+#endif
+
 #include <vector>
 
 ModulePhysics::ModulePhysics()
@@ -85,6 +90,11 @@ update_status ModulePhysics::PreUpdate()
 #else
     dynamicsWorld->stepSimulation(App->GetDeltaTime());
     ManageCollisions();
+
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPhysics())
+	{
+		dynamicsWorld->debugDrawWorld();
+	}
 #endif
 
 	return update_status::UPDATE_CONTINUE;

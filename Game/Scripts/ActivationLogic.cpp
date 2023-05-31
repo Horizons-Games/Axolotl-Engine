@@ -29,7 +29,7 @@ ActivationLogic::~ActivationLogic()
 
 void ActivationLogic::Start()
 {
-	//componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 	componentRigidBody = static_cast<ComponentRigidBody*>(owner->GetChildren()[1]->GetComponent(ComponentType::RIGIDBODY));
 	//Until the trigger works 100% of the time better cross a closed door than be closed forever
@@ -47,6 +47,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		componentAnimation->SetParameter("IsActive", true);
 		componentRigidBody->Disable();
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 	}
 }
 
@@ -57,5 +58,6 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 		componentAnimation->SetParameter("IsActive", false);
 		//Until the trigger works 100% of the time better cross a closed door than be closed forever
 		//componentRigidBody->Enable();
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 }

@@ -110,7 +110,7 @@
         {
             "GameObject": {
                 "name": "DRONE",
-                "tag": "",
+                "tag": "Enemy",
                 "uid": 5716735143033173282,
                 "parentUID": 3799328107096056596,
                 "enabled": true,
@@ -127,7 +127,7 @@
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localRot_Z": 180.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -140,6 +140,160 @@
                             "removed": true,
                             "stateUID": 238316357823381726,
                             "assetPathState": "Assets/StateMachine/DroneAnimationController.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "SeekBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "Target",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "OwnerRigidBodyGO",
+                                    "value": 5716735143033173282,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PatrolBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "WayPointOne",
+                                    "value": 10197724959374757767,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "WayPointTwo",
+                                    "value": 12078123005813096923,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "OwnerRigidBodyGO",
+                                    "value": 5716735143033173282,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyDroneScript",
+                            "fields": [
+                                {
+                                    "name": "AttackDistance",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "SeekDistance",
+                                    "value": 8.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "DroneAttack",
+                            "fields": [
+                                {
+                                    "name": "AttackCooldown",
+                                    "value": 5.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AnimationGO",
+                                    "value": 5716735143033173282,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletOriginGO",
+                                    "value": 2731357607606056282,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletPrefab",
+                                    "value": 13090149177772520264,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 0.20000000298023224,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.0,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 1.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0
                         }
                     }
                 ]
@@ -2797,6 +2951,140 @@
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 2",
+                "tag": "",
+                "uid": 12078123005813096923,
+                "parentUID": 3799328107096056596,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 5.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 1",
+                "tag": "",
+                "uid": 10197724959374757767,
+                "parentUID": 3799328107096056596,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -5.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Capsule",
+                "tag": "",
+                "uid": 13090149177772520264,
+                "parentUID": 5716735143033173282,
+                "enabled": false,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.5096322298049927,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.07500000298023224,
+                            "localSca_Y": 0.07500001043081284,
+                            "localSca_Z": 0.07500001043081284
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BulletOrigin",
+                "tag": "",
+                "uid": 2731357607606056282,
+                "parentUID": 5716735143033173282,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.3573988676071167,
+                            "localPos_Z": 0.763093888759613,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
