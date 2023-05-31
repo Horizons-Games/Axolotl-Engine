@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class CantinaNPCAnimationManager : public Script
 {
@@ -17,8 +18,11 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	ComponentAudioSource* audio;
 	ComponentAnimation* animation;
 	bool activation;
+	float priority;
 	bool loopAnimation;
-	int percentageOfActivation;
+
+	float timer;
 };
