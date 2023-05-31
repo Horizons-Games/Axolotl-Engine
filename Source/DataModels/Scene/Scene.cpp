@@ -683,12 +683,12 @@ void Scene::UpdateScenePointLights()
 
 	for (GameObject* child : children)
 	{
-		if (child)
+		if (child && child->IsEnabled() && child->IsActive())
 		{
 			std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 			if (!components.empty())
 			{
-				if (components[0]->GetLightType() == LightType::POINT)
+				if (components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
 				{
 					ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
 					ComponentTransform* transform = static_cast<ComponentTransform*>(
@@ -713,12 +713,12 @@ void Scene::UpdateSceneSpotLights()
 
 	for (GameObject* child : children)
 	{
-		if (child)
+		if (child && child->IsEnabled() && child->IsActive())
 		{
 			std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
 			if (!components.empty())
 			{
-				if (components[0]->GetLightType() == LightType::SPOT)
+				if (components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
 				{
 					ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
 					ComponentTransform* transform = static_cast<ComponentTransform*>(
