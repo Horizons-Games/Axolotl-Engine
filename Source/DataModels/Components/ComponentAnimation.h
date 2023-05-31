@@ -44,6 +44,8 @@ public:
 
 	bool IsDrawBonesActivated() const;
 
+	bool isPlaying() const;
+
 private:
 	bool CheckTransitions(State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
@@ -74,4 +76,9 @@ inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
 inline bool ComponentAnimation::IsDrawBonesActivated() const
 {
 	return drawBones;
+}
+
+inline bool ComponentAnimation::isPlaying() const
+{
+	return controller->GetPlay();
 }
