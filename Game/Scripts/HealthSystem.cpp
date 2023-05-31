@@ -8,10 +8,11 @@
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), loseSceneName("00_LoseScene_VS3"), dead(false)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
+	REGISTER_FIELD(loseSceneName, std::string);
 }
 
 void HealthSystem::Start()
@@ -26,13 +27,27 @@ void HealthSystem::Start()
 
 void HealthSystem::Update(float deltaTime)
 {
+	if (dead && owner->CompareTag("Player"))
+	{
+#ifndef ENGINE
+		if (loseSceneName != "" && !componentAnimation->isPlaying())
+		{
+			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
+		}
+#endif // ENGINE
+		if(!componentAnimation->isPlaying()) 
+		{
+			ENGINE_LOG("Player is dead");
+		}
+	}
+
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the TakeDamage function but delay setting it to false by 2 seconds or smth like that
 	componentAnimation->SetParameter("IsTakingDamage", false);
-
 	if (currentHealth <= 0)
 	{
 		componentAnimation->SetParameter("IsDead", true);
+		dead = true;
 	}
 }
 

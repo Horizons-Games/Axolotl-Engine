@@ -9,6 +9,7 @@ class ComponentAnimation;
 class ComponentRigidBody;
 class ComponentScript;
 class UIGameStates;
+class HealthSystem;
 
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
@@ -31,6 +32,7 @@ public:
 	bool isLoseTrigger;
 	bool isWinTrigger;
 	bool isNextSceneTrigger;
+	bool isLoseByDamage;
 
 private:
 
@@ -39,5 +41,7 @@ private:
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
 	UIGameStates* uiGameStatesClass;
+	HealthSystem* playerHealthSystem;
 	GameObject* setGameStateObject;
+	GameObject* setPlayer;
 };
