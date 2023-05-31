@@ -106,7 +106,7 @@ inline const std::string ComponentAreaLight::GetNameByAreaType(AreaType type)
 		return "AreaType_Tube";
 	case AreaType::SPHERE:
 		return "AreaType_Sphere";
-	case AreaType::DISC:
+	case AreaType::DISK:
 		return "AreaType_Disc";
 	default:
 		assert(false && "Wrong area type introduced");
@@ -133,7 +133,7 @@ inline const AreaType ComponentAreaLight::GetAreaTypeByName(const std::string& t
 
 	if (typeName == "AreaType_Disc")
 	{
-		return AreaType::DISC;
+		return AreaType::DISK;
 	}
 	return AreaType::NONE;
 }

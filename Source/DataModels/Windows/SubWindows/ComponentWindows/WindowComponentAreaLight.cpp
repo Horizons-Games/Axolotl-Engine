@@ -34,8 +34,8 @@ void WindowComponentAreaLight::DrawWindowContents()
 		case AreaType::SPHERE:
 			currentType = "SPHERE";
 			break;
-		case AreaType::DISC:
-			currentType = "DISC";
+		case AreaType::DISK:
+			currentType = "DISK";
 			break;
 		case AreaType::QUAD:
 			currentType = "QUAD";

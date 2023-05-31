@@ -77,7 +77,7 @@ void ComponentAreaLight::Draw() const
 		else if (areaType == AreaType::QUAD)
 		{
 		}
-		else if (areaType == AreaType::DISC)
+		else if (areaType == AreaType::DISK)
 		{
 		}
 	}

@@ -20,7 +20,7 @@ enum class AreaType
 	SPHERE,
 	TUBE,
 	QUAD,
-	DISC,
+	DISK,
 	NONE
 };
 
