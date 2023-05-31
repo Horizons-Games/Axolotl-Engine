@@ -54,15 +54,17 @@ void UIGameStates::MenuIsOpen()
 
 void UIGameStates::WinStateScene(bool setState)
 {
-#ifndef ENGINE
+#ifdef ENGINE
 	if (setState == true)
 	{
 		winStateObject->Enable();
+		hudStateObject->Disable();
 		player->SetMouse(true);
 }
 	else
 	{
 		winStateObject->Disable();
+		hudStateObject->Enable();
 		player->SetMouse(false);
 	}
 #else // ENGINE
@@ -76,15 +78,17 @@ void UIGameStates::WinStateScene(bool setState)
 
 void UIGameStates::LoseStateScene(bool setState)
 {
-#ifndef ENGINE
+#ifdef ENGINE
 	if (setState == true)
 	{
 		loseStateObject->Enable();
+		hudStateObject->Disable();
 		player->SetMouse(true);
 	}
 	else
 	{
 		loseStateObject->Disable();
+		hudStateObject->Enable();
 		player->SetMouse(false);
 	}
 #else // ENGINE
