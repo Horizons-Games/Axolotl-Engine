@@ -96,6 +96,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		LineSegment line(ray, 300);
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{	
+			ENGINE_LOG("%.s", tag);
 			gameObjectAttached = hit.gameObject;
 			ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
 				(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
