@@ -1,0 +1,8 @@
+{
+    "UID": 1212710685053285524,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/HumanCharacter.Armature_RestPose.anim",
+        "Assets/Animation/HumanCharacter.Talking.anim"
+    ]
+}
