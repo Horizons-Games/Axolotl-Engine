@@ -171,7 +171,6 @@
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
-    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
@@ -185,7 +184,6 @@
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIGameStates.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageControl.cpp" />
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp" />
@@ -500,7 +498,6 @@
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
-    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
     <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
     <ClInclude Include="..\Game\Scripts\DroneBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
@@ -514,7 +511,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
-    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
     <ClInclude Include="..\Game\Scripts\UIGameStates.h" />
     <ClInclude Include="..\Game\Scripts\UIImageControl.h" />
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />

@@ -424,7 +424,6 @@
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
@@ -878,7 +877,6 @@
     <ClInclude Include="..\Game\Scripts\UITrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
