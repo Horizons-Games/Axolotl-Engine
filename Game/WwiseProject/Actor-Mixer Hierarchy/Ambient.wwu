@@ -88,7 +88,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-9</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -121,7 +121,7 @@
 								<Property Name="OverrideEffect" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-7</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
