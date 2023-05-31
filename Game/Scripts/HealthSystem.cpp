@@ -29,14 +29,13 @@ void HealthSystem::Update(float deltaTime)
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the TakeDamage function but delay setting it to false by 2 seconds or smth like that
 	componentAnimation->SetParameter("IsTakingDamage", false);
-
 	if (currentHealth <= 0)
 	{
 		componentAnimation->SetParameter("IsDead", true);
 		if (owner->CompareTag("Player"))
 		{
 			#ifndef ENGINE
-			if (LoseSceneName != "")
+			if (LoseSceneName != "" && !componentAnimation->isPlaying())
 			{
 				App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + LoseSceneName + ".axolotl");
 			}
