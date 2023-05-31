@@ -35,7 +35,10 @@ void HealthSystem::Update(float deltaTime)
 			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
 		}
 #endif // ENGINE
-		ENGINE_LOG("Player is dead");
+		if(!componentAnimation->isPlaying()) 
+		{
+			ENGINE_LOG("Player is dead");
+		}
 	}
 
 	// Provisional here until we have a way to delay a call to a function a certain time

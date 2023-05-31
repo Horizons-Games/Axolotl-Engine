@@ -94,7 +94,7 @@ void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 		if (isLoseByDamage == true)
 		{
 			playerHealthSystem->TakeDamage(100);
-			uiGameStatesClass->LoseStateScene(true);
+			//uiGameStatesClass->LoseStateScene(true);
 		}
 	}
 }
