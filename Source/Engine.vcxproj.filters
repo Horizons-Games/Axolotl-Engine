@@ -412,7 +412,18 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIImageControl.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
@@ -854,7 +865,18 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
+    <ClInclude Include="..\Game\Scripts\UIButtonControl.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIImageControl.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIGameStates.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UITrigger.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
@@ -976,6 +998,9 @@
     </Filter>
     <Filter Include="Auxiliar\Audio">
       <UniqueIdentifier>{31a144c8-77e2-4122-82e4-529826c280dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\UI">
+      <UniqueIdentifier>{9ddd7416-8d1e-4b37-be90-b2a1b8cb51e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
