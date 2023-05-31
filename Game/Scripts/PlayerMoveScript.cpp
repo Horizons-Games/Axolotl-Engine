@@ -155,6 +155,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		{
 			componentAnimation->SetParameter("IsRolling", true);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 
 			if (!movement.isZero()) 
 			{
