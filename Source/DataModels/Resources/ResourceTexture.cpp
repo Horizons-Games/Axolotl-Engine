@@ -14,7 +14,8 @@ ResourceTexture::ResourceTexture(UID resourceUID,
 	format(0),
 	internalFormat(0),
 	imageType(0),
-	pixelsSize(0)
+	pixelsSize(0),
+	handle(0)
 {
 }
 
