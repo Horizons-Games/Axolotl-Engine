@@ -82,7 +82,7 @@ void EnemyDroneScript::Update(float deltaTime)
 			patrolScript->StartPatrol();
 		}
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance)
+		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance)
 			&& droneState != DroneBehaviours::SEEK)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
@@ -90,7 +90,7 @@ void EnemyDroneScript::Update(float deltaTime)
 			droneState = DroneBehaviours::SEEK;
 		}
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
+		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
 			&& droneState != DroneBehaviours::ATTACK)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
