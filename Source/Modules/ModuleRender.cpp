@@ -445,7 +445,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				if (gameObject->IsActive())
+				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
 					const ComponentTransform* transform =
 						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
@@ -460,7 +460,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
-				if (gameObject->IsActive())
+				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
 					const ComponentTransform* transform =
 						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
@@ -506,7 +506,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		if (gameObject->IsActive())
+		if (gameObject->IsActive() && gameObject->IsEnabled())
 		{
 			const ComponentTransform* transform =
 				static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
