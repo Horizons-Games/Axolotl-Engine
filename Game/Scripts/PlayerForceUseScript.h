@@ -9,6 +9,7 @@ class PlayerCameraRotationVerticalScript;
 class PlayerRotationScript;
 class PlayerMoveScript;
 class ComponentAnimation;
+class ComponentAudioSource;
 class HealthSystem;
 
 class PlayerForceUseScript :
@@ -33,6 +34,7 @@ private:
 	float lastHorizontalSensitivity;
 	float lastVerticalSensitivity;
 	float lastMoveSpeed;
+	bool isForceActive;
 
 	bool breakForce;
 
@@ -44,4 +46,5 @@ private:
 	HealthSystem* healthScript;
 
 	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* componentAudioSource;
 };

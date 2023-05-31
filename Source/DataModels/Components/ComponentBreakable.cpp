@@ -16,7 +16,6 @@ ComponentBreakable::ComponentBreakable(const bool active, GameObject* owner)
 
 ComponentBreakable::~ComponentBreakable()
 {
-	delete lcg;
 }
 
 void ComponentBreakable::Update()
@@ -73,8 +72,8 @@ void ComponentBreakable::BreakComponentBy(ComponentRigidBody* rigidbody)
 					static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
 				childRigidBody->UpdateRigidBody();
 				//randomize the impulsion
-				float3 test = test.RandomDir(*lcg, impulsionForce);//max 4.0f min 0.0f
-				btVector3 impulsionMul{ test.x,test.y,test.z };
+				float3 impulsionPower = impulsionPower.RandomDir(lcg, impulsionForce);//max 4.0f min 0.0f
+				btVector3 impulsionMul{ impulsionPower.x,impulsionPower.y,impulsionPower.z };
 				impulsion = impulsion.cross(impulsionMul);
 				childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 			}
@@ -110,8 +109,8 @@ void ComponentBreakable::BreakComponent()
 				static_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
 			childRigidBody->UpdateRigidBody();
 			//randomize the impulsion
-			float3 test = test.RandomDir(*lcg, impulsionForce);
-			btVector3 impulsionMul{ test.x,test.y,test.z };
+			float3 impulsionPower = impulsionPower.RandomDir(lcg, impulsionForce);
+			btVector3 impulsionMul{ impulsionPower.x,impulsionPower.y,impulsionPower.z };
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 		}
