@@ -24,7 +24,6 @@ private:
 	GameObject* setGameStateObject;
 	ComponentButton* buttonComponent;
 	UIGameStates* uiGameStatesClass;
-	ModuleInput* input;
 };
 
 

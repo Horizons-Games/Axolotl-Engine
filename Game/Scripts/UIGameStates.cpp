@@ -2,15 +2,21 @@
 
 #include "Components/ComponentPlayer.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h";
 
 
 REGISTERCLASS(UIGameStates);
 
-UIGameStates::UIGameStates() : Script(), disableObject(nullptr), enableObject(nullptr), player(nullptr), menuIsOpen(false)
+UIGameStates::UIGameStates() : Script(), loseStateObject(nullptr), winStateObject(nullptr), mainMenuObject(nullptr),
+player(nullptr), menuIsOpen(false), hudStateObject(nullptr), WinSceneName("00_WinScene_VS3"), LoseSceneName("00_LoseScene_VS3")
 {
-	REGISTER_FIELD(enableObject, GameObject*);
-	REGISTER_FIELD(disableObject, GameObject*);
+	//REGISTER_FIELD(winStateObject, GameObject*);
+	//REGISTER_FIELD(loseStateObject, GameObject*);
+	REGISTER_FIELD(mainMenuObject, GameObject*);
+	REGISTER_FIELD(hudStateObject, GameObject*);
 	REGISTER_FIELD(setPlayer, GameObject*);
+	REGISTER_FIELD(WinSceneName, std::string);
+	REGISTER_FIELD(LoseSceneName, std::string);
 }
 
 void UIGameStates::Start()
@@ -33,15 +39,55 @@ void UIGameStates::MenuIsOpen()
 {
 	if (menuIsOpen == false)
 	{
-		enableObject->Disable();
-		disableObject->Enable();
+		mainMenuObject->Disable();
+		hudStateObject->Enable();
 		player->SetMouse(false);
 	}
 	if (menuIsOpen == true)
 	{
-		enableObject->Enable();
-		disableObject->Disable();
+		mainMenuObject->Enable();
+		hudStateObject->Disable();
 		player->SetMouse(true);
 
 	}
+}
+
+void UIGameStates::WinStateScene(bool setState)
+{
+	if (WinSceneName != "")
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + WinSceneName + ".axolotl");
+	}
+	/*
+	if (setState == true)
+	{
+		winStateObject->Enable();
+		player->SetMouse(true);
+	}
+	else
+	{
+		winStateObject->Disable();
+		player->SetMouse(false);
+	}
+	*/
+}
+
+void UIGameStates::LoseStateScene(bool setState)
+{
+	if (LoseSceneName != "")
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + LoseSceneName + ".axolotl");
+	}
+	/*
+	if (setState == true)
+	{
+		loseStateObject->Enable();
+		player->SetMouse(true);
+	}
+	else
+	{
+		loseStateObject->Disable();
+		player->SetMouse(false);
+	}
+	*/
 }

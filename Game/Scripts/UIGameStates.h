@@ -15,14 +15,20 @@ public:
 	void SetMenuIsOpen(bool menuState);
 	void MenuIsOpen();
 	bool menuIsOpen;
+	void WinStateScene(bool setState);
+	void LoseStateScene(bool setState);
 
 private:
 
-	GameObject* disableObject;
-	GameObject* enableObject;
+	GameObject* loseStateObject;
+	GameObject* winStateObject;
+	GameObject* mainMenuObject;
+	GameObject* hudStateObject;
 	GameObject* setPlayer;
 	ComponentPlayer* player;
 	ModuleInput* input;
+	std::string WinSceneName;
+	std::string LoseSceneName;
 
 };
 

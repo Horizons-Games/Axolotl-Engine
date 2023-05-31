@@ -3,7 +3,6 @@
 #include <Components/ComponentScript.h>
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
-#include "ModuleInput.h"
 #include "UIGameStates.h"
 
 
@@ -42,7 +41,6 @@ void UIButtonControl::Start()
 
 void UIButtonControl::Update(float deltaTime)
 {
-	ModuleInput* input = App->GetModule<ModuleInput>();
 
 	if (isGameExit != false)
 	{
@@ -76,10 +74,5 @@ void UIButtonControl::Update(float deltaTime)
 			buttonHover->Disable();
 		}
 	}
-
-}
-
-void SearchScript()
-{
 
 }

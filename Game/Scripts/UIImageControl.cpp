@@ -7,7 +7,7 @@ check(false), enableImgObject02(nullptr), enableImgObject03(nullptr), enableImgO
 {
 	REGISTER_FIELD(enableImgObject, GameObject*);
 	REGISTER_FIELD(disableImgObject, GameObject*);
-	//hardcode to delete
+	//hardcode to delete on other VS
 	REGISTER_FIELD(check, bool);
 	REGISTER_FIELD(enableImgObject02, GameObject*);
 	REGISTER_FIELD(enableImgObject03, GameObject*);

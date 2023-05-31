@@ -418,6 +418,9 @@
     <ClCompile Include="..\Game\Scripts\UIGameStates.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -840,6 +843,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIGameStates.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UITrigger.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
