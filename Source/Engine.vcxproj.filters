@@ -422,6 +422,9 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -851,6 +854,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneBullet.h">
       <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
