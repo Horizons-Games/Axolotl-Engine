@@ -54,10 +54,17 @@ void UIGameStates::MenuIsOpen()
 
 void UIGameStates::WinStateScene(bool setState)
 {
+#ifndef ENGINE
 	if (WinSceneName != "")
 	{
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + WinSceneName + ".axolotl");
 	}
+#endif // ENGINE
+	if (WinSceneName != "")
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + WinSceneName + ".axolotl");
+	}
+
 	/*
 	if (setState == true)
 	{
@@ -74,10 +81,12 @@ void UIGameStates::WinStateScene(bool setState)
 
 void UIGameStates::LoseStateScene(bool setState)
 {
+#ifndef ENGINE
 	if (LoseSceneName != "")
 	{
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + LoseSceneName + ".axolotl");
 	}
+#endif // ENGINE
 	/*
 	if (setState == true)
 	{
