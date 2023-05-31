@@ -77,8 +77,3 @@ inline bool ComponentAnimation::IsDrawBonesActivated() const
 {
 	return drawBones;
 }
-
-inline bool ComponentAnimation::isPlaying() const
-{
-	return controller->GetPlay();
-}
