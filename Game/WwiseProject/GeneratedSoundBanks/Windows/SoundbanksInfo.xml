@@ -100,7 +100,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{97B7AC99-91CB-A461-C1C9-C5D117AD4DA4}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{BEFD5D28-6ACA-01D6-F765-2F596AE94D65}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -619,7 +619,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{32CF7B0D-D3EF-C226-0845-42BDE891DE4D}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{916D00D9-A421-7F55-AA45-BDB15E69ED9B}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -814,5 +814,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D1BDCCF0-47E4-C289-5E34-2FA1EA463FEE}</FileHash>
+	<FileHash>{F95F2336-5B31-55B6-1B3D-0AD6B7564CFC}</FileHash>
 </SoundBanksInfo>
