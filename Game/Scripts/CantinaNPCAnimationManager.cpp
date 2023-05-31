@@ -1,25 +1,28 @@
 #include "CantinaNPCAnimationManager.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(CantinaNPCAnimationManager);
 
-CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), animation(nullptr), activation(false), loopAnimation(false), percentageOfActivation(0)
+CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), audio(nullptr), animation(nullptr), activation(false), loopAnimation(false), priority(0)
 {
 	REGISTER_FIELD(loopAnimation, bool);
-	REGISTER_FIELD(percentageOfActivation, float);
+	REGISTER_FIELD(priority, float);
 }
 
 void CantinaNPCAnimationManager::Start()
 {
+	audio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+
 	animation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	std::srand(std::time(NULL));
 }
 
 void CantinaNPCAnimationManager::Update(float deltaTime)
 {
-	if(!loopAnimation || !activation)
+	if(!loopAnimation) 
 	{
-		if (activation)
+		if (!animation->isPlaying())
 		{
 			animation->SetParameter("Activate", false);
 			activation = false;
@@ -27,10 +30,23 @@ void CantinaNPCAnimationManager::Update(float deltaTime)
 
 		int randomValue = std::rand() % 100 + 1;
 
-		if(randomValue <= percentageOfActivation)
+		if (!activation && randomValue <= priority)
 		{
+			if (audio)
+			{
+				audio->PostEvent(AUDIO::SFX::NPC::CANTINA::DRUNKNPC_RANDOM_SOUND);
+			}
+
 			animation->SetParameter("Activate", true);
 			activation = true;
+		}
+	}
+	else if(!activation)
+	{
+		timer += deltaTime;
+		if(priority <= timer)
+		{
+			animation->SetParameter("Activate", true);
 		}
 	}
 }
