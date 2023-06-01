@@ -37,7 +37,7 @@ void HealthSystem::Update(float deltaTime)
 #endif // ENGINE
 		if(!componentAnimation->isPlaying()) 
 		{
-			ENGINE_LOG("Player is dead");
+			LOG_VERBOSE("Player is dead");
 		}
 	}
 
