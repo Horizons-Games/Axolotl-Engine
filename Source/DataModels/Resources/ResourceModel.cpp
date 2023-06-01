@@ -6,8 +6,11 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
 
-ResourceModel::ResourceModel(UID resourceUID, const std::string& fileName, const std::string& assetsPath,
-	const std::string& libraryPath) : Resource(resourceUID, fileName, assetsPath, libraryPath)
+ResourceModel::ResourceModel(UID resourceUID,
+							 const std::string& fileName,
+							 const std::string& assetsPath,
+							 const std::string& libraryPath) :
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
 {
 }
 

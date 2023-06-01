@@ -17,12 +17,14 @@ public:
 	ComponentPointLight(const ComponentPointLight& componentPointLight);
 	ComponentPointLight(GameObject* parent);
 	ComponentPointLight(float radius, const float3& color, float intensity);
-	ComponentPointLight(float radius, const float3& color, float intensity,
-						GameObject* parent);
+	ComponentPointLight(float radius, const float3& color, float intensity, GameObject* parent);
 
 	~ComponentPointLight() override;
 
 	void Draw() const override;
+
+	void Enable() override;
+	void Disable() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

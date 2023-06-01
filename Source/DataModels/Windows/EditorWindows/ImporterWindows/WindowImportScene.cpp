@@ -1,10 +1,10 @@
 #include "WindowImportScene.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
+#include "ModuleScene.h"
 
-WindowImportScene::WindowImportScene() :WindowFileBrowser()
+WindowImportScene::WindowImportScene() : WindowFileBrowser()
 {
 	dialogName = " Import Scene";
 	title = ConvertU8String(ICON_IGFD_FOLDER) + " Import Scene";

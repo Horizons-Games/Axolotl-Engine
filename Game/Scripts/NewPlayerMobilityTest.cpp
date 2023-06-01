@@ -68,6 +68,14 @@ void NewPlayerMobilityTest::Update(float deltaTime)
 
 }
 
+void NewPlayerMobilityTest::OnCollisionEnter(ComponentRigidBody* other)
+{
+}
+
+void NewPlayerMobilityTest::OnCollisionExit(ComponentRigidBody* other)
+{
+}
+
 void NewPlayerMobilityTest::Move()
 {
 	float deltaTime = (App->GetDeltaTime() < 1.f) ? App->GetDeltaTime() : 1.f;
@@ -84,7 +92,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -98,7 +106,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -111,7 +119,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -125,7 +133,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
@@ -141,7 +149,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		if (playerState == PlayerActions::WALKING)
 		{
-			componentAudio->PostEvent(audio::SFX_PLAYER_FOOTSTEPS_WALK_STOP);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
@@ -160,7 +168,7 @@ void NewPlayerMobilityTest::Move()
 		//direction = objectTransform->GetGlobalRight().Normalized();
 		//movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
 		componentAnimation->SetParameter("IsAttacking", true);
-		
+
 
 	}
 
@@ -168,7 +176,7 @@ void NewPlayerMobilityTest::Move()
 	{
 		//direction = objectTransform->GetGlobalRight().Normalized();
 		//movement += btVector3(direction.x, direction.y, direction.z) * deltaTime * speed;
-		
+
 		componentAnimation->SetParameter("IsAttacking", false);
 	}
 

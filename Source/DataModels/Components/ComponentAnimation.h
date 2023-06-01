@@ -5,11 +5,11 @@
 
 #include "Components/Component.h"
 
-#include "Resources/ResourceStateMachine.h"
 #include "Math/float4x4.h"
-#include <vector>
+#include "Resources/ResourceStateMachine.h"
 #include <memory>
 #include <unordered_map>
+#include <vector>
 
 #define NON_STATE 9999
 
@@ -44,6 +44,9 @@ public:
 
 	bool IsDrawBonesActivated() const;
 
+	bool isPlaying() const;
+	std::string& GetActualStateName() const;
+
 private:
 	bool CheckTransitions(State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
@@ -74,4 +77,9 @@ inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
 inline bool ComponentAnimation::IsDrawBonesActivated() const
 {
 	return drawBones;
+}
+
+inline std::string& ComponentAnimation::GetActualStateName() const
+{
+	return stateMachine->GetState(actualState)->name;
 }
