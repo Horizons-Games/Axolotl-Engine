@@ -120,11 +120,10 @@ update_status Application::Update()
 	}
 
 	float dt = playMode ? onPlayTimer.Read() - ms : appTimer.Read() - ms;
-	float minframeTime = 1000.0f / GetMaxFrameRate();
 
-	if (dt < minframeTime)
+	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay((Uint32) (minframeTime - dt));
+		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
 	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;

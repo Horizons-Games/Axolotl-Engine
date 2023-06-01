@@ -33,8 +33,9 @@ public:
 
 	virtual void Draw() const override{};
 
-	void Enable() override;
-	void Disable() override;
+	virtual void Enable() override{}
+	
+	virtual void Disable() override{}
 
 	virtual void SaveOptions(Json& meta) override{};
 	virtual void LoadOptions(Json& meta) override{};
@@ -52,16 +53,6 @@ protected:
 
 	LightType lightType;
 };
-
-inline void ComponentLight::Enable()
-{
-	Component::Enable();
-}
-
-inline void ComponentLight::Disable()
-{
-	Component::Disable();
-}
 
 inline const float3& ComponentLight::GetColor() const
 {
