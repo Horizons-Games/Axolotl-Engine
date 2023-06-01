@@ -19,6 +19,8 @@ private:
 	void DrawGenerateZipCheckmark();
 	void DrawBuildButton();
 
+	void CreateStartConfigFile();
+
 	std::string selectedScene;
 	std::string selectedBuild;
 	bool generateZip;

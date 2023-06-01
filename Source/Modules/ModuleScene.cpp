@@ -20,8 +20,6 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 
-
-
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -53,18 +51,23 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
+	if (loadedScene == nullptr)
+	{
 #ifdef ENGINE
-	if (loadedScene == nullptr)
-	{
 		loadedScene = CreateEmptyScene();
-	}
-
 #else // GAME MODE
-	if (loadedScene == nullptr)
-	{
-		LoadScene("Lib/Scenes/00_MainMenu_V02.axolotl", false);
-	}
+		char* buffer;
+		unsigned int fileSize = App->GetModule<ModuleFileSystem>()->Load(GAME_STARTING_CONFIG, buffer);
+		rapidjson::Document doc;
+		Json startConfig(doc, doc);
+		startConfig.fromBuffer(buffer);
+		delete buffer;
+		
+		std::string startingScene = startConfig["StartingScene"];
+		std::string scenePath = LIB_PATH "Scenes/" + startingScene;
+		LoadScene(scenePath, false);
 #endif
+	}
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }

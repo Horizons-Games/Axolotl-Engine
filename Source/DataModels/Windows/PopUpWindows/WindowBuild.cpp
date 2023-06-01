@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/Json.h"
 
 #include "Auxiliar/GameBuilder.h"
 
@@ -103,9 +104,25 @@ void WindowBuild::DrawBuildButton()
 	{
 		startedBuild = true;
 		builder::BuildGame(buildTypes.find(selectedBuild)->second, generateZip);
+		CreateStartConfigFile();
 	}
 	if (formNotFilled)
 	{
 		ImGui::EndDisabled();
 	}
+}
+
+void WindowBuild::CreateStartConfigFile()
+{
+	rapidjson::Document doc;
+	Json startConfig(doc, doc);
+
+	startConfig["StartingScene"] = selectedScene.c_str();
+
+	rapidjson::StringBuffer buffer;
+	startConfig.toBuffer(buffer);
+
+	std::string path = GAME_STARTING_CONFIG;
+
+	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
 }
