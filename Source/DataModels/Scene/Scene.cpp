@@ -14,6 +14,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCubemap.h"
 
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
