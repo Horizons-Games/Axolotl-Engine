@@ -68,11 +68,13 @@ void PlayerJumpScript::Jump(float deltatime)
 
 		if ((canDoubleJump && jumps == 1) || (!canDoubleJump && jumps == 0))
 		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
 			componentAnimation->SetParameter("IsJumping", true);
 		}
 
 		if (canDoubleJump && jumps == 0)
 		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 			componentAnimation->SetParameter("IsDoubleJumping", true);
 		}
 	}

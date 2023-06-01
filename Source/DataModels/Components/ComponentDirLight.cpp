@@ -102,6 +102,16 @@ void ComponentDirLight::Draw() const
 #endif // ENGINE
 }
 
+void ComponentDirLight::Enable()
+{
+	Component::Enable();
+}
+
+void ComponentDirLight::Disable()
+{
+	Component::Disable();
+}
+
 void ComponentDirLight::SaveOptions(Json& meta)
 {
 	// Do not delete these

@@ -282,3 +282,8 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 		LoadModelTransform(children);
 	}
 }
+
+bool ComponentAnimation::isPlaying() const
+{
+	return controller->GetPlay();
+}

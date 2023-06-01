@@ -3,19 +3,22 @@
 #include "Components/Component.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/DroneAttack.h"
 #include "../Scripts/HealthSystem.h"
 
-#include "Components/ComponentAnimation.h"
+#include "Auxiliar/Audio/AudioData.h"
+
 
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr)
+	componentAnimation(nullptr), componentAudioSource(nullptr)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -26,6 +29,7 @@ void EnemyDroneScript::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
@@ -75,19 +79,24 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		if (droneState != DroneBehaviours::PATROL)
 		{
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
 			droneState = DroneBehaviours::PATROL;
 			patrolScript->StartPatrol();
 		}
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance)
+		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance)
 			&& droneState != DroneBehaviours::SEEK)
 		{
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
 			droneState = DroneBehaviours::SEEK;
 		}
 
-		if (ownerTransform->GetPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
+		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
 			&& droneState != DroneBehaviours::ATTACK)
 		{
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			droneState = DroneBehaviours::ATTACK;
 		}
 	}

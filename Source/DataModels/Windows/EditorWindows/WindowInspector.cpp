@@ -44,6 +44,7 @@ WindowInspector::WindowInspector() :
 		// that'd be too easy
 		return gameObjectDoesNotHaveComponent.template operator()<ComponentLight>(gameObject);
 	};
+
 	actions.push_back(AddComponentAction("Create Spot Light Component",
 										 std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT),
 										 isNotALight,

@@ -21,6 +21,9 @@ public:
 private:
 	float currentHealth;
 	float maxHealth;
+	bool dead;
 
 	ComponentAnimation* componentAnimation;
+
+	std::string loseSceneName;
 };

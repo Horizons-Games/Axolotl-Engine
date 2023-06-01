@@ -9,6 +9,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 #include "DataModels/Camera/CameraGameObject.h"
 
 #include "Scene/Scene.h"
@@ -16,6 +17,7 @@
 #include "Physics/Physics.h"
 
 #include "MathGeoLib/Include/Geometry/Ray.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "PlayerRotationScript.h"
 #include "PlayerCameraRotationVerticalScript.h"
@@ -26,8 +28,9 @@ REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
-maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f),
-currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), healthScript(nullptr)
+maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
+currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource (nullptr), 
+healthScript(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -40,6 +43,7 @@ PlayerForceUseScript::~PlayerForceUseScript()
 void PlayerForceUseScript::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
 
 	currentTimeForce = maxTimeForce;
 
@@ -76,6 +80,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 {
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
+		componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
+		isForceActive = false;
 		return;
 	}
 
@@ -154,11 +160,22 @@ void PlayerForceUseScript::Update(float deltaTime)
 			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed);
 		}
 
+		if (isForceActive)
+		{
+			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
+			isForceActive = false;
+		}
+
 		breakForce = false;
 	}
 
 	if (gameObjectAttached)
 	{
+		if (!isForceActive)
+		{
+			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
+			isForceActive = true;
+		}
 		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		btRigidBody* hittedbtRb = hittedRigidBody->GetRigidBody();
 		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();

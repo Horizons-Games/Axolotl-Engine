@@ -60,7 +60,7 @@ bool ModuleScene::Start()
 #else // GAME MODE
 	if (loadedScene == nullptr)
 	{
-		LoadScene("Lib/Scenes/00_MainMenu_V02.axolotl", false);
+		LoadScene("Lib/Scenes/00_MainMenu_VS3.axolotl", false);
 	}
 #endif
 	selectedGameObject = loadedScene->GetRoot();
@@ -278,8 +278,19 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
 {
+	if (!mantainActualScene)
+	{
+		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	}
+	else
+	{
+		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
+	}
+	
+
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
-	std::string fileName = fileSystem->GetFileName(filePath).c_str();
+
+	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
 	char* buffer{};
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
