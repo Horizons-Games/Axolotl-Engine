@@ -482,10 +482,9 @@ void ModuleResources::MonitorResources()
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
-		std::map<UID, std::weak_ptr<Resource>>::iterator it;
-		for (it = resources.begin(); it != resources.end(); ++it)
+		for (auto resourceit : resources)
 		{
-			const std::shared_ptr<Resource>& resource = it->second.lock();
+			const std::shared_ptr<Resource>& resource = resourceit.second.lock();
 			if (resource)
 			{
 				if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))

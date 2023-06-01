@@ -35,9 +35,3 @@ inline bool ComponentPlayer::HaveMouseActivated()
 {
 	return mousePlayer;
 }
-
-inline void ComponentPlayer::SetMouse(bool newMouse)
-{
-	mousePlayer = newMouse;
-	staticPlayer = newMouse;
-}

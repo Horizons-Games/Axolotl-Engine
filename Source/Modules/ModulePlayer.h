@@ -21,6 +21,7 @@ public:
 	void UnloadNewPlayer();
 
 	bool IsStatic();
+	void CheckIfActivateMouse();
 
 private:
 	GameObject* player;

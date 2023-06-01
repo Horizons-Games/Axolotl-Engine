@@ -66,5 +66,8 @@ void ComponentButton::Disable()
 
 void ComponentButton::OnClicked()
 {
-	App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+	if (sceneName != "")
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+	}
 }

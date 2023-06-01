@@ -187,6 +187,31 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="sfx_footsteps_crouch_01" ID="{55678333-0BB8-41F7-A446-440839AE7A6B}">
+					<ChildrenList>
+						<Action Name="" ID="{14F763D8-03A9-4711-B09B-42BA6CC336CB}" ShortID="815448258">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_footsteps_crouch_01" ID="{7E1C081E-DCB6-488C-A07C-C6BA7C2819D4}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_footsteps_crouch_stop" ID="{D375EA26-9AC3-4DB8-AF73-31225077C329}">
+					<ChildrenList>
+						<Action Name="" ID="{209E3CA9-0F7F-43C5-8353-8CBDD26B1083}" ShortID="679974251">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_footsteps_crouch_01" ID="{7E1C081E-DCB6-488C-A07C-C6BA7C2819D4}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
