@@ -204,7 +204,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
 
         vec3 Li = color*intensity;
         vec3 LoSpecular = 0.25 * FS * SV * GGXND * Li * attenuation * specularDotNL;
-        vec3 LoDiffuse = (Cd * (1 - f0)) * Li * attenuation * diffuseDotNL;
+        vec3 LoDiffuse = Cd * (1 - f0) * Li * attenuation * diffuseDotNL;
         Lo += LoDiffuse + LoSpecular;
     }
 
@@ -219,10 +219,10 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
     {
         vec3 posA = areaTube[i].positionA.xyz;
         vec3 posB = areaTube[i].positionB.xyz;
+        float tubeRadius = areaTube[i].positionA.w;
         vec3 color = areaTube[i].color.rgb;
         float intensity = areaTube[i].color.a;
         float lightRadius = areaTube[i].lightRadius;
-        float tubeRadius = areaTube[i].positionA.w;
 
         // calculate closest point light specular
         vec3 PA = posA - FragPos;
@@ -232,13 +232,15 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         float dotABRefle = dot(AB, R);
         float num = dot(R, PA) * dotABRefle - dot(AB, PA);
+        //float distAB = length(AB);
+        //float denom = distAB * distAB - dotABRefle * dotABRefle;
         float denom = dot(AB, AB) - dotABRefle * dotABRefle;
         float t = clamp(num/denom, 0.0f, 1.0f);
         
         vec3 closest = posA + AB * t;
 
         vec3 oldL = closest - FragPos;
-        vec3 centerToRay = FragPos + max(dot(oldL, R), EPSILON) * R - closest;
+        vec3 centerToRay = FragPos + dot(oldL, R) * R - closest;
         closest = closest + centerToRay * min(tubeRadius/length(centerToRay),1.0);
 
         vec3 L = normalize(closest-FragPos);
@@ -265,9 +267,9 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float diffuseDotNL = max(dot(N,L), EPSILON);
 
         vec3 Li = color * intensity;
-        vec3 LoSpecular = (0.25 * FS * SV * GGXND) * Li * attenuation * specularDotNL;
-        vec3 LoDiffuse = (Cd * (1 - f0)) * Li * attenuation * diffuseDotNL;
-        Lo += LoDiffuse + LoSpecular;
+        vec3 LoSpecular = 0.25 * FS * SV * GGXND * Li * attenuation * specularDotNL;
+        vec3 LoDiffuse = Cd * (1 - f0) * Li * attenuation * diffuseDotNL;
+        Lo += LoSpecular;
     }
 
     return Lo;
