@@ -61,15 +61,15 @@
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
-                            "sizeX": 4100.0,
+                            "sizeX": 4200.0,
                             "sizeY": 2160.0,
                             "localAABB_min_x": 0.0,
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 323.0,
+                            "worldAABB_min_x": 300.0,
                             "worldAABB_min_y": 302.0,
-                            "worldAABB_max_x": 323.0,
+                            "worldAABB_max_x": 300.0,
                             "worldAABB_max_y": 302.0
                         }
                     },
@@ -289,10 +289,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 272.53125,
-                            "worldAABB_min_y": 446.004150390625,
-                            "worldAABB_max_x": 373.46875,
-                            "worldAABB_max_y": 467.5374755859375
+                            "worldAABB_min_x": 253.125,
+                            "worldAABB_min_y": 435.75,
+                            "worldAABB_max_x": 346.875,
+                            "worldAABB_max_y": 455.75
                         }
                     },
                     {
@@ -390,7 +390,7 @@
                 "uid": 11063179424227655713,
                 "parentUID": 16561938826019233067,
                 "enabled": false,
-                "active": true,
+                "active": false,
                 "static": true,
                 "Components": [
                     {
