@@ -23,6 +23,9 @@ public:
 
 	void Draw() const override;
 
+	void Enable() override;
+	void Disable() override;
+
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 

@@ -5,7 +5,8 @@
 			<ChildrenList>
 				<SoundBank Name="NPC" ID="{9D4E166F-B943-4A05-9FC1-865C736599C5}">
 					<ObjectInclusionList>
-						<ObjectRef Name="sfx_dron_shot_01" ID="{67C099E8-D86A-4289-BDFD-EE05986663FD}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="NPCsCantina" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" WorkUnitID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="DRON" ID="{8BF6C5A8-C367-42AE-8C83-BAE60E304659}" WorkUnitID="{8BF6C5A8-C367-42AE-8C83-BAE60E304659}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

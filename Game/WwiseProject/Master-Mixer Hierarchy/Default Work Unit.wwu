@@ -17,7 +17,6 @@
 							</ChildrenList>
 						</Bus>
 						<Bus Name="SFX" ID="{A1D9984C-C6D2-468F-BA36-458C95164D58}">
-							<ReferenceList/>
 							<ChildrenList>
 								<Bus Name="PlayerMaster" ID="{9CBFE594-4CA5-4B08-871F-56070985381F}">
 									<ChildrenList>
@@ -26,12 +25,7 @@
 										<Bus Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}"/>
 									</ChildrenList>
 								</Bus>
-								<Bus Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}">
-									<ChildrenList>
-										<Bus Name="NPCLocomotion" ID="{7F290882-B3FF-4BCA-9B70-9314E1B98AB2}"/>
-										<Bus Name="NPCWeapons" ID="{4846DE1C-6702-467C-86F3-FC45CA3CFD1F}"/>
-									</ChildrenList>
-								</Bus>
+								<Bus Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}"/>
 								<Bus Name="AmbientMaster" ID="{7FBF6336-6F6F-4813-90BD-DCD2BC4A22F9}">
 									<ChildrenList>
 										<Bus Name="2DAmbient" ID="{0C2B7246-DFF5-4E3D-A0BD-B2341A18BEB2}"/>

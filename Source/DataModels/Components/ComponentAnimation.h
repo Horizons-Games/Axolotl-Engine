@@ -44,6 +44,8 @@ public:
 
 	bool IsDrawBonesActivated() const;
 
+	bool isPlaying() const;
+
 private:
 	bool CheckTransitions(State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);

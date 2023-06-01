@@ -7,6 +7,7 @@
 					<ChildrenList>
 						<Switch Name="Combat" ID="{16A3F718-EB0E-4517-9A16-FF9C6BAE8ED1}"/>
 						<Switch Name="Exploration" ID="{332391D6-2EF7-40BC-A645-29A70647B6A1}"/>
+						<Switch Name="MainMenu" ID="{E98CC219-881B-4252-85D8-7A2029106DF7}"/>
 					</ChildrenList>
 				</SwitchGroup>
 			</ChildrenList>

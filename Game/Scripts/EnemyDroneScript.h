@@ -6,12 +6,20 @@
 
 class ComponentScript;
 class ComponentTransform;
+class ComponentAnimation;
+class ComponentAudioSource;
+
+class PatrolBehaviourScript;
+class SeekBehaviourScript;
+class DroneAttack;
+class HealthSystem;
 
 enum class DroneBehaviours
 {
 	IDLE,
 	PATROL,
-	SEEK
+	SEEK,
+	ATTACK
 };
 
 class EnemyDroneScript : public Script
@@ -26,7 +34,15 @@ public:
 private:
 	DroneBehaviours droneState;
 
-	ComponentScript* patrolScript;
-	ComponentScript* seekScript;
+	float attackDistance;
+	float seekDistance;
+
+	PatrolBehaviourScript* patrolScript;
+	SeekBehaviourScript* seekScript;
+	DroneAttack* attackScript;
+	HealthSystem* healthScript;
+
 	ComponentTransform* ownerTransform;
+	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* componentAudioSource;
 };
