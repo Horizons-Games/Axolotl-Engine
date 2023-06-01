@@ -79,7 +79,7 @@ void WindowComponentScript::DrawWindowContents()
 
 	if (ImGui::GetWindowWidth() > static_cast<float>(fullScriptName.size()) * 13.0f)
 	{
-		ImGui::SameLine(ImGui::GetWindowWidth() - 110.0f);
+		ImGui::SameLine(ImGui::GetWindowWidth() - 120.0f);
 	}
 
 	else

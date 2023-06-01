@@ -58,6 +58,8 @@ bool ModuleResources::CleanUp()
 #ifdef ENGINE
 	monitorResources = false;
 	monitorThread.join();
+#else 
+	resourcesBin.clear();
 #endif
 	resources.clear();
 	return true;
@@ -358,6 +360,13 @@ void ModuleResources::ReimportResource(UID resourceUID)
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
 
+void ModuleResources::FillResourceBin(std::shared_ptr<Resource> sharedResource)
+{
+#ifndef ENGINE
+	resourcesBin.push_back(sharedResource);
+#endif // !ENGINE
+}
+
 void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resource)
 {
 	std::string metaPath = resource->GetAssetsPath() + META_EXTENSION;
@@ -482,10 +491,9 @@ void ModuleResources::MonitorResources()
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
-		std::map<UID, std::weak_ptr<Resource>>::iterator it;
-		for (it = resources.begin(); it != resources.end(); ++it)
+		for (auto resourceit : resources)
 		{
-			const std::shared_ptr<Resource>& resource = it->second.lock();
+			const std::shared_ptr<Resource>& resource = resourceit.second.lock();
 			if (resource)
 			{
 				if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))

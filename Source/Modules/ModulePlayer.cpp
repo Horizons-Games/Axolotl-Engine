@@ -54,7 +54,6 @@ void ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
-	ModuleInput* input = App->GetModule<ModuleInput>();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
 	for (ComponentCamera* camera : cameras)
@@ -72,14 +71,8 @@ void ModulePlayer::LoadNewPlayer()
 #endif // ENGINE			
 			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 
-			if (componentPlayer->HaveMouseActivated())
-			{
-				input->SetShowCursor(true);
-			}
-			else
-			{
-				input->SetShowCursor(false);
-			}
+			CheckIfActivateMouse();
+
 			return;
 		}
 	}
@@ -95,4 +88,17 @@ void ModulePlayer::UnloadNewPlayer()
 bool ModulePlayer::IsStatic()
 {
 	return componentPlayer->IsStatic();
+}
+
+void ModulePlayer::CheckIfActivateMouse()
+{
+	if (componentPlayer->HaveMouseActivated())
+	{
+		App->GetModule<ModuleInput>()->SetShowCursor(true);
+	}
+	else
+	{
+		App->GetModule<ModuleInput>()->SetShowCursor(false);
+	}
+
 }

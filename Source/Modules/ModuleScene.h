@@ -41,7 +41,7 @@ public:
 	void InitAndStartScriptingComponents();
 
 	void AddGameObjectAndChildren(GameObject* object);
-	void RemoveGameObjectAndChildren(GameObject* object);
+	void RemoveGameObjectAndChildren(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
@@ -51,7 +51,7 @@ private:
 	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy);
 
 	void AddGameObject(GameObject* object);
-	void RemoveGameObject(GameObject* object);
+	void RemoveGameObject(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;

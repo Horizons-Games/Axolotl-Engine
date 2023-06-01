@@ -164,19 +164,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp" />
+    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\HealthSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\MenuMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIImageControl.cpp" />
+    <ClCompile Include="..\Game\Scripts\UITrigger.cpp" />
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp" />
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp" />
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp" />
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -481,18 +496,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
+    <ClInclude Include="..\Game\Scripts\BixAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
+    <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
+    <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
+    <ClInclude Include="..\Game\Scripts\DroneBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
+    <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h" />
+    <ClInclude Include="..\Game\Scripts\MenuMusic.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
-    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h" />
+    <ClInclude Include="..\Game\Scripts\UIGameStates.h" />
+    <ClInclude Include="..\Game\Scripts\UIImageControl.h" />
+    <ClInclude Include="..\Game\Scripts\UITrigger.h" />
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
@@ -510,6 +538,8 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Batch\BatchManager.h" />
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">

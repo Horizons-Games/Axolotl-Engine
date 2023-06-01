@@ -7,6 +7,7 @@
 					<ObjectInclusionList>
 						<ObjectRef Name="2DAmbient" ID="{5FCE3C5F-CE45-42FE-88E9-0032834F61C6}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="CantinaAmbient" ID="{D24392DB-BFF1-438E-973B-81F45E2A15A4}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="3DAmbient" ID="{2DDB1159-80DA-444A-BC93-FAF45C4ED36D}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

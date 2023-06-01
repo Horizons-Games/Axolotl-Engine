@@ -14,13 +14,9 @@ public:
 	~PatrolBehaviourScript() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 
-	GameObject* GetWayPointOne() const;
-	void SetWayPointOne(GameObject* wayPointOne);
-
-	GameObject* GetWayPointTwo() const;
-	void SetWayPointTwo(GameObject* wayPointTwo);
+	void StartPatrol();
+	void Patrolling();
 
 private:
 	GameObject* wayPointOne;
@@ -28,6 +24,10 @@ private:
 
 	ComponentTransform* wayPointOneTransform;
 	ComponentTransform* wayPointTwoTransform;
+	ComponentTransform* currentWayPointTransform;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;
+	GameObject* ownerRigidBodyGO;
+
+	void SetProportionalController() const;
 };
