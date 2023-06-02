@@ -333,6 +333,7 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				default:
 					break;
 			}
+			delete binaryBuffer;
 			return;
 		}
 	}
@@ -558,8 +559,8 @@ void ModuleResources::MonitorResources()
 				char* saveBuffer = {};
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-				App->GetModule<ModuleFileSystem>()->Save(
-					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				delete saveBuffer;
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
