@@ -491,9 +491,9 @@ void ModuleResources::MonitorResources()
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
-		for (auto resourceit : resources)
+		for (auto resourceit = resources.begin(); resourceit != resources.end();)
 		{
-			const std::shared_ptr<Resource>& resource = resourceit.second.lock();
+			const std::shared_ptr<Resource>& resource = resourceit->second.lock();
 			if (resource)
 			{
 				if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))
@@ -526,6 +526,11 @@ void ModuleResources::MonitorResources()
 						}
 					}
 				}
+			}
+
+			if (resourceit != resources.end())
+			{
+				++resourceit;
 			}
 		}
 		// Remove resources
