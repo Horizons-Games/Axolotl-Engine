@@ -84,6 +84,30 @@ void ComponentPointLight::Draw() const
 #endif // ENGINE
 }
 
+void ComponentPointLight::Enable()
+{
+	Component::Enable();
+
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
+}
+
+void ComponentPointLight::Disable()
+{
+	Component::Disable();
+
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
+}
+
 void ComponentPointLight::SaveOptions(Json& meta)
 {
 	// Do not delete these

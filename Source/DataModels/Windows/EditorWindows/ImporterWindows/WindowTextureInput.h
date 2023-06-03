@@ -16,4 +16,6 @@ private:
 	TextureType textureType;
 
 	friend class WindowComponentMeshRenderer;
+
 };
+

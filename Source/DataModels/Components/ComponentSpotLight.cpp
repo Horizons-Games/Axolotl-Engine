@@ -102,6 +102,30 @@ void ComponentSpotLight::Draw() const
 #endif // ENGINE
 }
 
+void ComponentSpotLight::Enable()
+{
+	Component::Enable();
+
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateSceneSpotLights();
+		currentScene->RenderSpotLights();
+	}
+}
+
+void ComponentSpotLight::Disable()
+{
+	Component::Disable();
+
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateSceneSpotLights();
+		currentScene->RenderSpotLights();
+	}
+}
+
 void ComponentSpotLight::SaveOptions(Json& meta)
 {
 	// Do not delete these

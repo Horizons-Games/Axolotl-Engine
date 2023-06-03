@@ -32,12 +32,9 @@ WindowTextureInput::WindowTextureInput(WindowComponentMeshRenderer* material, Te
 		default:
 			break;
 	}
-
 	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
-
 	startPath = "Assets/Textures";
 }
-
 WindowTextureInput::~WindowTextureInput()
 {
 }
