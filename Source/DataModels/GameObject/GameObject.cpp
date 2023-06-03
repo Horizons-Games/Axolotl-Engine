@@ -357,6 +357,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::BREAKABLE:
+		{
+			newComponent = std::make_unique<ComponentBreakable>(*static_cast<ComponentBreakable*>(component));
+			break;
+		}
+
 		default:
 			ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
 	}
@@ -598,6 +604,20 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 	{
 		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+
+		switch (lightType)
+		{
+		case LightType::POINT:
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+			break;
+
+		case LightType::SPOT:
+			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+			break;
+		}
+		
 		return referenceBeforeMove;
 	}
 

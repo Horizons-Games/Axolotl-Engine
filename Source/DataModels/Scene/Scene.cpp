@@ -4,11 +4,28 @@
 
 #include "Animation/AnimationController.h"
 
+#include "Batch/BatchManager.h"
+
 #include "Camera/CameraGameObject.h"
 
+#include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
+#include "Components/ComponentCamera.h"
+#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
+
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentCanvas.h"
+
+#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 #include "DataModels/Skybox/Skybox.h"
+
+#include "DataStructures/Quadtree.h"
 
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
@@ -21,18 +38,8 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include "Components/ComponentAnimation.h"
-#include "Components/ComponentAudioSource.h"
-#include "Components/ComponentCamera.h"
-#include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentScript.h"
-#include "Components/ComponentTransform.h"
-#include "Components/UI/ComponentButton.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
-
-#include "DataStructures/Quadtree.h"
+#include <stack>
+#include <GL/glew.h>
 
 #include "Scripting/IScript.h"
 
@@ -148,15 +155,6 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
 
-	if (newObject->IsStatic())
-	{
-		loadedScene->AddStaticObject(gameObject);
-	}
-	else
-	{
-		loadedScene->AddNonStaticObject(gameObject);
-	}
-
 	return gameObject;
 }
 
@@ -261,8 +259,7 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
-			rootQuadtree->RemoveGameObjectAndChildren(gameObject);
-			RemoveNonStaticObject(gameObject);
+			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
 			RemoveGameObjectFromScripts(gameObject);
 			delete gameObject->GetParent()->UnlinkChild(gameObject);
 		});
@@ -364,7 +361,6 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 				{
 					GameObject* rootBone = FindRootBone(gameObjectModel, bones);
 					meshRenderer->SetBones(CacheBoneHierarchy(rootBone, bones));
-					meshRenderer->InitBones();
 				}
 			}
 		}
@@ -673,6 +669,11 @@ void Scene::RenderPointLights() const
 	{
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), &pointLights[0]);
 	}
+	else
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
+	}
+
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
@@ -737,16 +738,15 @@ void Scene::UpdateScenePointLights()
 
 	for (GameObject* child : children)
 	{
-		if (child)
+		if (child && child->IsEnabled() && child->IsActive())
 		{
 			std::vector<ComponentLight*> components =
 				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (!components.empty() && components[0]->GetLightType() == LightType::POINT)
+			if (components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
 			{
-				ComponentPointLight* pointLightComp =
-					static_cast<ComponentPointLight*>(components[0]);
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
+				ComponentTransform* transform = static_cast<ComponentTransform*>(
+					components[0]->GetOwner()->GetComponent(ComponentType::TRANSFORM));
 
 				PointLight pl;
 				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
@@ -766,11 +766,11 @@ void Scene::UpdateSceneSpotLights()
 
 	for (GameObject* child : children)
 	{
-		if (child)
+		if (child && child->IsEnabled() && child->IsActive())
 		{
 			std::vector<ComponentLight*> components =
 				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT)
+			if (if (components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled()))
 			{
 				ComponentSpotLight* spotLightComp =
 					static_cast<ComponentSpotLight*>(components[0]);
@@ -847,6 +847,8 @@ void Scene::UpdateSceneAreaLights()
 
 void Scene::InitNewEmptyScene()
 {
+	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
 
@@ -923,6 +925,14 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
 {
 	sceneGameObjects.push_back(gameObject);
+	if (gameObject->IsStatic())
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+	}
+	else
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+	}
 	for (GameObject* children : gameObject->GetChildren())
 	{
 		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
@@ -949,7 +959,7 @@ void Scene::AddStaticObject(GameObject* gameObject)
 	}
 }
 
-void Scene::RemoveStaticObject(GameObject* gameObject)
+void Scene::RemoveStaticObject(const GameObject* gameObject)
 {
 	rootQuadtree->Remove(gameObject);
 }

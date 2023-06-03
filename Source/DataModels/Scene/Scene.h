@@ -94,7 +94,7 @@ public:
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 
 	void AddStaticObject(GameObject* gameObject);
-	void RemoveStaticObject(GameObject* gameObject);
+	void RemoveStaticObject(const GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);

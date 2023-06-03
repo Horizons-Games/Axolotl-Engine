@@ -8,6 +8,13 @@
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
 
+#ifndef ENGINE
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
+#endif
+
+#include <vector>
+
 ModulePhysics::ModulePhysics()
 {
 }
@@ -83,6 +90,11 @@ update_status ModulePhysics::PreUpdate()
 #else
     dynamicsWorld->stepSimulation(App->GetDeltaTime());
     ManageCollisions();
+
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPhysics())
+	{
+		dynamicsWorld->debugDrawWorld();
+	}
 #endif
 
 	return update_status::UPDATE_CONTINUE;
@@ -93,9 +105,9 @@ void ModulePhysics::ManageCollisions()
 	struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
 	{
 		bool collisionDetected;
-		const btCollisionObject* otherRigidBody;
+		std::vector<const btCollisionObject*> othersRigidBody;
 
-		ContactResultCallback() : collisionDetected(false), otherRigidBody(nullptr)
+		ContactResultCallback() : collisionDetected(false)
 		{
 		}
 
@@ -108,7 +120,7 @@ void ModulePhysics::ManageCollisions()
 										 int index1)
 		{
 			collisionDetected = true;
-			otherRigidBody = colObj1Wrap->getCollisionObject();
+			othersRigidBody.push_back(colObj1Wrap->getCollisionObject());
 			return 0;
 		}
 	};
@@ -128,25 +140,28 @@ void ModulePhysics::ManageCollisions()
 				ComponentRigidBody* rb = static_cast<ComponentRigidBody*>(obj->getUserPointer());
 				if (rb != nullptr)
 				{
-					ComponentRigidBody* other =
-						static_cast<ComponentRigidBody*>(result.otherRigidBody->getUserPointer());
-					assert(rb && other);
-					uint64_t i1 = rb->GetID();
-					i1 = i1 << 32;
-					uint64_t i2 = other->GetID();
-					// key is the combination of the two indexes in the high 32 bits store the first index and in the
-					// low 32 bits store the second index
-					uint64_t key = i1 | i2;
-					if (collisions.find(key) == collisions.end())
+					for (int j = 0; j < result.othersRigidBody.size(); j++)
 					{
-						rb->OnCollisionEnter(other);
-						other->OnCollisionEnter(rb);
+						ComponentRigidBody* other =
+							static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
+						assert(rb && other);
+						uint64_t i1 = rb->GetID();
+						i1 = i1 << 32;
+						uint64_t i2 = other->GetID();
+						// key is the combination of the two indexes in the high 32 bits store the first index and in
+						// the low 32 bits store the second index
+						uint64_t key = i1 | i2;
+						if (collisions.find(key) == collisions.end())
+						{
+							rb->OnCollisionEnter(other);
+							other->OnCollisionEnter(rb);
+						}
+						else
+						{
+							rb->OnCollisionStay(other);
+						}
+						collisions.insert(key);
 					}
-					else
-					{
-						rb->OnCollisionStay(other);
-					}
-					collisions.insert(key);
 				}
 			}
 		}
