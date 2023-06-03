@@ -215,6 +215,11 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LoseSceneName",
+                                    "value": "00_LoseScene_VS3",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -304,8 +309,8 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 0.0,
-                            "rbPos_Y": 6.497121810913086,
+                            "rbPos_X": 0.0001220703125,
+                            "rbPos_Y": 2.040283679962158,
                             "rbPos_Z": 0.0
                         }
                     },
