@@ -33,6 +33,7 @@ public:
 	bool isWinTrigger;
 	bool isNextSceneTrigger;
 	bool isLoseByDamage;
+	bool onTriggerState;
 
 private:
 

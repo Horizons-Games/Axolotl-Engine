@@ -23,8 +23,8 @@
 REGISTERCLASS(UITrigger);
 
 UITrigger::UITrigger() : Script(),componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setGameStateObject(nullptr),
-uiGameStatesClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false),
-playerHealthSystem(nullptr), setPlayer(nullptr)
+uiGameStatesClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
+playerHealthSystem(nullptr), setPlayer(nullptr), onTriggerState(false)
 {
 	REGISTER_FIELD(isWinTrigger, bool);
 	REGISTER_FIELD(isLoseTrigger, bool);
@@ -75,31 +75,38 @@ void UITrigger::Start()
 
 void UITrigger::Update(float deltaTime)
 {
-
-}
-
-void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
-{
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if(onTriggerState != false)
 	{
 		if (isWinTrigger == true)
 		{
 			uiGameStatesClass->WinStateScene(true);
 		}
-		
+
 		if (isLoseTrigger == true)
 		{
 			uiGameStatesClass->LoseStateScene(true);
 		}
 		if (isLoseByDamage == true)
 		{
-			playerHealthSystem->TakeDamage(100);
+			playerHealthSystem->TakeDamage(1);
+			ENGINE_LOG("Taking damage -1 --- Player Current Life %f", playerHealthSystem->GetCurrentLife());
 			//uiGameStatesClass->LoseStateScene(true);
 		}
 	}
 }
 
+void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	{
+		onTriggerState = true;
+	}
+}
+
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-
+	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	{
+		onTriggerState = false;
+	}
 }
