@@ -65,6 +65,8 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   StateOfSelection::NO_SELECTED,
 			   gameObject.staticObject)
 {
+	tag = gameObject.tag;
+
 	for (const std::unique_ptr<Component>& component : gameObject.components)
 	{
 		CopyComponent(component.get());
