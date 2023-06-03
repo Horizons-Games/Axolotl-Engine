@@ -584,7 +584,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
 	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
-	const unsigned bindingDirectional = 0;
+	const unsigned bindingDirectional = 1;
 
 	glBindBufferRange(GL_UNIFORM_BUFFER, bindingDirectional, uboDirectional, 0, sizeof(float4) * 2);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -597,7 +597,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * numPoint, nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingPoint = 1;
+	const unsigned bindingPoint = 2;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, ssboPoint);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -610,7 +610,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * numSpot, nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingSpot = 2;
+	const unsigned bindingSpot = 3;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -623,7 +623,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingSphere = 3;
+	const unsigned bindingSphere = 4;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSphere, ssboSphere);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -636,7 +636,7 @@ void Scene::GenerateLights()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingTube = 4;
+	const unsigned bindingTube = 5;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingTube, ssboTube);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -742,7 +742,7 @@ void Scene::UpdateScenePointLights()
 		{
 			std::vector<ComponentLight*> components =
 				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
+			if (!components.empty() && components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
 			{
 				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
 				ComponentTransform* transform = static_cast<ComponentTransform*>(
@@ -770,7 +770,7 @@ void Scene::UpdateSceneSpotLights()
 		{
 			std::vector<ComponentLight*> components =
 				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (if (components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled()))
+			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
 			{
 				ComponentSpotLight* spotLightComp =
 					static_cast<ComponentSpotLight*>(components[0]);
