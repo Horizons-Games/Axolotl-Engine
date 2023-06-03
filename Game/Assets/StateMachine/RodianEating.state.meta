@@ -2,7 +2,7 @@
     "UID": 2268415701683723398,
     "Type": "StateMachine",
     "ResourcesAssetPaths": [
-        "Assets/Animation/RodianCharacterAnim15.Armature_InitialPose_Eating.anim",
+        "Assets/Animation/RodianCharacterAnim15.Armature_Eating.anim",
         "Assets/Animation/RodianCharacterAnim15.Armature_Eating.anim"
     ]
 }
