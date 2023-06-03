@@ -399,7 +399,8 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 		if (rigidBody)
 		{
-			transform->UpdateTransformMatrices();
+			transform->UpdateTransformMatricesOnLoad();
+			rigidBody->UpdateRigidBodyTranslation();
 			rigidBody->UpdateRigidBody();
 		}
 	}
