@@ -59,7 +59,7 @@ void ComponentAreaLight::Draw() const
 		if (areaType == AreaType::SPHERE)
 		{
 			dd::sphere(position, dd::colors::White, shapeRadius);
-			dd::sphere(position, dd::colors::Red, attRadius);
+			dd::sphere(position, dd::colors::Red, attRadius + shapeRadius);
 		}
 		else if (areaType == AreaType::TUBE)
 		{
@@ -72,7 +72,7 @@ void ComponentAreaLight::Draw() const
 			pointB = (matrixRotation * pointB) + translation;
 
 			dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
-			dd::sphere(position, dd::colors::Red, attRadius);
+			dd::sphere(position, dd::colors::Red, attRadius + shapeRadius);
 		}
 		else if (areaType == AreaType::QUAD)
 		{
