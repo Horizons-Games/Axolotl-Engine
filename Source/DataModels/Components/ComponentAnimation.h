@@ -45,6 +45,7 @@ public:
 	bool IsDrawBonesActivated() const;
 
 	bool isPlaying() const;
+	std::string& GetActualStateName() const;
 
 private:
 	bool CheckTransitions(State* state, Transition& transition);
@@ -76,4 +77,9 @@ inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
 inline bool ComponentAnimation::IsDrawBonesActivated() const
 {
 	return drawBones;
+}
+
+inline std::string& ComponentAnimation::GetActualStateName() const
+{
+	return stateMachine->GetState(actualState)->name;
 }
