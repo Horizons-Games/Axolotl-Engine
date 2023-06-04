@@ -175,13 +175,6 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	//ComponentTransform* transform = static_cast<ComponentTransform*>(this->owner->GetComponent(ComponentType::TRANSFORM));
-	//float3 scale = transform->GetScale();
-	//ENGINE_LOG("%f, %f, %f", mesh->GetVertices()[0].x, mesh->GetVertices()[0].y, mesh->GetVertices()[0].z);
-	//float x = mesh->GetVertices()[0].x * scale.x;
-	//float y = mesh->GetVertices()[0].y * scale.y;
-	//float z = mesh->GetVertices()[0].z * scale.z;
-	//ENGINE_LOG("%f, %f, %f", x, y, z);
 }
 
 void ComponentMeshRenderer::DrawMaterial(Program* program) const
