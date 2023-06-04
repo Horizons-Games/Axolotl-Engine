@@ -60,15 +60,20 @@ public:
 	void SetLastEmission(float emission);
 
 private:
+	ComponentParticleSystem* owner;
+
 	std::vector<Particle> particles;
+	std::shared_ptr<ParticleEmitter> emitter;
 
 	unsigned aliveParticles;
 	unsigned lastParticleUsed;
 	float lastEmission;
 
-
-	std::shared_ptr<ParticleEmitter> emitter;
-	ComponentParticleSystem* owner;
+	// Render
+	unsigned int vao;
+	unsigned int vbo;
+	unsigned int ibo;
+	unsigned int instanceVbo;
 };
 
 inline float3 EmitterInstance::lerp(float3 a, float3 b, float fraction)

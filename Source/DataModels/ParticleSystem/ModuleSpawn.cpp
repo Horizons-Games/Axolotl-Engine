@@ -93,7 +93,7 @@ void ModuleSpawn::DrawImGui()
 			ImGui::Text("Spawn rate");
 			ImGui::TableNextColumn();
 			ImGui::Dummy(ImVec2(3.0f, 0.0f)); ImGui::SameLine(0.0f, 0.0f);
-			ImGui::SetNextItemWidth(80.0f);
+			ImGui::SetNextItemWidth(160.0f);
 			if (ImGui::InputFloat("##spawnRate", &spawnRate, 0.1f, 1.0f, "%.2f"))
 			{
 				if (spawnRate > MAX_SPAWN_RATE)
