@@ -59,20 +59,24 @@ void ComponentAreaLight::Draw() const
 		if (areaType == AreaType::SPHERE)
 		{
 			dd::sphere(position, dd::colors::White, shapeRadius);
-			dd::sphere(position, dd::colors::Red, attRadius + shapeRadius);
+			dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
 		}
 		else if (areaType == AreaType::TUBE)
 		{
 			Quat matrixRotation = transform->GetGlobalRotation();
 			float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
 			float3 translation = transform->GetGlobalPosition();
+			float3 pointA = float3(0, 0.5f, 0) * height;
 			float3 pointB = float3(0, -0.5f, 0) * height;
 
 			// Apply rotation & translation
+			pointA = (matrixRotation * pointA) + translation;
 			pointB = (matrixRotation * pointB) + translation;
 
 			dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
-			dd::sphere(position, dd::colors::Red, attRadius + shapeRadius);
+			dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
+			dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
+			dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
 		}
 		else if (areaType == AreaType::QUAD)
 		{
