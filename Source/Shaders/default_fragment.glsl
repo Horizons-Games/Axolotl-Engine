@@ -264,7 +264,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
         float alpha = roughness * roughness;
         float alphaPrime = clamp(tubeRadius/(distance*2.0)+alpha, 0.0f, 1.0f);
-        float D = GGXAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
+        float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
         vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
 
