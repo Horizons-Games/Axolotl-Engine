@@ -1,6 +1,6 @@
 #pragma once
-#include "Resource.h"
 #include "Math/float3.h"
+#include "Resource.h"
 
 class ResourceTexture;
 
@@ -11,16 +11,16 @@ struct LoadOptionsMaterial
 class ResourceMaterial : virtual public Resource
 {
 public:
-	ResourceMaterial(UID resourceUID, 
-					const std::string& fileName, 
-					const std::string& assetsPath, 
-					const std::string& libraryPath);
+	ResourceMaterial(UID resourceUID,
+					 const std::string& fileName,
+					 const std::string& assetsPath,
+					 const std::string& libraryPath);
 	virtual ~ResourceMaterial() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
 
 	void SaveLoadOptions(Json& meta) override;
 	void LoadLoadOptions(Json& meta) override;
@@ -35,7 +35,7 @@ public:
 	const float& GetNormalStrength() const;
 	const float& GetSmoothness() const;
 	const float& GetMetalness() const;
-	const bool& GetTransparent() const;
+	const bool& IsTransparent() const;
 	const unsigned int& GetShaderType() const;
 
 	bool HasDiffuse();
@@ -60,11 +60,10 @@ public:
 	void SetShaderType(const unsigned int shaderType);
 
 protected:
-	void InternalLoad() override {};
-	void InternalUnload() override {};
+	void InternalLoad() override{};
+	void InternalUnload() override{};
 
 private:
-
 	std::shared_ptr<ResourceTexture> diffuse;
 	std::shared_ptr<ResourceTexture> normal;
 	std::shared_ptr<ResourceTexture> occlusion;
@@ -138,7 +137,7 @@ inline const float& ResourceMaterial::GetMetalness() const
 	return metalness;
 }
 
-inline const bool& ResourceMaterial::GetTransparent() const
+inline const bool& ResourceMaterial::IsTransparent() const
 {
 	return isTransparent;
 }

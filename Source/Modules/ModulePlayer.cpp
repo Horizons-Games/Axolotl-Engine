@@ -1,19 +1,19 @@
 
 #include "Application.h"
 
-#include "ModulePlayer.h"
-#include "ModuleScene.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
-#include "ModuleRender.h"
-#include "Scene/Scene.h"
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
+#include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentPlayer.h"
 #include "Components/ComponentMeshCollider.h"
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
@@ -21,18 +21,16 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer(): cameraPlayer(nullptr), player(nullptr),
-	componentPlayer(nullptr), speed(3){};
+ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
 
-ModulePlayer::~ModulePlayer() {
-};
+ModulePlayer::~ModulePlayer(){};
 
 bool ModulePlayer::Start()
 {
-	//Initialize the player
+	// Initialize the player
 #ifndef ENGINE
 	LoadNewPlayer();
-#endif //GAMEMODE
+#endif // GAMEMODE
 	return true;
 }
 
@@ -54,7 +52,10 @@ Camera* ModulePlayer::GetCameraPlayer()
 
 void ModulePlayer::LoadNewPlayer()
 {
-	std::vector<ComponentCamera*> cameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = scene->GetLoadedScene();
+	ModuleEditor* editor = App->GetModule<ModuleEditor>();
+	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
@@ -63,21 +64,15 @@ void ModulePlayer::LoadNewPlayer()
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(App->GetModule<ModuleEditor>()->GetAvailableRegion().first / App->GetModule<ModuleEditor>()->GetAvailableRegion().second);
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
+			//loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(parentOfOwner);
+			//scene->RemoveGameObjectAndChildren(player);
 #endif // ENGINE			
 			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
-			
-			if(componentPlayer->HaveMouseActivated()) 
-			{
-				App->GetModule<ModuleInput>()->SetShowCursor(true);
-			}
-			else 
-			{
-				App->GetModule<ModuleInput>()->SetShowCursor(false);
-			}
+
+			CheckIfActivateMouse();
+
 			return;
 		}
 	}
@@ -93,4 +88,17 @@ void ModulePlayer::UnloadNewPlayer()
 bool ModulePlayer::IsStatic()
 {
 	return componentPlayer->IsStatic();
+}
+
+void ModulePlayer::CheckIfActivateMouse()
+{
+	if (componentPlayer->HaveMouseActivated())
+	{
+		App->GetModule<ModuleInput>()->SetShowCursor(true);
+	}
+	else
+	{
+		App->GetModule<ModuleInput>()->SetShowCursor(false);
+	}
+
 }

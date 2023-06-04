@@ -10,7 +10,6 @@ class GameObject;
 class Quadtree;
 class Scene;
 
-
 class ModuleScene : public Module
 {
 public:
@@ -28,7 +27,6 @@ public:
 	void SetLoadedScene(std::unique_ptr<Scene> newScene);
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
-	void ChangeSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
 	bool hasNewUID(UID oldUID, UID& newUID);
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
@@ -40,8 +38,10 @@ public:
 	void OnPause();
 	void OnStop();
 
+	void InitAndStartScriptingComponents();
+
 	void AddGameObjectAndChildren(GameObject* object);
-	void RemoveGameObjectAndChildren(GameObject* object);
+	void RemoveGameObjectAndChildren(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
@@ -51,14 +51,14 @@ private:
 	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy);
 
 	void AddGameObject(GameObject* object);
-	void RemoveGameObject(GameObject* object);
+	void RemoveGameObject(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;
 	GameObject* selectedGameObject;
 	std::string sceneToLoad;
 
-	//to store the tmp serialization of the Scene
+	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
 	std::map<UID, UID> uidMap;
 };

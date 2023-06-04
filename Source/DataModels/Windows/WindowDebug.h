@@ -14,6 +14,7 @@ public:
 	const bool GetDrawSpotLight() const;
 	const bool GetDrawPointLight() const;
 	const bool GetDrawDirLight() const;
+	const bool GetDrawPhysics() const;
 
 private:
 	static bool defaultEnabled;
@@ -22,6 +23,7 @@ private:
 	bool drawSpotLight = false;
 	bool drawDirLight = false;
 	bool drawPointLight = false;
+	bool drawPhysics = false;
 };
 
 inline const bool WindowDebug::GetDrawBoundingBoxes() const
@@ -44,3 +46,7 @@ inline const bool WindowDebug::GetDrawDirLight() const
 	return drawDirLight;
 }
 
+inline const bool WindowDebug::GetDrawPhysics() const
+{
+	return drawPhysics;
+}

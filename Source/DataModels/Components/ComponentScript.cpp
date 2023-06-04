@@ -8,11 +8,15 @@
 
 #include "FileSystem/Json.h"
 
-#include "Scene/Scene.h"
+#include "Math/float3.h"
 #include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 
-ComponentScript::ComponentScript(bool active, GameObject* owner) : 
-	Component(ComponentType::SCRIPT, active, owner, true), script(nullptr)
+#include "ComponentRigidBody.h"
+
+ComponentScript::ComponentScript(bool active, GameObject* owner) :
+	Component(ComponentType::SCRIPT, active, owner, true),
+	script(nullptr)
 {
 }
 
@@ -60,6 +64,24 @@ void ComponentScript::PostUpdate()
 	}
 }
 
+void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	{
+		script->OnCollisionEnter(other);
+	}
+
+}
+void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
+{
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	{
+		script->OnCollisionExit(other);
+	}
+}
+
+
+
 void ComponentScript::CleanUp()
 {
 	if (IsEnabled() && script)
@@ -93,6 +115,17 @@ void ComponentScript::SaveOptions(Json& meta)
 			{
 				field["name"] = std::get<Field<float>>(enumAndValue.second).name.c_str();
 				field["value"] = std::get<Field<float>>(enumAndValue.second).getter();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+			case FieldType::VECTOR3:
+			{
+				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
+				field["name"] = fieldInstance.name.c_str();
+				float3 fieldValue = fieldInstance.getter();
+				field["value x"] = fieldValue[0];
+				field["value y"] = fieldValue[1];
+				field["value z"] = fieldValue[2];
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
@@ -141,8 +174,8 @@ void ComponentScript::LoadOptions(Json& meta)
 {
 	// Load serialize values of Script
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = (bool) meta["active"];
+	canBeRemoved = (bool) meta["removed"];
 	constructName = meta["constructName"];
 	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
 
@@ -170,6 +203,17 @@ void ComponentScript::LoadOptions(Json& meta)
 				}
 				break;
 			}
+			case FieldType::VECTOR3:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
+				if (optField)
+				{
+					float3 vec3(field["value x"], field["value y"], field["value z"]);
+					optField.value().setter(vec3);
+				}
+				break;
+			}
 
 			case FieldType::STRING:
 			{
@@ -194,11 +238,13 @@ void ComponentScript::LoadOptions(Json& meta)
 						UID newFieldUID;
 						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
 						{
-							optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
+							optField.value().setter(
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
 						}
-						else 
+						else
 						{
-							optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+							optField.value().setter(
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
 						}
 					}
 

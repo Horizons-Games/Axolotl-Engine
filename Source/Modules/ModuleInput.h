@@ -1,6 +1,7 @@
 #pragma once
-#include "Module.h"
 #include "Math/float2.h"
+#include "Module.h"
+#include "SDL.h"
 
 #define NUM_MOUSEBUTTONS 5
 #define BMP_FREELOOKSURFACE "Assets/MouseCursors/freeLook.bmp"
@@ -8,7 +9,7 @@
 #define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
 #define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
 
-enum class KeyState 
+enum class KeyState
 {
 	IDLE,
 	DOWN,
@@ -28,7 +29,7 @@ public:
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
-	
+
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
@@ -100,7 +101,7 @@ inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 
 inline float2 ModuleInput::GetMouseMotion() const
 {
-	return mouseMotion; 
+	return mouseMotion;
 }
 
 inline float2 ModuleInput::GetMouseWheel() const
@@ -110,7 +111,7 @@ inline float2 ModuleInput::GetMouseWheel() const
 
 inline float2 ModuleInput::GetMousePosition() const
 {
-	return float2((float)mousePosX, (float)mousePosY);
+	return float2((float) mousePosX, (float) mousePosY);
 }
 
 inline bool ModuleInput::GetInFocus() const

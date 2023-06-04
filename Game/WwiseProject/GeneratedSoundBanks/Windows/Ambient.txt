@@ -1,14 +1,24 @@
 Event	ID	Name			Wwise Object Path	Notes
+	611136124	sfx_bigDoor_close			\SFX\Ambient\sfx_bigDoor_close	
 	2073224732	sfx_ambient_crowd_talking_01			\SFX\Ambient\sfx_ambient_crowd_talking_01	
 	2455846751	cantina_music			\SFX\Ambient\cantina_music	
 	3000297385	sewersMusic			\SFX\Ambient\sewersMusic	
+	3108491752	sfx_bigDoor_open			\SFX\Ambient\sfx_bigDoor_open	
+	3718347529	sewers_ambient			\SFX\Ambient\sewers_ambient	
 	3747747529	ambient_cantina_stop			\SFX\Ambient\ambient_cantina_stop	
+	4136005308	sewers_ambient_stop			\SFX\Ambient\sewers_ambient_stop	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2427480993	ListenerOrientation			\Default Work Unit\ListenerOrientation	
 
 Effect plug-ins	ID	Name	Type				Notes
 	829913711	Matrix Reverb (Custom)	Wwise Matrix Reverb			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	106158711	cantina_music	D:\ORIOL\Axolotl-Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
-	347047974	First_Level_Sewers__v1	D:\ORIOL\Axolotl-Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\First_Level_Sewers__v1		7690336
-	652056130	sfx_ambient_crowd_talking_01	D:\ORIOL\Axolotl-Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
+	106158711	cantina_music	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
+	347047974	First_Level_Sewers__v1	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\First_Level_Sewers__v1		7690336
+	397861920	ambient_sewers	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\182680-amb-doomdrones-ripley-hall_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\ambient_sewers		5710084
+	649108800	sfx_bigDoor_close-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_close-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_bigDoor_close-001		957624
+	652056130	sfx_ambient_crowd_talking_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
+	789177941	sfx_bigDoor_open-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_open-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_bigDoor_open-001		980520
 

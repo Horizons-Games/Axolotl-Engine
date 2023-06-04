@@ -1,18 +1,17 @@
 {
-    "UID": 13779668474513113130,
+    "UID": 11732345716817655368,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
     "diffuseColor_z": 0.0,
-    "specularColor_x": 0.0,
-    "specularColor_y": 0.0,
-    "specularColor_z": 0.0,
+    "specularColor_x": 0.5,
+    "specularColor_y": 0.30000001192092896,
+    "specularColor_z": 0.5,
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "hasMetallicAlpha": false,
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_Wall2_Albedo.png",
     "NormalAssetPath": "Assets/Textures/Lv1_CargoBay_Wall2_Normal.png",
     "OcclusionAssetPath": "",
-    "MetallicAssetPath": "Assets/Textures/Lv1_CargoBay_Wall2_Metallic.png"
+    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_Wall2_Metallic.png"
 }
