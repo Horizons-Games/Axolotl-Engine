@@ -8,8 +8,9 @@
 
 #include <vector>
 
-class ParticleEmitter;
 class ComponentParticleSystem;
+class ParticleEmitter;
+class Program;
 
 class EmitterInstance
 {
@@ -48,8 +49,8 @@ public:
 	float CalculateRandomValueInRange(float min, float max);
 	void SimulateParticles() const;
 
-
 	ComponentParticleSystem* GetOwner() const;
+	Program* GetProgram() const;
 	std::shared_ptr<ParticleEmitter> GetEmitter() const;
 	std::vector<Particle>& GetParticles();
 	const float GetLastEmission() const;
@@ -74,6 +75,7 @@ private:
 	unsigned int vbo;
 	unsigned int ibo;
 	unsigned int instanceVbo;
+	Program* program;
 };
 
 inline float3 EmitterInstance::lerp(float3 a, float3 b, float fraction)
@@ -137,5 +139,10 @@ inline void EmitterInstance::SimulateParticles() const
 inline ComponentParticleSystem* EmitterInstance::GetOwner() const
 {
 	return owner;
+}
+
+inline Program* EmitterInstance::GetProgram() const
+{
+	return program;
 }
 

@@ -12,8 +12,8 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 {
 	ModuleBase* base = new ModuleBase(this);
 	ModuleSpawn* spawn = new ModuleSpawn(this);
-	ModuleRenderer* render = new ModuleRenderer(this);
 	ModulePosition* position = new ModulePosition(this);
+	ModuleRenderer* render = new ModuleRenderer(this);
 
 	modules.push_back(base);
 	modules.push_back(spawn);

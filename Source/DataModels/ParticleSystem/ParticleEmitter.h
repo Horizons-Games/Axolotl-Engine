@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ParticleModule.h"
+
 #include "Math/float3.h"
 #include "Math/float2.h"
 
@@ -34,9 +36,9 @@
 
 #define CONE_HEIGHT 3
 
-class ParticleModule;
 class ResourceTexture;
 class EmitterInstance;
+class ComponentTransform;
 
 class ParticleEmitter
 {
@@ -89,6 +91,7 @@ public:
 	float4 GetColor() const;
 	ShapeType GetShape() const;
 	std::vector<ParticleModule*> GetModules() const;
+	ParticleModule* GetModule(const ParticleModule::ModuleType& type) const;
 
 	//ImGui functions
 	void SetVisibleConfig(bool visible);
@@ -303,6 +306,18 @@ inline ParticleEmitter::ShapeType ParticleEmitter::GetShape() const
 inline std::vector<ParticleModule*> ParticleEmitter::GetModules() const
 {
 	return modules;
+}
+
+inline ParticleModule* ParticleEmitter::GetModule(const ParticleModule::ModuleType& type) const
+{
+	for (ParticleModule* module : modules)
+	{
+		if (module->GetType() == type)
+		{
+			return module;
+		}
+	}
+	return nullptr;
 }
 
 inline void ParticleEmitter::SetVisibleConfig(bool visible)

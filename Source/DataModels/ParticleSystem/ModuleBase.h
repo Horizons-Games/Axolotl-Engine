@@ -20,6 +20,7 @@ public:
 	void SetOrigin(const float3& origin);
 	void SetRotation(const Quat& rotation);
 
+	const float4x4 GetOriginTranform() const;
 	float3 GetOrigin() const;
 	Quat GetRotation() const;
 
@@ -40,6 +41,11 @@ inline void ModuleBase::SetOrigin(const float3& origin)
 inline void ModuleBase::SetRotation(const Quat& rotation)
 {
 	originRotation = rotation;
+}
+
+inline const float4x4 ModuleBase::GetOriginTranform() const
+{
+	return originTransform;
 }
 
 inline float3 ModuleBase::GetOrigin() const
