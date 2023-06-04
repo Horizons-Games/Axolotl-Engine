@@ -61,6 +61,7 @@ public:
 	void RecalculateLocalMatrix();
 	const float4x4 CalculatePaletteGlobalMatrix();
 	void UpdateTransformMatrices();
+	void UpdateTransformMatricesOnLoad();
 
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,
