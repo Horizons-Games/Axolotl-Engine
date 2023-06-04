@@ -5,9 +5,7 @@
 #include "ParticleModule.h"
 #include "ModuleRenderer.h"
 
-#include "Modules/ModuleCamera.h"
 #include "Modules/ModuleProgram.h"
-#include "Program/Program.h"
 
 #include <random>
 
@@ -48,19 +46,7 @@ float EmitterInstance::CalculateRandomValueInRange(float min, float max)
 
 void EmitterInstance::DrawParticles()
 {
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
-
-	program->Activate();
-
-	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-
-	program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
-	program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
-
-	static_cast<ModuleRenderer*>(emitter->GetModule(ParticleModule::ModuleType::RENDER))->DrawParticles(this);
-	
-	program->Deactivate();
+	static_cast<ModuleRenderer*>(emitter->GetModule(ParticleModule::ModuleType::RENDER))->DrawParticles(this);	
 }
 
 void EmitterInstance::DrawDD()

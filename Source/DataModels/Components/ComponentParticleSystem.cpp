@@ -1,5 +1,11 @@
 #include "ComponentParticleSystem.h"
 
+#include "Application.h"
+
+#include "Modules/ModuleCamera.h"
+#include "Modules/ModuleProgram.h"
+#include "Program/Program.h"
+
 #include "ParticleSystem/EmitterInstance.h"
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
@@ -35,12 +41,29 @@ void ComponentParticleSystem::Update()
 
 void ComponentParticleSystem::Draw() const
 {
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
+
+	program->Activate();
+
+	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
+	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+
+	program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
+	program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
+
 	for (EmitterInstance* instance : emitters)
 	{
-		instance->DrawDD();
-		//instance->SimulateParticles();
+#ifdef ENGINE
+		if (!App->IsOnPlayMode())
+		{
+			instance->DrawDD();
+			//instance->SimulateParticles();
+		}
+#endif //ENGINE
 		instance->DrawParticles();
 	}
+
+	program->Deactivate();
 }
 
 void ComponentParticleSystem::Render()

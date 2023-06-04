@@ -113,8 +113,8 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 	char* instanceData = static_cast<char*>(glMapBufferRange(GL_ARRAY_BUFFER, 0, stride * numInstances, 
 															 GL_MAP_WRITE_BIT));
 
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	float3 cameraPos = camera->GetSelectedCamera()->GetPosition();
+	Camera* camera = App->GetModule<ModuleCamera>()->GetSelectedCamera();
+	float3 cameraPos = camera->GetPosition();
 
 	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 
@@ -125,11 +125,32 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 		if (particle.lifespan > 0.0f)
 		{
 			float3 translation = particle.tranform.TranslatePart();
-			float3 zAxis = cameraPos - translation;
-			zAxis.Normalize();
-			float3 yAxis = float3::unitY;
-			float3 xAxis = yAxis.Cross(zAxis);
-			xAxis.Normalize();
+
+			float3 xAxis;
+			float3 yAxis;
+			float3 zAxis;
+
+			switch (alignment)
+			{
+			case Alignment::SCREEN:
+				zAxis = (cameraPos - translation).Normalized();
+				yAxis = camera->GetProjectionMatrix().WorldY();
+				xAxis = yAxis.Cross(zAxis);
+				break;
+
+			case Alignment::WORLD:
+				zAxis = (cameraPos - translation).Normalized();
+				yAxis = float3::unitY;
+				xAxis = yAxis.Cross(zAxis).Normalized();
+				break;
+
+			case Alignment::AXIAL:
+				yAxis = float3::unitX;
+				xAxis = yAxis.Cross((cameraPos - translation)).Normalized();
+				zAxis = yAxis.Cross(xAxis).Normalized();
+				break;
+			}
+			
 
 			Quat rotation(zAxis, particle.rotation);
 
@@ -151,6 +172,7 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 			matrix[3] = translation;
 		}
 	}
+
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -216,7 +238,8 @@ void ModuleRenderer::DrawImGui()
 						currentItem = items[n];
 						if (isSelected)
 						{
-							// You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+							// You may set the initial focus when opening the combo (scrolling + for 
+							// keyboard navigation support)
 							ImGui::SetItemDefaultFocus();
 						}
 					}

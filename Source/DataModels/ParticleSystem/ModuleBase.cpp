@@ -106,10 +106,21 @@ void ModuleBase::Update(EmitterInstance* instance)
 				}
 			}
 
+			// Initialization of basic parameters
 			float2 speed = emitter->GetSpeedRange();
 			float velocity = emitter->IsRandomSpeed() ? 
 				instance->CalculateRandomValueInRange(speed.x, speed.y) : speed.x;
 			particle.initVelocity = particle.direction * velocity;
+
+			float2 size = emitter->GetSizeRange();
+			float sizeValue = emitter->IsRandomRot() ?
+				instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
+			particle.initSize = sizeValue;
+
+			float2 rotation = emitter->GetRotationRange();
+			float rot = emitter->IsRandomRot() ?
+				instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x;
+			particle.initRotation = rot;
 		}
 	}
 }
