@@ -12,8 +12,8 @@ public:
 	ModuleColor(ParticleEmitter* emitter);
 	~ModuleColor() override;
 
-	void Spawn(EmitterInstance* emitter) override;
-	void Update(EmitterInstance* emitter) override;
+	void Spawn(EmitterInstance* instance) override;
+	void Update(EmitterInstance* instance) override;
 
 	void DrawImGui() override;
 

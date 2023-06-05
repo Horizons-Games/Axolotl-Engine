@@ -5,7 +5,7 @@
 #include "ImGui/imgui.h"
 
 ModuleRotation::ModuleRotation(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
-	rotationOverTime(0.0f)
+	rotationOverTime(0.5f)
 {
 }
 
@@ -40,7 +40,7 @@ void ModuleRotation::DrawImGui()
 	if (ImGui::TreeNodeEx("Rotation Module", ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_FramePadding))
 	{
 		ImGui::SameLine();
-		ImGui::Checkbox("##enabled1", &enabled);
+		ImGui::Checkbox("##enabled2", &enabled);
 
 		ImGui::Text("Rotation over time");
 		ImGui::SameLine();

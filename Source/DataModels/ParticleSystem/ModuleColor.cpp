@@ -79,6 +79,6 @@ void ModuleColor::DrawImGui()
 	else
 	{
 		ImGui::SameLine();
-		ImGui::Checkbox("##enabled2", &enabled);
+		ImGui::Checkbox("##enabled1", &enabled);
 	}
 }
