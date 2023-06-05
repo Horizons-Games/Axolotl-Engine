@@ -121,6 +121,8 @@ void ModuleBase::Update(EmitterInstance* instance)
 			float rot = emitter->IsRandomRot() ?
 				instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x;
 			particle.initRotation = rot;
+
+			particle.initColor = emitter->GetColor();
 		}
 	}
 }

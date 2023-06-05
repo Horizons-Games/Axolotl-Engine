@@ -125,7 +125,7 @@ update_status ModuleScene::Update()
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
 	
-	if (!App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (!App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{

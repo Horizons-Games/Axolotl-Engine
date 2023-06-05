@@ -57,7 +57,7 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(Module
 	glGenBuffers(1, &instanceVbo);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVbo);
 
-	unsigned int sizeOfVertex = sizeof(float3) * 4;
+	unsigned int sizeOfVertex = sizeof(float3) * 4 + sizeof(float4);
 
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)0);
@@ -74,6 +74,10 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(Module
 	glEnableVertexAttribArray(6);
 	glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)(3 * sizeof(float3)));
 	glVertexAttribDivisor(6, 1);
+
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)(4 * sizeof(float3)));
+	glVertexAttribDivisor(7, 1);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -98,7 +102,7 @@ void ModuleRenderer::Update(EmitterInstance* instance)
 
 void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 {
-	unsigned int stride = sizeof(float3) * 4;
+	unsigned int stride = sizeof(float3) * 4 + sizeof(float4);
 	unsigned int aliveParticles = instance->GetAliveParticles();
 
 	if (numInstances < aliveParticles)
@@ -125,7 +129,6 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 		if (particle.lifespan > 0.0f)
 		{
 			float3 translation = particle.tranform.TranslatePart();
-
 			float3 xAxis;
 			float3 yAxis;
 			float3 zAxis;
@@ -150,7 +153,6 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 				zAxis = yAxis.Cross(xAxis).Normalized();
 				break;
 			}
-			
 
 			Quat rotation(zAxis, particle.rotation);
 
@@ -170,6 +172,9 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 			matrix[1] = yAxis;
 			matrix[2] = zAxis;
 			matrix[3] = translation;
+
+			float4* color = reinterpret_cast<float4*>(instanceData + (i * stride) + sizeof(float3) * 4);
+			*color = particle.initColor;
 		}
 	}
 

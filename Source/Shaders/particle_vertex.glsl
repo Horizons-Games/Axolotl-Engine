@@ -11,8 +11,10 @@ layout(location = 3) in vec3 instanceRight;
 layout(location = 4) in vec3 instanceUp;
 layout(location = 5) in vec3 instanceFront;
 layout(location = 6) in vec3 instanceTrans;
+layout(location = 7) in vec4 instanceColor;
 
 out vec3 fragPos;
+out vec4 fragColor;
 
 void main()
 {
@@ -22,7 +24,8 @@ void main()
 		vec4(instanceFront, 0.0), 
 		vec4(instanceTrans, 1.0));
 
-	fragPos = (model*transform*vec4(vertexPos, 1.0)).xyz; 
+	fragPos = (model*transform*vec4(vertexPos, 1.0)).xyz;
+	fragColor = instanceColor;
 
 	gl_Position = proj*view*vec4(fragPos, 1.0);
 }
