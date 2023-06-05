@@ -198,6 +198,7 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentBreakable.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCubemap.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleRotation.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp">
@@ -548,6 +549,7 @@
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
     <ClInclude Include="DataModels\Batch\BatchManager.h" />
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleRotation.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">

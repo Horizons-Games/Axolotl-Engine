@@ -49,7 +49,7 @@ void ModuleColor::DrawImGui()
 	if (ImGui::TreeNodeEx("Color Module", ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_FramePadding))
 	{
 		ImGui::SameLine();
-		ImGui::Checkbox("##enabled", &enabled);
+		ImGui::Checkbox("##enabled1", &enabled);
 
 		ImGui::Text("Color Gradient:");
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
@@ -79,6 +79,6 @@ void ModuleColor::DrawImGui()
 	else
 	{
 		ImGui::SameLine();
-		ImGui::Checkbox("##enabled", &enabled);
+		ImGui::Checkbox("##enabled2", &enabled);
 	}
 }

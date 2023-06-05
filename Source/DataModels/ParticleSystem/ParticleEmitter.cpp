@@ -6,6 +6,7 @@
 #include "ModuleSpawn.h"
 #include "ModulePosition.h"
 #include "ModuleRenderer.h"
+#include "ModuleRotation.h"
 #include "ParticleModule.h"
 
 
@@ -14,16 +15,19 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 	ModuleBase* base = new ModuleBase(this);
 	ModuleSpawn* spawn = new ModuleSpawn(this);
 	ModuleColor* color = new ModuleColor(this);
+	ModuleRotation* rotation = new ModuleRotation(this);
 	ModulePosition* position = new ModulePosition(this);
 	ModuleRenderer* render = new ModuleRenderer(this);
 
 	modules.push_back(base);
 	modules.push_back(spawn);
 	modules.push_back(color);
+	modules.push_back(rotation);
 	modules.push_back(position);
 	modules.push_back(render);
 
 	color->SetEnabled(false);
+	rotation->SetEnabled(false);
 
 	angle = DEFAULT_ANGLE;
 	radius = DEFAULT_RADIUS;
@@ -36,8 +40,8 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 	speed.y = DEFAULT_SPEED_Y;
 	size.x = DEFAULT_SIZE_X;
 	size.y = DEFAULT_SIZE_Y;
-	rotation.x = DEFAULT_ROTATION_X;
-	rotation.y = DEFAULT_ROTATION_Y;
+	this->rotation.x = DEFAULT_ROTATION_X;
+	this->rotation.y = DEFAULT_ROTATION_Y;
 	gravity.x = DEFAULT_GRAVITY_X;
 	gravity.y = DEFAULT_GRAVITY_Y;
 	this->color = float4(DEFAULT_COLOR);
