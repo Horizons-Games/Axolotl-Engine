@@ -488,7 +488,9 @@
     <ClCompile Include="DataModels\ParticleSystem\ModuleRotation.cpp">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\ParticleSystem\ModuleSize.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleSize.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -985,7 +987,9 @@
     <ClInclude Include="DataModels\ParticleSystem\ModuleRotation.h">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\ParticleSystem\ModuleSize.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleSize.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
