@@ -404,7 +404,6 @@
     <ClCompile Include="DataModels\ParticleSystem\ModuleColor.cpp">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\ParticleSystem\ModuleRenderer.cpp" />
     <ClCompile Include="..\Game\Scripts\HealthSystem.cpp">
       <Filter>UserScripts\Health System</Filter>
     </ClCompile>
@@ -482,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleRenderer.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -884,7 +886,6 @@
     <ClInclude Include="DataModels\ParticleSystem\ModuleColor.h">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\ParticleSystem\ModuleRenderer.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h">
       <Filter>UserScripts\Health System</Filter>
     </ClInclude>
@@ -973,6 +974,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleRenderer.h">
+      <Filter>DataModels\ParticleSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

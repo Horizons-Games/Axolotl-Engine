@@ -2,6 +2,7 @@
 
 #include "EmitterInstance.h"
 #include "ModuleBase.h"
+#include "ModuleColor.h"
 #include "ModuleSpawn.h"
 #include "ModulePosition.h"
 #include "ModuleRenderer.h"
@@ -12,11 +13,13 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 {
 	ModuleBase* base = new ModuleBase(this);
 	ModuleSpawn* spawn = new ModuleSpawn(this);
+	ModuleColor* color = new ModuleColor(this);
 	ModulePosition* position = new ModulePosition(this);
 	ModuleRenderer* render = new ModuleRenderer(this);
 
 	modules.push_back(base);
 	modules.push_back(spawn);
+	modules.push_back(color);
 	modules.push_back(position);
 	modules.push_back(render);
 
@@ -35,7 +38,7 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 	rotation.y = DEFAULT_ROTATION_Y;
 	gravity.x = DEFAULT_GRAVITY_X;
 	gravity.y = DEFAULT_GRAVITY_Y;
-	color = float4(DEFAULT_COLOR);
+	this->color = float4(DEFAULT_COLOR);
 
 	randomLife = true;
 	randomSpeed = true;
