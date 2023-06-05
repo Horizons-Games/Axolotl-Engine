@@ -34,6 +34,7 @@ public:
 	bool isNextSceneTrigger;
 	bool isLoseByDamage;
 	bool onTriggerState;
+	float damageTaken;
 
 private:
 

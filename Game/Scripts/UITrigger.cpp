@@ -24,7 +24,7 @@ REGISTERCLASS(UITrigger);
 
 UITrigger::UITrigger() : Script(),componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setGameStateObject(nullptr),
 uiGameStatesClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
-playerHealthSystem(nullptr), setPlayer(nullptr), onTriggerState(false)
+playerHealthSystem(nullptr), setPlayer(nullptr), onTriggerState(false), damageTaken(1)
 {
 	REGISTER_FIELD(isWinTrigger, bool);
 	REGISTER_FIELD(isLoseTrigger, bool);
@@ -32,6 +32,7 @@ playerHealthSystem(nullptr), setPlayer(nullptr), onTriggerState(false)
 	REGISTER_FIELD(isLoseByDamage, bool);
 	REGISTER_FIELD(setGameStateObject, GameObject*);
 	REGISTER_FIELD(setPlayer, GameObject*);
+	REGISTER_FIELD(damageTaken, float);
 }
 
 UITrigger::~UITrigger()
@@ -88,8 +89,8 @@ void UITrigger::Update(float deltaTime)
 		}
 		if (isLoseByDamage == true)
 		{
-			playerHealthSystem->TakeDamage(1);
-			ENGINE_LOG("Taking damage -1 --- Player Current Life %f", playerHealthSystem->GetCurrentLife());
+			playerHealthSystem->TakeDamage(damageTaken);
+			ENGINE_LOG("Taking damage %f --- Player Current Life %f", damageTaken, playerHealthSystem->GetCurrentLife());
 			//uiGameStatesClass->LoseStateScene(true);
 		}
 	}
@@ -108,5 +109,6 @@ void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
 	{
 		onTriggerState = false;
+		ENGINE_LOG("Player Out");
 	}
 }
