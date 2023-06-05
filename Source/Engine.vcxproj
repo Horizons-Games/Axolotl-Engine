@@ -182,6 +182,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentLine.cpp" />
     <ClCompile Include="DataModels\Components\ComponentBreakable.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCubemap.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
@@ -499,6 +500,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLine.h" />
     <ClInclude Include="DataModels\Components\ComponentBreakable.h" />
     <ClInclude Include="DataModels\Components\ComponentCubemap.h" />
     <ClInclude Include="DataModels\Commands\Command.h" />

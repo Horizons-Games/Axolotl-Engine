@@ -110,6 +110,15 @@ WindowInspector::WindowInspector() :
 			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::BREAKABLE);
 		},
 		ComponentFunctionality::PHYSICS));
+	
+	actions.push_back(AddComponentAction(
+		"Create Line Component",
+		std::bind(&WindowInspector::AddComponentLine, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::LINE);
+		},
+		ComponentFunctionality::GRAPHICS));
 
 	std::sort(std::begin(actions), std::end(actions));
 }
@@ -435,4 +444,9 @@ void WindowInspector::AddComponentScript()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentLine()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LINE);
 }

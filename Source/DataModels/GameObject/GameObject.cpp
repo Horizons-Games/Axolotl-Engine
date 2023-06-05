@@ -21,6 +21,7 @@
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentTransform2D.h"
 #include "../Components/ComponentBreakable.h"
+#include "../Components/ComponentLine.h"
 
 #include "Application.h"
 
@@ -356,6 +357,11 @@ void GameObject::CopyComponent(Component* component)
 			newComponent = std::make_unique<ComponentCanvas>(*static_cast<ComponentCanvas*>(component));
 			break;
 		}
+		case ComponentType::LINE:
+		{
+			newComponent = std::make_unique<ComponentLine>(*static_cast<ComponentLine*>(component));
+			break;
+		}
 
 		default:
 			ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
@@ -547,7 +553,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentCubemap>(true,this);
 			break;
 		}
-
+		case ComponentType::LINE:
+		{
+			newComponent = std::make_unique<ComponentLine>(true, this);
+			break;
+		}
 		default:
 			assert(false && "Wrong component type introduced");
 	}
