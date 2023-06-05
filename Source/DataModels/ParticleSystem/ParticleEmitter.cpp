@@ -23,6 +23,8 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 	modules.push_back(position);
 	modules.push_back(render);
 
+	color->SetEnabled(false);
+
 	angle = DEFAULT_ANGLE;
 	radius = DEFAULT_RADIUS;
 

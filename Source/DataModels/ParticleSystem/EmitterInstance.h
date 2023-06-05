@@ -46,6 +46,7 @@ public:
 	void DrawDD();
 
 	float3 lerp(float3 a, float3 b, float fraction);
+	float4 lerp(float4 a, float4 b, float fraction);
 	float CalculateRandomValueInRange(float min, float max);
 	void SimulateParticles() const;
 
@@ -87,6 +88,15 @@ inline float3 EmitterInstance::lerp(float3 a, float3 b, float fraction)
 	float yLerp = a.y + fraction * (b.y - a.y);
 	float zLerp = a.z + fraction * (b.z - a.z);
 	return float3(xLerp, yLerp, zLerp);
+}
+
+inline float4 EmitterInstance::lerp(float4 a, float4 b, float fraction)
+{
+	float xLerp = a.x + fraction * (b.x - a.x);
+	float yLerp = a.y + fraction * (b.y - a.y);
+	float zLerp = a.z + fraction * (b.z - a.z);
+	float wLerp = a.w + fraction * (b.w - a.w);
+	return float4(xLerp, yLerp, zLerp, wLerp);
 }
 
 inline ComponentParticleSystem* EmitterInstance::GetOwner() const
