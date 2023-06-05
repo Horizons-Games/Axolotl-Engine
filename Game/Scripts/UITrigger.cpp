@@ -59,7 +59,7 @@ void UITrigger::Start()
 		}
 	}
 
-	if (isLoseByDamage != false)
+	if (!isLoseByDamage)
 	{
 		std::vector<ComponentScript*> gameObjectScripts =
 			setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
@@ -76,21 +76,19 @@ void UITrigger::Start()
 
 void UITrigger::Update(float deltaTime)
 {
-	if(onTriggerState != false)
+	if(!onTriggerState)
 	{
-		if (isWinTrigger == true)
+		if (isWinTrigger)
 		{
 			uiGameStatesClass->WinStateScene(true);
 		}
-
-		if (isLoseTrigger == true)
+		else if (isLoseTrigger)
 		{
 			uiGameStatesClass->LoseStateScene(true);
 		}
-		if (isLoseByDamage == true)
+		else if (isLoseByDamage)
 		{
 			playerHealthSystem->TakeDamage(damageTaken);
-			ENGINE_LOG("Taking damage %f --- Player Current Life %f", damageTaken, playerHealthSystem->GetCurrentLife());
 			//uiGameStatesClass->LoseStateScene(true);
 		}
 	}
@@ -109,6 +107,5 @@ void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
 	{
 		onTriggerState = false;
-		ENGINE_LOG("Player Out");
 	}
 }

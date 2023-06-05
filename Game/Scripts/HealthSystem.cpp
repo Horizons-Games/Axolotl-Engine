@@ -72,7 +72,7 @@ bool HealthSystem::EntityIsAlive() const
 	return currentHealth > 0;
 }
 
-float HealthSystem::GetCurrentLife() const
+float HealthSystem::GetCurrenHealth() const
 {
 	return currentHealth;
 }

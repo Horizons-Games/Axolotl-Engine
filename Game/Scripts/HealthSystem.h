@@ -15,7 +15,7 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
-	float GetCurrentLife() const; 
+	float GetCurrentHealth() const;
 
 	bool EntityIsAlive() const;
 
