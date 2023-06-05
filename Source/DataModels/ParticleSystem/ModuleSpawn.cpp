@@ -51,17 +51,19 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 		float2 life = emitter->GetLifespanRange();
 		float2 gravity = emitter->GetGravityRange();
 
-		particle.initColor = emitter->GetColor();
-		particle.initSize = emitter->IsRandomSize() ? instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
-		particle.initRotation = emitter->IsRandomRot() ?
-			instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x;
-		particle.initLife = emitter->IsRandomLife() ? instance->CalculateRandomValueInRange(life.x, life.y) : life.x;
-		particle.lifespan = particle.initLife;
+		particle.initColor = particle.color = emitter->GetColor();
+		particle.initSize = particle.size = emitter->IsRandomSize() ? 
+			instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
+		particle.initRotation = particle.rotation = DegToRad(emitter->IsRandomRot() ?
+			instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x);
+		particle.initLife = particle.lifespan = emitter->IsRandomLife() ? 
+			instance->CalculateRandomValueInRange(life.x, life.y) : life.x;
 		particle.gravity = emitter->IsRandomGravity() ? 
 			instance->CalculateRandomValueInRange(gravity.x, gravity.y) : gravity.x;
 
 		instance->SetAliveParticles(instance->GetAliveParticles() + 1);
 
+		// Calculate the order of drawing of the new particle relative to the camera
 		float3 cameraPos = App->GetModule<ModuleCamera>()->GetSelectedCamera()->GetPosition();
 		particle.distanceToCamera = particle.tranform.TranslatePart().DistanceSq(cameraPos);
 

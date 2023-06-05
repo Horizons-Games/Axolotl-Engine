@@ -158,9 +158,9 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 				break;
 			}
 
-			Quat rotation(xAxis, particle.rotation);
+			Quat rotation(zAxis, particle.rotation);
 			yAxis = rotation.Transform(yAxis);
-			zAxis = rotation.Transform(zAxis);
+			xAxis = rotation.Transform(xAxis);
 
 			xAxis *= particle.size;
 			yAxis *= particle.size;
@@ -177,7 +177,7 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 			instanceInfo[3] = translation;
 
 			float4* color = reinterpret_cast<float4*>(instanceData + (i * stride) + sizeof(float3) * 4);
-			*color = particle.initColor;
+			*color = particle.color;
 		}
 	}
 
