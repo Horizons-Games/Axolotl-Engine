@@ -17,8 +17,8 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 
 	modules.push_back(base);
 	modules.push_back(spawn);
-	modules.push_back(render);
 	modules.push_back(position);
+	modules.push_back(render);
 
 	angle = DEFAULT_ANGLE;
 	radius = DEFAULT_RADIUS;

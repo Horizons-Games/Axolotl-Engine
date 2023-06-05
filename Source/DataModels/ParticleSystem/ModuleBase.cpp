@@ -45,7 +45,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 	{
 		EmitterInstance::Particle& particle = particles[i];
 
-		if (particle.tranform.IsIdentity() || particle.lifespan == 0.0f)
+		if (particle.tranform.IsIdentity() || particle.lifespan <= 0.0f)
 		{
 			float radius = emitter->GetRadius();
 
@@ -111,18 +111,6 @@ void ModuleBase::Update(EmitterInstance* instance)
 			float velocity = emitter->IsRandomSpeed() ? 
 				instance->CalculateRandomValueInRange(speed.x, speed.y) : speed.x;
 			particle.initVelocity = particle.direction * velocity;
-
-			float2 size = emitter->GetSizeRange();
-			float sizeValue = emitter->IsRandomRot() ?
-				instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
-			particle.initSize = sizeValue;
-
-			float2 rotation = emitter->GetRotationRange();
-			float rot = emitter->IsRandomRot() ?
-				instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x;
-			particle.initRotation = rot;
-
-			particle.initColor = emitter->GetColor();
 		}
 	}
 }

@@ -21,9 +21,12 @@
 
 #include "ImGui/imgui.h"
 
+#include <algorithm>
+
 ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(ModuleType::RENDER, emitter)
 {
 	alignment = Alignment::WORLD;
+	blendingMode = BlendingMode::ALPHA;
 	numInstances = 0;
 
 	static const float vertices[] = { -0.5f, -0.5f, 0.0f,
@@ -117,14 +120,15 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 	char* instanceData = static_cast<char*>(glMapBufferRange(GL_ARRAY_BUFFER, 0, stride * numInstances, 
 															 GL_MAP_WRITE_BIT));
 
-	Camera* camera = App->GetModule<ModuleCamera>()->GetSelectedCamera();
+	const Camera* camera = App->GetModule<ModuleCamera>()->GetSelectedCamera();
 	float3 cameraPos = camera->GetPosition();
 
 	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
+	std::vector<unsigned int> sortedPositions = instance->GetSortedPositions();
 
-	for (int i = 0; i < particles.size(); ++i)
+	for (int i = 0; i < sortedPositions.size(); ++i)
 	{
-		EmitterInstance::Particle& particle = particles[i];
+		EmitterInstance::Particle& particle = particles[sortedPositions[i]];
 
 		if (particle.lifespan > 0.0f)
 		{
@@ -149,15 +153,14 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 
 			case Alignment::AXIAL:
 				yAxis = float3::unitX;
-				xAxis = yAxis.Cross((cameraPos - translation)).Normalized();
+				xAxis = yAxis.Cross(cameraPos - translation).Normalized();
 				zAxis = yAxis.Cross(xAxis).Normalized();
 				break;
 			}
 
-			Quat rotation(zAxis, particle.rotation);
-
-			xAxis = rotation.Transform(xAxis);
+			Quat rotation(xAxis, particle.rotation);
 			yAxis = rotation.Transform(yAxis);
+			zAxis = rotation.Transform(zAxis);
 
 			xAxis *= particle.size;
 			yAxis *= particle.size;
@@ -167,11 +170,11 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 			particle.tranform.SetCol3(1, yAxis);
 			particle.tranform.SetCol3(2, zAxis);
 
-			float3* matrix = reinterpret_cast<float3*>(instanceData + (i * stride));
-			matrix[0] = xAxis;
-			matrix[1] = yAxis;
-			matrix[2] = zAxis;
-			matrix[3] = translation;
+			float3* instanceInfo = reinterpret_cast<float3*>(instanceData + (i * stride));
+			instanceInfo[0] = xAxis;
+			instanceInfo[1] = yAxis;
+			instanceInfo[2] = zAxis;
+			instanceInfo[3] = translation;
 
 			float4* color = reinterpret_cast<float4*>(instanceData + (i * stride) + sizeof(float3) * 4);
 			*color = particle.initColor;
@@ -193,9 +196,25 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 		// Identity 'cause the particles are already in global space
 		program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&float4x4::identity), true);
 
+		glEnable(GL_BLEND);
+		glBlendEquation(GL_FUNC_ADD);
+
+		switch (blendingMode)
+		{
+		case BlendingMode::ALPHA:
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			break;
+			
+		case BlendingMode::ADDITIVE:
+			glBlendFunc(GL_ONE, GL_ONE);
+			break;
+		}
+
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, instance->GetAliveParticles());
+
+		glDisable(GL_BLEND);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
@@ -216,49 +235,48 @@ void ModuleRenderer::DrawImGui()
 
 			ModuleRenderer::Alignment alignment = GetAlignment();
 
-			const char* items[] = { "SCREEN", "WORLD", "AXIAL" };
+			const char* alignmentItems[] = { "SCREEN", "WORLD", "AXIAL" };
 
 			static const char* currentItem;
 			switch (alignment)
 			{
 			case ModuleRenderer::Alignment::SCREEN:
-				currentItem = items[0];
+				currentItem = alignmentItems[0];
 				break;
 			case ModuleRenderer::Alignment::WORLD:
-				currentItem = items[1];
+				currentItem = alignmentItems[1];
 				break;
 			case ModuleRenderer::Alignment::AXIAL:
-				currentItem = items[2];
+				currentItem = alignmentItems[2];
 				break;
 			}
 
 			if (ImGui::BeginCombo("##alignmentCombo", currentItem))
 			{
-				for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+				for (int n = 0; n < IM_ARRAYSIZE(alignmentItems); n++)
 				{
-					// You can store your selection however you want, outside or inside your objects
-					bool isSelected = (currentItem == items[n]);
-					if (ImGui::Selectable(items[n], isSelected))
+					bool isSelected = (currentItem == alignmentItems[n]);
+
+					if (ImGui::Selectable(alignmentItems[n], isSelected))
 					{
-						currentItem = items[n];
+						currentItem = alignmentItems[n];
+
 						if (isSelected)
 						{
-							// You may set the initial focus when opening the combo (scrolling + for 
-							// keyboard navigation support)
 							ImGui::SetItemDefaultFocus();
 						}
 					}
 				}
 
-				if (currentItem == items[0])
+				if (currentItem == alignmentItems[0])
 				{
 					alignment = ModuleRenderer::Alignment::SCREEN;
 				}
-				else if (currentItem == items[1])
+				else if (currentItem == alignmentItems[1])
 				{
 					alignment = ModuleRenderer::Alignment::WORLD;
 				}
-				else if (currentItem == items[2])
+				else if (currentItem == alignmentItems[2])
 				{
 					alignment = ModuleRenderer::Alignment::AXIAL;
 				}
@@ -267,6 +285,58 @@ void ModuleRenderer::DrawImGui()
 
 				ImGui::EndCombo();
 			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Blending");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+
+			ModuleRenderer::BlendingMode blending = GetBlending();
+
+			const char* blendingItems[] = { "ALPHA", "ADDITIVE" };
+
+			switch (blending)
+			{
+			case ModuleRenderer::BlendingMode::ALPHA:
+				currentItem = blendingItems[0];
+				break;
+			case ModuleRenderer::BlendingMode::ADDITIVE:
+				currentItem = blendingItems[1];
+				break;
+			}
+
+			if (ImGui::BeginCombo("##blendingCombo", currentItem))
+			{
+				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); n++)
+				{
+					bool isSelected = (currentItem == blendingItems[n]);
+
+					if (ImGui::Selectable(blendingItems[n], isSelected))
+					{
+						currentItem = blendingItems[n];
+
+						if (isSelected)
+						{
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+				}
+
+				if (currentItem == blendingItems[0])
+				{
+					blending = ModuleRenderer::BlendingMode::ALPHA;
+				}
+				else if (currentItem == blendingItems[1])
+				{
+					blending = ModuleRenderer::BlendingMode::ADDITIVE;
+				}
+
+				SetBlending(blending);
+
+				ImGui::EndCombo();
+			}
+
 			ImGui::EndTable();
 		}
 		ImGui::TreePop();

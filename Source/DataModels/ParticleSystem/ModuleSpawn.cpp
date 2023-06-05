@@ -1,9 +1,10 @@
 #include "ModuleSpawn.h"
 
+#include "Application.h"
 #include "EmitterInstance.h"
 #include "ParticleEmitter.h"
 
-#include "Application.h"
+#include "Modules/ModuleCamera.h"
 
 #include "ImGui/imgui.h"
 
@@ -25,7 +26,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 	// Higher probability for the new particle to be spawned, to be after the last particle used
 	for (unsigned i = lastParticleUsed; !found && i < particles.size(); ++i)
 	{
-		found = particles[i].lifespan == 0.0f;
+		found = particles[i].lifespan <= 0.0f;
 		if (found)
 		{
 			lastParticleUsed = i;
@@ -34,7 +35,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 
 	for (unsigned i = 0; !found && i < lastParticleUsed; ++i)
 	{
-		found = particles[i].lifespan == 0.0f;
+		found = particles[i].lifespan <= 0.0f;
 		if (found)
 		{
 			lastParticleUsed = i;
@@ -60,6 +61,21 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 			instance->CalculateRandomValueInRange(gravity.x, gravity.y) : gravity.x;
 
 		instance->SetAliveParticles(instance->GetAliveParticles() + 1);
+
+		float3 cameraPos = App->GetModule<ModuleCamera>()->GetSelectedCamera()->GetPosition();
+		particle.distanceToCamera = particle.tranform.TranslatePart().DistanceSq(cameraPos);
+
+		std::vector<unsigned int> sortedPos = instance->GetSortedPositions();
+
+		std::vector<unsigned int>::iterator it =
+			std::lower_bound(sortedPos.begin(), sortedPos.end(), lastParticleUsed,
+				[particles](const unsigned int& a, const unsigned int& b)
+				{
+					return particles[a].distanceToCamera > particles[b].distanceToCamera;
+				});
+
+		sortedPos.insert(it, lastParticleUsed);
+		instance->SetSortedPositions(sortedPos);
 	}
 }
 

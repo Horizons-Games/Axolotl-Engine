@@ -53,16 +53,19 @@ public:
 	Program* GetProgram() const;
 	std::shared_ptr<ParticleEmitter> GetEmitter() const;
 	std::vector<Particle>& GetParticles();
+	std::vector<unsigned int> GetSortedPositions() const;
 	const float GetLastEmission() const;
 	const unsigned GetAliveParticles() const;
 	const unsigned GetLastParticleUsed() const;
 
 	void SetAliveParticles(unsigned aliveParts);
 	void SetLastEmission(float emission);
+	void SetSortedPositions(const std::vector<unsigned int>& sorted);
 
 private:
 	ComponentParticleSystem* owner;
 
+	std::vector<unsigned int> sortedPositions;
 	std::vector<Particle> particles;
 	std::shared_ptr<ParticleEmitter> emitter;
 
@@ -86,6 +89,16 @@ inline float3 EmitterInstance::lerp(float3 a, float3 b, float fraction)
 	return float3(xLerp, yLerp, zLerp);
 }
 
+inline ComponentParticleSystem* EmitterInstance::GetOwner() const
+{
+	return owner;
+}
+
+inline Program* EmitterInstance::GetProgram() const
+{
+	return program;
+}
+
 inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
 {
 	return emitter;
@@ -94,6 +107,11 @@ inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
 inline std::vector<EmitterInstance::Particle>& EmitterInstance::GetParticles()
 {
 	return particles;
+}
+
+inline std::vector<unsigned int> EmitterInstance::GetSortedPositions() const
+{
+	return sortedPositions;
 }
 
 inline const float EmitterInstance::GetLastEmission() const
@@ -121,6 +139,11 @@ inline void EmitterInstance::SetLastEmission(float emission)
 	lastEmission = emission;
 }
 
+inline void EmitterInstance::SetSortedPositions(const std::vector<unsigned int>& sorted)
+{
+	sortedPositions = sorted;
+}
+
 inline void EmitterInstance::SimulateParticles() const
 {
 	for (int i = 0; i < particles.size(); ++i)
@@ -134,15 +157,5 @@ inline void EmitterInstance::SimulateParticles() const
 			//dd::arrow(pos, pos + dir, dd::colors::Yellow, 0.01f);
 		}
 	}
-}
-
-inline ComponentParticleSystem* EmitterInstance::GetOwner() const
-{
-	return owner;
-}
-
-inline Program* EmitterInstance::GetProgram() const
-{
-	return program;
 }
 

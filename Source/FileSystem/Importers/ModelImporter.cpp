@@ -553,7 +553,7 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 	size = (sizeof(unsigned int) * 3) * animation->mNumChannels + sizeof(header) + sizeof(double);
 
-	for (int i = 0; i < animation->mNumChannels; ++i)
+	for (unsigned int i = 0; i < animation->mNumChannels; ++i)
 	{
 		size += sizeof(float3) * animation->mChannels[i]->mNumPositionKeys;
 		size += sizeof(Quat) * animation->mChannels[i]->mNumRotationKeys;

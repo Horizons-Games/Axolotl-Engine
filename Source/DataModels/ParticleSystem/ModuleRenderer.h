@@ -1,11 +1,13 @@
 #pragma once
 
+#include "EmitterInstance.h"
 #include "ParticleModule.h"
 
 class ModuleRenderer : public ParticleModule
 {
 public:
 	enum class Alignment { SCREEN, WORLD, AXIAL };
+	enum class BlendingMode { ALPHA, ADDITIVE };
 
 public:
 	ModuleRenderer(ParticleEmitter* emitter);
@@ -18,12 +20,15 @@ public:
 	void DrawParticles(EmitterInstance* instance);
 	void DrawImGui() override;
 
-	void SetAlignment(Alignment alignment);
+	void SetAlignment(const Alignment& alignment);
+	void SetBlending(const BlendingMode& blending);
 
 	Alignment GetAlignment() const;
+	BlendingMode GetBlending() const;
 
 private:
 	Alignment alignment;
+	BlendingMode blendingMode;
 
 	// Render
 	unsigned int vao;
@@ -33,12 +38,22 @@ private:
 	unsigned int numInstances;
 };
 
-inline void ModuleRenderer::SetAlignment(Alignment alignment)
+inline void ModuleRenderer::SetAlignment(const Alignment& alignment)
 {
 	this->alignment = alignment;
+}
+
+inline void ModuleRenderer::SetBlending(const BlendingMode& blending)
+{
+	blendingMode = blending;
 }
 
 inline ModuleRenderer::Alignment ModuleRenderer::GetAlignment() const
 {
 	return alignment;
+}
+
+inline ModuleRenderer::BlendingMode ModuleRenderer::GetBlending() const
+{
+	return blendingMode;
 }
