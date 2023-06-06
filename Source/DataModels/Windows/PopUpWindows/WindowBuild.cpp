@@ -40,7 +40,7 @@ void WindowBuild::DrawWindowContents()
 {
 	DrawSceneComboBox();
 	DrawBuildTypeComboBox();
-	DrawGenerateZipCheckmark();
+	DrawGenerateZipCheckbox();
 	DrawBuildButton();
 }
 
