@@ -361,21 +361,6 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerRotationScript",
-                            "fields": [
-                                {
-                                    "name": "RotationSensitivity",
-                                    "value": 50.0,
-                                    "type": 0
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
                             "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
@@ -2144,8 +2129,18 @@
                             "constructName": "PlayerCameraRotationVerticalScript",
                             "fields": [
                                 {
+                                    "name": "KpPosition",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "KpRotation",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
                                     "name": "RotationSensitivity",
-                                    "value": 50.0,
+                                    "value": 0.20000000298023224,
                                     "type": 0
                                 }
                             ]

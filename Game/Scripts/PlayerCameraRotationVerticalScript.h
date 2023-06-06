@@ -1,5 +1,6 @@
 #pragma once
 #include "Script.h"
+#include "Components/ComponentTransform.h"
 class PlayerCameraRotationVerticalScript :
     public Script
 {
@@ -11,7 +12,7 @@ public:
     void PreUpdate(float deltaTime) override;
 
 private:
-    void Rotation(float deltaTime);
+    void Orbit(float deltaTime);
 	void SetPositionTarget(float3 targetPosition, float deltaTime);
 	void SetRotationTarget(Quat targetRotation, float deltaTime);
 
