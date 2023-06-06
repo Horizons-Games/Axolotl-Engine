@@ -242,20 +242,20 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         // calculate closest point light specular
         vec3 PA = posA - FragPos;
         vec3 PB = posB - FragPos;
-        vec3 AB = PB - PB;
+        vec3 AB = PB - PA;
 
         vec3 R = normalize(reflect(-V, N));
-
+		
         float dotABRefle = dot(AB, R);
-        float num = dot(R, PA) * dotABRefle - dot(AB, PA);
-        float denom = dot(AB, AB) - dotABRefle * dotABRefle;
+        float num = dot(R, PA) * dotABRefle - dot(PA, AB);
+        float denom = length(AB) * length(AB) - dotABRefle * dotABRefle;
         float t = clamp(num/denom, 0.0f, 1.0f);
         
-        vec3 closest = posA + AB * t;
-
+        vec3 closest = PA + AB * t;
+   	
         // calculate closest point light specular
-        vec3 oldL = closest - FragPos;
-        vec3 centerToRay = max(dot(oldL, R), EPSILON) * R - oldL;
+        vec3 oldL = closest;
+        vec3 centerToRay = dot(oldL, R) * R - oldL;
         closest = oldL + centerToRay * min(tubeRadius/length(centerToRay),1.0);
 
         float distance = length(closest);
