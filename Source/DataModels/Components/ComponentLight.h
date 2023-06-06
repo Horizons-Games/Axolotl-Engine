@@ -91,7 +91,7 @@ inline const std::string GetNameByLightType(LightType type)
 			return "LightType_Spot";
 		default:
 			assert(false && "Wrong light type introduced");
-			return "";
+			return std::string();
 	}
 }
 

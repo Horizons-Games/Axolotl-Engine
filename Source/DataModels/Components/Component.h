@@ -169,7 +169,7 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Cubemap";
 		default:
 			assert(false && "Wrong component type introduced");
-			return "";
+			return std::string();
 	}
 }
 
