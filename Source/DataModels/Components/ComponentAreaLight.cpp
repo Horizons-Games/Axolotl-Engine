@@ -45,11 +45,8 @@ ComponentAreaLight::~ComponentAreaLight()
 void ComponentAreaLight::Draw() const
 {
 #ifndef ENGINE
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight())
-	{
-		return;
-	}
-#endif // ENGINE
+	
+#else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform =
@@ -85,6 +82,7 @@ void ComponentAreaLight::Draw() const
 		{
 		}
 	}
+#endif // ENGINE
 }
 
 void ComponentAreaLight::SaveOptions(Json& meta)
