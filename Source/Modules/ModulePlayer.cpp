@@ -21,7 +21,7 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
+ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr){};
 
 ModulePlayer::~ModulePlayer(){};
 
