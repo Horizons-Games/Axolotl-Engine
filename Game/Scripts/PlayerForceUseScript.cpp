@@ -22,15 +22,13 @@
 #include "PlayerRotationScript.h"
 #include "PlayerCameraRotationVerticalScript.h"
 #include "PlayerMoveScript.h"
-#include "HealthSystem.h"
 
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
 maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
-currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource (nullptr), 
-healthScript(nullptr)
+currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource (nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -55,13 +53,10 @@ void PlayerForceUseScript::Start()
 		{
 			rotationHorizontalScript = static_cast<PlayerRotationScript*>(gameObjectScripts[i]->GetScript());
 		}
+
 		else if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
 		{
 			moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
-		}
-		else if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
 		}
 	}
 
@@ -78,13 +73,6 @@ void PlayerForceUseScript::Start()
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	if (healthScript && !healthScript->EntityIsAlive())
-	{
-		componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
-		isForceActive = false;
-		return;
-	}
-
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	const ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 

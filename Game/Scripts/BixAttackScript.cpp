@@ -12,8 +12,6 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "../Scripts/HealthSystem.h"
-
 #include "HealthSystem.h"
 
 #include "GameObject/GameObject.h"
@@ -34,13 +32,12 @@ namespace
 }
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
-transform(nullptr),
-//Provisional
-ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
-ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
-//--Provisional
-healthScript(nullptr)
+	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
+	transform(nullptr),
+	//Provisional
+	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
+	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr)
+	//--Provisional
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
@@ -82,26 +79,10 @@ void BixAttackScript::Start()
 	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	//--Provisional
-
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-		}
-	}
 }
 
 void BixAttackScript::Update(float deltaTime)
 {
-	if (healthScript && !healthScript->EntityIsAlive())
-	{
-		return;
-	}
-
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
