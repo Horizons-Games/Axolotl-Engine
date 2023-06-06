@@ -5,7 +5,7 @@
 #include "ImGui/imgui.h"
 
 ModuleRotation::ModuleRotation(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
-	rotationOverTime(0.5f)
+	random(true), rotationOverTime(float2(-0.5f, 0.5f))
 {
 }
 
@@ -29,7 +29,13 @@ void ModuleRotation::Update(EmitterInstance* instance)
 
 			if (particle.lifespan >= 0.0f)
 			{
-				particle.rotation += DegToRad(rotationOverTime);
+				if (particle.rotationOverTime == UNINITIALIZED_ROTATION)
+				{
+					particle.rotationOverTime = DegToRad(random ?
+						instance->CalculateRandomValueInRange(rotationOverTime.x, rotationOverTime.y) :
+						rotationOverTime.x);
+				}
+				particle.rotation += particle.rotationOverTime;
 			}
 		}
 	}
@@ -44,8 +50,48 @@ void ModuleRotation::DrawImGui()
 
 		ImGui::Text("Rotation over time");
 		ImGui::SameLine();
-		ImGui::SetNextItemWidth(80.0f);
-		ImGui::SliderFloat("##rotation", &rotationOverTime, -25.0f, 25.0f, "%.2f");
+		ImGui::SetNextItemWidth(165.0f);
+		if (random)
+		{
+			if (ImGui::SliderFloat2("##sliderRotOverTime", &rotationOverTime[0], -25.0f, 25.0f, "%.2f"))
+			{
+				if (rotationOverTime.x > rotationOverTime.y)
+				{
+					rotationOverTime.x = rotationOverTime.y;
+				}
+				else if (rotationOverTime.x < -25.0f)
+				{
+					rotationOverTime.x = -25.0f;
+				}
+
+				if (rotationOverTime.y < rotationOverTime.x)
+				{
+					rotationOverTime.y = rotationOverTime.x;
+				}
+				else if (rotationOverTime.y > 25.0f)
+				{
+					rotationOverTime.y = 25.0f;
+				}
+			}
+		}
+		else
+		{
+			if (ImGui::InputFloat("##inputRotOverTime", &rotationOverTime.x, 0.01f, 0.1f, "%.2f"))
+			{
+				if (rotationOverTime.x > 25.0f)
+				{
+					rotationOverTime.x = 25.0f;
+				}
+				else if (rotationOverTime.x < -25.0f)
+				{
+					rotationOverTime.x = -25.0f;
+				}
+			}
+		}
+		ImGui::SameLine(0.0f, 5.0f);
+		ImGui::Text("Random");
+		ImGui::SameLine(0.0f, 5.0f);
+		ImGui::Checkbox("##randomRotationOvertime", &random);
 
 		ImGui::TreePop();
 	}

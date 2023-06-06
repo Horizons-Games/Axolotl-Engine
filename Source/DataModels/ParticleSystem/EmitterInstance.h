@@ -8,6 +8,8 @@
 
 #include <vector>
 
+#define UNINITIALIZED_ROTATION 999.9f
+
 class ComponentParticleSystem;
 class ParticleEmitter;
 class Program;
@@ -31,7 +33,7 @@ public:
 		float size = 1.0f;
 		float sizeOverTime = -1.0f;
 		float rotation = 0.0f;
-		float rotationOverTime = -1.0f;
+		float rotationOverTime = UNINITIALIZED_ROTATION;
 		float lifespan = 0.0f;
 
 		float gravity = 0.0f;

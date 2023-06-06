@@ -2,6 +2,8 @@
 
 #include "ParticleModule.h"
 
+#include "Math/float2.h"
+
 class ModuleRotation : public ParticleModule
 {
 public:
@@ -14,6 +16,7 @@ public:
 	void DrawImGui() override;
 
 private:
-	float rotationOverTime;
+	bool random;
+	float2 rotationOverTime;
 };
 

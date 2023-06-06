@@ -53,7 +53,7 @@ void ModuleSize::DrawImGui()
 		ImGui::SetNextItemWidth(165.0f);
 		if (random)
 		{
-			if (ImGui::SliderFloat2("##sliderSize", &sizeOverTime[0], 0.0f, MAX_SIZE, "%.3f"))
+			if (ImGui::SliderFloat2("##sliderSizeOverTime", &sizeOverTime[0], 0.0f, MAX_SIZE, "%.3f"))
 			{
 				if (sizeOverTime.x > sizeOverTime.y)
 				{
@@ -76,7 +76,7 @@ void ModuleSize::DrawImGui()
 		}
 		else
 		{
-			if (ImGui::InputFloat("##inputLife", &sizeOverTime.x, 0.001f, 0.01f, "%.3f"))
+			if (ImGui::InputFloat("##inputSizeOverTime", &sizeOverTime.x, 0.001f, 0.01f, "%.3f"))
 			{
 				if (sizeOverTime.x > MAX_SIZE)
 				{
@@ -91,7 +91,7 @@ void ModuleSize::DrawImGui()
 		ImGui::SameLine(0.0f, 5.0f);
 		ImGui::Text("Random");
 		ImGui::SameLine(0.0f, 5.0f);
-		ImGui::Checkbox("##randomSize", &random);
+		ImGui::Checkbox("##randomSizeOverTime", &random);
 
 		ImGui::TreePop();
 	}
