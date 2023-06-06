@@ -54,8 +54,10 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 		particle.initColor = particle.color = emitter->GetColor();
 		particle.initSize = particle.size = emitter->IsRandomSize() ? 
 			instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
+		particle.sizeOverTime = -1.0f;
 		particle.initRotation = particle.rotation = DegToRad(emitter->IsRandomRot() ?
 			instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x);
+		particle.rotationOverTime = -1.0f;
 		particle.initLife = particle.lifespan = emitter->IsRandomLife() ? 
 			instance->CalculateRandomValueInRange(life.x, life.y) : life.x;
 		particle.gravity = emitter->IsRandomGravity() ? 

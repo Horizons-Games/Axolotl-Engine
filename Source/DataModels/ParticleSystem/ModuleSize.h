@@ -2,6 +2,10 @@
 
 #include "ParticleModule.h"
 
+#include "Math/float2.h"
+
+#define MAX_SIZE 0.1f
+
 class ModuleSize : public ParticleModule
 {
 public:
@@ -14,6 +18,7 @@ public:
 	void DrawImGui() override;
 
 private:
-	float sizeOverTime;
+	bool random;
+	float2 sizeOverTime;
 };
 

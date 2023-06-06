@@ -29,7 +29,9 @@ public:
 		float3 velocity = float3::zero;
 		float3 direction = float3::zero;
 		float size = 1.0f;
+		float sizeOverTime = -1.0f;
 		float rotation = 0.0f;
+		float rotationOverTime = -1.0f;
 		float lifespan = 0.0f;
 
 		float gravity = 0.0f;
