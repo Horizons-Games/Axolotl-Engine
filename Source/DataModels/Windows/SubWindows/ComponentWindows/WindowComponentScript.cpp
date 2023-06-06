@@ -24,6 +24,24 @@ WindowComponentScript::~WindowComponentScript()
 {
 }
 
+std::string WindowComponentScript::DrawStringField(std::string value, std::string name)
+{
+	if (ImGui::InputText(name.c_str(), value.data(), 24))
+	{
+		return value;
+	}
+	return value;
+}
+
+float WindowComponentScript::DrawFloatField(float value, std::string name)
+{
+	if (ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
+	{
+		return value;
+	}
+	return value;
+}
+
 void WindowComponentScript::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
@@ -110,10 +128,8 @@ void WindowComponentScript::DrawWindowContents()
 
 				label = floatField.name;
 				finalLabel = label + separator + thisID;
-				if (ImGui::DragFloat(finalLabel.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
-				{
-					floatField.setter(value);
-				}
+
+				floatField.setter(DrawFloatField(value, finalLabel.c_str()));
 				break;
 			}
 
@@ -147,9 +163,10 @@ void WindowComponentScript::DrawWindowContents()
 							catch (const std::bad_any_cast&) {
 							}
 						}
-						if (ImGui::DragFloat3(vectorField.name.c_str() , (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+						for (int i = 0; i < value.size(); i++)
 						{
-							vectorValue = { value[0], value[1], value[2] };
+							vectorValue[i] = DrawFloatField(value[i], (vectorField.name + std::to_string(i)));
+
 							vectorField.setter(vectorValue);
 						}
 					}
@@ -165,14 +182,11 @@ void WindowComponentScript::DrawWindowContents()
 							catch (const std::bad_any_cast&) {
 							}
 						}
-						for (int i = 0; i < 3; i++) 
+						for (int i = 0; i < value.size(); i++) 
 						{
-							if (ImGui::InputText((vectorField.name + std::to_string(i)).c_str(), value[i].data(), 24))
-							{
-								vectorValue[i] = value[i].c_str();
-								ENGINE_LOG(value[0].data(), value[1].data(), value[2].data());
-								vectorField.setter(vectorValue);
-							}
+							vectorValue[i] = std::string(DrawStringField(value[i], (vectorField.name + std::to_string(i)).c_str()).data());
+							
+							vectorField.setter(vectorValue);
 						}
 							
 					}
@@ -193,10 +207,9 @@ void WindowComponentScript::DrawWindowContents()
 			
 				label = stringField.name;
 				finalLabel = label + separator + thisID;
-				if (ImGui::InputText(finalLabel.c_str(), value.data(), 24))
-				{
-					stringField.setter(value);
-				}
+
+				stringField.setter(DrawStringField(value, finalLabel.c_str()));
+				
 				break;
 			}
 

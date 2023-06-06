@@ -19,6 +19,9 @@ protected:
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
 
+	std::string DrawStringField(std::string value, std::string name);
+	float DrawFloatField(float value, std::string name);
+
 	void OpenCreateNewScriptPopUp();
 	void AddNewScriptToProject(const std::string& scriptName);
 

@@ -22,8 +22,8 @@ public:
 	const float3& GetVector3() const;
 	void SetVector3(const float3& vec3);
 	
-	const std::vector<float>& GetVector() const;
-	void SetVector(const std::vector<float>& vec);
+	const std::vector<float>& GetVectorFloat() const;
+	void SetVectorFloat(const std::vector<float>& vec);
 	const std::vector<std::string>& GetVectorStr() const;
 	void SetVectorStr(const std::vector<std::string>& vec);
 
