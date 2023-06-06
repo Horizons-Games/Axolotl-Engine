@@ -34,7 +34,7 @@ void WindowScene::DrawWindowContents()
 {
 	ManageResize();
 
-	ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(App->GetModule<ModuleRender>()->GetRenderedTexture())),
+	ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(App->GetModule<ModuleRender>()->GetRenderedTexture())),
 				 ImGui::GetContentRegionAvail(),
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));

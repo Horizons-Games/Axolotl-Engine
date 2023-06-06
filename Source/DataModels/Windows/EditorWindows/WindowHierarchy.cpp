@@ -243,7 +243,6 @@ void WindowHierarchy::ProcessInput()
 		}
 	}
 
-	// Delete a GameObject with the SUPR key
 	if (input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
 	{
 		DeleteGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject());
