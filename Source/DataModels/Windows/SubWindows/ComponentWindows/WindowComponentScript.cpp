@@ -119,6 +119,7 @@ void WindowComponentScript::DrawWindowContents()
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
+		//DrawField(member, enumAndMember.first);
 		switch (enumAndMember.first)
 		{
 			case FieldType::FLOAT:
@@ -189,6 +190,25 @@ void WindowComponentScript::DrawWindowContents()
 							vectorField.setter(vectorValue);
 						}
 							
+					}
+
+					else if (elem.type() == typeid(GameObject*))
+					{
+						GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
+						std::vector<GameObject*> value;
+						for (const auto& elem : vectorValue) {
+							try {
+								GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
+								value.push_back(gameObjectValue);
+							}
+							catch (const std::bad_any_cast&) {
+							}
+						}
+						for (int i = 0; i < value.size(); i++)
+						{
+							//DO THE GAMEOBJECT IMGUI
+						}
+
 					}
 					// Add more type checks for other supported types
 
