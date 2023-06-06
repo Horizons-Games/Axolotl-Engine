@@ -617,6 +617,10 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 			scene->UpdateSceneSpotLights();
 			scene->RenderSpotLights();
 			break;
+		case LightType::AREA:
+			scene->UpdateSceneAreaLights();
+			scene->RenderAreaLights();
+			break;
 		}
 		
 		return referenceBeforeMove;
