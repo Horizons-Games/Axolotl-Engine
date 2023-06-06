@@ -63,10 +63,9 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   true,
 			   true,
 			   StateOfSelection::NO_SELECTED,
-			   gameObject.staticObject)
+			   gameObject.staticObject,
+			   gameObject.tag)
 {
-	tag = gameObject.tag;
-
 	for (const std::unique_ptr<Component>& component : gameObject.components)
 	{
 		CopyComponent(component.get());
@@ -86,7 +85,8 @@ GameObject::GameObject(const std::string& name,
 					   bool enabled,
 					   bool active,
 					   StateOfSelection selection,
-					   bool staticObject) :
+					   bool staticObject,
+					   std::string tag) :
 	name(name),
 	parent(parent),
 	uid(uid),
