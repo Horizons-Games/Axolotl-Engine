@@ -179,11 +179,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 15220037540998241071,
+        "skyboxUID": 4377575066284441384,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 5203478265454845251,
+        "cubemapUID": 992078593789236745,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }
