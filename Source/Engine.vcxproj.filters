@@ -413,12 +413,6 @@
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -448,6 +442,12 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Player\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -870,12 +870,6 @@
     <ClInclude Include="..\Game\Scripts\UITrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -905,6 +899,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Player\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1024,6 +1024,9 @@
     </Filter>
     <Filter Include="UserScripts\Player\Attack">
       <UniqueIdentifier>{269828a2-35fb-43a3-9bbf-385818dfe41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
+      <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
