@@ -1,10 +1,10 @@
-# Axolot Engine
-This engine has been created by [Horizons Games](https://github.com/Pre-SuperAwesomeEngine) for the Master's Degree in Advanced Programming for AAA Videogames at UPC School.
+# Axolotl Engine
+This engine has been created by [Horizons Games](https://github.com/Horizons-Games/Axolotl-Engine) for the Master's Degree in Advanced Programming for AAA Videogames at UPC School.
 
 # Installation
 - Download the latest release
 - Unzip the file
-- Open AxolotEngine.exe
+- Open AxolotlEngine.exe
 
 # Features
 
