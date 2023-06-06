@@ -35,7 +35,7 @@ ComponentCamera::~ComponentCamera()
 void ComponentCamera::Update()
 {
 	ComponentTransform* trans = static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-	camera->SetPosition((float3) trans->GetGlobalPosition());
+	camera->SetPosition(trans->GetGlobalPosition());
 
 	Quat rotation = trans->GetGlobalRotation();
 	camera->GetFrustum()->SetFront(rotation.Transform(float3::unitZ));
