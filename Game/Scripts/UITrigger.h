@@ -35,6 +35,8 @@ public:
 	bool isLoseByDamage;
 	bool onTriggerState;
 	float damageTaken;
+	float damageTimer = 0;
+	float timer = 0;
 
 private:
 

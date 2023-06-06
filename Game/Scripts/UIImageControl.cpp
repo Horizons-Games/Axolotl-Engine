@@ -41,12 +41,12 @@ void UIImageControl::Update(float deltaTime)
 				enableImgObject->Disable();
 				enableImgObject02->Enable();
 			}
-			if (powerupTimer >= 3.75f*2) 
+			else if (powerupTimer >= 3.75f*2) 
 			{
 				enableImgObject02->Disable();
 				enableImgObject03->Enable();
 			}
-			if (powerupTimer >= 3.75f*3) 
+			else if (powerupTimer >= 3.75f*3) 
 			{
 				enableImgObject03->Disable();
 				enableImgObject04->Enable();

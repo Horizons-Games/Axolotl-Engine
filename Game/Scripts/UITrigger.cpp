@@ -59,7 +59,7 @@ void UITrigger::Start()
 		}
 	}
 
-	if (!isLoseByDamage)
+	if (isLoseByDamage)
 	{
 		std::vector<ComponentScript*> gameObjectScripts =
 			setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
@@ -76,7 +76,7 @@ void UITrigger::Start()
 
 void UITrigger::Update(float deltaTime)
 {
-	if(!onTriggerState)
+	if(onTriggerState)
 	{
 		if (isWinTrigger)
 		{
@@ -88,7 +88,12 @@ void UITrigger::Update(float deltaTime)
 		}
 		else if (isLoseByDamage)
 		{
-			playerHealthSystem->TakeDamage(damageTaken);
+			damageTimer += deltaTime;
+			if (damageTimer >= timer)
+			{
+				timer++;
+				playerHealthSystem->TakeDamage(damageTaken);
+			}
 			//uiGameStatesClass->LoseStateScene(true);
 		}
 	}
