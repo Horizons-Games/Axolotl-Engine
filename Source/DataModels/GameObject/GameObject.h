@@ -110,7 +110,7 @@ private:
 			   bool active,
 			   StateOfSelection selection,
 			   bool staticObject,
-			   std::string tag = std::string());
+			   const std::string& tag = std::string());
 
 	bool IsAChild(const GameObject* child);
 
