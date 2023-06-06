@@ -63,7 +63,8 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   true,
 			   true,
 			   StateOfSelection::NO_SELECTED,
-			   gameObject.staticObject)
+			   gameObject.staticObject,
+			   gameObject.tag)
 {
 	for (const std::unique_ptr<Component>& component : gameObject.components)
 	{
@@ -84,14 +85,16 @@ GameObject::GameObject(const std::string& name,
 					   bool enabled,
 					   bool active,
 					   StateOfSelection selection,
-					   bool staticObject) :
+					   bool staticObject,
+					   const std::string& tag) :
 	name(name),
 	parent(parent),
 	uid(uid),
 	enabled(enabled),
 	active(active),
 	stateOfSelection(selection),
-	staticObject(staticObject)
+	staticObject(staticObject),
+	tag(tag)
 {
 }
 
@@ -360,6 +363,12 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::BREAKABLE:
 		{
 			newComponent = std::make_unique<ComponentBreakable>(*static_cast<ComponentBreakable*>(component));
+			break;
+		}
+
+		case ComponentType::ANIMATION:
+		{
+			newComponent = std::make_unique<ComponentAnimation>(*static_cast<ComponentAnimation*>(component));
 			break;
 		}
 
