@@ -57,7 +57,9 @@ bool ModuleScene::Start()
 		loadedScene = CreateEmptyScene();
 #else // GAME MODE
 		char* buffer;
-		unsigned int fileSize = App->GetModule<ModuleFileSystem>()->Load(GAME_STARTING_CONFIG, buffer);
+		const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+		assert(fileSystem->Exists(GAME_STARTING_CONFIG));
+		unsigned int fileSize = fileSystem->Load(GAME_STARTING_CONFIG, buffer);
 		rapidjson::Document doc;
 		Json startConfig(doc, doc);
 		startConfig.fromBuffer(buffer);
@@ -65,6 +67,7 @@ bool ModuleScene::Start()
 		
 		std::string startingScene = startConfig["StartingScene"];
 		std::string scenePath = LIB_PATH "Scenes/" + startingScene;
+		assert(fileSystem->Exists(scenePath.c_str()));
 		LoadScene(scenePath, false);
 #endif
 	}
