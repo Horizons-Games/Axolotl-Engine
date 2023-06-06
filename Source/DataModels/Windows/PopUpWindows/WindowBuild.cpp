@@ -87,7 +87,7 @@ void WindowBuild::DrawBuildTypeComboBox()
 	}
 }
 
-void WindowBuild::DrawGenerateZipCheckmark()
+void WindowBuild::DrawGenerateZipCheckbox()
 {
 	ImGui::Checkbox("Generate a new assets zip file", &generateZip);
 }

@@ -16,7 +16,7 @@ protected:
 private:
 	void DrawSceneComboBox();
 	void DrawBuildTypeComboBox();
-	void DrawGenerateZipCheckmark();
+	void DrawGenerateZipCheckbox();
 	void DrawBuildButton();
 
 	void CreateStartConfigFile();
