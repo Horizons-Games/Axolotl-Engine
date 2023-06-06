@@ -40,6 +40,12 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 
 ComponentAreaLight::~ComponentAreaLight()
 {
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateSceneAreaLights();
+		currentScene->RenderAreaLights();
+	}
 }
 
 void ComponentAreaLight::Draw() const
