@@ -213,22 +213,22 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	switch (type)
 	{
 		case Premade3D::CUBE:
-			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
 			break;
 		case Premade3D::SPHERE:
-			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/sphere.sphere_0.mesh");
+			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/sphere.sphere_0.mesh");
 			break;
 		case Premade3D::PLANE:
-			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
+			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
 			break;
 		case Premade3D::CYLINDER:
-			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
+			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Cylinder.mesh");
 			break;
 		case Premade3D::CAPSULE:
-			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
+			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Capsule.mesh");
 			break;
 		case Premade3D::CHARACTER:
-			mesh = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
+			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/David.mesh");
 			break;
 		default:
 			break;

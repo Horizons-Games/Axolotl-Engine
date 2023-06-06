@@ -223,8 +223,3 @@ const std::vector<Triangle> ResourceMesh::RetrieveTriangles(const float4x4& mode
 
 	return triangles;
 }
-
-void ResourceMesh::SetAttach(std::vector<Attach> att)
-{
-	attaches = att;
-}

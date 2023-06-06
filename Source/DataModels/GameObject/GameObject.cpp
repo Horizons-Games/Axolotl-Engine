@@ -604,17 +604,18 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 	{
 		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+		Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 		switch (lightType)
 		{
 		case LightType::POINT:
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+			scene->UpdateScenePointLights();
+			scene->RenderPointLights();
 			break;
 
 		case LightType::SPOT:
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+			scene->UpdateSceneSpotLights();
+			scene->RenderSpotLights();
 			break;
 		}
 		
@@ -653,8 +654,8 @@ bool GameObject::RemoveComponent(const Component* component)
 
 					break;
 					case LightType::AREA:
-						App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaLights();
-						App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaLights();
+						loadedScene->UpdateSceneAreaLights();
+						loadedScene->RenderAreaLights();
 
 						break;
 				}	
