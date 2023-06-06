@@ -242,6 +242,11 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         // calculate closest point light specular
         vec3 PA = posA - FragPos;
         vec3 PB = posB - FragPos;
+        float distL0 = length( PA );
+	    float distL1 = length( PB );
+        float NoL0 = dot( PA, N ) / ( 2.0 * distL0 );
+	    float NoL1 = dot( PB, N ) / ( 2.0 * distL1 );
+	    float NoL = ( 2.0 * clamp( NoL0 + NoL1, 0, 1)) / ( distL0 * distL1 + dot( PA, PB ) + 2.0 );
         vec3 AB = PB - PA;
 
         vec3 R = normalize(reflect(-V, N));
@@ -261,7 +266,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float distance = length(closest);
         vec3 L = closest/distance;
         vec3 H = normalize(L + V);
-        float specularDotNL = max(dot(N,L), EPSILON);
+        float specularDotNL = NoL;
 
         float alpha = roughness * roughness;
         float alphaPrime = clamp(tubeRadius/(distance*2.0)+alpha, 0.0f, 1.0f);
@@ -285,7 +290,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         vec3 Li = color * intensity * attenuation;
         vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
         vec3 LoDiffuse = Cd * (1 - f0) * Li * diffuseDotNL;
-        Lo += LoSpecular;
+        Lo += LoDiffuse + LoSpecular;
     }
 
     return Lo;
