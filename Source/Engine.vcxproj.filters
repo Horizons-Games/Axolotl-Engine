@@ -389,26 +389,8 @@
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\NewPlayerMobilityTest.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
       <Filter>UserScripts\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
-      <Filter>UserScripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
@@ -437,15 +419,6 @@
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
-      <Filter>UserScripts\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -457,6 +430,30 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+      <Filter>UserScripts\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
+      <Filter>UserScripts\Player\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -850,31 +847,13 @@
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\NewPlayerMobilityTest.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
-      <Filter>UserScripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
@@ -906,15 +885,6 @@
     <ClInclude Include="..\Game\Scripts\UITrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
-      <Filter>UserScripts\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -926,6 +896,30 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
+      <Filter>UserScripts\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
+      <Filter>UserScripts\Player\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1036,6 +1030,21 @@
     </Filter>
     <Filter Include="UserScripts\UI">
       <UniqueIdentifier>{9ddd7416-8d1e-4b37-be90-b2a1b8cb51e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Movement">
+      <UniqueIdentifier>{b812ac76-6b1f-47cc-a2da-da0913da9b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Rotation">
+      <UniqueIdentifier>{599c1737-d371-4d4d-9b3a-d86d3d749929}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Abilities">
+      <UniqueIdentifier>{1b8a3c16-68e9-40de-8361-9466396630ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Attack">
+      <UniqueIdentifier>{269828a2-35fb-43a3-9bbf-385818dfe41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
+      <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
