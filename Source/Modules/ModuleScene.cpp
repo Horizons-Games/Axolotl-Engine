@@ -452,7 +452,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		bool active;
 	};
 	std::vector<GameObject*> gameObjects{};
-	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
+	std::unordered_map<UID, GameObjectDeserializationInfo> gameObjectMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
