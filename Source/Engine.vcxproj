@@ -190,6 +190,11 @@
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Batch\BatchManager.cpp" />
     <ClCompile Include="DataModels\Batch\GeometryBatch.cpp" />
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
@@ -521,6 +526,11 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
+    <ClInclude Include="Auxiliar\Test\par_shapes.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />
     <ClInclude Include="Auxiliar\GameBuilder.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -535,6 +545,10 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Batch\BatchManager.h" />
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
