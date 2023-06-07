@@ -7,14 +7,26 @@
 #include "DataModels/Resources/Resource.h"
 
 #include <assert.h>
+#include <mutex>
 
+namespace
+{
 const char* documentsPath = "Documents";
 const char* logFilePath = "Documents/Axolotl.log";
 
 const char* replaceToken = "{}";
 
+std::mutex writeLock;
+} // namespace
+
 void AxoLog::Write(const char file[], int line, LogSeverity severity, const std::string& formattedLine)
 {
+	// Lock the mutex so the function is thread-safe
+	// this scoped_lock will be destroyed upon exiting the method, thus freeing the mutex
+	// according to the documentation, this is deadlock-safe,
+	// meaning that there won't be any deadlocks if the mutex is attempted to be locked twice
+	std::scoped_lock lock(writeLock);
+
 	LogLine logLine{ severity, file, line, formattedLine };
 	logLines.push_back(logLine);
 
