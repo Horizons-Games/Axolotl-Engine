@@ -9,20 +9,25 @@
 #ifndef ENGINE
 	#define LOG_INFO(...)	 // ignore it
 	#define LOG_VERBOSE(...) // ignore it
+	#define LOG_DEBUG(...)	 // ignore it
 	#define LOG_WARNING(...) // ignore it
 	#define LOG_ERROR(...)	 // ignore it
+	#define AXO_LOG(...)	 // ignore it
 #else
 enum class LogSeverity
 {
 	INFO_LOG,
 	VERBOSE_LOG,
+	DEBUG_LOG,
 	WARNING_LOG,
 	ERROR_LOG
 };
-	#define LOG_INFO(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::INFO_LOG, format, __VA_ARGS__);
-	#define LOG_VERBOSE(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::VERBOSE_LOG, format, __VA_ARGS__);
-	#define LOG_WARNING(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::WARNING_LOG, format, __VA_ARGS__);
-	#define LOG_ERROR(format, ...) logContext->Log(__FILE__, __LINE__, LogSeverity::ERROR_LOG, format, __VA_ARGS__);
+	#define LOG_INFO(format, ...) AXO_LOG(format, LogSeverity::INFO_LOG, __VA_ARGS__)
+	#define LOG_VERBOSE(format, ...) AXO_LOG(format, LogSeverity::VERBOSE_LOG, __VA_ARGS__)
+	#define LOG_DEBUG(format, ...) AXO_LOG(format, LogSeverity::DEBUG_LOG, __VA_ARGS__)
+	#define LOG_WARNING(format, ...) AXO_LOG(format, LogSeverity::WARNING_LOG, __VA_ARGS__)
+	#define LOG_ERROR(format, ...) AXO_LOG(format, LogSeverity::ERROR_LOG, __VA_ARGS__)
+	#define AXO_LOG(format, severity, ...) logContext->Log(__FILE__, __LINE__, severity, format, __VA_ARGS__);
 
 class GameObject;
 class Resource;
@@ -86,6 +91,9 @@ private:
 					break;
 				case LogSeverity::VERBOSE_LOG:
 					result = "[VERBOSE]";
+					break;
+				case LogSeverity::DEBUG_LOG:
+					result = "[DEBUG]";
 					break;
 				case LogSeverity::WARNING_LOG:
 					result = "[WARNING]";
