@@ -139,7 +139,10 @@
                             "boxSize_Z": 73.93718719482422,
                             "radius": 8.485280990600586,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.08863401412963867,
+                            "rbPos_Z": 0.0
                         }
                     }
                 ]
@@ -319,6 +322,11 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LoseSceneName",
+                                    "value": "00_LoseScene_VS3",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -407,7 +415,10 @@
                             "boxSize_Z": 0.30000001192092896,
                             "radius": 0.0,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 0.0001220703125,
+                            "rbPos_Y": 0.7866215705871582,
+                            "rbPos_Z": -12.963663101196289
                         }
                     },
                     {
@@ -2224,7 +2235,10 @@
                             "boxSize_Z": 1.0,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 5.567686080932617,
+                            "rbPos_Y": 1.5957939624786377,
+                            "rbPos_Z": -7.999545097351074
                         }
                     }
                 ]
@@ -2447,6 +2461,11 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LoseSceneName",
+                                    "value": "00_LoseScene_VS3",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -2482,7 +2501,10 @@
                             "boxSize_Z": 1.0,
                             "radius": 0.0,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": -1.634626585200749e-7,
+                            "rbPos_Y": 1.5,
+                            "rbPos_Z": 0.0
                         }
                     }
                 ]
@@ -5528,6 +5550,11 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LoseSceneName",
+                                    "value": "00_LoseScene_VS3",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -5563,7 +5590,10 @@
                             "boxSize_Z": 1.0,
                             "radius": 0.0,
                             "factor": 0.5,
-                            "height": 2.0
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 1.5,
+                            "rbPos_Z": 7.5
                         }
                     }
                 ]
@@ -8379,11 +8409,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 8827808863826909032,
+        "skyboxUID": 4377575066284441384,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 13881553922914957835,
+        "cubemapUID": 992078593789236745,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }

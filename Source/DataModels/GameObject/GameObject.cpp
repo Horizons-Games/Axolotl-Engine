@@ -63,7 +63,8 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   true,
 			   true,
 			   StateOfSelection::NO_SELECTED,
-			   gameObject.staticObject)
+			   gameObject.staticObject,
+			   gameObject.tag)
 {
 	for (const std::unique_ptr<Component>& component : gameObject.components)
 	{
@@ -84,14 +85,16 @@ GameObject::GameObject(const std::string& name,
 					   bool enabled,
 					   bool active,
 					   StateOfSelection selection,
-					   bool staticObject) :
+					   bool staticObject,
+					   const std::string& tag) :
 	name(name),
 	parent(parent),
 	uid(uid),
 	enabled(enabled),
 	active(active),
 	stateOfSelection(selection),
-	staticObject(staticObject)
+	staticObject(staticObject),
+	tag(tag)
 {
 }
 
@@ -146,7 +149,7 @@ void GameObject::LoadOptions(Json& meta)
 			if (type == ComponentType::LIGHT)
 			{
 				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType);
+				component = CreateComponentLight(lightType, AreaType::NONE); //TODO look at this when implement metas
 			}
 			else
 			{
@@ -363,6 +366,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::ANIMATION:
+		{
+			newComponent = std::make_unique<ComponentAnimation>(*static_cast<ComponentAnimation*>(component));
+			break;
+		}
+
 		default:
 			ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
 	}
@@ -386,6 +395,9 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 
 		case LightType::SPOT:
 			newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
+			break;
+		case LightType::AREA:
+			newComponent = std::make_unique<ComponentAreaLight>(static_cast<ComponentAreaLight&>(*component));
 			break;
 	}
 
@@ -575,7 +587,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return nullptr;
 }
 
-Component* GameObject::CreateComponentLight(LightType lightType)
+Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaType)
 {
 	std::unique_ptr<Component> newComponent;
 
@@ -592,23 +604,31 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 		case LightType::SPOT:
 			newComponent = std::make_unique<ComponentSpotLight>(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
 			break;
+		case LightType::AREA:
+			newComponent = std::make_unique<ComponentAreaLight>(areaType, this);
+			break;
 	}
 
 	if (newComponent)
 	{
 		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+		Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 		switch (lightType)
 		{
 		case LightType::POINT:
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+			scene->UpdateScenePointLights();
+			scene->RenderPointLights();
 			break;
 
 		case LightType::SPOT:
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+			scene->UpdateSceneSpotLights();
+			scene->RenderSpotLights();
+			break;
+		case LightType::AREA:
+			scene->UpdateSceneAreaLights();
+			scene->RenderAreaLights();
 			break;
 		}
 		
@@ -645,8 +665,13 @@ bool GameObject::RemoveComponent(const Component* component)
 						loadedScene->UpdateSceneSpotLights();
 						loadedScene->RenderSpotLights();
 
+					break;
+					case LightType::AREA:
+						loadedScene->UpdateSceneAreaLights();
+						loadedScene->RenderAreaLights();
+
 						break;
-				}
+				}	
 			}
 			else
 			{

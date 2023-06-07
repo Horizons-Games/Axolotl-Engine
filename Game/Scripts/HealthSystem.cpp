@@ -30,12 +30,12 @@ void HealthSystem::Update(float deltaTime)
 	if (dead && owner->CompareTag("Player"))
 	{
 #ifndef ENGINE
-		if (loseSceneName != "" && !componentAnimation->isPlaying())
+		if (loseSceneName != "" && !componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
 		{
 			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
 		}
 #endif // ENGINE
-		if(!componentAnimation->isPlaying()) 
+		if(!componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
 		{
 			ENGINE_LOG("Player is dead");
 		}
