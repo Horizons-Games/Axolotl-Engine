@@ -153,9 +153,8 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 	resource->SetPixelsSize((unsigned int) imgResult->GetPixelsSize());
 
-	std::vector<uint8_t> pixels(imgResult->GetPixels(), imgResult->GetPixels() + imgResult->GetPixelsSize());
-
-	resource->SetPixels(pixels);
+	resource->SetPixels(
+		std::vector<uint8_t>(imgResult->GetPixels(), imgResult->GetPixels() + imgResult->GetPixelsSize()));
 
 	char* buffer{};
 	unsigned int size;
@@ -213,8 +212,7 @@ void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTextu
 
 	unsigned char* pixelsPointer = new unsigned char[resource->GetPixelsSize()];
 	memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
-	std::vector<unsigned char> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
-	resource->SetPixels(pixels);
+	resource->SetPixels(std::vector<unsigned char>(pixelsPointer, pixelsPointer + resource->GetPixelsSize()));
 
 	fileBuffer += sizeof(unsigned char) * resource->GetPixelsSize();
 

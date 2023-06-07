@@ -5,22 +5,20 @@
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
 
+#include "Components/Component.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/Component.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentCanvas.h"
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-
-
 
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
@@ -216,7 +214,7 @@ void ModuleScene::OnStop()
 
 void ModuleScene::InitAndStartScriptingComponents()
 {
-	//First Init
+	// First Init
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
@@ -225,7 +223,7 @@ void ModuleScene::InitAndStartScriptingComponents()
 		}
 	}
 
-	//Then Start
+	// Then Start
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
@@ -290,7 +288,6 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	{
 		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
 	}
-	
 
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
@@ -309,22 +306,21 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	fileSystem->Load(filePath.c_str(), buffer);
 #endif
 	rapidjson::Document doc;
-	Json Json(doc, doc);
+	Json sceneJson(doc, doc);
 
-	Json.fromBuffer(buffer);
+	sceneJson.fromBuffer(buffer);
 	delete buffer;
 
-	LoadSceneFromJson(Json, mantainActualScene);
+	LoadSceneFromJson(sceneJson, mantainActualScene);
 
 #ifndef ENGINE
-		ModulePlayer* player = App->GetModule<ModulePlayer>();
-		if (player->GetPlayer())
-		{
+	ModulePlayer* player = App->GetModule<ModulePlayer>();
+	if (player->GetPlayer())
+	{
+		player->LoadNewPlayer();
+	}
 
-			player->LoadNewPlayer();
-		}
-
-		InitAndStartScriptingComponents();
+	InitAndStartScriptingComponents();
 #endif // !ENGINE
 }
 
@@ -334,6 +330,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	if (!mantainActualScene)
 	{
+		loadedScene.reset();
 		loadedScene = std::make_unique<Scene>();
 
 		loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
@@ -391,11 +388,9 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			AddGameObject(obj);
 		}
 
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(obj->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transform = static_cast<ComponentTransform*>(obj->GetComponent(ComponentType::TRANSFORM));
 
-		ComponentRigidBody* rigidBody =
-			static_cast<ComponentRigidBody*>(obj->GetComponent(ComponentType::RIGIDBODY));
+		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(obj->GetComponent(ComponentType::RIGIDBODY));
 
 		if (rigidBody)
 		{
@@ -447,12 +442,17 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 	}
 }
 
-std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy)
+std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy)
 {
+	struct GameObjectDeserializationInfo
+	{
+		GameObject* gameObject;
+		UID parentUID;
+		bool enabled;
+		bool active;
+	};
 	std::vector<GameObject*> gameObjects{};
-	std::unordered_map<UID, GameObject*> gameObjectMap{};
-	std::unordered_map<UID, UID> childParentMap{};
-	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
+	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -464,7 +464,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		bool active = jsonGameObject["active"];
 		GameObject* gameObject;
 
-		if (!mantainActualHierarchy)
+		if (!mantainCurrentHierarchy)
 		{
 			gameObject = new GameObject(name, uid);
 		}
@@ -476,13 +476,11 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			uid = newUID;
 		}
 
-		gameObjectMap[uid] = gameObject;
-		childParentMap[uid] = parentUID;
-		enabledAndActive[uid] = std::make_pair(enabled, active);
+		gameObjectMap[uid] = { gameObject, parentUID, enabled, active };
 		gameObjects.push_back(gameObject);
 	}
 
-	mantainActualHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
+	mantainCurrentHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
 						   : loadedScene->SetSceneGameObjects(gameObjects);
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
@@ -492,15 +490,14 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		gameObjects[i]->LoadOptions(jsonGameObject);
 	}
 
-	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
+	for (const auto& [key, value] : gameObjectMap)
 	{
-		GameObject* gameObject = *it;
-		UID uid = gameObject->GetUID();
-		UID parent = childParentMap[uid];
+		GameObject* gameObject = value.gameObject;
+		UID parent = value.parentUID;
 
 		if (parent == 0)
 		{
-			if (!mantainActualHierarchy)
+			if (!mantainCurrentHierarchy)
 			{
 				loadedScene->SetRoot(gameObject);
 			}
@@ -512,19 +509,19 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			continue;
 		}
 
-		if (mantainActualHierarchy)
+		if (mantainCurrentHierarchy)
 		{
 			parent = uidMap[parent];
 		}
 
-		GameObject* parentGameObject = gameObjectMap[parent];
+		GameObject* parentGameObject = gameObjectMap[parent].gameObject;
 		parentGameObject->LinkChild(gameObject);
 	}
 
 	std::vector<GameObject*> loadedObjects{};
-	for (const auto& uidAndGameObject : gameObjectMap)
+	for (const auto& [key, value] : gameObjectMap)
 	{
-		GameObject* gameObject = uidAndGameObject.second;
+		GameObject* gameObject = value.gameObject;
 		loadedObjects.push_back(gameObject);
 
 		if (gameObject == loadedScene->GetRoot())
@@ -532,9 +529,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			continue;
 		}
 
-		bool enabled = enabledAndActive[gameObject->GetUID()].first;
-		bool active = enabledAndActive[gameObject->GetUID()].second;
-		if (enabled)
+		if (value.enabled)
 		{
 			gameObject->Enable();
 		}
@@ -542,7 +537,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		{
 			gameObject->Disable();
 		}
-		if (active)
+		if (value.active)
 		{
 			gameObject->ActivateChildren();
 		}
