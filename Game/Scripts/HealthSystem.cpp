@@ -8,7 +8,8 @@
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), loseSceneName("00_LoseScene_VS3"), dead(false)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
+								loseSceneName("00_LoseScene_VS3"), dead(false), defense(0.f)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -57,7 +58,8 @@ void HealthSystem::Update(float deltaTime)
 
 void HealthSystem::TakeDamage(float damage)
 {
-	currentHealth -= damage;
+	float actualDamage = std::max(damage - defense, 0.f);
+	currentHealth -= actualDamage;
 
 	componentAnimation->SetParameter("IsTakingDamage", true);
 }
@@ -65,6 +67,7 @@ void HealthSystem::TakeDamage(float damage)
 void HealthSystem::HealLife(float amountHealed)
 {
 	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
+	ENGINE_LOG("Healed");
 }
 
 bool HealthSystem::EntityIsAlive() const

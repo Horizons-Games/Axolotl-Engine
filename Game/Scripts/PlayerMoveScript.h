@@ -24,6 +24,7 @@ public:
     void PreUpdate(float deltaTime) override;
 
     void Move(float deltaTime);
+	void IncreaseSpeed(float amountSpeed);
 
 private:
     ComponentTransform* componentTransform;
@@ -40,3 +41,8 @@ private:
 	HealthSystem* healthScript;
 };
 
+inline void PlayerMoveScript::IncreaseSpeed(float amountSpeed)
+{
+	speed += amountSpeed;
+	ENGINE_LOG("Speed increased");
+}

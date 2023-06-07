@@ -18,6 +18,8 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
+	void IncreaseAttack(float ammountAttack);
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -51,3 +53,9 @@ private:
 
 	HealthSystem* healthScript;
 };
+
+inline void BixAttackScript::IncreaseAttack(float ammountAttack)
+{
+	damageAttack += ammountAttack;
+	ENGINE_LOG("Attack increased");
+}

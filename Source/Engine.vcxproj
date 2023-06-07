@@ -170,6 +170,7 @@
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
@@ -504,6 +505,7 @@
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\PowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
     <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
     <ClInclude Include="..\Game\Scripts\DroneBullet.h" />
