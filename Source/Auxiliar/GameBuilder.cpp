@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "EngineLog.h"
+#include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include <assert.h>
@@ -63,17 +64,39 @@ void CopyFolderInLib(const std::string& sourcePath, const std::string& destinati
 	}
 }
 
-void CreateZip()
+void AddConfigToZip(const std::string& startingScene)
+{
+	std::string zipPath = "Assets.zip";
+	assert(App->GetModule<ModuleFileSystem>()->Exists(zipPath.c_str()));
+
+	rapidjson::Document doc;
+	Json startConfig(doc, doc);
+
+	startConfig["StartingScene"] = startingScene.c_str();
+
+	rapidjson::StringBuffer buffer;
+	startConfig.toBuffer(buffer);
+
+	std::string path = GAME_STARTING_CONFIG;
+
+	App->GetModule<ModuleFileSystem>()->AppendToZipFolder(zipPath, path.c_str(), buffer.GetString(), buffer.GetSize(), true);
+}
+
+void CreateZip(const std::string& startingScene)
 {
 	CopyFolderInLib(SCENE_PATH, "Scenes/");
 	CopyFolderInLib("Source/Shaders/", "Shaders/");
 
 	App->GetModule<ModuleFileSystem>()->ZipLibFolder();
 
+	AddConfigToZip(startingScene);
+
 	ENGINE_LOG("Done creating ZIP!");
 }
+
 } // namespace
-void BuildGame(BuildType buildType, bool generateZip)
+
+void BuildGame(BuildType buildType, bool generateZip, const std::string& startingScene)
 {
 	std::wstring buildScriptPath = L"..\\Source\\BuildScripts\\";
 	std::wstring buildScript = buildScriptPath;
@@ -93,7 +116,11 @@ void BuildGame(BuildType buildType, bool generateZip)
 	compileThread = std::async(std::launch::async, &CompileGame, buildScript);
 	if (generateZip)
 	{
-		zipThread = std::async(std::launch::async, &CreateZip);
+		zipThread = std::async(std::launch::async, &CreateZip, startingScene);
+	}
+	else
+	{
+		AddConfigToZip(startingScene);
 	}
 }
 

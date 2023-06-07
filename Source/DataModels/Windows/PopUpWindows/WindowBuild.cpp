@@ -2,7 +2,6 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
-#include "FileSystem/Json.h"
 
 #include "Auxiliar/GameBuilder.h"
 
@@ -13,7 +12,7 @@ namespace
 const std::string noneSelected = "-";
 const std::map<std::string, builder::BuildType> buildTypes = { { "Debug", builder::BuildType::DEBUG_GAME },
 															   { "Release", builder::BuildType::RELEASE_GAME } };
-}
+} // namespace
 
 WindowBuild::WindowBuild() :
 	PopUpWindow("Build Game"),
@@ -99,30 +98,13 @@ void WindowBuild::DrawBuildButton()
 	{
 		ImGui::BeginDisabled();
 	}
-	// for now ignore everything and keep current flow
 	if (ImGui::Button("Build game"))
 	{
 		startedBuild = true;
-		builder::BuildGame(buildTypes.find(selectedBuild)->second, generateZip);
-		CreateStartConfigFile();
+		builder::BuildGame(buildTypes.find(selectedBuild)->second, generateZip, selectedScene.c_str());
 	}
 	if (formNotFilled)
 	{
 		ImGui::EndDisabled();
 	}
-}
-
-void WindowBuild::CreateStartConfigFile()
-{
-	rapidjson::Document doc;
-	Json startConfig(doc, doc);
-
-	startConfig["StartingScene"] = selectedScene.c_str();
-
-	rapidjson::StringBuffer buffer;
-	startConfig.toBuffer(buffer);
-
-	std::string path = GAME_STARTING_CONFIG;
-
-	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), buffer.GetSize());
 }
