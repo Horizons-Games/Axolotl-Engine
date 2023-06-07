@@ -16,7 +16,7 @@ const char* logFilePath = "Documents/Axolotl.log";
 
 const char* replaceToken = "{}";
 
-std::mutex writeLock;
+std::recursive_mutex writeLock;
 } // namespace
 
 void AxoLog::Write(const char file[], int line, LogSeverity severity, const std::string& formattedLine)
@@ -34,23 +34,18 @@ void AxoLog::Write(const char file[], int line, LogSeverity severity, const std:
 
 	OutputDebugStringA(detailedString.c_str());
 
-	if (writingToFile)
+	bool recursiveLogCall = file == __FILE__;
+	if (writingToFile && !recursiveLogCall)
 	{
-		// set it to false so, if there's an error saving, we don't cause a stack overflow
-		writingToFile = false;
 		if (App == nullptr || App->GetModule<ModuleFileSystem>() == nullptr)
 		{
-			LOG_ERROR("Error writing to log file, FileSystem already terminated");
+			LOG_ERROR("Error writing to log file, FileSystem already terminated")
 			return;
 		}
 		if (App->GetModule<ModuleFileSystem>()->Save(
 				logFilePath, detailedString.c_str(), detailedString.size(), true) == 1)
 		{
-			LOG_ERROR("Error writing to log file, abort writing for the rest of the execution");
-		}
-		else
-		{
-			writingToFile = true;
+			LOG_ERROR("Error writing to log file")
 		}
 	}
 }
