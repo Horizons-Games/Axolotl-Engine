@@ -25,7 +25,8 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	PowerUpType type;
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void DeactivatePowerUp();
 
-	ComponentRigidBody* rigidBody;
+	PowerUpType type;
 };
