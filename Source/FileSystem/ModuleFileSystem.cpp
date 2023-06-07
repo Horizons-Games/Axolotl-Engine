@@ -27,7 +27,7 @@ bool ModuleFileSystem::Init()
 		return false;
 	}
 	PHYSFS_mount("Assets.zip", nullptr, 0);
-	PHYSFS_unmount(".", nullptr, 0);
+	PHYSFS_unmount(".");
 #endif // GAME
 	return true;
 }
