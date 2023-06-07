@@ -26,6 +26,7 @@ class GameObject;
 class ModuleRender : public Module
 {
 public:
+
 	ModuleRender();
 	~ModuleRender() override;
 
@@ -43,7 +44,7 @@ public:
 	void SetBackgroundColor(float4 color);
 	float4 GetBackgroundColor() const;
 
-	unsigned int GetRenderedTexture() const;
+	GLuint GetRenderedTexture() const;
 	const std::string& GetVertexShader() const;
 	const std::string& GetFragmentShader() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -90,8 +91,12 @@ private:
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapTransparent;
 
 	GLuint frameBuffer;
-	GLuint renderedTexture;
-	GLuint depthStencilRenderbuffer;
+	GLuint gPosition;
+	GLuint gNormal;
+	GLuint gDiffuse;
+	GLuint gSpecular;
+	GLuint depthTexture;
+	//GLuint depthStencilRenderbuffer;
 
 	std::string vertexShader;
 	std::string fragmentShader;
@@ -109,9 +114,9 @@ inline float4 ModuleRender::GetBackgroundColor() const
 	return backgroundColor;
 }
 
-inline unsigned int ModuleRender::GetRenderedTexture() const
+inline GLuint ModuleRender::GetRenderedTexture() const
 {
-	return renderedTexture;
+	return gPosition;
 }
 
 inline const std::string& ModuleRender::GetVertexShader() const

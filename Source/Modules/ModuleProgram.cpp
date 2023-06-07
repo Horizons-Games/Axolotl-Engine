@@ -73,6 +73,8 @@ bool ModuleProgram::Start()
 	programs.push_back(
 		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
+	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_fs.glsl", "Deferred"));
+
 	return true;
 }
 

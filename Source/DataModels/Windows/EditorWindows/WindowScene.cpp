@@ -34,10 +34,11 @@ void WindowScene::DrawWindowContents()
 {
 	ManageResize();
 
-	ImGui::Image((void*) App->GetModule<ModuleRender>()->GetRenderedTexture(),
+		ImGui::Image((void*) App->GetModule<ModuleRender>()->GetRenderedTexture(),
 				 ImGui::GetContentRegionAvail(),
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));
+
 	if (!App->IsOnPlayMode())
 	{
 		DrawGuizmo();

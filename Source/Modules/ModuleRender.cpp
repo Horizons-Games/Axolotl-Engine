@@ -68,6 +68,7 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 	{
 		case GL_DEBUG_TYPE_ERROR:
 			tmpType = "Error";
+			ENGINE_LOG("%s",message);
 			break;
 		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
 			tmpType = "Deprecated Behaviour";
@@ -116,10 +117,11 @@ ModuleRender::ModuleRender() :
 	context(nullptr),
 	modelTypes({ "FBX" }),
 	frameBuffer(0),
-	renderedTexture(0),
-	depthStencilRenderbuffer(0),
-	vertexShader("default_vertex.glsl"),
-	fragmentShader("default_fragment.glsl")
+	gPosition(0),
+	gNormal(0),
+	gDiffuse(0),
+	gSpecular(0),
+	depthTexture(0)
 {
 }
 
@@ -145,7 +147,7 @@ bool ModuleRender::Init()
 
 	context = SDL_GL_CreateContext(window->GetWindow());
 
-	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
+	backgroundColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	batchManager = new BatchManager();
 
@@ -172,18 +174,8 @@ bool ModuleRender::Init()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-#ifdef ENGINE
-	glGenFramebuffers(1, &frameBuffer);
-	glGenTextures(1, &renderedTexture);
-#endif // ENGINE
-	glGenRenderbuffers(1, &depthStencilRenderbuffer);
-
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
-
-	// Set the list of draw buffers.
-	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
 
 	//Reserve space for Camera matrix
 	glGenBuffers(1, &uboCamera);
@@ -205,15 +197,16 @@ update_status ModuleRender::PreUpdate()
 	renderMapOpaque.clear();
 	renderMapTransparent.clear();
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED));
 
 	glViewport(0, 0, width, height);
 
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer
 
 	return update_status::UPDATE_CONTINUE;
@@ -378,11 +371,12 @@ bool ModuleRender::CleanUp()
 
 	glDeleteBuffers(1, &uboCamera);
 	
-#ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &renderedTexture);
-#endif // ENGINE
-	glDeleteRenderbuffers(1, &depthStencilRenderbuffer);
+	glDeleteTextures(1, &gPosition);
+	glDeleteTextures(1, &gNormal);
+	glDeleteTextures(1, &gDiffuse);
+	glDeleteTextures(1, &gSpecular);
+
 	return true;
 }
 
@@ -396,24 +390,48 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
+	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glGenTextures(1, &gPosition);
+	glBindTexture(GL_TEXTURE_2D, gPosition);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gPosition, 0);
 
-	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderbuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderbuffer);
+	glGenTextures(1, &gNormal);
+	glBindTexture(GL_TEXTURE_2D, gNormal);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gNormal, 0);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+	glGenTextures(1, &gDiffuse);
+	glBindTexture(GL_TEXTURE_2D, gDiffuse);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gDiffuse, 0);
+
+	glGenTextures(1, &gSpecular);
+	glBindTexture(GL_TEXTURE_2D, gSpecular);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gSpecular, 0);
+
+	unsigned int attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 , GL_COLOR_ATTACHMENT3};
+	glDrawBuffers(4, attachments);
+
+	glGenRenderbuffers(1, &depthTexture);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthTexture);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthTexture);
+
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		ENGINE_LOG("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
+		ENGINE_LOG("Framebuffer not complete!");
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
