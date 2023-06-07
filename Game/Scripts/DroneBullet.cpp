@@ -61,13 +61,13 @@ void DroneBullet::Update(float deltaTime)
 
 void DroneBullet::ShootBullet(float deltaTime)
 {
-	transform->SetPosition(transform->GetGlobalPosition() + transform->GetLocalForward() * velocity * deltaTime * 1000);
+	transform->SetPosition(transform->GetGlobalPosition() + transform->GetGlobalForward() * velocity * deltaTime * 1000);
 	transform->UpdateTransformMatrices();
 }
 
 void DroneBullet::CheckCollision()
 {
-	Ray ray(transform->GetPosition(), transform->GetLocalForward());
+	Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 	LineSegment line(ray, rayAttackSize);
 	RaycastHit hit;
 	if (Physics::Raycast(line, hit, transform->GetOwner()))

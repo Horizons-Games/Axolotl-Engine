@@ -18,6 +18,7 @@ class IScript;
 
 enum class ComponentType;
 enum class LightType;
+enum class AreaType;
 
 enum class StateOfSelection
 {
@@ -87,7 +88,7 @@ public:
 	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
 	std::vector<S*> GetComponents();
 
-	Component* CreateComponentLight(LightType lightType);
+	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -122,7 +123,8 @@ private:
 			   bool enabled,
 			   bool active,
 			   StateOfSelection selection,
-			   bool staticObject);
+			   bool staticObject,
+			   const std::string& tag = std::string());
 
 	Component* CreateComponent(ComponentType type);
 

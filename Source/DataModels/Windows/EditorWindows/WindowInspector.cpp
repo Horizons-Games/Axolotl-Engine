@@ -46,13 +46,23 @@ WindowInspector::WindowInspector() :
 	};
 
 	actions.push_back(AddComponentAction("Create Spot Light Component",
-										 std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT),
-										 isNotALight,
-										 ComponentFunctionality::GRAPHICS));
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT, AreaType::NONE),
+		isNotALight,
+		ComponentFunctionality::GRAPHICS));
 	actions.push_back(AddComponentAction("Create Point Light Component",
-										 std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT),
-										 isNotALight,
-										 ComponentFunctionality::GRAPHICS));
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT, AreaType::NONE),
+		isNotALight,
+		ComponentFunctionality::GRAPHICS));
+
+	actions.push_back(AddComponentAction("Create Area Light Sphere Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::SPHERE),
+		isNotALight,
+		ComponentFunctionality::GRAPHICS));
+
+	actions.push_back(AddComponentAction("Create Area Light Tube Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::TUBE),
+		isNotALight,
+		ComponentFunctionality::GRAPHICS));
 
 	actions.push_back(AddComponentAction(
 		"Create Player Component",
@@ -394,9 +404,9 @@ void WindowInspector::AddComponentMeshRenderer()
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MESHRENDERER);
 }
 
-void WindowInspector::AddComponentLight(LightType type)
+void WindowInspector::AddComponentLight(LightType type, AreaType areaType)
 {
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponentLight(type);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponentLight(type, areaType);
 }
 
 void WindowInspector::AddComponentPlayer()

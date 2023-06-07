@@ -8,6 +8,7 @@
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
+#include "Components/ComponentAreaLight.h"
 
 #include <queue>
 
@@ -23,6 +24,7 @@ class Updatable;
 enum class Premade3D
 {
 	CUBE,
+	SPHERE,
 	PLANE,
 	CYLINDER,
 	CAPSULE,
@@ -45,21 +47,23 @@ public:
 	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
 	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
-	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
+	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type, 
+		AreaType areaType = AreaType::NONE);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(const GameObject* gameObject);
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
-	void GenerateLights();
 
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
+	void RenderAreaLights() const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
+	void UpdateSceneAreaLights();
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -109,6 +113,7 @@ private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
 	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
+	void GenerateLights();
 	void RemoveGameObjectFromScripts(const GameObject* gameObject);
 
 	std::unique_ptr<Skybox> skybox;
@@ -126,11 +131,15 @@ private:
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;
+	std::vector<AreaLightSphere> sphereLights;
+	std::vector<AreaLightTube> tubeLights;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
 	unsigned ssboSpot;
-
+	unsigned ssboSphere;
+	unsigned ssboTube;
+	
 	AABB rootQuadtreeAABB;
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;

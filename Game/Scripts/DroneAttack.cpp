@@ -77,7 +77,7 @@ void DroneAttack::PerformAttack()
 		ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
 		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-		bulletTransf->SetRotation(transform->GetRotation());
+		bulletTransf->SetRotation(transform->GetGlobalRotation());
 		bulletTransf->UpdateTransformMatrices();
 
 		ComponentScript* script = bullet->CreateComponent<ComponentScript>();

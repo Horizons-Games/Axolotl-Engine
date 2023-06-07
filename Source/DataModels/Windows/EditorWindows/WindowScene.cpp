@@ -216,6 +216,10 @@ void WindowScene::DrawGuizmo()
 								scene->UpdateScenePointLights();
 								scene->RenderPointLights();
 								break;
+							case LightType::AREA:
+								scene->UpdateSceneAreaLights();
+								scene->RenderAreaLights();
+								break;
 						}
 					}
 				}
