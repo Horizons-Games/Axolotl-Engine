@@ -58,7 +58,7 @@ bool ModuleResources::CleanUp()
 #ifdef ENGINE
 	monitorResources = false;
 	monitorThread.join();
-#else 
+#else
 	resourcesBin.clear();
 #endif
 	resources.clear();
@@ -190,26 +190,58 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	std::get_deleter<CollectionAwareDeleter<Resource>>(res)->AddCollection(resources);
 	return res;
 #else
+	auto customDeleter = [this](Resource* pointer)
+	{
+		std::map<UID, std::weak_ptr<Resource>>& map = resources;
+		for (auto it = std::begin(map); it != std::end(map);)
+		{
+			if (it->second.expired())
+			{
+				it = map.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
+		delete pointer;
+	};
 	switch (type)
 	{
 		case ResourceType::Model:
-			return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceModel>(new ResourceModel(uid, fileName, assetsPath, libraryPath),
+												  customDeleter);
+			break;
 		case ResourceType::Texture:
-			return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceTexture>(new ResourceTexture(uid, fileName, assetsPath, libraryPath),
+													customDeleter);
+			break;
 		case ResourceType::Mesh:
-			return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceMesh>(new ResourceMesh(uid, fileName, assetsPath, libraryPath),
+												 customDeleter);
+			break;
 		case ResourceType::Scene: // TODO
 			return nullptr;
 		case ResourceType::Material:
-			return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceMaterial>(new ResourceMaterial(uid, fileName, assetsPath, libraryPath),
+													 customDeleter);
+			break;
 		case ResourceType::SkyBox:
-			return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceSkyBox>(new ResourceSkyBox(uid, fileName, assetsPath, libraryPath),
+												   customDeleter);
+			break;
 		case ResourceType::Cubemap:
-			return std::make_shared<ResourceCubemap>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceCubemap>(new ResourceCubemap(uid, fileName, assetsPath, libraryPath),
+													customDeleter);
+			break;
 		case ResourceType::Animation:
-			return std::make_shared<ResourceAnimation>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceAnimation>(new ResourceAnimation(uid, fileName, assetsPath, libraryPath),
+													  customDeleter);
+			break;
 		case ResourceType::StateMachine:
-			return std::make_shared<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceStateMachine>(
+				new ResourceStateMachine(uid, fileName, assetsPath, libraryPath), customDeleter);
+			break;
 		default:
 			return nullptr;
 	}
@@ -559,7 +591,8 @@ void ModuleResources::MonitorResources()
 				char* saveBuffer = {};
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-				App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				App->GetModule<ModuleFileSystem>()->Save(
+					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 				delete saveBuffer;
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());

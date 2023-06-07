@@ -31,8 +31,16 @@ void ActivationLogic::Start()
 {
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentRigidBody = static_cast<ComponentRigidBody*>(owner->GetChildren()[1]->GetComponent(ComponentType::RIGIDBODY));
-	//Until the trigger works 100% of the time better cross a closed door than be closed forever
+	componentRigidBody = nullptr;
+	for (GameObject* child : owner->GetChildren())
+	{
+		componentRigidBody = dynamic_cast<ComponentRigidBody*>(child->GetComponent(ComponentType::RIGIDBODY));
+		if (componentRigidBody != nullptr)
+		{
+			break;
+		}
+	}
+	assert(componentRigidBody);
 	componentRigidBody->Disable();
 }
 
