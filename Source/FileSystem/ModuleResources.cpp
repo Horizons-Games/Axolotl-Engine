@@ -333,6 +333,7 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				default:
 					break;
 			}
+			delete binaryBuffer;
 			return;
 		}
 	}
@@ -491,9 +492,9 @@ void ModuleResources::MonitorResources()
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
-		for (auto resourceit : resources)
+		for (auto resourceit = resources.begin(); resourceit != resources.end();)
 		{
-			const std::shared_ptr<Resource>& resource = resourceit.second.lock();
+			const std::shared_ptr<Resource>& resource = resourceit->second.lock();
 			if (resource)
 			{
 				if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))
@@ -527,6 +528,11 @@ void ModuleResources::MonitorResources()
 					}
 				}
 			}
+
+			if (resourceit != resources.end())
+			{
+				++resourceit;
+			}
 		}
 		// Remove resources
 		for (std::shared_ptr<EditorResourceInterface> resource : toRemove)
@@ -553,8 +559,8 @@ void ModuleResources::MonitorResources()
 				char* saveBuffer = {};
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-				App->GetModule<ModuleFileSystem>()->Save(
-					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				delete saveBuffer;
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}

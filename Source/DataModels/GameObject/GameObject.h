@@ -16,6 +16,7 @@ class ResourceModel;
 
 enum class ComponentType;
 enum class LightType;
+enum class AreaType;
 
 enum class StateOfSelection
 {
@@ -87,7 +88,7 @@ public:
 	void SpreadStatic();
 
 	Component* CreateComponent(ComponentType type);
-	Component* CreateComponentLight(LightType lightType);
+	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 	bool RemoveComponent(const Component* component);
 	Component* GetComponent(ComponentType type) const;
 
@@ -109,7 +110,8 @@ private:
 			   bool enabled,
 			   bool active,
 			   StateOfSelection selection,
-			   bool staticObject);
+			   bool staticObject,
+			   const std::string& tag = std::string());
 
 	bool IsAChild(const GameObject* child);
 

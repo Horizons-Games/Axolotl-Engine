@@ -48,7 +48,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init()
 {
-	return App->GetScriptFactory()->Init();
+	return true;
 }
 
 bool ModuleScene::Start()
@@ -399,7 +399,8 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 		if (rigidBody)
 		{
-			transform->UpdateTransformMatrices();
+			transform->UpdateTransformMatricesOnLoad();
+			rigidBody->UpdateRigidBodyTranslation();
 			rigidBody->UpdateRigidBody();
 		}
 	}

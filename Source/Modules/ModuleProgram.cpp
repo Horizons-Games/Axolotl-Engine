@@ -93,10 +93,15 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShad
 													  const std::string& frgShaderFileName,
 													  const std::string& programName)
 {
-	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
+	char* vertexBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + vtxShaderFileName).c_str(), vertexBuffer);
+	unsigned vertexShader = CompileShader (GL_VERTEX_SHADER, vertexBuffer);
+	delete vertexBuffer;
 
-	unsigned fragmentShader =
-		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
+	char* fragmentBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + frgShaderFileName).c_str(), fragmentBuffer);
+	unsigned fragmentShader = CompileShader (GL_FRAGMENT_SHADER,fragmentBuffer);
+	delete fragmentBuffer;
 
 	if (vertexShader == 0 || fragmentShader == 0)
 	{

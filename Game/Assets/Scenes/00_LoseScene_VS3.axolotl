@@ -61,16 +61,16 @@
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
                             "localScaleZ": 1.0,
-                            "sizeX": 4000.0,
+                            "sizeX": 4200.0,
                             "sizeY": 2160.0,
                             "localAABB_min_x": 0.0,
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 697.5,
-                            "worldAABB_min_y": 426.5,
-                            "worldAABB_max_x": 697.5,
-                            "worldAABB_max_y": 426.5
+                            "worldAABB_min_x": 579.5,
+                            "worldAABB_min_y": 365.5,
+                            "worldAABB_max_x": 579.5,
+                            "worldAABB_max_y": 365.5
                         }
                     },
                     {
@@ -119,10 +119,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 697.5,
-                            "worldAABB_min_y": 426.5,
-                            "worldAABB_max_x": 697.5,
-                            "worldAABB_max_y": 426.5
+                            "worldAABB_min_x": 579.5,
+                            "worldAABB_min_y": 365.5,
+                            "worldAABB_max_x": 579.5,
+                            "worldAABB_max_y": 365.5
                         }
                     },
                     {
@@ -289,10 +289,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 588.515625,
-                            "worldAABB_min_y": 737.46875,
-                            "worldAABB_max_x": 806.484375,
-                            "worldAABB_max_y": 783.96875
+                            "worldAABB_min_x": 488.953125,
+                            "worldAABB_min_y": 623.8604736328125,
+                            "worldAABB_max_x": 670.046875,
+                            "worldAABB_max_y": 662.4937744140625
                         }
                     },
                     {
@@ -390,7 +390,7 @@
                 "uid": 11063179424227655713,
                 "parentUID": 16561938826019233067,
                 "enabled": false,
-                "active": false,
+                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -413,10 +413,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 588.515625,
-                            "worldAABB_min_y": 737.46875,
-                            "worldAABB_max_x": 806.484375,
-                            "worldAABB_max_y": 783.96875
+                            "worldAABB_min_x": 488.953125,
+                            "worldAABB_min_y": 623.8604736328125,
+                            "worldAABB_max_x": 670.046875,
+                            "worldAABB_max_y": 662.4937744140625
                         }
                     },
                     {
@@ -451,11 +451,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 8827808863826909032,
+        "skyboxUID": 4377575066284441384,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 13881553922914957835,
+        "cubemapUID": 992078593789236745,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }
