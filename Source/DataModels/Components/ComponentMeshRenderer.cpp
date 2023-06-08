@@ -369,7 +369,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 
 #ifdef ENGINE
 	std::string path = meta["assetPathMaterial"];
-	bool materialExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	bool materialExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (materialExists)
 	{
@@ -382,7 +382,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 		}
 	}
 	 path = meta["assetPathMesh"];
-	bool meshExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	bool meshExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (meshExists)
 	{

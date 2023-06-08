@@ -154,7 +154,7 @@ update_status ModuleScene::PostUpdate()
 	if (!sceneToLoad.empty())
 	{
 		LoadScene(sceneToLoad);
-		sceneToLoad = "";
+		sceneToLoad = std::string();
 	}
 
 	loadedScene->ExecutePendingActions();

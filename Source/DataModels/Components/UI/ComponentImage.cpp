@@ -119,7 +119,7 @@ void ComponentImage::LoadOptions(Json& meta)
 
 #ifdef ENGINE
 	std::string path = meta["assetPathImage"];
-	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
 		std::shared_ptr<ResourceTexture> resourceImage =

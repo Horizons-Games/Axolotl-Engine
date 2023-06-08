@@ -23,7 +23,7 @@
 
 GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
 	createBuffers(true), reserveModelSpace(true), flags(flags), fillMaterials(false), frame(0),
-	defaultMaterial(new ResourceMaterial(0, "", "", "")),
+	defaultMaterial(new ResourceMaterial(0, std::string(), std::string(), std::string())),
 	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
