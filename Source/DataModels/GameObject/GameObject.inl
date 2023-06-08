@@ -15,7 +15,7 @@ C* GameObject::GetComponent() const
 											 {
 												 return comp->GetType() == ComponentToEnum<C>::value;
 											 });
-	return firstElement == std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
+	return firstElement != std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
 }
 
 template<typename C>
