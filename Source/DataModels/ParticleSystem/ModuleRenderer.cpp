@@ -37,7 +37,11 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(Module
 	static const float vertices[] = { -0.5f, -0.5f, 0.0f,
 									   0.5f, -0.5f, 0.0f,
 									   0.5f,  0.5f, 0.0f,
-									  -0.5f,  0.5f, 0.0f };
+									  -0.5f,  0.5f, 0.0f,
+									   0.0f,  0.0f,
+									   1.0f,  0.0f,
+									   1.0f,  1.0f,
+									   0.0f,  1.0f	      };
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -213,6 +217,15 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 		case BlendingMode::ADDITIVE:
 			glBlendFunc(GL_ONE, GL_ONE);
 			break;
+		}
+
+		const std::shared_ptr<ResourceTexture>& texture = emitter->GetTexture();
+
+		if (texture)
+		{
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(3, 0);
 		}
 
 		glBindVertexArray(vao);
