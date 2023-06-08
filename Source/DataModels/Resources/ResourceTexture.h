@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Resource.h"
+#include "Globals.h"
 #include <memory>
 
 enum class TextureCompression
@@ -59,8 +60,9 @@ struct ImportOptionsTexture
 {
 	bool flipVertical;
 	bool flipHorizontal;
+	TextureType type;
 
-	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false)
+	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), type(TextureType::DIFFUSE)
 	{
 	}
 };
