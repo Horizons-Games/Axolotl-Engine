@@ -93,8 +93,8 @@ void WindowComponentScript::DrawWindowContents()
 	{
 		LOG_VERBOSE("{} REMOVED, showing list of available scripts.", script->GetConstructName());
 
-		script->SetScript(nullptr); // This deletes the script itself
-		script->SetConstuctor("");	// And this makes that it is also deleted from the serialization
+		script->SetScript(nullptr);			  // This deletes the script itself
+		script->SetConstuctor(std::string()); // And this makes it so it's also deleted from the serialization
 	}
 
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())

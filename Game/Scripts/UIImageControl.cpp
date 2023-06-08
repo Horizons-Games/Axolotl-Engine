@@ -16,7 +16,7 @@ check(false), enableImgObject02(nullptr), enableImgObject03(nullptr), enableImgO
 
 void UIImageControl::Start()
 {
-	imageComponent = static_cast<ComponentImage*>(owner->GetComponent(ComponentType::IMAGE));
+	imageComponent = owner->GetComponent<ComponentImage>();
 }
 
 void UIImageControl::Update(float deltaTime)

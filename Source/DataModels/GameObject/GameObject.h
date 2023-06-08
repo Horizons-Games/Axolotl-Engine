@@ -11,8 +11,10 @@
 class Component;
 class ComponentMeshRenderer;
 class ComponentCanvas;
+class ComponentScript;
 class Json;
 class ResourceModel;
+class IScript;
 
 enum class ComponentType;
 enum class LightType;
@@ -58,7 +60,10 @@ public:
 	GameObject* GetRootGO() const;
 
 	StateOfSelection GetStateOfSelection() const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
+
 	GameObjectView GetChildren() const;
+	std::list<GameObject*> GetAllDescendants();
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
 	ComponentView GetComponents() const;
@@ -66,9 +71,24 @@ public:
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
-	template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
-	const std::vector<T*> GetComponentsByType(ComponentType type) const;
-	void SetStateOfSelection(StateOfSelection stateOfSelection);
+	template<typename C>
+	C* CreateComponent();
+	template<typename C>
+	C* GetComponent() const;
+	template<typename C>
+	std::vector<C*> GetComponents() const;
+	template<typename C>
+	bool RemoveComponent();
+	template<typename C>
+	bool RemoveComponents();
+	bool RemoveComponent(const Component* component);
+
+	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
+	S* GetComponent();
+	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
+	std::vector<S*> GetComponents();
+
+	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -86,13 +106,6 @@ public:
 	bool IsStatic() const;
 	void SetStatic(bool newStatic);
 	void SpreadStatic();
-
-	Component* CreateComponent(ComponentType type);
-	Component* CreateComponentLight(LightType lightType, AreaType areaType);
-	bool RemoveComponent(const Component* component);
-	Component* GetComponent(ComponentType type) const;
-
-	std::list<GameObject*> GetGameObjectsInside();
 
 	void MoveUpChild(const GameObject* childToMove);
 	void MoveDownChild(const GameObject* childToMove);
@@ -112,6 +125,8 @@ private:
 			   StateOfSelection selection,
 			   bool staticObject,
 			   const std::string& tag = std::string());
+
+	Component* CreateComponent(ComponentType type);
 
 	bool IsAChild(const GameObject* child);
 
@@ -154,13 +169,13 @@ inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 	}
 	switch (stateOfSelection)
 	{
-	case StateOfSelection::NO_SELECTED:
-		parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
-		break;
-	case StateOfSelection::SELECTED:
-	case StateOfSelection::CHILD_SELECTED:
-		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
-		break;
+		case StateOfSelection::NO_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+			break;
+		case StateOfSelection::SELECTED:
+		case StateOfSelection::CHILD_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
+			break;
 	}
 }
 
@@ -243,22 +258,6 @@ inline GameObject::ComponentView GameObject::GetComponents() const
 	return std::ranges::transform_view(components, lambda);
 }
 
-template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
-inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
-{
-	std::vector<T*> components;
-
-	for (const std::unique_ptr<Component>& component : this->components)
-	{
-		if (component && component->GetType() == type)
-		{
-			components.push_back(dynamic_cast<T*>(component.get()));
-		}
-	}
-
-	return components;
-}
-
 inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
 	return tag == commingTag;
@@ -273,3 +272,5 @@ inline void GameObject::SetStatic(bool newStatic)
 {
 	staticObject = newStatic;
 }
+
+#include "DataModels/GameObject/GameObject.inl"

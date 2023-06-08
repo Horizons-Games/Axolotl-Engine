@@ -88,8 +88,14 @@ void WindowFileBrowser::SaveAsWindow(bool& isSaving)
 		{
 			flags |= ImGuiFileDialogFlags_ConfirmOverwrite;
 		}
-		fileDialogImporter.OpenDialog(
-			"ChooseFileDlgKey", dialogName.c_str(), filters.c_str(), startPath.c_str(), "", 1, nullptr, flags);
+		fileDialogImporter.OpenDialog("ChooseFileDlgKey",
+									  dialogName.c_str(),
+									  filters.c_str(),
+									  startPath.c_str(),
+									  std::string(),
+									  1,
+									  nullptr,
+									  flags);
 	}
 	if (fileDialogImporter.Display("ChooseFileDlgKey"))
 	{
@@ -112,8 +118,14 @@ void WindowFileBrowser::DrawWindowContents()
 		{
 			flags |= ImGuiFileDialogFlags_ConfirmOverwrite;
 		}
-		fileDialogImporter.OpenDialog(
-			"ChooseFileDlgKey", dialogName.c_str(), filters.c_str(), startPath.c_str(), "", 1, nullptr, flags);
+		fileDialogImporter.OpenDialog("ChooseFileDlgKey",
+									  dialogName.c_str(),
+									  filters.c_str(),
+									  startPath.c_str(),
+									  std::string(),
+									  1,
+									  nullptr,
+									  flags);
 	}
 
 	if (fileDialogImporter.Display("ChooseFileDlgKey"))
@@ -145,7 +157,7 @@ void WindowFileBrowser::Browser()
 								 "Select File",
 								 ".*",
 								 browserPath,
-								 "",
+								 std::string(),
 								 -1,
 								 nullptr,
 								 ImGuiFileDialogFlags_NoDialog | ImGuiFileDialogFlags_DisableBookmarkMode |
