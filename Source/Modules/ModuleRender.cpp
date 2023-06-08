@@ -360,9 +360,7 @@ update_status ModuleRender::PostUpdate()
 	int width, height;
 
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return update_status::UPDATE_CONTINUE;
