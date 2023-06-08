@@ -5,6 +5,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentTransform;
 class ComponentRigidBody;
 
 enum PowerUpType
@@ -29,4 +30,6 @@ private:
 	void DeactivatePowerUp();
 
 	PowerUpType type;
+	ComponentTransform* ownerTransform;
+	ComponentRigidBody* ownerRb;
 };

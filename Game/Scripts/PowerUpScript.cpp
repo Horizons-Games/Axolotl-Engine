@@ -6,6 +6,7 @@
 #include "Physics/Physics.h"
 
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 
 #include "HealthSystem.h"
@@ -30,6 +31,8 @@ PowerUpScript::PowerUpScript() : Script()
 void PowerUpScript::Start()
 {
 	type = PowerUpType(rand() % 4);
+	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ownerRb = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 }
 
 void PowerUpScript::Update(float deltaTime)
@@ -43,6 +46,7 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		return;
 	}
+	DeactivatePowerUp();
 
 	std::vector<ComponentScript*> gameObjectScripts =
 		go->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
@@ -54,7 +58,6 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
 				healthScript->HealLife(HEALED_INCREASE);
-				DeactivatePowerUp();
 				return;
 			}
 		}
@@ -67,7 +70,6 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
 				healthScript->IncreaseDefense(DEFENSE_INCREASE);
-				DeactivatePowerUp();
 				return;
 			}
 		}
@@ -80,7 +82,6 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				BixAttackScript* attackScript = static_cast<BixAttackScript*>(gameObjectScripts[i]->GetScript());
 				attackScript->IncreaseAttack(ATTACK_INCREASE);
-				DeactivatePowerUp();
 				return;
 			}
 		}
@@ -93,7 +94,6 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				PlayerMoveScript* moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
 				moveScript->IncreaseSpeed(SPEED_INCREASE);
-				DeactivatePowerUp();
 				return;
 			}
 		}
@@ -102,5 +102,9 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 
 void PowerUpScript::DeactivatePowerUp()
 {
+	float3 position = ownerTransform->GetPosition();
+	ownerTransform->SetPosition(float3(position.x, position.y - 200, position.z));
+	ownerTransform->UpdateTransformMatrices();
+	ownerRb->UpdateRigidBody();
 	owner->Disable();
 }
