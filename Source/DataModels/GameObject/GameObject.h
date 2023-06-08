@@ -50,7 +50,7 @@ public:
 
 	void InitNewEmptyGameObject(bool is3D = true);
 
-	void LinkChild(GameObject* child);
+	void LinkChild(GameObject* child, bool updateMatrices = true);
 	[[nodiscard]] GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;

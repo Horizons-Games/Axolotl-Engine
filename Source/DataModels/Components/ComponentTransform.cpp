@@ -180,23 +180,6 @@ void ComponentTransform::UpdateTransformMatrices()
 	}
 }
 
-void ComponentTransform::UpdateTransformMatricesOnLoad()
-{
-	CalculateMatrices();
-	if (GetOwner()->GetChildren().empty())
-		return;
-
-	for (GameObject* child : GetOwner()->GetChildren())
-	{
-		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
-
-		if (childTransform)
-		{
-			childTransform->UpdateTransformMatricesOnLoad();
-		}
-	}
-}
-
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified,
 												   bool rotationModified)
