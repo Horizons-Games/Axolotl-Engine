@@ -78,8 +78,7 @@ void ComponentSpotLight::Draw() const
 	}
 	if (IsEnabled())
 	{
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
@@ -90,8 +89,7 @@ void ComponentSpotLight::Draw() const
 #else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();

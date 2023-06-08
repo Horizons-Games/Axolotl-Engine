@@ -537,7 +537,7 @@ void ModuleResources::MonitorResources()
 				{
 					std::string libraryPathWithExtension = fileSystem->GetPathWithExtension(resource->GetLibraryPath());
 
-					if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
+					if (libraryPathWithExtension.empty() /*file with that name was not found*/ ||
 						!fileSystem->Exists(libraryPathWithExtension.c_str()) || resource->IsChanged())
 					{
 						toCreateLib.push_back(resource);
@@ -610,19 +610,20 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	std::vector<std::string> pathTextures;
 
 	std::shared_ptr<ResourceTexture> textureDiffuse = materialResource->GetDiffuse();
-	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
+	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureNormal = materialResource->GetNormal();
-	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
+	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
-	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
+	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
+					 : pathTextures.push_back(std::string());
 
 	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
 	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
 
 	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
-	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
+	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	char* fileBuffer{};
 	unsigned int size = 0;

@@ -114,8 +114,7 @@ void ComponentTransform2D::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform2D* parentTransform =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* parentTransform = parent->GetComponent<ComponentTransform2D>();
 		if (parentTransform)
 		{
 			// Set global matrix
@@ -137,8 +136,7 @@ void ComponentTransform2D::CalculateMatrices()
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform2D* childTransform =
-			static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* childTransform = child->GetComponent<ComponentTransform2D>();
 		childTransform->CalculateMatrices();
 	}
 
@@ -152,9 +150,8 @@ float3 ComponentTransform2D::GetPositionRelativeToParent()
 	GameObject* parent = GetOwner()->GetParent();
 	if (parent != nullptr)
 	{
-		ComponentCanvas* parentCanvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
-		ComponentTransform2D* parentTransform2D =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentCanvas* parentCanvas = parent->GetComponent<ComponentCanvas>();
+		ComponentTransform2D* parentTransform2D = parent->GetComponent<ComponentTransform2D>();
 		if (parentTransform2D != nullptr)
 		{
 			if (parentCanvas != nullptr)
@@ -181,8 +178,7 @@ float3 ComponentTransform2D::GetScreenPosition()
 	GameObject* parent = GetOwner()->GetParent();
 	while (parent != nullptr)
 	{
-		ComponentTransform2D* parentTransform2D =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* parentTransform2D = parent->GetComponent<ComponentTransform2D>();
 		if (parentTransform2D == nullptr)
 			break;
 		screenPosition += parentTransform2D->GetPositionRelativeToParent();
@@ -230,7 +226,7 @@ ComponentCanvas* ComponentTransform2D::RecursiveWhichCanvasContainsMe(const Game
 {
 	if (object != nullptr)
 	{
-		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(object->GetComponent(ComponentType::CANVAS));
+		ComponentCanvas* canvas = object->GetComponent<ComponentCanvas>();
 		return canvas ? canvas : RecursiveWhichCanvasContainsMe(object->GetParent());
 	}
 	return nullptr;

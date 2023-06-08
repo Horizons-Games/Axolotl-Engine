@@ -24,7 +24,7 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 
 void PlayerCameraRotationVerticalScript::Rotation(float deltaTime)
 {
-	ComponentTransform* componentTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* componentTransform = owner->GetComponent<ComponentTransform>();
 
 	float verticalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().y / 50.0f * rotationSensitivity;
 	float3 nRotation = componentTransform->GetRotationXYZ() + float3(verticalMotion, 0, 0);

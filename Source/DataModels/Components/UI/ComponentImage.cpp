@@ -41,8 +41,7 @@ void ComponentImage::Draw() const
 
 		program->Activate();
 
-		ComponentTransform2D* transform =
-			static_cast<ComponentTransform2D*>(GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* transform = GetOwner()->GetComponent<ComponentTransform2D>();
 
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
 		const float4x4& model = transform->GetGlobalScaledMatrix();
@@ -119,7 +118,7 @@ void ComponentImage::LoadOptions(Json& meta)
 
 #ifdef ENGINE
 	std::string path = meta["assetPathImage"];
-	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
 		std::shared_ptr<ResourceTexture> resourceImage =
@@ -147,7 +146,7 @@ void ComponentImage::LoadOptions(Json& meta)
 
 inline float4 ComponentImage::GetFullColor() const
 {
-	ComponentButton* button = static_cast<ComponentButton*>(GetOwner()->GetComponent(ComponentType::BUTTON));
+	ComponentButton* button = GetOwner()->GetComponent<ComponentButton>();
 	if (button != nullptr)
 	{
 		if (button->IsClicked())

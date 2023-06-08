@@ -20,7 +20,7 @@ MenuMusic::~MenuMusic()
 
 void MenuMusic::Start()
 {
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
 
 	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::NONE);
 	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::NONE);

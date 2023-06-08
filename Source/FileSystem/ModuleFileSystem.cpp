@@ -244,7 +244,7 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
 			}
 		}
 	}
-	return "";
+	return std::string();
 }
 
 void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathTextures,
