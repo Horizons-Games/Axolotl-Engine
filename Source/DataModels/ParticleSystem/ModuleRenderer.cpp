@@ -17,14 +17,19 @@
 
 #include "Program/Program.h"
 
+#include "Resources/ResourceTexture.h"
+
 #include "GL/glew.h"
 
 #include "ImGui/imgui.h"
+
+#include "Windows/EditorWindows/ImporterWindows/WindowParticleTexture.h"
 
 #include <algorithm>
 
 ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(ModuleType::RENDER, emitter)
 {
+	windowTexture = new WindowParticleTexture(this, TextureType::DIFFUSE);
 	alignment = Alignment::WORLD;
 	blendingMode = BlendingMode::ALPHA;
 	numInstances = 0;
@@ -338,6 +343,23 @@ void ModuleRenderer::DrawImGui()
 			}
 
 			ImGui::EndTable();
+
+			std::shared_ptr<ResourceTexture> texture = GetTexture();
+			ImGui::Text("Texture");
+			if (texture)
+			{
+				texture->Load();
+				ImGui::Image((void*)(intptr_t)texture->GetGlTexture(), ImVec2(100, 100));
+				if (ImGui::Button("Remove Texture Diffuse"))
+				{
+					texture->Unload();
+					texture = nullptr;
+				}
+			}
+			else
+			{
+				windowTexture->DrawWindowContents();
+			}
 		}
 		ImGui::TreePop();
 	}

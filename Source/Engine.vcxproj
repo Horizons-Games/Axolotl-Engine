@@ -200,6 +200,7 @@
     <ClCompile Include="DataModels\Components\ComponentCubemap.cpp" />
     <ClCompile Include="DataModels\ParticleSystem\ModuleRotation.cpp" />
     <ClCompile Include="DataModels\ParticleSystem\ModuleSize.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleTexture.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp" />
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp">
@@ -552,6 +553,7 @@
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
     <ClInclude Include="DataModels\ParticleSystem\ModuleRotation.h" />
     <ClInclude Include="DataModels\ParticleSystem\ModuleSize.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleTexture.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h" />
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">

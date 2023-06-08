@@ -2,6 +2,10 @@
 
 #include "EmitterInstance.h"
 #include "ParticleModule.h"
+#include "ParticleEmitter.h"
+
+class ResourceTexture;
+class WindowParticleTexture;
 
 class ModuleRenderer : public ParticleModule
 {
@@ -22,9 +26,11 @@ public:
 
 	void SetAlignment(const Alignment& alignment);
 	void SetBlending(const BlendingMode& blending);
+	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
 
 	Alignment GetAlignment() const;
 	BlendingMode GetBlending() const;
+	std::shared_ptr<ResourceTexture> GetTexture();
 
 private:
 	Alignment alignment;
@@ -36,6 +42,8 @@ private:
 	unsigned int ibo;
 	unsigned int instanceVbo;
 	unsigned int numInstances;
+
+	WindowParticleTexture* windowTexture;
 };
 
 inline void ModuleRenderer::SetAlignment(const Alignment& alignment)
@@ -48,6 +56,11 @@ inline void ModuleRenderer::SetBlending(const BlendingMode& blending)
 	blendingMode = blending;
 }
 
+inline void ModuleRenderer::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
+{
+	emitter->SetTexture(texture);
+}
+
 inline ModuleRenderer::Alignment ModuleRenderer::GetAlignment() const
 {
 	return alignment;
@@ -56,4 +69,9 @@ inline ModuleRenderer::Alignment ModuleRenderer::GetAlignment() const
 inline ModuleRenderer::BlendingMode ModuleRenderer::GetBlending() const
 {
 	return blendingMode;
+}
+
+inline std::shared_ptr<ResourceTexture> ModuleRenderer::GetTexture()
+{
+	return emitter->GetTexture();
 }
