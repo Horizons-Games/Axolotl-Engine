@@ -8,19 +8,17 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/UI/ComponentCanvas.h"
-#include "Components/Component.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentButton.h"
+#include "Components/UI/ComponentCanvas.h"
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-
-
 
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
@@ -76,8 +74,7 @@ update_status ModuleScene::PreUpdate()
 		App->GetScriptFactory()->LoadCompiledModules();
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (ComponentScript* componentScript :
-				 gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 			{
 				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
@@ -90,8 +87,7 @@ update_status ModuleScene::PreUpdate()
 		}
 		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 		{
-			for (ComponentScript* componentScript :
-				 gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 			{
 				if (componentScript->IsEnabled())
 				{
@@ -200,7 +196,7 @@ void ModuleScene::OnStop()
 
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->CleanUp();
 		}
@@ -216,19 +212,19 @@ void ModuleScene::OnStop()
 
 void ModuleScene::InitAndStartScriptingComponents()
 {
-	//First Init
+	// First Init
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Init();
 		}
 	}
 
-	//Then Start
+	// Then Start
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
-		for (ComponentScript* componentScript : gameObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT))
+		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Start();
 		}
@@ -317,14 +313,13 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	LoadSceneFromJson(Json, mantainActualScene);
 
 #ifndef ENGINE
-		ModulePlayer* player = App->GetModule<ModulePlayer>();
-		if (player->GetPlayer())
-		{
+	ModulePlayer* player = App->GetModule<ModulePlayer>();
+	if (player->GetPlayer())
+	{
+		player->LoadNewPlayer();
+	}
 
-			player->LoadNewPlayer();
-		}
-
-		InitAndStartScriptingComponents();
+	InitAndStartScriptingComponents();
 #endif // !ENGINE
 }
 
@@ -363,21 +358,21 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	for (GameObject* obj : loadedObjects)
 	{
-		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponentsByType<ComponentCamera>(ComponentType::CAMERA);
+		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
-		Component* canvas = obj->GetComponent(ComponentType::CANVAS);
+		ComponentCanvas* canvas = obj->GetComponent<ComponentCanvas>();
 		if (canvas != nullptr)
 		{
-			loadedCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
+			loadedCanvas.push_back(canvas);
 		}
-		Component* button = obj->GetComponent(ComponentType::BUTTON);
+		Component* button = obj->GetComponent<ComponentButton>();
 		if (button != nullptr)
 		{
 			loadedInteractable.push_back(button);
 		}
 
-		std::vector<ComponentLight*> lightsOfObj = obj->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+		std::vector<ComponentLight*> lightsOfObj = obj->GetComponents<ComponentLight>();
 		for (const ComponentLight* light : lightsOfObj)
 		{
 			if (light->GetLightType() == LightType::DIRECTIONAL)
@@ -385,17 +380,15 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 				directionalLight = obj;
 			}
 		}
-		if (obj->GetComponent(ComponentType::TRANSFORM) != nullptr)
+		if (obj->GetComponent<ComponentTransform>() != nullptr)
 		{
 			// Quadtree treatment
 			AddGameObject(obj);
 		}
 
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(obj->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transform = obj->GetComponent<ComponentTransform>();
 
-		ComponentRigidBody* rigidBody =
-			static_cast<ComponentRigidBody*>(obj->GetComponent(ComponentType::RIGIDBODY));
+		ComponentRigidBody* rigidBody = obj->GetComponent<ComponentRigidBody>();
 
 		if (rigidBody)
 		{
@@ -433,13 +426,13 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 {
 	for (GameObject* go : gameObjects)
 	{
-		if (go->GetComponent(ComponentType::ANIMATION) != nullptr)
+		if (go->GetComponent<ComponentAnimation>() != nullptr)
 		{
 			GameObject* rootGo = go;
 
 			go->SetRootGO(rootGo);
 
-			for (GameObject* child : go->GetGameObjectsInside())
+			for (GameObject* child : go->GetAllDescendants())
 			{
 				child->SetRootGO(rootGo);
 			}
@@ -559,7 +552,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
-	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
+	if (object->GetParent() == nullptr || object->GetComponent<ComponentTransform>() == nullptr)
 	{
 		return;
 	}
@@ -573,7 +566,7 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 
 void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 {
-	if (object->GetParent() == nullptr || object->GetComponent(ComponentType::TRANSFORM) == nullptr)
+	if (object->GetParent() == nullptr || object->GetComponent<ComponentTransform>() == nullptr)
 	{
 		return;
 	}

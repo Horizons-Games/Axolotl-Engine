@@ -3,28 +3,7 @@
 #include <assert.h>
 #include <string>
 
-enum class ComponentType
-{
-	UNKNOWN,
-	MESHRENDERER,
-	TRANSFORM,
-	TRANSFORM2D,
-	LIGHT,
-	CAMERA,
-	PLAYER,
-	ANIMATION,
-	CANVAS,
-	IMAGE,
-	BUTTON,
-	RIGIDBODY,
-	BREAKABLE,
-	MOCKSTATE,
-	AUDIOSOURCE,
-	AUDIOLISTENER,
-	MESHCOLLIDER,
-	SCRIPT,
-	CUBEMAP
-};
+#include "Enums/ComponentType.h"
 
 const static std::string GetNameByType(ComponentType type);
 const static ComponentType GetTypeByName(const std::string& name);
