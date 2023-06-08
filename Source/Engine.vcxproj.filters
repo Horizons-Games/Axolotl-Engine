@@ -85,6 +85,9 @@
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -550,9 +553,9 @@
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
-    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1137,6 +1140,9 @@
       <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
@@ -1794,6 +1800,9 @@
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
