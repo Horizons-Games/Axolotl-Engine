@@ -40,18 +40,18 @@ bulletPrefab(nullptr)
 
 void DroneAttack::Start()
 {
-	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	audioSource = owner->GetComponent<ComponentAudioSource>();
+	transform = owner->GetComponent<ComponentTransform>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (animationGO)
 	{
-		animation = static_cast<ComponentAnimation*>(animationGO->GetComponent(ComponentType::ANIMATION));
+		animation = animationGO->GetComponent<ComponentAnimation>();
 	}
 	if (bulletOriginGO)
 	{
-		bulletOrigin = static_cast<ComponentTransform*>(bulletOriginGO->GetComponent(ComponentType::TRANSFORM));
+		bulletOrigin = bulletOriginGO->GetComponent<ComponentTransform>();
 	}
 
 	input = App->GetModule<ModuleInput>();
@@ -74,14 +74,13 @@ void DroneAttack::PerformAttack()
 
 		GameObject* bullet = loadedScene->DuplicateGameObject(
 			bulletPrefab->GetName(), bulletPrefab, root);
-		ComponentTransform* bulletTransf = static_cast<ComponentTransform*>
-			(bullet->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
 		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
 		bulletTransf->SetRotation(transform->GetGlobalRotation());
 		bulletTransf->UpdateTransformMatrices();
 
-		ComponentScript* script = static_cast<ComponentScript*>(bullet->CreateComponent(ComponentType::SCRIPT));
+		ComponentScript* script = bullet->CreateComponent<ComponentScript>();
 		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
 		script->SetConstuctor("DroneBullet");
 		script->GetScript()->SetGameObject(bullet);

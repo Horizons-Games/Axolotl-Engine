@@ -34,8 +34,8 @@ damageAttack(10.0f), rayAttackSize(10.0f), originTime(0.0f)
 
 void DroneBullet::Start()
 {
-	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	transform = owner->GetComponent<ComponentTransform>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	originTime = SDL_GetTicks() / 1000.0f;
 }
@@ -77,7 +77,7 @@ void DroneBullet::CheckCollision()
 			if (hit.gameObject->GetRootGO()->CompareTag("Player"))
 			{
 				std::vector<ComponentScript*> gameObjectScripts =
-					hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+					hit.gameObject->GetRootGO()->GetComponents<ComponentScript>();
 
 					for (int i = 0; i < gameObjectScripts.size(); ++i)
 					{
