@@ -385,6 +385,17 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			// Quadtree treatment
 			AddGameObject(obj);
 		}
+
+		ComponentTransform* transform = obj->GetComponent<ComponentTransform>();
+
+		ComponentRigidBody* rigidBody = obj->GetComponent<ComponentRigidBody>();
+
+		if (rigidBody)
+		{
+			transform->UpdateTransformMatrices();
+			rigidBody->UpdateRigidBodyTranslation();
+			rigidBody->UpdateRigidBody();
+		}
 	}
 
 	SetSceneRootAnimObjects(loadedObjects);
@@ -500,7 +511,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		}
 
 		GameObject* parentGameObject = gameObjectMap[parent];
-		parentGameObject->LinkChild(gameObject);
+		parentGameObject->LinkChild(gameObject, false);
 	}
 
 	std::vector<GameObject*> loadedObjects{};
@@ -535,8 +546,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	}
 
 	uidMap.clear();
-
-	loadedScene->GetRoot()->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
 
 	return loadedObjects;
 }
