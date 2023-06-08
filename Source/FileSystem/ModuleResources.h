@@ -14,6 +14,7 @@
 class ModelImporter;
 class TextureImporter;
 class MeshImporter;
+class NavMeshImporter;
 class MaterialImporter;
 class SkyBoxImporter;
 class CubemapImporter;
@@ -100,6 +101,7 @@ private:
 	std::unique_ptr<ModelImporter> modelImporter;
 	std::unique_ptr<TextureImporter> textureImporter;
 	std::unique_ptr<MeshImporter> meshImporter;
+	std::unique_ptr<NavMeshImporter> navMeshImporter;
 	std::unique_ptr<MaterialImporter> materialImporter;
 	std::unique_ptr<SkyBoxImporter> skyboxImporter;
 	std::unique_ptr<CubemapImporter> cubemapImporter;

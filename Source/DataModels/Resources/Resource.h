@@ -10,6 +10,7 @@ enum class ResourceType
 	Model,
 	Texture,
 	Mesh,
+	NavMesh,
 	Scene,
 	Material,
 	SkyBox,

@@ -550,6 +550,9 @@
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1163,6 +1166,9 @@
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp">
       <Filter>DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\Json.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -1444,6 +1450,9 @@
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1472,6 +1481,9 @@
       <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceMesh.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceNavMesh.h">
       <Filter>DataModels\Resources</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Json.h">
