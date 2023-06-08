@@ -739,11 +739,12 @@ void Scene::UpdateScenePointLights()
 					ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
 					ComponentTransform* transform = components[0]->GetOwner()->GetComponent<ComponentTransform>();
 
-				PointLight pl;
-				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
-				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
+					PointLight pl;
+					pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
+					pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
-				pointLights.push_back(pl);
+					pointLights.push_back(pl);
+				}
 			}
 		}
 	}
@@ -764,8 +765,7 @@ void Scene::UpdateSceneSpotLights()
 			{
 				ComponentSpotLight* spotLightComp =
 					static_cast<ComponentSpotLight*>(components[0]);
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 
 				SpotLight sl;
 				sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
@@ -792,13 +792,12 @@ void Scene::UpdateSceneAreaLights()
 		if (child)
 		{
 			std::vector<ComponentLight*> components =
-				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+				child->GetComponents<ComponentLight>();
 			if (!components.empty() && components[0]->GetLightType() == LightType::AREA)
 			{
 				ComponentAreaLight* areaLightComp =
 					static_cast<ComponentAreaLight*>(components[0]);
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
 					float3 center = transform->GetGlobalPosition();

@@ -188,8 +188,7 @@ void ComponentTransform::UpdateTransformMatricesOnLoad()
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform* childTransform = static_cast<ComponentTransform*>
-			(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
 
 		if (childTransform)
 		{
