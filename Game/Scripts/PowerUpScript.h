@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "Math/float3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -24,6 +25,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+
+	void ActivatePowerUp(const float3& position);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;

@@ -30,13 +30,21 @@ PowerUpScript::PowerUpScript() : Script()
 
 void PowerUpScript::Start()
 {
-	type = PowerUpType(rand() % 4);
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ownerRb = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 }
 
 void PowerUpScript::Update(float deltaTime)
 {
+}
+
+void PowerUpScript::ActivatePowerUp(const float3& position)
+{
+	type = PowerUpType(rand() % 4);
+	ownerTransform->SetPosition(float3(position.x, position.y - 200, position.z));
+	ownerTransform->UpdateTransformMatrices();
+	ownerRb->UpdateRigidBody();
+	owner->Enable();
 }
 
 void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
