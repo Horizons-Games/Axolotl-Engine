@@ -154,21 +154,43 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
-		if (assetTime <= libTime)
+		if (type == ResourceType::Texture)
 		{
-			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
-			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource =
-				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
-			resource->LoadImporterOptions(meta);
-			ImportResourceFromLibrary(resource);
-
-			if (resource)
+			long long libTime = fileSystem->GetModificationDate((libraryPath + DDS_TEXTURE_EXTENSION).c_str());
+			if (assetTime <= libTime)
 			{
-				resources.insert({ resource->GetUID(), resource });
-				return std::move(std::dynamic_pointer_cast<R>(resource));
+				std::string fileName = fileSystem->GetFileName(libraryPath + DDS_TEXTURE_EXTENSION);
+				UID uid = std::stoull(fileName.c_str(), NULL, 0);
+				ResourceType type = FindTypeByFolder(libraryPath + DDS_TEXTURE_EXTENSION);
+				std::shared_ptr<Resource> resource =
+					CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
+				resource->LoadImporterOptions(meta);
+				ImportResourceFromLibrary(resource);
+				if (resource)
+				{
+					resources.insert({ resource->GetUID(), resource });
+					return std::move(std::dynamic_pointer_cast<R>(resource));
+				}
+			}
+		}
+		else
+		{
+			long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+			if (assetTime <= libTime)
+			{
+				std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+				UID uid = std::stoull(fileName.c_str(), NULL, 0);
+				ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
+				std::shared_ptr<Resource> resource =
+					CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
+				resource->LoadImporterOptions(meta);
+				ImportResourceFromLibrary(resource);
+
+				if (resource)
+				{
+					resources.insert({ resource->GetUID(), resource });
+					return std::move(std::dynamic_pointer_cast<R>(resource));
+				}
 			}
 		}
 	}
@@ -193,20 +215,42 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
-		if (assetTime <= libTime)
+		if (type == ResourceType::Texture)
 		{
-			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
-			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
-			std::shared_ptr<Resource> resource =
-				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
-			resource->LoadImporterOptions(meta);
-			ImportResourceFromLibrary(resource);
-			if (resource)
+			long long libTime = fileSystem->GetModificationDate((libraryPath + DDS_TEXTURE_EXTENSION).c_str());
+			if (assetTime <= libTime)
 			{
-				resources.insert({ resource->GetUID(), resource });
-				return std::move(std::dynamic_pointer_cast<R>(resource));
+				std::string fileName = fileSystem->GetFileName(libraryPath + DDS_TEXTURE_EXTENSION);
+				UID uid = std::stoull(fileName.c_str(), NULL, 0);
+				ResourceType type = FindTypeByFolder(libraryPath + DDS_TEXTURE_EXTENSION);
+				std::shared_ptr<Resource> resource =
+					CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
+				resource->LoadImporterOptions(meta);
+				ImportResourceFromLibrary(resource);
+				if (resource)
+				{
+					resources.insert({ resource->GetUID(), resource });
+					return std::move(std::dynamic_pointer_cast<R>(resource));
+				}
+			}
+		}
+		else
+		{
+			long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+			if (assetTime <= libTime)
+			{
+				std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+				UID uid = std::stoull(fileName.c_str(), NULL, 0);
+				ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
+				std::shared_ptr<Resource> resource =
+					CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
+				resource->LoadImporterOptions(meta);
+				ImportResourceFromLibrary(resource);
+				if (resource)
+				{
+					resources.insert({ resource->GetUID(), resource });
+					return std::move(std::dynamic_pointer_cast<R>(resource));
+				}
 			}
 		}
 	}
