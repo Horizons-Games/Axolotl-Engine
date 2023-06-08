@@ -340,6 +340,13 @@ void WindowInspector::DrawTextureOptions()
 	{
 		ImGui::Checkbox("Flip Image Vertical", &flipVertical);
 		ImGui::Checkbox("Flip Image Horizontal", &flipHorizontal);
+		const char* compression[] = { "BC1",
+									 "BC2",
+									 "BC3",
+									 "BC4",
+									 "BC5",
+									 "BC6" };
+		ImGui::Combo("Compression", &min, compression, IM_ARRAYSIZE(compression));
 	}
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
