@@ -1,5 +1,5 @@
-#include "Application.h"
 #include "ComponentAnimation.h"
+#include "Application.h"
 #include "ComponentTransform.h"
 #include "Globals.h"
 
@@ -18,8 +18,9 @@
 
 #include "debugdraw.h"
 
-ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner)
-	: Component(ComponentType::ANIMATION, active, owner, false) 
+ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
+	Component(ComponentType::ANIMATION, active, owner, true),
+	drawBones(false)
 {
 	controller = new AnimationController();
 	lastState = NON_STATE;
@@ -54,55 +55,61 @@ void ComponentAnimation::Update()
 {
 	if (stateMachine)
 	{
-		if ((actualState == 0) && (lastState == NON_STATE)) //Entry State 
+		if ((actualState == 0) && (lastState == NON_STATE)) // Entry State
 		{
 			SaveModelTransform(owner);
 		}
 
 		controller->Update();
 
-		if(actualState == nextState)
+		if (actualState == nextState)
 		{
 			State* state = stateMachine->GetState(actualState);
-			if (state && controller->GetPlay())
+			if (state)
 			{
-				std::list<GameObject*> children = owner->GetGameObjectsInside();
-
-				for (auto child : children)
+				Transition foundTransition;
+				if (CheckTransitions(state, foundTransition))
 				{
-					float3 pos;
-					Quat rot;
-
-					if (controller->GetTransform(&child->GetName()[0], pos, rot))
-					{
-						ComponentTransform* transform =
-							static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-						transform->SetPosition(pos);
-						transform->SetRotation(float4x4(rot));
-					}
+					nextState = foundTransition.destinationState;
 				}
-				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
-			}
 
-			Transition foundTransition;
-			if (CheckTransitions(state, foundTransition))
-			{
-				nextState = foundTransition.destinationState;
+				if (controller->GetPlay())
+				{
+					std::list<GameObject*> children = owner->GetAllDescendants();
+
+					for (auto child : children)
+					{
+						float3 pos;
+						Quat rot;
+
+						if (controller->GetTransform(&child->GetName()[0], pos, rot))
+						{
+							ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+							transform->SetPosition(pos);
+							transform->SetRotation(rot);
+						}
+					}
+					owner->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
+				}
+				else if (state->resource && state->loop)
+				{
+					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+				}
 			}
 		}
-		else 
+		else
 		{
 			actualState = nextState;
-			State* state = stateMachine->GetState(actualState);
-			if(state->resource) 
+			const State* state = stateMachine->GetState(actualState);
+			if (state->resource)
 			{
-				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), true);
+				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
 			}
 			else
 			{
 				controller->Stop();
 				LoadModelTransform(owner);
-				static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM))->UpdateTransformMatrices();
+				owner->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
 			}
 		}
 		lastState = actualState;
@@ -115,7 +122,7 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw() const
 {
-	if (!App->IsOnPlayMode())
+	if (!App->IsOnPlayMode() && drawBones)
 	{
 		DrawBones(owner);
 	}
@@ -123,14 +130,12 @@ void ComponentAnimation::Draw() const
 
 void ComponentAnimation::DrawBones(GameObject* parent) const
 {
-	ComponentTransform* parentTransform = 
-		static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
-	std::vector<GameObject*> children = parent->GetChildren();
+	GameObject::GameObjectView children = parent->GetChildren();
 	for (GameObject* child : children)
 	{
-		ComponentTransform* childTransform =
-			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
 		dd::line(childTransform->GetGlobalPosition(), parentTransform->GetGlobalPosition(), dd::colors::Blue);
 		dd::axisTriad(childTransform->GetGlobalMatrix(), 0.1f, 2.0f);
 
@@ -142,8 +147,8 @@ void ComponentAnimation::SaveOptions(Json& meta)
 {
 	// Do not delete these
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+	meta["active"] = (bool) active;
+	meta["removed"] = (bool) canBeRemoved;
 
 	UID uidState = 0;
 	std::string assetPath = "";
@@ -154,7 +159,7 @@ void ComponentAnimation::SaveOptions(Json& meta)
 		assetPath = stateMachine->GetAssetsPath();
 	}
 
-	meta["stateUID"] = (UID)uidState;
+	meta["stateUID"] = (UID) uidState;
 	meta["assetPathState"] = assetPath.c_str();
 }
 
@@ -162,12 +167,12 @@ void ComponentAnimation::LoadOptions(Json& meta)
 {
 	// Do not delete these
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = (bool) meta["active"];
+	canBeRemoved = (bool) meta["removed"];
 	std::shared_ptr<ResourceStateMachine> resourceState;
 #ifdef ENGINE
 	std::string path = meta["assetPathState"];
-	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
 		resourceState = App->GetModule<ModuleResources>()->RequestResource<ResourceStateMachine>(path);
@@ -188,7 +193,7 @@ void ComponentAnimation::LoadOptions(Json& meta)
 
 bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
 {
-	if(!state)
+	if (!state)
 	{
 		return false;
 	}
@@ -197,42 +202,48 @@ bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
 	{
 		Transition& actualTransition = stateMachine->GetTransitions()[idTransition];
 		bool conditionCheck = true;
-		for(Condition& condition : actualTransition.conditions)
+		for (Condition& condition : actualTransition.conditions)
 		{
 			const auto& itParameter = parameters.find(condition.parameter);
-			if (itParameter != parameters.end()) 
+			if (itParameter != parameters.end())
 			{
 				ValidFieldTypeParameter& value = itParameter->second.second;
 				switch (condition.conditionType)
 				{
-				case ConditionType::GREATER:
-					conditionCheck = value > condition.value;
-					break;
-				case ConditionType::LESS:
-					conditionCheck = value < condition.value;
-					break;
-				case ConditionType::EQUAL:
-					conditionCheck = value == condition.value;
-					break;
-				case ConditionType::NOTEQUAL:
-					conditionCheck = value != condition.value;
-					break;
-				case ConditionType::TRUECONDITION:
-					conditionCheck = (std::get<bool>(value) == true);
-					break;
-				case ConditionType::FALSECONDITION:
-					conditionCheck = (std::get<bool>(value) == false);
-					break;
-				default:
-					break;
+					case ConditionType::GREATER:
+						conditionCheck = value > condition.value;
+						break;
+					case ConditionType::LESS:
+						conditionCheck = value < condition.value;
+						break;
+					case ConditionType::EQUAL:
+						conditionCheck = value == condition.value;
+						break;
+					case ConditionType::NOTEQUAL:
+						conditionCheck = value != condition.value;
+						break;
+					case ConditionType::TRUECONDITION:
+						conditionCheck = (std::get<bool>(value) == true);
+						break;
+					case ConditionType::FALSECONDITION:
+						conditionCheck = (std::get<bool>(value) == false);
+						break;
+					default:
+						break;
 				}
 			}
 
-			if (!conditionCheck) break;
+			if (!conditionCheck)
+				break;
 		}
-		
-		if (conditionCheck) 
+
+		if (conditionCheck)
 		{
+			if (actualTransition.waitUntilFinish && controller->GetPlay())
+			{
+				return false;
+			}
+
 			transition = actualTransition;
 			return true;
 		}
@@ -243,12 +254,11 @@ bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
 
 void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
 {
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 
 	defaultPosition[gameObject] = transform->GetLocalMatrix();
 
-	for(GameObject* children : gameObject->GetChildren())
+	for (GameObject* children : gameObject->GetChildren())
 	{
 		SaveModelTransform(children);
 	}
@@ -256,12 +266,11 @@ void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
 
 void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 {
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
-	
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+
 	float3 position;
 	float3 scale;
-	float4x4 rot;
+	Quat rot;
 
 	defaultPosition[gameObject].Decompose(position, rot, scale);
 	transform->SetPosition(position);
@@ -272,4 +281,9 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 	{
 		LoadModelTransform(children);
 	}
+}
+
+bool ComponentAnimation::isPlaying() const
+{
+	return controller->GetPlay();
 }

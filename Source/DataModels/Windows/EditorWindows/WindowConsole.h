@@ -14,4 +14,3 @@ protected:
 private:
 	std::vector<std::string> consoleContents;
 };
-

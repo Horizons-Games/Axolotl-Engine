@@ -2,15 +2,15 @@
 #pragma once
 
 #ifndef LOGSYSTEM_INCLUDED
-#define LOGSYSTEM_INCLUDED
+	#define LOGSYSTEM_INCLUDED
 
-#include "ICompilerLogger.h"
+	#include "ICompilerLogger.h"
 
-#include <string>
-#include <stdio.h>
+	#include <stdio.h>
+	#include <string>
 
-#include <string>
-#include <stdio.h>
+	#include <stdio.h>
+	#include <string>
 
 // StdioLogSystem for compiler
 
@@ -27,4 +27,4 @@ protected:
 	void LogInternal(const char* format, va_list args);
 	char m_buff[LOGSYSTEM_MAX_BUFFER];
 };
-#endif //STDIOLOGSYSTEM_INCLUDED
+#endif // STDIOLOGSYSTEM_INCLUDED

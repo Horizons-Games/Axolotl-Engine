@@ -2,37 +2,49 @@
 #include "ComponentLight.h"
 
 #include "Application.h"
-#include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
-
-#include "Modules/ModuleScene.h"
 #include "Modules/ModuleDebugDraw.h"
+#include "Modules/ModuleScene.h"
 #ifndef ENGINE
-#include "Modules/ModuleEditor.h"
-#include "Windows/WindowDebug.h"
-#endif //ENGINE
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
+#endif // ENGINE
 
 #include "Math/float3x3.h"
 
-ComponentTransform::ComponentTransform(const bool active, GameObject* owner)
-	: Component(ComponentType::TRANSFORM, active, owner, false), 
-	pos(float3::zero), rot(float4x4::identity), sca(float3::one), 
-	globalPos(float3::zero), globalRot(float4x4::identity), globalSca(float3::one), 
-	rotXYZ(float3::zero), localMatrix(float4x4::identity), globalMatrix(float4x4::identity),
-	localAABB({ {0, 0, 0}, {0, 0, 0} }), encapsuledAABB(localAABB), objectOBB({ localAABB }),
+ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
+	Component(ComponentType::TRANSFORM, active, owner, false),
+	pos(float3::zero),
+	rot(Quat::identity),
+	sca(float3::one),
+	globalPos(float3::zero),
+	globalRot(Quat::identity),
+	globalSca(float3::one),
+	rotXYZ(float3::zero),
+	localMatrix(float4x4::identity),
+	globalMatrix(float4x4::identity),
+	localAABB({ { 0, 0, 0 }, { 0, 0, 0 } }),
+	encapsuledAABB(localAABB),
+	objectOBB({ localAABB }),
 	drawBoundingBoxes(false)
 {
 }
 
-ComponentTransform::ComponentTransform(const ComponentTransform& componentTransform)
-	: Component(componentTransform),
-	pos(componentTransform.GetPosition()), rot(componentTransform.GetRotation()),
-	sca(componentTransform.GetScale()),	globalPos(componentTransform.GetGlobalPosition()),
-	globalRot(componentTransform.GetGlobalRotation()), globalSca(componentTransform.GetGlobalScale()),
-	rotXYZ(componentTransform.GetRotationXYZ()), localMatrix(componentTransform.GetLocalMatrix()),
-	globalMatrix(componentTransform.GetGlobalMatrix()), localAABB(componentTransform.localAABB), 
-	encapsuledAABB(localAABB), drawBoundingBoxes(false)
+ComponentTransform::ComponentTransform(const ComponentTransform& componentTransform) :
+	Component(componentTransform),
+	pos(componentTransform.GetPosition()),
+	rot(componentTransform.GetRotation()),
+	sca(componentTransform.GetScale()),
+	globalPos(componentTransform.GetGlobalPosition()),
+	globalRot(componentTransform.GetGlobalRotation()),
+	globalSca(componentTransform.GetGlobalScale()),
+	rotXYZ(componentTransform.GetRotationXYZ()),
+	localMatrix(componentTransform.GetLocalMatrix()),
+	globalMatrix(componentTransform.GetGlobalMatrix()),
+	localAABB(componentTransform.localAABB),
+	encapsuledAABB(localAABB),
+	drawBoundingBoxes(false)
 {
 }
 
@@ -47,7 +59,7 @@ void ComponentTransform::Draw() const
 	{
 		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
 	}
-#endif //ENGINE
+#endif // ENGINE
 	if (drawBoundingBoxes)
 	{
 		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
@@ -82,13 +94,13 @@ void ComponentTransform::LoadOptions(Json& meta)
 	pos.x = static_cast<float>(meta["localPos_X"]);
 	pos.y = static_cast<float>(meta["localPos_Y"]);
 	pos.z = static_cast<float>(meta["localPos_Z"]);
-		
+
 	float3 rotation;
 	rotation.x = static_cast<float>(meta["localRot_X"]);
 	rotation.y = static_cast<float>(meta["localRot_Y"]);
 	rotation.z = static_cast<float>(meta["localRot_Z"]);
 	SetRotation(rotation);
-				    
+
 	sca.x = static_cast<float>(meta["localSca_X"]);
 	sca.y = static_cast<float>(meta["localSca_Y"]);
 	sca.z = static_cast<float>(meta["localSca_Z"]);
@@ -104,7 +116,7 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*)(parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
@@ -117,6 +129,15 @@ void ComponentTransform::CalculateMatrices()
 	}
 }
 
+void ComponentTransform::RecalculateLocalMatrix()
+{
+	globalMatrix = float4x4::FromTRS(globalPos, globalRot, globalSca);
+	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponent<ComponentTransform>();
+	localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
+	localMatrix.Decompose(pos, rot, sca);
+	rotXYZ = RadToDeg(rot.ToEulerXYZ());
+}
+
 const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 {
 	localMatrix = float4x4::FromTRS(pos, rot, sca);
@@ -126,7 +147,7 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 
 	if (parent != root)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*)(parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 		return parentTransform->CalculatePaletteGlobalMatrix().Mul(localMatrix);
 	}
@@ -139,7 +160,8 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 void ComponentTransform::UpdateTransformMatrices()
 {
 	CalculateMatrices();
-	for(Component* components : GetOwner()->GetComponents()) {
+	for (Component* components : GetOwner()->GetComponents())
+	{
 		components->OnTransformChanged();
 	}
 
@@ -148,38 +170,68 @@ void ComponentTransform::UpdateTransformMatrices()
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform* childTransform = static_cast<ComponentTransform*>
-			(child->GetComponent(ComponentType::TRANSFORM));
-		childTransform->UpdateTransformMatrices();
+		ComponentTransform* childTransform = 
+			child->GetComponent<ComponentTransform>();
+
+		if(childTransform)
+		{
+			childTransform->UpdateTransformMatrices();
+		}
+	}
+}
+
+void ComponentTransform::UpdateTransformMatricesOnLoad()
+{
+	CalculateMatrices();
+	if (GetOwner()->GetChildren().empty())
+		return;
+
+	for (GameObject* child : GetOwner()->GetChildren())
+	{
+		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
+
+		if (childTransform)
+		{
+			childTransform->UpdateTransformMatricesOnLoad();
+		}
 	}
 }
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
-	bool translationModified,
-	bool rotationModified)
+												   bool translationModified,
+												   bool rotationModified)
 {
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	switch (lightComponent->GetLightType())
 	{
-	case LightType::DIRECTIONAL:
-		if (rotationModified)
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderDirectionalLight();
-		break;
+		case LightType::DIRECTIONAL:
+			if (rotationModified)
+				loadedScene->RenderDirectionalLight();
+			break;
 
-	case LightType::POINT:
-		if (translationModified)
-		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
-		}
-		break;
+		case LightType::POINT:
+			if (translationModified)
+			{
+				loadedScene->UpdateScenePointLights();
+				loadedScene->RenderPointLights();
+			}
+			break;
 
-	case LightType::SPOT:
-		if (translationModified || rotationModified)
-		{
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
-		}
-		break;
+		case LightType::SPOT:
+			if (translationModified || rotationModified)
+			{
+				loadedScene->UpdateSceneSpotLights();
+				loadedScene->RenderSpotLights();
+			}
+			break;
+		case LightType::AREA:
+			if (translationModified || rotationModified)
+			{
+				loadedScene->UpdateSceneAreaLights();
+				loadedScene->RenderAreaLights();
+			}
+			break;
 	}
 }
 
@@ -190,3 +242,17 @@ void ComponentTransform::CalculateBoundingBoxes()
 	encapsuledAABB = objectOBB.MinimalEnclosingAABB();
 }
 
+// CalculateLocalFromNewGlobal
+// This will calculate the new local that the object needs to be iin order not to move with the change of father
+//
+void ComponentTransform::CalculateLocalFromNewGlobal(const ComponentTransform* newTransformFrom)
+{
+	const float4x4& nglobalMatrix = newTransformFrom->GetGlobalMatrix();
+	float3 nPos, nSca;
+	float4x4 nRot;
+	nglobalMatrix.Decompose(nPos, nRot, nSca);
+
+	localMatrix = newTransformFrom->GetGlobalMatrix().Inverted().Mul(globalMatrix);
+	localMatrix.Decompose(pos, rot, sca);
+	rotXYZ = RadToDeg(rot.ToEulerXYZ());
+}

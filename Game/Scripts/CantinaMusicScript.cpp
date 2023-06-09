@@ -13,12 +13,12 @@ CantinaMusicScript::CantinaMusicScript() : Script(), cantinaAudio(nullptr)
 
 void CantinaMusicScript::Start()
 {
-	cantinaAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	cantinaAudio = owner->GetComponent<ComponentAudioSource>();
 
-	AK::SoundEngine::SetState(audio::STATE_GROUP_ZONE, audio::STATE_ID_ZONE_CANTINA);
-	AK::SoundEngine::SetState(audio::STATE_GROUP_LIFE, audio::STATE_ID_LIFE_ALIVE);
-	cantinaAudio->SetSwitch(audio::SWITCH_GROUP_MUSIC_GAMEPLAY, audio::SWITCH_ID_MUSIC_EXPLORATION);
+	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::CANTINA);
+	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
+	cantinaAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
-	cantinaAudio->PostEvent(audio::CANTINA_MUSIC);
-	cantinaAudio->PostEvent(audio::SFX_AMBIENT_CROWD_TALKING_01);
+	cantinaAudio->PostEvent(AUDIO::SFX::AMBIENT::CANTINA::CANTINA_MUSIC);
+	cantinaAudio->PostEvent(AUDIO::SFX::AMBIENT::CANTINA::CROWD_TALKING_01);
 }

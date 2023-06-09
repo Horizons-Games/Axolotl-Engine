@@ -22,12 +22,11 @@ void HelloWorldScript::Update(float deltaTime)
 	// Recieves a GameObject and moves it (sometimes the transform does not update until you click on it)
 	if (movingGameObject != nullptr)
 	{
-		ComponentTransform* goTransform = static_cast<ComponentTransform*>
-			(movingGameObject->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* goTransform = movingGameObject->GetComponent<ComponentTransform>();
 
 		goTransform->SetPosition(float3(goTransform->GetPosition().x,
-										goTransform->GetPosition().y + 0.1f, 
-										goTransform->GetPosition().z));
+			goTransform->GetPosition().y + 0.1f,
+			goTransform->GetPosition().z));
 	}
 
 	// When pressing a key, a new GameObject is created

@@ -1,0 +1,22 @@
+{
+    "UID": 5286706588158464020,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HumanCharacter.Cilindro.001_0.mesh",
+        "Assets/Meshes/HumanCharacter.Cilindro.001_1.mesh",
+        "Assets/Meshes/HumanCharacter.Cilindro.001_2.mesh",
+        "Assets/Meshes/HumanCharacter.Cilindro.001_3.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HumanCharacterBottle_0.mat",
+        "Assets/Materials/HumanCharacterHead_1.mat",
+        "Assets/Materials/HumanCharacterBody_2.mat",
+        "Assets/Materials/HumanCharacterHair_3.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/HumanCharacter.Talking.anim",
+        "Assets/Animation/HumanCharacter.Drunked.anim",
+        "Assets/Animation/HumanCharacter.RestPose.anim",
+        "Assets/Animation/HumanCharacter.Armature_RestPose.anim"
+    ]
+}

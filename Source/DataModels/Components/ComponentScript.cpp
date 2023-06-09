@@ -8,12 +8,15 @@
 
 #include "FileSystem/Json.h"
 
-#include "Scene/Scene.h"
-#include "Modules/ModuleScene.h"
 #include "Math/float3.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 
-ComponentScript::ComponentScript(bool active, GameObject* owner) : 
-	Component(ComponentType::SCRIPT, active, owner, true), script(nullptr)
+#include "ComponentRigidBody.h"
+
+ComponentScript::ComponentScript(bool active, GameObject* owner) :
+	Component(ComponentType::SCRIPT, active, owner, true),
+	script(nullptr)
 {
 }
 
@@ -60,6 +63,24 @@ void ComponentScript::PostUpdate()
 		script->PostUpdate(App->GetDeltaTime());
 	}
 }
+
+void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	{
+		script->OnCollisionEnter(other);
+	}
+
+}
+void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
+{
+	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	{
+		script->OnCollisionExit(other);
+	}
+}
+
+
 
 void ComponentScript::CleanUp()
 {
@@ -153,8 +174,8 @@ void ComponentScript::LoadOptions(Json& meta)
 {
 	// Load serialize values of Script
 	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	active = (bool) meta["active"];
+	canBeRemoved = (bool) meta["removed"];
 	constructName = meta["constructName"];
 	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
 
@@ -217,11 +238,13 @@ void ComponentScript::LoadOptions(Json& meta)
 						UID newFieldUID;
 						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
 						{
-							optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
+							optField.value().setter(
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
 						}
-						else 
+						else
 						{
-							optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+							optField.value().setter(
+								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
 						}
 					}
 
