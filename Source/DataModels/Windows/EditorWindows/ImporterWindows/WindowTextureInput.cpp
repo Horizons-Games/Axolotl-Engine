@@ -47,7 +47,42 @@ void WindowTextureInput::DoThisIfOk()
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		std::shared_ptr<ResourceTexture> texture =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
-		texture->GetImportOptions().type = textureType;
+		
+		
+		
+		switch (textureType)
+		{
+			case TextureType::DIFFUSE:
+				texture->GetImportOptions().compression = 0;
+
+				break;
+
+			case TextureType::NORMAL:
+
+				texture->GetImportOptions().compression = 4;
+
+				break;
+			case TextureType::OCCLUSION:
+
+
+				break;
+
+			case TextureType::METALLIC:
+
+				texture->GetImportOptions().compression = 4;
+
+				break;
+
+			case TextureType::SPECULAR:
+
+				texture->GetImportOptions().compression = 2;
+
+				break;
+			default:
+				texture->GetImportOptions().compression = 0;
+
+				break;
+		}
 		texture->Unload();
 		texture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(texture->GetUID());

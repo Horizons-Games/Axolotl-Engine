@@ -30,7 +30,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	const wchar_t* path = wideString.c_str();
 
 	DirectX::TexMetadata md;
-	DirectX::ScratchImage* imgResult;
+	DirectX::ScratchImage* imgResult, compressImg;
 	DirectX::ScratchImage img, flippedImg, dcmprsdImg;
 
 	HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
@@ -102,11 +102,53 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		}
 	}
 
+	DXGI_FORMAT compressFormat;
+	switch (options.compression)
+	{
+		case 0:
+			compressFormat = DXGI_FORMAT_BC1_UNORM;
+			break;
+		case 1:
+			compressFormat = DXGI_FORMAT_BC2_UNORM;
+			break;
+		case 2:
+			compressFormat = DXGI_FORMAT_BC3_UNORM;
+			break;
+		case 3:
+			compressFormat = DXGI_FORMAT_BC4_UNORM;
+			break;
+		case 4:
+			compressFormat = DXGI_FORMAT_BC5_UNORM;
+			break;
+		case 5:
+			compressFormat = DXGI_FORMAT_BC6H_SF16;
+			break;
+		case 6:
+			compressFormat = DXGI_FORMAT_BC7_UNORM;
+			break;
+		default:
+			break;
+	}
 
+	
+	
+	result = DirectX::Compress(imgResult->GetImages(),
+							   imgResult->GetImageCount(),
+							   imgResult->GetMetadata(),
+							   compressFormat,
+							   DirectX::TEX_COMPRESS_DEFAULT,
+							   DirectX::TEX_THRESHOLD_DEFAULT,
+							   compressImg);
+	
+	if (FAILED(result)) // Compression fails
+	{
+	}
+	
+	
 	GLint internalFormat;
 	GLenum format, type;
 
-	switch (imgResult->GetMetadata().format)
+	switch (compressImg.GetMetadata().format)
 	{
 		case DXGI_FORMAT_R32G32B32A32_FLOAT:
 			internalFormat = GL_RGBA16F;
@@ -140,20 +182,50 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 			format = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 			break;
+		case DXGI_FORMAT_BC2_UNORM:
+			internalFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC3_UNORM:
+			internalFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC4_UNORM:
+			internalFormat = GL_COMPRESSED_RED_RGTC1;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC5_UNORM:
+			internalFormat = GL_COMPRESSED_RG_RGTC2;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC6H_SF16:
+			internalFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC7_UNORM:
+			internalFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
 		default:
 			assert(false && "Unsupported format");
 	}
 
-	resource->SetWidth((unsigned int) imgResult->GetMetadata().width);
-	resource->SetHeight((unsigned int) imgResult->GetMetadata().height);
+	resource->SetWidth((unsigned int) compressImg.GetMetadata().width);
+	resource->SetHeight((unsigned int) compressImg.GetMetadata().height);
 
 	resource->SetInternalFormat(internalFormat);
 	resource->SetFormat(format);
 	resource->SetImageType(type);
 
-	resource->SetPixelsSize((unsigned int) imgResult->GetPixelsSize());
+	resource->SetPixelsSize((unsigned int) compressImg.GetPixelsSize());
 
-	std::vector<uint8_t> pixels(imgResult->GetPixels(), imgResult->GetPixels() + imgResult->GetPixelsSize());
+	std::vector<uint8_t> pixels(compressImg.GetPixels(), compressImg.GetPixels() + compressImg.GetPixelsSize());
 
 	resource->SetPixels(pixels);
 
@@ -163,8 +235,8 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	wideString = std::wstring(narrowString.begin(), narrowString.end());
 	path = wideString.c_str();
 
-	result =
-		DirectX::SaveToDDSFile(img.GetImages(), img.GetImageCount(), img.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	result = DirectX::SaveToDDSFile(
+		compressImg.GetImages(), compressImg.GetImageCount(), compressImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
 
 	/* if (!cubeMap)
 	{

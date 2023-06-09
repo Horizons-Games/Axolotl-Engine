@@ -60,9 +60,9 @@ struct ImportOptionsTexture
 {
 	bool flipVertical;
 	bool flipHorizontal;
-	TextureType type;
+	int compression;
 
-	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), type(TextureType::DIFFUSE)
+	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), compression(0)
 	{
 	}
 };

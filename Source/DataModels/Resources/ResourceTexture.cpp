@@ -35,12 +35,14 @@ void ResourceTexture::SaveImporterOptions(Json& meta)
 {
 	meta["flipVertical"] = importOptions.flipVertical;
 	meta["flipHorizontal"] = importOptions.flipHorizontal;
+	meta["compression"] = importOptions.compression;
 }
 
 void ResourceTexture::LoadImporterOptions(Json& meta)
 {
 	importOptions.flipVertical = meta["flipVertical"];
 	importOptions.flipHorizontal = meta["flipHorizontal"];
+	importOptions.compression = meta["compression"];
 }
 
 void ResourceTexture::SaveLoadOptions(Json& meta)
@@ -66,8 +68,33 @@ void ResourceTexture::CreateTexture()
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_2D, glTexture);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
-
+	int compressFormat;
+	
+	switch (importOptions.compression)
+	{
+		case 0:
+			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
+			break;
+		case 2:
+			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+			break;
+		case 3:
+			compressFormat = GL_COMPRESSED_RED_RGTC1;
+			break;
+		case 4:
+			compressFormat = GL_COMPRESSED_RG_RGTC2;
+			break;
+		case 5:
+			compressFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+			break;
+		case 6:
+			compressFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+			break;
+		default:
+			break;
+	}
+	//glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
+	glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressFormat, width, height, 0, width*height, &(pixels[0]));
 	if (loadOptions.mipMap)
 	{
 		glGenerateMipmap(GL_TEXTURE_2D);
