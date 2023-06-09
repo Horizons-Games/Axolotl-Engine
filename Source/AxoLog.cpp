@@ -39,13 +39,13 @@ void AxoLog::Write(const char file[], int line, LogSeverity severity, const std:
 	{
 		if (App == nullptr || App->GetModule<ModuleFileSystem>() == nullptr)
 		{
-			LOG_ERROR("Error writing to log file, FileSystem already terminated")
+			LOG_ERROR("Error writing to log file, FileSystem already terminated");
 			return;
 		}
 		if (App->GetModule<ModuleFileSystem>()->Save(
 				logFilePath, detailedString.c_str(), detailedString.size(), true) == 1)
 		{
-			LOG_ERROR("Error writing to log file")
+			LOG_ERROR("Error writing to log file");
 		}
 	}
 }

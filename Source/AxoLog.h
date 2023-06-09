@@ -27,7 +27,7 @@ enum class LogSeverity
 	#define LOG_DEBUG(format, ...) AXO_LOG(format, LogSeverity::DEBUG_LOG, __VA_ARGS__)
 	#define LOG_WARNING(format, ...) AXO_LOG(format, LogSeverity::WARNING_LOG, __VA_ARGS__)
 	#define LOG_ERROR(format, ...) AXO_LOG(format, LogSeverity::ERROR_LOG, __VA_ARGS__)
-	#define AXO_LOG(format, severity, ...) logContext->Log(__FILE__, __LINE__, severity, format, __VA_ARGS__);
+	#define AXO_LOG(format, severity, ...) logContext->Log(__FILE__, __LINE__, severity, format, __VA_ARGS__)
 
 class GameObject;
 class Resource;
