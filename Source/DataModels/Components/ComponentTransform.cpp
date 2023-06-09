@@ -157,7 +157,7 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 	}
 }
 
-void ComponentTransform::UpdateTransformMatrices(bool notifyChanges = true)
+void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 {
 	CalculateMatrices();
 
