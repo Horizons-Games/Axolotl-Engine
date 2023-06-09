@@ -2502,7 +2502,7 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 4.5,
+                            "rbPos_X": -1.634626585200749e-7,
                             "rbPos_Y": 1.5,
                             "rbPos_Z": 0.0
                         }
@@ -5591,7 +5591,7 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 6.0,
+                            "rbPos_X": 0.0,
                             "rbPos_Y": 1.5,
                             "rbPos_Z": 7.5
                         }
