@@ -3,6 +3,7 @@
 
 WindowLoading::WindowLoading() : PopUpWindow("Loading")
 {
+	flags = ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs;
 }
 
 WindowLoading::~WindowLoading()

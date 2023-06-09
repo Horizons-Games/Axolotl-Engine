@@ -58,6 +58,7 @@ enum class TextureType
 #define ANIMATION_PATH "Assets/Animation/"
 #define ANIMATION_LIB_PATH "Lib/Animation/"
 #define SCENE_PATH "Assets/Scenes/"
+#define GAME_STARTING_CONFIG "Startup.conf"
 
 // Resource extension ------
 #define MODEL_EXTENSION ".fbx"
