@@ -503,8 +503,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		ComponentMeshRenderer* mesh = 
-			static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
+		ComponentMeshRenderer* mesh = gameObject->GetComponent<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
 		{
 			const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
