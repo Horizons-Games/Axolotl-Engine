@@ -6,7 +6,7 @@
 #include "Cubemap/Cubemap.h"
 
 
-WindowComponentCubemap::WindowComponentCubemap(ComponentCubemap* component) : ComponentWindow("Cube Map", component)
+WindowComponentCubemap::WindowComponentCubemap(ComponentCubemap* component) : ComponentWindow("Cubemap", component)
 {
 }
 

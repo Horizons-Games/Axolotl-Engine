@@ -3,7 +3,7 @@
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Components/ComponentCamera.h"
 
-WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) : ComponentWindow("CAMERA", component)
+WindowComponentCamera::WindowComponentCamera(ComponentCamera* component) : ComponentWindow("Camera", component)
 {
 }
 

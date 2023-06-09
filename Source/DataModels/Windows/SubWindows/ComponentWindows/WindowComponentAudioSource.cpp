@@ -2,7 +2,7 @@
 #include "Components/ComponentAudioSource.h"
 
 WindowComponentAudioSource::WindowComponentAudioSource(ComponentAudioSource* component) :
-	ComponentWindow("Audio Source", component)
+	ComponentWindow("Audio source", component)
 {
 }
 
@@ -19,6 +19,6 @@ void WindowComponentAudioSource::DrawWindowContents()
 	if (audioSource)
 	{
 		ImGui::Text("");
-		ImGui::Text("Audio Source");
+		ImGui::Text("Audio source");
 	}
 }

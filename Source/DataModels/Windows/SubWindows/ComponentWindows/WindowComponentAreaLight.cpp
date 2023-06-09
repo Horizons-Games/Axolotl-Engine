@@ -9,7 +9,7 @@
 #include "Components/ComponentAreaLight.h"
 
 WindowComponentAreaLight::WindowComponentAreaLight(ComponentAreaLight* component) : 
-	WindowComponentLight("AREA LIGHT", component)
+	WindowComponentLight("Area light", component)
 {
 }
 

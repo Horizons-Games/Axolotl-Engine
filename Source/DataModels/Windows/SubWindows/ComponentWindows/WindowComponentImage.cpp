@@ -7,7 +7,7 @@
 #include "Application.h"
 
 WindowComponentImage::WindowComponentImage(ComponentImage* component) :
-	ComponentWindow("IMAGE", component),
+	ComponentWindow("Image", component),
 	inputImage(std::make_unique<WindowSpriteInput>(component))
 {
 }

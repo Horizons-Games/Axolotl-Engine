@@ -4,7 +4,7 @@
 
 #include "Application.h"
 
-WindowComponentPlayer::WindowComponentPlayer(ComponentPlayer* component) : ComponentWindow("PLAYER", component)
+WindowComponentPlayer::WindowComponentPlayer(ComponentPlayer* component) : ComponentWindow("Player", component)
 {
 }
 

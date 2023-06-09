@@ -12,14 +12,15 @@ NavMeshImporter::~NavMeshImporter()
 {
 }
 
-void NavMeshImporter::Import(const char* filePath, std::shared_ptr<NavMeshImporter> resource)
+void NavMeshImporter::Import(const char* filePath, std::shared_ptr<ResourceNavMesh> resource)
 {
 }
 
-void NavMeshImporter::Save(const std::shared_ptr<NavMeshImporter>& resource, char*& fileBuffer, unsigned int& size)
+void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, char*& fileBuffer, unsigned int& size)
 {
+
 }
 
-void NavMeshImporter::Load(const char* fileBuffer, std::shared_ptr<NavMeshImporter> resource)
+void NavMeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceNavMesh> resource)
 {
 }

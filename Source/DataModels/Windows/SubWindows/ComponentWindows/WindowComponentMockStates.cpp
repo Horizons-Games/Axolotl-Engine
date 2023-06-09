@@ -3,7 +3,7 @@
 #include "Components/ComponentMockState.h"
 
 WindowComponentMockStates::WindowComponentMockStates(ComponentMockState* component) :
-	ComponentWindow("MOCK STATE", component)
+	ComponentWindow("Mock state", component)
 {
 }
 
