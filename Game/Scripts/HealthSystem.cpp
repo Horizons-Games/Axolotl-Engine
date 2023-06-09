@@ -5,6 +5,11 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentScript.h"
+
+#include "../Scripts/EnemyManagerScript.h"
+#include "../Scripts/PowerUpScript.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -43,7 +48,33 @@ void HealthSystem::Update(float deltaTime)
 	}
 	else if (dead && owner->CompareTag("Enemy"))
 	{
-		
+		std::vector<ComponentScript*> gameObjectScripts =
+			owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+
+		for (int i = 0; i < gameObjectScripts.size(); ++i)
+		{
+			if (gameObjectScripts[i]->GetConstructName() == "EnemyManagerScript")
+			{
+				EnemyManagerScript* manager = static_cast<EnemyManagerScript*>(gameObjectScripts[i]->GetScript());
+				GameObject* powerUp = manager->RequestPowerUp();
+				if (powerUp != nullptr)
+				{
+					std::vector<ComponentScript*> gameObjectScripts =
+						powerUp->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+
+					for (int i = 0; i < gameObjectScripts.size(); ++i)
+					{
+						if (gameObjectScripts[i]->GetConstructName() == "PowerUpScript")
+						{
+							PowerUpScript* powerUpScript = static_cast<PowerUpScript*>(gameObjectScripts[i]->GetScript());
+							ComponentTransform* transform = 
+								static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+							powerUpScript->ActivatePowerUp(transform->GetPosition());
+						}
+					}
+				}
+			}
+		}
 	}
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the TakeDamage function but delay setting it to false by 2 seconds or smth like that

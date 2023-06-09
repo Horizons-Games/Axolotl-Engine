@@ -2506,6 +2506,21 @@
                             "rbPos_Y": 1.5,
                             "rbPos_Z": 0.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyManagerScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUp",
+                                    "value": 11306440819102867434,
+                                    "type": 2
+                                }
+                            ]
+                        }
                     }
                 ]
             }

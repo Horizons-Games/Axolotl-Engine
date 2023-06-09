@@ -32,6 +32,7 @@ void PowerUpScript::Start()
 {
 	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	ownerRb = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	DeactivatePowerUp();
 }
 
 void PowerUpScript::Update(float deltaTime)
@@ -41,7 +42,7 @@ void PowerUpScript::Update(float deltaTime)
 void PowerUpScript::ActivatePowerUp(const float3& position)
 {
 	type = PowerUpType(rand() % 4);
-	ownerTransform->SetPosition(float3(position.x, position.y - 200, position.z));
+	ownerTransform->SetPosition(position);
 	ownerTransform->UpdateTransformMatrices();
 	ownerRb->UpdateRigidBody();
 	owner->Enable();
