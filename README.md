@@ -61,6 +61,7 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 **Particle systems**
 - Create a particle system and edit its properties (color, color gradient, number of particles, duration, lifespan, size, rotation, gravity).
 - Add an emitter, select an emitter shape and customize properties (radius, angle).
+- Add textures and spritesheet animations to a particle system.
 
 **Audio**
 - Create and configure audio sources
