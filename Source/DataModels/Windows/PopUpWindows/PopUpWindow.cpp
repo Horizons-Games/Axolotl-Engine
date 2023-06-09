@@ -1,9 +1,8 @@
 #include "DataModels/Windows/PopUpWindows/PopUpWindow.h"
 
-#include "imgui.h"
-
 PopUpWindow::PopUpWindow(const std::string& name) : Window(name)
 {
+	flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 PopUpWindow::~PopUpWindow()
@@ -20,11 +19,7 @@ void PopUpWindow::Draw(bool& enabled)
 		ImGui::SetNextWindowPos(
 			ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 	}
-	enabled =
-		ImGui::BeginPopupModal(name.c_str(),
-							   &enabled,
-							   ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoMove |
-								   ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking);
+	enabled = ImGui::BeginPopupModal(name.c_str(), &enabled, flags);
 	if (enabled)
 	{
 		DrawWindowContents();

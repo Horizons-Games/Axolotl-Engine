@@ -503,7 +503,8 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		if (gameObject->IsActive() && gameObject->IsEnabled())
+		ComponentMeshRenderer* mesh = gameObject->GetComponent<ComponentMeshRenderer>();
+		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
 		{
 			const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 			float dist = Length(cameraPos - transform->GetGlobalPosition());

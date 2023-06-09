@@ -52,18 +52,26 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
+	if (loadedScene == nullptr)
+	{
 #ifdef ENGINE
-	if (loadedScene == nullptr)
-	{
 		loadedScene = CreateEmptyScene();
-	}
-
 #else // GAME MODE
-	if (loadedScene == nullptr)
-	{
-		LoadScene("Lib/Scenes/00_MainMenu_VS3.axolotl", false);
-	}
+		char* buffer;
+		const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+		assert(fileSystem->Exists(GAME_STARTING_CONFIG));
+		unsigned int fileSize = fileSystem->Load(GAME_STARTING_CONFIG, buffer);
+		rapidjson::Document doc;
+		Json startConfig(doc, doc);
+		startConfig.fromBuffer(buffer);
+		delete buffer;
+		
+		std::string startingScene = startConfig["StartingScene"];
+		std::string scenePath = LIB_PATH "Scenes/" + startingScene;
+		assert(fileSystem->Exists(scenePath.c_str()));
+		LoadScene(scenePath, false);
 #endif
+	}
 	selectedGameObject = loadedScene->GetRoot();
 	return true;
 }
