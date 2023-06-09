@@ -47,7 +47,7 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Implementation of the sky CubeMap. 
 
 **Area lights**
-- Differents types of Area lights (Sphere, tube).
+- Different types of Area lights (Sphere, tube).
 
 **Breakable components**
 - Create a breakable component and edit its impulsion power.
@@ -59,7 +59,8 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Add a proportional controller to a Rigidbody.
 
 **Particle systems**
-- Create a particle system and edit its properties (color, number of particles).
+- Create a particle system and edit its properties (color, color gradient, number of particles, duration, lifespan, size, rotation, gravity).
+- Add an emitter, select an emitter shape and customize properties (radius, angle).
 
 **Audio**
 - Create and configure audio sources
