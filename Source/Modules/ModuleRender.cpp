@@ -68,7 +68,6 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 	{
 		case GL_DEBUG_TYPE_ERROR:
 			tmpType = "Error";
-			ENGINE_LOG("%s",message);
 			break;
 		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
 			tmpType = "Deprecated Behaviour";
@@ -177,6 +176,22 @@ bool ModuleRender::Init()
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
+	const unsigned int NR_LIGHTS = 32;
+	srand(13);
+	for (unsigned int i = 0; i < NR_LIGHTS; i++)
+	{
+		// calculate slightly random offsets
+		float xPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 3.0);
+		float yPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 4.0);
+		float zPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 3.0);
+		lightPositions.push_back(float3(xPos, yPos, zPos));
+		// also calculate random color
+		float rColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+		float gColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+		float bColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+		lightColors.push_back(float3(rColor, gColor, bColor));
+	}
+
 	//Reserve space for Camera matrix
 	glGenBuffers(1, &uboCamera);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
@@ -200,7 +215,6 @@ update_status ModuleRender::PreUpdate()
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED));
 
 	glViewport(0, 0, width, height);
 
@@ -356,6 +370,31 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERREDLIGHTING);
+	program->Activate();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gPosition);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, gNormal);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, gDiffuse);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, gSpecular);
+	// send light relevant uniforms
+	for (unsigned int i = 0; i < lightPositions.size(); i++)
+	{
+		program->BindUniformFloat3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
+		program->BindUniformFloat3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
+		// update attenuation parameters and calculate radius
+		const float linear = 0.7f;
+		const float quadratic = 1.8f;
+		program->BindUniformFloat("lights[" + std::to_string(i) + "].Linear", linear);
+		program->BindUniformFloat("lights[" + std::to_string(i) + "].Quadratic", quadratic);
+	}
+	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+	program->BindUniformFloat3("viewPos", viewPos);
+	program->Deactivate();
+
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 	int width, height;
 

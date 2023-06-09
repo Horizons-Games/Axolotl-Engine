@@ -29,11 +29,11 @@ GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0
 {
 	if (this->flags & BatchManager::HAS_SPECULAR)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED);
+		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
 	}
 	else 
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED);
+		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
 	}
 
 	//initialize buffers

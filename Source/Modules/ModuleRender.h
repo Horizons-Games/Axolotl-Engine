@@ -45,8 +45,6 @@ public:
 	float4 GetBackgroundColor() const;
 
 	GLuint GetRenderedTexture() const;
-	const std::string& GetVertexShader() const;
-	const std::string& GetFragmentShader() const;
 	float GetObjectDistance(const GameObject* gameObject);
 
 	BatchManager* GetBatchManager() const;
@@ -98,8 +96,8 @@ private:
 	GLuint depthTexture;
 	//GLuint depthStencilRenderbuffer;
 
-	std::string vertexShader;
-	std::string fragmentShader;
+	std::vector<float3> lightPositions;
+	std::vector<float3> lightColors;
 
 	friend class ModuleEditor;
 };
@@ -116,17 +114,7 @@ inline float4 ModuleRender::GetBackgroundColor() const
 
 inline GLuint ModuleRender::GetRenderedTexture() const
 {
-	return gPosition;
-}
-
-inline const std::string& ModuleRender::GetVertexShader() const
-{
-	return vertexShader;
-}
-
-inline const std::string& ModuleRender::GetFragmentShader() const
-{
-	return fragmentShader;
+	return gDiffuse;
 }
 
 inline BatchManager* ModuleRender::GetBatchManager() const
