@@ -9,8 +9,6 @@ class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
 
-class HealthSystem;
-
 class BixAttackScript : public Script
 {
 
@@ -50,8 +48,6 @@ private:
 	ComponentTransform* ray3Transform;
 	ComponentTransform* ray4Transform;
 	//--Provisional
-
-	HealthSystem* healthScript;
 };
 
 inline void BixAttackScript::IncreaseAttack(float ammountAttack)

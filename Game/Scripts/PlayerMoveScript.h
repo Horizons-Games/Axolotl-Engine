@@ -5,7 +5,6 @@
 class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentTransform;
-class HealthSystem;
 
 enum class PlayerActions
 {
@@ -37,8 +36,6 @@ private:
     float nextDash;
     bool isDashing;
     bool canDash;
-
-	HealthSystem* healthScript;
 };
 
 inline void PlayerMoveScript::IncreaseSpeed(float amountSpeed)
