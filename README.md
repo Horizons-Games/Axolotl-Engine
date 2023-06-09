@@ -8,28 +8,32 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 
 # Features
 
-**SCENE MANAGEMENT**
+**Docking**
+- Move and dock your windows as you need.
+
+**Scene management**
 - Create a complex scene structure using hierarchical GameObjects.
 - Add and remove GameObjects.
 - Add and remove Components to GameObjects. 
 - Edit Component Properties.
 - Link GameObjects to other GameObjects.
+- Reorder GameObjects in the scene hierarchy.
 
-**FILE SYSTEM**
+**File system**
 - The whole scene can be serialised and unserialized (any GameObject and its components can be serialised into binary Files).
-- Any scene can be save or load using an ImGui menu option.
-- The scene can be change into a JSON scene and loaded. 
-- Change an asset into the inspector the resource it's updated. 
-- Modify the save asset that's in a local folder is upgraded. 
-- There are a GAME mode, that load all the files using a zip file of custom files. To active this only define a GAME predefine compilation variable in Globals.h.
+- Any scene can be saved or loaded using an ImGui menu options.
+- A scene can be transformed into a JSON file. 
+- Changing an asset in the inspector updated the corresponding resource.
+- After modifying an asset from a local folder, the asset is updated automatically in the engine. 
+- There's a GAME mode that loads all the files using a compressed zip of all the required assets and custom binary files. To activate this, just define a GAME predefined compilation variable in Globals.h.
 
 **Spatial Partitioning and Frustum Culling**
-- Build the Spatial Partitioning structure Based on QuadTree.
-- Have cull the objects/QuadTree that are inside the camera frustum.
+- Spatial Partitioning structure based on a QuadTree.
+- The engine culls the objects of the Quadtree that are outside the camera frustum.
 - The list of objects of the scene can be obtained by iterating the QuadTree.
-- Draw Based on intersection Frustum/Quadtree <- When a quadtree is in the frustum draw it objects or call the intersection of their childs.
-- Created Camera Object that apply Frustum to the Scene
-- Draw Debug Utilities as Quadtree Bounding Box, objects bounding box and Frustum
+- Draw Based on intersection Frustum/Quadtree <- When a quadtree is in the frustum draw its objects or call the intersection of their childs.
+- Created Camera object that applies Frustum to the Scene.
+- Draw Debug Utilities as Quadtree Bounding Box, object bounding boxes and Frustum.
 
 **PBR Shading and Materials**
 - Implementation of a Phong BRDF with Lambert Diffuse and Fresnel.
@@ -37,32 +41,69 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Interface features: Load and delete material maps, change diffuse and specular's color and shininess and normal's strength. 
 
 **Analytic lights and Normal map**
-- Different type of lights (Ambient, Directional, Point and Spot).
+- Different types of lights (Ambient, Directional, Point and Spot lights).
 - Lights can be added and removed and their parameters can be edited.
 - Application of the Normal Map and the possibility to edit it.
-- Application of the sky CubeMap. 
+- Implementation of the sky CubeMap. 
+
+**Area lights**
+- Differents types of Area lights (Sphere, tube).
+
+**Breakable components**
+- Create a breakable component and edit its impulsion power.
+
+**Physics**
+- Ability to create rigidbodies and edit its properties.
+- Edit a Rigidbody collider and its properties (shape and transform).
+- Draw Debug options for Rigidbody colliders.
+- Add a proportional controller to a Rigidbody.
+
+**Particle systems**
+- Create a particle system and edit its properties (color, number of particles).
+
+**Audio**
+- Create and configure audio sources
+
+**2D and 3D objects**
+- Create 2D canvas (Empty, Text, Image, Button).
+- Create 3D meshes (Cube, Sphere, Plane, Cylinder, Capsule, Character).
+
+**Animations and state machines**
+- Add an animation component to your meshes.
+- Ability to create, edit, rename and delete state machines.
+- Draw Debug options for sketelal animation bones.
+
+**Scripting**
+- Ability to create and link scripts to GameObjects.
+
+**Build**
+- Configure a scene and an environment to generate the zip compressed folder with the corresponding assets and files.
+
+**Play scenes**
+- Play or stop your scene at any moment.
 
 # Controls
-- Right click + “WASD” to move camera around.
+- Right click + W / A / S / D  to move camera around.
 - Right click to rotate the camera.
 - Alt + left click to orbit the camera.
 - Mouse wheel to zoom in/out.
 - F to center the camera into the last loaded object.
-- SHIFT + Movement to duplicate the movement speed.
+- SHIFT + W / A / S / D to duplicate the movement speed.
 - You can move, rotate and scale selected elements using ImGuizmo in the scene viewport.
 
 # How to use
 You can drag and drop different models and edit it's meshes and textures (loading from local) in the inspector window. 
 
 **Menu Items**
-- Windows (Able and disable any window)
-  - Console
+- Windows (Enable and disable any window)
   - Scene
   - Configuration
+  - Resources
   - Inspector
   - Hieriarchy
   - Editor Control
   - File Browser
+  - Console
   
 - Configuration
   - FPS (modify)
@@ -74,7 +115,7 @@ You can drag and drop different models and edit it's meshes and textures (loadin
  
  - Hierarchy
   - New Scene (create child, create camera)
-    - Components (Create child, create camera, move up, move down)
+    - Components (Create child, create camera, create 3D object, create light, create canvas, create audio source, move up, move down)
  
  - Inspector 
   - Load and save scene file
@@ -92,6 +133,13 @@ You can drag and drop different models and edit it's meshes and textures (loadin
 
 **Editor Controller**
 - Play/Pause controller
+
+**Shortcuts**
+- Ctrl + C to copy
+- Ctrl + V to paste
+- Ctrl + S to save
+- Ctrl + Z to undo
+- Ctrl + Y to redo
 
 # Note
 
