@@ -157,13 +157,18 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 	}
 }
 
-void ComponentTransform::UpdateTransformMatrices()
+void ComponentTransform::UpdateTransformMatrices(bool notifyChanges = true)
 {
 	CalculateMatrices();
-	for (Component* components : GetOwner()->GetComponents())
+
+	if (notifyChanges)
 	{
-		components->OnTransformChanged();
+		for (Component* components : GetOwner()->GetComponents())
+		{
+			components->OnTransformChanged();
+		}
 	}
+	
 
 	if (GetOwner()->GetChildren().empty())
 		return;
@@ -179,6 +184,7 @@ void ComponentTransform::UpdateTransformMatrices()
 		}
 	}
 }
+
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified,
