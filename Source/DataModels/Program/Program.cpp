@@ -33,7 +33,7 @@ Program::Program(unsigned vertexShader,
 			ENGINE_LOG("Program Log Info: %s", info);
 			free(info);
 		}
-		SDL_assert(SDL_FALSE); // problem compiling shaders, read console
+		SDL_assert(SDL_FALSE && "Problem compiling shaders, read console");
 		id = 0;
 	}
 }
