@@ -396,6 +396,11 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			rigidBody->UpdateRigidBodyTranslation();
 			rigidBody->UpdateRigidBody();
 		}
+
+		if (transform)
+		{
+			transform->UpdateTransformMatrices();
+		}
 	}
 
 	SetSceneRootAnimObjects(loadedObjects);
