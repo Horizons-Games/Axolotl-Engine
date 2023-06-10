@@ -82,8 +82,10 @@ void AnimationImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceAni
 
 void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[1] = { resource->GetNumChannels() };
-
+	unsigned int header[1] = { 
+		resource->GetNumChannels() 
+	};
+	
 	size = (sizeof(unsigned int) * 3) * resource->GetNumChannels() + sizeof(header) + sizeof(double);
 
 	for (auto it : resource->GetChannels())
