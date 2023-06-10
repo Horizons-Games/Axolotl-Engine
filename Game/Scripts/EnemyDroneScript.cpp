@@ -18,7 +18,7 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr)
+	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0), stunned(false)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -67,6 +67,19 @@ void EnemyDroneScript::Update(float deltaTime)
 		return;
 	}
 
+	if (stunned)
+	{
+		if(timeStunned < 0)
+		{
+			timeStunned = 0;
+			stunned = false;
+		}
+		else
+		{
+			timeStunned -= deltaTime;
+			return;
+		}
+	}
 	GameObject* seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
 
 	if (seekTarget)
@@ -121,4 +134,10 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		componentAnimation->SetParameter("IsAttacking", true);
 	}
+}
+
+void EnemyDroneScript::SetStunnedTime(float newTime)
+{
+	stunned = true;
+	timeStunned = newTime;
 }
