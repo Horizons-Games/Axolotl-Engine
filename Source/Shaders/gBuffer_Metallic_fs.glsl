@@ -47,17 +47,11 @@ void main()
     }
 
     gSpecular = texture(material.metallic_map, TexCoord);
-    float metalnessMask = material.has_metallic_map * gSpecular.r + (1 - material.has_metallic_map) * 
-        material.metalness;
-
-    vec3 Cd = gDiffuse.rgb*(1.0-metalnessMask);
-    vec3 f0 = mix(vec3(0.04), gDiffuse.rgb, metalnessMask);
-
     // smoothness and roughness
-    float roughness = pow(1-material.smoothness,2) + EPSILON;
+    gSpecular.a = pow(1-material.smoothness,2) + EPSILON;
     if (material.has_metallic_map == 1)
 	{
-        roughness = pow(1.0 * gSpecular.a,2) + EPSILON;
+        gSpecular.a = pow(1.0 * gSpecular.a,2) + EPSILON;
     }
 
     gSpecular = texture(material.metallic_map, TexCoord);

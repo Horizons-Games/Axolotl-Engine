@@ -166,6 +166,7 @@ void main()
     vec3 norm = texture(gNormal, TexCoord).rgb;
     vec3 textureMat = texture(gDiffuse, TexCoord).rgb;
     vec3 specularMat = texture(gSpecular, TexCoord).rbg;
+    float smoothness = texture(gSpecular, TexCoord).a;
 
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
@@ -174,8 +175,7 @@ void main()
     vec3 f0 = specularMat.rgb;
 
     // smoothness and roughness
-    float smoothness = 1;
-    float roughness = pow(1-1,2) + EPSILON;
+    float roughness = pow(1-smoothness,2) + EPSILON;
     
     // Lights
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
