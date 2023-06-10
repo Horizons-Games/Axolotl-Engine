@@ -499,7 +499,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			}
 			else
 			{
-				loadedScene->GetRoot()->LinkChild(gameObject, false);
+				loadedScene->GetRoot()->LinkChild(gameObject);
 				gameObject->SetStatic(true);
 			}
 			continue;
@@ -511,7 +511,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		}
 
 		GameObject* parentGameObject = gameObjectMap[parent];
-		parentGameObject->LinkChild(gameObject, false);
+		parentGameObject->LinkChild(gameObject);
 	}
 
 	std::vector<GameObject*> loadedObjects{};

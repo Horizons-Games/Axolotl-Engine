@@ -213,7 +213,7 @@ void GameObject::SetParent(GameObject* newParent)
 	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
 }
 
-void GameObject::LinkChild(GameObject* child, bool updateMatrices)
+void GameObject::LinkChild(GameObject* child)
 {
 	assert(child);
 
@@ -222,20 +222,17 @@ void GameObject::LinkChild(GameObject* child, bool updateMatrices)
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 
-		if (updateMatrices)
+		ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+		if (transform)
 		{
-			ComponentTransform* transform = child->GetComponent<ComponentTransform>();
-			if (transform)
+			transform->UpdateTransformMatrices(false);
+		}
+		else
+		{
+			ComponentTransform2D* transform2D = child->GetComponent<ComponentTransform2D>();
+			if (transform2D)
 			{
-				transform->UpdateTransformMatrices();
-			}
-			else
-			{
-				ComponentTransform2D* transform2D = child->GetComponent<ComponentTransform2D>();
-				if (transform2D)
-				{
-					transform2D->CalculateMatrices();
-				}
+				transform2D->CalculateMatrices();
 			}
 		}
 		children.push_back(std::unique_ptr<GameObject>(child));

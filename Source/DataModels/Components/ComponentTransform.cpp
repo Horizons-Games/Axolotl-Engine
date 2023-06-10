@@ -180,7 +180,7 @@ void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 
 		if(childTransform)
 		{
-			childTransform->UpdateTransformMatrices();
+			childTransform->UpdateTransformMatrices(notifyChanges);
 		}
 	}
 }
