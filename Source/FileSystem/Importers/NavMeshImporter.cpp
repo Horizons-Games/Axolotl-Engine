@@ -22,7 +22,7 @@ void NavMeshImporter::Import(const char* filePath, std::shared_ptr<ResourceNavMe
 
 void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, char*& fileBuffer, unsigned int& size)
 {
-	size = (sizeof(int) * 10 + sizeof(double) * 7 + sizeof(bool) +sizeof(unsigned char));
+	size = (sizeof(float) * 7 + sizeof(int) * 10 + sizeof(bool) + sizeof(unsigned char));
 
 	char* cursor = new char[size]{};
 
