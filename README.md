@@ -44,7 +44,7 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Different types of lights (Ambient, Directional, Point and Spot lights).
 - Lights can be added and removed and their parameters can be edited.
 - Application of the Normal Map and the possibility to edit it.
-- Implementation of the sky CubeMap. 
+- Implementation of the sky cubemap. 
 
 **Area lights**
 - Different types of Area lights (Sphere, tube).
