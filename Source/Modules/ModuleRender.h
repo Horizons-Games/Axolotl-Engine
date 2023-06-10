@@ -94,10 +94,6 @@ private:
 	GLuint gDiffuse;
 	GLuint gSpecular;
 	GLuint depthTexture;
-	//GLuint depthStencilRenderbuffer;
-
-	std::vector<float3> lightPositions;
-	std::vector<float3> lightColors;
 
 	friend class ModuleEditor;
 };

@@ -176,22 +176,6 @@ bool ModuleRender::Init()
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
-	const unsigned int NR_LIGHTS = 32;
-	srand(13);
-	for (unsigned int i = 0; i < NR_LIGHTS; i++)
-	{
-		// calculate slightly random offsets
-		float xPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 3.0);
-		float yPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 4.0);
-		float zPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 3.0);
-		lightPositions.push_back(float3(xPos, yPos, zPos));
-		// also calculate random color
-		float rColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
-		float gColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
-		float bColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
-		lightColors.push_back(float3(rColor, gColor, bColor));
-	}
-
 	//Reserve space for Camera matrix
 	glGenBuffers(1, &uboCamera);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
@@ -207,6 +191,14 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERREDLIGHTING);
+	program->Activate();
+	program->BindUniformInt("gPosition", 0);
+	program->BindUniformInt("gNormal", 1);
+	program->BindUniformInt("gDiffuse", 2);
+	program->BindUniformInt("gSpecular", 3);
+	program->Deactivate();
+
 	int width, height;
 
 	renderMapOpaque.clear();
@@ -220,8 +212,8 @@ update_status ModuleRender::PreUpdate()
 
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glStencilMask(0x00); // disable writing to the stencil buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); 
+
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -370,6 +362,10 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
+	int width, height;
+
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERREDLIGHTING);
 	program->Activate();
 	glActiveTexture(GL_TEXTURE0);
@@ -380,25 +376,21 @@ update_status ModuleRender::PostUpdate()
 	glBindTexture(GL_TEXTURE_2D, gDiffuse);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gSpecular);
-	// send light relevant uniforms
-	for (unsigned int i = 0; i < lightPositions.size(); i++)
-	{
-		program->BindUniformFloat3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
-		program->BindUniformFloat3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
-		// update attenuation parameters and calculate radius
-		const float linear = 0.7f;
-		const float quadratic = 1.8f;
-		program->BindUniformFloat("lights[" + std::to_string(i) + "].Linear", linear);
-		program->BindUniformFloat("lights[" + std::to_string(i) + "].Quadratic", quadratic);
-	}
+
 	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
-	program->BindUniformFloat3("viewPos", viewPos);
+	program->BindUniformFloat3("ViewPos", viewPos);
+
 	program->Deactivate();
+	
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(
+		0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST
+	);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
-	int width, height;
 
-	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -418,6 +410,7 @@ bool ModuleRender::CleanUp()
 	glDeleteTextures(1, &gNormal);
 	glDeleteTextures(1, &gDiffuse);
 	glDeleteTextures(1, &gSpecular);
+	glDeleteTextures(1, &depthTexture);
 
 	return true;
 }
@@ -463,7 +456,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gSpecular, 0);
 
-	unsigned int attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 , GL_COLOR_ATTACHMENT3};
+	unsigned int attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, 
+		GL_COLOR_ATTACHMENT3 };
 	glDrawBuffers(4, attachments);
 
 	glGenRenderbuffers(1, &depthTexture);
