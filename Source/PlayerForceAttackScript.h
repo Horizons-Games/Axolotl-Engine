@@ -13,5 +13,7 @@ public:
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
 private:
-	std::vector<ComponentRigidBody*> enemiesInTheArea;
+	std::vector<GameObject*> enemiesInTheArea;
+
+	float radius;
 };
