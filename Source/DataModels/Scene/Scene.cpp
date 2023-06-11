@@ -14,6 +14,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCubemap.h"
 
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
@@ -103,8 +104,7 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 	if (is3D)
 	{
 		// Update the transform respect its parent when created
-		ComponentTransform* childTransform =
-			static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform = gameObject->GetComponent<ComponentTransform>();
 		childTransform->UpdateTransformMatrices();
 
 		// Quadtree treatment
@@ -120,8 +120,7 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 	else
 	{
 		// Update the transform respect its parent when created
-		ComponentTransform2D* childTransform =
-			static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* childTransform = gameObject->GetComponent<ComponentTransform2D>();
 		childTransform->CalculateMatrices();
 	}
 
@@ -137,16 +136,14 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	gameObject->SetParent(parent);
 
 	// Update the transform respect its parent when created
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 	if (transform)
 	{
 		transform->UpdateTransformMatrices();
 	}
 	else
 	{
-		ComponentTransform2D* transform2D =
-			static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* transform2D = gameObject->GetComponent<ComponentTransform2D>();
 		if (transform2D)
 		{
 			transform2D->CalculateMatrices();
@@ -161,8 +158,8 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	Component* component = gameObject->CreateComponent(ComponentType::CAMERA);
-	sceneCameras.push_back(static_cast<ComponentCamera*>(component));
+	ComponentCamera* component = gameObject->CreateComponent<ComponentCamera>();
+	sceneCameras.push_back(component);
 
 	return gameObject;
 }
@@ -172,12 +169,11 @@ GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* p
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
-	ComponentTransform2D* trans =
-		static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+	ComponentTransform2D* trans = gameObject->GetComponent<ComponentTransform2D>();
 	trans->SetPosition(float3(0, 0, -2));
 	trans->CalculateMatrices();
-	Component* canvas = gameObject->CreateComponent(ComponentType::CANVAS);
-	sceneCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
+	ComponentCanvas* canvas = gameObject->CreateComponent<ComponentCanvas>();
+	sceneCanvas.push_back(canvas);
 
 	return gameObject;
 }
@@ -188,11 +184,11 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 	switch (type)
 	{
 		case ComponentType::IMAGE:
-			gameObject->CreateComponent(ComponentType::IMAGE);
+			gameObject->CreateComponent<ComponentImage>();
 			break;
 		case ComponentType::BUTTON:
-			gameObject->CreateComponent(ComponentType::IMAGE);
-			sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
+			gameObject->CreateComponent<ComponentImage>();
+			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
 		default:
 			break;
@@ -205,8 +201,7 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	GameObject* gameObject = CreateGameObject(name, parent);
 	ModuleResources* resources = App->GetModule<ModuleResources>();
 
-	ComponentMeshRenderer* meshComponent =
-		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
+	ComponentMeshRenderer* meshComponent = gameObject->CreateComponent<ComponentMeshRenderer>();
 	meshComponent->SetMaterial(resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	std::shared_ptr<ResourceMesh> mesh;
 
@@ -248,7 +243,7 @@ GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* pa
 GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponent(ComponentType::AUDIOSOURCE);
+	gameObject->CreateComponent<ComponentAudioSource>();
 
 	return gameObject;
 }
@@ -301,8 +296,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		GameObject* gameObjectNode = CreateGameObject(&node->name[0], parentsStack.top().second);
 
-		ComponentTransform* transformNode =
-			static_cast<ComponentTransform*>(gameObjectNode->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transformNode = gameObjectNode->GetComponent<ComponentTransform>();
 		gameObjectNodes.push_back(gameObjectNode);
 
 		float3 pos;
@@ -333,8 +327,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 			GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectNode);
 
-			ComponentMeshRenderer* meshRenderer =
-				static_cast<ComponentMeshRenderer*>(gameObjectModelMesh->CreateComponent(ComponentType::MESHRENDERER));
+			ComponentMeshRenderer* meshRenderer = gameObjectModelMesh->CreateComponent<ComponentMeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material);
 
@@ -342,10 +335,9 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		}
 	}
 
-	static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))
-		->UpdateTransformMatrices();
+	gameObjectModel->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
 
-	for (GameObject* child : gameObjectModel->GetGameObjectsInside())
+	for (GameObject* child : gameObjectModel->GetAllDescendants())
 	{
 		child->SetRootGO(gameObjectNodes[0]);
 
@@ -644,9 +636,8 @@ void Scene::GenerateLights()
 
 void Scene::RenderDirectionalLight() const
 {
-	ComponentTransform* dirTransform =
-		static_cast<ComponentTransform*>(directionalLight->GetComponent(ComponentType::TRANSFORM));
-	ComponentLight* dirComp = static_cast<ComponentLight*>(directionalLight->GetComponent(ComponentType::LIGHT));
+	ComponentTransform* dirTransform = directionalLight->GetComponent<ComponentTransform>();
+	ComponentLight* dirComp = directionalLight->GetComponent<ComponentLight>();
 
 	float3 directionalDir = dirTransform->GetGlobalForward();
 	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
@@ -740,19 +731,20 @@ void Scene::UpdateScenePointLights()
 	{
 		if (child && child->IsEnabled() && child->IsActive())
 		{
-			std::vector<ComponentLight*> components =
-				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (!components.empty() && components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty())
 			{
-				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
-				ComponentTransform* transform = static_cast<ComponentTransform*>(
-					components[0]->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+				if (components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
+				{
+					ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
+					ComponentTransform* transform = components[0]->GetOwner()->GetComponent<ComponentTransform>();
 
-				PointLight pl;
-				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
-				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
+					PointLight pl;
+					pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
+					pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
-				pointLights.push_back(pl);
+					pointLights.push_back(pl);
+				}
 			}
 		}
 	}
@@ -768,14 +760,12 @@ void Scene::UpdateSceneSpotLights()
 	{
 		if (child && child->IsEnabled() && child->IsActive())
 		{
-			std::vector<ComponentLight*> components =
-				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty())
 			{
 				ComponentSpotLight* spotLightComp =
 					static_cast<ComponentSpotLight*>(components[0]);
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 
 				SpotLight sl;
 				sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
@@ -802,13 +792,12 @@ void Scene::UpdateSceneAreaLights()
 		if (child)
 		{
 			std::vector<ComponentLight*> components =
-				child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
+				child->GetComponents<ComponentLight>();
 			if (!components.empty() && components[0]->GetLightType() == LightType::AREA)
 			{
 				ComponentAreaLight* areaLightComp =
 					static_cast<ComponentAreaLight*>(components[0]);
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
 					float3 center = transform->GetGlobalPosition();
@@ -870,9 +859,9 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
-	if (root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
+	if (root->GetComponent<ComponentCubemap>() == nullptr)
 	{
-		root.get()->CreateComponent(ComponentType::CUBEMAP);
+		root->CreateComponent<ComponentCubemap>();
 	}
 
 	if (resourceCubemap)
@@ -998,9 +987,9 @@ void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 
 void Scene::InitCubemap()
 {
-	if (root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
+	if (root->GetComponent<ComponentCubemap>() == nullptr)
 	{
-		root.get()->CreateComponent(ComponentType::CUBEMAP);
+		root->CreateComponent<ComponentCubemap>();
 	}
 }
 

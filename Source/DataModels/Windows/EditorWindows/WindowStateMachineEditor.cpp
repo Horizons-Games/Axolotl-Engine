@@ -176,7 +176,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 							 &name[0],
 							 ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && name != "")
+			if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)) && !name.empty())
 			{
 				oldName = &it.first;
 				newName = name.c_str();
@@ -205,7 +205,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 		}
 	}
 
-	if (newName != "")
+	if (!newName.empty())
 	{
 		stateAsShared->EraseParameter(*oldName);
 		stateAsShared->AddParameter(newName.c_str(), field.first, field.second);
@@ -296,7 +296,7 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 			}
 			ImGui::SameLine();
 
-			if (condition.parameter != "")
+			if (!condition.parameter.empty())
 			{
 				const auto& itParameter = stateAsShared->GetParameters().find(condition.parameter);
 				if (itParameter != stateAsShared->GetParameters().end())
