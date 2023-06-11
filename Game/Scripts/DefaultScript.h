@@ -4,6 +4,8 @@
 #include "Math/float3.h"
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentTransform;
+
 // This script is just to show how to instantiate/use the different types of variables
 
 class DefaultScript : public Script
@@ -40,5 +42,6 @@ private:
 	std::vector<std::string> vecStr;
 	std::string sentence;
 	GameObject* character;
+	ComponentTransform* transform;
 	bool check;
 };

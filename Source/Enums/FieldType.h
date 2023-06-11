@@ -1,9 +1,14 @@
 #pragma once
 
-#include "GameObject/GameObject.h"
-#include <vector>
 #include <any>
-#include <cctype>
+#include <vector>
+
+class GameObject;
+class Component;
+namespace math
+{
+class float3;
+}
 
 enum class FieldType
 {
@@ -12,7 +17,8 @@ enum class FieldType
 	GAMEOBJECT,
 	VECTOR3,
 	VECTOR,
-	BOOLEAN
+	BOOLEAN,
+	COMPONENT
 };
 
 template<typename T>
@@ -27,7 +33,7 @@ struct TypeToEnum<float>
 };
 
 template<>
-struct TypeToEnum<float3>
+struct TypeToEnum<math::float3>
 {
 	const static FieldType value = FieldType::VECTOR3;
 };
@@ -54,4 +60,10 @@ template<>
 struct TypeToEnum<bool>
 {
 	const static FieldType value = FieldType::BOOLEAN;
+};
+
+template<>
+struct TypeToEnum<Component*>
+{
+	const static FieldType value = FieldType::COMPONENT;
 };

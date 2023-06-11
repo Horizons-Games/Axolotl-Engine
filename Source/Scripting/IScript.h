@@ -3,6 +3,7 @@
 
 #include "RuntimeObjectSystem/ISimpleSerializer.h"
 
+#include "Auxiliar/Reflection/ComponentField.h"
 #include "Auxiliar/Reflection/Field.h"
 #include "Auxiliar/Reflection/VectorField.h"
 #include "Enums/FieldType.h"
@@ -18,8 +19,13 @@ class ComponentRigidBody;
 
 #include "Scripting/RegisterFieldMacros.h"
 
-using ValidFieldType =
-	std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>>;
+using ValidFieldType = std::variant<Field<float>,
+									Field<float3>,
+									VectorField,
+									Field<std::string>,
+									Field<GameObject*>,
+									Field<bool>,
+									ComponentField>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject

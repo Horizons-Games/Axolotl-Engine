@@ -1,8 +1,10 @@
 #include "DefaultScript.h"
+#include "DataModels/Components/ComponentTransform.h"
+#include "Enums/ComponentType.h"
 
 REGISTERCLASS(DefaultScript);
 
-DefaultScript::DefaultScript() : Script(), value(10), vecStr{"Esto", "es un", "vector string", "de prueba"}, vec{1.2f,2.3f,3.3f}, vec3(2.1f, 1.2f, 1.4f), sentence("Horizons"), character(nullptr), check(true)
+DefaultScript::DefaultScript() : Script(), value(10), vecStr{ "Esto", "es un", "vector string", "de prueba" }, vec{ 1.2f,2.3f,3.3f }, vec3(2.1f, 1.2f, 1.4f), sentence("Horizons"), character(nullptr), check(true)
 {
 	REGISTER_FIELD(value, float);
 	REGISTER_FIELD(sentence, std::string);
@@ -11,6 +13,7 @@ DefaultScript::DefaultScript() : Script(), value(10), vecStr{"Esto", "es un", "v
 	REGISTER_VECTOR_WITH_ACCESSORS(VectorStr, std::string);
 	REGISTER_FIELD_WITH_ACCESSORS(Character, GameObject*);
 	REGISTER_FIELD(check, bool);
+	REGISTER_COMPONENT(transform, ComponentTransform);
 }
 
 void DefaultScript::Update(float deltaTime)
