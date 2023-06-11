@@ -20,11 +20,13 @@ EmitterInstance::~EmitterInstance()
 {
 	owner = nullptr;
 	particles.clear();
+	sortedPositions.clear();
 }
 
 void EmitterInstance::Init()
 {
 	particles.resize(emitter->GetMaxParticles());
+	sortedPositions.resize(emitter->GetMaxParticles());
 	aliveParticles = 0;
 	lastEmission = 0.0f;
 }
@@ -33,6 +35,8 @@ void EmitterInstance::UpdateModules()
 {
 	std::vector<ParticleModule*> modules = emitter->GetModules();
 	
+	sortedPositions.clear();
+
 	for (ParticleModule* module : modules)
 	{
 		module->Update(this);

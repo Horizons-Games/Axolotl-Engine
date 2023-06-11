@@ -4,17 +4,18 @@ in vec2 fragUv0;
 in vec3 fragPos;
 in vec4 fragColor;
 
-layout(location = 3) uniform sampler2D diffuse;
+layout(location = 3) uniform int hasTexture;
+layout(binding = 0)  uniform sampler2D diffuseTex;
 
 out vec4 outColor;
 
 void main()
 {
-	vec4 diffuse = texture(diffuse, fragUv0);
+	vec4 diffuse = texture(diffuseTex, fragUv0);
+	vec4 color = hasTexture * diffuse * fragColor + (1 - hasTexture) * fragColor;
 
-	vec3 color = fragColor.rgb;
 	vec4 gammaCorrection = vec4(2.2);
 
-	color = pow(color, vec3(1.0/gammaCorrection));
-	outColor = vec4(color, fragColor.a);
+	color.rgb = pow(color.rgb, vec3(1.0/gammaCorrection));
+	outColor = color;
 }

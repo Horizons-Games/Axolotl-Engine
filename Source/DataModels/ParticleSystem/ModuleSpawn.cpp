@@ -62,6 +62,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 			instance->CalculateRandomValueInRange(life.x, life.y) : life.x;
 		particle.gravity = emitter->IsRandomGravity() ? 
 			instance->CalculateRandomValueInRange(gravity.x, gravity.y) : gravity.x;
+		particle.frame = -1.0f;
 
 		instance->SetAliveParticles(instance->GetAliveParticles() + 1);
 

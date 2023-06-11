@@ -60,16 +60,16 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(Module
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float3), (void*)0);
 
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (void*)(4 * sizeof(float3)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float2), (void*)(4 * sizeof(float3)));
 
 	// Instances
 	glGenBuffers(1, &instanceVbo);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVbo);
 
-	unsigned int sizeOfVertex = sizeof(float3) * 4 + sizeof(float4);
+	unsigned int sizeOfVertex = sizeof(float3) * 4 + sizeof(float4) + sizeof(float);
 
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)0);
@@ -91,6 +91,10 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(Module
 	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)(4 * sizeof(float3)));
 	glVertexAttribDivisor(7, 1);
 
+	glEnableVertexAttribArray(8);
+	glVertexAttribPointer(8, 1, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)(4 * sizeof(float3)+sizeof(float4)));
+	glVertexAttribDivisor(8, 1);
+
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -110,11 +114,34 @@ void ModuleRenderer::Spawn(EmitterInstance* instance)
 
 void ModuleRenderer::Update(EmitterInstance* instance)
 {
+	if (GetTexture())
+	{
+		std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
+
+		for (int i = 0; i < particles.size(); ++i)
+		{
+			EmitterInstance::Particle& particle = particles[i];
+
+			if (particle.lifespan > 0.0f)
+			{
+				if (particle.frame == -1.0f)
+				{
+					particle.frame = randomFrame ? 
+						instance->CalculateRandomValueInRange(0.0f, static_cast<float>(tiles[0]*tiles[1])) : 0.0f;
+				}
+				else
+				{
+					float frame = particle.frame + sheetSpeed;
+					particle.frame = Mod(frame, tiles[0] * tiles[1]);
+				}
+			}
+		}
+	}
 }
 
 void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 {
-	unsigned int stride = sizeof(float3) * 4 + sizeof(float4);
+	unsigned int stride = sizeof(float3) * 4 + sizeof(float4) + sizeof(float);
 	unsigned int aliveParticles = instance->GetAliveParticles();
 
 	if (numInstances < aliveParticles)
@@ -187,6 +214,9 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 
 			float4* color = reinterpret_cast<float4*>(instanceData + (i * stride) + sizeof(float3) * 4);
 			*color = particle.color;
+
+			float* frame = reinterpret_cast<float*>(instanceData + (i * stride) + sizeof(float3) * 4 + sizeof(float4));
+			*frame = particle.frame;
 		}
 	}
 
@@ -223,10 +253,16 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 
 		if (texture)
 		{
-			glActiveTexture(GL_TEXTURE3);
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(3, 1);
+		}
+		else
+		{
 			glUniform1i(3, 0);
 		}
+		glUniform1i(9, tiles[0]);
+		glUniform1i(10, tiles[1]);
 
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -367,11 +403,44 @@ void ModuleRenderer::DrawImGui()
 				{
 					texture->Unload();
 					texture = nullptr;
+					SetTexture(texture);
 				}
 			}
 			else
 			{
 				windowTexture->DrawWindowContents();
+			}
+
+			ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+			if (GetTexture() && ImGui::BeginTable("##textureTable", 2))
+			{
+				ImGui::TableNextColumn();
+				ImGui::Text("Tiles");
+				ImGui::TableNextColumn();
+				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
+				ImGui::Text("x:"); ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::InputInt("##xTile", &tiles[0]);
+				ImGui::SameLine();
+				ImGui::Text("y:"); ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::InputInt("##yTile", &tiles[1]);
+
+				ImGui::TableNextColumn();
+				ImGui::Text("Random frame");
+				ImGui::TableNextColumn();
+				ImGui::Dummy(ImVec2(4.0f, 0.0f)); ImGui::SameLine();
+				ImGui::Checkbox("##randomFrame", &randomFrame);
+
+				ImGui::TableNextColumn();
+				ImGui::Text("Speed");
+				ImGui::TableNextColumn();
+				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
+				ImGui::SetNextItemWidth(102.0f);
+				ImGui::InputFloat("##speed", &sheetSpeed, 0.5, 1.0f, "%.2f");
+
+				ImGui::EndTable();
 			}
 		}
 		ImGui::TreePop();

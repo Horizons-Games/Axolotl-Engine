@@ -44,6 +44,11 @@ private:
 	unsigned int numInstances;
 
 	WindowParticleTexture* windowTexture;
+	
+	// Texture sheet info
+	int tiles[2] = { 1, 1 };
+	float sheetSpeed = 0.0f;
+	bool randomFrame = false;
 };
 
 inline void ModuleRenderer::SetAlignment(const Alignment& alignment)

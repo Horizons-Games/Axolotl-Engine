@@ -12,10 +12,24 @@ layout(location = 4) in vec3 instanceUp;
 layout(location = 5) in vec3 instanceFront;
 layout(location = 6) in vec3 instanceTrans;
 layout(location = 7) in vec4 instanceColor;
+layout(location = 8) in float instanceFrame;
+
+layout(location = 9) uniform int xTiles;
+layout(location = 10) uniform int yTiles;
 
 out vec2 fragUv0;
+out vec2 fragUv1;
 out vec3 fragPos;
 out vec4 fragColor;
+
+void CalculateUV(in float frame, in int xTiles, in int yTiles, in vec2 srcUv, out vec2 uv)
+{
+	float X = trunc(mod(frame, xTiles));
+	float Y = (yTiles-1)-trunc(frame/xTiles);
+
+	uv.x = mix(X, X+1, srcUv.x)/xTiles;
+	uv.y = mix(Y, Y+1, srcUv.y)/yTiles;
+}
 
 void main()
 {
@@ -27,8 +41,8 @@ void main()
 
 	fragPos = (model*transform*vec4(vertexPos, 1.0)).xyz;
 	fragColor = instanceColor;
-	fragUv0 = vertexUv0;
 
+	CalculateUV(instanceFrame, xTiles, yTiles, vertexUv0, fragUv0);
 
 	gl_Position = proj*view*vec4(fragPos, 1.0);
 }
