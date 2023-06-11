@@ -6,7 +6,7 @@ class NavMeshImporter : public Importer<ResourceNavMesh>
 {
 public:
 	NavMeshImporter(){};
-	~NavMeshImporter(){};
+	~NavMeshImporter() override {};
 
 	void Import(const char* filePath, std::shared_ptr<ResourceNavMesh> resource) override;
 	void Load(const char* fileBuffer, std::shared_ptr<ResourceNavMesh> resource) override;
