@@ -86,7 +86,7 @@ inline Json::operator double() const
 
 inline Json::operator std::string() const
 {
-	return value.IsString() ? value.GetString() : "";
+	return value.IsString() ? value.GetString() : std::string();
 }
 
 template<typename T>

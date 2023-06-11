@@ -21,7 +21,7 @@ player(nullptr), menuIsOpen(false), hudStateObject(nullptr), WinSceneName("00_Wi
 
 void UIGameStates::Start()
 {
-	player = static_cast<ComponentPlayer*>(setPlayer->GetComponent(ComponentType::PLAYER));
+	player = setPlayer->GetComponent<ComponentPlayer>();
 }
 
 void UIGameStates::Update(float deltaTime)
