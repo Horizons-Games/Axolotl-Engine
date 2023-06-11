@@ -93,7 +93,7 @@ void ComponentAnimation::Update()
 				}
 				else if (state->resource && state->loop)
 				{
-					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false, state->speed);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ void ComponentAnimation::Update()
 			const State* state = stateMachine->GetState(actualState);
 			if (state->resource)
 			{
-				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false, state->speed);
 			}
 			else
 			{

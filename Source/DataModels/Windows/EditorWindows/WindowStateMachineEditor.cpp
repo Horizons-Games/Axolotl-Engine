@@ -233,6 +233,7 @@ void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMach
 		else
 		{
 			ImGui::Checkbox("Loop", &state->loop);
+			ImGui::InputFloat("Speed", &state->speed);
 
 			ImGui::Text(state->resource->GetFileName().c_str());
 			ImGui::SameLine();

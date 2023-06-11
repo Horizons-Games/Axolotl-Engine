@@ -68,6 +68,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 			size += sizeof(UID);			  // own UID
 			size += sizeof(int) * 2;		  // Auxiliar Pos
 			size += sizeof(char) * state->name.size();
+			size += sizeof(float);
 			if (state->resource != nullptr)
 				size += sizeof(UID);
 			size += sizeof(UID) * state->transitionsOriginedHere.size();
@@ -152,6 +153,11 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 			bytes = sizeof(char) * stateHeader[0];
 			memcpy(cursor, &(state->name[0]), bytes);
+
+			cursor += bytes;
+
+			bytes = sizeof(float);
+			memcpy(cursor, &(state->speed), bytes);
 
 			cursor += bytes;
 
@@ -343,6 +349,11 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 			memcpy(name, fileBuffer, bytes);
 			state->name = std::string(name, stateHeader[0]);
 			delete[] name;
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(float);
+			memcpy(&(state->speed), fileBuffer, bytes);
 
 			fileBuffer += bytes;
 

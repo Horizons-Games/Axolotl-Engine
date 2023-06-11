@@ -11,12 +11,13 @@ AnimationController::~AnimationController()
 {
 }
 
-void AnimationController::Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop)
+void AnimationController::Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop, float speed)
 {
 	this->resource = resource;
 	isLooping = loop;
 	isPlaying = true;
 	currentTime = 0;
+	this->speed = speed;
 }
 
 void AnimationController::Stop()
@@ -31,7 +32,7 @@ void AnimationController::Update()
 	{
 		float duration = resource->GetDuration();
 
-		currentTime += App->GetDeltaTime() * 10;
+		currentTime += App->GetDeltaTime() * speed;
 		if (currentTime > duration)
 		{
 			if (isLooping)

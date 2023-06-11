@@ -13,7 +13,7 @@ public:
 	AnimationController();
 	~AnimationController();
 
-	void Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop);
+	void Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop, float speed);
 	void Stop();
 
 	void Update();
@@ -29,6 +29,7 @@ private:
 	float currentTime;
 	bool isLooping;
 	bool isPlaying;
+	float speed;
 	std::shared_ptr<ResourceAnimation> resource;
 };
 
