@@ -11,6 +11,7 @@ public:
 	void Draw(bool& enabled = defaultEnabled) override;
 
 	const bool GetDrawBoundingBoxes() const;
+	const bool GetDrawAreaLight() const;
 	const bool GetDrawSpotLight() const;
 	const bool GetDrawPointLight() const;
 	const bool GetDrawDirLight() const;
@@ -20,6 +21,7 @@ private:
 	static bool defaultEnabled;
 	bool wireframeMode = false;
 	bool drawBoundingBoxes = false;
+	bool drawAreaLight = false;
 	bool drawSpotLight = false;
 	bool drawDirLight = false;
 	bool drawPointLight = false;
@@ -29,6 +31,11 @@ private:
 inline const bool WindowDebug::GetDrawBoundingBoxes() const
 {
 	return drawBoundingBoxes;
+}
+
+inline const bool WindowDebug::GetDrawAreaLight() const
+{
+	return drawAreaLight;
 }
 
 inline const bool WindowDebug::GetDrawSpotLight() const
