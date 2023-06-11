@@ -64,7 +64,7 @@ void ComponentPointLight::Draw() const
 	}
 	if (IsEnabled())
 	{
-		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 
@@ -73,7 +73,7 @@ void ComponentPointLight::Draw() const
 #else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 
