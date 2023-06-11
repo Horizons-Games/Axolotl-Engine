@@ -1,28 +1,14 @@
 #include "PowerUpScript.h"
 
-#include "Application.h"
-#include "ModulePlayer.h"
-
-#include "Physics/Physics.h"
-
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 
-#include "HealthSystem.h"
-#include "PlayerMoveScript.h"
-#include "BixAttackScript.h"
-
-#include "GameObject/GameObject.h"
-
-#include <set>
+#include "PlayerManagerScript.h"
 
 REGISTERCLASS(PowerUpScript);
 
-#define HEALED_INCREASE 10.f
-#define DEFENSE_INCREASE 10.f
-#define ATTACK_INCREASE 10.f
-#define SPEED_INCREASE 60.f
+#define SPAWN_LIFE 10.f
 
 PowerUpScript::PowerUpScript() : Script()
 {
@@ -37,11 +23,20 @@ void PowerUpScript::Start()
 
 void PowerUpScript::Update(float deltaTime)
 {
+	if (owner->IsEnabled())
+	{
+		counter += deltaTime;
+		if (counter >= SPAWN_LIFE)
+		{
+			DeactivatePowerUp();
+		}
+	}
 }
 
 void PowerUpScript::ActivatePowerUp(const float3& position)
 {
 	type = PowerUpType(rand() % 4);
+	counter = 0.f;
 	ownerTransform->SetPosition(position);
 	ownerTransform->UpdateTransformMatrices();
 	ownerRb->UpdateRigidBody();
@@ -55,56 +50,20 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		return;
 	}
-	DeactivatePowerUp();
 
 	std::vector<ComponentScript*> gameObjectScripts =
 		go->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-	if (type == PowerUpType::HEAL)
+	
+	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
+		if (gameObjectScripts[i]->GetConstructName() == "PlayerManagerScript")
 		{
-			if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
+			PlayerManagerScript* playerManagerScript = static_cast<PlayerManagerScript*>(gameObjectScripts[i]->GetScript());
+			if (playerManagerScript->ActivePowerUp(type))
 			{
-				HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-				healthScript->HealLife(HEALED_INCREASE);
-				return;
+				DeactivatePowerUp();
 			}
-		}
-	}
-	else if (type == PowerUpType::DEFENSE)
-	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-			{
-				HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-				healthScript->IncreaseDefense(DEFENSE_INCREASE);
-				return;
-			}
-		}
-	}
-	else if (type == PowerUpType::ATTACK)
-	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "BixAttackScript")
-			{
-				BixAttackScript* attackScript = static_cast<BixAttackScript*>(gameObjectScripts[i]->GetScript());
-				attackScript->IncreaseAttack(ATTACK_INCREASE);
-				return;
-			}
-		}
-	}
-	else if (type == PowerUpType::SPEED)
-	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
-			{
-				PlayerMoveScript* moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
-				moveScript->IncreaseSpeed(SPEED_INCREASE);
-				return;
-			}
+			return;
 		}
 	}
 }

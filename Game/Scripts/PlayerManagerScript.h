@@ -16,6 +16,9 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	bool ActivePowerUp(PowerUpType type);
 
 private:
+	float counter;
+	PowerUpType activePowerUp;
 };

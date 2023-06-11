@@ -35,4 +35,5 @@ private:
 	PowerUpType type;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRb;
+	float counter;
 };
