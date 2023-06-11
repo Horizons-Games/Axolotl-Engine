@@ -70,7 +70,7 @@ public:
 	void SetNavMeshDrawFlags(unsigned char navMeshDrawFlags);
 
 public:
-	enum DrawMode
+	enum class DrawMode
 	{
 		DRAWMODE_NAVMESH,
 		DRAWMODE_NAVMESH_TRANS,
