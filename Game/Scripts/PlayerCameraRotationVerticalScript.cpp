@@ -17,7 +17,7 @@ PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Scrip
 
 void PlayerCameraRotationVerticalScript::Start()
 {
-	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	transform = owner->GetComponent<ComponentTransform>();
 }
 
 void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
@@ -33,7 +33,7 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 	Quat currentRotation = transform->GetRotation();
 	transform->SetRotation(Quat::FromEulerXYZ(0.0f, horizontalMotion, 0.0f) * currentRotation);
 
-	ComponentTransform* parentTransform = static_cast<ComponentTransform*>(owner->GetParent()->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	float distance = (parentTransform->GetPosition() - transform->GetPosition()).Length();
 	transform->SetPosition(parentTransform->GetPosition() - transform->GetLocalForward() * distance);
 }
