@@ -4,7 +4,6 @@
 #include <vector>
 
 class GameObject;
-class Component;
 namespace math
 {
 class float3;
@@ -17,8 +16,7 @@ enum class FieldType
 	GAMEOBJECT,
 	VECTOR3,
 	VECTOR,
-	BOOLEAN,
-	COMPONENT
+	BOOLEAN
 };
 
 template<typename T>
@@ -60,10 +58,4 @@ template<>
 struct TypeToEnum<bool>
 {
 	const static FieldType value = FieldType::BOOLEAN;
-};
-
-template<>
-struct TypeToEnum<Component*>
-{
-	const static FieldType value = FieldType::COMPONENT;
 };

@@ -1,6 +1,5 @@
 #include "DefaultScript.h"
 #include "DataModels/Components/ComponentTransform.h"
-#include "Enums/ComponentType.h"
 
 REGISTERCLASS(DefaultScript);
 

@@ -934,9 +934,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\ComponentField.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>

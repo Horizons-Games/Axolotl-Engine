@@ -28,19 +28,18 @@
 												   this->Set##Name(value);   \
 											   })));
 
-#define REGISTER_COMPONENT(name, Type)                                                     \
-	this->members.push_back(std::make_pair(FieldType::COMPONENT,                           \
-										   ComponentField(                                 \
-											   #name,                                      \
-											   [this]                                      \
-											   {                                           \
-												   return this->name;                      \
-											   },                                          \
-											   [this](Component* value)                    \
-											   {                                           \
-												   this->name = static_cast<Type*>(value); \
-											   },                                          \
-											   ComponentToEnum<Type>::value)));
+#define REGISTER_COMPONENT(name, Type)                                                       \
+	this->members.push_back(std::make_pair(FieldType::GAMEOBJECT,                            \
+										   Field<GameObject*>(                               \
+											   #name,                                        \
+											   [this]                                        \
+											   {                                             \
+												   return this->name->GetOwner();            \
+											   },                                            \
+											   [this](GameObject* value)                     \
+											   {                                             \
+												   this->name = value->GetComponent<Type>(); \
+											   })));
 
 // The parameter name must be the exact name of the field inside the class
 // Which must be a vector of the given type
