@@ -387,7 +387,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		}
 
 		ComponentTransform* transform = obj->GetComponent<ComponentTransform>();
-
 		ComponentRigidBody* rigidBody = obj->GetComponent<ComponentRigidBody>();
 
 		if (rigidBody)
@@ -397,11 +396,10 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			rigidBody->UpdateRigidBody();
 		}
 
-		if (transform)
-		{
-			transform->UpdateTransformMatrices();
-		}
 	}
+
+	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponent<ComponentTransform>();
+	mainTransform->UpdateTransformMatrices();
 
 	SetSceneRootAnimObjects(loadedObjects);
 	selectedGameObject = loadedScene->GetRoot();
