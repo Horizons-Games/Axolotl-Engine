@@ -363,6 +363,15 @@
                             "static": false,
                             "mouse": false
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerManagerScript",
+                            "fields": null
+                        }
                     }
                 ]
             }

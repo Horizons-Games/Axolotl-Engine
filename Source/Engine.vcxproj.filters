@@ -461,6 +461,9 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -932,6 +935,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
+      <Filter>UserScripts\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
