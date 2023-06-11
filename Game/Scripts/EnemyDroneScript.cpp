@@ -5,6 +5,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -71,12 +72,23 @@ void EnemyDroneScript::Update(float deltaTime)
 	{
 		if(timeStunned < 0)
 		{
+			ComponentRigidBody* rigidBody =
+				static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+			rigidBody->SetKpForce(0.5f);
 			timeStunned = 0;
 			stunned = false;
 		}
 		else
 		{
+			if (timeStunnedAux < 0)
+			{
+				ComponentRigidBody* rigidBody =
+					static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+				rigidBody->DisablePositionController();
+				timeStunnedAux = timeStunned + 1;
+			}
 			timeStunned -= deltaTime;
+			timeStunnedAux -= deltaTime;
 			return;
 		}
 	}
@@ -140,4 +152,5 @@ void EnemyDroneScript::SetStunnedTime(float newTime)
 {
 	stunned = true;
 	timeStunned = newTime;
+	timeStunnedAux = std::min(0.5f, newTime);
 }

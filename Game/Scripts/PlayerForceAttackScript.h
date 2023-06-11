@@ -16,4 +16,5 @@ private:
 	std::vector<GameObject*> enemiesInTheArea;
 
 	float radius;
+	float stunTime;
 };

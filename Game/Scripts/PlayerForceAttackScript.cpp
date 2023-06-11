@@ -6,13 +6,16 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 
+#include "EnemyDroneScript.h"
+
 REGISTERCLASS(PlayerForceAttackScript);
 
-PlayerForceAttackScript::PlayerForceAttackScript() : Script(), radius(7.0f)
+PlayerForceAttackScript::PlayerForceAttackScript() : Script(), radius(7.0f), stunTime(3.0f)
 {
 	enemiesInTheArea.reserve(10);
 
 	REGISTER_FIELD(radius, float);
+	REGISTER_FIELD(stunTime, float);
 }
 
 PlayerForceAttackScript::~PlayerForceAttackScript()
@@ -53,16 +56,20 @@ void PlayerForceAttackScript::Update(float deltaTime)
 			nextPosition.Normalize();
 			nextPosition *= radius;
 			nextPosition += transform->GetGlobalPosition();
+			nextPosition += float3(0,1.5f,0);
 
 			enemyRigidBody->SetPositionTarget(nextPosition);
-			enemyRigidBody->SetKpForce(15.0f);
+			enemyRigidBody->SetKpForce(5.0f);
 			
 			std::vector<ComponentScript*> gameObjectScripts =
 				(*it)->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 
 			for (int i = 0; i < gameObjectScripts.size(); ++i)
 			{
-				
+				if (gameObjectScripts[i]->GetConstructName() == "EnemyDroneScript")
+				{
+					static_cast<EnemyDroneScript*>(gameObjectScripts[i]->GetScript())->SetStunnedTime(stunTime);
+				}
 			}
 		}
 	}
