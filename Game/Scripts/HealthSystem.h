@@ -18,12 +18,23 @@ public:
 
 	bool EntityIsAlive() const;
 
+	float GetMaxHealth() const;
+	void SetMaxHealth(float maxHealth);
+
+	bool GetIsImmortal();
+	void SetIsImmortal(bool isImmortal);
+	
+
 private:
 	float currentHealth;
 	float maxHealth;
+	bool isImmortal;
 	bool dead;
 
 	ComponentAnimation* componentAnimation;
 
 	std::string loseSceneName;
 };
+
+
+

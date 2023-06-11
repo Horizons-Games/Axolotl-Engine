@@ -34,7 +34,7 @@ namespace
 }
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
+input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f), deathTouchedDamage(10000.0f),
 transform(nullptr),
 //Provisional
 ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
@@ -45,6 +45,7 @@ healthScript(nullptr)
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
 	REGISTER_FIELD(damageAttack, float);
+	REGISTER_FIELD(deathTouchedDamage, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 
 	//Provisional
@@ -174,7 +175,14 @@ void BixAttackScript::CheckCollision()
 							if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
 							{
 								HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-								healthScript->TakeDamage(damageAttack);
+								if (!isDeathTouched)
+								{
+									healthScript->TakeDamage(damageAttack);
+								}
+								else
+								{
+								    healthScript->TakeDamage(deathTouchedDamage);
+								}
 							}
 						}
 					}
@@ -193,4 +201,14 @@ void BixAttackScript::CheckCollision()
 bool BixAttackScript::isAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+}
+
+bool BixAttackScript::GetIsDeathTouched()
+{
+	return isDeathTouched;
+}
+
+void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
+{
+	this->isDeathTouched = isDeathTouched;
 }

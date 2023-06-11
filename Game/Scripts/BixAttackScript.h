@@ -18,6 +18,9 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
+	bool GetIsDeathTouched();
+	void SetIsDeathTouched(bool isDeathTouch);
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -30,6 +33,9 @@ private:
 	float lastAttackTime;
 	float rayAttackSize;
 	float damageAttack;
+	float deathTouchedDamage;
+	bool isDeathTouched;
+
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
