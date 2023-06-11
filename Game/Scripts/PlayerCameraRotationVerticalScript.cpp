@@ -8,7 +8,7 @@
 REGISTERCLASS(PlayerCameraRotationVerticalScript);
 
 PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Script(), 
-		KpPosition(5.0f), KpRotation(10.0f), rotationSensitivity(0.0002f), transform(nullptr)
+		KpPosition(5.0f), KpRotation(10.0f), rotationSensitivity(0.0001f), transform(nullptr)
 {
 	REGISTER_FIELD(KpPosition, float);
 	REGISTER_FIELD(KpRotation, float);
@@ -29,13 +29,18 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 {
 	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * deltaTime * rotationSensitivity;
 	float verticalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().y * deltaTime * rotationSensitivity;
+	Quat rotationError = Quat::FromEulerXYZ(0.0f, -horizontalMotion, 0.0f);
 
-	Quat currentRotation = transform->GetRotation();
-	transform->SetRotation(Quat::FromEulerXYZ(0.0f, horizontalMotion, 0.0f) * currentRotation);
+	Quat currentRotation = transform->GetGlobalRotation();
+	transform->SetGlobalRotation(rotationError * currentRotation);
 
 	ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-	float distance = (parentTransform->GetPosition() - transform->GetPosition()).Length();
-	transform->SetPosition(parentTransform->GetPosition() - transform->GetLocalForward() * distance);
+	float3 vectorOffset = parentTransform->GetGlobalPosition() - transform->GetGlobalPosition();
+	vectorOffset = rotationError.Transform(vectorOffset);
+	transform->SetGlobalPosition(parentTransform->GetGlobalPosition() - vectorOffset);
+
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
 }
 
 void PlayerCameraRotationVerticalScript::SetPositionTarget(float3 targetPosition, float deltaTime)
