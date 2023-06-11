@@ -14,7 +14,6 @@ public:
 
 protected:
 	void DrawWindowContents() override;
-	int current_item = 0;
 
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
@@ -28,4 +27,5 @@ private:
 	void ReplaceSubstringsInString(std::string& stringToReplace, const std::string& from, const std::string& to);
 
 	UID windowUID;
+	int currentItem = 0;
 };

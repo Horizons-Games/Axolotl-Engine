@@ -66,9 +66,9 @@ void WindowComponentScript::DrawWindowContents()
 	if (!scriptObject)
 	{
 		if (ImGui::ListBox(
-				finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
+				finalLabel.c_str(), &currentItem, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
-			ChangeScript(script, constructors[current_item]);
+			ChangeScript(script, constructors[currentItem]);
 			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
 		}
 
@@ -117,7 +117,7 @@ void WindowComponentScript::DrawWindowContents()
 		script->SetConstuctor(std::string()); // And this makes it so it's also deleted from the serialization
 	}
 
-	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
+	for (std::size_t index = 0; TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
 		//DrawField(member, enumAndMember.first);
@@ -271,8 +271,7 @@ void WindowComponentScript::DrawWindowContents()
 				ImGui::Text(gameObjectField.name.c_str());
 				ImGui::SameLine();
 
-				label = "Remove GO##";
-				finalLabel = label + thisID;
+				finalLabel = "Remove GO##" + thisID + std::to_string(index);
 				if (ImGui::Button(finalLabel.c_str()))
 				{
 					gameObjectField.setter(nullptr);
@@ -298,6 +297,7 @@ void WindowComponentScript::DrawWindowContents()
 			default:
 				break;
 		}
+		++index;
 	}
 }
 
