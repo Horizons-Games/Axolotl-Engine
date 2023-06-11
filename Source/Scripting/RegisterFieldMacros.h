@@ -28,17 +28,17 @@
 												   this->Set##Name(value);   \
 											   })));
 
-#define REGISTER_COMPONENT(name, Type)                                                       \
-	this->members.push_back(std::make_pair(FieldType::GAMEOBJECT,                            \
-										   Field<GameObject*>(                               \
-											   #name,                                        \
-											   [this]                                        \
-											   {                                             \
-												   return this->name->GetOwner();            \
-											   },                                            \
-											   [this](GameObject* value)                     \
-											   {                                             \
-												   this->name = value->GetComponent<Type>(); \
+#define REGISTER_COMPONENT(name, Type)                                                                         \
+	this->members.push_back(std::make_pair(FieldType::GAMEOBJECT,                                              \
+										   Field<GameObject*>(                                                 \
+											   #name,                                                          \
+											   [this]                                                          \
+											   {                                                               \
+												   return this->name ? this->name->GetOwner() : nullptr;       \
+											   },                                                              \
+											   [this](GameObject* value)                                       \
+											   {                                                               \
+												   this->name = value ? value->GetComponent<Type>() : nullptr; \
 											   })));
 
 // The parameter name must be the exact name of the field inside the class
