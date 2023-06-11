@@ -59,12 +59,9 @@ void ModulePosition::Update(EmitterInstance* instance)
 					});
 
 			sortedPositions.insert(it, i);
-			instance->SetSortedPositions(sortedPositions);
-
 			++aliveParticles;
 		}
 	}
-
 	instance->SetSortedPositions(sortedPositions);
 	instance->SetAliveParticles(aliveParticles);
 }
