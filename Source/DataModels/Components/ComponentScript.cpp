@@ -185,7 +185,7 @@ void ComponentScript::LoadOptions(Json& meta)
 	}
 
 	script->SetApplication(App.get());
-	script->SetGameObject(owner);
+	script->SetOwner(owner);
 	Json fields = meta["fields"];
 	for (unsigned int i = 0; i < fields.Size(); ++i)
 	{

@@ -36,7 +36,8 @@ public:
 	virtual void OnCollisionExit(ComponentRigidBody* other) = 0;
 	virtual void CleanUp() = 0;
 
-	void SetGameObject(GameObject* owner);
+	GameObject* GetOwner() const;
+	void SetOwner(GameObject* owner);
 	void SetApplication(Application* app);
 
 	const std::vector<TypeFieldPair>& GetFields() const;
@@ -51,7 +52,12 @@ protected:
 	std::vector<TypeFieldPair> members;
 };
 
-inline void IScript::SetGameObject(GameObject* owner)
+inline GameObject* IScript::GetOwner() const
+{
+	return owner;
+}
+
+inline void IScript::SetOwner(GameObject* owner)
 {
 	this->owner = owner;
 }

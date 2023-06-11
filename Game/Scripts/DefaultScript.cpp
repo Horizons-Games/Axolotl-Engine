@@ -1,5 +1,7 @@
 #include "DefaultScript.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/ComponentScript.h"
+#include "../Scripts/HelloWorldScript.h"
 
 REGISTERCLASS(DefaultScript);
 
@@ -13,6 +15,7 @@ DefaultScript::DefaultScript() : Script(), value(10), vecStr{ "Esto", "es un", "
 	REGISTER_FIELD_WITH_ACCESSORS(Character, GameObject*);
 	REGISTER_FIELD(check, bool);
 	REGISTER_COMPONENT(transform, ComponentTransform);
+	REGISTER_COMPONENT_WITH_ACCESSORS(Script, HelloWorldScript);
 }
 
 void DefaultScript::Update(float deltaTime)
@@ -68,4 +71,14 @@ void DefaultScript::SetCharacter(GameObject* character)
 {
 	ENGINE_LOG("My Character has been changed!");
 	this->character = character;
+}
+
+HelloWorldScript* DefaultScript::GetScript() const
+{
+	return script;
+}
+
+void DefaultScript::SetScript(HelloWorldScript* script)
+{
+	this->script = script;
 }

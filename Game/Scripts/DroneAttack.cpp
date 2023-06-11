@@ -83,7 +83,7 @@ void DroneAttack::PerformAttack()
 		ComponentScript* script = bullet->CreateComponent<ComponentScript>();
 		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
 		script->SetConstuctor("DroneBullet");
-		script->GetScript()->SetGameObject(bullet);
+		script->GetScript()->SetOwner(bullet);
 		script->GetScript()->SetApplication(App);
 		script->Start();//Should be done automatically but the engine still does not do the Start for runtime created scripts
 

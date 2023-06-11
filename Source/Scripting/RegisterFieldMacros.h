@@ -41,6 +41,20 @@
 												   this->name = value ? value->GetComponent<Type>() : nullptr; \
 											   })));
 
+#define REGISTER_COMPONENT_WITH_ACCESSORS(Name, Type)                                                              \
+	this->members.push_back(std::make_pair(FieldType::GAMEOBJECT,                                                  \
+										   Field<GameObject*>(                                                     \
+											   #Name,                                                              \
+											   [this]                                                              \
+											   {                                                                   \
+												   Type* value = this->Get##Name();                                \
+												   return value ? value->GetOwner() : nullptr;                     \
+											   },                                                                  \
+											   [this](GameObject* value)                                           \
+											   {                                                                   \
+												   this->Set##Name(value ? value->GetComponent<Type>() : nullptr); \
+											   })));
+
 // The parameter name must be the exact name of the field inside the class
 // Which must be a vector of the given type
 #define REGISTER_VECTOR(name, Type)                                                       \

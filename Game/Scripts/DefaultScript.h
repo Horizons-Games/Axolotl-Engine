@@ -5,6 +5,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
+class HelloWorldScript;
 
 // This script is just to show how to instantiate/use the different types of variables
 
@@ -31,9 +32,11 @@ public:
 	const std::vector<std::string>& GetVectorStr() const;
 	void SetVectorStr(const std::vector<std::string>& vec);
 
-
 	GameObject* GetCharacter() const;
 	void SetCharacter(GameObject* character);
+
+	HelloWorldScript* GetScript() const;
+	void SetScript(HelloWorldScript* script);
 
 private:
 	float value;
@@ -43,5 +46,6 @@ private:
 	std::string sentence;
 	GameObject* character;
 	ComponentTransform* transform;
+	HelloWorldScript* script;
 	bool check;
 };
