@@ -4,7 +4,7 @@
 #include "Components/ComponentRigidBody.h"
 
 WindowComponentRigidBody::WindowComponentRigidBody(ComponentRigidBody* component) :
-	ComponentWindow("Rigidbody", component)
+	ComponentWindow("RIGID BODY", component)
 {
 }
 

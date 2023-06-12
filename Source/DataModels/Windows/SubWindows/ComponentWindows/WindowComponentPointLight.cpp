@@ -9,7 +9,7 @@
 #include "DataModels/Components/ComponentSpotLight.h"
 
 WindowComponentPointLight::WindowComponentPointLight(ComponentPointLight* component) :
-	WindowComponentLight("Point light", component)
+	WindowComponentLight("POINT LIGHT", component)
 {
 }
 

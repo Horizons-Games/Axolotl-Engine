@@ -7,7 +7,7 @@ class AnimationImporter : public Importer<ResourceAnimation>
 {
 public:
 	AnimationImporter(){};
-	~AnimationImporter() override {};
+	~AnimationImporter(){};
 
 	void Import(const char* filePath, std::shared_ptr<ResourceAnimation> resource) override;
 	void Load(const char* fileBuffer, std::shared_ptr<ResourceAnimation> resource) override;

@@ -4,7 +4,7 @@
 
 #include "Application.h"
 
-WindowComponentButton::WindowComponentButton(ComponentButton* component) : ComponentWindow("Button", component)
+WindowComponentButton::WindowComponentButton(ComponentButton* component) : ComponentWindow("BUTTON", component)
 {
 }
 
@@ -22,13 +22,13 @@ void WindowComponentButton::DrawWindowContents()
 	if (asButton)
 	{
 		float4 colorHovered = asButton->GetColorHovered();
-		if (ImGui::ColorEdit4("Color hovered", (float*) &colorHovered))
+		if (ImGui::ColorEdit4("Color Hovered", (float*) &colorHovered))
 		{
 			asButton->SetColorHovered(colorHovered);
 		}
 
 		float4 colorClicked = asButton->GetColorClicked();
-		if (ImGui::ColorEdit4("Color clicked", (float*) &colorClicked))
+		if (ImGui::ColorEdit4("Color Clicked", (float*) &colorClicked))
 		{
 			asButton->SetColorClicked(colorClicked);
 		}

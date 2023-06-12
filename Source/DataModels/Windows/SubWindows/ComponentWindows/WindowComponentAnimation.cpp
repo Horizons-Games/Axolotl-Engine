@@ -8,7 +8,7 @@
 #include "Resources/ResourceStateMachine.h"
 
 WindowComponentAnimation::WindowComponentAnimation(ComponentAnimation* component) :
-	ComponentWindow("Animation", component),
+	ComponentWindow("ANIMATION", component),
 	inputState(std::make_unique<WindowStateMachineInput>(component))
 {
 }

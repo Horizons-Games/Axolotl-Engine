@@ -10,7 +10,7 @@
 #include "ModuleScene.h"
 
 WindowComponentTransform::WindowComponentTransform(ComponentTransform* component) :
-	ComponentWindow("Transform", component),
+	ComponentWindow("TRANSFORM", component),
 	bbdraw(component->IsDrawBoundingBoxes()),
 	uniformScale(component->IsUniformScale())
 {

@@ -6,7 +6,7 @@
 #include "ModuleScene.h"
 
 WindowComponentDirLight::WindowComponentDirLight(ComponentDirLight* component) :
-	WindowComponentLight("Directional light", component)
+	WindowComponentLight("DIRECTIONAL LIGHT", component)
 {
 }
 

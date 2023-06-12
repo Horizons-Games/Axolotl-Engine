@@ -18,7 +18,7 @@ const std::vector<std::string> WindowComponentMeshRenderer::shaderTypes = { "Def
 const std::vector<std::string> WindowComponentMeshRenderer::renderModes = { "Opaque", "Transparent" };
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
-	ComponentWindow("Mesh renderer", component),
+	ComponentWindow("MESH RENDERER", component),
 	currentShaderTypeIndex(0),
 	currentTransparentIndex(0),
 	inputMesh(std::make_unique<WindowMeshInput>(component)),

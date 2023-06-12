@@ -13,7 +13,7 @@
 #include "ScriptFactory.h"
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
-	ComponentWindow("Script", component),
+	ComponentWindow("SCRIPT", component),
 	windowUID(UniqueID::GenerateUID())
 {
 }

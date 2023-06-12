@@ -3,7 +3,7 @@
 #include "Components/ComponentMeshCollider.h"
 
 WindowComponentMeshCollider::WindowComponentMeshCollider(ComponentMeshCollider* component) :
-	ComponentWindow("Mesh collider", component)
+	ComponentWindow("MESH COLLIDER", component)
 {
 }
 
