@@ -18,12 +18,46 @@ PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Scrip
 void PlayerCameraRotationVerticalScript::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
+	defaultPositionOffset = float3(0.0f, 0.0f, -5.0f); // por ejemplo
+	defaultOrientationOffset = Quat::identity;
 }
 
 void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 {
 	Orbit(deltaTime);
 }
+
+void PlayerCameraRotationVerticalScript::Update(float deltaTime)
+{
+	float3 targetPosition;
+	Quat targetOrientation;
+
+	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
+
+	if (closestSample)
+	{
+		if ((closestSample->position - transform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
+		{
+			targetPosition = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition() + closestSample->positionOffset;
+			targetOrientation = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalRotation() * closestSample->orientationOffset;
+		}
+		else
+		{
+			targetPosition = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition() + defaultPositionOffset;
+			targetOrientation = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalRotation() * defaultOrientationOffset;
+		}
+	}
+
+	else
+	{
+		targetPosition = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition() + defaultPositionOffset;
+		targetOrientation = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalRotation() * defaultOrientationOffset;
+	}
+
+	SetPositionTarget(targetPosition, deltaTime);
+	SetRotationTarget(targetOrientation, deltaTime);
+}
+
 
 void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 {
@@ -44,8 +78,7 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 	Quat rotationErrorX = Quat::RotateX(verticalMotion);*/
 
 
-	Quat rotationErrorY = Quat::RotateY(horizontalMotion);
-
+	Quat rotationErrorY = Quat::RotateY(-horizontalMotion);
 
 	//Quat rotationErrorQuat = rotationErrorX.Mul(rotationErrorY);
 
@@ -60,6 +93,24 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 }
+
+CameraSample* PlayerCameraRotationVerticalScript::FindClosestSample(float3 position)
+{
+	CameraSample* closestSample = nullptr;
+	float minDistance = std::numeric_limits<float>::max();
+
+	for (auto& sample : samples)
+	{
+		float distance = (sample.position - position).Length();
+		if (distance < minDistance)
+		{
+			closestSample = &sample;
+			minDistance = distance;
+		}
+	}
+	return closestSample;
+}
+
 
 
 void PlayerCameraRotationVerticalScript::SetPositionTarget(float3 targetPosition, float deltaTime)
