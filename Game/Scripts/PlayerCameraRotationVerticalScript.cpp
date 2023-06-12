@@ -27,21 +27,40 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 
 void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 {
-	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * deltaTime * rotationSensitivity;
-	float verticalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().y * deltaTime * rotationSensitivity;
-	Quat rotationError = Quat::FromEulerXYZ(0.0f, -horizontalMotion, 0.0f);
-
 	Quat currentRotation = transform->GetGlobalRotation();
-	transform->SetGlobalRotation(rotationError * currentRotation);
+	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * deltaTime * rotationSensitivity;
+
+	/*float verticalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().y * deltaTime * rotationSensitivity;
+
+	float minPitch = DegToRad(-80.0f);
+	float maxPitch = DegToRad(80.0f);
+	float pitch = currentRotation.ToEulerXYZ().x;
+
+	if (pitch + verticalMotion < minPitch)
+		verticalMotion = minPitch - pitch;
+	else if (pitch + verticalMotion > maxPitch)
+		verticalMotion = maxPitch - pitch;
+
+	Quat rotationErrorX = Quat::RotateX(verticalMotion);*/
+
+
+	Quat rotationErrorY = Quat::RotateY(horizontalMotion);
+
+
+	//Quat rotationErrorQuat = rotationErrorX.Mul(rotationErrorY);
+
+	Quat finalRotation = rotationErrorY * currentRotation;
+	transform->SetGlobalRotation(finalRotation);
 
 	ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	float3 vectorOffset = parentTransform->GetGlobalPosition() - transform->GetGlobalPosition();
-	vectorOffset = rotationError.Transform(vectorOffset);
+	vectorOffset = rotationErrorY.Transform(vectorOffset);
 	transform->SetGlobalPosition(parentTransform->GetGlobalPosition() - vectorOffset);
 
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 }
+
 
 void PlayerCameraRotationVerticalScript::SetPositionTarget(float3 targetPosition, float deltaTime)
 {
