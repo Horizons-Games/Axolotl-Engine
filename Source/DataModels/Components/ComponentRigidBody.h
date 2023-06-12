@@ -176,7 +176,6 @@ private:
 	float KpForce = 5.0f;
 	float KpTorque = 0.05f;
 
-	bool isSceneOnLoad = true;
 	ComponentTransform* transform;
 
 	uint32_t id = 0;
