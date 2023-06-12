@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Base.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/Lv1_CargoBay_RunWay_Metallic.png"
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }

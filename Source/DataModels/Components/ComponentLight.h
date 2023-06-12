@@ -103,7 +103,7 @@ inline const std::string GetNameByLightType(LightType type)
 			return "LightType_Area";
 		default:
 			assert(false && "Wrong light type introduced");
-			return "";
+			return std::string();
 	}
 }
 

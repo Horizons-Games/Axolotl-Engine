@@ -437,6 +437,9 @@
     <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp">
       <Filter>UserScripts\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
       <Filter>UserScripts\Player\Movement</Filter>
     </ClCompile>
@@ -856,11 +859,15 @@
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="Enums\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\ComponentType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -911,6 +918,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h">
       <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
       <Filter>UserScripts\Player\Movement</Filter>
@@ -2206,5 +2216,10 @@
     <Filter Include="DataModels\Commands">
       <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataModels\GameObject\GameObject.inl">
+      <Filter>DataModels\GameObject</Filter>
+    </None>
   </ItemGroup>
 </Project>

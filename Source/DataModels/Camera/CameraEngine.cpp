@@ -124,8 +124,7 @@ bool CameraEngine::Update()
 				input->GetKey(SDL_SCANCODE_LALT) != KeyState::IDLE &&
 				input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE)
 			{
-				ComponentTransform* transform = static_cast<ComponentTransform*>(
-					scene->GetSelectedGameObject()->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform = scene->GetSelectedGameObject()->GetComponent<ComponentTransform>();
 				const OBB& obb = transform->GetObjectOBB();
 
 				input->SetOrbitCursor();
@@ -402,18 +401,17 @@ void CameraEngine::FocusProportional(const OBB& obb)
 }
 void CameraEngine::Focus(GameObject* gameObject)
 {
-	Component* transform = gameObject->GetComponent(ComponentType::TRANSFORM);
+	Component* transform = gameObject->GetComponent<ComponentTransform>();
 	if (transform)
 	{
-		std::list<GameObject*> insideGameObjects = gameObject->GetGameObjectsInside();
+		std::list<GameObject*> insideGameObjects = gameObject->GetAllDescendants();
 		AABB minimalAABB;
 		std::vector<math::vec> outputArray{};
 		for (GameObject* object : insideGameObjects)
 		{
 			if (object)
 			{
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(object->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform = object->GetComponent<ComponentTransform>();
 				outputArray.push_back(transform->GetEncapsuledAABB().minPoint);
 				outputArray.push_back(transform->GetEncapsuledAABB().maxPoint);
 			}

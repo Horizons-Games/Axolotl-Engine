@@ -447,8 +447,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform =
-						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 					gameObjectsInFrustrum.insert(gameObject);
@@ -462,8 +461,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform =
-						static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 					gameObjectsInFrustrum.insert(gameObject);
@@ -496,8 +494,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 	// If an object doesn't have transform component it doesn't need to draw
 	if (transform == nullptr)
 	{
@@ -506,10 +503,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		if (gameObject->IsActive() && gameObject->IsEnabled())
+		ComponentMeshRenderer* mesh = gameObject->GetComponent<ComponentMeshRenderer>();
+		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
 		{
-			const ComponentTransform* transform =
-				static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+			const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 			float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 			gameObjectsInFrustrum.insert(gameObject);
@@ -559,8 +556,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 				gameObjectQueue.push(child);
 			}
 		}
-		std::vector<ComponentMeshRenderer*> meshes =
-			currentGo->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+		std::vector<ComponentMeshRenderer*> meshes = currentGo->GetComponents<ComponentMeshRenderer>();
 		
 		if (gameObjectsInFrustrum.find(currentGo) != gameObjectsInFrustrum.end())
 		{
@@ -603,8 +599,7 @@ void ModuleRender::BindCameraToProgram(Program* program)
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	const ComponentMeshRenderer* material = 
-		static_cast<ComponentMeshRenderer*>(gameObject->GetComponent(ComponentType::MESHRENDERER));
+	const ComponentMeshRenderer* material = gameObject->GetComponent<ComponentMeshRenderer>();
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->IsTransparent())

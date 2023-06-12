@@ -23,7 +23,7 @@
 
 GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
 	createBuffers(true), reserveModelSpace(true), flags(flags), fillMaterials(false), frame(0),
-	defaultMaterial(new ResourceMaterial(0, "", "", "")),
+	defaultMaterial(new ResourceMaterial(0, std::string(), std::string(), std::string())),
 	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
@@ -700,8 +700,7 @@ void GeometryBatch::BindBatch(bool selected)
 				unsigned int instanceIndex = objectIndexes[component];
 				unsigned int paletteIndex = paletteIndexes[component];
 
-				transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
-					component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+				transformData[frame][instanceIndex] = component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 				
 				if (component->GetMesh()->GetNumBones() > 0)
 				{
@@ -733,8 +732,8 @@ void GeometryBatch::BindBatch(bool selected)
 			unsigned int instanceIndex = objectIndexes[component];
 			unsigned int paletteIndex = paletteIndexes[component];
 
-			transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
-				component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+			transformData[frame][instanceIndex] =
+				component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 			if (component->GetMesh()->GetNumBones() > 0)
 			{
