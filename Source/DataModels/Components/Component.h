@@ -3,29 +3,7 @@
 #include <assert.h>
 #include <string>
 
-enum class ComponentType
-{
-	UNKNOWN,
-	MESHRENDERER,
-	TRANSFORM,
-	TRANSFORM2D,
-	LIGHT,
-	CAMERA,
-	PLAYER,
-	ANIMATION,
-	CANVAS,
-	IMAGE,
-	BUTTON,
-	RIGIDBODY,
-	BREAKABLE,
-	MOCKSTATE,
-	AUDIOSOURCE,
-	AUDIOLISTENER,
-	MESHCOLLIDER,
-	SCRIPT,
-	PARTICLE,
-	CUBEMAP
-};
+#include "Enums/ComponentType.h"
 
 const static std::string GetNameByType(ComponentType type);
 const static ComponentType GetTypeByName(const std::string& name);
@@ -170,7 +148,7 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Cubemap";
 		default:
 			assert(false && "Wrong component type introduced");
-			return "";
+			return std::string();
 	}
 }
 
