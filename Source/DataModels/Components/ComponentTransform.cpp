@@ -157,13 +157,18 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 	}
 }
 
-void ComponentTransform::UpdateTransformMatrices()
+void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 {
 	CalculateMatrices();
-	for (Component* components : GetOwner()->GetComponents())
+
+	if (notifyChanges)
 	{
-		components->OnTransformChanged();
+		for (Component* components : GetOwner()->GetComponents())
+		{
+			components->OnTransformChanged();
+		}
 	}
+	
 
 	if (GetOwner()->GetChildren().empty())
 		return;
@@ -175,27 +180,11 @@ void ComponentTransform::UpdateTransformMatrices()
 
 		if(childTransform)
 		{
-			childTransform->UpdateTransformMatrices();
+			childTransform->UpdateTransformMatrices(notifyChanges);
 		}
 	}
 }
 
-void ComponentTransform::UpdateTransformMatricesOnLoad()
-{
-	CalculateMatrices();
-	if (GetOwner()->GetChildren().empty())
-		return;
-
-	for (GameObject* child : GetOwner()->GetChildren())
-	{
-		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
-
-		if (childTransform)
-		{
-			childTransform->UpdateTransformMatricesOnLoad();
-		}
-	}
-}
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified,
