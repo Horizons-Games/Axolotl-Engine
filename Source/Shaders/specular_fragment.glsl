@@ -297,7 +297,11 @@ void main()
         //textureMat = pow(textureMat, vec3(2.2));
     }
     textureMat = pow(textureMat, gammaCorrection);
-    textureMat.a = material.diffuse_color.a; //Transparency
+    
+    //Transparency
+    textureMat.a = material.has_diffuse_map * textureMat.a + 
+        (1.0f-material.has_diffuse_map) * material.diffuse_color.a;
+    
     
     // Normals
 	if (material.has_normal_map == 1)
@@ -356,5 +360,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, material.diffuse_color.a);
+    outColor = vec4(color, textureMat.a);
 }
