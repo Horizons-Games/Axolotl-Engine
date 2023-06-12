@@ -25,8 +25,6 @@ void PlayerJumpScript::Start()
 	canDoubleJump ? jumps = 2 : jumps = 1;
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
-
-	healthScript = owner->GetComponent<HealthSystem>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)

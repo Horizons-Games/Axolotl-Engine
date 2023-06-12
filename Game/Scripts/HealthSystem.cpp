@@ -7,6 +7,7 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/Component.h"
+#include "Components/ComponentCamera.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -80,7 +81,7 @@ void HealthSystem::PlayerDeath()
 {
 	// Once the player is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
 	{
@@ -88,14 +89,16 @@ void HealthSystem::PlayerDeath()
 	}
 
 	GameObject::GameObjectView children = owner->GetChildren();
-	GameObject* cameraChild;
 
 	for (const GameObject* child : children)
 	{
-		if (child->GetComponent(ComponentType::CAMERA))
+		// In order to get the force and vertical rotation scripts to work
+		// We have to disable also those scripts that are present on the player camera
+
+		if (child->GetComponent<ComponentCamera>())
 		{
 			std::vector<ComponentScript*> cameraScripts =
-				child->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+				child->GetComponents<ComponentScript>();
 
 			for (ComponentScript* script : cameraScripts)
 			{

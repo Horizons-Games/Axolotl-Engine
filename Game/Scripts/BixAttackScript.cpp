@@ -79,8 +79,6 @@ void BixAttackScript::Start()
 	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	//--Provisional
-
-	healthScript = owner->GetComponent<HealthSystem>();
 }
 
 void BixAttackScript::Update(float deltaTime)

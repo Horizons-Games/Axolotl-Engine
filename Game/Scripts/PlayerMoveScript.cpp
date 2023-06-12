@@ -26,8 +26,6 @@ void PlayerMoveScript::Start()
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-
-	healthScript = owner->GetComponent<HealthSystem>();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
