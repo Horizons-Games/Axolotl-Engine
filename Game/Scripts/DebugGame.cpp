@@ -185,6 +185,7 @@ void DebugGame::DeathTouch()
 
 void DebugGame::Teleport()
 {
+	ENGINE_LOG("TELEPORTING");
 	switch (debugCurrentPos)
 	{
 	case 0:
@@ -218,7 +219,7 @@ void DebugGame::Teleport()
 	case 4:
 		playerRigidBody->SetIsTrigger(true);
 		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		currentdDebugPointTransform = debugPoint4Transform;
+		currentdDebugPointTransform = debugPoint1Transform;
 		debugCurrentPos = 1;
 		ENGINE_LOG("%f", debugCurrentPos);
 		break;
