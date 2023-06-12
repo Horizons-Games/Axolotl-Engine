@@ -10,12 +10,12 @@ DefaultScript::DefaultScript() : Script(), value(10), vecStr{ "Esto", "es un", "
 	REGISTER_FIELD(value, float);
 	REGISTER_FIELD(sentence, std::string);
 	REGISTER_FIELD_WITH_ACCESSORS(Vector3, float3);
-	//REGISTER_FIELD_WITH_ACCESSORS(VectorFloat, std::vector<float>);
-	REGISTER_FIELD(vecStr, std::string);
+	REGISTER_FIELD_WITH_ACCESSORS(VectorFloat, std::vector<float>);
+	REGISTER_FIELD(vecStr, std::vector<std::string>);
 	REGISTER_FIELD_WITH_ACCESSORS(Character, GameObject*);
 	REGISTER_FIELD(check, bool);
-	REGISTER_FIELD(transform, ComponentTransform);
-	//REGISTER_FIELD_WITH_ACCESSORS(Script, HelloWorldScript);
+	REGISTER_FIELD(transform, ComponentTransform*);
+	REGISTER_FIELD_WITH_ACCESSORS(Script, HelloWorldScript*);
 }
 
 void DefaultScript::Update(float deltaTime)
