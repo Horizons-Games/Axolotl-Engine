@@ -53,7 +53,7 @@ void HealthSystem::Update(float deltaTime)
 	else if (dead && owner->CompareTag("Enemy"))
 	{
 		std::vector<ComponentScript*> gameObjectScripts =
-			owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+			owner->GetComponents<ComponentScript>();
 
 		for (int i = 0; i < gameObjectScripts.size(); ++i)
 		{
@@ -64,15 +64,14 @@ void HealthSystem::Update(float deltaTime)
 				if (powerUp != nullptr)
 				{
 					std::vector<ComponentScript*> gameObjectScripts =
-						powerUp->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+						powerUp->GetComponents<ComponentScript>();
 
 					for (int i = 0; i < gameObjectScripts.size(); ++i)
 					{
 						if (gameObjectScripts[i]->GetConstructName() == "PowerUpScript")
 						{
 							PowerUpScript* powerUpScript = static_cast<PowerUpScript*>(gameObjectScripts[i]->GetScript());
-							ComponentTransform* transform = 
-								static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+							ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 							powerUpScript->ActivatePowerUp(transform->GetPosition());
 						}
 					}

@@ -32,8 +32,7 @@ void PlayerManagerScript::Update(float deltaTime)
 		if (counter >= POWER_UP_TIMER)
 		{
 			counter = -1;
-			std::vector<ComponentScript*> gameObjectScripts =
-				owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+			std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 			if (activePowerUp == PowerUpType::DEFENSE)
 			{
@@ -83,8 +82,7 @@ bool PlayerManagerScript::ActivePowerUp(PowerUpType type)
 	}
 	activePowerUp = type;
 	counter = 0;
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	if (activePowerUp == PowerUpType::HEAL)
 	{

@@ -16,8 +16,8 @@ PowerUpScript::PowerUpScript() : Script()
 
 void PowerUpScript::Start()
 {
-	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-	ownerRb = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRb = owner->GetComponent<ComponentRigidBody>();
 	DeactivatePowerUp();
 }
 
@@ -51,8 +51,7 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	std::vector<ComponentScript*> gameObjectScripts =
-		go->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	std::vector<ComponentScript*> gameObjectScripts = go->GetComponents<ComponentScript>();
 	
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
