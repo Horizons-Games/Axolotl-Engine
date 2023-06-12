@@ -86,7 +86,9 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Play or stop your scene at any moment.
 
 # Controls
-- Right click + W / A / S / D  to move camera around.
+- Right click + A / D  to move camera around. (Left / Right)
+- Right click + W / S to move camera around. (Front / Back)
+- Right click + E / Q  to move camera around. (Top / Bottom)
 - Right click to rotate the camera.
 - Alt + left click to orbit the camera.
 - Mouse wheel to zoom in/out.
