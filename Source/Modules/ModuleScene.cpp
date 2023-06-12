@@ -65,7 +65,7 @@ bool ModuleScene::Start()
 		Json startConfig(doc, doc);
 		startConfig.fromBuffer(buffer);
 		delete buffer;
-		
+
 		std::string startingScene = startConfig["StartingScene"];
 		std::string scenePath = LIB_PATH "Scenes/" + startingScene;
 		assert(fileSystem->Exists(scenePath.c_str()));
@@ -404,7 +404,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			rigidBody->UpdateRigidBodyTranslation();
 			rigidBody->UpdateRigidBody();
 		}
-
 	}
 
 	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponent<ComponentTransform>();
@@ -462,7 +461,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		bool active;
 	};
 	std::vector<GameObject*> gameObjects{};
-	std::unordered_map<UID, GameObjectDeserializationInfo> gameObjectMap{};
+	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -491,7 +490,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	}
 
 	mantainCurrentHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
-						   : loadedScene->SetSceneGameObjects(gameObjects);
+							: loadedScene->SetSceneGameObjects(gameObjects);
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -500,10 +499,10 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		gameObjects[i]->LoadOptions(jsonGameObject);
 	}
 
-	for (const auto& [key, value] : gameObjectMap)
+	for (GameObject* gameObject : gameObjects)
 	{
-		GameObject* gameObject = value.gameObject;
-		UID parent = value.parentUID;
+		UID uid = gameObject->GetUID();
+		UID parent = gameObjectMap[uid].parentUID;
 
 		if (parent == 0)
 		{
