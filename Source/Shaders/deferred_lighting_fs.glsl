@@ -165,8 +165,8 @@ void main()
     vec3 FragPos = texture(gPosition, TexCoord).rgb;
     vec3 norm = texture(gNormal, TexCoord).rgb;
     vec4 textureMat = texture(gDiffuse, TexCoord);
-    vec3 specularMat = texture(gSpecular, TexCoord).rbg;
-    float smoothness = texture(gSpecular, TexCoord).a;
+    vec4 specularMat = texture(gSpecular, TexCoord);
+    float smoothness = specularMat.a;
 
     vec3 viewDir = normalize(ViewPos - FragPos);
 	vec3 lightDir = normalize(light.position - FragPos);
@@ -199,7 +199,7 @@ void main()
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/2.2));
+    color = pow(color, vec3(1.0/gammaCorrection));
    
     outColor = vec4(color,textureMat.a);
     

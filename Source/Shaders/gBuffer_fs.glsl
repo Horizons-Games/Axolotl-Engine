@@ -44,6 +44,8 @@ void main()
         gDiffuse = texture(material.diffuse_map, TexCoord);
     }
 
+    gDiffuse.a = material.diffuse_color.a;
+
     gSpecular = vec4(material.specular_color, 1.0);
     if (material.has_specular_map == 1) {
         gSpecular = vec4(texture(material.specular_map, TexCoord));

@@ -45,8 +45,10 @@ void main()
     {
         gDiffuse = texture(material.diffuse_map, TexCoord);
     }
+    gDiffuse.a = material.diffuse_color.a;
 
     gSpecular = texture(material.metallic_map, TexCoord);
+
     // smoothness and roughness
     gSpecular.a = pow(1-material.smoothness,2) + EPSILON;
     if (material.has_metallic_map == 1)
