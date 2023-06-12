@@ -2,6 +2,8 @@
 #include "Module.h"
 #include "physfs.h"
 
+struct zip_t;
+
 class ModuleFileSystem : public Module
 {
 public:
@@ -30,8 +32,18 @@ public:
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
 
 	void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
-	void ZipFolder(struct zip_t* zip, const char* path) const;
+	void ZipFolder(zip_t* zip, const char* path) const;
 	void ZipLibFolder() const;
+
+	void AppendToZipFolder(const std::string& zipPath,
+						   const std::string& newFileName,
+						   const void* buffer,
+						   unsigned int size,
+						   bool overwriteIfExists) const;
+	void AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const;
+
+private:
+	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
 };
 
 inline bool ModuleFileSystem::CleanUp()
