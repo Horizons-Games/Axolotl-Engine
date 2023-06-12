@@ -58898,10 +58898,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 719.5,
-                            "worldAABB_min_y": 283.0,
-                            "worldAABB_max_x": 719.5,
-                            "worldAABB_max_y": 283.0
+                            "worldAABB_min_x": 379.0,
+                            "worldAABB_min_y": 278.0,
+                            "worldAABB_max_x": 379.0,
+                            "worldAABB_max_y": 278.0
                         }
                     },
                     {
@@ -58944,10 +58944,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     }
                 ]
@@ -58983,10 +58983,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     },
                     {
@@ -59067,10 +59067,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     }
                 ]
@@ -59106,10 +59106,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 195.4259033203125,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1243.5740966796875,
-                            "worldAABB_max_y": 566.0
+                            "worldAABB_min_x": -15.791656494140625,
+                            "worldAABB_min_y": 64.8125,
+                            "worldAABB_max_x": 773.7916259765625,
+                            "worldAABB_max_y": 491.1875
                         }
                     },
                     {
@@ -59158,10 +59158,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 719.5,
-                            "worldAABB_min_y": 283.0,
-                            "worldAABB_max_x": 719.5,
-                            "worldAABB_max_y": 283.0
+                            "worldAABB_min_x": 379.0,
+                            "worldAABB_min_y": 278.0,
+                            "worldAABB_max_x": 379.0,
+                            "worldAABB_max_y": 278.0
                         }
                     },
                     {
@@ -59210,10 +59210,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 647.5555419921875,
-                            "worldAABB_min_y": 464.281494140625,
-                            "worldAABB_max_x": 791.4444580078125,
-                            "worldAABB_max_y": 494.977783203125
+                            "worldAABB_min_x": 319.78125,
+                            "worldAABB_min_y": 446.9708557128906,
+                            "worldAABB_max_x": 438.21875,
+                            "worldAABB_max_y": 472.2375183105469
                         }
                     },
                     {
@@ -59294,10 +59294,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     }
                 ]
@@ -59333,10 +59333,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     }
                 ]
@@ -59372,10 +59372,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 719.5,
-                            "worldAABB_min_y": 283.0,
-                            "worldAABB_max_x": 719.5,
-                            "worldAABB_max_y": 283.0
+                            "worldAABB_min_x": 379.0,
+                            "worldAABB_min_y": 278.0,
+                            "worldAABB_max_x": 379.0,
+                            "worldAABB_max_y": 278.0
                         }
                     },
                     {
@@ -59424,10 +59424,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 647.5555419921875,
-                            "worldAABB_min_y": 464.281494140625,
-                            "worldAABB_max_x": 791.4444580078125,
-                            "worldAABB_max_y": 494.977783203125
+                            "worldAABB_min_x": 319.78125,
+                            "worldAABB_min_y": 446.9708557128906,
+                            "worldAABB_max_x": 438.21875,
+                            "worldAABB_max_y": 472.2375183105469
                         }
                     },
                     {
@@ -59492,10 +59492,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 208.21334838867188,
-                            "worldAABB_min_y": 5.751708984375,
-                            "worldAABB_max_x": 439.8540954589844,
-                            "worldAABB_max_y": 69.1646728515625
+                            "worldAABB_min_x": -6.158744812011719,
+                            "worldAABB_min_y": 69.14534759521484,
+                            "worldAABB_max_x": 168.33917236328125,
+                            "worldAABB_max_y": 116.9151382446289
                         }
                     },
                     {
@@ -59544,10 +59544,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 208.31158447265625,
-                            "worldAABB_min_y": 68.0248031616211,
-                            "worldAABB_max_x": 367.38116455078125,
-                            "worldAABB_max_y": 112.3090591430664
+                            "worldAABB_min_x": -6.084735870361328,
+                            "worldAABB_min_y": 116.05645751953125,
+                            "worldAABB_max_x": 113.74440002441406,
+                            "worldAABB_max_y": 149.41635131835938
                         }
                     },
                     {
@@ -59596,10 +59596,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 958.1109008789063,
-                            "worldAABB_min_y": 24.65768051147461,
-                            "worldAABB_max_x": 1243.207275390625,
-                            "worldAABB_max_y": 105.36508178710938
+                            "worldAABB_min_x": 558.7486572265625,
+                            "worldAABB_min_y": 83.387451171875,
+                            "worldAABB_max_x": 773.5152587890625,
+                            "worldAABB_max_y": 144.18536376953125
                         }
                     },
                     {
@@ -59648,10 +59648,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 314.7052001953125,
-                            "worldAABB_min_y": 375.53839111328125,
-                            "worldAABB_max_x": 1027.4459228515625,
-                            "worldAABB_max_y": 558.9642944335938
+                            "worldAABB_min_x": 74.06289672851563,
+                            "worldAABB_min_y": 347.7103576660156,
+                            "worldAABB_max_x": 610.9796142578125,
+                            "worldAABB_max_y": 485.8874206542969
                         }
                     },
                     {
@@ -59740,10 +59740,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1015.772216796875,
-                            "worldAABB_min_y": 416.23272705078125,
-                            "worldAABB_max_x": 1146.790771484375,
-                            "worldAABB_max_y": 547.2512817382813
+                            "worldAABB_min_x": 602.1856079101563,
+                            "worldAABB_min_y": 378.36590576171875,
+                            "worldAABB_max_x": 700.8834838867188,
+                            "worldAABB_max_y": 477.0638427734375
                         }
                     },
                     {
@@ -59832,10 +59832,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 195.4259033203125,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1243.5740966796875,
-                            "worldAABB_max_y": 566.0
+                            "worldAABB_min_x": -15.791656494140625,
+                            "worldAABB_min_y": 64.8125,
+                            "worldAABB_max_x": 773.7916259765625,
+                            "worldAABB_max_y": 491.1875
                         }
                     },
                     {
@@ -59884,10 +59884,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 195.4259033203125,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1243.5740966796875,
-                            "worldAABB_max_y": 566.0
+                            "worldAABB_min_x": -15.791656494140625,
+                            "worldAABB_min_y": 64.8125,
+                            "worldAABB_max_x": 773.7916259765625,
+                            "worldAABB_max_y": 491.1875
                         }
                     },
                     {
@@ -59936,10 +59936,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 195.4259033203125,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1243.5740966796875,
-                            "worldAABB_max_y": 566.0
+                            "worldAABB_min_x": -15.791656494140625,
+                            "worldAABB_min_y": 64.8125,
+                            "worldAABB_max_x": 773.7916259765625,
+                            "worldAABB_max_y": 491.1875
                         }
                     },
                     {
@@ -59988,10 +59988,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     }
                 ]
@@ -60027,10 +60027,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 641.5601806640625,
-                            "worldAABB_min_y": 227.82408142089844,
-                            "worldAABB_max_x": 797.4398193359375,
-                            "worldAABB_max_y": 251.80555725097656
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 252.3385467529297,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 272.078125
                         }
                     },
                     {
@@ -60151,10 +60151,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 641.5601806640625,
-                            "worldAABB_min_y": 186.37208557128906,
-                            "worldAABB_max_x": 797.4398193359375,
-                            "worldAABB_max_y": 210.3535614013672
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 218.2186737060547,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 237.95826721191406
                         }
                     },
                     {
@@ -60275,10 +60275,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 641.5601806640625,
-                            "worldAABB_min_y": 267.39349365234375,
-                            "worldAABB_max_x": 797.4398193359375,
-                            "worldAABB_max_y": 291.375
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 284.90887451171875,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 304.6484375
                         }
                     },
                     {
@@ -60399,10 +60399,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 641.5601806640625,
-                            "worldAABB_min_y": 306.72314453125,
-                            "worldAABB_max_x": 797.4398193359375,
-                            "worldAABB_max_y": 330.70465087890625
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 317.2817687988281,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 337.0213317871094
                         }
                     },
                     {
@@ -60523,10 +60523,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     }
                 ]
@@ -60562,10 +60562,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 634.3379516601563,
-                            "worldAABB_min_y": 205.85630798339844,
-                            "worldAABB_max_x": 804.6620483398438,
-                            "worldAABB_max_y": 232.0600128173828
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 219.88665771484375,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 239.62625122070313
                         }
                     },
                     {
@@ -60614,10 +60614,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.0925903320313,
-                            "worldAABB_min_y": 230.59259033203125,
-                            "worldAABB_max_x": 771.9074096679688,
-                            "worldAABB_max_y": 335.40740966796875
+                            "worldAABB_min_x": 339.5208435058594,
+                            "worldAABB_min_y": 238.5208282470703,
+                            "worldAABB_max_x": 418.4791564941406,
+                            "worldAABB_max_y": 317.4791564941406
                         }
                     }
                 ]
@@ -60653,10 +60653,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 634.3379516601563,
-                            "worldAABB_min_y": 248.93519592285156,
-                            "worldAABB_max_x": 804.6620483398438,
-                            "worldAABB_max_y": 275.138916015625
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 252.3385467529297,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 272.078125
                         }
                     },
                     {
@@ -60705,10 +60705,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 634.3379516601563,
-                            "worldAABB_min_y": 292.1712646484375,
-                            "worldAABB_max_x": 804.6620483398438,
-                            "worldAABB_max_y": 318.375
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 284.90887451171875,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 304.6484375
                         }
                     },
                     {
@@ -60757,10 +60757,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 634.3379516601563,
-                            "worldAABB_min_y": 335.1453857421875,
-                            "worldAABB_max_x": 804.6620483398438,
-                            "worldAABB_max_y": 361.34906005859375
+                            "worldAABB_min_x": 314.8463439941406,
+                            "worldAABB_min_y": 317.2817687988281,
+                            "worldAABB_max_x": 443.1536560058594,
+                            "worldAABB_max_y": 337.0213317871094
                         }
                     },
                     {
@@ -60809,10 +60809,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1015.79833984375,
-                            "worldAABB_min_y": 416.23272705078125,
-                            "worldAABB_max_x": 1146.81689453125,
-                            "worldAABB_max_y": 547.2512817382813
+                            "worldAABB_min_x": 602.2053833007813,
+                            "worldAABB_min_y": 378.36590576171875,
+                            "worldAABB_max_x": 700.9032592773438,
+                            "worldAABB_max_y": 477.0638427734375
                         }
                     },
                     {
@@ -60861,10 +60861,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1015.79833984375,
-                            "worldAABB_min_y": 416.23272705078125,
-                            "worldAABB_max_x": 1146.81689453125,
-                            "worldAABB_max_y": 547.2512817382813
+                            "worldAABB_min_x": 602.2053833007813,
+                            "worldAABB_min_y": 378.36590576171875,
+                            "worldAABB_max_x": 700.9032592773438,
+                            "worldAABB_max_y": 477.0638427734375
                         }
                     },
                     {
@@ -60913,10 +60913,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1015.79833984375,
-                            "worldAABB_min_y": 416.23272705078125,
-                            "worldAABB_max_x": 1146.81689453125,
-                            "worldAABB_max_y": 547.2512817382813
+                            "worldAABB_min_x": 602.2053833007813,
+                            "worldAABB_min_y": 378.36590576171875,
+                            "worldAABB_max_x": 700.9032592773438,
+                            "worldAABB_max_y": 477.0638427734375
                         }
                     },
                     {
@@ -61388,7 +61388,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 13948858124506144076,
+                            "meshUID": 6744749488926786611,
                             "assetPathMesh": "Assets/Meshes/Lv1_Cantina_Roof.Cube.002_0.mesh",
                             "materialUID": 4453722744326813404,
                             "assetPathMaterial": "Assets/Materials/Lv1_Cantina_RoofDefaultMaterial_0.mat"
@@ -61517,7 +61517,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -61644,7 +61644,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -61916,7 +61916,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -62217,7 +62217,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -62344,7 +62344,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -62471,7 +62471,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -62685,7 +62685,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -62841,7 +62841,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -62968,7 +62968,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63095,7 +63095,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63222,7 +63222,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63349,7 +63349,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63476,7 +63476,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63516,7 +63516,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63643,7 +63643,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63770,7 +63770,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -63897,7 +63897,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -64024,7 +64024,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -64151,7 +64151,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -64278,7 +64278,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -64463,7 +64463,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -64590,7 +64590,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -64717,7 +64717,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -64873,7 +64873,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65087,7 +65087,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65388,7 +65388,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65428,7 +65428,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65555,7 +65555,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65595,7 +65595,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65635,7 +65635,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65675,7 +65675,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -65800,10 +65800,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 4295152619591639421,
+                            "meshUID": 17022517207980588013,
                             "assetPathMesh": "Assets/Meshes/Cable.BezierCurve_0.mesh",
-                            "materialUID": 10364400996923636499,
-                            "assetPathMaterial": "Assets/Materials/CableDefaultMaterial_0.mat"
+                            "materialUID": 15124594047840578314,
+                            "assetPathMaterial": "Assets/Materials/Cable.mat"
                         }
                     }
                 ]
@@ -66085,7 +66085,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -66212,7 +66212,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -66292,7 +66292,7 @@
                             "removed": true,
                             "meshUID": 1998595713127926997,
                             "assetPathMesh": "Assets/Meshes/pipeTypeCurved.pipeTypeCurved_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -66332,7 +66332,7 @@
                             "removed": true,
                             "meshUID": 4598913774312240696,
                             "assetPathMesh": "Assets/Meshes/pipeType2.pipeType2_0.mesh",
-                            "materialUID": 16197943536448886594,
+                            "materialUID": 5710585392141228908,
                             "assetPathMaterial": "Assets/Materials/pipeTransparency.mat"
                         }
                     }
@@ -66457,7 +66457,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 6481526559593702722,
+                            "meshUID": 6733535970768357001,
                             "assetPathMesh": "Assets/Meshes/TurbineFrameLow.Cylinder.001_0.mesh",
                             "materialUID": 1489518559474601252,
                             "assetPathMaterial": "Assets/Materials/TurbineFrameLowDefaultMaterial_0.mat"
@@ -66584,7 +66584,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 4721832676758827434,
+                            "meshUID": 11137246630070570680,
                             "assetPathMesh": "Assets/Meshes/TurbineBlades.Cube.015_0.mesh",
                             "materialUID": 12457978809598626514,
                             "assetPathMaterial": "Assets/Materials/TurbineBladesDefaultMaterial_0.mat"
@@ -66653,7 +66653,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5869951294823921525,
+                            "meshUID": 15723559895509155637,
                             "assetPathMesh": "Assets/Meshes/TurbineBlades.Cube.002_0.mesh",
                             "materialUID": 12457978809598626514,
                             "assetPathMaterial": "Assets/Materials/TurbineBladesDefaultMaterial_0.mat"
@@ -66954,10 +66954,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 4295152619591639421,
+                            "meshUID": 17022517207980588013,
                             "assetPathMesh": "Assets/Meshes/Cable.BezierCurve_0.mesh",
-                            "materialUID": 10364400996923636499,
-                            "assetPathMaterial": "Assets/Materials/CableDefaultMaterial_0.mat"
+                            "materialUID": 15124594047840578314,
+                            "assetPathMaterial": "Assets/Materials/Cable.mat"
                         }
                     }
                 ]
@@ -67081,10 +67081,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 4295152619591639421,
+                            "meshUID": 17022517207980588013,
                             "assetPathMesh": "Assets/Meshes/Cable.BezierCurve_0.mesh",
-                            "materialUID": 10364400996923636499,
-                            "assetPathMaterial": "Assets/Materials/CableDefaultMaterial_0.mat"
+                            "materialUID": 15124594047840578314,
+                            "assetPathMaterial": "Assets/Materials/Cable.mat"
                         }
                     }
                 ]
