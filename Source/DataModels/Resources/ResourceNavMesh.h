@@ -114,7 +114,7 @@ private:
 	int maxTiles = 0;
 	int maxPolysPerTile = 0;
 
-	DrawMode drawMode = DRAWMODE_NAVMESH;
+	DrawMode drawMode = DrawMode::DRAWMODE_NAVMESH;
 
 	//BuildContext* ctx = nullptr;
 
