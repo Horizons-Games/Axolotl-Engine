@@ -10,6 +10,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentPlayer.h"
 
 #include "GameObject/GameObject.h"
 
@@ -18,7 +19,7 @@
 
 #include "UIGameStates.h"
 #include "HealthSystem.h"
-#include <Components/ComponentScript.h>
+#include "Components/ComponentScript.h"
 
 REGISTERCLASS(UITrigger);
 
@@ -42,34 +43,16 @@ void UITrigger::Start()
 {
 	//componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	//componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 
 	if (setGameStateObject != nullptr)
 	{
-		std::vector<ComponentScript*> gameObjectScripts =
-			setGameStateObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "UIGameStates")
-			{
-				uiGameStatesClass = static_cast<UIGameStates*>(gameObjectScripts[i]->GetScript());
-				break;
-			}
-		}
+		uiGameStatesClass = setGameStateObject->GetComponent<UIGameStates>();
 	}
 
 	if (isLoseByDamage != false)
 	{
-		std::vector<ComponentScript*> gameObjectScripts =
-			setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-			{
-				playerHealthSystem = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-				break;
-			}
-		}
+		playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
 	}
 }
 
@@ -80,7 +63,7 @@ void UITrigger::Update(float deltaTime)
 
 void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
 		if (isWinTrigger == true)
 		{

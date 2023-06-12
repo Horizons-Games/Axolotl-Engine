@@ -22,12 +22,11 @@ buttonHover(nullptr), isGameExit(false), isGameResume(false), setGameStateObject
 
 void UIButtonControl::Start()
 {
-	buttonComponent = static_cast<ComponentButton*>(owner->GetComponent(ComponentType::BUTTON));
+	buttonComponent = owner->GetComponent<ComponentButton>();
 	
 	if (isGameResume != false)
 	{
-		std::vector<ComponentScript*> gameObjectScripts =
-			setGameStateObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		std::vector<ComponentScript*> gameObjectScripts = setGameStateObject->GetComponents<ComponentScript>();
 		for (int i = 0; i < gameObjectScripts.size(); ++i)
 		{
 			if (gameObjectScripts[i]->GetConstructName() == "UIGameStates")

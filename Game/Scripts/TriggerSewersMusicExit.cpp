@@ -3,6 +3,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentPlayer.h"
 #include "../Scripts/TriggerSewersMusic.h"
 
 #include "GameObject/GameObject.h"
@@ -19,23 +20,13 @@ triggerSewersMusicGO(nullptr)
 
 void TriggerSewersMusicExit::Start()
 {
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-
-	std::vector<ComponentScript*> gameObjectScripts =
-		triggerSewersMusicGO->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "TriggerSewersMusic")
-		{
-			triggerSewersMusicScript = static_cast<TriggerSewersMusic*>(gameObjectScripts[i]->GetScript());
-		}
-	}
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
+	triggerSewersMusicScript = triggerSewersMusicGO->GetComponent<TriggerSewersMusic>();
 }
 
 void TriggerSewersMusicExit::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
 		triggerSewersMusicScript->isMusicTriggered = false;
 

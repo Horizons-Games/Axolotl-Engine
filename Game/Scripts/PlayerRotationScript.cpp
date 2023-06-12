@@ -24,7 +24,7 @@ void PlayerRotationScript::PreUpdate(float deltaTime)
 
 void PlayerRotationScript::Rotation(float deltaTime)
 {
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 
 	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivity;

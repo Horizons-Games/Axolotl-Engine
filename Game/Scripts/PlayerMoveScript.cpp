@@ -23,9 +23,11 @@ dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
 
 void PlayerMoveScript::Start()
 {
-	componentTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	componentTransform = owner->GetComponent<ComponentTransform>();
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
+
+	healthScript = owner->GetComponent<HealthSystem>();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
@@ -35,7 +37,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	const ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
