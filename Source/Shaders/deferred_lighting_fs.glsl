@@ -164,7 +164,7 @@ void main()
     // retrieve data from gbuffer
     vec3 FragPos = texture(gPosition, TexCoord).rgb;
     vec3 norm = texture(gNormal, TexCoord).rgb;
-    vec3 textureMat = texture(gDiffuse, TexCoord).rgb;
+    vec4 textureMat = texture(gDiffuse, TexCoord);
     vec3 specularMat = texture(gSpecular, TexCoord).rbg;
     float smoothness = texture(gSpecular, TexCoord).a;
 
@@ -201,6 +201,6 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color,texture(gDiffuse, TexCoord).a);
+    outColor = vec4(color,textureMat.a);
     
 }
