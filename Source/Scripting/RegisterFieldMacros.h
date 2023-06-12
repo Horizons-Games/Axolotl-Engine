@@ -79,16 +79,7 @@ std::pair<FieldType, Field<Type>> CreateField(const std::string& name,
 											  const std::function<Type(void)>& getter,
 											  const std::function<void(Type)>& setter)
 {
-	Field<Type> field(
-		name,
-		[getter]()
-		{
-			return getter();
-		},
-		[setter](Type value)
-		{
-			setter(value);
-		});
+	Field<Type> field(name, getter, setter);
 	return std::make_pair(TypeToEnum<Type>::value, field);
 }
 
@@ -140,12 +131,12 @@ std::pair<FieldType, VectorField>
 }
 
 // vector of components overload, works for std::vector<Component> and std::vector<IScript>
-//template<
+// template<
 //	typename Vec,
 //	typename = std::enable_if_t<IsVector<Vec>::value &&
 //								(std::is_base_of<Component, std::remove_pointer_t<typename Vec::value_type>>::value ||
 //								 std::is_base_of<IScript, std::remove_pointer_t<typename Vec::value_type>>::value)>>
-//std::pair<FieldType, VectorField>
+// std::pair<FieldType, VectorField>
 //	CreateField(const std::string& name, const std::function<Vec(void)>& getter, const std::function<void(Vec)>& setter)
 //{
 //	using Comp = typename Vec::value_type;
