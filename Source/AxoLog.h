@@ -70,49 +70,11 @@ private:
 		unsigned int line;
 		std::string message;
 
-		std::string ToDetailedString(bool addBreak = true) const
-		{
-			return ToString(true, addBreak);
-		}
-
-		std::string ToSimpleString(bool addBreak = true) const
-		{
-			return ToString(false, addBreak);
-		}
+		std::string ToDetailedString(bool addBreak = true) const;
+		std::string ToSimpleString(bool addBreak = true) const;
 
 	private:
-		std::string ToString(bool detailed, bool addBreak) const
-		{
-			std::string result;
-			switch (severity)
-			{
-				case LogSeverity::INFO_LOG:
-					result = "[INFO]";
-					break;
-				case LogSeverity::VERBOSE_LOG:
-					result = "[VERBOSE]";
-					break;
-				case LogSeverity::DEBUG_LOG:
-					result = "[DEBUG]";
-					break;
-				case LogSeverity::WARNING_LOG:
-					result = "[WARNING]";
-					break;
-				case LogSeverity::ERROR_LOG:
-					result = "[ERROR]";
-					break;
-			}
-			if (detailed)
-			{
-				result += file + "(" + std::to_string(line) + ") : ";
-			}
-			result += message;
-			if (addBreak)
-			{
-				result += '\n';
-			}
-			return result;
-		}
+		std::string ToString(bool detailed, bool addBreak) const;
 	};
 
 	// this vector is cleared every time we log to the console

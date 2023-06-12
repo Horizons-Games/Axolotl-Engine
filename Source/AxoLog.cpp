@@ -149,3 +149,50 @@ bool AxoLog::Format(std::string& format, const unsigned char* arg) const
 {
 	return Format(format, reinterpret_cast<const char*>(arg));
 }
+
+//////////////////////////////////////////////////////////////////////////
+// LogLine definitions
+//////////////////////////////////////////////////////////////////////////
+
+std::string AxoLog::LogLine::ToDetailedString(bool addBreak) const
+{
+	return ToString(true, addBreak);
+}
+
+std::string AxoLog::LogLine::ToSimpleString(bool addBreak) const
+{
+	return ToString(false, addBreak);
+}
+
+std::string AxoLog::LogLine::ToString(bool detailed, bool addBreak) const
+{
+	std::string result;
+	switch (severity)
+	{
+		case LogSeverity::INFO_LOG:
+			result = "[INFO]";
+			break;
+		case LogSeverity::VERBOSE_LOG:
+			result = "[VERBOSE]";
+			break;
+		case LogSeverity::DEBUG_LOG:
+			result = "[DEBUG]";
+			break;
+		case LogSeverity::WARNING_LOG:
+			result = "[WARNING]";
+			break;
+		case LogSeverity::ERROR_LOG:
+			result = "[ERROR]";
+			break;
+	}
+	if (detailed)
+	{
+		result += file + "(" + std::to_string(line) + ") : ";
+	}
+	result += message;
+	if (addBreak)
+	{
+		result += '\n';
+	}
+	return result;
+}
