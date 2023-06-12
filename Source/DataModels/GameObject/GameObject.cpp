@@ -222,7 +222,7 @@ void GameObject::LinkChild(GameObject* child)
 		ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 		if (transform)
 		{
-			transform->UpdateTransformMatrices();
+			transform->UpdateTransformMatrices(false);
 		}
 		else
 		{
