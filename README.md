@@ -24,7 +24,8 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Any scene can be saved or loaded using an ImGui menu options.
 - A scene can be transformed into a JSON file. 
 - Changing an asset in the inspector updated the corresponding resource.
-- After modifying an asset from a local folder, the asset is updated automatically in the engine. 
+- After modifying an asset from a local folder, the asset is updated automatically in the engine.
+- Resource inspector where you can change the import and load options of a specific resource.
 - There's a GAME mode that loads all the files using a compressed zip of all the required assets and custom binary files. To activate this, just define a GAME predefined compilation variable in Globals.h.
 
 **Spatial Partitioning and Frustum Culling**
@@ -72,14 +73,14 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 
 **Animations and state machines**
 - Add an animation component to your meshes.
-- Ability to create, edit, rename and delete state machines.
+- Full state machine visual editor where you can create transitions and states with animations and control them on runtime with scripts. Accessible through the animation component.
 - Draw Debug options for sketelal animation bones.
 
 **Scripting**
 - Ability to create and link scripts to GameObjects.
 
 **Build**
-- Configure a scene and an environment to generate the zip compressed folder with the corresponding assets and files.
+- Select the starting scene of your game, choose the build configuration and create a `.zip` file with all the assets and resources necessary to run the resulting executable file.
 
 **Play scenes**
 - Play or stop your scene at any moment.
@@ -137,6 +138,7 @@ You can drag and drop different models and edit it's meshes and textures (loadin
 - Play/Pause controller
 
 **Shortcuts**
+- Q / W / E on scene window to change operation type of the gizmos.
 - Ctrl + C to copy
 - Ctrl + V to paste
 - Ctrl + S to save
