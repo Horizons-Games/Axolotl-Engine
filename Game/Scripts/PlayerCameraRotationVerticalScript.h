@@ -1,5 +1,5 @@
 #pragma once
-#include "Script.h"
+#include "Scripting/Script.h"
 #include "Components/ComponentTransform.h"
 #include "CameraSample.h"
 
