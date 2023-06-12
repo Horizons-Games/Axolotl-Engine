@@ -76,7 +76,7 @@ void ComponentSpotLight::Draw() const
 	{
 		return;
 	}
-	if (IsEnabled())
+	if (active)
 	{
 		const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
@@ -87,7 +87,7 @@ void ComponentSpotLight::Draw() const
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
 #else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (active && owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 

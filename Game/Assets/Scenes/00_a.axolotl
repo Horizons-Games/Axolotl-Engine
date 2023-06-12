@@ -71,7 +71,7 @@
                             "color_light_X": 1.0,
                             "color_light_Y": 1.0,
                             "color_light_Z": 1.0,
-                            "intensity": 1.0,
+                            "intensity": 0.0,
                             "lightType": "LightType_Directional"
                         }
                     }

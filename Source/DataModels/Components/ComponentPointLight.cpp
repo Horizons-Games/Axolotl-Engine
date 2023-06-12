@@ -62,7 +62,7 @@ void ComponentPointLight::Draw() const
 	{
 		return;
 	}
-	if (IsEnabled())
+	if (active)
 	{
 		const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
@@ -71,7 +71,7 @@ void ComponentPointLight::Draw() const
 		dd::sphere(position, dd::colors::White, radius);
 	}
 #else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (active && owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
