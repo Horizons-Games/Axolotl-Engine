@@ -7,6 +7,7 @@
 #include "FileSystem/Importers/CubemapImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
+#include "FileSystem/Importers/NavMeshImporter.h"
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
@@ -40,6 +41,7 @@ bool ModuleResources::Init()
 	modelImporter = std::make_unique<ModelImporter>();
 	textureImporter = std::make_unique<TextureImporter>();
 	meshImporter = std::make_unique<MeshImporter>();
+	navMeshImporter = std::make_unique<NavMeshImporter>();
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 	cubemapImporter = std::make_unique<CubemapImporter>();
@@ -313,6 +315,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				case ResourceType::Mesh:
 					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
 					break;
+				case ResourceType::NavMesh:
+					navMeshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceNavMesh>(resource));
+					break;
 				case ResourceType::Scene:
 					break;
 				case ResourceType::Material:
@@ -415,6 +420,9 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 			break;
 		case ResourceType::Mesh:
 			meshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
+			break;
+		case ResourceType::NavMesh:
+			navMeshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceNavMesh>(resource));
 			break;
 		case ResourceType::Scene:
 			break;
