@@ -9,6 +9,7 @@
 #include "Cubemap/Cubemap.h"
 
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
@@ -266,8 +267,6 @@ update_status ModuleRender::Update()
 	// Bind camera info to the shaders
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
-
-	//AddToRenderList(goSelected);
 	
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
@@ -312,6 +311,12 @@ update_status ModuleRender::Update()
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
+	}
+
+	// Draw Particles
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticles())
+	{
+		particle->Render();
 	}
 
 	// Draw Transparent objects

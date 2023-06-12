@@ -30,7 +30,7 @@ void ModuleBase::Spawn(EmitterInstance* instance)
 void ModuleBase::Update(EmitterInstance* instance)
 {
 	const GameObject* go = instance->GetOwner()->GetOwner();
-	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
 
 	if (originTransform.IsIdentity())
 	{
@@ -118,7 +118,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 void ModuleBase::DrawDD(EmitterInstance* instance)
 {
 	const GameObject* go = instance->GetOwner()->GetOwner();
-	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
 	float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
 
 	float3 position;

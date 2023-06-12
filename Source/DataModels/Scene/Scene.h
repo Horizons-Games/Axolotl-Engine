@@ -15,6 +15,7 @@
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
+class ComponentParticleSystem;
 class GameObject;
 class Quadtree;
 class Skybox;
@@ -72,6 +73,7 @@ public:
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<ComponentCamera*>& GetSceneCameras() const;
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
+	const std::vector<ComponentParticleSystem*>& GetSceneParticles() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
@@ -98,6 +100,8 @@ public:
 	void AddNonStaticObject(GameObject* gameObject);
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
+	void AddParticleSystem(ComponentParticleSystem* particleSystem);
+	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 
 	void InitNewEmptyScene();
 
@@ -124,6 +128,7 @@ private:
 	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
 	std::vector<Component*> sceneInteractableComponents;
+	std::vector<ComponentParticleSystem*> sceneParticles;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
 	GameObject* directionalLight;
@@ -178,6 +183,11 @@ inline const std::vector<ComponentCamera*>& Scene::GetSceneCameras() const
 inline const std::vector<ComponentCanvas*>& Scene::GetSceneCanvas() const
 {
 	return sceneCanvas;
+}
+
+inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticles() const
+{
+	return sceneParticles;
 }
 
 inline const std::vector<Component*>& Scene::GetSceneInteractable() const
@@ -242,4 +252,20 @@ inline void Scene::AddUpdatableObject(Updatable* updatable)
 		{
 			sceneUpdatableObjects.push_back(updatable);
 		});
+}
+
+inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
+{
+	sceneParticles.push_back(particleSystem);
+}
+
+inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
+{
+	sceneParticles.erase(std::remove_if(std::begin(sceneParticles),
+		std::end(sceneParticles),
+		[&particleSystem](ComponentParticleSystem* particle)
+		{
+			return particle == particleSystem;
+		}),
+		std::end(sceneParticles));
 }

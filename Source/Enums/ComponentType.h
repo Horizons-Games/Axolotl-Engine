@@ -20,6 +20,7 @@ enum class ComponentType
 	MESHCOLLIDER,
 	SCRIPT,
 	BREAKABLE,
+	PARTICLE,
 	CUBEMAP
 };
 

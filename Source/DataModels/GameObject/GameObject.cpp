@@ -584,6 +584,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 		{
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
 		}
+		else
+		{
+			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
+		}
 
 		components.push_back(std::move(newComponent));
 		return referenceBeforeMove;
@@ -655,7 +663,15 @@ bool GameObject::RemoveComponent(const Component* component)
 	{
 		return false;
 	}
+
+	if (component->GetType() == ComponentType::PARTICLE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
+			static_cast<const ComponentParticleSystem*>(component));
+	}
+
 	components.erase(removeIfResult, std::end(components));
+
 	return true;
 }
 

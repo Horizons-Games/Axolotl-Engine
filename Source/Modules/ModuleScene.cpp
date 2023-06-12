@@ -8,6 +8,7 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -129,7 +130,7 @@ update_status ModuleScene::Update()
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
 	
-	if (!App->GetScriptFactory()->IsCompiling())
+	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -138,6 +139,12 @@ update_status ModuleScene::Update()
 				updatable->Update();
 			}
 		}
+	}
+
+	// Particles need to be updated 
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticles())
+	{
+		particle->Update();
 	}
 
 	return update_status::UPDATE_CONTINUE;

@@ -41,6 +41,20 @@ void ComponentParticleSystem::Update()
 
 void ComponentParticleSystem::Draw() const
 {
+	for (EmitterInstance* instance : emitters)
+	{
+#ifdef ENGINE
+		if (!App->IsOnPlayMode())
+		{
+			instance->DrawDD();
+			//instance->SimulateParticles();
+		}
+#endif //ENGINE
+	}
+}
+
+void ComponentParticleSystem::Render()
+{
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
 
 	program->Activate();
@@ -53,21 +67,10 @@ void ComponentParticleSystem::Draw() const
 
 	for (EmitterInstance* instance : emitters)
 	{
-#ifdef ENGINE
-		if (!App->IsOnPlayMode())
-		{
-			instance->DrawDD();
-			//instance->SimulateParticles();
-		}
-#endif //ENGINE
 		instance->DrawParticles();
 	}
 
 	program->Deactivate();
-}
-
-void ComponentParticleSystem::Render()
-{
 }
 
 void ComponentParticleSystem::Reset()
