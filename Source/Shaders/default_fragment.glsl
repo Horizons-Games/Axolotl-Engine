@@ -319,7 +319,9 @@ void main()
         discard;
     }
 
-    textureMat.a = material.diffuse_color.a; //Transparency
+    //Transparency
+    textureMat.a = material.has_diffuse_map * textureMat.a + 
+        (1.0f-material.has_diffuse_map) * material.diffuse_color.a;
     
     // Normals
 	if (material.has_normal_map == 1)
