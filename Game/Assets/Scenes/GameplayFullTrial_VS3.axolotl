@@ -2326,7 +2326,7 @@
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
-                            "linearDamping": 0.10000000149011612,
+                            "linearDamping": 0.4000000059604645,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
@@ -2334,7 +2334,7 @@
                             "useRotationController": true,
                             "KpForce": 0.5,
                             "KpTorque": 10.0,
-                            "gravity_Y": -9.8100004196167,
+                            "gravity_Y": -20.0,
                             "boxSize_X": 1.0,
                             "boxSize_Y": 1.0,
                             "boxSize_Z": 1.0,
@@ -5349,7 +5349,7 @@
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
-                            "linearDamping": 0.10000000149011612,
+                            "linearDamping": 0.4000000059604645,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
@@ -5357,7 +5357,7 @@
                             "useRotationController": true,
                             "KpForce": 0.5,
                             "KpTorque": 10.0,
-                            "gravity_Y": -9.8100004196167,
+                            "gravity_Y": -20.0,
                             "boxSize_X": 1.0,
                             "boxSize_Y": 1.0,
                             "boxSize_Z": 1.0,
@@ -8230,11 +8230,91 @@
                             "constructName": "PlayerForceAttackScript",
                             "fields": [
                                 {
-                                    "name": "Radius",
-                                    "value": 9.0,
+                                    "name": "Force",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "StunTime",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CoolDown",
+                                    "value": 6.0,
                                     "type": 0
                                 }
                             ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Plane",
+                "tag": "",
+                "uid": 14356308487297493737,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.18912717700004578,
+                            "localPos_Y": 3.9198756217956543,
+                            "localPos_Z": 12.034802436828613,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 6.369832515716553,
+                            "localSca_Y": 4.149949550628662,
+                            "localSca_Z": 2.97745680809021
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5097944874115135421,
+                            "assetPathMesh": "Assets/Meshes/Plane.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 19.1094970703125,
+                            "boxSize_Y": 0.5,
+                            "boxSize_Z": 8.93237018585205,
+                            "radius": 8.485280990600586,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -0.18912717700004578,
+                            "rbPos_Y": 3.9198756217956543,
+                            "rbPos_Z": 12.034802436828613
                         }
                     }
                 ]

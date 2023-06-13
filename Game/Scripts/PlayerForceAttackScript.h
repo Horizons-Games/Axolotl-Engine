@@ -15,6 +15,8 @@ public:
 private:
 	std::vector<GameObject*> enemiesInTheArea;
 
-	float radius;
+	float force;
 	float stunTime;
+	float coolDown;
+	float currentCoolDown;
 };
