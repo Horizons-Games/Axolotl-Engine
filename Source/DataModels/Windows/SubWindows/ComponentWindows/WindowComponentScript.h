@@ -3,6 +3,7 @@
 #include "ComponentWindow.h"
 
 #include "FileSystem/UniqueID.h"
+#include "GameObject/GameObject.h"
 
 class ComponentScript;
 namespace math
@@ -26,6 +27,7 @@ private:
 	std::string DrawStringField(std::string value, const std::string name);
 	float DrawFloatField(float value, const std::string name);
 	math::float3 DrawFloat3Field(math::float3 value, const std::string name);
+	GameObject* DrawGOField();
 
 	void OpenCreateNewScriptPopUp();
 	void AddNewScriptToProject(const std::string& scriptName);

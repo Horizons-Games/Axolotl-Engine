@@ -51,6 +51,28 @@ math::float3 WindowComponentScript::DrawFloat3Field(math::float3 value, const st
 	return value;
 }
 
+GameObject* WindowComponentScript::DrawGOField() 
+{
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+		{
+			UID draggedGameObjectID = *(UID*)payload->Data;
+			GameObject* draggedGameObject =
+				App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+
+			if (draggedGameObject)
+			{
+				ImGui::EndDragDropTarget();
+				return draggedGameObject; 
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+	return nullptr;
+}
+
 void WindowComponentScript::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
@@ -290,7 +312,7 @@ void WindowComponentScript::DrawWindowContents()
 				finalLabel = label + separator + thisID;
 				ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
 
-				if (ImGui::BeginDragDropTarget())
+				/*if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
 					{
@@ -305,6 +327,11 @@ void WindowComponentScript::DrawWindowContents()
 					}
 
 					ImGui::EndDragDropTarget();
+				}*/
+				GameObject* draggedObject = DrawGOField();
+				if (draggedObject != nullptr)
+				{
+					gameObjectField.setter(draggedObject);
 				}
 
 				ImGui::SameLine(0.0f, 3.0f);
