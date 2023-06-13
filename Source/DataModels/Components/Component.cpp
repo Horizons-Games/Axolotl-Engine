@@ -2,7 +2,7 @@
 
 #include "DataModels/GameObject/GameObject.h"
 
-Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved) :
+Component::Component(ComponentType type, bool active, GameObject* owner, bool canBeRemoved) :
 	type(type),
 	active(active),
 	owner(owner),

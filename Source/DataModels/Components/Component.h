@@ -14,7 +14,7 @@ class Json;
 class Component
 {
 public:
-	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
+	Component(ComponentType type, bool active, GameObject* owner, bool canBeRemoved);
 	Component(const Component& component);
 	virtual ~Component();
 
@@ -43,18 +43,12 @@ protected:
 
 inline void Component::Enable()
 {
-	if (type != ComponentType::TRANSFORM)
-	{
-		active = true;
-	}
+	active = true;
 }
 
 inline void Component::Disable()
 {
-	if (type != ComponentType::TRANSFORM)
-	{
-		active = false;
-	}
+	active = false;
 }
 
 inline void Component::OnTransformChanged()

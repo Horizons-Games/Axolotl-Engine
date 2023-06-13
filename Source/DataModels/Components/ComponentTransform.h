@@ -24,6 +24,9 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	void Enable() override{};
+	void Disable() override{};
+
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
 	const Quat& GetRotation() const;
