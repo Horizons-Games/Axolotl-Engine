@@ -2129,6 +2129,11 @@
                             "constructName": "PlayerCameraRotationVerticalScript",
                             "fields": [
                                 {
+                                    "name": "SamplePointsObject",
+                                    "value": 15381059914715421110,
+                                    "type": 2
+                                },
+                                {
                                     "name": "KpPosition",
                                     "value": 5.0,
                                     "type": 0
@@ -8383,6 +8388,93 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 15381059914715421110,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 12934681888479518665,
+                "parentUID": 15381059914715421110,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.9596216678619385,
+                            "localPos_Y": 1.1198070049285889,
+                            "localPos_Z": -7.968746185302734,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CameraSample",
+                            "fields": [
+                                {
+                                    "name": "InfluenceRadius",
+                                    "value": 3.25,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PositionOffset",
+                                    "value x": 0.0,
+                                    "value y": 2.75,
+                                    "value z": -5.050000190734863,
+                                    "type": 3
+                                },
+                                {
+                                    "name": "OrientationOffset",
+                                    "value x": 0.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
                         }
                     }
                 ]

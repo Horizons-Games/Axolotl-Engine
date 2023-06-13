@@ -4,6 +4,7 @@
 #include "ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentScript.h"
 #include "CameraSample.h"
 
 REGISTERCLASS(PlayerCameraRotationVerticalScript);
@@ -24,7 +25,7 @@ void PlayerCameraRotationVerticalScript::Start()
 	{
 		for (GameObject* sample : samplePointsObject->GetChildren())
 		{
-			
+			samples.push_back(sample->GetComponent<CameraSample>());
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();
@@ -85,7 +86,8 @@ void PlayerCameraRotationVerticalScript::Update(float deltaTime)
 		if ((closestSample->position - transform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 		{
 			targetPosition = closestSample->positionOffset;
-			targetOrientation = closestSample->orientationOffset;
+			float3 eulerAngles = closestSample->orientationOffset;
+			targetOrientation = Quat::FromEulerXYZ(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 		}
 		else
 		{

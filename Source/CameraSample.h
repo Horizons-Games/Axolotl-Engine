@@ -10,6 +10,8 @@ public:
 	CameraSample();
 	~CameraSample() override = default;
 
+	void Start() override;
+
 	float3 position;
 	float influenceRadius;
 	float3 positionOffset;
@@ -17,5 +19,5 @@ public:
 
 private:
 	ComponentTransform* transform;
-
+	
 };
