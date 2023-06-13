@@ -41,26 +41,6 @@ protected:
 	bool canBeRemoved;
 };
 
-inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved) :
-	type(type),
-	active(active),
-	owner(owner),
-	canBeRemoved(canBeRemoved)
-{
-}
-
-inline Component::Component(const Component& component) :
-	type(component.type),
-	active(component.active),
-	owner(nullptr),
-	canBeRemoved(component.canBeRemoved)
-{
-}
-
-inline Component::~Component()
-{
-}
-
 inline void Component::Enable()
 {
 	if (type != ComponentType::TRANSFORM)
@@ -79,11 +59,6 @@ inline void Component::Disable()
 
 inline void Component::OnTransformChanged()
 {
-}
-
-inline bool Component::IsEnabled() const
-{
-	return active;
 }
 
 inline ComponentType Component::GetType() const
