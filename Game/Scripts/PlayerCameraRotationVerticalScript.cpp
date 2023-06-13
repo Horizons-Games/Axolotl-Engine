@@ -63,47 +63,36 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 	//Quat rotationErrorQuat = rotationErrorX.Mul(rotationErrorY);
 
 	Quat finalRotation = rotationErrorY * currentRotation;
-	transform->SetRotation(finalRotation);
+	defaultOrientationOffset = finalRotation;
 
 	float3 cameraOffset = transform->GetPosition();
 	cameraOffset = rotationErrorY.Transform(cameraOffset);
-	transform->SetPosition(cameraOffset);
-	transform->UpdateTransformMatrices();
-
-	defaultPositionOffset = transform->GetPosition();
-	defaultOrientationOffset = transform->GetRotation();
+	defaultPositionOffset = cameraOffset;
 }
 
 void PlayerCameraRotationVerticalScript::Update(float deltaTime)
 {
-	float3 targetPosition;
-	Quat targetOrientation;
-
+	
 	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
 
-	if (closestSample)
+	if (closestSample && (closestSample->position - transform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 	{
-		if ((closestSample->position - transform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
-		{
-			targetPosition = closestSample->positionOffset;
-			float3 eulerAngles = closestSample->orientationOffset;
-			targetOrientation = Quat::FromEulerXYZ(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-		}
-		else
-		{
-			targetPosition = defaultPositionOffset;
-			targetOrientation = defaultOrientationOffset;
-		}
-	}
+		float3 targetPosition;
+		Quat targetOrientation;
 
+		targetPosition = defaultPositionOffset + transform->GetLocalForward() * closestSample->influenceRadius;
+		float3 eulerAngles = closestSample->orientationOffset;
+		targetOrientation = Quat::FromEulerXYZ(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+
+		SetPositionTarget(targetPosition, deltaTime);
+		SetRotationTarget(targetOrientation, deltaTime);
+	}
 	else
 	{
-		targetPosition = defaultPositionOffset;
-		targetOrientation = defaultOrientationOffset;
+		SetPositionTarget(defaultPositionOffset, deltaTime);
+		SetRotationTarget(defaultOrientationOffset, deltaTime);
 	}
 
-	SetPositionTarget(targetPosition, deltaTime);
-	SetRotationTarget(targetOrientation, deltaTime);
 	transform->UpdateTransformMatrices();
 }
 

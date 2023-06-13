@@ -230,8 +230,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0001220703125,
-                            "localPos_Y": 0.7866215705871582,
-                            "localPos_Z": -12.963663101196289,
+                            "localPos_Y": 9.65267276763916,
+                            "localPos_Z": -29.203277587890625,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -388,7 +388,7 @@
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
+                            "restitution": 0.10000000149011612,
                             "currentShape": 1,
                             "usePositionController": false,
                             "useRotationController": false,
@@ -402,8 +402,8 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 0.0001220703125,
-                            "rbPos_Y": 0.7866215705871582,
-                            "rbPos_Z": -12.963663101196289
+                            "rbPos_Y": 9.65267276763916,
+                            "rbPos_Z": -29.203277587890625
                         }
                     },
                     {
@@ -2189,9 +2189,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 5.567686080932617,
+                            "localPos_X": 16.782350540161133,
                             "localPos_Y": 1.5957939624786377,
-                            "localPos_Z": -7.999545097351074,
+                            "localPos_Z": -16.65766143798828,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -2236,9 +2236,9 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 5.567686080932617,
+                            "rbPos_X": 16.782350540161133,
                             "rbPos_Y": 1.5957939624786377,
-                            "rbPos_Z": -7.999545097351074
+                            "rbPos_Z": -16.65766143798828
                         }
                     }
                 ]
@@ -8437,9 +8437,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 3.9596216678619385,
-                            "localPos_Y": 1.1198070049285889,
-                            "localPos_Z": -7.968746185302734,
+                            "localPos_X": 15.082862854003906,
+                            "localPos_Y": 1.4596266746520996,
+                            "localPos_Z": -16.569950103759766,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
