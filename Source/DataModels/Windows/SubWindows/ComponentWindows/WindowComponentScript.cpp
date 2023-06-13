@@ -24,7 +24,7 @@ WindowComponentScript::~WindowComponentScript()
 {
 }
 
-std::string WindowComponentScript::DrawStringField(std::string value, std::string name)
+std::string WindowComponentScript::DrawStringField(std::string value, const std::string name)
 {
 	if (ImGui::InputText(name.c_str(), value.data(), 24))
 	{
@@ -33,9 +33,18 @@ std::string WindowComponentScript::DrawStringField(std::string value, std::strin
 	return value;
 }
 
-float WindowComponentScript::DrawFloatField(float value, std::string name)
+float WindowComponentScript::DrawFloatField(float value, const std::string name)
 {
 	if (ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
+	{
+		return value;
+	}
+	return value;
+}
+
+math::float3 WindowComponentScript::DrawFloat3Field(math::float3 value, const std::string name)
+{
+	if (ImGui::DragFloat3(name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
 	{
 		return value;
 	}
@@ -119,7 +128,7 @@ void WindowComponentScript::DrawWindowContents()
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
-		//DrawField(member, enumAndMember.first);
+		
 		switch (enumAndMember.first)
 		{
 			case FieldType::FLOAT:
@@ -138,86 +147,119 @@ void WindowComponentScript::DrawWindowContents()
 			{
 				Field<float3> float3Field = std::get<Field<float3>>(member);
 				float3 value = float3Field.getter();
-				if(ImGui::DragFloat3(float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
-				{
-					float3Field.setter(value);
-				}
+				
+				float3Field.setter(DrawFloat3Field(value, float3Field.name.c_str()));
 				break;
 			}
 
 			case FieldType::VECTOR:
 			{
 				VectorField vectorField = std::get<VectorField>(member);
+
+				std::function<std::any(const std::any&, const std::string&)> elementDrawer =
+					[this, &vectorField](const std::any& value, const std::string& name) -> std::any
+				{
+					switch (vectorField.innerType)
+					{
+					case FieldType::FLOAT:
+						return float(DrawFloatField(std::any_cast<float>(value), name));
+					case FieldType::STRING:
+						return std::string(DrawStringField(std::any_cast<std::string>(value), name).c_str());
+					case FieldType::BOOLEAN:
+					case FieldType::GAMEOBJECT:
+					case FieldType::VECTOR3:
+						return float3(DrawFloat3Field(std::any_cast<float3>(value), name));
+					//case FieldType::VECTOR:
+						break;
+					}
+					return std::any();  // Default return 
+				};
+
+
 				std::vector<std::any> vectorValue = vectorField.getter();
 
-				for (const auto& elem : vectorValue)
+				for (int i = 0; i < vectorValue.size(); ++i)
 				{
-					if (elem.type() == typeid(float)) 
-					{
-						float floatValue = std::any_cast<float>(elem);
-						std::vector<float> value;
-						for (const auto& elem : vectorValue) {
-							try {
-								float floatValue = std::any_cast<float>(elem);
-								value.push_back(floatValue);
-							}
-							catch (const std::bad_any_cast&) {
-							}
-						}
-						for (int i = 0; i < value.size(); i++)
-						{
-							vectorValue[i] = DrawFloatField(value[i], (vectorField.name + std::to_string(i)));
-
-							vectorField.setter(vectorValue);
-						}
-					}
-					else if (elem.type() == typeid(std::string))
-					{
-						std::string stringValue = std::any_cast<std::string>(elem);
-						std::vector<std::string> value;
-						for (const auto& elem : vectorValue) {
-							try {
-								std::string stringValue = std::any_cast<std::string>(elem);
-								value.push_back(stringValue);
-							}
-							catch (const std::bad_any_cast&) {
-							}
-						}
-						for (int i = 0; i < value.size(); i++) 
-						{
-							vectorValue[i] = std::string(DrawStringField(value[i], (vectorField.name + std::to_string(i)).c_str()).data());
-							
-							vectorField.setter(vectorValue);
-						}
-							
-					}
-
-					else if (elem.type() == typeid(GameObject*))
-					{
-						GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
-						std::vector<GameObject*> value;
-						for (const auto& elem : vectorValue) {
-							try {
-								GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
-								value.push_back(gameObjectValue);
-							}
-							catch (const std::bad_any_cast&) {
-							}
-						}
-						for (int i = 0; i < value.size(); i++)
-						{
-							//DO THE GAMEOBJECT IMGUI
-						}
-
-					}
-					// Add more type checks for other supported types
-
-					// ...
-					break;
+					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
 				}
+
+				vectorField.setter(vectorValue);
 
 				break;
 			}
+			//case FieldType::VECTOR:
+			//{
+			//	VectorField vectorField = std::get<VectorField>(member);
+			//	std::vector<std::any> vectorValue = vectorField.getter();
+
+			//	for (const auto& elem : vectorValue)
+			//	{
+			//		if (elem.type() == typeid(float)) 
+			//		{
+			//			float floatValue = std::any_cast<float>(elem);
+			//			std::vector<float> value;
+			//			for (const auto& elem : vectorValue) {
+			//				try {
+			//					float floatValue = std::any_cast<float>(elem);
+			//					value.push_back(floatValue);
+			//				}
+			//				catch (const std::bad_any_cast&) {
+			//				}
+			//			}
+			//			for (int i = 0; i < value.size(); i++)
+			//			{
+			//				vectorValue[i] = DrawFloatField(value[i], (vectorField.name + std::to_string(i)));
+
+			//				vectorField.setter(vectorValue);
+			//			}
+			//		}
+			//		else if (elem.type() == typeid(std::string))
+			//		{
+			//			std::string stringValue = std::any_cast<std::string>(elem);
+			//			std::vector<std::string> value;
+			//			for (const auto& elem : vectorValue) {
+			//				try {
+			//					std::string stringValue = std::any_cast<std::string>(elem);
+			//					value.push_back(stringValue);
+			//				}
+			//				catch (const std::bad_any_cast&) {
+			//				}
+			//			}
+			//			for (int i = 0; i < value.size(); i++) 
+			//			{
+			//				vectorValue[i] = std::string(DrawStringField(value[i], (vectorField.name + std::to_string(i)).c_str()).data());
+			//				
+			//				vectorField.setter(vectorValue);
+			//			}
+			//				
+			//		}
+
+			//		else if (elem.type() == typeid(GameObject*))
+			//		{
+			//			GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
+			//			std::vector<GameObject*> value;
+			//			for (const auto& elem : vectorValue) {
+			//				try {
+			//					GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
+			//					value.push_back(gameObjectValue);
+			//				}
+			//				catch (const std::bad_any_cast&) {
+			//				}
+			//			}
+			//			for (int i = 0; i < value.size(); i++)
+			//			{
+			//				//DO THE GAMEOBJECT IMGUI
+			//			}
+
+			//		}
+			//		// Add more type checks for other supported types
+
+			//		// ...
+			//		break;
+			//	}
+
+			//	break;
+			//}
 
 
 			case FieldType::STRING:

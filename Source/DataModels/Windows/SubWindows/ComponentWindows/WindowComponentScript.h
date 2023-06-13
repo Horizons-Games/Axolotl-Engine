@@ -5,6 +5,10 @@
 #include "FileSystem/UniqueID.h"
 
 class ComponentScript;
+namespace math
+{
+class float3;
+}
 
 class WindowComponentScript : public ComponentWindow
 {
@@ -19,8 +23,9 @@ protected:
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
 
-	std::string DrawStringField(std::string value, std::string name);
-	float DrawFloatField(float value, std::string name);
+	std::string DrawStringField(std::string value, const std::string name);
+	float DrawFloatField(float value, const std::string name);
+	math::float3 DrawFloat3Field(math::float3 value, const std::string name);
 
 	void OpenCreateNewScriptPopUp();
 	void AddNewScriptToProject(const std::string& scriptName);

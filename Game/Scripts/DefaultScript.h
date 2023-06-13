@@ -24,6 +24,8 @@ public:
 	
 	const std::vector<float>& GetVectorFloat() const;
 	void SetVectorFloat(const std::vector<float>& vec);
+	const std::vector<float3>& GetVectorFloat3() const;
+	void SetVectorFloat3(const std::vector<float3>& vec);
 	const std::vector<std::string>& GetVectorStr() const;
 	void SetVectorStr(const std::vector<std::string>& vec);
 
@@ -35,6 +37,7 @@ private:
 	float value;
 	float3 vec3;
 	std::vector<float> vec;
+	std::vector<float3> vecVec3;
 	std::vector<std::string> vecStr;
 	std::string sentence;
 	GameObject* character;
