@@ -51,6 +51,9 @@ public:
 
 	void ReimportResource(UID resourceUID);
 
+	void FillResourceBin(std::shared_ptr<Resource> sharedResource);
+	void CleanResourceBin();
+
 private:
 	// resource creation and deletition
 	std::shared_ptr<Resource>
@@ -106,6 +109,8 @@ private:
 	std::thread monitorThread;
 	bool monitorResources;
 
+	std::vector<std::shared_ptr<Resource>> resourcesBin;
+
 	friend class WindowResources;
 };
 
@@ -115,7 +120,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	ResourceType type = FindTypeByExtension(path);
 	if (type == ResourceType::Unknown)
 	{
-		ENGINE_LOG("Extension not supported");
+		LOG_WARNING("Extension not supported");
 	}
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	std::string fileName = fileSystem->GetFileName(path);
@@ -206,6 +211,13 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		}
 	}
 	return nullptr;
+}
+
+inline void ModuleResources::CleanResourceBin()
+{
+#ifndef ENGINE
+	resourcesBin.clear();
+#endif //!ENGINE
 }
 
 template<class R>

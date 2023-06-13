@@ -20,6 +20,7 @@ bool ModuleFileSystem::Init()
 #ifdef ENGINE
 	PHYSFS_mount("..", nullptr, 0);
 	PHYSFS_setWriteDir(".");
+	logContext->StartWritingToFile();
 #else  // ENGINE
 	if (!Exists("Assets.zip"))
 	{
@@ -76,11 +77,11 @@ bool ModuleFileSystem::Copy(const std::string& sourceFilePath, const std::string
 	return true;
 }
 
-bool ModuleFileSystem::Delete(const char* filePath)
+bool ModuleFileSystem::Delete(const char* filePath) const
 {
 	if (!PHYSFS_delete(filePath))
 	{
-		ENGINE_LOG("Physfs has error : %s when try to delete %s", PHYSFS_getLastError(), filePath);
+		LOG_ERROR("Physfs has error {{}} when try to delete {}", PHYSFS_getLastError(), filePath);
 		return false;
 	}
 	return true;
@@ -89,19 +90,19 @@ bool ModuleFileSystem::Delete(const char* filePath)
 unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) const
 {
 	PHYSFS_File* file = PHYSFS_openRead(filePath.c_str());
-	if (file == NULL)
+	if (file == nullptr)
 	{
-		ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), filePath);
+		LOG_ERROR("Physfs has error {{}} when try to open {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
-		return -1;
+		return 0;
 	}
 	PHYSFS_sint64 size = PHYSFS_fileLength(file);
 	buffer = new char[size + 1]{};
 	if (PHYSFS_readBytes(file, buffer, size) < size)
 	{
-		ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), file);
+		LOG_ERROR("Physfs has error {{}} when try to open {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
-		return -1;
+		return 0;
 	}
 	PHYSFS_close(file);
 	return (unsigned int) size;
@@ -113,15 +114,15 @@ unsigned int ModuleFileSystem::Save(const std::string& filePath,
 									bool append /*= false*/) const
 {
 	PHYSFS_File* file = append ? PHYSFS_openAppend(filePath.c_str()) : PHYSFS_openWrite(filePath.c_str());
-	if (file == NULL)
+	if (file == nullptr)
 	{
-		ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
+		LOG_ERROR("Physfs has error {{}} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 1;
 	}
 	if (PHYSFS_writeBytes(file, buffer, size) < size)
 	{
-		ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
+		LOG_ERROR("Physfs has error {{}} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 1;
 	}
@@ -133,7 +134,7 @@ bool ModuleFileSystem::CreateDirectory(const char* directoryPath) const
 {
 	if (!PHYSFS_mkdir(directoryPath))
 	{
-		ENGINE_LOG("Physfs has error : %s when try to create %s", PHYSFS_getLastError(), directoryPath);
+		LOG_ERROR("Physfs has error {{}} when try to create {}", PHYSFS_getLastError(), directoryPath);
 		return false;
 	}
 	return true;
@@ -244,7 +245,7 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
 			}
 		}
 	}
-	return "";
+	return std::string();
 }
 
 void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathTextures,
@@ -287,7 +288,7 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 	memcpy(cursor, pathTextures[3].c_str(), bytes);
 }
 
-void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path) const
+void ModuleFileSystem::ZipFolder(zip_t* zip, const char* path) const
 {
 	std::vector<std::string> files = ListFiles(path);
 	for (int i = 0; i < files.size(); ++i)
@@ -303,10 +304,9 @@ void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path) const
 			zip_entry_open(zip, newPath.c_str());
 			{
 				char* buf = nullptr;
-				PHYSFS_File* file = PHYSFS_openRead(newPath.c_str());
-				PHYSFS_sint64 size = PHYSFS_fileLength(file);
-				Load(newPath.c_str(), buf);
+				unsigned int size = Load(newPath.c_str(), buf);
 				zip_entry_write(zip, buf, size);
+				delete buf;
 			}
 			zip_entry_close(zip);
 		}
@@ -315,8 +315,52 @@ void ModuleFileSystem::ZipFolder(struct zip_t* zip, const char* path) const
 
 void ModuleFileSystem::ZipLibFolder() const
 {
-	struct zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
+	zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
 	ZipFolder(zip, "Lib");
-    ZipFolder(zip, "WwiseProject");
+	ZipFolder(zip, "WwiseProject");
+	zip_close(zip);
+}
+
+void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath,
+										 const std::string& newFileName,
+										 const void* buffer,
+										 unsigned int size,
+										 bool overwriteIfExists) const
+{
+	if (overwriteIfExists)
+	{
+		DeleteFileInZip(zipPath, newFileName);
+	}
+	zip_t* zip = zip_open(zipPath.c_str(), ZIP_DEFAULT_COMPRESSION_LEVEL, 'a');
+	zip_entry_open(zip, newFileName.c_str());
+	zip_entry_write(zip, buffer, size);
+	zip_entry_close(zip);
+	zip_close(zip);
+}
+
+void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const
+{
+	char* buffer = nullptr;
+	unsigned int size = Load(existingFilePath, buffer);
+	AppendToZipFolder(zipPath, existingFilePath, buffer, size, true);
+	delete buffer;
+}
+
+void ModuleFileSystem::DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const
+{
+	zip_t* zip = zip_open(zipPath.c_str(), ZIP_DEFAULT_COMPRESSION_LEVEL, 'a');
+
+	// create a char* const* with only the fileName inside
+	// because it'd be boring if it was simple
+
+	char* charPtr = new char[fileName.length() + 1];
+	std::strcpy(charPtr, fileName.c_str());
+
+	char* const charArray[] = { charPtr };
+
+	zip_entries_delete(zip, charArray, 1);
+
+	delete[] charPtr;
+
 	zip_close(zip);
 }

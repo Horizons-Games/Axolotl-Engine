@@ -9,6 +9,8 @@
 #include "Scene/Scene.h"
 #include "Windows/EditorWindows/WindowScene.h"
 
+#include "DataModels/Components/ComponentTransform.h"
+
 #include "DataStructures/Quadtree.h"
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -85,7 +87,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 
 	if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
 	{
-		if (gameObject->GetComponent(ComponentType::TRANSFORM) != nullptr)
+		if (gameObject->GetComponent<ComponentTransform>() != nullptr)
 		{
 			if (ImGui::MenuItem("Create Empty child"))
 			{
@@ -103,20 +105,32 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 			}
 			Create3DObjectMenu(gameObject);
 
-			// Create Light ShortCut
-			if (ImGui::BeginMenu("Create Light"))
-			{
-				if (ImGui::MenuItem("Spot"))
-				{
-					loadedScene->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
-				}
-				if (ImGui::MenuItem("Point"))
-				{
-					loadedScene->CreateLightGameObject("Point", gameObject, LightType::POINT);
-				}
-				ImGui::EndMenu();
-			}
-
+            //Create Light ShortCut
+            if (ImGui::BeginMenu("Create Light"))
+            {
+                if (ImGui::MenuItem("Spot"))
+                {
+                    loadedScene->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
+                }
+                if (ImGui::MenuItem("Point"))
+                {
+                    loadedScene->CreateLightGameObject("Point", gameObject, LightType::POINT);
+                }
+                if (ImGui::BeginMenu("Area Light"))
+                {
+                    if (ImGui::MenuItem("Sphere"))
+                    {
+                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::SPHERE);
+                    }
+                    if (ImGui::MenuItem("Tube"))
+                    {
+                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::TUBE);
+                    }
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMenu();
+            }
+            
 			if (ImGui::BeginMenu("Audio"))
 			{
 				if (ImGui::MenuItem("Audio Source"))
@@ -173,7 +187,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 				GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
 				if (selectedGameObject && selectedGameObject->GetParent())
 				{
-					std::list<GameObject*> listSGO = selectedGameObject->GetGameObjectsInside();
+					std::list<GameObject*> listSGO = selectedGameObject->GetAllDescendants();
 					bool actualParentSelected =
 						std::find(std::begin(listSGO), std::end(listSGO), parentGameObject) != std::end(listSGO);
 					bool newParentSelected =
@@ -302,6 +316,10 @@ void WindowHierarchy::Create3DObjectMenu(GameObject* gameObject)
 		{
 			loadedScene->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
 		}
+        if (ImGui::MenuItem("Sphere"))
+        {
+            loadedScene->Create3DGameObject("Sphere", gameObject, Premade3D::SPHERE);
+        }
 		if (ImGui::MenuItem("Plane"))
 		{
 			loadedScene->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);

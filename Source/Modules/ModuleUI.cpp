@@ -53,10 +53,10 @@ update_status ModuleUI::Update()
 	int width, height;
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
-	glMatrixMode(GL_PROJECTION);
+	/*glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, height, 0, 1, -1);
-	glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);*/
 
 	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
 	Camera* camera = moduleCamera->GetCamera();
@@ -74,10 +74,10 @@ update_status ModuleUI::Update()
 	glEnable(GL_DEPTH_TEST);
 	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), camera->GetAspectRatio());
 
-	glMatrixMode(GL_PROJECTION);
+	/*glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1, 1, -1, 1, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);*/
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -115,8 +115,7 @@ void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 
 	for (Component* interactable : loadedScene->GetSceneInteractable())
 	{
-		ComponentTransform2D* transform =
-			static_cast<ComponentTransform2D*>(interactable->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* transform = interactable->GetOwner()->GetComponent<ComponentTransform2D>();
 		transform->CalculateWorldBoundingBox();
 	}
 }
@@ -154,7 +153,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		disabledHierarchy = true;
 	}
 
-	for (ComponentButton* button : gameObject->GetComponentsByType<ComponentButton>(ComponentType::BUTTON))
+	for (ComponentButton* button : gameObject->GetComponents<ComponentButton>())
 	{
 		if (disabledHierarchy
 #ifdef ENGINE
@@ -167,8 +166,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		}
 		else if (button->IsEnabled())
 		{
-			const ComponentTransform2D* transform =
-				static_cast<ComponentTransform2D*>(button->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+			const ComponentTransform2D* transform = button->GetOwner()->GetComponent<ComponentTransform2D>();
 
 			AABB2D aabb2d = transform->GetWorldAABB();
 
@@ -198,7 +196,7 @@ void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
 {
 	if (gameObject->IsEnabled())
 	{
-		for (const ComponentImage* image : gameObject->GetComponentsByType<ComponentImage>(ComponentType::IMAGE))
+		for (const ComponentImage* image : gameObject->GetComponents<ComponentImage>())
 		{
 			if (image->IsEnabled())
 			{

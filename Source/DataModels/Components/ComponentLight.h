@@ -6,12 +6,22 @@
 
 #include "Math/float3.h"
 
-enum class LightType
+enum class LightType 
+{ 
+	UNKNOWN, 
+	DIRECTIONAL, 
+	POINT, 
+	SPOT,
+	AREA
+};
+
+enum class AreaType
 {
-	UNKNOWN,
-	DIRECTIONAL,
-	POINT,
-	SPOT
+	SPHERE,
+	TUBE,
+	QUAD,
+	DISK,
+	NONE
 };
 
 const static std::string GetNameByLightType(LightType type);
@@ -33,8 +43,9 @@ public:
 
 	virtual void Draw() const override{};
 
-	void Enable() override;
-	void Disable() override;
+	virtual void Enable() override{}
+	
+	virtual void Disable() override{}
 
 	virtual void SaveOptions(Json& meta) override{};
 	virtual void LoadOptions(Json& meta) override{};
@@ -52,16 +63,6 @@ protected:
 
 	LightType lightType;
 };
-
-inline void ComponentLight::Enable()
-{
-	Component::Enable();
-}
-
-inline void ComponentLight::Disable()
-{
-	Component::Disable();
-}
 
 inline const float3& ComponentLight::GetColor() const
 {
@@ -98,9 +99,11 @@ inline const std::string GetNameByLightType(LightType type)
 			return "LightType_Point";
 		case LightType::SPOT:
 			return "LightType_Spot";
+		case LightType::AREA:
+			return "LightType_Area";
 		default:
 			assert(false && "Wrong light type introduced");
-			return "";
+			return std::string();
 	}
 }
 
@@ -119,6 +122,11 @@ inline const LightType GetLightTypeByName(const std::string& typeName)
 	if (typeName == "LightType_Spot")
 	{
 		return LightType::SPOT;
+	}
+
+	if (typeName == "LightType_Area")
+	{
+		return LightType::AREA;
 	}
 	return LightType::UNKNOWN;
 }

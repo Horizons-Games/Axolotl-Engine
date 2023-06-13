@@ -607,11 +607,6 @@ bool ModuleDebugDraw::CleanUp()
 
 update_status ModuleDebugDraw::Update()
 {
-	GameObject* selectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	ComponentTransform* selectedTransform =
-		static_cast<ComponentTransform*>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
-
-	// DrawTransform(selectedTransform);
 #ifdef ENGINE
 	dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 #endif // ENGINE

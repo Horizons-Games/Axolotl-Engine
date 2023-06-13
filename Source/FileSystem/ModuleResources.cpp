@@ -58,6 +58,8 @@ bool ModuleResources::CleanUp()
 #ifdef ENGINE
 	monitorResources = false;
 	monitorThread.join();
+#else
+	resourcesBin.clear();
 #endif
 	resources.clear();
 	return true;
@@ -95,7 +97,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	if (type == ResourceType::Unknown)
 	{
-		ENGINE_LOG("Extension not supported");
+		LOG_WARNING("Extension not supported");
 	}
 	std::string fileName = fileSystem->GetFileName(originalPath);
 	std::string extension = fileSystem->GetFileExtension(originalPath);
@@ -331,6 +333,7 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				default:
 					break;
 			}
+			delete binaryBuffer;
 			return;
 		}
 	}
@@ -356,6 +359,13 @@ void ModuleResources::ReimportResource(UID resourceUID)
 		delete saveBuffer;
 	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+}
+
+void ModuleResources::FillResourceBin(std::shared_ptr<Resource> sharedResource)
+{
+#ifndef ENGINE
+	resourcesBin.push_back(sharedResource);
+#endif // !ENGINE
 }
 
 void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resource)
@@ -482,10 +492,9 @@ void ModuleResources::MonitorResources()
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
-		std::map<UID, std::weak_ptr<Resource>>::iterator it;
-		for (it = resources.begin(); it != resources.end(); ++it)
+		for (auto resourceit = resources.begin(); resourceit != resources.end();)
 		{
-			const std::shared_ptr<Resource>& resource = it->second.lock();
+			const std::shared_ptr<Resource>& resource = resourceit->second.lock();
 			if (resource)
 			{
 				if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))
@@ -496,7 +505,7 @@ void ModuleResources::MonitorResources()
 				{
 					std::string libraryPathWithExtension = fileSystem->GetPathWithExtension(resource->GetLibraryPath());
 
-					if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
+					if (libraryPathWithExtension.empty() /*file with that name was not found*/ ||
 						!fileSystem->Exists(libraryPathWithExtension.c_str()) || resource->IsChanged())
 					{
 						toCreateLib.push_back(resource);
@@ -518,6 +527,11 @@ void ModuleResources::MonitorResources()
 						}
 					}
 				}
+			}
+
+			if (resourceit != resources.end())
+			{
+				++resourceit;
 			}
 		}
 		// Remove resources
@@ -547,6 +561,7 @@ void ModuleResources::MonitorResources()
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
 				App->GetModule<ModuleFileSystem>()->Save(
 					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				delete saveBuffer;
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
@@ -563,19 +578,20 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	std::vector<std::string> pathTextures;
 
 	std::shared_ptr<ResourceTexture> textureDiffuse = materialResource->GetDiffuse();
-	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
+	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureNormal = materialResource->GetNormal();
-	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
+	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
-	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
+	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
+					 : pathTextures.push_back(std::string());
 
 	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
 	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
 
 	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
-	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
+	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	char* fileBuffer{};
 	unsigned int size = 0;

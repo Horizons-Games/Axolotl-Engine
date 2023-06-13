@@ -14,13 +14,15 @@ ResourceTexture::ResourceTexture(UID resourceUID,
 	format(0),
 	internalFormat(0),
 	imageType(0),
-	pixelsSize(0)
+	pixelsSize(0),
+	handle(0)
 {
 }
 
 ResourceTexture::~ResourceTexture()
 {
-	this->Unload();
+	glMakeTextureHandleNonResidentARB(handle);
+	Unload();
 }
 
 void ResourceTexture::InternalUnload()
@@ -136,4 +138,19 @@ int ResourceTexture::GetWrapFilterEquivalence(TextureWrap filter)
 		default:
 			return GL_REPEAT;
 	}
+}
+
+const uint64_t& ResourceTexture::GetHandle()
+{
+	if (!IsLoaded())
+	{
+		Load();
+	}
+
+	if (handle == 0)
+	{
+		handle = glGetTextureHandleARB(glTexture);
+		glMakeTextureHandleResidentARB(handle);
+	}
+	return handle;
 }

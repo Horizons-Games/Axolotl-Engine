@@ -116,7 +116,7 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*) (parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
@@ -132,8 +132,7 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::RecalculateLocalMatrix()
 {
 	globalMatrix = float4x4::FromTRS(globalPos, globalRot, globalSca);
-	ComponentTransform* parentTransform =
-		(ComponentTransform*) (GetOwner()->GetParent()->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponent<ComponentTransform>();
 	localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 	localMatrix.Decompose(pos, rot, sca);
 	rotXYZ = RadToDeg(rot.ToEulerXYZ());
@@ -148,7 +147,7 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 
 	if (parent != root)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*) (parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 		return parentTransform->CalculatePaletteGlobalMatrix().Mul(localMatrix);
 	}
@@ -158,35 +157,40 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 	}
 }
 
-void ComponentTransform::UpdateTransformMatrices()
+void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 {
 	CalculateMatrices();
-	for (Component* components : GetOwner()->GetComponents())
+
+	if (notifyChanges)
 	{
-		components->OnTransformChanged();
+		for (Component* components : GetOwner()->GetComponents())
+		{
+			components->OnTransformChanged();
+		}
 	}
+	
 
 	if (GetOwner()->GetChildren().empty())
 		return;
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform* childTransform = static_cast<ComponentTransform*>
-			(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform = 
+			child->GetComponent<ComponentTransform>();
 
 		if(childTransform)
 		{
-			childTransform->UpdateTransformMatrices();
+			childTransform->UpdateTransformMatrices(notifyChanges);
 		}
 	}
 }
+
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified,
 												   bool rotationModified)
 {
-	ModuleScene* scene = App->GetModule<ModuleScene>();
-	Scene* loadedScene = scene->GetLoadedScene();
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	switch (lightComponent->GetLightType())
 	{
@@ -208,6 +212,13 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 			{
 				loadedScene->UpdateSceneSpotLights();
 				loadedScene->RenderSpotLights();
+			}
+			break;
+		case LightType::AREA:
+			if (translationModified || rotationModified)
+			{
+				loadedScene->UpdateSceneAreaLights();
+				loadedScene->RenderAreaLights();
 			}
 			break;
 	}

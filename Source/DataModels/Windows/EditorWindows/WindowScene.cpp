@@ -149,11 +149,10 @@ void WindowScene::DrawGuizmo()
 		float4x4 viewMat = camera->GetCamera()->GetViewMatrix().Transposed();
 		float4x4 projMat = camera->GetCamera()->GetProjectionMatrix().Transposed();
 
-		ComponentTransform* focusedTransform =
-			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* focusedTransform = focusedObject->GetComponent<ComponentTransform>();
 
 		// Guizmo 3D
-		if (static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM)) != nullptr)
+		if (focusedTransform != nullptr)
 		{
 			float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
 
@@ -177,8 +176,7 @@ void WindowScene::DrawGuizmo()
 
 				if (parent != nullptr)
 				{
-					const ComponentTransform* parentTransform =
-						static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+					const ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 					inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
 				}
@@ -219,6 +217,10 @@ void WindowScene::DrawGuizmo()
 							case LightType::POINT:
 								scene->UpdateScenePointLights();
 								scene->RenderPointLights();
+								break;
+							case LightType::AREA:
+								scene->UpdateSceneAreaLights();
+								scene->RenderAreaLights();
 								break;
 						}
 					}

@@ -42,7 +42,7 @@ GameObject* ModulePlayer::GetPlayer()
 void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
 	player = newPlayer;
-	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
+	componentPlayer = player->GetComponent<ComponentPlayer>();
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -54,36 +54,29 @@ void ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
-	ModuleInput* input = App->GetModule<ModuleInput>();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
-		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
+		if (parentOfOwner->GetComponent<ComponentPlayer>())
 		{
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
 			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
-			loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+			//loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			scene->RemoveGameObjectAndChildren(player);
+			//scene->RemoveGameObjectAndChildren(player);
 #endif // ENGINE			
 			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 
-			if (componentPlayer->HaveMouseActivated())
-			{
-				input->SetShowCursor(true);
-			}
-			else
-			{
-				input->SetShowCursor(false);
-			}
+			CheckIfActivateMouse();
+
 			return;
 		}
 	}
-	ENGINE_LOG("Player is not load");
+	LOG_ERROR("Player is not loaded");
 }
 
 void ModulePlayer::UnloadNewPlayer()
@@ -95,4 +88,17 @@ void ModulePlayer::UnloadNewPlayer()
 bool ModulePlayer::IsStatic()
 {
 	return componentPlayer->IsStatic();
+}
+
+void ModulePlayer::CheckIfActivateMouse()
+{
+	if (componentPlayer->HaveMouseActivated())
+	{
+		App->GetModule<ModuleInput>()->SetShowCursor(true);
+	}
+	else
+	{
+		App->GetModule<ModuleInput>()->SetShowCursor(false);
+	}
+
 }

@@ -237,7 +237,7 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 	cursor += bytes;
 
 	bytes = sizeof(bool);
-	memcpy(cursor, &resource->GetTransparent(), bytes);
+	memcpy(cursor, &resource->IsTransparent(), bytes);
 
 	cursor += bytes;
 

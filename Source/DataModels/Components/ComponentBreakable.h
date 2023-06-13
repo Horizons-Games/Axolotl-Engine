@@ -18,10 +18,6 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void SubscribeToOnCollisionEnter();
-	void UnsubscribeToOnCollisionEnter();
-	//TODO:Unsuscribe on destroy
-
 	float GetImpulsionMul();
 	void  SetImpulsionMul(float impulsion);
 	void  SetSubscribed(bool subscribe);
@@ -33,7 +29,7 @@ public:
 private:
 
 	float impulsionForce = 1.0f;
-	LCG* lcg = new LCG();
+	LCG lcg;
 	btVector3 impulsion{ 1.0f,1.0f,1.0f };
 	bool subscribed = true;
 };

@@ -10,8 +10,8 @@ ResourceMaterial::ResourceMaterial(UID resourceUID,
 	specularColor(float3(0.5f, 0.3f, 0.5f)),
 	normalStrength(1.0f),
 	smoothness(0.5f),
-	metalness(0.0f)
-
+	metalness(0.0f),
+	isTransparent(false)
 {
 }
 

@@ -11,7 +11,7 @@ ComponentAudioListener::ComponentAudioListener(const bool active, GameObject* ow
 	AK::SoundEngine::RegisterGameObj(listenerID, owner->GetName().c_str());
 	AK::SoundEngine::SetDefaultListeners(&listenerID, 1);
 
-	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	transform = owner->GetComponent<ComponentTransform>();
 
 	if (transform)
 	{
@@ -31,9 +31,10 @@ void ComponentAudioListener::OnTransformChanged()
 		return;
 	}
 	const float3& pos = transform->GetGlobalPosition();
-	const float3& front = transform->GetGlobalForward();
-	const float3& correctFront = -float3(front.x, -front.y, front.z).Normalized();
-	const float3& up = transform->GetGlobalUp();
+	const float3& front = transform->GetGlobalForward().Normalized();
+	//const float3& correctFront = -float3(front.x, -front.y, front.z).Normalized();
+	const float3& correctFront = (front * -1).Normalized();
+	const float3& up = transform->GetGlobalUp().Normalized();
 
 	listenerTransform.Set(pos.x, pos.y, pos.z, correctFront.x, correctFront.y, correctFront.z, up.x, up.y, up.z);
 

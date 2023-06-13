@@ -9,7 +9,7 @@ ComponentButton::ComponentButton(bool active, GameObject* owner) :
 	colorHovered(0.7f, 0.7f, 0.7f, 1.0f),
 	clicked(false),
 	hovered(false),
-	sceneName("")
+	sceneName(std::string())
 {
 }
 
@@ -66,5 +66,8 @@ void ComponentButton::Disable()
 
 void ComponentButton::OnClicked()
 {
-	App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+	if (!sceneName.empty())
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+	}
 }
