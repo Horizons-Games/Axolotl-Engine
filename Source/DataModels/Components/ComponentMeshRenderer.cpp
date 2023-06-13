@@ -25,9 +25,10 @@
 #include <GL/glew.h>
 
 #ifdef ENGINE
-
 	#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
-
+#else
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
