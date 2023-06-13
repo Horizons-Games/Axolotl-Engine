@@ -4,6 +4,7 @@
 #include "ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
+#include "CameraSample.h"
 
 REGISTERCLASS(PlayerCameraRotationVerticalScript);
 
@@ -21,10 +22,9 @@ void PlayerCameraRotationVerticalScript::Start()
 {
 	if (samplePointsObject)
 	{
-		for (auto sample : samplePointsObject->GetChildren())
+		for (GameObject* sample : samplePointsObject->GetChildren())
 		{
-			CameraSample* sampleScript = sample->GetComponent<CameraSample>();
-			samples.push_back(sampleScript);
+			
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();
