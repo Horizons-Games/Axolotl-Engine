@@ -29,7 +29,7 @@ Program::Program(unsigned vertexShader,
 			int written = 0;
 			char* info = (char*) malloc(len);
 			glGetProgramInfoLog(id, len, &written, info);
-			ENGINE_LOG("Program Log Info: %s", info);
+			LOG_INFO("Program Log Info: {}", info);
 			free(info);
 		}
 		id = 0;
