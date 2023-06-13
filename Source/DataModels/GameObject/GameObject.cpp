@@ -1,10 +1,11 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAnimation.h"
-#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
+#include "../Components/ComponentBreakable.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentLight.h"
 #include "../Components/ComponentMeshCollider.h"
@@ -20,7 +21,6 @@
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentTransform2D.h"
-#include "../Components/ComponentBreakable.h"
 
 #include "Application.h"
 
@@ -149,7 +149,7 @@ void GameObject::LoadOptions(Json& meta)
 			if (type == ComponentType::LIGHT)
 			{
 				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType, AreaType::NONE); //TODO look at this when implement metas
+				component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 			}
 			else
 			{
@@ -558,7 +558,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 		case ComponentType::CUBEMAP:
 		{
-			newComponent = std::make_unique<ComponentCubemap>(true,this);
+			newComponent = std::make_unique<ComponentCubemap>(true, this);
 			break;
 		}
 
@@ -614,21 +614,21 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 
 		switch (lightType)
 		{
-		case LightType::POINT:
-			scene->UpdateScenePointLights();
-			scene->RenderPointLights();
-			break;
+			case LightType::POINT:
+				scene->UpdateScenePointLights();
+				scene->RenderPointLights();
+				break;
 
-		case LightType::SPOT:
-			scene->UpdateSceneSpotLights();
-			scene->RenderSpotLights();
-			break;
-		case LightType::AREA:
-			scene->UpdateSceneAreaLights();
-			scene->RenderAreaLights();
-			break;
+			case LightType::SPOT:
+				scene->UpdateSceneSpotLights();
+				scene->RenderSpotLights();
+				break;
+			case LightType::AREA:
+				scene->UpdateSceneAreaLights();
+				scene->RenderAreaLights();
+				break;
 		}
-		
+
 		return referenceBeforeMove;
 	}
 
@@ -774,7 +774,8 @@ void GameObject::SpreadStatic()
 	}
 }
 
-//This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs to be rendereables in quadtree
+// This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs
+// to be rendereables in quadtree
 bool GameObject::IsRendereable()
 {
 	for (std::unique_ptr<Component>& comp : components)

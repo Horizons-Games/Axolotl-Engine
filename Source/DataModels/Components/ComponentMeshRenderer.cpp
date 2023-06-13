@@ -116,6 +116,21 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
+	ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+	if (transform == nullptr)
+	{
+		return;
+	}
+#ifndef ENGINE
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif // ENGINE
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
 }
 
 void ComponentMeshRenderer::DrawMeshes(Program* program) const

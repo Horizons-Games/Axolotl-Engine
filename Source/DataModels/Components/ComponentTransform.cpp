@@ -52,20 +52,6 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Draw() const
-{
-#ifndef ENGINE
-	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
-#endif // ENGINE
-	if (drawBoundingBoxes)
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
-}
-
 void ComponentTransform::SaveOptions(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();
