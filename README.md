@@ -77,7 +77,8 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Draw Debug options for sketelal animation bones.
 
 **Scripting**
-- Ability to create and link scripts to GameObjects.
+- Create your own scripts from the Inspector.
+- Support in the scripts a great amount of primitives, GameObjects, vectors, components and other scripts, and make them visible or not in the inspector.
 
 **Build**
 - Select the starting scene of your game, choose the build configuration and create a `.zip` file with all the assets and resources necessary to run the resulting executable file.
