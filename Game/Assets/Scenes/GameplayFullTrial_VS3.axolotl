@@ -372,6 +372,15 @@
                             "constructName": "PlayerManagerScript",
                             "fields": null
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivatePowerUp",
+                            "fields": null
+                        }
                     }
                 ]
             }

@@ -14,7 +14,8 @@ enum PowerUpType
 	HEAL,
 	DEFENSE,
 	ATTACK,
-	SPEED
+	SPEED,
+	NONE
 };
 
 class PowerUpScript : public Script

@@ -467,6 +467,9 @@
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActivatePowerUp.cpp">
+      <Filter>UserScripts\PowerUp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -948,6 +951,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ActivatePowerUp.h">
+      <Filter>UserScripts\PowerUp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

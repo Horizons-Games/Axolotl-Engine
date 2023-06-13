@@ -52,31 +52,13 @@ void HealthSystem::Update(float deltaTime)
 	}
 	else if (dead && owner->CompareTag("Enemy"))
 	{
-		std::vector<ComponentScript*> gameObjectScripts =
-			owner->GetComponents<ComponentScript>();
-
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
+		EnemyManagerScript* manager =	owner->GetComponent<EnemyManagerScript>();
+		GameObject* powerUp = manager->RequestPowerUp();
+		if (powerUp != nullptr)
 		{
-			if (gameObjectScripts[i]->GetConstructName() == "EnemyManagerScript")
-			{
-				EnemyManagerScript* manager = static_cast<EnemyManagerScript*>(gameObjectScripts[i]->GetScript());
-				GameObject* powerUp = manager->RequestPowerUp();
-				if (powerUp != nullptr)
-				{
-					std::vector<ComponentScript*> gameObjectScripts =
-						powerUp->GetComponents<ComponentScript>();
-
-					for (int i = 0; i < gameObjectScripts.size(); ++i)
-					{
-						if (gameObjectScripts[i]->GetConstructName() == "PowerUpScript")
-						{
-							PowerUpScript* powerUpScript = static_cast<PowerUpScript*>(gameObjectScripts[i]->GetScript());
-							ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-							powerUpScript->ActivatePowerUp(transform->GetPosition());
-						}
-					}
-				}
-			}
+			PowerUpScript* powerUpScript = powerUp->GetComponent<PowerUpScript>();
+			ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+			powerUpScript->ActivatePowerUp(transform->GetPosition());
 		}
 	}
 	// Provisional here until we have a way to delay a call to a function a certain time

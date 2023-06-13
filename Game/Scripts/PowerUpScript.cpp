@@ -51,19 +51,10 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	std::vector<ComponentScript*> gameObjectScripts = go->GetComponents<ComponentScript>();
-	
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
+	PlayerManagerScript* playerManagerScript = go->GetComponent<PlayerManagerScript>();
+	if (playerManagerScript->ActivePowerUp(type))
 	{
-		if (gameObjectScripts[i]->GetConstructName() == "PlayerManagerScript")
-		{
-			PlayerManagerScript* playerManagerScript = static_cast<PlayerManagerScript*>(gameObjectScripts[i]->GetScript());
-			if (playerManagerScript->ActivePowerUp(type))
-			{
-				DeactivatePowerUp();
-			}
-			return;
-		}
+		DeactivatePowerUp();
 	}
 }
 

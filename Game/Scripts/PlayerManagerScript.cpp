@@ -22,6 +22,7 @@ PlayerManagerScript::PlayerManagerScript() : Script()
 void PlayerManagerScript::Start()
 {
 	counter = -1;
+	activePowerUp = PowerUpType::NONE;
 }
 
 void PlayerManagerScript::Update(float deltaTime)
@@ -32,43 +33,24 @@ void PlayerManagerScript::Update(float deltaTime)
 		if (counter >= POWER_UP_TIMER)
 		{
 			counter = -1;
-			std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
-
+			
 			if (activePowerUp == PowerUpType::DEFENSE)
 			{
-				for (int i = 0; i < gameObjectScripts.size(); ++i)
-				{
-					if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-					{
-						HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-						healthScript->IncreaseDefense(-DEFENSE_INCREASE);
-						return;
-					}
-				}
+				HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
+				healthScript->IncreaseDefense(-DEFENSE_INCREASE);
+				return;
 			}
 			else if (activePowerUp == PowerUpType::ATTACK)
 			{
-				for (int i = 0; i < gameObjectScripts.size(); ++i)
-				{
-					if (gameObjectScripts[i]->GetConstructName() == "BixAttackScript")
-					{
-						BixAttackScript* attackScript = static_cast<BixAttackScript*>(gameObjectScripts[i]->GetScript());
-						attackScript->IncreaseAttack(-ATTACK_INCREASE);
-						return;
-					}
-				}
+				BixAttackScript* attackScript = owner->GetComponent<BixAttackScript>();
+				attackScript->IncreaseAttack(-ATTACK_INCREASE);
+				return;
 			}
 			else if (activePowerUp == PowerUpType::SPEED)
 			{
-				for (int i = 0; i < gameObjectScripts.size(); ++i)
-				{
-					if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
-					{
-						PlayerMoveScript* moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
-						moveScript->IncreaseSpeed(-SPEED_INCREASE);
-						return;
-					}
-				}
+				PlayerMoveScript* moveScript = owner->GetComponent<PlayerMoveScript>();
+				moveScript->IncreaseSpeed(-SPEED_INCREASE);
+				return;
 			}
 		}
 	}
@@ -76,60 +58,41 @@ void PlayerManagerScript::Update(float deltaTime)
 
 bool PlayerManagerScript::ActivePowerUp(PowerUpType type)
 {
-	if (counter >= 0)
+	if (activePowerUp != PowerUpType::NONE)
 	{
 		return false;
 	}
 	activePowerUp = type;
+	return true;
+}
+
+void PlayerManagerScript::UsePowerUp()
+{
+	if (activePowerUp == PowerUpType::NONE)
+	{
+		return;
+	}
 	counter = 0;
-	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	if (activePowerUp == PowerUpType::HEAL)
 	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-			{
-				HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-				healthScript->HealLife(HEALED_INCREASE);
-				return true;
-			}
-		}
+		HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
+		healthScript->HealLife(HEALED_INCREASE);
 	}
 	else if (activePowerUp == PowerUpType::DEFENSE)
 	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-			{
-				HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-				healthScript->IncreaseDefense(DEFENSE_INCREASE);
-				return true;
-			}
-		}
+		HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
+		healthScript->IncreaseDefense(DEFENSE_INCREASE);
 	}
 	else if (activePowerUp == PowerUpType::ATTACK)
 	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "BixAttackScript")
-			{
-				BixAttackScript* attackScript = static_cast<BixAttackScript*>(gameObjectScripts[i]->GetScript());
-				attackScript->IncreaseAttack(ATTACK_INCREASE);
-				return true;
-			}
-		}
+		BixAttackScript* attackScript = owner->GetComponent<BixAttackScript>();
+		attackScript->IncreaseAttack(ATTACK_INCREASE);
 	}
 	else if (activePowerUp == PowerUpType::SPEED)
 	{
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
-			{
-				PlayerMoveScript* moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
-				moveScript->IncreaseSpeed(SPEED_INCREASE);
-				return true;
-			}
-		}
+		PlayerMoveScript* moveScript = owner->GetComponent<PlayerMoveScript>();
+		moveScript->IncreaseSpeed(SPEED_INCREASE);
 	}
+	activePowerUp = PowerUpType::NONE;
 }
