@@ -20,16 +20,16 @@ void PatrolBehaviourScript::Start()
 {
 	if (wayPointOne)
 	{
-		wayPointOneTransform = static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
+		wayPointOneTransform = wayPointOne->GetComponent<ComponentTransform>();
 	}
 
 	if (wayPointTwo)
 	{
-		wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
+		wayPointTwoTransform = wayPointTwo->GetComponent<ComponentTransform>();
 	}
 
-	ownerRigidBody = static_cast<ComponentRigidBody*>(ownerRigidBodyGO->GetComponent(ComponentType::RIGIDBODY));
-	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	ownerTransform = owner->GetComponent<ComponentTransform>();
 
 	currentWayPointTransform = wayPointOneTransform;
 }

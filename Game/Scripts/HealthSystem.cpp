@@ -19,7 +19,7 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), com
 
 void HealthSystem::Start()
 {
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	if (maxHealth < currentHealth)
 	{
@@ -39,8 +39,7 @@ void HealthSystem::Update(float deltaTime)
 #endif // ENGINE
 		if(!componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
 		{
-			ENGINE_LOG("Player is dead");
-
+			LOG_VERBOSE("Player is dead");
 			PlayerDeath();
 		}
 	}

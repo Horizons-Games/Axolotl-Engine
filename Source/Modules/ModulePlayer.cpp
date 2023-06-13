@@ -42,7 +42,7 @@ GameObject* ModulePlayer::GetPlayer()
 void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
 	player = newPlayer;
-	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
+	componentPlayer = player->GetComponent<ComponentPlayer>();
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -59,7 +59,7 @@ void ModulePlayer::LoadNewPlayer()
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
-		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
+		if (parentOfOwner->GetComponent<ComponentPlayer>())
 		{
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
@@ -76,7 +76,7 @@ void ModulePlayer::LoadNewPlayer()
 			return;
 		}
 	}
-	ENGINE_LOG("Player is not load");
+	LOG_ERROR("Player is not loaded");
 }
 
 void ModulePlayer::UnloadNewPlayer()
