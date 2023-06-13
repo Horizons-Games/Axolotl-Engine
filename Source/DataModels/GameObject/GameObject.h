@@ -111,6 +111,7 @@ public:
 	void MoveDownChild(const GameObject* childToMove);
 
 	bool IsADescendant(const GameObject* descendant);
+	bool IsRendereable();
 
 	bool CompareTag(const std::string& commingTag) const;
 

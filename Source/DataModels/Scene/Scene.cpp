@@ -914,13 +914,16 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
 {
 	sceneGameObjects.push_back(gameObject);
-	if (gameObject->IsStatic())
+	if (gameObject->IsRendereable())
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
-	}
-	else
-	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+		if (gameObject->IsStatic())
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+		}
+		else
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+		}
 	}
 	for (GameObject* children : gameObject->GetChildren())
 	{

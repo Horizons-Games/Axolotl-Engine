@@ -773,3 +773,17 @@ void GameObject::SpreadStatic()
 		child->SpreadStatic();
 	}
 }
+
+//This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs to be rendereables in quadtree
+bool GameObject::IsRendereable()
+{
+	for (std::unique_ptr<Component>& comp : components)
+	{
+		Drawable* drawable = dynamic_cast<Drawable*>(comp.get());
+		if (drawable)
+		{
+			return true;
+		}
+	}
+	return false;
+}
