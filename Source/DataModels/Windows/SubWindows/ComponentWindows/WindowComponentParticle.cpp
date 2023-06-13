@@ -29,6 +29,31 @@ void WindowComponentParticle::DrawWindowContents()
 	ComponentParticleSystem* component = static_cast<ComponentParticleSystem*>(this->component);
 	
 	int id = 0;
+	
+	if (component->GetEmitters().size() > 0)
+	{
+		ImGui::Separator();
+
+		if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
+		{
+			if (!component->IsPlaying())
+			{
+				component->Play();
+			}
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Button("||"))
+		{
+			if (component->IsPlaying())
+			{
+				component->Stop();
+			}
+		}
+
+		ImGui::Separator();
+	}
+
 	for (EmitterInstance* instance : component->GetEmitters())
 	{
 		DrawEmitter(instance, id);

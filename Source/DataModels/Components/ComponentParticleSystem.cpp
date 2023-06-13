@@ -9,7 +9,8 @@
 #include "ParticleSystem/EmitterInstance.h"
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
-	Component(ComponentType::PARTICLE, active, owner, true), resource(nullptr)
+	Component(ComponentType::PARTICLE, active, owner, true), 
+	resource(nullptr), isPlaying(true)
 {
 }
 
@@ -31,11 +32,29 @@ void ComponentParticleSystem::LoadOptions(Json& meta)
 {
 }
 
-void ComponentParticleSystem::Update()
+void ComponentParticleSystem::Play()
 {
+	isPlaying = true;
+	
 	for (EmitterInstance* emitter : emitters)
 	{
-		emitter->UpdateModules();
+		emitter->Init();
+	}
+}
+
+void ComponentParticleSystem::Stop()
+{
+	isPlaying = false;
+}
+
+void ComponentParticleSystem::Update()
+{
+	if (isPlaying)
+	{
+		for (EmitterInstance* emitter : emitters)
+		{
+			emitter->UpdateModules();
+		}
 	}
 }
 

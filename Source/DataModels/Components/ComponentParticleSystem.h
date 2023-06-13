@@ -20,6 +20,8 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	void Play();
+	void Stop();
 	void Update();
 	void Reset();
 	void Draw() const override;
@@ -30,6 +32,7 @@ public:
 	void AddEmitterInstance(EmitterInstance* emitter);
 
 	bool IsEmittersEmpty() const;
+	bool IsPlaying() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
 
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
@@ -37,11 +40,18 @@ public:
 private:
 	std::vector<EmitterInstance*> emitters;
 	std::shared_ptr<ResourceParticleSystem> resource;
+
+	bool isPlaying;
 };
 
 inline bool ComponentParticleSystem::IsEmittersEmpty() const
 {
 	return emitters.empty();
+}
+
+inline bool ComponentParticleSystem::IsPlaying() const
+{
+	return isPlaying;
 }
 
 inline void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
