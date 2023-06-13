@@ -8,10 +8,6 @@ class CameraSample : public Script
 public:
 
 	CameraSample();
-	~CameraSample();
-
-	void Start() override;
-	void PreUpdate(float deltaTime) override;
 
 	float3 position;
 	float influenceRadius;

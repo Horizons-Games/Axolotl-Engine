@@ -8,8 +8,10 @@
 REGISTERCLASS(PlayerCameraRotationVerticalScript);
 
 PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Script(), 
-		KpPosition(5.0f), KpRotation(10.0f), rotationSensitivity(0.0001f), transform(nullptr)
+		samplePointsObject(nullptr), KpPosition(5.0f), KpRotation(10.0f), 
+		rotationSensitivity(1.0f), transform(nullptr)
 {
+	REGISTER_FIELD(samplePointsObject, GameObject*);
 	REGISTER_FIELD(KpPosition, float);
 	REGISTER_FIELD(KpRotation, float);
 	REGISTER_FIELD(rotationSensitivity, float);
@@ -17,9 +19,18 @@ PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Scrip
 
 void PlayerCameraRotationVerticalScript::Start()
 {
+	if (samplePointsObject)
+	{
+		for (auto sample : samplePointsObject->GetChildren())
+		{
+			CameraSample* sampleScript = sample->GetComponent<CameraSample>();
+			samples.push_back(sampleScript);
+		}
+	}
 	transform = owner->GetComponent<ComponentTransform>();
-	defaultPositionOffset = float3(0.0f, 0.0f, -5.0f); // por ejemplo
-	defaultOrientationOffset = Quat::identity;
+	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	defaultPositionOffset = transform->GetPosition();
+	defaultOrientationOffset = transform->GetRotation();
 }
 
 void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
@@ -27,41 +38,9 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 	Orbit(deltaTime);
 }
 
-void PlayerCameraRotationVerticalScript::Update(float deltaTime)
-{
-	float3 targetPosition;
-	Quat targetOrientation;
-
-	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
-
-	if (closestSample)
-	{
-		if ((closestSample->position - transform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
-		{
-			targetPosition = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition() + closestSample->positionOffset;
-			targetOrientation = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalRotation() * closestSample->orientationOffset;
-		}
-		else
-		{
-			targetPosition = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition() + defaultPositionOffset;
-			targetOrientation = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalRotation() * defaultOrientationOffset;
-		}
-	}
-
-	else
-	{
-		targetPosition = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition() + defaultPositionOffset;
-		targetOrientation = owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalRotation() * defaultOrientationOffset;
-	}
-
-	SetPositionTarget(targetPosition, deltaTime);
-	SetRotationTarget(targetOrientation, deltaTime);
-}
-
-
 void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 {
-	Quat currentRotation = transform->GetGlobalRotation();
+	Quat currentRotation = transform->GetRotation();
 	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * deltaTime * rotationSensitivity;
 
 	/*float verticalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().y * deltaTime * rotationSensitivity;
@@ -83,28 +62,61 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 	//Quat rotationErrorQuat = rotationErrorX.Mul(rotationErrorY);
 
 	Quat finalRotation = rotationErrorY * currentRotation;
-	transform->SetGlobalRotation(finalRotation);
+	transform->SetRotation(finalRotation);
 
-	ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-	float3 vectorOffset = parentTransform->GetGlobalPosition() - transform->GetGlobalPosition();
-	vectorOffset = rotationErrorY.Transform(vectorOffset);
-	transform->SetGlobalPosition(parentTransform->GetGlobalPosition() - vectorOffset);
+	float3 cameraOffset = transform->GetPosition();
+	cameraOffset = rotationErrorY.Transform(cameraOffset);
+	transform->SetPosition(cameraOffset);
+	transform->UpdateTransformMatrices();
 
-	transform->RecalculateLocalMatrix();
+	defaultPositionOffset = transform->GetPosition();
+	defaultOrientationOffset = transform->GetRotation();
+}
+
+void PlayerCameraRotationVerticalScript::Update(float deltaTime)
+{
+	float3 targetPosition;
+	Quat targetOrientation;
+
+	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
+
+	if (closestSample)
+	{
+		if ((closestSample->position - transform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
+		{
+			targetPosition = closestSample->positionOffset;
+			targetOrientation = closestSample->orientationOffset;
+		}
+		else
+		{
+			targetPosition = defaultPositionOffset;
+			targetOrientation = defaultOrientationOffset;
+		}
+	}
+
+	else
+	{
+		targetPosition = defaultPositionOffset;
+		targetOrientation = defaultOrientationOffset;
+	}
+
+	SetPositionTarget(targetPosition, deltaTime);
+	SetRotationTarget(targetOrientation, deltaTime);
 	transform->UpdateTransformMatrices();
 }
+
 
 CameraSample* PlayerCameraRotationVerticalScript::FindClosestSample(float3 position)
 {
 	CameraSample* closestSample = nullptr;
 	float minDistance = std::numeric_limits<float>::max();
 
-	for (auto& sample : samples)
+	for (auto sample : samples)
 	{
-		float distance = (sample.position - position).Length();
+		float distance = (sample->position - position).Length();
 		if (distance < minDistance)
 		{
-			closestSample = &sample;
+			closestSample = sample;
 			minDistance = distance;
 		}
 	}
@@ -115,17 +127,17 @@ CameraSample* PlayerCameraRotationVerticalScript::FindClosestSample(float3 posit
 
 void PlayerCameraRotationVerticalScript::SetPositionTarget(float3 targetPosition, float deltaTime)
 {
-	float3 currentPosition = transform->GetGlobalPosition();
+	float3 currentPosition = transform->GetPosition();
 
 	float3 positionError = targetPosition - currentPosition;
 	float3 velocityPosition = positionError * KpPosition;
 	float3 nextPos = currentPosition + velocityPosition * deltaTime;
-	transform->SetGlobalPosition(nextPos);
+	transform->SetPosition(nextPos);
 }
 
 void PlayerCameraRotationVerticalScript::SetRotationTarget(Quat targetRotation, float deltaTime)
 {
-	Quat currentRotation = transform->GetGlobalRotation();
+	Quat currentRotation = transform->GetRotation();
 
 	Quat rotationError = targetRotation * currentRotation.Normalized().Inverted();
 	rotationError.Normalize();
@@ -149,5 +161,5 @@ void PlayerCameraRotationVerticalScript::SetRotationTarget(Quat targetRotation, 
 		currentRotation.w + deltaRotation.w);
 	nextRotation.Normalize();
 
-	transform->SetGlobalRotation(nextRotation);
+	transform->SetRotation(nextRotation);
 }

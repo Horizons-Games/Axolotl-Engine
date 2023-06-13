@@ -1,17 +1,11 @@
 #include "CameraSample.h"
 
-CameraSample::CameraSample()
+REGISTERCLASS(CameraSample);
+
+CameraSample::CameraSample() : Script()
 {
+	transform = owner->GetComponent<ComponentTransform>();
+	position = transform->GetGlobalPosition();
+	REGISTER_FIELD(influenceRadius, float);
 }
 
-CameraSample::~CameraSample()
-{
-}
-
-void CameraSample::Start()
-{
-}
-
-void CameraSample::PreUpdate(float deltaTime)
-{
-}

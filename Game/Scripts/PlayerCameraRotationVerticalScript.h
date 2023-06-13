@@ -28,7 +28,10 @@ private:
 	float3 defaultPositionOffset;
 	Quat defaultOrientationOffset;
 
-	std::vector<CameraSample> samples;
+	GameObject* samplePointsObject;
+
+	std::vector<CameraSample*> samples;
 	ComponentTransform* transform;
+	ComponentTransform* parentTransform;
 };
 
