@@ -38,15 +38,19 @@ void main()
 
     gPosition = FragPos;
     gNormal = normalize(Normal);
+
+    //Diffuse
     gDiffuse = material.diffuse_color;
     if (material.has_diffuse_map == 1)
     {
         gDiffuse = texture(material.diffuse_map, TexCoord);
     }
-
-    gDiffuse.a = material.diffuse_color.a;
-
-    gSpecular = vec4(material.specular_color, 1.0);
+    //Transparency
+    gDiffuse.a = material.has_diffuse_map * gDiffuse.a + 
+        (1.0f-material.has_diffuse_map) * material.diffuse_color.a;
+    
+    //Specular + smoothness
+    gSpecular = vec4(material.specular_color, material.smoothness);
     if (material.has_specular_map == 1) {
         gSpecular = vec4(texture(material.specular_map, TexCoord));
     }

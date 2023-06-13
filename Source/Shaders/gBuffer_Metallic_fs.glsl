@@ -40,13 +40,17 @@ void main()
 
     gPosition = FragPos;
     gNormal = normalize(Normal);
+    //Diffuse
     gDiffuse = material.diffuse_color;
     if (material.has_diffuse_map == 1)
     {
         gDiffuse = texture(material.diffuse_map, TexCoord);
     }
-    gDiffuse.a = material.diffuse_color.a;
+    //Transparency
+    gDiffuse.a = material.has_diffuse_map * gDiffuse.a + 
+    (1.0f-material.has_diffuse_map) * material.diffuse_color.a;
 
+    //Metallic
     gSpecular = texture(material.metallic_map, TexCoord);
 
     // smoothness and roughness
@@ -56,5 +60,4 @@ void main()
         gSpecular.a = pow(1.0 * gSpecular.a,2) + EPSILON;
     }
 
-    gSpecular = texture(material.metallic_map, TexCoord);
 } 
