@@ -29,13 +29,6 @@ void PlayerMoveScript::Start()
 
 	std::vector<ComponentScript*> gameObjectScripts =
 		owner->GetParent()->GetComponents<ComponentScript>();
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-		}
-	}
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)

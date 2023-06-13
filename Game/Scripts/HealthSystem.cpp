@@ -6,7 +6,7 @@
 
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
-#include "Components/Component.h"
+#include "Components/ComponentCamera.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -79,7 +79,7 @@ void HealthSystem::PlayerDeath()
 {
 	// Once the player is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
 	{
@@ -91,10 +91,9 @@ void HealthSystem::PlayerDeath()
 
 	for (const GameObject* child : children)
 	{
-		if (child->GetComponent(ComponentType::CAMERA))
+		if (child->GetComponent<ComponentCamera>())
 		{
-			std::vector<ComponentScript*> cameraScripts =
-				child->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+			std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
 
 			for (ComponentScript* script : cameraScripts)
 			{
