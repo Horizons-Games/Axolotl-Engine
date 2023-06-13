@@ -63,13 +63,9 @@ void PlayerForceAttackScript::Update(float deltaTime)
 			nextPosition.Normalize();
 			nextPosition += float3(0, 0.5f, 0);
 			nextPosition *= force;
-			//nextPosition += transform->GetGlobalPosition();
 
 			btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
-
 			enemybtRb->setLinearVelocity(newVelocity);
-			//enemyRigidBody->SetPositionTarget(nextPosition);
-			//enemyRigidBody->SetKpForce(5.0f);
 			
 			std::vector<ComponentScript*> gameObjectScripts =
 				(*it)->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
