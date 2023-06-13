@@ -185,10 +185,11 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 				zAxis = (cameraPos - translation).Normalized();
 				yAxis = float3::unitY;
 				xAxis = yAxis.Cross(zAxis).Normalized();
+				yAxis = zAxis.Cross(xAxis).Normalized();
 				break;
 
 			case Alignment::AXIAL:
-				yAxis = float3::unitX;
+				yAxis = float3::unitY;
 				xAxis = yAxis.Cross(cameraPos - translation).Normalized();
 				zAxis = yAxis.Cross(xAxis).Normalized();
 				break;

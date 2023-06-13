@@ -5,6 +5,7 @@
 
 #include "Modules/ModuleCamera.h"
 
+#include <algorithm>
 
 ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter)
 {
@@ -59,9 +60,17 @@ void ModulePosition::Update(EmitterInstance* instance)
 					});
 
 			sortedPositions.insert(it, i);
+
 			++aliveParticles;
 		}
 	}
+
+	/*std::sort(sortedPositions.begin(), sortedPositions.end(),
+		[particles](const unsigned int& a, const unsigned int& b)
+		{
+			return particles[a].distanceToCamera > particles[b].distanceToCamera;
+		});*/
+
 	instance->SetSortedPositions(sortedPositions);
 	instance->SetAliveParticles(aliveParticles);
 }
