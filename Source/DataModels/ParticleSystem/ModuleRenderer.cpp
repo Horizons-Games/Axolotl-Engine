@@ -264,6 +264,7 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 		}
 		glUniform1i(9, tiles[0]);
 		glUniform1i(10, tiles[1]);
+		glUniform1i(11, frameBlending);
 
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -440,6 +441,12 @@ void ModuleRenderer::DrawImGui()
 				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
 				ImGui::SetNextItemWidth(102.0f);
 				ImGui::InputFloat("##speed", &sheetSpeed, 0.5, 1.0f, "%.2f");
+
+				ImGui::TableNextColumn();
+				ImGui::Text("Blending");
+				ImGui::TableNextColumn();
+				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
+				ImGui::Checkbox("##blending", &frameBlending);
 
 				ImGui::EndTable();
 			}
