@@ -18,13 +18,13 @@ public:
 	Component(const Component& component);
 	virtual ~Component();
 
-	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
-	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
+	void Save(Json& meta);
+	void Load(Json& meta);
 
 	virtual void OnTransformChanged();
 
-	virtual void Enable();
-	virtual void Disable();
+	void Enable();
+	void Disable();
 
 	bool IsEnabled() const;
 	ComponentType GetType() const;
@@ -34,22 +34,24 @@ public:
 
 	virtual void SetOwner(GameObject* owner);
 
-protected:
+private:
+	// Use this to send the necessary signals when the component is enabled
+	virtual void SignalEnable(){};
+	// Use this to send the necessary signals when the component is disabled
+	virtual void SignalDisable(){};
+
+	virtual void InternalSave(Json& meta) = 0;
+	virtual void InternalLoad(Json& meta) = 0;
+
+private:
 	ComponentType type;
-	bool active;
 	GameObject* owner;
+	bool active;
 	bool canBeRemoved;
+
+private:
+	friend GameObject;
 };
-
-inline void Component::Enable()
-{
-	active = true;
-}
-
-inline void Component::Disable()
-{
-	active = false;
-}
 
 inline void Component::OnTransformChanged()
 {

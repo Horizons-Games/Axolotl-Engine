@@ -7,15 +7,16 @@ public:
 	ComponentCanvas(bool active, GameObject* owner);
 	~ComponentCanvas() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	void SetScreenReferenceSize(float2 screenReferenceSize_);
 
 	float2 GetScreenReferenceSize() const;
 	float2 GetSize();
 	float GetScreenFactor();
 	void RecalculateSizeAndScreenFactor();
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(Json& meta) override;
 
 private:
 	float2 screenReferenceSize;

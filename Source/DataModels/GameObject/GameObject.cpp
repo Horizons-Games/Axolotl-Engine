@@ -1,10 +1,11 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAnimation.h"
-#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
+#include "../Components/ComponentBreakable.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentLight.h"
 #include "../Components/ComponentMeshCollider.h"
@@ -20,7 +21,6 @@
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentTransform2D.h"
-#include "../Components/ComponentBreakable.h"
 
 #include "Application.h"
 
@@ -121,7 +121,7 @@ void GameObject::SaveOptions(Json& meta)
 	{
 		Json jsonComponent = jsonComponents[i]["Component"];
 
-		components[i]->SaveOptions(jsonComponent);
+		components[i]->Save(jsonComponent);
 	}
 }
 
@@ -149,14 +149,14 @@ void GameObject::LoadOptions(Json& meta)
 			if (type == ComponentType::LIGHT)
 			{
 				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType, AreaType::NONE); //TODO look at this when implement metas
+				component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 			}
 			else
 			{
 				component = CreateComponent(type);
 			}
 
-			component->LoadOptions(jsonComponent);
+			component->Load(jsonComponent);
 		}
 	}
 }
@@ -415,6 +415,11 @@ void GameObject::Enable()
 	{
 		child->ActivateChildren();
 	}
+
+	for (std::unique_ptr<Component>& component : components)
+	{
+		component->SignalEnable();
+	}
 }
 
 void GameObject::Disable()
@@ -427,6 +432,11 @@ void GameObject::Disable()
 	for (std::unique_ptr<GameObject>& child : children)
 	{
 		child->DeactivateChildren();
+	}
+
+	for (std::unique_ptr<Component>& component : components)
+	{
+		component->SignalDisable();
 	}
 }
 
@@ -558,7 +568,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 		case ComponentType::CUBEMAP:
 		{
-			newComponent = std::make_unique<ComponentCubemap>(true,this);
+			newComponent = std::make_unique<ComponentCubemap>(true, this);
 			break;
 		}
 
@@ -614,21 +624,21 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 
 		switch (lightType)
 		{
-		case LightType::POINT:
-			scene->UpdateScenePointLights();
-			scene->RenderPointLights();
-			break;
+			case LightType::POINT:
+				scene->UpdateScenePointLights();
+				scene->RenderPointLights();
+				break;
 
-		case LightType::SPOT:
-			scene->UpdateSceneSpotLights();
-			scene->RenderSpotLights();
-			break;
-		case LightType::AREA:
-			scene->UpdateSceneAreaLights();
-			scene->RenderAreaLights();
-			break;
+			case LightType::SPOT:
+				scene->UpdateSceneSpotLights();
+				scene->RenderSpotLights();
+				break;
+			case LightType::AREA:
+				scene->UpdateSceneAreaLights();
+				scene->RenderAreaLights();
+				break;
 		}
-		
+
 		return referenceBeforeMove;
 	}
 

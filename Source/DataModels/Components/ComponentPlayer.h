@@ -1,20 +1,23 @@
 #pragma once
 #include "Component.h"
 
+#pragma message(__FILE__ " TODO: Remove this component")
+
 class ComponentPlayer : public Component
 {
 public:
 	ComponentPlayer(bool active, GameObject* owner);
 	~ComponentPlayer() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	bool IsStatic();
 	void SetStatic(bool newStatic);
 
 	bool HaveMouseActivated();
 	void SetMouse(bool newMouse);
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(Json& meta) override;
 
 private:
 	bool staticPlayer = false;

@@ -108,12 +108,8 @@ void ComponentAreaLight::Draw() const
 #endif // ENGINE
 }
 
-void ComponentAreaLight::SaveOptions(Json& meta)
+void ComponentAreaLight::InternalSave(Json& meta)
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -128,12 +124,8 @@ void ComponentAreaLight::SaveOptions(Json& meta)
 	meta["attRadius"] = (float) attRadius;
 }
 
-void ComponentAreaLight::LoadOptions(Json& meta)
+void ComponentAreaLight::InternalLoad(Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];

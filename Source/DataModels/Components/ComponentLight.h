@@ -43,12 +43,8 @@ public:
 
 	virtual void Draw() const override{};
 
-	virtual void Enable() override{}
-	
-	virtual void Disable() override{}
-
-	virtual void SaveOptions(Json& meta) override{};
-	virtual void LoadOptions(Json& meta) override{};
+	virtual void InternalSave(Json& meta) override{};
+	virtual void InternalLoad(Json& meta) override{};
 
 	const float3& GetColor() const;
 	float GetIntensity() const;

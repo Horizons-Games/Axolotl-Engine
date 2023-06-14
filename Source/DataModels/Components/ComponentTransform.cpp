@@ -66,12 +66,8 @@ void ComponentTransform::Draw() const
 	}
 }
 
-void ComponentTransform::SaveOptions(Json& meta)
+void ComponentTransform::InternalSave(Json& meta)
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	meta["localPos_X"] = static_cast<float>(pos.x);
 	meta["localPos_Y"] = static_cast<float>(pos.y);
 	meta["localPos_Z"] = static_cast<float>(pos.z);
@@ -85,12 +81,8 @@ void ComponentTransform::SaveOptions(Json& meta)
 	meta["localSca_Z"] = static_cast<float>(sca.z);
 }
 
-void ComponentTransform::LoadOptions(Json& meta)
+void ComponentTransform::InternalLoad(Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	pos.x = static_cast<float>(meta["localPos_X"]);
 	pos.y = static_cast<float>(meta["localPos_Y"]);
 	pos.z = static_cast<float>(meta["localPos_Z"]);

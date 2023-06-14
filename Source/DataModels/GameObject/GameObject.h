@@ -51,7 +51,8 @@ public:
 	void InitNewEmptyGameObject(bool is3D = true);
 
 	void LinkChild(GameObject* child);
-	[[nodiscard]] GameObject* UnlinkChild(const GameObject* child);
+	[[nodiscard]]
+	GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;
 	std::string GetName() const;

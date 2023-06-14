@@ -50,12 +50,6 @@ public:
 		return id;
 	}
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
-	void Enable() override;
-	void Disable() override;
-
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
@@ -143,6 +137,13 @@ public:
 	}
 
     void ClearCollisionEnterDelegate();
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(Json& meta) override;
+
+	void SignalEnable() override;
+	void SignalDisable() override;
 
 private:
 	int GenerateId() const;

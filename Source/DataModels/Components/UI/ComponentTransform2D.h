@@ -21,9 +21,6 @@ public:
 
 	void Update() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	void SetPosition(const float3& localPosition);
 	void SetRotation(const float3& rotation);
 	void SetRotation(const float4x4& rotation);
@@ -53,6 +50,9 @@ public:
 	ComponentCanvas* WhichCanvasContainsMe();
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(Json& meta) override;
+
 	float3 GetPositionRelativeToParent();
 	float3 GetScreenPosition();
 

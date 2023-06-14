@@ -25,16 +25,15 @@ public:
 
 	virtual void CleanUp();
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	std::string GetConstructName() const;
-
-	
 
 	void SetConstuctor(const std::string& constructor);
 	void SetScript(IScript* script);
 	IScript* GetScript() const;
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(Json& meta) override;
 
 private:
 	// This will be managed by the runtime library

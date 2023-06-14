@@ -82,10 +82,8 @@ void ComponentPointLight::Draw() const
 #endif // ENGINE
 }
 
-void ComponentPointLight::Enable()
+void ComponentPointLight::SignalEnable()
 {
-	Component::Enable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (currentScene)
 	{
@@ -94,10 +92,8 @@ void ComponentPointLight::Enable()
 	}
 }
 
-void ComponentPointLight::Disable()
+void ComponentPointLight::SignalDisable()
 {
-	Component::Disable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (currentScene)
 	{
@@ -106,13 +102,8 @@ void ComponentPointLight::Disable()
 	}
 }
 
-void ComponentPointLight::SaveOptions(Json& meta)
+void ComponentPointLight::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -123,13 +114,8 @@ void ComponentPointLight::SaveOptions(Json& meta)
 	meta["radius"] = (float) radius;
 }
 
-void ComponentPointLight::LoadOptions(Json& meta)
+void ComponentPointLight::InternalLoad(Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];

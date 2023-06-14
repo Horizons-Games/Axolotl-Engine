@@ -13,24 +13,14 @@ ComponentPlayer::~ComponentPlayer()
 {
 }
 
-void ComponentPlayer::SaveOptions(Json& meta)
+void ComponentPlayer::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
 	meta["static"] = (bool) staticPlayer;
 	meta["mouse"] = (bool) mousePlayer;
 }
 
-void ComponentPlayer::LoadOptions(Json& meta)
+void ComponentPlayer::InternalLoad(Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	staticPlayer = (bool) meta["static"];
 	mousePlayer = (bool) meta["mouse"];
 }

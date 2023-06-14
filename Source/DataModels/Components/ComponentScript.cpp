@@ -90,12 +90,8 @@ void ComponentScript::CleanUp()
 	}
 }
 
-void ComponentScript::SaveOptions(Json& meta)
+void ComponentScript::InternalSave(Json& meta)
 {
-	// Save serialize values of Script
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
 	meta["constructName"] = this->constructName.c_str();
 	Json fields = meta["fields"];
 
@@ -170,12 +166,8 @@ void ComponentScript::SaveOptions(Json& meta)
 	}
 }
 
-void ComponentScript::LoadOptions(Json& meta)
+void ComponentScript::InternalLoad(Json& meta)
 {
-	// Load serialize values of Script
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 	constructName = meta["constructName"];
 	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
 
@@ -185,7 +177,7 @@ void ComponentScript::LoadOptions(Json& meta)
 	}
 
 	script->SetApplication(App.get());
-	script->SetGameObject(owner);
+	script->SetGameObject(GetOwner());
 	Json fields = meta["fields"];
 	for (unsigned int i = 0; i < fields.Size(); ++i)
 	{
