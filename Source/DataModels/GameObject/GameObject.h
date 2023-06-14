@@ -43,16 +43,15 @@ public:
 	GameObject(const GameObject& gameObject);
 	~GameObject();
 
-	void SaveOptions(Json& json);
-	void LoadOptions(Json& meta);
+	void Save(Json& json);
+	void Load(Json& meta);
 
 	void Draw() const;
 
 	void InitNewEmptyGameObject(bool is3D = true);
 
 	void LinkChild(GameObject* child);
-	[[nodiscard]]
-	GameObject* UnlinkChild(const GameObject* child);
+	[[nodiscard]] GameObject* UnlinkChild(const GameObject* child);
 
 	UID GetUID() const;
 	std::string GetName() const;
@@ -91,18 +90,20 @@ public:
 
 	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 
-	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
+	// This method returns true if and only if the GameObject is currently enabled
+	bool IsEnabled() const;
 	void Enable();
 	void Disable();
+
+	// This method returns true if IsEnabled returns true for this GameObject or any of its "ancestors" in the hierarchy
+	bool IsActive() const;
+	void DeactivateChildren();
+	void ActivateChildren();
 
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
 	void SetRootGO(GameObject* newRootGO);
-
-	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
-	void DeactivateChildren();
-	void ActivateChildren();
 
 	bool IsStatic() const;
 	void SetStatic(bool newStatic);
@@ -227,7 +228,7 @@ inline void GameObject::SetTag(const std::string& newTag)
 
 inline bool GameObject::IsActive() const
 {
-	return active;
+	return active && enabled;
 }
 
 inline GameObject::GameObjectView GameObject::GetChildren() const

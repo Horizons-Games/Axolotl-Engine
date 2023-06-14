@@ -271,7 +271,7 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
+		loadedScene->GetSceneGameObjects()[i]->Save(jsonGameObject);
 	}
 
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
@@ -493,7 +493,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
 
-		gameObjects[i]->LoadOptions(jsonGameObject);
+		gameObjects[i]->Load(jsonGameObject);
 	}
 
 	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)

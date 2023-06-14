@@ -62,5 +62,5 @@ void Component::Load(Json& meta)
 
 bool Component::IsEnabled() const
 {
-	return active && owner->IsEnabled();
+	return active && owner->IsActive();
 }

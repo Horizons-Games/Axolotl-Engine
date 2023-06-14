@@ -104,7 +104,7 @@ GameObject::~GameObject()
 	children.clear();
 }
 
-void GameObject::SaveOptions(Json& meta)
+void GameObject::Save(Json& meta)
 {
 	unsigned long long newParentUID = 0;
 	meta["name"] = name.c_str();
@@ -125,7 +125,7 @@ void GameObject::SaveOptions(Json& meta)
 	}
 }
 
-void GameObject::LoadOptions(Json& meta)
+void GameObject::Load(Json& meta)
 {
 	std::string tag = meta["tag"];
 	SetTag(tag.c_str());
