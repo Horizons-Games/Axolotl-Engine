@@ -57,6 +57,7 @@ layout(binding = 10) uniform sampler2D environmentBRDF;
 uniform int numLevels_IBL;
 uniform float cubeMap_intensity;
 uniform Light light;
+uniform int renderMode;
 
 in vec2 TexCoord;
 vec3 FragPos;
@@ -201,6 +202,25 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/gammaCorrection));
    
-    outColor = vec4(color,textureMat.a);
+   if(renderMode == 0)
+   {
+        outColor = vec4(color,1.0);
+   }
+    else if (renderMode == 1)
+    {
+        outColor = vec4(FragPos, 1.0f);
+    }
+    else if (renderMode == 2)
+    {
+        outColor = vec4(norm, 1.0f);
+    }
+    else if (renderMode == 3)
+    {
+        outColor = vec4(textureMat);
+    }
+    else if (renderMode == 4)
+    {
+        outColor = vec4(specularMat);
+    }
     
 }

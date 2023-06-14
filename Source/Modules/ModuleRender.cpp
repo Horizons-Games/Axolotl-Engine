@@ -356,7 +356,11 @@ update_status ModuleRender::PostUpdate()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+#ifdef ENGINE
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#endif // ENGINE
+
+
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLERENDER);
 	program->Activate();
@@ -386,17 +390,24 @@ update_status ModuleRender::PostUpdate()
 
 	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
 	program->BindUniformFloat("cubeMap_intensity", cubemap->GetIntensity());
+
+	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
+	program->BindUniformInt("renderMode", 0);
+
+#ifdef ENGINE
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+#endif // ENGINE
+
 	program->Deactivate();
 
 	int width, height;
 
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
-	//glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer);
-	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	//glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
