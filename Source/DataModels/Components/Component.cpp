@@ -3,9 +3,9 @@
 #include "DataModels/GameObject/GameObject.h"
 #include "FileSystem/Json.h"
 
-Component::Component(ComponentType type, bool active, GameObject* owner, bool canBeRemoved) :
+Component::Component(ComponentType type, bool enabled, GameObject* owner, bool canBeRemoved) :
 	type(type),
-	active(active),
+	enabled(enabled),
 	owner(owner),
 	canBeRemoved(canBeRemoved)
 {
@@ -13,7 +13,7 @@ Component::Component(ComponentType type, bool active, GameObject* owner, bool ca
 
 Component::Component(const Component& component) :
 	type(component.type),
-	active(component.active),
+	enabled(component.enabled),
 	owner(nullptr),
 	canBeRemoved(component.canBeRemoved)
 {
@@ -28,7 +28,7 @@ void Component::Enable()
 {
 	if (type != ComponentType::TRANSFORM)
 	{
-		active = true;
+		enabled = true;
 	}
 	SignalEnable();
 }
@@ -37,7 +37,7 @@ void Component::Disable()
 {
 	if (type != ComponentType::TRANSFORM)
 	{
-		active = false;
+		enabled = false;
 	}
 	SignalDisable();
 }
@@ -45,7 +45,7 @@ void Component::Disable()
 void Component::Save(Json& meta)
 {
 	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
+	meta["active"] = (bool) enabled;
 	meta["removed"] = (bool) canBeRemoved;
 
 	InternalSave(meta);
@@ -54,7 +54,7 @@ void Component::Save(Json& meta)
 void Component::Load(const Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
+	enabled = (bool) meta["active"];
 	canBeRemoved = (bool) meta["removed"];
 
 	InternalLoad(meta);
@@ -62,5 +62,5 @@ void Component::Load(const Json& meta)
 
 bool Component::IsEnabled() const
 {
-	return active && owner->IsActive();
+	return enabled && owner->IsActive();
 }

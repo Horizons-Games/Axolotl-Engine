@@ -14,7 +14,7 @@ class Json;
 class Component
 {
 public:
-	Component(ComponentType type, bool active, GameObject* owner, bool canBeRemoved);
+	Component(ComponentType type, bool enabled, GameObject* owner, bool canBeRemoved);
 	Component(const Component& component);
 	virtual ~Component();
 
@@ -46,7 +46,7 @@ private:
 private:
 	ComponentType type;
 	GameObject* owner;
-	bool active;
+	bool enabled;
 	bool canBeRemoved;
 
 private:
