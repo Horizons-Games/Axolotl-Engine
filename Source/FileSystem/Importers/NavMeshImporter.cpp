@@ -8,13 +8,18 @@ void NavMeshImporter::Import(const char* filePath, std::shared_ptr<ResourceNavMe
 {
 	char* loadBuffer;
 	App->GetModule<ModuleFileSystem>()->Load(filePath, loadBuffer);
-	Load(loadBuffer, resource);
+	//For the moment we will create directly all the resources so we don't have a PreMade to load
+	//Load(loadBuffer, resource);
 
 	char* saveBuffer{};
 	unsigned int size;
 	Save(resource, saveBuffer, size);
 	App->GetModule<ModuleFileSystem>()->Save(
 		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+
+	//Temporary Asset Save
+	App->GetModule<ModuleFileSystem>()->Save(
+		resource->GetAssetsPath(), saveBuffer, size);
 
 	delete loadBuffer;
 	delete saveBuffer;
