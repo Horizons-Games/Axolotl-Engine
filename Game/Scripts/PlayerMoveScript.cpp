@@ -26,9 +26,6 @@ void PlayerMoveScript::Start()
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetParent()->GetComponents<ComponentScript>();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)

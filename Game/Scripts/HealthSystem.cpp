@@ -87,7 +87,6 @@ void HealthSystem::PlayerDeath()
 	}
 
 	GameObject::GameObjectView children = owner->GetChildren();
-	GameObject* cameraChild;
 
 	for (const GameObject* child : children)
 	{

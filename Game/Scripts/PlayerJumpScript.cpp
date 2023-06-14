@@ -26,9 +26,6 @@ void PlayerJumpScript::Start()
 
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
-
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetParent()->GetComponents<ComponentScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
