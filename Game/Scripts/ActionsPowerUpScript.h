@@ -8,11 +8,11 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ModuleInput;
 class PlayerManagerScript;
 
-class ActivatePowerUp : public Script
+class ActionsPowerUpScript : public Script
 {
 public:
-	ActivatePowerUp();
-	~ActivatePowerUp() override = default;
+	ActionsPowerUpScript();
+	~ActionsPowerUpScript() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;

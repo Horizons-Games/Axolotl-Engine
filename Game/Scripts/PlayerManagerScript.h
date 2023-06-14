@@ -16,10 +16,13 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	bool ActivePowerUp(PowerUpType type);
+	bool SavePowerUp(PowerUpType type);
 	void UsePowerUp();
+	void DropPowerUp();
+
+	const PowerUpType GetPowerUpType();
 
 private:
-	float counter;
+	float counterPowerUp;
 	PowerUpType activePowerUp;
 };

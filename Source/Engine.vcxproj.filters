@@ -467,7 +467,7 @@
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ActivatePowerUp.cpp">
+    <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
       <Filter>UserScripts\PowerUp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -952,7 +952,7 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ActivatePowerUp.h">
+    <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
       <Filter>UserScripts\PowerUp</Filter>
     </ClInclude>
   </ItemGroup>

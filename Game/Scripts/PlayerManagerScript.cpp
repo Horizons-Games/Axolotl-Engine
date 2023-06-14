@@ -21,18 +21,18 @@ PlayerManagerScript::PlayerManagerScript() : Script()
 
 void PlayerManagerScript::Start()
 {
-	counter = -1;
+	counterPowerUp = -1;
 	activePowerUp = PowerUpType::NONE;
 }
 
 void PlayerManagerScript::Update(float deltaTime)
 {
-	if (counter >= 0)
+	if (counterPowerUp >= 0)
 	{
-		counter += deltaTime;
-		if (counter >= POWER_UP_TIMER)
+		counterPowerUp += deltaTime;
+		if (counterPowerUp >= POWER_UP_TIMER)
 		{
-			counter = -1;
+			counterPowerUp = -1;
 			
 			if (activePowerUp == PowerUpType::DEFENSE)
 			{
@@ -56,13 +56,14 @@ void PlayerManagerScript::Update(float deltaTime)
 	}
 }
 
-bool PlayerManagerScript::ActivePowerUp(PowerUpType type)
+bool PlayerManagerScript::SavePowerUp(PowerUpType type)
 {
 	if (activePowerUp != PowerUpType::NONE)
 	{
 		return false;
 	}
 	activePowerUp = type;
+	ENGINE_LOG("PowerUp saved: %i", activePowerUp);
 	return true;
 }
 
@@ -72,7 +73,9 @@ void PlayerManagerScript::UsePowerUp()
 	{
 		return;
 	}
-	counter = 0;
+	counterPowerUp = 0;
+
+	ENGINE_LOG("PowerUp Used: %i", activePowerUp);
 
 	if (activePowerUp == PowerUpType::HEAL)
 	{
@@ -95,4 +98,16 @@ void PlayerManagerScript::UsePowerUp()
 		moveScript->IncreaseSpeed(SPEED_INCREASE);
 	}
 	activePowerUp = PowerUpType::NONE;
+}
+
+void PlayerManagerScript::DropPowerUp()
+{
+	ENGINE_LOG("PowerUp Dropped: %i", activePowerUp);
+	activePowerUp = PowerUpType::NONE;
+	counterPowerUp = -1;
+}
+
+const PowerUpType PlayerManagerScript::GetPowerUpType()
+{
+	return activePowerUp;
 }

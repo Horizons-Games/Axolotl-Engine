@@ -52,7 +52,7 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 	}
 
 	PlayerManagerScript* playerManagerScript = go->GetComponent<PlayerManagerScript>();
-	if (playerManagerScript->ActivePowerUp(type))
+	if (playerManagerScript->SavePowerUp(type))
 	{
 		DeactivatePowerUp();
 	}
