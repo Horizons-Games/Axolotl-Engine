@@ -125,7 +125,7 @@ void GameObject::Save(Json& meta)
 	}
 }
 
-void GameObject::Load(Json& meta)
+void GameObject::Load(const Json& meta)
 {
 	std::string tag = meta["tag"];
 	SetTag(tag.c_str());
@@ -210,7 +210,7 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 	newParent->LinkChild(this);
 
-	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
+	(parent->IsActive() && parent->IsEnabled()) ? Activate() : Deactivate();
 }
 
 void GameObject::LinkChild(GameObject* child)
@@ -409,17 +409,8 @@ void GameObject::Enable()
 	assert(parent != nullptr);
 
 	enabled = true;
-	active = parent->IsActive();
-
-	for (std::unique_ptr<GameObject>& child : children)
-	{
-		child->ActivateChildren();
-	}
-
-	for (std::unique_ptr<Component>& component : components)
-	{
-		component->SignalEnable();
-	}
+	
+	this->Activate();
 }
 
 void GameObject::Disable()
@@ -427,11 +418,17 @@ void GameObject::Disable()
 	assert(parent != nullptr);
 
 	enabled = false;
+	
+	this->Deactivate();
+}
+
+void GameObject::Deactivate()
+{
 	active = false;
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->DeactivateChildren();
+		child->Deactivate();
 	}
 
 	for (std::unique_ptr<Component>& component : components)
@@ -440,23 +437,23 @@ void GameObject::Disable()
 	}
 }
 
-void GameObject::DeactivateChildren()
+void GameObject::Activate()
 {
-	active = false;
+	active = parent->IsActive();
 
-	for (std::unique_ptr<GameObject>& child : children)
+	if (!active)
 	{
-		child->DeactivateChildren();
+		return;
 	}
-}
-
-void GameObject::ActivateChildren()
-{
-	active = (parent->IsActive() && parent->IsEnabled());
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->ActivateChildren();
+		child->Activate();
+	}
+
+	for (std::unique_ptr<Component>& component : components)
+	{
+		component->SignalEnable();
 	}
 }
 

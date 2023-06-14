@@ -44,7 +44,7 @@ public:
 	~GameObject();
 
 	void Save(Json& json);
-	void Load(Json& meta);
+	void Load(const Json& meta);
 
 	void Draw() const;
 
@@ -97,8 +97,8 @@ public:
 
 	// This method returns true if IsEnabled returns true for this GameObject or any of its "ancestors" in the hierarchy
 	bool IsActive() const;
-	void DeactivateChildren();
-	void ActivateChildren();
+	void Deactivate();
+	void Activate();
 
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);

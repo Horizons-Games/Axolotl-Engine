@@ -548,11 +548,11 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		}
 		if (active)
 		{
-			gameObject->ActivateChildren();
+			gameObject->Activate();
 		}
 		else
 		{
-			gameObject->DeactivateChildren();
+			gameObject->Deactivate();
 		}
 	}
 
