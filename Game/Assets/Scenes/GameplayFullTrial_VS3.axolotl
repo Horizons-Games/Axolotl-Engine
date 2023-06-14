@@ -230,7 +230,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0001220703125,
-                            "localPos_Y": 9.65267276763916,
+                            "localPos_Y": 2.6911540031433105,
                             "localPos_Z": -29.203277587890625,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -402,7 +402,7 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 0.0001220703125,
-                            "rbPos_Y": 9.65267276763916,
+                            "rbPos_Y": 2.6911540031433105,
                             "rbPos_Z": -29.203277587890625
                         }
                     },
@@ -2095,8 +2095,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 5.197550296783447,
-                            "localPos_Z": -17.147777557373047,
+                            "localPos_Y": 2.0,
+                            "localPos_Z": -10.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -2135,12 +2135,12 @@
                                 },
                                 {
                                     "name": "KpPosition",
-                                    "value": 5.0,
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "KpRotation",
-                                    "value": 10.0,
+                                    "value": 20.0,
                                     "type": 0
                                 },
                                 {
@@ -2217,7 +2217,7 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
+                            "isStatic": true,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -8437,7 +8437,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 15.082862854003906,
+                            "localPos_X": 15.422528266906738,
                             "localPos_Y": 1.4596266746520996,
                             "localPos_Z": -16.569950103759766,
                             "localRot_X": 0.0,
@@ -8457,7 +8457,7 @@
                             "fields": [
                                 {
                                     "name": "InfluenceRadius",
-                                    "value": 3.25,
+                                    "value": 2.0,
                                     "type": 0
                                 },
                                 {

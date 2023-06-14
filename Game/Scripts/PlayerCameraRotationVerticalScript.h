@@ -11,8 +11,6 @@ public:
     PlayerCameraRotationVerticalScript();
 
 	void Start() override;
-
-    void PreUpdate(float deltaTime) override;
     void Update(float deltaTime) override;
 
 private:
@@ -26,8 +24,10 @@ private:
 	float KpRotation;
 	float rotationSensitivity;
 
-	float3 defaultPositionOffset;
-	Quat defaultOrientationOffset;
+	float3 defaultPosition;
+	float defaultOffset;
+	Quat defaultOrientation;
+
 
 	GameObject* samplePointsObject;
 
