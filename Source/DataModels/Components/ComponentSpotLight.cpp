@@ -134,7 +134,7 @@ void ComponentSpotLight::InternalSave(Json& meta)
 	meta["outerAngle"] = (float) outerAngle;
 }
 
-void ComponentSpotLight::InternalLoad(Json& meta)
+void ComponentSpotLight::InternalLoad(const Json& meta)
 {
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];

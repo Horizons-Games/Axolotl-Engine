@@ -58,7 +58,7 @@ void ComponentAudioListener::InternalSave(Json& meta)
 {
 }
 
-void ComponentAudioListener::InternalLoad(Json& meta)
+void ComponentAudioListener::InternalLoad(const Json& meta)
 {
 	if (!IsEnabled())
 	{

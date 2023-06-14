@@ -45,7 +45,7 @@ public:
 
 private:
 	void InternalSave(Json& meta) override;
-	void InternalLoad(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	const std::string GetNameByAreaType(AreaType type);

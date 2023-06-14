@@ -313,7 +313,7 @@ void ComponentRigidBody::InternalSave(Json& meta)
 	meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());
 }
 
-void ComponentRigidBody::InternalLoad(Json& meta)
+void ComponentRigidBody::InternalLoad(const Json& meta)
 {
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
 	SetIsStatic(static_cast<bool>(meta["isStatic"]));

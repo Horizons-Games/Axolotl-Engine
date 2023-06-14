@@ -70,6 +70,6 @@ void ComponentAudioSource::InternalSave(Json& meta)
 {
 }
 
-void ComponentAudioSource::InternalLoad(Json& meta)
+void ComponentAudioSource::InternalLoad(const Json& meta)
 {
 }

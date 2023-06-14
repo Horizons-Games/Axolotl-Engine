@@ -26,7 +26,7 @@ void ComponentBreakable::InternalSave(Json& meta)
 	meta["impulsion"] = (float) impulsionForce;
 }
 
-void ComponentBreakable::InternalLoad(Json& meta)
+void ComponentBreakable::InternalLoad(const Json& meta)
 {
 	subscribed = (bool) meta["subscribed"];
 	impulsionForce = (float) meta["impulsion"];

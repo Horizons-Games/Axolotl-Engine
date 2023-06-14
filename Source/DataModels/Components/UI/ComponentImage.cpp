@@ -104,7 +104,7 @@ void ComponentImage::InternalSave(Json& meta)
 	meta["color_w"] = static_cast<float>(color.w);
 }
 
-void ComponentImage::InternalLoad(Json& meta)
+void ComponentImage::InternalLoad(const Json& meta)
 {
 #ifdef ENGINE
 	std::string path = meta["assetPathImage"];

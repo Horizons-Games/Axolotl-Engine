@@ -25,7 +25,7 @@ void ComponentCubemap::InternalSave(Json& meta)
 	meta["intensity"] = currentCubemap->GetIntensity();
 }
 
-void ComponentCubemap::InternalLoad(Json& meta)
+void ComponentCubemap::InternalLoad(const Json& meta)
 {
 	const ModuleScene* scene = App->GetModule<ModuleScene>();
 	const Scene* loadedScene = scene->GetLoadedScene();

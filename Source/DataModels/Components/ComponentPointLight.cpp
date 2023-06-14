@@ -114,7 +114,7 @@ void ComponentPointLight::InternalSave(Json& meta)
 	meta["radius"] = (float) radius;
 }
 
-void ComponentPointLight::InternalLoad(Json& meta)
+void ComponentPointLight::InternalLoad(const Json& meta)
 {
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];

@@ -24,7 +24,7 @@ void ComponentMeshCollider::InternalSave(Json& meta)
 {
 }
 
-void ComponentMeshCollider::InternalLoad(Json& meta)
+void ComponentMeshCollider::InternalLoad(const Json& meta)
 {
 }
 

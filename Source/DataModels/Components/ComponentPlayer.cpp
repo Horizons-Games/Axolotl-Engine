@@ -19,7 +19,7 @@ void ComponentPlayer::InternalSave(Json& meta)
 	meta["mouse"] = (bool) mousePlayer;
 }
 
-void ComponentPlayer::InternalLoad(Json& meta)
+void ComponentPlayer::InternalLoad(const Json& meta)
 {
 	staticPlayer = (bool) meta["static"];
 	mousePlayer = (bool) meta["mouse"];

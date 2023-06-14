@@ -81,7 +81,7 @@ void ComponentTransform::InternalSave(Json& meta)
 	meta["localSca_Z"] = static_cast<float>(sca.z);
 }
 
-void ComponentTransform::InternalLoad(Json& meta)
+void ComponentTransform::InternalLoad(const Json& meta)
 {
 	pos.x = static_cast<float>(meta["localPos_X"]);
 	pos.y = static_cast<float>(meta["localPos_Y"]);

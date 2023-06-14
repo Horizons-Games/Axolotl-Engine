@@ -17,7 +17,7 @@ public:
 
 private:
 	void InternalSave(Json& meta) override;
-	void InternalLoad(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	bool staticPlayer = false;

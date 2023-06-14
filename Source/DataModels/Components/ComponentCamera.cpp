@@ -62,7 +62,7 @@ void ComponentCamera::InternalSave(Json& meta)
 	// meta["frustumMode"] = camera->GetFrustumMode();
 }
 
-void ComponentCamera::InternalLoad(Json& meta)
+void ComponentCamera::InternalLoad(const Json& meta)
 {
 	camera->SetFrustumOffset((float) meta["frustumOfset"]);
 	camera->SetIsDrawFrustum((bool) meta["drawFrustum"]);

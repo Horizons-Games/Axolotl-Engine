@@ -355,7 +355,7 @@ void ComponentMeshRenderer::InternalSave(Json& meta)
 	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
-void ComponentMeshRenderer::InternalLoad(Json& meta)
+void ComponentMeshRenderer::InternalLoad(const Json& meta)
 {
 #ifdef ENGINE
 	std::string path = meta["assetPathMaterial"];

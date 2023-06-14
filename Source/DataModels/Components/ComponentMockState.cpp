@@ -28,7 +28,7 @@ void ComponentMockState::InternalSave(Json& meta)
 	meta["sceneName"] = GetSceneName().c_str();
 }
 
-void ComponentMockState::InternalLoad(Json& meta)
+void ComponentMockState::InternalLoad(const Json& meta)
 {
 	std::string tag = meta["sceneName"];
 

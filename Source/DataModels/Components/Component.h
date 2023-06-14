@@ -19,7 +19,7 @@ public:
 	virtual ~Component();
 
 	void Save(Json& meta);
-	void Load(Json& meta);
+	void Load(const Json& meta);
 
 	virtual void OnTransformChanged();
 
@@ -41,7 +41,7 @@ private:
 	virtual void SignalDisable(){};
 
 	virtual void InternalSave(Json& meta) = 0;
-	virtual void InternalLoad(Json& meta) = 0;
+	virtual void InternalLoad(const Json& meta) = 0;
 
 private:
 	ComponentType type;

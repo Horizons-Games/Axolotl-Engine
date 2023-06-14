@@ -44,7 +44,7 @@ public:
 	virtual void Draw() const override{};
 
 	virtual void InternalSave(Json& meta) override{};
-	virtual void InternalLoad(Json& meta) override{};
+	virtual void InternalLoad(const Json& meta) override{};
 
 	const float3& GetColor() const;
 	float GetIntensity() const;

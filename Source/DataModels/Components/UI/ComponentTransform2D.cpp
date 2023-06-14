@@ -65,7 +65,7 @@ void ComponentTransform2D::InternalSave(Json& meta)
 	meta["worldAABB_max_y"] = static_cast<float>(worldAABB.maxPoint.y);
 }
 
-void ComponentTransform2D::InternalLoad(Json& meta)
+void ComponentTransform2D::InternalLoad(const Json& meta)
 {
 	pos.x = static_cast<float>(meta["localPositionX"]);
 	pos.y = static_cast<float>(meta["localPositionY"]);

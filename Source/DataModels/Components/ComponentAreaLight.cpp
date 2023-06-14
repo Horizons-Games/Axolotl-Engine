@@ -124,7 +124,7 @@ void ComponentAreaLight::InternalSave(Json& meta)
 	meta["attRadius"] = (float) attRadius;
 }
 
-void ComponentAreaLight::InternalLoad(Json& meta)
+void ComponentAreaLight::InternalLoad(const Json& meta)
 {
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];

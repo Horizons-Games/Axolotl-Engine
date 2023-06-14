@@ -160,7 +160,7 @@ void ComponentAnimation::InternalSave(Json& meta)
 	meta["assetPathState"] = assetPath.c_str();
 }
 
-void ComponentAnimation::InternalLoad(Json& meta)
+void ComponentAnimation::InternalLoad(const Json& meta)
 {
 	std::shared_ptr<ResourceStateMachine> resourceState;
 #ifdef ENGINE

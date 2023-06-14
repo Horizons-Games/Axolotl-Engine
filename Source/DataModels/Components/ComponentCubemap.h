@@ -9,7 +9,7 @@ public:
 	~ComponentCubemap() override;
 
 	void InternalSave(Json& meta) override;
-	void InternalLoad(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	bool IsStatic();
 	void SetStatic(bool newStatic);

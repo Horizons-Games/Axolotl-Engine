@@ -32,7 +32,7 @@ void ComponentButton::InternalSave(Json& meta)
 	meta["sceneName"] = sceneName.c_str();
 }
 
-void ComponentButton::InternalLoad(Json& meta)
+void ComponentButton::InternalLoad(const Json& meta)
 {
 	colorHovered.x = static_cast<float>(meta["colorHovered_x"]);
 	colorHovered.y = static_cast<float>(meta["colorHovered_y"]);

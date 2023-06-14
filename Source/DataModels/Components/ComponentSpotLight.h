@@ -32,7 +32,7 @@ public:
 	void SignalDisable() override;
 
 	void InternalSave(Json& meta) override;
-	void InternalLoad(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	float GetRadius() const;
 	float GetInnerAngle() const;

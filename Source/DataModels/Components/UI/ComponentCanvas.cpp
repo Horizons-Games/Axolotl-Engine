@@ -27,7 +27,7 @@ void ComponentCanvas::InternalSave(Json& meta)
 {
 }
 
-void ComponentCanvas::InternalLoad(Json& meta)
+void ComponentCanvas::InternalLoad(const Json& meta)
 {
 	RecalculateSizeAndScreenFactor();
 }

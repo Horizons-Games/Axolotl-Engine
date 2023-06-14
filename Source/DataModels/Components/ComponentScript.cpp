@@ -166,7 +166,7 @@ void ComponentScript::InternalSave(Json& meta)
 	}
 }
 
-void ComponentScript::InternalLoad(Json& meta)
+void ComponentScript::InternalLoad(const Json& meta)
 {
 	constructName = meta["constructName"];
 	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());

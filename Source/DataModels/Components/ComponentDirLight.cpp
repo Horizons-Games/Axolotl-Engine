@@ -113,7 +113,7 @@ void ComponentDirLight::InternalSave(Json& meta)
 	meta["lightType"] = GetNameByLightType(lightType).c_str();
 }
 
-void ComponentDirLight::InternalLoad(Json& meta)
+void ComponentDirLight::InternalLoad(const Json& meta)
 {
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];

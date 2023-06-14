@@ -51,7 +51,7 @@ void Component::Save(Json& meta)
 	InternalSave(meta);
 }
 
-void Component::Load(Json& meta)
+void Component::Load(const Json& meta)
 {
 	type = GetTypeByName(meta["type"]);
 	active = (bool) meta["active"];

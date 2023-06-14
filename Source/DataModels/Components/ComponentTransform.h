@@ -22,7 +22,7 @@ public:
 	void Draw() const override;
 
 	void InternalSave(Json& meta) override;
-	void InternalLoad(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;

@@ -14,7 +14,7 @@ public:
 
 private:
 	void InternalSave(Json& meta) override;
-	void InternalLoad(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 	void SignalEnable() override;
 	void SignalDisable() override;
 

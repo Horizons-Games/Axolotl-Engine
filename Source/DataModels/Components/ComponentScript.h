@@ -33,7 +33,7 @@ public:
 
 private:
 	void InternalSave(Json& meta) override;
-	void InternalLoad(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	// This will be managed by the runtime library
