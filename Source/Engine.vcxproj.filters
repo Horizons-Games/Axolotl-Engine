@@ -85,9 +85,6 @@
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
-      <Filter>FileSystem\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -461,6 +458,9 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ModuleNavigation.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -554,9 +554,6 @@
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
-      <Filter>FileSystem\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
@@ -937,6 +934,9 @@
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\ModuleNavigation.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1148,9 +1148,6 @@
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
-      <Filter>FileSystem\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentDirLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -1176,9 +1173,6 @@
       <Filter>DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp">
-      <Filter>DataModels\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp">
       <Filter>DataModels\Resources</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Json.cpp">
@@ -1462,9 +1456,6 @@
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
-      <Filter>FileSystem\Importers</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1494,9 +1485,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceMesh.h">
       <Filter>DataModels\Resources</Filter>
-    <ClInclude Include="DataModels\Resources\ResourceNavMesh.h">
-      <Filter>DataModels\Resources</Filter>
-    </ClInclude>
     </ClInclude>
     <ClInclude Include="FileSystem\Json.h">
       <Filter>FileSystem</Filter>
@@ -1806,9 +1794,6 @@
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\MeshImporter.h">
-      <Filter>FileSystem\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentDirLight.h">
