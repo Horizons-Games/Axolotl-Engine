@@ -191,14 +191,6 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERREDLIGHTING);
-	program->Activate();
-	program->BindUniformInt("gPosition", 0);
-	program->BindUniformInt("gNormal", 1);
-	program->BindUniformInt("gDiffuse", 2);
-	program->BindUniformInt("gSpecular", 3);
-	program->Deactivate();
-
 	int width, height;
 
 	renderMapOpaque.clear();
@@ -366,20 +358,20 @@ update_status ModuleRender::PostUpdate()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	int width, height;
-
-	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
-
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERREDLIGHTING);
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLERENDER);
 	program->Activate();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
+	program->BindUniformInt("gPosition", 0);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, gNormal);
+	program->BindUniformInt("gNormal", 1);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, gDiffuse);
+	program->BindUniformInt("gDiffuse", 2);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gSpecular);
+	program->BindUniformInt("gSpecular", 3);
 
 	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 	program->BindUniformFloat3("ViewPos", viewPos);
@@ -394,42 +386,19 @@ update_status ModuleRender::PostUpdate()
 
 	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
 	program->BindUniformFloat("cubeMap_intensity", cubemap->GetIntensity());
-
-	if (quadVAO == 0)
-	{
-		float quadVertices[] = {
-			// positions        // texture Coords
-			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-			 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		};
-		// setup plane VAO
-		glGenVertexArrays(1, &quadVAO);
-		glGenBuffers(1, &quadVBO);
-		glBindVertexArray(quadVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	}
-	glBindVertexArray(quadVAO);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
-
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 	program->Deactivate();
 
+	int width, height;
+
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+
+	//glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer);
+	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	//glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
-
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -481,7 +450,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 	glGenTextures(1, &gDiffuse);
 	glBindTexture(GL_TEXTURE_2D, gDiffuse);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gDiffuse, 0);

@@ -95,9 +95,6 @@ private:
 	GLuint gSpecular;
 	GLuint depthTexture;
 
-	GLuint quadVAO = 0;
-	GLuint quadVBO;
-
 	friend class ModuleEditor;
 };
 
