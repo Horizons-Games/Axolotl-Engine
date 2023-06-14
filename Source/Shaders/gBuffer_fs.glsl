@@ -1,6 +1,9 @@
 #version 460
 
 #extension GL_ARB_bindless_texture : require
+#extension GL_ARB_shading_language_include : require
+
+#include "/Common/Functions/pbr_functions.glsl"
 
 struct Material {
     vec4 diffuse_color;         //0  //16
@@ -25,9 +28,11 @@ readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
 };
 
-in vec2 TexCoord;
-in vec3 FragPos;
+in vec3 FragTangent;
 in vec3 Normal;
+in vec3 FragPos;
+in vec3 ViewPos;
+in vec2 TexCoord;
 
 in flat int InstanceIndex;
 
@@ -37,7 +42,7 @@ void main()
     Material material = materials[InstanceIndex];
 
     gPosition = FragPos;
-    gNormal = normalize(Normal);
+    gNormal = Normal;
 
     //Diffuse
     gDiffuse = material.diffuse_color;
@@ -45,9 +50,17 @@ void main()
     {
         gDiffuse = texture(material.diffuse_map, TexCoord);
     }
-    //Transparency
-    gDiffuse.a = material.has_diffuse_map * gDiffuse.a + 
-        (1.0f-material.has_diffuse_map) * material.diffuse_color.a;
+
+    //Normals
+    if (material.has_normal_map == 1)
+	{
+        mat3 space = CreateTangentSpace(gNormal, FragTangent);
+        gNormal = texture(material.normal_map, TexCoord).rgb;
+        gNormal = gNormal * 2.0 - 1.0;
+        gNormal.xy *= material.normal_strength;
+        gNormal = normalize(gNormal);
+        gNormal = normalize(space * gNormal);
+	}
     
     //Specular + smoothness
     gSpecular = vec4(material.specular_color, material.smoothness);
