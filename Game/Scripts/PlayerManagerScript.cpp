@@ -104,7 +104,6 @@ void PlayerManagerScript::DropPowerUp()
 {
 	ENGINE_LOG("PowerUp Dropped: %i", activePowerUp);
 	activePowerUp = PowerUpType::NONE;
-	counterPowerUp = -1;
 }
 
 const PowerUpType PlayerManagerScript::GetPowerUpType()
