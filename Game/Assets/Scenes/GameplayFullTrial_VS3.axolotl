@@ -3007,7 +3007,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": -2.7009718905901536e-9,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
@@ -8214,15 +8214,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -7.840948581695557,
-                            "localPos_Y": 3.2121219635009766,
-                            "localPos_Z": -8.762855529785156,
+                            "localPos_X": -6.761251449584961,
+                            "localPos_Y": 2.0453388690948486,
+                            "localPos_Z": -10.191558837890625,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.10000000149011612,
+                            "localSca_Y": 0.10000000149011612,
+                            "localSca_Z": 0.10000000149011612
                         }
                     },
                     {
@@ -8230,8 +8230,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "meshUID": 17161328820640003293,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -8242,28 +8242,28 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": true,
-                            "isTrigger": true,
+                            "isStatic": false,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 3,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
-                            "KpForce": 5.0,
+                            "KpForce": 0.9399999976158142,
                             "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -9.8100004196167,
+                            "gravity_Y": 0.0,
                             "boxSize_X": 0.9999994039535522,
                             "boxSize_Y": 1.75,
                             "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.5,
+                            "radius": 0.800000011920929,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -7.840948581695557,
-                            "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.762855529785156
+                            "rbPos_X": -6.761251449584961,
+                            "rbPos_Y": 2.0453388690948486,
+                            "rbPos_Z": -10.191558837890625
                         }
                     },
                     {
@@ -8272,7 +8272,98 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PowerUpScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "Radius",
+                                    "value": 3.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Capsule",
+                "tag": "",
+                "uid": 15122375516299609136,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.773031234741211,
+                            "localPos_Y": 2.0453388690948486,
+                            "localPos_Z": -10.970589637756348,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.10000000149011612,
+                            "localSca_Y": 0.10000000149011612,
+                            "localSca_Z": 0.10000000149011612
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17161328820640003293,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 0.8500000238418579,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 0.800000011920929,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -6.773031234741211,
+                            "rbPos_Y": 2.0453388690948486,
+                            "rbPos_Z": -10.970589637756348
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpScript",
+                            "fields": [
+                                {
+                                    "name": "Radius",
+                                    "value": 3.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]

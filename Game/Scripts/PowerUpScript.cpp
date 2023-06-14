@@ -1,24 +1,35 @@
 #include "PowerUpScript.h"
 
+#include "Application.h"
+#include "ModulePlayer.h"
+
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 
+#include "GameObject/GameObject.h"
+
 #include "PlayerManagerScript.h"
+
+#include "debugdraw.h"
 
 REGISTERCLASS(PowerUpScript);
 
 #define SPAWN_LIFE 10.f
 
-PowerUpScript::PowerUpScript() : Script()
+PowerUpScript::PowerUpScript() : Script(), radius(1.f), isSeeking(false)
 {
+	REGISTER_FIELD(radius, float);
 }
 
 void PowerUpScript::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	ownerRb = owner->GetComponent<ComponentRigidBody>();
-	DeactivatePowerUp();
+	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
+	playerTransform = player->GetComponent<ComponentTransform>();
+	playerManagerScript = player->GetComponent<PlayerManagerScript>();
+	//DeactivatePowerUp();
 }
 
 void PowerUpScript::Update(float deltaTime)
@@ -30,6 +41,24 @@ void PowerUpScript::Update(float deltaTime)
 		{
 			DeactivatePowerUp();
 		}
+		if (ownerTransform->GetGlobalPosition().Equals(playerTransform->GetGlobalPosition(), radius) 
+			&& playerManagerScript->GetPowerUpType() == PowerUpType::NONE)
+		{
+			isSeeking = true;
+			ownerRb->SetPositionTarget(playerTransform->GetGlobalPosition());
+			Quat errorRotation =
+				Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
+					(playerTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+			ownerRb->SetRotationTarget(errorRotation.Normalized());
+		}
+		else if (isSeeking)
+		{
+			btRigidBody* btRb = ownerRb->GetRigidBody();
+			btRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
+		}
+#ifdef DEBUG
+		dd::sphere(ownerTransform->GetGlobalPosition(), dd::colors::Yellow, radius);
+#endif // DEBUG
 	}
 }
 
