@@ -5,7 +5,7 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
-#include "CameraSample.h"
+#include "../Scripts/CameraSample.h"
 
 REGISTERCLASS(PlayerCameraRotationVerticalScript);
 

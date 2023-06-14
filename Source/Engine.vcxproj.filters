@@ -458,7 +458,7 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
-    <ClCompile Include="CameraSample.cpp">
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
   </ItemGroup>
@@ -934,7 +934,7 @@
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
-    <ClInclude Include="CameraSample.h">
+    <ClInclude Include="..\Game\Scripts\CameraSample.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
   </ItemGroup>
