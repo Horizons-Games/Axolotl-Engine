@@ -61,8 +61,8 @@ void PlayerCameraRotationVerticalScript::Update(float deltaTime)
 	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
 	if (closestSample && (closestSample->position - transform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 	{
-		finalPositionTarget = defaultPosition.Normalized() * closestSample->influenceRadius;
-		
+		float newOffset = (closestSample->position - parentTransform->GetGlobalPosition()).Length();
+		finalPositionTarget = defaultPosition.Normalized() * newOffset;		
 	}
 
 	SetPositionTarget(finalPositionTarget, deltaTime);
