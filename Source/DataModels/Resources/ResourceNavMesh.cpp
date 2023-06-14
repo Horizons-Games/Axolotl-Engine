@@ -1,5 +1,27 @@
 #include "ResourceNavMesh.h"
 
+ResourceNavMesh::ResourceNavMesh(UID resourceUID,
+								 const std::string& fileName,
+								 const std::string& assetsPath,
+								 const std::string& libraryPath) :
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
+{
+	// navMeshDrawFlags = DU_DRAWNAVMESH_OFFMESHCONS | DU_DRAWNAVMESH_CLOSEDLIST;
+
+	// ctx = new BuildContext();
+	// talloc = new LinearAllocator(32000);
+	// tcomp = new FastLZCompressor;
+	// tmproc = new MeshProcess;
+}
+
+ResourceNavMesh::~ResourceNavMesh()
+{
+	// CleanUp();
+
+	// RELEASE(ctx);
+}
+
+
 //#include "Application.h"
 //#include "Components/ComponentAgent.h"
 //#include "Components/ComponentMeshRenderer.h"
@@ -489,22 +511,6 @@ static const int EXPECTED_LAYERS_PER_TILE = 4;
 //	}
 //}
 
-ResourceNavMesh::ResourceNavMesh()
-{
-	// navMeshDrawFlags = DU_DRAWNAVMESH_OFFMESHCONS | DU_DRAWNAVMESH_CLOSEDLIST;
-
-	// ctx = new BuildContext();
-	// talloc = new LinearAllocator(32000);
-	// tcomp = new FastLZCompressor;
-	// tmproc = new MeshProcess;
-}
-
-ResourceNavMesh::~ResourceNavMesh()
-{
-	// CleanUp();
-
-	// RELEASE(ctx);
-}
 //
 // bool ResourceNavMesh::Build(Scene* scene)
 //{

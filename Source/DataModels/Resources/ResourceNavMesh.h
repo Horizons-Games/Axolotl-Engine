@@ -7,7 +7,10 @@
 class ResourceNavMesh : virtual public Resource
 {
 public:
-	ResourceNavMesh();
+	ResourceNavMesh(UID resourceUID,
+					 const std::string& fileName,
+					 const std::string& assetsPath,
+					 const std::string& libraryPath);
 	virtual ~ResourceNavMesh() override;
 
 	ResourceType GetType() const override;
