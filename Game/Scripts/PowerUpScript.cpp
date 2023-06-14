@@ -37,24 +37,29 @@ void PowerUpScript::Update(float deltaTime)
 	if (owner->IsEnabled())
 	{
 		counter += deltaTime;
-		if (counter >= SPAWN_LIFE)
+		/*if (counter >= SPAWN_LIFE)
 		{
 			DeactivatePowerUp();
-		}
-		if (ownerTransform->GetGlobalPosition().Equals(playerTransform->GetGlobalPosition(), radius) 
+		}*/
+		if (!isSeeking && ownerTransform->GetGlobalPosition().Equals(playerTransform->GetGlobalPosition(), radius) 
 			&& playerManagerScript->GetPowerUpType() == PowerUpType::NONE)
 		{
 			isSeeking = true;
+		}
+		else if (isSeeking)
+		{
 			ownerRb->SetPositionTarget(playerTransform->GetGlobalPosition());
 			Quat errorRotation =
 				Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
 					(playerTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 			ownerRb->SetRotationTarget(errorRotation.Normalized());
-		}
-		else if (isSeeking)
-		{
-			btRigidBody* btRb = ownerRb->GetRigidBody();
-			btRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
+			if (playerManagerScript->GetPowerUpType() != PowerUpType::NONE)
+			{
+				btRigidBody* btRb = ownerRb->GetRigidBody();
+				btRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f)); // the power Up stills following 
+																	  // the player at a low speed
+				isSeeking = false;
+			}
 		}
 #ifdef DEBUG
 		dd::sphere(ownerTransform->GetGlobalPosition(), dd::colors::Yellow, radius);
