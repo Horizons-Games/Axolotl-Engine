@@ -145,19 +145,8 @@ void BixAttackScript::CheckCollision()
 				{
 					if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
 					{
-						// insertion could take place -> element not hit yet
-						//get component health and do damage
-						std::vector<ComponentScript*> gameObjectScripts =
-							hit.gameObject->GetRootGO()->GetComponents<ComponentScript>();
-
-						for (int i = 0; i < gameObjectScripts.size(); ++i)
-						{
-							if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-							{
-								HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-								healthScript->TakeDamage(damageAttack);
-							}
-						}
+						HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
+						healthScript->TakeDamage(damageAttack);
 					}
 				}
 			}
