@@ -112,7 +112,6 @@ void GameObject::Save(Json& meta)
 	meta["uid"] = uid;
 	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
-	meta["active"] = (bool) active;
 	meta["static"] = (bool) staticObject;
 
 	Json jsonComponents = meta["Components"];
@@ -422,21 +421,6 @@ void GameObject::Disable()
 	this->Deactivate();
 }
 
-void GameObject::Deactivate()
-{
-	active = false;
-
-	for (std::unique_ptr<GameObject>& child : children)
-	{
-		child->Deactivate();
-	}
-
-	for (std::unique_ptr<Component>& component : components)
-	{
-		component->SignalDisable();
-	}
-}
-
 void GameObject::Activate()
 {
 	active = parent->IsActive();
@@ -454,6 +438,21 @@ void GameObject::Activate()
 	for (std::unique_ptr<Component>& component : components)
 	{
 		component->SignalEnable();
+	}
+}
+
+void GameObject::Deactivate()
+{
+	active = false;
+
+	for (std::unique_ptr<GameObject>& child : children)
+	{
+		child->Deactivate();
+	}
+
+	for (std::unique_ptr<Component>& component : components)
+	{
+		component->SignalDisable();
 	}
 }
 

@@ -97,8 +97,6 @@ public:
 
 	// This method returns true if IsEnabled returns true for this GameObject or any of its "ancestors" in the hierarchy
 	bool IsActive() const;
-	void Deactivate();
-	void Activate();
 
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
@@ -130,6 +128,8 @@ private:
 
 	Component* CreateComponent(ComponentType type);
 
+	void Activate();
+	void Deactivate();
 	bool IsAChild(const GameObject* child);
 
 	enum class HierarchyDirection

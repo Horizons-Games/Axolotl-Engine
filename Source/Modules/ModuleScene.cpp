@@ -456,7 +456,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	std::vector<GameObject*> gameObjects{};
 	std::unordered_map<UID, GameObject*> gameObjectMap{};
 	std::unordered_map<UID, UID> childParentMap{};
-	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
+	std::unordered_map<UID, bool> enabledMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -465,7 +465,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		UID uid = jsonGameObject["uid"];
 		UID parentUID = jsonGameObject["parentUID"];
 		bool enabled = jsonGameObject["enabled"];
-		bool active = jsonGameObject["active"];
 		GameObject* gameObject;
 
 		if (!mantainActualHierarchy)
@@ -482,7 +481,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 
 		gameObjectMap[uid] = gameObject;
 		childParentMap[uid] = parentUID;
-		enabledAndActive[uid] = std::make_pair(enabled, active);
+		enabledMap[uid] = enabled;
 		gameObjects.push_back(gameObject);
 	}
 
@@ -536,8 +535,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			continue;
 		}
 
-		bool enabled = enabledAndActive[gameObject->GetUID()].first;
-		bool active = enabledAndActive[gameObject->GetUID()].second;
+		bool enabled = enabledMap[gameObject->GetUID()];
 		if (enabled)
 		{
 			gameObject->Enable();
@@ -545,14 +543,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		else
 		{
 			gameObject->Disable();
-		}
-		if (active)
-		{
-			gameObject->Activate();
-		}
-		else
-		{
-			gameObject->Deactivate();
 		}
 	}
 
