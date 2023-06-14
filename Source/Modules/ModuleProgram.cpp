@@ -74,6 +74,8 @@ bool ModuleProgram::Start()
 		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
 	programs.push_back(CreateProgram("deferred_lighting_vs.glsl", "deferred_lighting_fs.glsl", "DeferredLighting"));
+	
+	programs.push_back(CreateProgram("rendering_triangle_vs.glsl", "deferred_lighting_fs.glsl", "TriangleRender"));
 
 	return true;
 }
