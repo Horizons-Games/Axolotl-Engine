@@ -10,11 +10,19 @@ public:
 	ResourceNavMesh();
 	virtual ~ResourceNavMesh() override;
 
-	// bool Build(Scene* scene);
-	// void DrawGizmos(Scene* scene);
-	// void Load(Buffer<char>& buffer);
-	// void CleanUp();
-	// Buffer<char> Save();
+	ResourceType GetType() const override;
+
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
+
+	void SaveLoadOptions(Json& meta) override{};
+	void LoadLoadOptions(Json& meta) override{};
+
+	//bool Build(Scene* scene);
+	//void DrawGizmos(Scene* scene);	
+	//void Load(Buffer<char>& buffer);
+	//void CleanUp();
+	//Buffer<char> Save();
 
 	// bool IsGenerated() const;
 	// dtCrowd* GetCrowd() const;
@@ -67,6 +75,10 @@ public:
 	unsigned char GetNavMeshDrawFlags() const;
 
 	void SetNavMeshDrawFlags(unsigned char navMeshDrawFlags);
+
+protected:
+	void InternalLoad() override{};
+	void InternalUnload() override{};
 
 public:
 	enum class DrawMode
@@ -128,6 +140,11 @@ private:
 
 	unsigned char navMeshDrawFlags = 0;
 };
+
+inline ResourceType ResourceNavMesh::GetType() const
+{
+	return ResourceType::NavMesh;
+}
 
 inline float ResourceNavMesh::GetAgentHeight() const
 {
