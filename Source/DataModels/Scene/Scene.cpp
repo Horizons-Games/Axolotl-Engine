@@ -8,20 +8,19 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
 
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -39,8 +38,8 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include <stack>
 #include <GL/glew.h>
+#include <stack>
 
 #include "Scripting/IScript.h"
 
@@ -665,7 +664,6 @@ void Scene::RenderPointLights() const
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
 	}
 
-
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -729,7 +727,7 @@ void Scene::UpdateScenePointLights()
 
 	for (GameObject* child : children)
 	{
-		if (child && child->IsEnabled() && child->IsActive())
+		if (child && child->IsActive())
 		{
 			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
 			if (!components.empty())
@@ -737,6 +735,12 @@ void Scene::UpdateScenePointLights()
 				if (components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
 				{
 					ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
+
+					if (!pointLightComp->IsEnabled())
+					{
+						continue;
+					}
+
 					ComponentTransform* transform = components[0]->GetOwner()->GetComponent<ComponentTransform>();
 
 					PointLight pl;
@@ -758,13 +762,18 @@ void Scene::UpdateSceneSpotLights()
 
 	for (GameObject* child : children)
 	{
-		if (child && child->IsEnabled() && child->IsActive())
+		if (child && child->IsActive())
 		{
 			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
 			if (!components.empty())
 			{
-				ComponentSpotLight* spotLightComp =
-					static_cast<ComponentSpotLight*>(components[0]);
+				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
+
+				if (!spotLightComp->IsEnabled())
+				{
+					continue;
+				}
+
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 
 				SpotLight sl;
@@ -791,12 +800,16 @@ void Scene::UpdateSceneAreaLights()
 	{
 		if (child)
 		{
-			std::vector<ComponentLight*> components =
-				child->GetComponents<ComponentLight>();
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
 			if (!components.empty() && components[0]->GetLightType() == LightType::AREA)
 			{
-				ComponentAreaLight* areaLightComp =
-					static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+
+				if (!areaLightComp->IsEnabled())
+				{
+					continue;
+				}
+
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -879,7 +892,7 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
-	
+
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();

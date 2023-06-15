@@ -437,7 +437,11 @@ void GameObject::Activate()
 
 	for (std::unique_ptr<Component>& component : components)
 	{
-		component->SignalEnable();
+		// If the Component is currently disabled itself, avoid sending the signal
+		if (component->IsEnabled())
+		{
+			component->SignalEnable();
+		}
 	}
 }
 
@@ -452,6 +456,7 @@ void GameObject::Deactivate()
 
 	for (std::unique_ptr<Component>& component : components)
 	{
+		// No need to check, we know component->IsEnabled will return false
 		component->SignalDisable();
 	}
 }

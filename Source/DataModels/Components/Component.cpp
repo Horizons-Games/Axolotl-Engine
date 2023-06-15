@@ -30,7 +30,11 @@ void Component::Enable()
 	{
 		enabled = true;
 	}
-	SignalEnable();
+	// Check that the owner is also enabled
+	if (IsEnabled())
+	{
+		SignalEnable();
+	}
 }
 
 void Component::Disable()
@@ -39,6 +43,7 @@ void Component::Disable()
 	{
 		enabled = false;
 	}
+	// No need to check, we know IsEnabled will return false
 	SignalDisable();
 }
 
