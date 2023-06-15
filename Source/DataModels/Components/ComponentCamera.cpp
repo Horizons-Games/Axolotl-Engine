@@ -34,12 +34,14 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
+	camera->SetKpPosition(10.0f);
+	camera->SetKpRotation(15.0f);
+	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
-	camera->SetPosition(trans->GetGlobalPosition());
+	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
 
 	Quat rotation = trans->GetGlobalRotation();
-	camera->GetFrustum()->SetFront(rotation.Transform(float3::unitZ));
-	camera->GetFrustum()->SetUp(rotation.Transform(float3::unitY));
+	camera->SetRotationTarget(rotation, deltaTime);
 
 	if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 	{

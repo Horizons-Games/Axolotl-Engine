@@ -11,23 +11,20 @@ public:
     PlayerCameraRotationVerticalScript();
 
 	void Start() override;
-    void Update(float deltaTime) override;
+    void PreUpdate(float deltaTime) override;
 
 private:
     void Orbit(float deltaTime);
-	void SetPositionTarget(float3 targetPosition, float deltaTime);
-	void SetRotationTarget(Quat targetRotation, float deltaTime);
 	CameraSample* FindClosestSample(float3 position);
 
 private: 
-	float KpPosition;
-	float KpRotation;
 	float rotationSensitivity;
 
-	float3 defaultPosition;
+	float3 finalTargetPosition;
+	Quat finalTargetOrientation;
 	float defaultOffset;
-	Quat defaultOrientation;
 
+	bool isInfluenced;
 
 	GameObject* samplePointsObject;
 

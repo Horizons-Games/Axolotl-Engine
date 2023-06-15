@@ -2095,8 +2095,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 2.0,
-                            "localPos_Z": -10.0,
+                            "localPos_Y": 2.299999952316284,
+                            "localPos_Z": -11.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -2132,16 +2132,6 @@
                                     "name": "SamplePointsObject",
                                     "value": 15381059914715421110,
                                     "type": 2
-                                },
-                                {
-                                    "name": "KpPosition",
-                                    "value": 5.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "KpRotation",
-                                    "value": 20.0,
-                                    "type": 0
                                 },
                                 {
                                     "name": "RotationSensitivity",
@@ -8438,7 +8428,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 15.422528266906738,
-                            "localPos_Y": 1.4596266746520996,
+                            "localPos_Y": 3.3636388778686523,
                             "localPos_Z": -16.569950103759766,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -8457,19 +8447,19 @@
                             "fields": [
                                 {
                                     "name": "InfluenceRadius",
-                                    "value": 2.0,
+                                    "value": 3.5,
                                     "type": 0
                                 },
                                 {
                                     "name": "PositionOffset",
                                     "value x": 0.0,
-                                    "value y": 2.75,
-                                    "value z": -5.050000190734863,
+                                    "value y": 5.0,
+                                    "value z": 0.0,
                                     "type": 3
                                 },
                                 {
                                     "name": "OrientationOffset",
-                                    "value x": 0.0,
+                                    "value x": 90.0,
                                     "value y": 0.0,
                                     "value z": 0.0,
                                     "type": 3
