@@ -16,7 +16,7 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	void IncreaseAttack(float ammountAttack);
+	void IncreaseAttack(float amountAttack);
 
 private:
 	void Start() override;
@@ -50,8 +50,8 @@ private:
 	//--Provisional
 };
 
-inline void BixAttackScript::IncreaseAttack(float ammountAttack)
+inline void BixAttackScript::IncreaseAttack(float amountAttack)
 {
-	damageAttack += ammountAttack;
+	damageAttack += amountAttack;
 	ENGINE_LOG("Attack increased");
 }
