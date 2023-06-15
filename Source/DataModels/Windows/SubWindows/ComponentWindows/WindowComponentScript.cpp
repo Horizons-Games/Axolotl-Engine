@@ -81,7 +81,7 @@ GameObject* WindowComponentScript::DrawGOField(GameObject* value, const std::str
 	ImGui::SameLine(0.0f, 3.0f);
 	ImGui::Text(name.c_str());
 	ImGui::SameLine();
-	if (ImGui::Button(("Remove GO##"+ std::to_string(windowUID)).c_str()))
+	if (ImGui::Button(("Remove"+name+"##"+ std::to_string(windowUID)).c_str()))
 	{
 		return nullptr;
 	}
@@ -226,80 +226,6 @@ void WindowComponentScript::DrawWindowContents()
 
 				break;
 			}
-			//case FieldType::VECTOR:
-			//{
-			//	VectorField vectorField = std::get<VectorField>(member);
-			//	std::vector<std::any> vectorValue = vectorField.getter();
-
-			//	for (const auto& elem : vectorValue)
-			//	{
-			//		if (elem.type() == typeid(float)) 
-			//		{
-			//			float floatValue = std::any_cast<float>(elem);
-			//			std::vector<float> value;
-			//			for (const auto& elem : vectorValue) {
-			//				try {
-			//					float floatValue = std::any_cast<float>(elem);
-			//					value.push_back(floatValue);
-			//				}
-			//				catch (const std::bad_any_cast&) {
-			//				}
-			//			}
-			//			for (int i = 0; i < value.size(); i++)
-			//			{
-			//				vectorValue[i] = DrawFloatField(value[i], (vectorField.name + std::to_string(i)));
-
-			//				vectorField.setter(vectorValue);
-			//			}
-			//		}
-			//		else if (elem.type() == typeid(std::string))
-			//		{
-			//			std::string stringValue = std::any_cast<std::string>(elem);
-			//			std::vector<std::string> value;
-			//			for (const auto& elem : vectorValue) {
-			//				try {
-			//					std::string stringValue = std::any_cast<std::string>(elem);
-			//					value.push_back(stringValue);
-			//				}
-			//				catch (const std::bad_any_cast&) {
-			//				}
-			//			}
-			//			for (int i = 0; i < value.size(); i++) 
-			//			{
-			//				vectorValue[i] = std::string(DrawStringField(value[i], (vectorField.name + std::to_string(i)).c_str()).data());
-			//				
-			//				vectorField.setter(vectorValue);
-			//			}
-			//				
-			//		}
-
-			//		else if (elem.type() == typeid(GameObject*))
-			//		{
-			//			GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
-			//			std::vector<GameObject*> value;
-			//			for (const auto& elem : vectorValue) {
-			//				try {
-			//					GameObject* gameObjectValue = std::any_cast<GameObject*>(elem);
-			//					value.push_back(gameObjectValue);
-			//				}
-			//				catch (const std::bad_any_cast&) {
-			//				}
-			//			}
-			//			for (int i = 0; i < value.size(); i++)
-			//			{
-			//				//DO THE GAMEOBJECT IMGUI
-			//			}
-
-			//		}
-			//		// Add more type checks for other supported types
-
-			//		// ...
-			//		break;
-			//	}
-
-			//	break;
-			//}
-
 
 			case FieldType::STRING:
 			{
