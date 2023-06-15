@@ -374,6 +374,12 @@
     <ClCompile Include="Modules\ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\HealthSystem.cpp">
       <Filter>UserScripts\Health System</Filter>
     </ClCompile>
@@ -424,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
       <Filter>UserScripts\Player\Movement</Filter>
@@ -823,6 +832,15 @@
     <ClInclude Include="Modules\ModulePhysics.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentAreaLight.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Test\par_shapes.h">
+      <Filter>Auxiliar\Test</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HealthSystem.h">
       <Filter>UserScripts\Health System</Filter>
     </ClInclude>
@@ -835,11 +853,15 @@
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="Enums\FieldType.h" />
+    <ClInclude Include="Enums\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\ComponentType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -884,6 +906,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
       <Filter>UserScripts\Player\Movement</Filter>
@@ -1006,6 +1031,9 @@
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Test">
+      <UniqueIdentifier>{ca480dbf-737f-4123-a23a-ee424eba9c66}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
@@ -2173,5 +2201,10 @@
     <Filter Include="DataModels\Commands">
       <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataModels\GameObject\GameObject.inl">
+      <Filter>DataModels\GameObject</Filter>
+    </None>
   </ItemGroup>
 </Project>

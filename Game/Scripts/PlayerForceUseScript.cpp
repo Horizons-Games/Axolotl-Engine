@@ -40,13 +40,13 @@ PlayerForceUseScript::~PlayerForceUseScript()
 
 void PlayerForceUseScript::Start()
 {
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentAudioSource = static_cast<ComponentAudioSource*>(owner->GetParent()->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
 
 	currentTimeForce = maxTimeForce;
 
 	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		owner->GetParent()->GetComponents<ComponentScript>();
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
 		if (gameObjectScripts[i]->GetConstructName() == "PlayerRotationScript")
@@ -61,7 +61,7 @@ void PlayerForceUseScript::Start()
 	}
 
 	gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+		owner->GetComponents<ComponentScript>();
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
 		if (gameObjectScripts[i]->GetConstructName() == "PlayerCameraRotationVerticalScript")
@@ -74,7 +74,7 @@ void PlayerForceUseScript::Start()
 void PlayerForceUseScript::Update(float deltaTime)
 {
 	const ModuleInput* input = App->GetModule<ModuleInput>();
-	const ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
@@ -83,11 +83,9 @@ void PlayerForceUseScript::Update(float deltaTime)
 		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 		LineSegment line(ray, 300);
 		if (Physics::RaycastToTag(line, hit, owner, tag))
-		{	
-			ENGINE_LOG("%.s", tag);
+		{
 			gameObjectAttached = hit.gameObject;
-			ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
-				(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
+			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hittedTransform->GetGlobalPosition());
 
 			if (distancePointGameObjectAttached > maxDistanceForce)
@@ -118,21 +116,19 @@ void PlayerForceUseScript::Update(float deltaTime)
 				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
 			}
 
-			ComponentRigidBody* rigidBody = 
-				static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
 		}
 	}
-	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE 
-		&& gameObjectAttached) 
-		|| currentTimeForce < 0.0f 
+	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE
+		&& gameObjectAttached)
+		|| currentTimeForce < 0.0f
 		|| breakForce)
 	{
 		//componentAnimation->SetParameter("IsUsingForce", false);
 
-		ComponentRigidBody* rigidBody = 
-			static_cast<ComponentRigidBody*>(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
@@ -142,7 +138,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
 		}
 
-		if(rotationVerticalScript)
+		if (rotationVerticalScript)
 		{
 			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
 		}
@@ -168,11 +164,9 @@ void PlayerForceUseScript::Update(float deltaTime)
 			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
 			isForceActive = true;
 		}
-		ComponentRigidBody* hittedRigidBody = static_cast<ComponentRigidBody*>
-			(gameObjectAttached->GetComponent(ComponentType::RIGIDBODY));
+		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		btRigidBody* hittedbtRb = hittedRigidBody->GetRigidBody();
-		ComponentTransform* hittedTransform = static_cast<ComponentTransform*>
-			(gameObjectAttached->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
 		if (input->IsMouseWheelScrolled())
 		{
@@ -196,9 +190,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 		}
 
 		// Get next rotation of game object
-		ComponentTransform* parentTransform = static_cast<ComponentTransform*>
-			(owner->GetParent()->GetComponent(ComponentType::TRANSFORM));
-	
+		ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+
 		Quat targetRotation =
 			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
 				(parentTransform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
@@ -209,7 +202,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		currentTimeForce -= deltaTime;
 	}
-	else if(currentTimeForce < maxTimeForce)
+	else if (currentTimeForce < maxTimeForce)
 	{
 		currentTimeForce = std::min(maxTimeForce, currentTimeForce + (deltaTime * 4));
 	}
