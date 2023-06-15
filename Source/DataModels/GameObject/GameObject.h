@@ -95,7 +95,7 @@ public:
 	void Enable();
 	void Disable();
 
-	// This method returns true if IsEnabled returns true for this GameObject or any of its "ancestors" in the hierarchy
+	// This method returns true if IsEnabled returns true for this GameObject and for all its "ancestors" in the hierarchy
 	bool IsActive() const;
 
 	void SetName(const std::string& newName);
