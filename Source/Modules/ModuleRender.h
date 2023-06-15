@@ -42,6 +42,7 @@ public:
 	void UpdateBuffers(unsigned width, unsigned height);
 
 	void SetBackgroundColor(float4 color);
+	void SetModeRender();
 	float4 GetBackgroundColor() const;
 
 	GLuint GetRenderedTexture() const;
@@ -75,6 +76,8 @@ private:
 
 	unsigned uboCamera;
 	unsigned vbo;
+
+	unsigned modeRender;
 	
 	std::map<float, ComponentMeshRenderer*> transparentGOToDraw;
 	std::vector<ComponentMeshRenderer*> transparentComponents;
@@ -101,6 +104,17 @@ private:
 inline void ModuleRender::SetBackgroundColor(float4 color)
 {
 	backgroundColor = color;
+}
+inline void ModuleRender::SetModeRender()
+{
+	if (modeRender == 4)
+	{
+		modeRender = 0;
+	}
+	else
+	{
+		modeRender++;
+	}
 }
 
 inline float4 ModuleRender::GetBackgroundColor() const

@@ -360,8 +360,6 @@ update_status ModuleRender::PostUpdate()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif // ENGINE
 
-
-
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLERENDER);
 	program->Activate();
 	glActiveTexture(GL_TEXTURE0);
@@ -392,7 +390,7 @@ update_status ModuleRender::PostUpdate()
 	program->BindUniformFloat("cubeMap_intensity", cubemap->GetIntensity());
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
-	program->BindUniformInt("renderMode", 0);
+	program->BindUniformInt("renderMode", modeRender);
 
 #ifdef ENGINE
 	glDrawArrays(GL_TRIANGLES, 0, 3);
