@@ -913,7 +913,7 @@ void GeometryBatch::WaitBuffer()
 			GLenum waitReturn = glClientWaitSync(gSync[frame], GL_SYNC_FLUSH_COMMANDS_BIT, 1000);
 			if (waitReturn == GL_ALREADY_SIGNALED || waitReturn == GL_CONDITION_SATISFIED)
 			{
-				return;
+				return;	
 			}
 		}
 	}
