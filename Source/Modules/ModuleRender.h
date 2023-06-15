@@ -92,6 +92,9 @@ private:
 	std::unordered_map<GeometryBatch*, std::vector<ComponentMeshRenderer*>> renderMapTransparent;
 
 	GLuint frameBuffer;
+	GLuint renderedTexture;
+
+	GLuint gFrameBuffer;
 	GLuint gPosition;
 	GLuint gNormal;
 	GLuint gDiffuse;
@@ -124,7 +127,7 @@ inline float4 ModuleRender::GetBackgroundColor() const
 
 inline GLuint ModuleRender::GetRenderedTexture() const
 {
-	return gDiffuse;
+	return renderedTexture;
 }
 
 inline BatchManager* ModuleRender::GetBatchManager() const

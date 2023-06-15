@@ -116,6 +116,8 @@ ModuleRender::ModuleRender() :
 	context(nullptr),
 	modelTypes({ "FBX" }),
 	frameBuffer(0),
+	renderedTexture(0),
+	gFrameBuffer(0),
 	gPosition(0),
 	gNormal(0),
 	gDiffuse(0),
@@ -173,6 +175,11 @@ bool ModuleRender::Init()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
+#ifdef ENGINE
+	glGenFramebuffers(1, &frameBuffer);
+	glGenTextures(1, &renderedTexture);
+#endif // ENGINE
+
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
@@ -198,7 +205,7 @@ update_status ModuleRender::PreUpdate()
 
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, gFrameBuffer);
 
 	glViewport(0, 0, width, height);
 
@@ -420,12 +427,17 @@ bool ModuleRender::CleanUp()
 
 	glDeleteBuffers(1, &uboCamera);
 	
-	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteFramebuffers(1, &gFrameBuffer);
 	glDeleteTextures(1, &gPosition);
 	glDeleteTextures(1, &gNormal);
 	glDeleteTextures(1, &gDiffuse);
 	glDeleteTextures(1, &gSpecular);
 	glDeleteTextures(1, &depthTexture);
+
+#ifdef ENGINE
+	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteTextures(1, &renderedTexture);
+#endif // ENGINE
 
 	return true;
 }
@@ -440,8 +452,8 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
-	glGenFramebuffers(1, &frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glGenFramebuffers(1, &gFrameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, gFrameBuffer);
 
 	glGenTextures(1, &gPosition);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
@@ -480,6 +492,23 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthTexture);
 
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		ENGINE_LOG("G Framebuffer not complete!");
+	}
+
+	glGenFramebuffers(1, &frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glBindTexture(GL_TEXTURE_2D, renderedTexture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		ENGINE_LOG("Framebuffer not complete!");
