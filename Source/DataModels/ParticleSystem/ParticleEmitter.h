@@ -62,6 +62,8 @@ public:
 	void SetRandomGravity(bool randGrav);
 	void SetMaxParticles(int maxParticles);
 	void SetDuration(float duration);
+	void SetElapsed(float elapsed);
+	void SetLooping(bool isLooping);
 	void SetName(const char* name);
 	void SetLifespanRange(const float2 &lifespan);
 	void SetSpeedRange(const float2 &speed);
@@ -79,8 +81,10 @@ public:
 	bool IsRandomSize() const;
 	bool IsRandomRot() const;
 	bool IsRandomGravity() const;
+	bool IsLooping() const;
 	int GetMaxParticles() const;
 	float GetDuration() const;
+	float GetElapsed() const;
 	float GetAngle() const;
 	float GetRadius() const;
 	const char* GetName() const;
@@ -105,8 +109,10 @@ private:
 	std::vector<ParticleModule*> modules;
 	std::shared_ptr<ResourceTexture> particleTexture;
 
+	bool isLooping;
 	int maxParticles;
 	float duration;
+	float elapsedTime;
 	float2 lifespan;
 	float2 speed;
 	float2 size;
@@ -168,6 +174,16 @@ inline void ParticleEmitter::SetMaxParticles(const int maxParticles)
 inline void ParticleEmitter::SetDuration(float duration)
 {
 	this->duration = duration;
+}
+
+inline void ParticleEmitter::SetElapsed(float elapsed)
+{
+	elapsedTime = elapsed;
+}
+
+inline void ParticleEmitter::SetLooping(bool isLooping)
+{
+	this->isLooping = isLooping;
 }
 
 inline void ParticleEmitter::SetLifespanRange(const float2 &lifespan)
@@ -250,6 +266,11 @@ inline bool ParticleEmitter::IsRandomGravity() const
 	return randomGrav;
 }
 
+inline bool ParticleEmitter::IsLooping() const
+{
+	return isLooping;
+}
+
 inline int ParticleEmitter::GetMaxParticles() const
 {
 	return maxParticles;
@@ -258,6 +279,11 @@ inline int ParticleEmitter::GetMaxParticles() const
 inline float ParticleEmitter::GetDuration() const
 {
 	return duration;
+}
+
+inline float ParticleEmitter::GetElapsed() const
+{
+	return elapsedTime;
 }
 
 inline float ParticleEmitter::GetAngle() const

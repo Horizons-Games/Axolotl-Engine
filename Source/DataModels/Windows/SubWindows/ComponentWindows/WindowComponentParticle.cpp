@@ -57,6 +57,16 @@ void WindowComponentParticle::DrawWindowContents()
 	for (EmitterInstance* instance : component->GetEmitters())
 	{
 		DrawEmitter(instance, id);
+
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
+		if (ImGui::Button("Delete Emitter", ImVec2(115.0f, 20.0f)))
+		{
+			component->RemoveEmitter(instance);
+		}
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+		ImGui::Separator();
+
 		++id;
 	}
 
@@ -157,6 +167,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 			float2 gravRange = emitter->GetGravityRange();
 			float4 color = emitter->GetColor();
 
+			bool isLooping = emitter->IsLooping();
 			bool randomLife = emitter->IsRandomLife();
 			bool randomSpeed = emitter->IsRandomSpeed();
 			bool randomSize = emitter->IsRandomSize();
@@ -232,6 +243,21 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 				}
 				emitter->SetDuration(duration);
 			}
+
+			ImGui::SameLine(0.0f, 5.0f);
+			ImGui::Text("Loop");
+			ImGui::SameLine(0.0f, 5.0f);
+			if (ImGui::Checkbox("##isLooping", &isLooping))
+			{
+				emitter->SetLooping(isLooping);
+			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Elapsed time");
+			ImGui::TableNextColumn();
+			ImGui::Text("%f seconds", emitter->GetElapsed());
+
+			ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
 			ImGui::TableNextColumn();
 			ImGui::Text("Lifespan");
@@ -534,8 +560,6 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 		{
 			module->DrawImGui();
 		}
-
-		ImGui::Separator();
 	}
 	else
 	{

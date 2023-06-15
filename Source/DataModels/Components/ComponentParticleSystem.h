@@ -30,6 +30,7 @@ public:
 	void CreateEmitterInstance();
 	void CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter);
 	void AddEmitterInstance(EmitterInstance* emitter);
+	void RemoveEmitter(EmitterInstance* emitter);
 
 	bool IsEmittersEmpty() const;
 	bool IsPlaying() const;

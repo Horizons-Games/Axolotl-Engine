@@ -36,6 +36,7 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 	angle = DEFAULT_ANGLE;
 	radius = DEFAULT_RADIUS;
 
+	elapsedTime = 0.0f;
 	maxParticles = DEFAULT_MAX_PARTICLES;
 	duration = DEFAULT_DURATION;
 	lifespan.x = DEFAULT_LIFESPAN_X;
@@ -50,6 +51,7 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 	gravity.y = DEFAULT_GRAVITY_Y;
 	this->color = float4(DEFAULT_COLOR);
 
+	isLooping = true;
 	randomLife = true;
 	randomSpeed = true;
 	randomSize = true;

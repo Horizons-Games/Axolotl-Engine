@@ -87,8 +87,14 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 void ModuleSpawn::Update(EmitterInstance* instance)
 {
 	float dt = App->GetDeltaTime();
+
+	const std::shared_ptr<ParticleEmitter> partEmitter = instance->GetEmitter();
+
+	float elapsed = partEmitter->GetElapsed();
+	elapsed += dt;
+	partEmitter->SetElapsed(elapsed);
 	
-	if (spawnRate > 0)
+	if ((elapsed <= partEmitter->GetDuration() || partEmitter->IsLooping()) && spawnRate > 0)
 	{
 		float lastEmission = instance->GetLastEmission() + dt;
 		float emissionPeriod = 1.0f / spawnRate;

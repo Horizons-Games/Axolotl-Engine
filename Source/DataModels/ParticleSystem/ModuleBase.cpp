@@ -29,28 +29,32 @@ void ModuleBase::Spawn(EmitterInstance* instance)
 
 void ModuleBase::Update(EmitterInstance* instance)
 {
-	const GameObject* go = instance->GetOwner()->GetOwner();
-	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
+	const std::shared_ptr<ParticleEmitter>partEmitter = instance->GetEmitter();
 
-	if (originTransform.IsIdentity())
+	if (partEmitter->GetElapsed() <= emitter->GetDuration() || partEmitter->IsLooping())
 	{
-		originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
-	}
+		const GameObject* go = instance->GetOwner()->GetOwner();
+		ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
 
-	float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
-
-	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
-
-	for (int i = 0; i < particles.size(); ++i)
-	{
-		EmitterInstance::Particle& particle = particles[i];
-
-		if (particle.tranform.IsIdentity() || particle.lifespan <= 0.0f)
+		if (originTransform.IsIdentity())
 		{
-			float radius = emitter->GetRadius();
+			originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
+		}
 
-			switch (emitter->GetShape())
+		float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
+
+		std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
+
+		for (int i = 0; i < particles.size(); ++i)
+		{
+			EmitterInstance::Particle& particle = particles[i];
+
+			if (particle.tranform.IsIdentity() || particle.lifespan <= 0.0f)
 			{
+				float radius = emitter->GetRadius();
+
+				switch (emitter->GetShape())
+				{
 				case ParticleEmitter::ShapeType::CIRCLE:
 				{
 					float angle = math::RadToDeg(instance->CalculateRandomValueInRange(0.0f, 1.0f));
@@ -61,7 +65,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 					float4x4 pointTransform = float4x4::FromTRS(point, Quat::identity, float3::one);
 
 					particle.tranform = globalTransform * pointTransform;
-					particle.direction = (particle.tranform.TranslatePart() - 
+					particle.direction = (particle.tranform.TranslatePart() -
 						globalTransform.TranslatePart()).Normalized();
 
 					break;
@@ -85,32 +89,33 @@ void ModuleBase::Update(EmitterInstance* instance)
 					float4x4 globalAuxTransf = globalTransform * pointAuxTransform;
 
 					particle.tranform = globalTransform * pointTransform;
-					particle.direction = (globalAuxTransf.TranslatePart() - 
+					particle.direction = (globalAuxTransf.TranslatePart() -
 						particle.tranform.TranslatePart()).Normalized();
 
 					break;
 				}
 				case ParticleEmitter::ShapeType::BOX:
 				{
-					float xPos = instance->CalculateRandomValueInRange(-radius/2, radius/2);
-					float yPos = instance->CalculateRandomValueInRange(-radius/2, radius/2);
-					float zPos = instance->CalculateRandomValueInRange(-radius/2, radius/2);
+					float xPos = instance->CalculateRandomValueInRange(-radius / 2, radius / 2);
+					float yPos = instance->CalculateRandomValueInRange(-radius / 2, radius / 2);
+					float zPos = instance->CalculateRandomValueInRange(-radius / 2, radius / 2);
 
 					float4x4 pointTransform = float4x4::FromTRS(float3(xPos, yPos, zPos), Quat::identity, float3::one);
 
 					particle.tranform = globalTransform * pointTransform;
-					particle.direction = (particle.tranform.TranslatePart() - 
+					particle.direction = (particle.tranform.TranslatePart() -
 						globalTransform.TranslatePart()).Normalized();
 
 					break;
 				}
-			}
+				}
 
-			// Initialization of basic parameters
-			float2 speed = emitter->GetSpeedRange();
-			float velocity = emitter->IsRandomSpeed() ? 
-				instance->CalculateRandomValueInRange(speed.x, speed.y) : speed.x;
-			particle.initVelocity = particle.direction * velocity;
+				// Initialization of basic parameters
+				float2 speed = emitter->GetSpeedRange();
+				float velocity = emitter->IsRandomSpeed() ?
+					instance->CalculateRandomValueInRange(speed.x, speed.y) : speed.x;
+				particle.initVelocity = particle.direction * velocity;
+			}
 		}
 	}
 }
