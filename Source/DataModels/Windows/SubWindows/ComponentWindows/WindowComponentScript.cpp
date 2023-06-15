@@ -51,8 +51,15 @@ math::float3 WindowComponentScript::DrawFloat3Field(math::float3 value, const st
 	return value;
 }
 
-GameObject* WindowComponentScript::DrawGOField() 
+GameObject* WindowComponentScript::DrawGOField(GameObject* value, const std::string name) 
 {
+	std::string gameObjectSlot = "Drag a GameObject here";
+	if (value != nullptr)
+	{
+		gameObjectSlot = value->GetName().c_str();
+	}
+
+	ImGui::Button((gameObjectSlot + "##" + std::to_string(windowUID)).c_str(), ImVec2(208.0f, 20.0f));
 	if (ImGui::BeginDragDropTarget())
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
@@ -70,7 +77,16 @@ GameObject* WindowComponentScript::DrawGOField()
 
 		ImGui::EndDragDropTarget();
 	}
-	return nullptr;
+	
+	ImGui::SameLine(0.0f, 3.0f);
+	ImGui::Text(name.c_str());
+	ImGui::SameLine();
+	if (ImGui::Button(("Remove GO##"+ std::to_string(windowUID)).c_str()))
+	{
+		return nullptr;
+	}
+
+	return value;
 }
 
 void WindowComponentScript::DrawWindowContents()
@@ -189,6 +205,7 @@ void WindowComponentScript::DrawWindowContents()
 						return std::string(DrawStringField(std::any_cast<std::string>(value), name).c_str());
 					case FieldType::BOOLEAN:
 					case FieldType::GAMEOBJECT:
+						return std::any(DrawGOField(std::any_cast<GameObject*>(value), name));
 					case FieldType::VECTOR3:
 						return float3(DrawFloat3Field(std::any_cast<float3>(value), name));
 					//case FieldType::VECTOR:
@@ -302,48 +319,10 @@ void WindowComponentScript::DrawWindowContents()
 				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
 				GameObject* value = gameObjectField.getter();
 
-				std::string gameObjectSlot = "Drag a GameObject here";
-				if (value != nullptr)
-				{
-					gameObjectSlot = value->GetName().c_str();
-				}
+				
+				GameObject* draggedObject = DrawGOField(value, gameObjectField.name);
 
-				label = gameObjectSlot;
-				finalLabel = label + separator + thisID;
-				ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
-
-				/*if (ImGui::BeginDragDropTarget())
-				{
-					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
-					{
-						UID draggedGameObjectID = *(UID*)payload->Data;
-						GameObject* draggedGameObject =
-							App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
-
-						if (draggedGameObject)
-						{
-							gameObjectField.setter(draggedGameObject);
-						}
-					}
-
-					ImGui::EndDragDropTarget();
-				}*/
-				GameObject* draggedObject = DrawGOField();
-				if (draggedObject != nullptr)
-				{
-					gameObjectField.setter(draggedObject);
-				}
-
-				ImGui::SameLine(0.0f, 3.0f);
-				ImGui::Text(gameObjectField.name.c_str());
-				ImGui::SameLine();
-
-				label = "Remove GO##";
-				finalLabel = label + thisID;
-				if (ImGui::Button(finalLabel.c_str()))
-				{
-					gameObjectField.setter(nullptr);
-				}
+				gameObjectField.setter(draggedObject);
 
 				break;
 			}
