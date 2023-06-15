@@ -76,14 +76,27 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 
 void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 {
+	Quat currentRotation = transform->GetGlobalRotation();
 	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * deltaTime * rotationSensitivity;
+	float verticalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().y * deltaTime * rotationSensitivity;
+
 	Quat rotationError = Quat::identity;
+
 	if (math::Abs(horizontalMotion) > 0.001)
 	{
-		rotationError = Quat::RotateY(-horizontalMotion);
+		rotationError = Quat::RotateY(-horizontalMotion) * rotationError;
 	}
 
-	Quat currentRotation = transform->GetGlobalRotation();
+	if (math::Abs(verticalMotion) > 0.001)
+	{
+		float3 eulerAngles = currentRotation.ToEulerXYZ();
+		float finalPitch = eulerAngles.x - verticalMotion;
+		if (RadToDeg(finalPitch) < 40.0f && (RadToDeg(finalPitch) > -15.0f))
+		{
+			rotationError = Quat::RotateX(-verticalMotion) * rotationError;
+		}
+	}
+
 	finalTargetOrientation = rotationError * currentRotation;
 
 	float3 cameraVector = (transform->GetGlobalPosition() - parentTransform->GetGlobalPosition()).Normalized();

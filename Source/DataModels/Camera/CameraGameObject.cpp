@@ -65,8 +65,8 @@ void CameraGameObject::SetRotationTarget(const Quat& targetRotation, float delta
 
 	if (rotationError.Equals(Quat::identity, 0.05f))
 	{
-		//ApplyRotationWithFixedUp(targetRotation, float3::unitY);
-		ApplyRotation(targetRotation);
+		ApplyRotationWithFixedUp(targetRotation, float3::unitY);
+		//ApplyRotation(targetRotation);
 	}
 
 	else
@@ -85,8 +85,8 @@ void CameraGameObject::SetRotationTarget(const Quat& targetRotation, float delta
 
 		if (deltaRotation.Length() > rotationError.Length())
 		{
-			//ApplyRotationWithFixedUp(targetRotation, float3::unitY);
-			ApplyRotation(targetRotation);
+			ApplyRotationWithFixedUp(targetRotation, float3::unitY);
+			//ApplyRotation(targetRotation);
 		}
 
 		else
@@ -97,8 +97,8 @@ void CameraGameObject::SetRotationTarget(const Quat& targetRotation, float delta
 							  rotation.w + deltaRotation.w);
 			nextRotation.Normalize();
 
-			//ApplyRotationWithFixedUp(nextRotation, float3::unitY);
-			ApplyRotation(nextRotation);
+			ApplyRotationWithFixedUp(nextRotation, float3::unitY);
+			//ApplyRotation(nextRotation);
 		}
 	}
 }
