@@ -331,6 +331,9 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
@@ -785,6 +788,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
