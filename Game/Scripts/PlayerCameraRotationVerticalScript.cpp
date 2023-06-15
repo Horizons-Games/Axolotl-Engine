@@ -29,7 +29,8 @@ void PlayerCameraRotationVerticalScript::Start()
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
-	defaultOffset = (transform->GetGlobalPosition() - parentTransform->GetGlobalPosition()).Length();
+	defaultOffsetVector = transform->GetGlobalPosition() - parentTransform->GetGlobalPosition();
+	defaultOffset = defaultOffsetVector.Length();
 
 	finalTargetOrientation = transform->GetGlobalRotation();
 
@@ -57,7 +58,7 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 	{
 		if (isInfluenced)
 		{
-			finalTargetPosition = parentTransform->GetGlobalPosition() - parentTransform->GetGlobalForward()*defaultOffset;
+			finalTargetPosition = parentTransform->GetGlobalPosition() + defaultOffsetVector;
 			finalTargetOrientation = parentTransform->GetGlobalRotation();
 			isInfluenced = false;
 		}

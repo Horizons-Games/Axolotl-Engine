@@ -22,6 +22,7 @@ private:
 
 	float3 finalTargetPosition;
 	Quat finalTargetOrientation;
+	float3 defaultOffsetVector;
 	float defaultOffset;
 
 	bool isInfluenced;

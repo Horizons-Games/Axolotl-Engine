@@ -8427,12 +8427,186 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 15.422528266906738,
+                            "localPos_X": 18.029706954956055,
                             "localPos_Y": 3.3636388778686523,
-                            "localPos_Z": -16.569950103759766,
+                            "localPos_Z": -16.932825088500977,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CameraSample",
+                            "fields": [
+                                {
+                                    "name": "InfluenceRadius",
+                                    "value": 3.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PositionOffset",
+                                    "value x": 0.0,
+                                    "value y": 5.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                },
+                                {
+                                    "name": "OrientationOffset",
+                                    "value x": 90.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 12714561198131663485,
+                "parentUID": 15381059914715421110,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 16.667402267456055,
+                            "localPos_Y": 3.3636388778686523,
+                            "localPos_Z": -18.202587127685547,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CameraSample",
+                            "fields": [
+                                {
+                                    "name": "InfluenceRadius",
+                                    "value": 3.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PositionOffset",
+                                    "value x": 0.0,
+                                    "value y": 5.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                },
+                                {
+                                    "name": "OrientationOffset",
+                                    "value x": 90.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 3561968181787777520,
+                "parentUID": 15381059914715421110,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 15.461670875549316,
+                            "localPos_Y": 3.3636388778686523,
+                            "localPos_Z": -16.90399742126465,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CameraSample",
+                            "fields": [
+                                {
+                                    "name": "InfluenceRadius",
+                                    "value": 3.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PositionOffset",
+                                    "value x": 0.0,
+                                    "value y": 5.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                },
+                                {
+                                    "name": "OrientationOffset",
+                                    "value x": 90.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 2704942315350234102,
+                "parentUID": 15381059914715421110,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 16.92668342590332,
+                            "localPos_Y": 3.364000082015991,
+                            "localPos_Z": -15.311100006103516,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0

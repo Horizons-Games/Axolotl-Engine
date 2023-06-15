@@ -19,6 +19,8 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 {
 	camera = std::make_unique<CameraGameObject>();
 	camera->Init();
+	camera->SetKpPosition(10.0f);
+	camera->SetKpRotation(15.0f);
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
 }
@@ -34,8 +36,6 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
-	camera->SetKpPosition(10.0f);
-	camera->SetKpRotation(15.0f);
 	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
 	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
