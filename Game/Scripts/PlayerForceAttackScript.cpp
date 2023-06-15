@@ -36,7 +36,7 @@ void PlayerForceAttackScript::Update(float deltaTime)
 	const ComponentTransform* parentTransform =
 		owner->GetParent()->GetComponent<ComponentTransform>();
 	ComponentRigidBody* rigidBody =
-		owner->GetParent()->GetComponent<ComponentRigidBody>();
+		owner->GetComponent<ComponentRigidBody>();
 
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
 
