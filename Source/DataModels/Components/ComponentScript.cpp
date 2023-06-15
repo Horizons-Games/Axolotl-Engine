@@ -26,23 +26,25 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (IsEnabled() && script)
+	if (!initialized && script && GetOwner()->IsActive() && App->IsOnPlayMode())
 	{
 		script->Init();
+		initialized = true;
 	}
 }
 
 void ComponentScript::Start()
 {
-	if (IsEnabled() && script)
+	if (!started && script && IsEnabled() && App->IsOnPlayMode())
 	{
 		script->Start();
+		started = true;
 	}
 }
 
 void ComponentScript::PreUpdate()
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->PreUpdate(App->GetDeltaTime());
 	}
@@ -50,7 +52,7 @@ void ComponentScript::PreUpdate()
 
 void ComponentScript::Update()
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->Update(App->GetDeltaTime());
 	}
@@ -58,7 +60,7 @@ void ComponentScript::Update()
 
 void ComponentScript::PostUpdate()
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->PostUpdate(App->GetDeltaTime());
 	}
@@ -66,28 +68,28 @@ void ComponentScript::PostUpdate()
 
 void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->OnCollisionEnter(other);
 	}
-
 }
 void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		script->OnCollisionExit(other);
 	}
 }
 
-
-
 void ComponentScript::CleanUp()
 {
-	if (IsEnabled() && script)
+	// Call CleanUp regardless if the script is active or not
+	if (script)
 	{
 		script->CleanUp();
 	}
+	started = false;
+	initialized = false;
 }
 
 void ComponentScript::InternalSave(Json& meta)
@@ -262,5 +264,14 @@ void ComponentScript::InternalLoad(const Json& meta)
 			default:
 				break;
 		}
+	}
+}
+
+void ComponentScript::SignalEnable()
+{
+	if (App->IsOnPlayMode())
+	{
+		Init();
+		Start();
 	}
 }

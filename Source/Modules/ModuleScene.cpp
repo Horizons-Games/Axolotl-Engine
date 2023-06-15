@@ -86,23 +86,9 @@ update_status ModuleScene::PreUpdate()
 			{
 				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
-
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Init();
-				}
 			}
 		}
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-		{
-			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-			{
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Start();
-				}
-			}
-		}
+		InitAndStartScriptingComponents();
 	}
 
 	if (!App->GetScriptFactory()->IsCompiling())
@@ -223,6 +209,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	// First Init
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
+		if (!gameObject->IsActive())
+		{
+			continue;
+		}
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Init();
@@ -234,7 +224,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
-			componentScript->Start();
+			if (componentScript->IsEnabled())
+			{
+				componentScript->Start();
+			}
 		}
 	}
 }
