@@ -2,6 +2,7 @@
 
 #include "ModuleInput.h"
 
+#include "Components/Component.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
@@ -33,9 +34,9 @@ void PlayerForceAttackScript::Update(float deltaTime)
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	
 	const ComponentTransform* parentTransform =
-		static_cast<ComponentTransform*>(owner->GetParent()->GetComponent(ComponentType::TRANSFORM));
+		owner->GetParent()->GetComponent<ComponentTransform>();
 	ComponentRigidBody* rigidBody =
-		static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+		owner->GetParent()->GetComponent<ComponentRigidBody>();
 
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
 
@@ -43,16 +44,16 @@ void PlayerForceAttackScript::Update(float deltaTime)
 	{
 		currentCoolDown = coolDown;
 		const ComponentTransform* transform =
-			static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+			owner->GetComponent<ComponentTransform>();
 		
 	
 		for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
 			 it++)
 		{
 			const ComponentTransform* enemyTransform =
-				static_cast<ComponentTransform*>((*it)->GetComponent(ComponentType::TRANSFORM));
+				(*it)->GetComponent<ComponentTransform>();
 			ComponentRigidBody* enemyRigidBody =
-				static_cast<ComponentRigidBody*>((*it)->GetComponent(ComponentType::RIGIDBODY));
+				(*it)->GetComponent<ComponentRigidBody>();
 
 			btRigidBody* enemybtRb = enemyRigidBody->GetRigidBody();
 			enemybtRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
@@ -67,16 +68,10 @@ void PlayerForceAttackScript::Update(float deltaTime)
 			btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 			enemybtRb->setLinearVelocity(newVelocity);
 			
-			std::vector<ComponentScript*> gameObjectScripts =
-				(*it)->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+			EnemyDroneScript* enemyDroneScript =
+				(*it)->GetComponent<EnemyDroneScript>();
 
-			for (int i = 0; i < gameObjectScripts.size(); ++i)
-			{
-				if (gameObjectScripts[i]->GetConstructName() == "EnemyDroneScript")
-				{
-					static_cast<EnemyDroneScript*>(gameObjectScripts[i]->GetScript())->SetStunnedTime(stunTime);
-				}
-			}
+			enemyDroneScript->SetStunnedTime(stunTime);		
 		}
 	}
 	else
@@ -102,7 +97,7 @@ void PlayerForceAttackScript::OnCollisionExit(ComponentRigidBody* other)
 	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end(); it++)
 	{
 		const ComponentRigidBody* rigidBody =
-			static_cast<ComponentRigidBody*>((*it)->GetComponent(ComponentType::RIGIDBODY));
+			(*it)->GetComponent<ComponentRigidBody>();
 		if (rigidBody == other)
 		{
 			enemiesInTheArea.erase(it);

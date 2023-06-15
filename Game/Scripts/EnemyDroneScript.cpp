@@ -77,7 +77,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		if(timeStunned < 0)
 		{
 			ComponentRigidBody* rigidBody =
-				static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+				owner->GetComponent<ComponentRigidBody>();
 			rigidBody->SetKpForce(0.5f);
 			timeStunned = 0;
 			stunned = false;
@@ -87,7 +87,7 @@ void EnemyDroneScript::Update(float deltaTime)
 			if (timeStunnedAux < 0)
 			{
 				ComponentRigidBody* rigidBody =
-					static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+					owner->GetComponent<ComponentRigidBody>();
 				rigidBody->DisablePositionController();
 				timeStunnedAux = timeStunned + 1;
 			}
