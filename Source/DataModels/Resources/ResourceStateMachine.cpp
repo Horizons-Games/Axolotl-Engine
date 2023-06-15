@@ -1,5 +1,5 @@
 #include "ResourceStateMachine.h"
-#include "EngineLog.h"
+#include "AxoLog.h"
 #include <string>
 
 ResourceStateMachine::ResourceStateMachine(UID resourceUID,
@@ -129,9 +129,7 @@ void ResourceStateMachine::AddParameter(std::string parameterName,
 											  });
 		if (stringIsNotNumeric)
 		{
-			ENGINE_LOG("Found non-numeric string inside parenthesis, skipping check."
-					   "String found: %s",
-					   numberString.c_str());
+			LOG_WARNING("Found non-numeric string inside parenthesis, skipping check. String found: {}", numberString);
 			continue;
 		}
 		int num = std::stoi(numberString);
