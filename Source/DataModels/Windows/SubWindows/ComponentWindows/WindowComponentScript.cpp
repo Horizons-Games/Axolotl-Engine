@@ -33,6 +33,15 @@ std::string WindowComponentScript::DrawStringField(std::string value, const std:
 	return value;
 }
 
+bool WindowComponentScript::DrawBoolField(bool value, const std::string name)
+{
+	if (ImGui::Checkbox(name.c_str(), &value))
+	{
+		return value;
+	}
+	return value;
+}
+
 float WindowComponentScript::DrawFloatField(float value, const std::string name)
 {
 	if (ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
@@ -204,6 +213,7 @@ void WindowComponentScript::DrawWindowContents()
 					case FieldType::STRING:
 						return std::string(DrawStringField(std::any_cast<std::string>(value), name).c_str());
 					case FieldType::BOOLEAN:
+						return bool(DrawBoolField(std::any_cast<bool>(value), name));
 					case FieldType::GAMEOBJECT:
 						return std::any(DrawGOField(std::any_cast<GameObject*>(value), name));
 					case FieldType::VECTOR3:
@@ -260,10 +270,9 @@ void WindowComponentScript::DrawWindowContents()
 
 				label = booleanField.name;
 				finalLabel = label + separator + thisID;
-				if (ImGui::Checkbox(finalLabel.c_str(), &value))
-				{
-					booleanField.setter(value);
-				}
+				
+				booleanField.setter(DrawBoolField(value, finalLabel.c_str()));
+				
 				break;
 			}
 

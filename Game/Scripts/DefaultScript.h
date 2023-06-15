@@ -30,6 +30,8 @@ public:
 	void SetVectorStr(const std::vector<std::string>& vec);
 	const std::vector<GameObject*>& GetVectorGO() const;
 	void SetVectorGO(const std::vector<GameObject*>& vec);
+	const std::vector<bool>& GetVectorBool() const;
+	void SetVectorBool(const std::vector<bool>& vec);
 
 
 	GameObject* GetCharacter() const;
@@ -42,6 +44,7 @@ private:
 	std::vector<float3> vecVec3;
 	std::vector<std::string> vecStr;
 	std::vector<GameObject*> vecGO;
+	std::vector<bool> vecBool;
 	std::string sentence;
 	GameObject* character;
 	bool check;
