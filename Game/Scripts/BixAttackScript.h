@@ -53,5 +53,5 @@ private:
 inline void BixAttackScript::IncreaseAttack(float amountAttack)
 {
 	damageAttack += amountAttack;
-	ENGINE_LOG("Attack increased");
+	LOG_INFO("Attack increased");
 }

@@ -63,7 +63,7 @@ bool PlayerManagerScript::SavePowerUp(PowerUpType type)
 		return false;
 	}
 	activePowerUp = type;
-	ENGINE_LOG("PowerUp saved: %i", activePowerUp);
+	LOG_INFO("PowerUp saved: %i", activePowerUp);
 	return true;
 }
 
@@ -75,7 +75,7 @@ void PlayerManagerScript::UsePowerUp()
 	}
 	counterPowerUp = 0;
 
-	ENGINE_LOG("PowerUp Used: %i", activePowerUp);
+	LOG_INFO("PowerUp Used: %i", activePowerUp);
 
 	if (activePowerUp == PowerUpType::HEAL)
 	{
@@ -102,7 +102,7 @@ void PlayerManagerScript::UsePowerUp()
 
 void PlayerManagerScript::DropPowerUp()
 {
-	ENGINE_LOG("PowerUp Dropped: %i", activePowerUp);
+	LOG_INFO("PowerUp Dropped: %i", activePowerUp);
 	activePowerUp = PowerUpType::NONE;
 }
 

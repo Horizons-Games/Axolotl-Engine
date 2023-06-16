@@ -41,5 +41,5 @@ private:
 inline void PlayerMoveScript::IncreaseSpeed(float amountSpeed)
 {
 	speed += amountSpeed;
-	ENGINE_LOG("Speed increased");
+	LOG_INFO("Speed increased");
 }

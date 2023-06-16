@@ -84,7 +84,7 @@ void HealthSystem::TakeDamage(float damage)
 void HealthSystem::HealLife(float amountHealed)
 {
 	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
-	ENGINE_LOG("Healed");
+	LOG_INFO("Healed");
 }
 
 bool HealthSystem::EntityIsAlive() const
