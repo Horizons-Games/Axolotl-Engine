@@ -371,16 +371,12 @@ update_status ModuleRender::PostUpdate()
 	program->Activate();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
-	program->BindUniformInt("gPosition", 0);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, gNormal);
-	program->BindUniformInt("gNormal", 1);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, gDiffuse);
-	program->BindUniformInt("gDiffuse", 2);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gSpecular);
-	program->BindUniformInt("gSpecular", 3);
 
 	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 	program->BindUniformFloat3("ViewPos", viewPos);
@@ -394,7 +390,7 @@ update_status ModuleRender::PostUpdate()
 	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 
 	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
-	program->BindUniformFloat("cubeMap_intensity", cubemap->GetIntensity());
+	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
 	program->BindUniformInt("renderMode", modeRender);

@@ -4,10 +4,10 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
-uniform sampler2D gPosition;
-uniform sampler2D gNormal;
-uniform sampler2D gDiffuse;
-uniform sampler2D gSpecular;
+layout(binding = 0) uniform sampler2D gPosition;
+layout(binding = 1) uniform sampler2D gNormal;
+layout(binding = 2) uniform sampler2D gDiffuse;
+layout(binding = 3) uniform sampler2D gSpecular;
 
 struct PointLight
 {
@@ -55,7 +55,7 @@ layout(binding = 9) uniform samplerCube prefiltered_IBL;
 layout(binding = 10) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
-uniform float cubeMap_intensity;
+uniform float cubemap_intensity;
 uniform Light light;
 uniform int renderMode;
 
@@ -194,7 +194,7 @@ void main()
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL) * cubeMap_intensity;
+        environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
     vec3 color = ambient + Lo;
     
