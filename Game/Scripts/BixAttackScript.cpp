@@ -12,8 +12,6 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "../Scripts/HealthSystem.h"
-
 #include "HealthSystem.h"
 
 #include "GameObject/GameObject.h"
@@ -34,13 +32,12 @@ namespace
 }
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
-transform(nullptr),
-//Provisional
-ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
-ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
-//--Provisional
-healthScript(nullptr)
+	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
+	transform(nullptr),
+	//Provisional
+	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
+	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr)
+	//--Provisional
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
@@ -57,11 +54,11 @@ healthScript(nullptr)
 
 void BixAttackScript::Start()
 {
-	audioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-	transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	audioSource = owner->GetComponent<ComponentAudioSource>();
+	transform = owner->GetComponent<ComponentTransform>();
 	if (animationGO)
 	{
-		animation = static_cast<ComponentAnimation*>(animationGO->GetComponent(ComponentType::ANIMATION));
+		animation = animationGO->GetComponent<ComponentAnimation>();
 	}
 
 	input = App->GetModule<ModuleInput>();
@@ -70,10 +67,10 @@ void BixAttackScript::Start()
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
 
 	//Provisional
-	ray1Transform = static_cast<ComponentTransform*>(ray1GO->GetComponent(ComponentType::TRANSFORM));
-	ray2Transform = static_cast<ComponentTransform*>(ray2GO->GetComponent(ComponentType::TRANSFORM));
-	ray3Transform = static_cast<ComponentTransform*>(ray3GO->GetComponent(ComponentType::TRANSFORM));
-	ray4Transform = static_cast<ComponentTransform*>(ray4GO->GetComponent(ComponentType::TRANSFORM));
+	ray1Transform = ray1GO->GetComponent<ComponentTransform>();
+	ray2Transform = ray2GO->GetComponent<ComponentTransform>();
+	ray3Transform = ray3GO->GetComponent<ComponentTransform>();
+	ray4Transform = ray4GO->GetComponent<ComponentTransform>();
 
 	rays.reserve(5);
 	rays.push_back(Ray(transform->GetPosition(), transform->GetLocalForward()));
@@ -82,26 +79,10 @@ void BixAttackScript::Start()
 	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	//--Provisional
-
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-		}
-	}
 }
 
 void BixAttackScript::Update(float deltaTime)
 {
-	if (healthScript && !healthScript->EntityIsAlive())
-	{
-		return;
-	}
-
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
@@ -165,18 +146,9 @@ void BixAttackScript::CheckCollision()
 					if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
 					{
 						// insertion could take place -> element not hit yet
-						//get component health and do damage
-						std::vector<ComponentScript*> gameObjectScripts =
-							hit.gameObject->GetRootGO()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-
-						for (int i = 0; i < gameObjectScripts.size(); ++i)
-						{
-							if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-							{
-								HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-								healthScript->TakeDamage(damageAttack);
-							}
-						}
+						// get component health and do damage
+						HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
+						healthScript->TakeDamage(damageAttack);
 					}
 				}
 			}
