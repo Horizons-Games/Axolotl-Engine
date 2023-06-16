@@ -18,6 +18,8 @@ public:
 
 	bool EntityIsAlive() const;
 
+	void PlayerDeath();
+
 private:
 	float currentHealth;
 	float maxHealth;

@@ -63,7 +63,8 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   true,
 			   true,
 			   StateOfSelection::NO_SELECTED,
-			   gameObject.staticObject)
+			   gameObject.staticObject,
+			   gameObject.tag)
 {
 	for (const std::unique_ptr<Component>& component : gameObject.components)
 	{
@@ -84,14 +85,16 @@ GameObject::GameObject(const std::string& name,
 					   bool enabled,
 					   bool active,
 					   StateOfSelection selection,
-					   bool staticObject) :
+					   bool staticObject,
+					   const std::string& tag) :
 	name(name),
 	parent(parent),
 	uid(uid),
 	enabled(enabled),
 	active(active),
 	stateOfSelection(selection),
-	staticObject(staticObject)
+	staticObject(staticObject),
+	tag(tag)
 {
 }
 
@@ -146,7 +149,7 @@ void GameObject::LoadOptions(Json& meta)
 			if (type == ComponentType::LIGHT)
 			{
 				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType);
+				component = CreateComponentLight(lightType, AreaType::NONE); //TODO look at this when implement metas
 			}
 			else
 			{
@@ -177,11 +180,11 @@ void GameObject::InitNewEmptyGameObject(bool is3D)
 {
 	if (is3D)
 	{
-		CreateComponent(ComponentType::TRANSFORM);
+		CreateComponent<ComponentTransform>();
 	}
 	else
 	{
-		CreateComponent(ComponentType::TRANSFORM2D);
+		CreateComponent<ComponentTransform2D>();
 	}
 }
 
@@ -199,9 +202,8 @@ void GameObject::SetParent(GameObject* newParent)
 	// since the pointer returned will be "this"
 	std::ignore = parent->UnlinkChild(this);
 
-	ComponentTransform* transform = static_cast<ComponentTransform*>(this->GetComponent(ComponentType::TRANSFORM));
-	const ComponentTransform* newParentTransform =
-		static_cast<ComponentTransform*>(newParent->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = this->GetComponent<ComponentTransform>();
+	const ComponentTransform* newParentTransform = newParent->GetComponent<ComponentTransform>();
 	if (transform && newParentTransform)
 	{
 		transform->CalculateLocalFromNewGlobal(newParentTransform);
@@ -220,17 +222,14 @@ void GameObject::LinkChild(GameObject* child)
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
-
+		ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 		if (transform)
 		{
-			transform->UpdateTransformMatrices();
+			transform->UpdateTransformMatrices(false);
 		}
 		else
 		{
-			ComponentTransform2D* transform2D =
-				static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+			ComponentTransform2D* transform2D = child->GetComponent<ComponentTransform2D>();
 			if (transform2D)
 			{
 				transform2D->CalculateMatrices();
@@ -363,8 +362,14 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::ANIMATION:
+		{
+			newComponent = std::make_unique<ComponentAnimation>(*static_cast<ComponentAnimation*>(component));
+			break;
+		}
+
 		default:
-			ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
+			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
@@ -386,6 +391,9 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 
 		case LightType::SPOT:
 			newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
+			break;
+		case LightType::AREA:
+			newComponent = std::make_unique<ComponentAreaLight>(static_cast<ComponentAreaLight&>(*component));
 			break;
 	}
 
@@ -556,6 +564,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 		default:
 			assert(false && "Wrong component type introduced");
+			return nullptr;
 	}
 
 	if (newComponent)
@@ -575,7 +584,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return nullptr;
 }
 
-Component* GameObject::CreateComponentLight(LightType lightType)
+Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaType)
 {
 	std::unique_ptr<Component> newComponent;
 
@@ -592,23 +601,31 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 		case LightType::SPOT:
 			newComponent = std::make_unique<ComponentSpotLight>(5.0f, 0.15f, 0.3f, float3(1.0f), 1.0f, this);
 			break;
+		case LightType::AREA:
+			newComponent = std::make_unique<ComponentAreaLight>(areaType, this);
+			break;
 	}
 
 	if (newComponent)
 	{
 		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+		Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 		switch (lightType)
 		{
 		case LightType::POINT:
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePointLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPointLights();
+			scene->UpdateScenePointLights();
+			scene->RenderPointLights();
 			break;
 
 		case LightType::SPOT:
-			App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneSpotLights();
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RenderSpotLights();
+			scene->UpdateSceneSpotLights();
+			scene->RenderSpotLights();
+			break;
+		case LightType::AREA:
+			scene->UpdateSceneAreaLights();
+			scene->RenderAreaLights();
 			break;
 		}
 		
@@ -620,57 +637,18 @@ Component* GameObject::CreateComponentLight(LightType lightType)
 
 bool GameObject::RemoveComponent(const Component* component)
 {
-	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
+	auto removeIfResult = std::remove_if(std::begin(components),
+										 std::end(components),
+										 [&component](const std::unique_ptr<Component>& comp)
+										 {
+											 return comp.get() == component;
+										 });
+	if (removeIfResult == std::end(components))
 	{
-		if ((*it).get() == component)
-		{
-			if ((*it)->GetType() == ComponentType::LIGHT)
-			{
-				ComponentLight* light = static_cast<ComponentLight*>((*it).get());
-				LightType type = light->GetLightType();
-
-				Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-
-				components.erase(it);
-
-				switch (type)
-				{
-					case LightType::POINT:
-						loadedScene->UpdateScenePointLights();
-						loadedScene->RenderPointLights();
-
-						break;
-
-					case LightType::SPOT:
-						loadedScene->UpdateSceneSpotLights();
-						loadedScene->RenderSpotLights();
-
-						break;
-				}
-			}
-			else
-			{
-				components.erase(it);
-			}
-
-			return true;
-		}
+		return false;
 	}
-
-	return false;
-}
-
-Component* GameObject::GetComponent(ComponentType type) const
-{
-	for (std::vector<std::unique_ptr<Component>>::const_iterator it = components.begin(); it != components.end(); ++it)
-	{
-		if ((*it)->GetType() == type)
-		{
-			return (*it).get();
-		}
-	}
-
-	return nullptr;
+	components.erase(removeIfResult, std::end(components));
+	return true;
 }
 
 GameObject* GameObject::FindGameObject(const std::string& name)
@@ -722,8 +700,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 									  });
 	if (childIterator == childrenVectorEnd)
 	{
-		ENGINE_LOG(
-			"Object being moved (%s) is not a child of this (%s)", child->GetName().c_str(), this->GetName().c_str());
+		LOG_WARNING("Object being moved ({}) is not a child of this ({})", child, this);
 		return;
 	}
 
@@ -732,7 +709,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == childrenVectorBegin)
 		{
-			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::prev(childIterator);
@@ -741,7 +718,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == std::prev(childrenVectorEnd))
 		{
-			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::next(childIterator);
@@ -765,13 +742,13 @@ bool GameObject::IsADescendant(const GameObject* descendant)
 	return false;
 }
 
-std::list<GameObject*> GameObject::GetGameObjectsInside()
+std::list<GameObject*> GameObject::GetAllDescendants()
 {
 	std::list<GameObject*> familyObjects = {};
 	familyObjects.push_back(this);
 	for (std::unique_ptr<GameObject>& children : children)
 	{
-		std::list<GameObject*> objectsChildren = children->GetGameObjectsInside();
+		std::list<GameObject*> objectsChildren = children->GetAllDescendants();
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;

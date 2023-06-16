@@ -13,6 +13,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAreaLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
@@ -32,6 +33,7 @@
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentAreaLight.h"
 #include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPointLight.h"
@@ -100,17 +102,19 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())
 				{
-					case LightType::DIRECTIONAL:
-						return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
-					case LightType::POINT:
-						return std::make_unique<WindowComponentPointLight>(
-							static_cast<ComponentPointLight*>(component));
-					case LightType::SPOT:
-						return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
-					case LightType::UNKNOWN:
-					default:
-						return std::make_unique<WindowComponentLight>(asLight);
+				case LightType::DIRECTIONAL:
+					return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
+				case LightType::POINT:
+					return std::make_unique<WindowComponentPointLight>(static_cast<ComponentPointLight*>(component));
+				case LightType::SPOT:
+					return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
+				case LightType::AREA:
+					return std::make_unique<WindowComponentAreaLight>(static_cast<ComponentAreaLight*>(component));
+				case LightType::UNKNOWN:
+				default:
+					return std::make_unique<WindowComponentLight>(asLight);
 				}
+			
 		}
 	}
 	return nullptr;

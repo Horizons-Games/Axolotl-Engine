@@ -88,8 +88,14 @@ void WindowFileBrowser::SaveAsWindow(bool& isSaving)
 		{
 			flags |= ImGuiFileDialogFlags_ConfirmOverwrite;
 		}
-		fileDialogImporter.OpenDialog(
-			"ChooseFileDlgKey", dialogName.c_str(), filters.c_str(), startPath.c_str(), "", 1, nullptr, flags);
+		fileDialogImporter.OpenDialog("ChooseFileDlgKey",
+									  dialogName.c_str(),
+									  filters.c_str(),
+									  startPath.c_str(),
+									  std::string(),
+									  1,
+									  nullptr,
+									  flags);
 	}
 	if (fileDialogImporter.Display("ChooseFileDlgKey"))
 	{
@@ -112,8 +118,14 @@ void WindowFileBrowser::DrawWindowContents()
 		{
 			flags |= ImGuiFileDialogFlags_ConfirmOverwrite;
 		}
-		fileDialogImporter.OpenDialog(
-			"ChooseFileDlgKey", dialogName.c_str(), filters.c_str(), startPath.c_str(), "", 1, nullptr, flags);
+		fileDialogImporter.OpenDialog("ChooseFileDlgKey",
+									  dialogName.c_str(),
+									  filters.c_str(),
+									  startPath.c_str(),
+									  std::string(),
+									  1,
+									  nullptr,
+									  flags);
 	}
 
 	if (fileDialogImporter.Display("ChooseFileDlgKey"))
@@ -145,7 +157,7 @@ void WindowFileBrowser::Browser()
 								 "Select File",
 								 ".*",
 								 browserPath,
-								 "",
+								 std::string(),
 								 -1,
 								 nullptr,
 								 ImGuiFileDialogFlags_NoDialog | ImGuiFileDialogFlags_DisableBookmarkMode |
@@ -171,7 +183,7 @@ void WindowFileBrowser::ImportResourceWithLoadingWindow()
 	{
 		isLoading = false;
 		timer->Stop();
-		ENGINE_LOG("Resource loaded succesfully");
+		LOG_VERBOSE("Resource loaded succesfully");
 	}
 }
 
@@ -181,7 +193,7 @@ void WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
 
 	timer = std::make_unique<Timer>();
 	timer->Start();
-	ENGINE_LOG("Started loading resource");
+	LOG_VERBOSE("Started loading resource");
 }
 
 void WindowFileBrowser::GetResourceAfterImport()

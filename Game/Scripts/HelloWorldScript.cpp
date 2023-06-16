@@ -17,13 +17,12 @@ HelloWorldScript::HelloWorldScript() : Script(), helloWorld("Hello World"), movi
 void HelloWorldScript::Update(float deltaTime)
 {
 	// Print "Hello World" each frame
-	ENGINE_LOG("%s", helloWorld.c_str());
+	LOG_INFO("{}", helloWorld);
 
-	// Recieves a GameObject and moves it (sometimes the transform does not update until you click on it)
+	// Receives a GameObject and moves it (sometimes the transform does not update until you click on it)
 	if (movingGameObject != nullptr)
 	{
-		ComponentTransform* goTransform = static_cast<ComponentTransform*>
-			(movingGameObject->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* goTransform = movingGameObject->GetComponent<ComponentTransform>();
 
 		goTransform->SetPosition(float3(goTransform->GetPosition().x,
 			goTransform->GetPosition().y + 0.1f,
