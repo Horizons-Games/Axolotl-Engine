@@ -186,13 +186,3 @@ void Application::OnStop()
 	onPlayTimer.Stop();
 	GetModule<ModuleScene>()->OnStop();
 }
-
-Application::PlayState Application::GetPlayState() const
-{
-	// See comment in the enum class
-#ifdef GAME
-	return PlayState::RUNNING;
-#else
-	return editorPlayState;
-#endif // GAME
-}
