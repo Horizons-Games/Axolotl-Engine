@@ -32,6 +32,8 @@ public:
 	IScript* GetScript() const;
 
 private:
+	bool ScripCanBeCalled() const;
+
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 

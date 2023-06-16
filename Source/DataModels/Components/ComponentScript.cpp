@@ -26,7 +26,7 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (!initialized && script && GetOwner()->IsActive() && App->IsOnPlayMode())
+	if (!initialized && GetOwner()->IsActive() && ScripCanBeCalled())
 	{
 		script->Init();
 		initialized = true;
@@ -35,7 +35,7 @@ void ComponentScript::Init()
 
 void ComponentScript::Start()
 {
-	if (!started && script && IsEnabled() && App->IsOnPlayMode())
+	if (!started && IsEnabled() && ScripCanBeCalled())
 	{
 		script->Start();
 		started = true;
@@ -44,7 +44,7 @@ void ComponentScript::Start()
 
 void ComponentScript::PreUpdate()
 {
-	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->PreUpdate(App->GetDeltaTime());
 	}
@@ -52,7 +52,7 @@ void ComponentScript::PreUpdate()
 
 void ComponentScript::Update()
 {
-	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->Update(App->GetDeltaTime());
 	}
@@ -60,7 +60,7 @@ void ComponentScript::Update()
 
 void ComponentScript::PostUpdate()
 {
-	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->PostUpdate(App->GetDeltaTime());
 	}
@@ -68,14 +68,14 @@ void ComponentScript::PostUpdate()
 
 void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->OnCollisionEnter(other);
 	}
 }
 void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (script && IsEnabled() && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->OnCollisionExit(other);
 	}
@@ -90,6 +90,11 @@ void ComponentScript::CleanUp()
 	}
 	started = false;
 	initialized = false;
+}
+
+bool ComponentScript::ScripCanBeCalled() const
+{
+	return script && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling();
 }
 
 void ComponentScript::InternalSave(Json& meta)
