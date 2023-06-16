@@ -11,4 +11,7 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+
+private:
+	void ProcessInput();
 };

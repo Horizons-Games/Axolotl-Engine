@@ -1,6 +1,7 @@
 #include "WindowEditorControl.h"
 
 #include "Application.h"
+#include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "ModuleScene.h"
 
@@ -60,5 +61,29 @@ void WindowEditorControl::DrawWindowContents()
 	if (playState == Application::PlayState::PAUSED)
 	{
 		ImGui::PopStyleColor();
+	}
+
+	ProcessInput();
+}
+
+void WindowEditorControl::ProcessInput()
+{
+	if (App->GetPlayState() == Application::PlayState::STOPPED)
+	{
+		return;
+	}
+
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	if (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT)
+	{
+		if (App->GetPlayState() != Application::PlayState::STOPPED && input->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN)
+		{
+			App->OnStop();
+		}
+		else if (App->GetPlayState() == Application::PlayState::RUNNING &&
+				 input->GetKey(SDL_SCANCODE_A) == KeyState::DOWN)
+		{
+			SDL_ShowCursor(SDL_QUERY) ? input->SetShowCursor(false) : input->SetShowCursor(true);
+		}
 	}
 }

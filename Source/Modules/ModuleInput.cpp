@@ -183,24 +183,6 @@ update_status ModuleInput::Update()
 	}
 
 #ifdef ENGINE
-	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
-		keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
-	{
-		if (App->GetPlayState() != Application::PlayState::STOPPED)
-		{
-			App->OnStop();
-		}
-	}
-
-	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
-		keysState[SDL_SCANCODE_A] == KeyState::DOWN)
-	{
-		if (App->GetPlayState() != Application::PlayState::STOPPED)
-		{
-			SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
-		}
-	}
-
 	if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN &&
 		SDL_ShowCursor(SDL_QUERY))
 	{
