@@ -446,3 +446,8 @@ void ComponentRigidBody::SetDefaultPosition()
 	UpdateRigidBodyTranslation();
 	UpdateRigidBody();
 }
+
+bool ComponentRigidBody::IsStatic() const
+{
+	return owner->IsStatic();
+}

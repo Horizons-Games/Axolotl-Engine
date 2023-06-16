@@ -59,6 +59,8 @@ public:
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
+	bool IsStatic() const;
+
 	void SetIsTrigger(bool isTrigger);
 	bool IsTrigger() const;
 

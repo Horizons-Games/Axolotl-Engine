@@ -48,7 +48,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 		ImGui::Text("Is a Trigger");
 		ImGui::Text("");
 
-		if (!asRigidBody->GetOwner()->IsStatic())
+		if (!asRigidBody->IsStatic())
 		{
 			// Mass
 			float mass = rigidBody->getMass();
