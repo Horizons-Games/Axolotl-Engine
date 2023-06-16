@@ -776,8 +776,9 @@ void GameObject::SpreadStatic()
 void GameObject::SetStatic(bool newStatic)
 {
 	staticObject = newStatic;
-	ComponentRigidBody* rigid = GetComponent<ComponentRigidBody>();
-	if(rigid)
+	std::vector<ComponentRigidBody*> rigids = GetComponents<ComponentRigidBody>();
+
+	for (ComponentRigidBody* rigid : rigids)
 	{
 		rigid->SetUpMobility();
 	}
