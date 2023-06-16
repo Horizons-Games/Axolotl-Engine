@@ -4,27 +4,12 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Structs/lights.glsl"
+
 layout(binding = 0) uniform sampler2D gPosition;
 layout(binding = 1) uniform sampler2D gNormal;
 layout(binding = 2) uniform sampler2D gDiffuse;
 layout(binding = 3) uniform sampler2D gSpecular;
-
-struct PointLight
-{
-	vec4 position;  	//16 //16	// xyz position+w radius
-	vec4 color; 		//16 //16   // rgb colour+alpha intensity
-};
-
-struct SpotLight
-{
-	vec4 position;  	//16 //0	// xyz position+w radius
-	vec4 color; 		//16 //16  	// rgb colour+alpha intensity
-	vec3 aim;			//12 //32
-	float innerAngle;	//4  //44
-	float outerAngle;	//4  //48 
-    float padding1;     //4  //52
-    vec2  padding2;     //8  //56 --> 64
-};
 
 layout(std140, binding=1) uniform Directional
 {
@@ -44,9 +29,16 @@ readonly layout(std430, binding=3) buffer SpotLights
 	SpotLight spots[];
 };
 
-struct Light {
-    vec3 position;
-    vec3 color;
+readonly layout(std430, binding=4) buffer AreaLightsSphere
+{
+	uint num_spheres;
+	AreaLightSphere areaSphere[];
+};
+
+readonly layout(std430, binding=5) buffer AreaLightsTube
+{
+	uint num_tubes;
+	AreaLightTube areaTube[];
 };
 
 // IBL
@@ -56,7 +48,6 @@ layout(binding = 10) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
 uniform float cubemap_intensity;
-uniform Light light;
 uniform int renderMode;
 
 in vec2 TexCoord;
@@ -160,6 +151,132 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
     return Lo;
 }
 
+float GGXNDAreaLight(float dotNH, float roughness, float alpha, float alphaPrime)
+{
+    float alpha2 = alpha * alpha;
+    float alphaPrime2 = alphaPrime * alphaPrime;
+    
+    return (alpha2 * alphaPrime2) / pow( dotNH * dotNH * ( alpha2 - 1.0 ) + 1.0, 2.0);
+}
+
+vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_spheres; ++i)
+    {
+        vec3 sP = areaSphere[i].position.xyz;
+        vec3 color = areaSphere[i].color.rgb;
+        float sR = areaSphere[i].position.w;
+        float intensity = areaSphere[i].color.a;
+        float lightRadius = areaSphere[i].lightRadius;
+
+        // calculate closest point light specular
+        vec3 oldL = sP - FragPos;
+        vec3 R = normalize(reflect(-V, N));
+        vec3 centerToRay = max(dot(oldL, R), EPSILON) * R - oldL;
+        vec3 closest = oldL + centerToRay * min(sR/length(centerToRay),1.0);
+
+        float distance = length(closest);
+        vec3 L = closest/distance;
+        vec3 H = normalize(L + V);
+        float specularDotNL = max(dot(N,L), EPSILON);
+        
+        float alpha = roughness * roughness;
+        float alphaPrime = clamp(sR/(distance*2.0)+alpha, 0.0f, 1.0f);
+        float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
+        vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
+
+        // Attenuation from the closest point view
+        float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
+        float attenuation = maxValue/(pow(distance,2) + 1);
+        
+        // calculate closest point light diffuse
+        closest = sP;
+
+        L = normalize(closest-FragPos);
+        float diffuseDotNL = max(dot(N,L), EPSILON);
+
+        vec3 Li = color * intensity * attenuation;
+        vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
+        vec3 LoDiffuse = Cd * (1 - f0) * Li * diffuseDotNL;
+        Lo += LoDiffuse + LoSpecular;
+    }
+
+    return Lo;
+}
+
+vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_tubes; ++i)
+    {
+        vec3 posA = areaTube[i].positionA.xyz;
+        vec3 posB = areaTube[i].positionB.xyz;
+        float tubeRadius = areaTube[i].positionA.w;
+        vec3 color = areaTube[i].color.rgb;
+        float intensity = areaTube[i].color.a;
+        float lightRadius = areaTube[i].lightRadius;
+
+        // calculate closest point light specular
+        vec3 PA = posA - FragPos;
+        vec3 PB = posB - FragPos;
+        float distL0 = length( PA );
+	    float distL1 = length( PB );
+        float NoL0 = dot( PA, N ) / ( 2.0 * distL0 );
+	    float NoL1 = dot( PB, N ) / ( 2.0 * distL1 );
+	    float NoL = ( 2.0 * clamp( NoL0 + NoL1, 0, 1)) / ( distL0 * distL1 + dot( PA, PB ) + 2.0 );
+        vec3 AB = PB - PA;
+
+        vec3 R = normalize(reflect(-V, N));
+		
+        float dotABRefle = dot(AB, R);
+        float num = dot(R, PA) * dotABRefle - dot(PA, AB);
+        float denom = length(AB) * length(AB) - dotABRefle * dotABRefle;
+        float t = clamp(num/denom, 0.0f, 1.0f);
+        
+        vec3 closest = PA + AB * t;
+   	
+        // calculate closest point light specular
+        vec3 oldL = closest;
+        vec3 centerToRay = dot(oldL, R) * R - oldL;
+        closest = oldL + centerToRay * min(tubeRadius/length(centerToRay),1.0);
+
+        float distance = length(closest);
+        vec3 L = closest/distance;
+        vec3 H = normalize(L + V);
+        float specularDotNL = NoL;
+
+        float alpha = roughness * roughness;
+        float alphaPrime = clamp(tubeRadius/(distance*2.0)+alpha, 0.0f, 1.0f);
+        float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
+        vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
+
+        // Attenuation from the closest point view
+        float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
+        float attenuation = maxValue/(pow(distance,2) + 1);
+
+        // calculate closest point light diffuse
+        float a = length(posA-FragPos);
+        float b = length(posB-FragPos);
+        float x = (a)/(b + a);
+        closest = posA + AB * x;
+
+        L = normalize(closest-FragPos);
+        float diffuseDotNL = max(dot(N,L), EPSILON);
+
+        vec3 Li = color * intensity * attenuation;
+        vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
+        vec3 LoDiffuse = Cd * (1 - f0) * Li * diffuseDotNL;
+        Lo += LoDiffuse + LoSpecular;
+    }
+
+    return Lo;
+}
+
 void main()
 {             
     // retrieve data from gbuffer
@@ -170,7 +287,6 @@ void main()
     float smoothness = specularMat.a;
 
     vec3 viewDir = normalize(ViewPos - FragPos);
-	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
     vec3 f0 = specularMat.rgb;
@@ -189,6 +305,16 @@ void main()
     if (num_spot > 0)
     {
         Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness);
+    }
+
+    if (num_spheres > 0)
+    {
+        Lo += calculateAreaLightSpheres(norm, viewDir, textureMat.rgb, f0, roughness);
+    }
+
+    if (num_tubes > 0)
+    {
+        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness);
     }
 
     vec3 R = reflect(-viewDir, norm);
