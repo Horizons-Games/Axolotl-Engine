@@ -495,7 +495,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		ENGINE_LOG("G Framebuffer not complete!");
+		LOG_ERROR("G Framebuffer not complete!");
 	}
 
 	glGenFramebuffers(1, &frameBuffer);
