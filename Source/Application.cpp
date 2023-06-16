@@ -53,10 +53,6 @@ Application::~Application()
 
 bool Application::Init()
 {
-#ifndef ENGINE
-	isOnPlayMode = true;
-#endif // !ENGINE
-
 	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
 
