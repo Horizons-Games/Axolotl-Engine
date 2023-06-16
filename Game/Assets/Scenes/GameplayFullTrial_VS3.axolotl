@@ -363,6 +363,24 @@
                             "static": false,
                             "mouse": false
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerManagerScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActionsPowerUpScript",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -2344,6 +2362,21 @@
                             "rbPos_X": -1.634626585200749e-7,
                             "rbPos_Y": 1.5,
                             "rbPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyManagerScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUp",
+                                    "value": 11306440819102867434,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -8161,6 +8194,85 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Capsule",
+                "tag": "",
+                "uid": 11306440819102867434,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.840948581695557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.762855529785156,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isStatic": true,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 3,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.5,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -7.840948581695557,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.762855529785156
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpScript",
+                            "fields": null
                         }
                     }
                 ]

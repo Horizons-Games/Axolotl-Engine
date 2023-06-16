@@ -431,6 +431,12 @@
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PowerUpScript.cpp">
+      <Filter>UserScripts\PowerUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
@@ -457,6 +463,12 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
+      <Filter>UserScripts\PowerUp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -904,6 +916,12 @@
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PowerUpScript.h">
+      <Filter>UserScripts\PowerUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
@@ -930,6 +948,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
+      <Filter>UserScripts\PowerUp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1040,6 +1064,9 @@
     </Filter>
     <Filter Include="UserScripts\UI">
       <UniqueIdentifier>{9ddd7416-8d1e-4b37-be90-b2a1b8cb51e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\PowerUp">
+      <UniqueIdentifier>{3c0319b6-bb2b-47a7-81ae-d8e78fa1ba74}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts\Player\Movement">
       <UniqueIdentifier>{b812ac76-6b1f-47cc-a2da-da0913da9b93}</UniqueIdentifier>
