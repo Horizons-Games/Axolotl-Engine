@@ -245,7 +245,7 @@ void WindowInspector::InspectSelectedGameObject()
 
 		else
 		{
-			ENGINE_LOG("No GameObject is selected");
+			LOG_WARNING("No GameObject is selected");
 		}
 
 		ImGui::EndPopup();

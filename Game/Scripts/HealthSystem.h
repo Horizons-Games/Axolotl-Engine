@@ -35,5 +35,5 @@ private:
 inline void HealthSystem::IncreaseDefense(float increaseDefense)
 {
 	defense += increaseDefense;
-	ENGINE_LOG("Defense increased");
+	LOG_INFO("Defense increased");
 }

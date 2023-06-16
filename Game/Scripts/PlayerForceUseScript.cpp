@@ -45,30 +45,10 @@ void PlayerForceUseScript::Start()
 
 	currentTimeForce = maxTimeForce;
 
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetParent()->GetComponents<ComponentScript>();
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "PlayerRotationScript")
-		{
-			rotationHorizontalScript = static_cast<PlayerRotationScript*>(gameObjectScripts[i]->GetScript());
-		}
+	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
+	moveScript = owner->GetParent()->GetComponent<PlayerMoveScript>();
 
-		else if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
-		{
-			moveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
-		}
-	}
-
-	gameObjectScripts =
-		owner->GetComponents<ComponentScript>();
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "PlayerCameraRotationVerticalScript")
-		{
-			rotationVerticalScript = static_cast<PlayerCameraRotationVerticalScript*>(gameObjectScripts[i]->GetScript());
-		}
-	}
+	rotationVerticalScript = owner->GetComponent<PlayerCameraRotationVerticalScript>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
