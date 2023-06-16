@@ -78,6 +78,7 @@ bool HealthSystem::EntityIsAlive() const
 float HealthSystem::GetCurrentHealth() const
 {
 	return currentHealth;
+}
 void HealthSystem::PlayerDeath()
 {
 	// Once the player is dead, disable its scripts

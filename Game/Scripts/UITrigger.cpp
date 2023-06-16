@@ -92,7 +92,7 @@ void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
 		onTriggerState = false;
 	}
