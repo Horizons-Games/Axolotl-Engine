@@ -204,7 +204,10 @@ update_status ModuleInput::Update()
 	if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN &&
 		SDL_ShowCursor(SDL_QUERY))
 	{
-		App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
+		if (App->GetPlayState() == Application::PlayState::STOPPED)
+		{
+			App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
+		}
 	}
 #endif
 
