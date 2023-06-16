@@ -361,7 +361,7 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 #ifdef ENGINE
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -415,6 +415,7 @@ update_status ModuleRender::PostUpdate()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return update_status::UPDATE_CONTINUE;
 }
