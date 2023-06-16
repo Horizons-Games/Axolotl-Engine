@@ -7,7 +7,6 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
-#include "Components/Component.h"
 #include "Components/ComponentCamera.h"
 
 #include "../Scripts/EnemyManagerScript.h"
@@ -45,8 +44,7 @@ void HealthSystem::Update(float deltaTime)
 #endif // ENGINE
 		if(!componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
 		{
-			ENGINE_LOG("Player is dead");
-
+			LOG_VERBOSE("Player is dead");
 			PlayerDeath();
 		}
 	}
@@ -114,8 +112,7 @@ void HealthSystem::PlayerDeath()
 
 		if (child->GetComponent<ComponentCamera>())
 		{
-			std::vector<ComponentScript*> cameraScripts =
-				child->GetComponents<ComponentScript>();
+			std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
 
 			for (ComponentScript* script : cameraScripts)
 			{

@@ -76,7 +76,7 @@ void ModulePlayer::LoadNewPlayer()
 			return;
 		}
 	}
-	ENGINE_LOG("Player is not load");
+	LOG_ERROR("Player is not loaded");
 }
 
 void ModulePlayer::UnloadNewPlayer()

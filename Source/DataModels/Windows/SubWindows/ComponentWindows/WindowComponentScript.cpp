@@ -49,7 +49,7 @@ void WindowComponentScript::DrawWindowContents()
 				finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
 			ChangeScript(script, constructors[current_item]);
-			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
+			LOG_VERBOSE("{} SELECTED, drawing its contents.", script->GetConstructName());
 		}
 
 		label = "Create Script##";
@@ -91,7 +91,7 @@ void WindowComponentScript::DrawWindowContents()
 	finalLabel = label + thisID;
 	if (ImGui::Button(finalLabel.c_str()))
 	{
-		ENGINE_LOG("%s REMOVED, showing list of available scripts.", script->GetConstructName().c_str());
+		LOG_VERBOSE("{} REMOVED, showing list of available scripts.", script->GetConstructName());
 
 		script->SetScript(nullptr);			  // This deletes the script itself
 		script->SetConstuctor(std::string()); // And this makes it so it's also deleted from the serialization
@@ -251,7 +251,7 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	// Both header and source have the same name, so only checking the header is enough
 	if (fileSystem->Exists(scriptHeaderPath.c_str()))
 	{
-		ENGINE_LOG("That name is already in use, please use a different one");
+		LOG_INFO("That name is already used by another script, please use a different one");
 		return;
 	}
 
@@ -272,7 +272,7 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	fileSystem->Save(scriptHeaderPath.c_str(), headerString.c_str(), headerString.size());
 	fileSystem->Save(scriptSourcePath.c_str(), sourceString.c_str(), sourceString.size());
 
-	ENGINE_LOG("New script %s created", scriptName.c_str());
+	LOG_INFO("New script {} created", scriptName);
 }
 
 void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToReplace,

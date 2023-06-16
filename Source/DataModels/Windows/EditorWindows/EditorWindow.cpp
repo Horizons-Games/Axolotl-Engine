@@ -21,7 +21,7 @@ void EditorWindow::Draw(bool& enabled)
 		if (ImGui::Begin(name.c_str(), &enabled, flags))
 		{
 			DrawWindowContents();
-			focused = ImGui::IsWindowFocused();
+			focused = ImGui::IsWindowFocused() && ImGui::IsWindowHovered();
 		}
 		ImGui::End();
 	}
