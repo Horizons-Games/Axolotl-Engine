@@ -772,3 +772,13 @@ void GameObject::SpreadStatic()
 		child->SpreadStatic();
 	}
 }
+
+void GameObject::SetStatic(bool newStatic)
+{
+	staticObject = newStatic;
+	ComponentRigidBody* rigid = GetComponent<ComponentRigidBody>();
+	if(rigid)
+	{
+		rigid->SetUpMobility();
+	}
+}
