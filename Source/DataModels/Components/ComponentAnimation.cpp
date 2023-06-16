@@ -122,7 +122,7 @@ void ComponentAnimation::Update()
 
 void ComponentAnimation::Draw() const
 {
-	if (!App->IsOnPlayMode() && drawBones)
+	if (App->GetPlayState() == Application::PlayState::STOPPED && drawBones)
 	{
 		DrawBones(owner);
 	}

@@ -186,7 +186,7 @@ update_status ModuleInput::Update()
 	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
 		keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
 	{
-		if (App->IsOnPlayMode())
+		if (App->GetPlayState() != Application::PlayState::STOPPED)
 		{
 			App->OnStop();
 		}
@@ -195,7 +195,7 @@ update_status ModuleInput::Update()
 	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
 		keysState[SDL_SCANCODE_A] == KeyState::DOWN)
 	{
-		if (App->IsOnPlayMode())
+		if (App->GetPlayState() != Application::PlayState::STOPPED)
 		{
 			SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
 		}

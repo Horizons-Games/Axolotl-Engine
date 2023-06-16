@@ -26,15 +26,39 @@ void WindowEditorControl::DrawWindowContents()
 		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 	}
 
+	Application::PlayState playState = App->GetPlayState();
+
+	if (playState != Application::PlayState::STOPPED)
+	{
+		ImVec4 activeColor = ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive);
+		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
+	}
+
 	if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
 	{
-		(App->IsOnPlayMode()) ? App->OnStop() : App->OnPlay();
+		(App->GetPlayState() != Application::PlayState::STOPPED) ? App->OnStop() : App->OnPlay();
 	}
 	ImGui::SameLine();
+
+	if (playState != Application::PlayState::STOPPED)
+	{
+		ImGui::PopStyleColor();
+	}
+
+	if (playState == Application::PlayState::PAUSED)
+	{
+		ImVec4 darkGray = ImVec4(.6f, .6f, .6f, 1.f);
+		ImGui::PushStyleColor(ImGuiCol_Button, darkGray);
+	}
 
 	if (ImGui::Button("||"))
 	{
 		App->OnPause();
 	}
 	ImGui::SameLine();
+
+	if (playState == Application::PlayState::PAUSED)
+	{
+		ImGui::PopStyleColor();
+	}
 }

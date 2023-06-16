@@ -35,7 +35,6 @@ public:
 	void LoadScene(const std::string& name, bool mantainActualScene = false);
 
 	void OnPlay();
-	void OnPause();
 	void OnStop();
 
 	void InitAndStartScriptingComponents();
@@ -76,9 +75,4 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
-}
-
-inline void ModuleScene::OnPause()
-{
-	LOG_VERBOSE("Pause pressed");
 }

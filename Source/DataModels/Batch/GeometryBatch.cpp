@@ -666,7 +666,7 @@ void GeometryBatch::BindBatch(bool selected)
 #ifdef ENGINE
 			bool draw = false;
 
-			if (!App->IsOnPlayMode() && !isRoot)
+			if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 			{
 				if (!selected)
 				{

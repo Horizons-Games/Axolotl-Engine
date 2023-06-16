@@ -50,7 +50,7 @@ Camera* ModulePlayer::GetCameraPlayer()
 	return cameraPlayer;
 }
 
-void ModulePlayer::LoadNewPlayer()
+bool ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
@@ -73,10 +73,11 @@ void ModulePlayer::LoadNewPlayer()
 
 			CheckIfActivateMouse();
 
-			return;
+			return true;
 		}
 	}
 	LOG_ERROR("Player is not loaded");
+	return false;
 }
 
 void ModulePlayer::UnloadNewPlayer()

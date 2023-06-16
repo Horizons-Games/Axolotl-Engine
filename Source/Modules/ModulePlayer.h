@@ -1,6 +1,8 @@
 #pragma once
 #include "Module.h"
 
+#pragma message(__FILE__ " TODO: Delete this module")
+
 class GameObject;
 class Camera;
 class ComponentPlayer;
@@ -17,7 +19,7 @@ public:
 	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
 
-	void LoadNewPlayer();
+	bool LoadNewPlayer();
 	void UnloadNewPlayer();
 
 	bool IsStatic();

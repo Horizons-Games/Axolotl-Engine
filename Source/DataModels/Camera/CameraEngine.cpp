@@ -51,7 +51,7 @@ bool CameraEngine::Update()
 
 	bool sceneFocused = editor->IsSceneFocused();
 
-	if (sceneFocused && !App->IsOnPlayMode())
+	if (sceneFocused && App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		if (isFocusing)
 		{

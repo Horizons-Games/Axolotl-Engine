@@ -22,7 +22,11 @@
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false), closeGame(false)
+Application::Application() :
+	maxFramerate(MAX_FRAMERATE),
+	debuggingGame(false),
+	editorPlayState(PlayState::STOPPED),
+	closeGame(false)
 {
 	modules.resize(static_cast<int>(ModuleType::LAST));
 	modules[static_cast<int>(ModuleToEnum<ModuleWindow>::value)] = std::make_unique<ModuleWindow>();
@@ -89,7 +93,7 @@ update_status Application::Update()
 		return update_status::UPDATE_STOP;
 	}
 
-	bool playMode = isOnPlayMode;
+	bool playMode = editorPlayState != PlayState::STOPPED;
 	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 
 	for (const std::unique_ptr<Module>& module : modules)
@@ -123,7 +127,7 @@ update_status Application::Update()
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		SDL_Delay((Uint32) (1000.0f / GetMaxFrameRate() - dt));
 	}
 
 	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
@@ -147,29 +151,48 @@ bool Application::CleanUp()
 
 void Application::OnPlay()
 {
-	onPlayTimer.Start();
-	isOnPlayMode = true;
-	ModulePlayer* player = GetModule<ModulePlayer>();
-	player->LoadNewPlayer();
-	if (!player->GetPlayer())
+	editorPlayState = PlayState::RUNNING;
+	if (!GetModule<ModulePlayer>()->LoadNewPlayer())
 	{
-		isOnPlayMode = false;
+		editorPlayState = PlayState::STOPPED;
+		LOG_WARNING("Player could not be loaded, game not starting");
+		return;
 	}
 
+	onPlayTimer.Start();
 	// Active Scripts
 	GetModule<ModuleScene>()->OnPlay();
 }
 
+void Application::OnPause()
+{
+	if (GetPlayState() == PlayState::RUNNING)
+	{
+		editorPlayState = PlayState::PAUSED;
+		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+	}
+	else if (GetPlayState() == PlayState::PAUSED)
+	{
+		editorPlayState = PlayState::RUNNING;
+		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+	}
+}
+
 void Application::OnStop()
 {
-	isOnPlayMode = false;
+	editorPlayState = PlayState::STOPPED;
 	GetModule<ModuleInput>()->SetShowCursor(true);
 	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
 	GetModule<ModuleScene>()->OnStop();
 }
 
-void Application::OnPause()
+Application::PlayState Application::GetPlayState() const
 {
-	GetModule<ModuleScene>()->OnPause();
+	// See comment in the enum class
+#ifdef GAME
+	return PlayState::RUNNING;
+#else
+	return editorPlayState;
+#endif // GAME
 }

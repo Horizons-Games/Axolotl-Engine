@@ -131,7 +131,7 @@ void WindowMainMenu::DrawFileMenu()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 
-	bool onPlayMode = App->IsOnPlayMode();
+	bool onPlayMode = App->GetPlayState() != Application::PlayState::STOPPED;
 	if (onPlayMode)
 	{
 		ImGui::BeginDisabled();

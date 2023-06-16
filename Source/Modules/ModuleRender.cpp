@@ -280,7 +280,7 @@ update_status ModuleRender::Update()
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::STOPPED)
 	{
 		AddToRenderList(player);
 	}
@@ -299,7 +299,7 @@ update_status ModuleRender::Update()
 	glDepthFunc(GL_LEQUAL);
 	batchManager->DrawOpaque(false);
 
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected opaque
 		glEnable(GL_STENCIL_TEST);
@@ -320,7 +320,7 @@ update_status ModuleRender::Update()
 
 	batchManager->DrawTransparent(false);
 
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected transparent
 		glEnable(GL_STENCIL_TEST);

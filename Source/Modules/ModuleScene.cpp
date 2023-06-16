@@ -64,7 +64,7 @@ bool ModuleScene::Start()
 		Json startConfig(doc, doc);
 		startConfig.fromBuffer(buffer);
 		delete buffer;
-		
+
 		std::string startingScene = startConfig["StartingScene"];
 		std::string scenePath = LIB_PATH "Scenes/" + startingScene;
 		assert(fileSystem->Exists(scenePath.c_str()));
@@ -110,7 +110,7 @@ update_status ModuleScene::PreUpdate()
 		App->GetScriptFactory()->UpdateNotifier();
 	}
 
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -129,7 +129,7 @@ update_status ModuleScene::Update()
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
 
-	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (App->GetPlayState() == Application::PlayState::RUNNING && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -144,7 +144,7 @@ update_status ModuleScene::Update()
 
 update_status ModuleScene::PostUpdate()
 {
-	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (App->GetPlayState() == Application::PlayState::RUNNING && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -403,7 +403,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			rigidBody->UpdateRigidBodyTranslation();
 			rigidBody->UpdateRigidBody();
 		}
-
 	}
 
 	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponent<ComponentTransform>();
@@ -487,7 +486,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	}
 
 	mantainActualHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
-						   : loadedScene->SetSceneGameObjects(gameObjects);
+							: loadedScene->SetSceneGameObjects(gameObjects);
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{

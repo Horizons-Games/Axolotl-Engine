@@ -10,6 +10,17 @@ class ScriptFactory;
 class Application
 {
 public:
+	// For the record, it doesn't make sense for this to be in the Application layer
+	// This enum only carries meaning in Editor/Engine mode, and thus should not be compiled in Game
+	// But I don't feel like doing that big of a refactor
+	enum class PlayState
+	{
+		RUNNING,
+		PAUSED,
+		STOPPED
+	};
+
+public:
 	Application();
 	~Application();
 
@@ -19,17 +30,17 @@ public:
 	bool CleanUp();
 
 	void OnPlay();
-	void OnStop();
 	void OnPause();
+	void OnStop();
+
+	PlayState GetPlayState() const;
 
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
-	bool IsOnPlayMode() const;
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
-	void SetIsOnPlayMode(bool newIsOnPlayMode);
 	void SwitchDebuggingGame();
 
 	ScriptFactory* GetScriptFactory() const;
@@ -47,8 +58,9 @@ private:
 	int maxFramerate;
 	float deltaTime = 0.f;
 	bool debuggingGame;
-	bool isOnPlayMode;
 	bool closeGame;
+
+	PlayState editorPlayState;
 };
 
 extern std::unique_ptr<Application> App;
@@ -68,11 +80,6 @@ inline float Application::GetDeltaTime() const
 	return deltaTime;
 }
 
-inline bool Application::IsOnPlayMode() const
-{
-	return isOnPlayMode;
-}
-
 inline bool Application::IsDebuggingGame() const
 {
 	return debuggingGame;
@@ -81,12 +88,6 @@ inline bool Application::IsDebuggingGame() const
 inline void Application::SetDebuggingGame(bool debuggingGame)
 {
 	this->debuggingGame = debuggingGame;
-}
-
-inline void Application::SetIsOnPlayMode(bool newIsOnPlayMode)
-{
-	isOnPlayMode = newIsOnPlayMode;
-	isOnPlayMode ? OnPlay() : OnStop();
 }
 
 inline void Application::SwitchDebuggingGame()

@@ -76,7 +76,7 @@ void ModulePhysics::Reset()
 update_status ModulePhysics::PreUpdate()
 {
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
 		dynamicsWorld->stepSimulation(App->GetDeltaTime());
 		ManageCollisions();
