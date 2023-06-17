@@ -2,28 +2,23 @@
 
 #include "Application.h"
 
-#include "ModuleInput.h"
 #include "ModuleScene.h"
-
 #include "Scene/Scene.h"
-
 #include "Scripting/ScriptFactory.h"
 
 #include "Physics/Physics.h"
+#include "Geometry/Ray.h"
+#include "debugdraw.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 
-#include "HealthSystem.h"
-
-#include "GameObject/GameObject.h"
+#include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "Geometry/Ray.h"
 
-#include "debugdraw.h"
 
 REGISTERCLASS(DroneBullet);
 
@@ -73,7 +68,7 @@ void DroneBullet::CheckCollision()
 
 	if (Physics::Raycast(line, hit, transform->GetOwner()))
 	{
-		// We should avoid using GetRootGO(), but for now its fine
+		// We should avoid using GetRootGO()
 		if (hit.gameObject->GetRootGO() && hit.gameObject->GetRootGO()->CompareTag("Player"))
 		{
 			HealthSystem* playerHealthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();

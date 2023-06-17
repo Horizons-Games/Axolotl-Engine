@@ -5093,7 +5093,7 @@
         },
         {
             "GameObject": {
-                "name": "Capsule",
+                "name": "Bullet",
                 "tag": "",
                 "uid": 14482337877961713511,
                 "parentUID": 1877344391546661261,
@@ -8110,7 +8110,7 @@
         },
         {
             "GameObject": {
-                "name": "Capsule",
+                "name": "Bullet",
                 "tag": "",
                 "uid": 6934257976465712757,
                 "parentUID": 9816607705272251187,

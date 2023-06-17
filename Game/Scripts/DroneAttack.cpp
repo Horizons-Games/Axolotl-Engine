@@ -2,11 +2,12 @@
 
 #include "Application.h"
 
-#include "ModuleInput.h"
-#include "Scripting/ScriptFactory.h"
+#include "Geometry/Ray.h"
+#include "debugdraw.h"
 
-#include "Scene/Scene.h"
+#include "Scripting/ScriptFactory.h"
 #include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
@@ -14,15 +15,9 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "DroneBullet.h"
-
-#include "GameObject/GameObject.h"
+#include "../Scripts/DroneBullet.h"
 
 #include "Auxiliar/Audio/AudioData.h"
-
-#include "Geometry/Ray.h"
-
-#include "debugdraw.h"
 
 REGISTERCLASS(DroneAttack);
 

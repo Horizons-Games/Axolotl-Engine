@@ -13,7 +13,6 @@
 
 #include "Auxiliar/Audio/AudioData.h"
 
-
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),

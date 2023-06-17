@@ -2,8 +2,6 @@
 
 #include "Scripting\Script.h"
 
-#include "Components/ComponentTransform.h"
-
 class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
