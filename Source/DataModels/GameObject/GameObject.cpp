@@ -783,7 +783,6 @@ void GameObject::SetStatic(bool newStatic)
 		rigid->SetUpMobility();
 	}
 }
-}
 
 // This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs
 // to be rendereables in quadtree
