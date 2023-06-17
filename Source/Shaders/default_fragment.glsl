@@ -329,6 +329,11 @@ void main()
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
+        // Reconstruct Z component of the normal map
+        float x = norm.x;
+        float y = norm.y;
+        float z = sqrt(1.0 - x * x - y * y);
+        norm.z = z;
         norm = space * norm;
 	}
     norm = normalize(norm);
