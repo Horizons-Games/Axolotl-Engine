@@ -50,9 +50,10 @@ uniform int numLevels_IBL;
 uniform float cubemap_intensity;
 uniform int renderMode;
 
-in vec2 TexCoord;
-vec3 FragPos;
 uniform vec3 ViewPos;
+
+in vec2 TexCoord;
+
 out vec4 outColor;
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
@@ -69,7 +70,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
-vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
 {
     vec3 Lo = vec3(0.0);
 
@@ -80,7 +81,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float radius = points[i].position.w;
         float intensity = points[i].color.a;
 
-        vec3 L = normalize(pos-FragPos);
+        vec3 L = normalize(pos-fragPos);
         vec3 H = (L+V)/length(L+V);
         float dotNL = max(dot(N,L), EPSILON);
 
@@ -89,7 +90,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
-        float distance = length(FragPos-pos);
+        float distance = length(fragPos-pos);
         float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
@@ -101,7 +102,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
     return Lo;
 }
 
-vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
 {
     vec3 Lo = vec3(0.0);
 
@@ -118,7 +119,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float cosInner = cos(innerAngle);
         float cosOuter = cos(outerAngle);
 
-        vec3 L = normalize(pos-FragPos);
+        vec3 L = normalize(pos-fragPos);
         vec3 H = (L+V)/length(L+V);
         float dotNL = max(dot(N,L), EPSILON);
 
@@ -127,7 +128,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
         // Attenuation
-        float distance = dot(FragPos - pos, aim);
+        float distance = dot(fragPos - pos, aim);
         float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
         float attenuation = maxValue/(pow(distance,2) + 1);
 
@@ -159,7 +160,7 @@ float GGXNDAreaLight(float dotNH, float roughness, float alpha, float alphaPrime
     return (alpha2 * alphaPrime2) / pow( dotNH * dotNH * ( alpha2 - 1.0 ) + 1.0, 2.0);
 }
 
-vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
 {
     vec3 Lo = vec3(0.0);
 
@@ -172,7 +173,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         float lightRadius = areaSphere[i].lightRadius;
 
         // calculate closest point light specular
-        vec3 oldL = sP - FragPos;
+        vec3 oldL = sP - fragPos;
         vec3 R = normalize(reflect(-V, N));
         vec3 centerToRay = max(dot(oldL, R), EPSILON) * R - oldL;
         vec3 closest = oldL + centerToRay * min(sR/length(centerToRay),1.0);
@@ -195,7 +196,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         // calculate closest point light diffuse
         closest = sP;
 
-        L = normalize(closest-FragPos);
+        L = normalize(closest-fragPos);
         float diffuseDotNL = max(dot(N,L), EPSILON);
 
         vec3 Li = color * intensity * attenuation;
@@ -207,7 +208,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     return Lo;
 }
 
-vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
 {
     vec3 Lo = vec3(0.0);
 
@@ -221,8 +222,8 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float lightRadius = areaTube[i].lightRadius;
 
         // calculate closest point light specular
-        vec3 PA = posA - FragPos;
-        vec3 PB = posB - FragPos;
+        vec3 PA = posA - fragPos;
+        vec3 PB = posB - fragPos;
         float distL0 = length( PA );
 	    float distL1 = length( PB );
         float NoL0 = dot( PA, N ) / ( 2.0 * distL0 );
@@ -260,12 +261,12 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float attenuation = maxValue/(pow(distance,2) + 1);
 
         // calculate closest point light diffuse
-        float a = length(posA-FragPos);
-        float b = length(posB-FragPos);
+        float a = length(posA-fragPos);
+        float b = length(posB-fragPos);
         float x = (a)/(b + a);
         closest = posA + AB * x;
 
-        L = normalize(closest-FragPos);
+        L = normalize(closest-fragPos);
         float diffuseDotNL = max(dot(N,L), EPSILON);
 
         vec3 Li = color * intensity * attenuation;
@@ -280,13 +281,13 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 void main()
 {             
     // retrieve data from gbuffer
-    vec3 FragPos = texture(gPosition, TexCoord).rgb;
+    vec3 fragPos = texture(gPosition, TexCoord).rgb;
     vec3 norm = texture(gNormal, TexCoord).rgb;
     vec4 textureMat = texture(gDiffuse, TexCoord);
     vec4 specularMat = texture(gSpecular, TexCoord);
     float smoothness = specularMat.a;
 
-    vec3 viewDir = normalize(ViewPos - FragPos);
+    vec3 viewDir = normalize(ViewPos - fragPos);
     vec4 gammaCorrection = vec4(2.2);
 
     vec3 f0 = specularMat.rgb;
@@ -295,26 +296,26 @@ void main()
     float roughness = pow(1-smoothness,2) + EPSILON;
     
     // Lights
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
 
     if (num_point > 0)
     {
-        Lo += calculatePointLights(norm, viewDir, textureMat.rgb, f0, roughness);
+        Lo += calculatePointLights(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
     }
 
     if (num_spot > 0)
     {
-        Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness);
+        Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
     }
 
     if (num_spheres > 0)
     {
-        Lo += calculateAreaLightSpheres(norm, viewDir, textureMat.rgb, f0, roughness);
+        Lo += calculateAreaLightSpheres(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
     }
 
     if (num_tubes > 0)
     {
-        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness);
+        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
     }
 
     vec3 R = reflect(-viewDir, norm);
@@ -328,13 +329,13 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/gammaCorrection));
    
-   if(renderMode == 0)
-   {
+    if(renderMode == 0)
+    {
         outColor = vec4(color,1.0);
-   }
+    }
     else if (renderMode == 1)
     {
-        outColor = vec4(FragPos, 1.0f);
+        outColor = vec4(fragPos, 1.0f);
     }
     else if (renderMode == 2)
     {
