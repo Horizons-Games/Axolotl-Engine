@@ -23,13 +23,17 @@
 
 #include "ImGui/imgui.h"
 
+#ifdef ENGINE
 #include "Windows/EditorWindows/ImporterWindows/WindowParticleTexture.h"
+#endif //ENGINE
 
 #include <algorithm>
 
 ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(ModuleType::RENDER, emitter)
 {
+#ifdef ENGINE
 	windowTexture = new WindowParticleTexture(this, TextureType::DIFFUSE);
+#endif //ENGINE
 	alignment = Alignment::WORLD;
 	blendingMode = BlendingMode::ALPHA;
 	numInstances = 0;
@@ -279,6 +283,7 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 
 void ModuleRenderer::DrawImGui()
 {
+#ifdef ENGINE
 	if (ImGui::TreeNodeEx("Render Module", ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_FramePadding))
 	{
 		if (ImGui::BeginTable("##renderTable", 2))
@@ -453,4 +458,5 @@ void ModuleRenderer::DrawImGui()
 		}
 		ImGui::TreePop();
 	}
+#endif
 }

@@ -379,9 +379,6 @@
     <ClCompile Include="DataModels\ParticleSystem\ModulePosition.cpp">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Batch\BatchManager.cpp">
       <Filter>DataModels\Batch</Filter>
     </ClCompile>
@@ -499,6 +496,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -883,9 +883,6 @@
     <ClInclude Include="DataModels\ParticleSystem\ModulePosition.h">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
@@ -1014,6 +1011,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
