@@ -296,7 +296,7 @@ void main()
     float roughness = pow(1-smoothness,2) + EPSILON;
     
     // Lights
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 
     if (num_point > 0)
     {
