@@ -322,18 +322,15 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
-      <Filter>UserScripts\EnemyBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
-      <Filter>UserScripts\EnemyBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
-      <Filter>UserScripts\Enemies</Filter>
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
-      <Filter>UserScripts\Basics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
@@ -380,7 +377,7 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\HealthSystem.cpp">
-      <Filter>UserScripts\Health System</Filter>
+      <Filter>UserScripts\Gameplay\Health System</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
@@ -432,43 +429,43 @@
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PowerUpScript.cpp">
-      <Filter>UserScripts\PowerUp</Filter>
+      <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp">
-      <Filter>UserScripts\Enemies</Filter>
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
-      <Filter>UserScripts\Player\Movement</Filter>
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
-      <Filter>UserScripts\Player\Attack</Filter>
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
-      <Filter>UserScripts\Player\Rotation</Filter>
+      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
-      <Filter>UserScripts\Player\Rotation</Filter>
+      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
-      <Filter>UserScripts\Player\Abilities</Filter>
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
-      <Filter>UserScripts\Player\Movement</Filter>
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
-      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
-      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
-      <Filter>UserScripts\Player</Filter>
+      <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
-      <Filter>UserScripts\PowerUp</Filter>
+      <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -787,16 +784,13 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
-      <Filter>UserScripts\EnemyBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
-      <Filter>UserScripts\EnemyBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
-      <Filter>UserScripts\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
-      <Filter>UserScripts\Basics</Filter>
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
@@ -851,10 +845,7 @@
       <Filter>Auxiliar\Test</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\HealthSystem.h">
-      <Filter>UserScripts\Health System</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
+      <Filter>UserScripts\Gameplay\Health System</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
@@ -917,43 +908,46 @@
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PowerUpScript.h">
-      <Filter>UserScripts\PowerUp</Filter>
+      <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h">
-      <Filter>UserScripts\Enemies</Filter>
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
-      <Filter>UserScripts\Player\Movement</Filter>
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
-      <Filter>UserScripts\Player\Attack</Filter>
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
-      <Filter>UserScripts\Player\Rotation</Filter>
+      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
-      <Filter>UserScripts\Player\Rotation</Filter>
+      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
-      <Filter>UserScripts\Player\Abilities</Filter>
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
-      <Filter>UserScripts\Player\Movement</Filter>
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneBullet.h">
-      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
-      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
-      <Filter>UserScripts\Player</Filter>
+      <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
-      <Filter>UserScripts\PowerUp</Filter>
+      <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1026,26 +1020,14 @@
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\EnemyBehaviour">
-      <UniqueIdentifier>{5bdab4b3-f7b5-49c8-bc42-4b8a1cd3511d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Enemies">
-      <UniqueIdentifier>{acde5fbc-7f38-40b9-bbf4-7d669f5813ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Basics">
       <UniqueIdentifier>{2efe8905-6d7a-43f9-8bd7-35f513304159}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Player">
-      <UniqueIdentifier>{374c9ff0-7112-4fbc-9163-7a6f2719cda6}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Batch">
       <UniqueIdentifier>{f0a3ad34-d64c-41ad-9eeb-cf7129563751}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Health System">
-      <UniqueIdentifier>{562f5fbe-0e28-41cf-b6f2-8398f0b8bbfa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
@@ -1065,23 +1047,38 @@
     <Filter Include="UserScripts\UI">
       <UniqueIdentifier>{9ddd7416-8d1e-4b37-be90-b2a1b8cb51e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\PowerUp">
-      <UniqueIdentifier>{3c0319b6-bb2b-47a7-81ae-d8e78fa1ba74}</UniqueIdentifier>
+    <Filter Include="UserScripts\Gameplay">
+      <UniqueIdentifier>{717c0383-12aa-4f31-8437-aa9ab6c183bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Player\Movement">
+    <Filter Include="UserScripts\Gameplay\Enemies">
+      <UniqueIdentifier>{acde5fbc-7f38-40b9-bbf4-7d669f5813ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Health System">
+      <UniqueIdentifier>{562f5fbe-0e28-41cf-b6f2-8398f0b8bbfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player">
+      <UniqueIdentifier>{374c9ff0-7112-4fbc-9163-7a6f2719cda6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Movement">
       <UniqueIdentifier>{b812ac76-6b1f-47cc-a2da-da0913da9b93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Player\Rotation">
+    <Filter Include="UserScripts\Gameplay\Player\Rotation">
       <UniqueIdentifier>{599c1737-d371-4d4d-9b3a-d86d3d749929}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Player\Abilities">
+    <Filter Include="UserScripts\Gameplay\Player\Abilities">
       <UniqueIdentifier>{1b8a3c16-68e9-40de-8361-9466396630ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Player\Attack">
+    <Filter Include="UserScripts\Gameplay\Player\Attack">
       <UniqueIdentifier>{269828a2-35fb-43a3-9bbf-385818dfe41b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
+    <Filter Include="UserScripts\Gameplay\Behaviours">
+      <UniqueIdentifier>{5bdab4b3-f7b5-49c8-bc42-4b8a1cd3511d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\DroneAttackBehaviour">
       <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\PowerUps">
+      <UniqueIdentifier>{3c0319b6-bb2b-47a7-81ae-d8e78fa1ba74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1959,7 +1956,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
