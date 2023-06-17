@@ -12,18 +12,16 @@ class Scene;
 
 class DroneAttack : public Script
 {
-
 public:
 	DroneAttack();
 	~DroneAttack() override = default;
 
+	void Start() override;
+
 	void PerformAttack();
 
 private:
-	void Start() override;
-	void Update(float deltaTime) override;
-
-	bool isAttackAvailable();
+	bool IsAttackAvailable();
 
 	float attackCooldown;
 	float lastAttackTime;
@@ -31,17 +29,11 @@ private:
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
-	GameObject* animationGO;
+
 	ComponentTransform* bulletOrigin;
 	GameObject* bulletOriginGO;
 	GameObject* bulletPrefab;
-	Scene* loadedScene;
-
-	//Provisional
 	float bulletVelocity;
-	std::vector<ComponentTransform*> bullets;
 
-	//For Debug
-	ModuleInput* input;
-
+	Scene* loadedScene;
 };

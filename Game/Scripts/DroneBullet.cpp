@@ -70,28 +70,17 @@ void DroneBullet::CheckCollision()
 	Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 	LineSegment line(ray, rayAttackSize);
 	RaycastHit hit;
+
 	if (Physics::Raycast(line, hit, transform->GetOwner()))
 	{
-		if (hit.gameObject->GetRootGO())
+		// We should avoid using GetRootGO(), but for now its fine
+		if (hit.gameObject->GetRootGO() && hit.gameObject->GetRootGO()->CompareTag("Player"))
 		{
-			if (hit.gameObject->GetRootGO()->CompareTag("Player"))
-			{
-				std::vector<ComponentScript*> gameObjectScripts =
-					hit.gameObject->GetRootGO()->GetComponents<ComponentScript>();
-
-					for (int i = 0; i < gameObjectScripts.size(); ++i)
-					{
-						if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-						{
-							HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-							healthScript->TakeDamage(damageAttack);
-						}
-					}
-			}
+			HealthSystem* playerHealthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
+			playerHealthScript->TakeDamage(damageAttack);
 		}
 
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01);//Provisional sfx
-
+		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
 		DestroyBullet();
 	}
 }
