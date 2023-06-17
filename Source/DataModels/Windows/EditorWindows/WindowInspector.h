@@ -65,6 +65,7 @@ private:
 	int mag;
 	int wrapS;
 	int wrapT;
+	int compressionLevel;
 	//--
 
 	UID lastSelectedObjectUID;

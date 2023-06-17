@@ -33,9 +33,70 @@ void ResourceSkyBox::InternalLoad()
 
 		if (textI)
 		{
+			int compression = textI->GetImportOptions().compression;
+			int compressFormat = -1;
+			int byteSize = 0;
+			switch (compression)
+			{
+				case 0:
+					compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
+					byteSize = 8;
+					break;
+				case 1:
+					compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+					byteSize = 16;
+					break;
+				case 2:
+					compressFormat = GL_COMPRESSED_RED_RGTC1;
+					byteSize = 8;
+					break;
+				case 3:
+					compressFormat = GL_COMPRESSED_RG_RGTC2;
+					byteSize = 16;
+					break;
+				case 4:
+					compressFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+					byteSize = 16;
+					break;
+				case 5:
+					compressFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+					byteSize = 16;
+					break;
+				default:
+					break;
+			}
 			textI->Load();
 			std::vector<uint8_t> aux = textI->GetPixels();
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+			//glCompressedTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataSize, imageData);
+			if (compression == -1)
+			{
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+							 0,
+							 textI->GetInternalFormat(),
+							 textI->GetWidth(),
+							 textI->GetHeight(),
+							 0,
+							 textI->GetFormat(),
+							 textI->GetImageType(),
+							 &(aux[0]));
+			
+			}
+			else
+			{
+				glCompressedTexImage2D(
+					GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+					0,
+					compressFormat,
+					textI->GetWidth(),
+					textI->GetHeight(),
+					0,
+					((textI->GetWidth()+ 3) / 4) * ((textI->GetHeight() + 3) / 4) * byteSize,
+					&(aux[0]));
+			}
+
+
+			//(GLsizei)(ceilf( textI->GetWidth() / 4.f) * ceilf(textI->GetHeight() / 4.f) * 16.f)
+			/* glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 						 0,
 						 textI->GetInternalFormat(),
 						 textI->GetWidth(),
@@ -43,7 +104,7 @@ void ResourceSkyBox::InternalLoad()
 						 0,
 						 textI->GetFormat(),
 						 textI->GetImageType(),
-						 &(aux[0]));
+						 &(aux[0]));*/
 		}
 	}
 

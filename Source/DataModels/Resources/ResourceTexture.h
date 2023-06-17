@@ -62,7 +62,7 @@ struct ImportOptionsTexture
 	bool flipHorizontal;
 	int compression;
 
-	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), compression(0)
+	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), compression(-1)
 	{
 	}
 };

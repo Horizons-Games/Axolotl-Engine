@@ -48,7 +48,7 @@ void WindowTextureInput::DoThisIfOk()
 		std::shared_ptr<ResourceTexture> texture =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
 		
-		
+		texture->GetImportOptions().compression = -1;
 		
 		switch (textureType)
 		{
@@ -59,7 +59,7 @@ void WindowTextureInput::DoThisIfOk()
 
 			case TextureType::NORMAL:
 
-				texture->GetImportOptions().compression = 4;
+				texture->GetImportOptions().compression = 3;
 
 				break;
 			case TextureType::OCCLUSION:
@@ -69,17 +69,17 @@ void WindowTextureInput::DoThisIfOk()
 
 			case TextureType::METALLIC:
 
-				texture->GetImportOptions().compression = 4;
+				texture->GetImportOptions().compression = 3;
 
 				break;
 
 			case TextureType::SPECULAR:
 
-				texture->GetImportOptions().compression = 2;
+				texture->GetImportOptions().compression = 1;
 
 				break;
 			default:
-				texture->GetImportOptions().compression = 0;
+				texture->GetImportOptions().compression = -1;
 
 				break;
 		}

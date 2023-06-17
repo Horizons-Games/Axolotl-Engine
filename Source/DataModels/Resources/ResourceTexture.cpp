@@ -68,33 +68,41 @@ void ResourceTexture::CreateTexture()
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_2D, glTexture);
 
-	int compressFormat;
+	int compressFormat = -1;
+	int byteSize = 0;
 	
 	switch (importOptions.compression)
 	{
 		case 0:
+
 			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
+			byteSize = 8;
+			break;
+		case 1:
+			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+			byteSize = 16;
 			break;
 		case 2:
-			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+			compressFormat = GL_COMPRESSED_RED_RGTC1;
+			byteSize = 8;
 			break;
 		case 3:
-			compressFormat = GL_COMPRESSED_RED_RGTC1;
+			compressFormat = GL_COMPRESSED_RG_RGTC2;
+			byteSize = 16;
 			break;
 		case 4:
-			compressFormat = GL_COMPRESSED_RG_RGTC2;
+			compressFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+			byteSize = 16;
 			break;
 		case 5:
-			compressFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
-			break;
-		case 6:
 			compressFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+			byteSize = 16;
 			break;
 		default:
 			break;
 	}
-	//glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
-	glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressFormat, width, height, 0, width*height, &(pixels[0]));
+	if (importOptions.compression == -1) glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
+	else glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressFormat, width, height, 0, ((width + 3) / 4) * ((height + 3) / 4) * byteSize, &(pixels[0]));
 	if (loadOptions.mipMap)
 	{
 		glGenerateMipmap(GL_TEXTURE_2D);

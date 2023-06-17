@@ -109,21 +109,18 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 			compressFormat = DXGI_FORMAT_BC1_UNORM;
 			break;
 		case 1:
-			compressFormat = DXGI_FORMAT_BC2_UNORM;
-			break;
-		case 2:
 			compressFormat = DXGI_FORMAT_BC3_UNORM;
 			break;
-		case 3:
+		case 2:
 			compressFormat = DXGI_FORMAT_BC4_UNORM;
 			break;
-		case 4:
+		case 3:
 			compressFormat = DXGI_FORMAT_BC5_UNORM;
 			break;
-		case 5:
+		case 4:
 			compressFormat = DXGI_FORMAT_BC6H_SF16;
 			break;
-		case 6:
+		case 5:
 			compressFormat = DXGI_FORMAT_BC7_UNORM;
 			break;
 		default:
@@ -131,20 +128,29 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	}
 
 	
-	
-	result = DirectX::Compress(imgResult->GetImages(),
-							   imgResult->GetImageCount(),
-							   imgResult->GetMetadata(),
-							   compressFormat,
-							   DirectX::TEX_COMPRESS_DEFAULT,
-							   DirectX::TEX_THRESHOLD_DEFAULT,
-							   compressImg);
-	
-	if (FAILED(result)) // Compression fails
+	if (options.compression > -1)
 	{
+		result = DirectX::Compress(imgResult->GetImages(),
+								   imgResult->GetImageCount(),
+								   imgResult->GetMetadata(),
+								   compressFormat,
+								   DirectX::TEX_COMPRESS_DEFAULT,
+								   DirectX::TEX_THRESHOLD_DEFAULT,
+								   compressImg);
+
+		if (FAILED(result)) // Compression fails
+		{
+		}
 	}
-	
-	
+	else
+	{
+		HRESULT result = compressImg.InitializeFromImage(
+			*imgResult->GetImages(), false, DirectX::CP_FLAGS_NONE);
+		if (FAILED(result))
+		{
+			// Handle the error appropriately
+		}
+	}
 	GLint internalFormat;
 	GLenum format, type;
 
@@ -237,6 +243,8 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 	result = DirectX::SaveToDDSFile(
 		compressImg.GetImages(), compressImg.GetImageCount(), compressImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+
+	//Save(resource, buffer, size);
 
 	/* if (!cubeMap)
 	{
@@ -340,6 +348,31 @@ void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture
 				break;
 			case DXGI_FORMAT_BC1_UNORM:
 				internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC3_UNORM:
+				internalFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC4_UNORM:
+				internalFormat = GL_COMPRESSED_RED_RGTC1;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC5_UNORM:
+				internalFormat = GL_COMPRESSED_RG_RGTC2;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC6H_SF16:
+				internalFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC7_UNORM:
+				internalFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
 				format = GL_RGBA;
 				type = GL_UNSIGNED_BYTE;
 				break;

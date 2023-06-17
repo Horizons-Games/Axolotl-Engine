@@ -8,7 +8,12 @@
 #include "DataModels/Resources/ResourceTexture.h"
 #include "Scene/Scene.h"
 
+#include "GameObject/GameObject.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+
+#include "Components/Component.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
@@ -310,6 +315,7 @@ void WindowInspector::InitTextureImportOptions()
 	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
 	flipVertical = resourceTexture->GetImportOptions().flipVertical;
 	flipHorizontal = resourceTexture->GetImportOptions().flipHorizontal;
+	compressionLevel = resourceTexture->GetImportOptions().compression + 1;
 }
 
 void WindowInspector::InitTextureLoadOptions()
@@ -331,8 +337,8 @@ void WindowInspector::DrawTextureOptions()
 		ImGui::TableNextColumn();
 		ImGui::Image((void*) resourceTexture->GetGlTexture(), ImVec2(100, 100));
 		ImGui::TableNextColumn();
-		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
-		ImGui::Text("Height %.2f", resourceTexture->GetHeight());
+		ImGui::Text("Width %d", resourceTexture->GetWidth());
+		ImGui::Text("Height %d", resourceTexture->GetHeight());
 		ImGui::EndTable();
 	}
 	ImGui::Text("");
@@ -340,13 +346,14 @@ void WindowInspector::DrawTextureOptions()
 	{
 		ImGui::Checkbox("Flip Image Vertical", &flipVertical);
 		ImGui::Checkbox("Flip Image Horizontal", &flipHorizontal);
-		const char* compression[] = { "BC1",
-									 "BC2",
+		const char* compression[] = { "No compress", 
+									 "BC1",
 									 "BC3",
 									 "BC4",
 									 "BC5",
-									 "BC6" };
-		ImGui::Combo("Compression", &min, compression, IM_ARRAYSIZE(compression));
+									 "BC6", 
+									 "BC7" };
+		ImGui::Combo("Compression", &compressionLevel, compression, IM_ARRAYSIZE(compression));
 	}
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
@@ -383,6 +390,7 @@ void WindowInspector::DrawTextureOptions()
 	{
 		resourceTexture->GetImportOptions().flipVertical = flipVertical;
 		resourceTexture->GetImportOptions().flipHorizontal = flipHorizontal;
+		resourceTexture->GetImportOptions().compression = compressionLevel - 1;
 		resourceTexture->GetLoadOptions().mipMap = mipMap;
 		resourceTexture->GetLoadOptions().min = (TextureMinFilter) min;
 		resourceTexture->GetLoadOptions().mag = (TextureMagFilter) mag;
@@ -391,6 +399,47 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());
+		for (GameObject* g : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneGameObjects())
+		{
+			std::vector<ComponentMeshRenderer*> renderers = g->GetComponentsByType<ComponentMeshRenderer>(ComponentType::MESHRENDERER);
+			for (ComponentMeshRenderer* render : renderers)
+			{
+				if (render->GetMaterial()->HasDiffuse())
+				{
+					if (render->GetMaterial()->GetDiffuse()->GetUID() == resourceTexture->GetUID())
+					{
+						//render->UnloadTexture(TextureType::DIFFUSE);
+						//render->SetDiffuse(resourceTexture);
+						g->Disable();
+						render->SetDiffuse(resourceTexture);
+						g->Enable();
+						//g->GetComponent(ComponentType::MESHRENDERER)
+					}
+						
+				}
+				if (render->GetMaterial()->HasMetallic())
+				{
+					if (render->GetMaterial()->GetMetallic()->GetUID() == resourceTexture->GetUID())
+					{
+						render->SetMetallic(resourceTexture);
+					}
+				}
+				if (render->GetMaterial()->HasSpecular())
+				{
+					if (render->GetMaterial()->GetSpecular()->GetUID() == resourceTexture->GetUID())
+					{
+						render->SetSpecular(resourceTexture);
+					}
+				}
+				if (render->GetMaterial()->HasNormal())
+				{
+					if (render->GetMaterial()->GetNormal()->GetUID() == resourceTexture->GetUID())
+					{
+						render->SetNormal(resourceTexture);
+					}
+				}
+			}
+		}
 	}
 }
 
