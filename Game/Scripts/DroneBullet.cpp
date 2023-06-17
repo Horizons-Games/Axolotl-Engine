@@ -28,7 +28,7 @@
 REGISTERCLASS(DroneBullet);
 
 DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), bulletLifeTime(10.0f),
-damageAttack(10.0f), rayAttackSize(10.0f), originTime(0.0f)
+	damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f)
 {
 }
 
