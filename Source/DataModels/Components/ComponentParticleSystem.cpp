@@ -115,17 +115,8 @@ void ComponentParticleSystem::AddEmitterInstance(EmitterInstance* emitter)
 	emitters.push_back(emitter);
 }
 
-void ComponentParticleSystem::RemoveEmitter(EmitterInstance* emitter)
+void ComponentParticleSystem::RemoveEmitter(int pos)
 {
-	delete emitter;
-	emitter = nullptr;
-
-	for (int i = 0; i < emitters.size(); ++i)
-	{
-		if (emitters[i] == nullptr)
-		{
-			ENGINE_LOG("enters");
-		}
-	}
-	emitters.erase(std::remove(emitters.begin(), emitters.end(), nullptr), emitters.end());
+	delete emitters[pos];
+	emitters.erase(emitters.begin() + pos);
 }

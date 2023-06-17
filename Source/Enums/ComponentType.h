@@ -35,6 +35,7 @@ class ComponentMeshCollider;
 class ComponentMeshRenderer;
 class ComponentMockState;
 class ComponentPlayer;
+class ComponentParticleSystem;
 class ComponentRigidBody;
 class ComponentScript;
 class ComponentTransform;
@@ -113,6 +114,12 @@ template<>
 struct ComponentToEnum<ComponentPlayer>
 {
 	const static ComponentType value = ComponentType::PLAYER;
+};
+
+template<>
+struct ComponentToEnum<ComponentParticleSystem>
+{
+	const static ComponentType value = ComponentType::PARTICLE;
 };
 
 template<>

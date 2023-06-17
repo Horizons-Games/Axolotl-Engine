@@ -54,20 +54,31 @@ void WindowComponentParticle::DrawWindowContents()
 		ImGui::Separator();
 	}
 
-	for (EmitterInstance* instance : component->GetEmitters())
+	std::vector<EmitterInstance*> emitters = component->GetEmitters();
+
+	int emitterToRemove = -1;
+
+	for (int id = 0; id < emitters.size(); ++id)
 	{
-		DrawEmitter(instance, id);
+		ImGui::PushID(id);
+
+		DrawEmitter(emitters[id]);
 
 		ImGui::Dummy(ImVec2(0.0f, 10.0f));
 		if (ImGui::Button("Delete Emitter", ImVec2(115.0f, 20.0f)))
 		{
-			component->RemoveEmitter(instance);
+			emitterToRemove = id;
 		}
 		ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 		ImGui::Separator();
 
-		++id;
+		ImGui::PopID();
+	}
+
+	if (emitterToRemove != -1)
+	{
+		component->RemoveEmitter(emitterToRemove);
 	}
 
 	if (ImGui::Button("Add an Emitter"))
@@ -80,11 +91,9 @@ void WindowComponentParticle::DrawWindowContents()
 	}
 }
 
-void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
+void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 {
 	std::shared_ptr<ParticleEmitter> emitter = instance->GetEmitter();
-
-	ImGui::PushID(id);
 
 	if (emitter)
 	{
@@ -565,6 +574,4 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 	{
 		//TODO: Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)
 	}
-
-	ImGui::PopID();
 }
