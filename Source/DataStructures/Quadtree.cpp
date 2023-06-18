@@ -135,9 +135,9 @@ bool Quadtree::Remove(const GameObject* gameObject)
 	if (!IsLeaf())
 	{
 		bool childrenRemovedObject = frontRightNode->Remove(gameObject);
-		childrenRemovedObject += frontLeftNode->Remove(gameObject);
-		childrenRemovedObject += backRightNode->Remove(gameObject);
-		childrenRemovedObject += backLeftNode->Remove(gameObject);
+		childrenRemovedObject = childrenRemovedObject || frontLeftNode->Remove(gameObject);
+		childrenRemovedObject = childrenRemovedObject || backRightNode->Remove(gameObject);
+		childrenRemovedObject = childrenRemovedObject || backLeftNode->Remove(gameObject);
 
 		if (childrenRemovedObject)
 		{

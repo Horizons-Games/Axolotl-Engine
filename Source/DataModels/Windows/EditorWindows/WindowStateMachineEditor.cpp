@@ -104,7 +104,10 @@ void WindowStateMachineEditor::DrawWindowContents()
 		{
 			std::pair<int, int> posSelectedState = stateAsShared->GetState(stateIdSelected)->auxiliarPos;
 			DrawActualTransitionCreation(
-				ImVec2(posSelectedState.first, posSelectedState.second), origin, mousePosInCanvas, drawList);
+				ImVec2(static_cast<float>(posSelectedState.first), static_cast<float>(posSelectedState.second)),
+				origin,
+				mousePosInCanvas,
+				drawList);
 		}
 
 		DrawTransitions(stateAsShared, origin, drawList);
@@ -214,7 +217,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 
 void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMachine>& stateAsShared)
 {
-	if (stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected > 0)
+	if (stateIdSelected < static_cast<int>(stateAsShared->GetNumStates()) && stateIdSelected > 0)
 	{
 		State* state = stateAsShared->GetState(stateIdSelected);
 		ImGui::Text("State");
@@ -412,7 +415,7 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 		Transition transition = it.second;
 		State* stateOrigin = stateAsShared->GetState(transition.originState);
 		State* stateDestination = stateAsShared->GetState(transition.destinationState);
-		ImGui::PushID(it.first);
+		ImGui::PushID(static_cast<int>(it.first));
 		ImVec2 posStateOriginCenter = ImVec2(origin.x + stateOrigin->auxiliarPos.first + sizeState.x / 2,
 											 origin.y + stateOrigin->auxiliarPos.second + sizeState.y / 2);
 		ImVec2 postStateDestinationCenter = ImVec2(origin.x + stateDestination->auxiliarPos.first + sizeState.x / 2,
@@ -480,13 +483,14 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 										  const ImVec2& mouseDelta,
 										  ImDrawList* drawList)
 {
-	for (int i = 0; i < stateAsShared->GetNumStates(); i++)
+	for (unsigned int i = 0; i < stateAsShared->GetNumStates(); i++)
 	{
 		State* state = stateAsShared->GetState(i);
 		if (state != nullptr)
 		{
 			ImGui::PushID(i);
-			ImVec2 posState = ImVec2(state->auxiliarPos.first, state->auxiliarPos.second);
+			ImVec2 posState =
+				ImVec2(static_cast<float>(state->auxiliarPos.first), static_cast<float>(state->auxiliarPos.second));
 			ImVec2 minRect = ImVec2(origin.x + posState.x, origin.y + posState.y);
 			ImVec2 maxRect = ImVec2(origin.x + posState.x + sizeState.x, origin.y + posState.y + sizeState.y);
 			ImGui::SetCursorScreenPos(minRect);
@@ -517,7 +521,8 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 				}
 				if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 				{
-					state->auxiliarPos = std::make_pair<int, int>(posState.x + mouseDelta.x, posState.y + mouseDelta.y);
+					state->auxiliarPos = std::make_pair<int, int>(static_cast<int>(posState.x + mouseDelta.x),
+																  static_cast<int>(posState.y + mouseDelta.y));
 					// stateAsShared->EditState(i, state);
 				}
 				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
@@ -584,7 +589,7 @@ void WindowStateMachineEditor::DrawRightClickPopUp(std::shared_ptr<ResourceState
 		openContextMenu = false;
 		if (stateAsShared)
 		{
-			if (stateIdSelected >= 0 && stateIdSelected < stateAsShared->GetNumStates())
+			if (stateIdSelected >= 0 && stateIdSelected < static_cast<int>(stateAsShared->GetNumStates()))
 			{
 				if (ImGui::MenuItem("Add Transition"))
 				{
@@ -610,7 +615,8 @@ void WindowStateMachineEditor::DrawRightClickPopUp(std::shared_ptr<ResourceState
 			{
 				if (ImGui::MenuItem("Create State"))
 				{
-					stateAsShared->AddNewState(mousePosInCanvas.x, mousePosInCanvas.y);
+					stateAsShared->AddNewState(static_cast<int>(mousePosInCanvas.x),
+											   static_cast<int>(mousePosInCanvas.y));
 				}
 			}
 		}

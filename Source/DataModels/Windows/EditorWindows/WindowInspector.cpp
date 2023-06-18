@@ -45,24 +45,28 @@ WindowInspector::WindowInspector() :
 		return gameObjectDoesNotHaveComponent.template operator()<ComponentLight>(gameObject);
 	};
 
-	actions.push_back(AddComponentAction("Create Spot Light Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT, AreaType::NONE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
-	actions.push_back(AddComponentAction("Create Point Light Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT, AreaType::NONE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Spot Light Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT, AreaType::NONE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Point Light Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT, AreaType::NONE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
 
-	actions.push_back(AddComponentAction("Create Area Light Sphere Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::SPHERE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Area Light Sphere Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::SPHERE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
 
-	actions.push_back(AddComponentAction("Create Area Light Tube Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::TUBE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Area Light Tube Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::TUBE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
 
 	actions.push_back(AddComponentAction(
 		"Create Player Component",
@@ -341,7 +345,8 @@ void WindowInspector::DrawTextureOptions()
 	if (ImGui::BeginTable("table1", 2))
 	{
 		ImGui::TableNextColumn();
-		ImGui::Image((void*) resourceTexture->GetGlTexture(), ImVec2(100, 100));
+		ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(resourceTexture->GetGlTexture())),
+					 ImVec2(100, 100));
 		ImGui::TableNextColumn();
 		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
 		ImGui::Text("Height %.2f", resourceTexture->GetHeight());

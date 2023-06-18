@@ -3,7 +3,9 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include <algorithm>
 #include <assert.h>
+#include <iterator>
 
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
@@ -190,7 +192,13 @@ bool ModuleAudio::InitializeBanks()
 		const wchar_t* pathAsWChar = AKTEXT("WwiseProject/GeneratedSoundBanks/Windows");
 		lowLevelIO.SetBasePath(pathAsWChar);
 		std::wstring pathAsWString = std::wstring(pathAsWChar);
-		soundBanksFolderPath = std::string(std::begin(pathAsWString), std::end(pathAsWString));
+		std::transform(std::begin(pathAsWString),
+					   std::end(pathAsWString),
+					   std::back_inserter(soundBanksFolderPath),
+					   [](wchar_t c)
+					   {
+						   return static_cast<char>(c);
+					   });
 	}
 
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
@@ -224,4 +232,5 @@ bool ModuleAudio::InitializeBanks()
 			}
 		}
 	}
+	return true;
 }

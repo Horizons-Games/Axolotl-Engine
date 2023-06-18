@@ -192,4 +192,5 @@ float3 ComponentMeshCollider::GetMovementGivenDirection(std::vector<float3>& poi
 		default:
 			break;
 	}
+	return float3::zero;
 }
