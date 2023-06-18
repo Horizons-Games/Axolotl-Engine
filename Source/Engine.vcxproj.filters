@@ -467,9 +467,6 @@
     <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp">
-      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClCompile>
@@ -954,9 +951,6 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h">
-      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
