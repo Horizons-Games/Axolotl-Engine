@@ -1,6 +1,7 @@
 #include "EnemyDeathScript.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentScript.h"
 
 #include "../Scripts/EnemyManagerScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
