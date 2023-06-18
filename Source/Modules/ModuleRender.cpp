@@ -202,9 +202,6 @@ update_status ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	renderMapOpaque.clear();
-	renderMapTransparent.clear();
-
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, gFrameBuffer);
