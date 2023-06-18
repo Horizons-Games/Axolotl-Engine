@@ -123,7 +123,7 @@ ModuleRender::ModuleRender() :
 	gNormal(0),
 	gDiffuse(0),
 	gSpecular(0),
-	depthTexture(0)
+	gDepth(0)
 {
 }
 
@@ -210,10 +210,8 @@ update_status ModuleRender::PreUpdate()
 
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer 
-
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -277,15 +275,9 @@ update_status ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
-
 	// -------- DEFERRED GEOMETRY -----------
 
 	// Draw opaque objects
-	//glDisable(GL_BLEND);
-	//glDepthMask(GL_TRUE);
-	glDepthFunc(GL_LEQUAL);
-	
 	batchManager->DrawOpaque(false);
 	if (!App->IsOnPlayMode() && !isRoot)
 	{
@@ -300,15 +292,12 @@ update_status ModuleRender::Update()
 		glDisable(GL_STENCIL_TEST);
 	}
 
-	//glDepthMask(GL_FALSE);
-	//glDisable(GL_DEPTH_TEST);
-
 	// -------- DEFERRED LIGHTING ---------------
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 #ifdef ENGINE
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // maybe we should move out this
 #endif // ENGINE
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER);
@@ -340,7 +329,7 @@ update_status ModuleRender::Update()
 	program->BindUniformInt("renderMode", modeRender);
 
 #ifdef ENGINE
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 3); // maybe we should move out this
 #endif // ENGINE
 
 	program->Deactivate();
@@ -351,14 +340,19 @@ update_status ModuleRender::Update()
 
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, gFrameBuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
-	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+
+	// -------- PRE-FORWARD ----------------------
+
+	if (skybox)
+	{
+		//skybox->Draw();
+	}
+
+	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	// -------- DEFERRED + FORWARD ---------------
-
-	//if (skybox)
-	//{
-	//	skybox->Draw();
-	//}
 
 	// Draw Transparent objects
 	glEnable(GL_BLEND);
@@ -411,7 +405,6 @@ update_status ModuleRender::Update()
 update_status ModuleRender::PostUpdate()
 {
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -429,7 +422,7 @@ bool ModuleRender::CleanUp()
 	glDeleteTextures(1, &gNormal);
 	glDeleteTextures(1, &gDiffuse);
 	glDeleteTextures(1, &gSpecular);
-	glDeleteTextures(1, &depthTexture);
+	glDeleteTextures(1, &gDepth);
 
 #ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);
@@ -484,10 +477,10 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		GL_COLOR_ATTACHMENT3 };
 	glDrawBuffers(4, attachments);
 
-	glGenRenderbuffers(1, &depthTexture);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthTexture);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthTexture);
+	glGenRenderbuffers(1, &gDepth);
+	glBindRenderbuffer(GL_RENDERBUFFER, gDepth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, gDepth);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
