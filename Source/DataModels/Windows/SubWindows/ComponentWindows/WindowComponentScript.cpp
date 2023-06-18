@@ -224,7 +224,6 @@ void WindowComponentScript::DrawWindowContents()
 
 	if (ImGui::IsMouseHoveringRect(headerMinPos, headerMaxPos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
-		LOG_DEBUG("MS since last click: {}", secondsSinceLastClick);
 		if (IsDoubleClicked())
 		{
 			std::string scriptPath = "Scripts\\" + script->GetConstructName() + ".cpp";
