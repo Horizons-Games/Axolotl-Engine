@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
 
@@ -33,9 +36,3 @@ private:
 
 	std::string loseSceneName;
 };
-
-inline void HealthSystem::IncreaseDefense(float increaseDefense)
-{
-	defense += increaseDefense;
-	LOG_INFO("Defense increased");
-}

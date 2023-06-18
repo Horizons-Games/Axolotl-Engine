@@ -96,6 +96,13 @@ float HealthSystem::GetCurrentHealth() const
 {
 	return currentHealth;
 }
+
+void HealthSystem::IncreaseDefense(float increaseDefense)
+{
+	defense += increaseDefense;
+	LOG_VERBOSE("Defense increased");
+}
+
 void HealthSystem::PlayerDeath()
 {
 	// Once the player is dead, disable its scripts

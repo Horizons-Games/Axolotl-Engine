@@ -166,3 +166,9 @@ bool BixAttackScript::isAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }
+
+void BixAttackScript::IncreaseAttack(float amountAttack)
+{
+	damageAttack += amountAttack;
+	LOG_VERBOSE("Attack increased");
+}

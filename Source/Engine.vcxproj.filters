@@ -853,9 +853,6 @@
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="Enums\FieldType.h">
       <Filter>Enums</Filter>
     </ClInclude>
@@ -945,6 +942,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>

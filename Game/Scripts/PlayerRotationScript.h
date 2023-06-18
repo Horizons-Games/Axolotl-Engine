@@ -1,7 +1,11 @@
 #pragma once
+
 #include "Script.h"
-class PlayerRotationScript :
-    public Script
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
+
+class PlayerRotationScript : public Script
 {
 public:
 
@@ -14,7 +18,6 @@ public:
 private:
     void Rotation(float deltaTime);
 
-private:
 	float rotationSensitivity;
 };
 

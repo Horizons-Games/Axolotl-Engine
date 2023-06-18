@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-// This script performs the movement for the drone
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentScript;
 class ComponentTransform;

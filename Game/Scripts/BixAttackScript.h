@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-#include "Components/ComponentTransform.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
 class ComponentAudioSource;
@@ -49,9 +50,3 @@ private:
 	ComponentTransform* ray4Transform;
 	//--Provisional
 };
-
-inline void BixAttackScript::IncreaseAttack(float amountAttack)
-{
-	damageAttack += amountAttack;
-	LOG_INFO("Attack increased");
-}
