@@ -12,6 +12,11 @@
 #include "Math/float3.h"
 #include "ScriptFactory.h"
 
+namespace
+{
+const float doubleClickTimeFrameInS = .5f;
+}
+
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component),
 	windowUID(UniqueID::GenerateUID())
@@ -24,6 +29,9 @@ WindowComponentScript::~WindowComponentScript()
 
 void WindowComponentScript::DrawWindowContents()
 {
+	// Store the starting position of the collapsing header
+	ImVec2 headerMinPos = ImGui::GetItemRectMin();
+
 	DrawEnableAndDeleteComponent();
 
 	ImGui::Text("");
@@ -73,11 +81,9 @@ void WindowComponentScript::DrawWindowContents()
 	ImGui::Separator();
 
 	std::string scriptName = script->GetConstructName().c_str();
-	std::string scriptExtension = ".cpp:";
-	std::string fullScriptName = scriptName + scriptExtension;
-	ImGui::Text(fullScriptName.c_str());
+	ImGui::Text(scriptName.c_str());
 
-	if (ImGui::GetWindowWidth() > static_cast<float>(fullScriptName.size()) * 13.0f)
+	if (ImGui::GetWindowWidth() > static_cast<float>(scriptName.size()) * 13.0f)
 	{
 		ImGui::SameLine(ImGui::GetWindowWidth() - 120.0f);
 	}
@@ -206,6 +212,26 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 		}
 	}
+
+	// Store the ending position of the collapsing header
+	ImVec2 headerMaxPos = ImGui::GetItemRectMax();
+
+	// Adjust headerMin and headerMax for the full width of the header
+	headerMinPos.x = ImGui::GetWindowPos().x;
+	headerMaxPos.x = ImGui::GetWindowPos().x + ImGui::GetWindowWidth();
+
+	secondsSinceLastClick += App->GetDeltaTime();
+
+	if (ImGui::IsMouseHoveringRect(headerMinPos, headerMaxPos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	{
+		LOG_DEBUG("MS since last click: {}", secondsSinceLastClick);
+		if (IsDoubleClicked())
+		{
+			std::string scriptPath = "Scripts\\" + script->GetConstructName() + ".cpp";
+			ShellExecuteA(0, 0, scriptPath.c_str(), 0, 0, SW_SHOW);
+		}
+		secondsSinceLastClick = 0;
+	}
 }
 
 void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char* selectedScript)
@@ -290,4 +316,9 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 		stringToReplace.replace(startPos, from.length(), to);
 		startPos += to.length();
 	}
+}
+
+bool WindowComponentScript::IsDoubleClicked()
+{
+	return secondsSinceLastClick <= doubleClickTimeFrameInS;
 }
