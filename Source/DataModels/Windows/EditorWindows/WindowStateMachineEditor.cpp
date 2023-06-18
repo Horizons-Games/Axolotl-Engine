@@ -441,8 +441,15 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 		ImVec2 p2Im = ImVec2(p2.x, p2.y);
 		ImVec2 p3Im = ImVec2(p3.x, p3.y);
 
-		drawList->AddLine(exitPoint, enterPoint, IM_COL32(255, 255, 255, 255));
-		drawList->AddTriangleFilled(p1Im, p2Im, p3Im, IM_COL32(255, 255, 255, 255));
+		ImU32 color = IM_COL32(255, 255, 255, 255);
+
+		if (transitionIdSelected == it.first)
+		{
+			color = IM_COL32(240, 180, 20, 255);
+		}
+
+		drawList->AddLine(exitPoint, enterPoint, color);
+		drawList->AddTriangleFilled(p1Im, p2Im, p3Im, color);
 
 		ImVec2 pCenter = ImVec2(center.x - triangleLength / 2.f, center.y - triangleHeight / 2.f);
 
@@ -535,19 +542,30 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 
 			if (i != 0)
 			{
+				ImU32 colorRectFilled = IM_COL32(100, 100, 120, 255);
+				ImU32 colorRectMultiColorUp = IM_COL32(65, 65, 75, 255);
+				ImU32 colorRectMultiColorDown = IM_COL32(25, 25, 45, 255);
+
+				if (stateIdSelected == i)
+				{
+					colorRectFilled = IM_COL32(240, 180, 20, 255);
+					colorRectMultiColorUp = IM_COL32(245, 208, 11, 255);
+					colorRectMultiColorDown = IM_COL32(186, 120, 2, 255);
+				}
+
 				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
-										ImVec2(maxRect.x + 2, maxRect.y + 2),
-										IM_COL32(100, 100, 120, 255),
+										ImVec2(maxRect.x + 2, maxRect.y + 2), colorRectFilled,
 										4.0f);
 				drawList->AddRectFilledMultiColor(minRect,
 												  maxRect,
-												  IM_COL32(65, 65, 75, 255),
-												  IM_COL32(65, 65, 75, 255),
-												  IM_COL32(25, 25, 45, 255),
-												  IM_COL32(25, 25, 45, 255));
+												  colorRectMultiColorUp,
+												  colorRectMultiColorUp,
+												  colorRectMultiColorDown,
+												  colorRectMultiColorDown);
 			}
 			else
 			{
+				//Entry State
 				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
 										ImVec2(maxRect.x + 2, maxRect.y + 2),
 										IM_COL32(0, 120, 0, 255),
