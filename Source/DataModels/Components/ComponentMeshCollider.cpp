@@ -190,7 +190,6 @@ float3 ComponentMeshCollider::GetMovementGivenDirection(std::vector<float3>& poi
 		case Direction::DOWN:
 			return -float3::unitY;
 		default:
-			break;
+			return float3::one;
 	}
-	return float3::zero;
 }
