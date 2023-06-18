@@ -428,7 +428,7 @@
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PowerUpScript.cpp">
+    <ClCompile Include="..\Game\Scripts\PowerUpLogicScript.cpp">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp">
@@ -904,7 +904,7 @@
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PowerUpScript.h">
+    <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h">

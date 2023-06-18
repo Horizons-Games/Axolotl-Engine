@@ -5,8 +5,8 @@
 #include "Application.h"
 #include "ModuleInput.h"
 
-#include "PlayerManagerScript.h"
-#include "PowerUpScript.h"
+#include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/PowerUpLogicScript.h"
 
 REGISTERCLASS(ActionsPowerUpScript);
 

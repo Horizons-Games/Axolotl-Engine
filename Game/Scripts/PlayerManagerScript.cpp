@@ -2,10 +2,10 @@
 
 #include "Components/ComponentScript.h"
 
-#include "PowerUpScript.h"
-#include "HealthSystem.h"
-#include "PlayerMoveScript.h"
-#include "BixAttackScript.h"
+#include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/HealthSystem.h"
+#include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/BixAttackScript.h"
 
 REGISTERCLASS(PlayerManagerScript);
 

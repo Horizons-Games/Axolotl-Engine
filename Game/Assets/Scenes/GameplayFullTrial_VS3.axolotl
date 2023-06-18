@@ -8270,7 +8270,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PowerUpScript",
+                            "constructName": "PowerUpLogicScript",
                             "fields": null
                         }
                     }
@@ -8348,7 +8348,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PowerUpScript",
+                            "constructName": "PowerUpLogicScript",
                             "fields": null
                         }
                     }

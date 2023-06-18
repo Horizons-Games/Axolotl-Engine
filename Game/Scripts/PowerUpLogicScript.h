@@ -17,11 +17,11 @@ enum PowerUpType
 	NONE
 };
 
-class PowerUpScript : public Script
+class PowerUpLogicScript : public Script
 {
 public:
-	PowerUpScript();
-	~PowerUpScript() override = default;
+	PowerUpLogicScript();
+	~PowerUpLogicScript() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;

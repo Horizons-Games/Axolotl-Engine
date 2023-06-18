@@ -10,7 +10,7 @@
 #include "Components/ComponentCamera.h"
 
 #include "../Scripts/EnemyManagerScript.h"
-#include "../Scripts/PowerUpScript.h"
+#include "../Scripts/PowerUpLogicScript.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -54,7 +54,7 @@ void HealthSystem::Update(float deltaTime)
 		GameObject* powerUp = manager->RequestPowerUp();
 		if (powerUp != nullptr)
 		{
-			PowerUpScript* powerUpScript = powerUp->GetComponent<PowerUpScript>();
+			PowerUpLogicScript* powerUpScript = powerUp->GetComponent<PowerUpLogicScript>();
 			ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 			powerUpScript->ActivatePowerUp(transform->GetPosition());
 		}

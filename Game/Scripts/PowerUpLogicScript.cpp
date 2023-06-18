@@ -1,4 +1,4 @@
-#include "PowerUpScript.h"
+#include "PowerUpLogicScript.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -6,22 +6,22 @@
 
 #include "PlayerManagerScript.h"
 
-REGISTERCLASS(PowerUpScript);
+REGISTERCLASS(PowerUpLogicScript);
 
 #define SPAWN_LIFE 10.f
 
-PowerUpScript::PowerUpScript() : Script()
+PowerUpLogicScript::PowerUpLogicScript() : Script()
 {
 }
 
-void PowerUpScript::Start()
+void PowerUpLogicScript::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	ownerRb = owner->GetComponent<ComponentRigidBody>();
 	DeactivatePowerUp();
 }
 
-void PowerUpScript::Update(float deltaTime)
+void PowerUpLogicScript::Update(float deltaTime)
 {
 	if (owner->IsEnabled())
 	{
@@ -33,7 +33,8 @@ void PowerUpScript::Update(float deltaTime)
 	}
 }
 
-void PowerUpScript::ActivatePowerUp(const float3& position)
+// Once requested, a given powerup will spawn in the given position
+void PowerUpLogicScript::ActivatePowerUp(const float3& position)
 {
 	type = PowerUpType(rand() % 4);
 	counter = 0.f;
@@ -43,7 +44,7 @@ void PowerUpScript::ActivatePowerUp(const float3& position)
 	owner->Enable();
 }
 
-void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
+void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)
 {
 	GameObject* go = other->GetOwner();
 	if (!go->CompareTag("Player"))
@@ -58,7 +59,7 @@ void PowerUpScript::OnCollisionEnter(ComponentRigidBody* other)
 	}
 }
 
-void PowerUpScript::DeactivatePowerUp()
+void PowerUpLogicScript::DeactivatePowerUp()
 {
 	float3 position = ownerTransform->GetPosition();
 	ownerTransform->SetPosition(float3(position.x, position.y - 200, position.z));
