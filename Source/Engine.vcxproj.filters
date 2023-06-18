@@ -467,6 +467,12 @@
     <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp">
+      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp">
+      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -949,6 +955,12 @@
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h">
+      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
+      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1079,6 +1091,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\PowerUps">
       <UniqueIdentifier>{3c0319b6-bb2b-47a7-81ae-d8e78fa1ba74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Health System\DeathActions">
+      <UniqueIdentifier>{b68e19c9-8630-4623-a368-b6677dab8c33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

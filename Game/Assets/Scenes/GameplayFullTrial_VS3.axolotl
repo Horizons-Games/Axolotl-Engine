@@ -379,6 +379,15 @@
                             "constructName": "InteractWithPowerUpScript",
                             "fields": null
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerDeathScript",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -2368,6 +2377,15 @@
                                     "type": 2
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyDeathScript",
+                            "fields": null
                         }
                     }
                 ]
@@ -5400,6 +5418,15 @@
                                     "type": 2
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyDeathScript",
+                            "fields": null
                         }
                     }
                 ]

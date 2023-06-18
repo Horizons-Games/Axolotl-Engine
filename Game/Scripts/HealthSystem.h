@@ -18,21 +18,19 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
-	void IncreaseDefense(float increaseDefense);
 	
 	float GetCurrentHealth() const;
-
 	bool EntityIsAlive() const;
 
-	void PlayerDeath();
+	// Remove from here
+	void IncreaseDefense(float increaseDefense);
 
 private:
 	float currentHealth;
 	float maxHealth;
+
+	// Remove from here
 	float defense;
-	bool dead;
 
 	ComponentAnimation* componentAnimation;
-
-	std::string loseSceneName;
 };
