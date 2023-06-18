@@ -81,6 +81,13 @@ void WindowStateMachineEditor::DrawWindowContents()
 	const ImVec2 mousePosInCanvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
 	DrawGridStateMachine(canvasP0, scrolling, io.MouseDelta, drawList);
+	
+	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 50));
+	int pos = mousePosInCanvas.x;
+	std::string positionString = std::to_string(pos) + ",";
+	pos = mousePosInCanvas.y;
+	positionString += std::to_string(pos);
+	ImGui::Text(positionString.c_str());
 
 	// Right and Left Click On the Void
 	if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) &&
