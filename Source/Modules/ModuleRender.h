@@ -94,7 +94,7 @@ private:
 	GLuint gNormal;
 	GLuint gDiffuse;
 	GLuint gSpecular;
-	GLuint depthTexture;
+	GLuint gDepth;
 
 	friend class ModuleEditor;
 };
