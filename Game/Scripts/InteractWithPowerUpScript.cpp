@@ -1,4 +1,4 @@
-#include "ActionsPowerUpScript.h"
+#include "InteractWithPowerUpScript.h"
 
 #include "Components/ComponentScript.h"
 
@@ -8,24 +8,27 @@
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
 
-REGISTERCLASS(ActionsPowerUpScript);
+REGISTERCLASS(InteractWithPowerUpScript);
 
-ActionsPowerUpScript::ActionsPowerUpScript() : Script()
+InteractWithPowerUpScript::InteractWithPowerUpScript() : Script()
 {
 }
 
-void ActionsPowerUpScript::Start()
+void InteractWithPowerUpScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
 	managerPlayer = owner->GetComponent<PlayerManagerScript>();
 }
 
-void ActionsPowerUpScript::Update(float deltaTime)
+void InteractWithPowerUpScript::Update(float deltaTime)
 {
+	// Press Z to activate a saved powerup
 	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 	{
 		managerPlayer->UsePowerUp();
 	}
+
+	// Press X to drop a saved powerup
 	else if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
 	{
 		if (managerPlayer->GetPowerUpType() != PowerUpType::NONE)

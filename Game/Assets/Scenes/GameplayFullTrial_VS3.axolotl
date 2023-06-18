@@ -376,7 +376,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "ActionsPowerUpScript",
+                            "constructName": "InteractWithPowerUpScript",
                             "fields": null
                         }
                     }

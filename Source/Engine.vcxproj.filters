@@ -464,8 +464,8 @@
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
-      <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -940,14 +940,14 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
-      <Filter>UserScripts\Gameplay\PowerUps</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
