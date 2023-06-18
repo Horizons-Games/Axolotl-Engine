@@ -27,13 +27,27 @@ GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0
 	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	if (this->flags & BatchManager::HAS_SPECULAR)
+	if (flags & BatchManager::HAS_SPECULAR)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		}
+		else
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR);
+		}
 	}
 	else 
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		}
+		else
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC);
+		}
 	}
 
 	//initialize buffers

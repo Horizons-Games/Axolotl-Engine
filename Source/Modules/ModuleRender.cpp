@@ -114,9 +114,10 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 
 ModuleRender::ModuleRender() :
 	context(nullptr),
-	modelTypes({ "FBX" }),
+	// modelTypes({ "FBX" }), TODO delete
 	frameBuffer(0),
 	renderedTexture(0),
+	depthStencilRenderBuffer(0),
 	gFrameBuffer(0),
 	gPosition(0),
 	gNormal(0),
@@ -179,6 +180,7 @@ bool ModuleRender::Init()
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
 #endif // ENGINE
+	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
@@ -211,7 +213,9 @@ update_status ModuleRender::PreUpdate()
 
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilMask(0x00); // disable writing to the stencil buffer 
 
 
 	return update_status::UPDATE_CONTINUE;
@@ -231,16 +235,22 @@ update_status ModuleRender::Update()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
 
-	GameObject* player = modulePlayer->GetPlayer();
-
 	Scene* loadedScene = scene->GetLoadedScene();
 
 	const Skybox* skybox = loadedScene->GetSkybox();
 
-	if (skybox)
+	GameObject* player = modulePlayer->GetPlayer();
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
 	{
-		skybox->Draw();
+		AddToRenderList(player);
 	}
+#else
+	if (player)
+	{
+		AddToRenderList(player);
+	}
+#endif // !ENGINE
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
@@ -254,19 +264,14 @@ update_status ModuleRender::Update()
 	{
 		AddToRenderList(nonStaticObj);
 	}
-	
-#ifndef ENGINE
-	AddToRenderList(App->GetModule<ModulePlayer>()->GetPlayer());
-#endif // !ENGINE
-
 	AddToRenderList(goSelected);
-	
+
 	// Bind camera info to the shaders
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));	
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
 
-	//AddToRenderList(goSelected);
-	
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(loadedScene->GetRootQuadtree());
@@ -277,26 +282,14 @@ update_status ModuleRender::Update()
 
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
 
-#ifdef ENGINE
-	if (App->IsOnPlayMode())
-	{
-		AddToRenderList(player);
-	}
-#else
-	if (player)
-	{
-		AddToRenderList(player);
-	}
-#endif // !ENGINE
-	
-	drawnGameObjects.clear();
-
-	// -------- SCENE BATCH RENDERING -----------
+	// -------- DEFERRED GEOMETRY -----------
 
 	// Draw opaque objects
+	//glDisable(GL_BLEND);
+	//glDepthMask(GL_TRUE);
 	glDepthFunc(GL_LEQUAL);
+	
 	batchManager->DrawOpaque(false);
-
 	if (!App->IsOnPlayMode() && !isRoot)
 	{
 		// Draw selected opaque
@@ -307,67 +300,21 @@ update_status ModuleRender::Update()
 
 		batchManager->DrawOpaque(true);
 
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
 
-	// Draw Transparent objects
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glDepthMask(GL_FALSE);
+	//glDisable(GL_DEPTH_TEST);
 
-	batchManager->DrawTransparent(false);
+	// -------- DEFERRED LIGHTING ---------------
 
-	if (!App->IsOnPlayMode() && !isRoot)
-	{
-		// Draw selected transparent
-		glEnable(GL_STENCIL_TEST);
-		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-		glStencilMask(0xFF); // enable writing to the stencil buffer
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-
-		batchManager->DrawTransparent(true);
-
-		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
-		glLineWidth(25);
-		glPolygonMode(GL_FRONT, GL_LINE);
-
-		// Draw Highliht for selected objects
-		DrawHighlight(goSelected);
-
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glLineWidth(1);
-		glDisable(GL_STENCIL_TEST);
-	}
-
-	glDisable(GL_BLEND);
-
-	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
-
-	for (const GameObject* go : gameObjectsInFrustrum)
-	{
-		go->Draw();
-	}
-
-#ifndef ENGINE
-	if (!App->IsDebuggingGame())
-	{
-		return update_status::UPDATE_CONTINUE;
-	}
-#endif //ENGINE
-
-	return update_status::UPDATE_CONTINUE;
-}
-
-update_status ModuleRender::PostUpdate()
-{
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 #ifdef ENGINE
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif // ENGINE
 
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLERENDER);
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER);
 	program->Activate();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
@@ -408,8 +355,64 @@ update_status ModuleRender::PostUpdate()
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, gFrameBuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	// -------- DEFERRED + FORWARD ---------------
+
+	//if (skybox)
+	//{
+	//	skybox->Draw();
+	//}
+
+	// Draw Transparent objects
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	batchManager->DrawTransparent(false);
+
+	if (!App->IsOnPlayMode() && !isRoot)
+	{
+		// Draw selected transparent
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+		glStencilMask(0xFF); // enable writing to the stencil buffer
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+		batchManager->DrawTransparent(true);
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
+		glLineWidth(25);
+		glPolygonMode(GL_FRONT, GL_LINE);
+
+		// Draw Highliht for selected objects
+		DrawHighlight(goSelected);
+
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glLineWidth(1);
+		glDisable(GL_STENCIL_TEST);
+	}
+
+	glDisable(GL_BLEND);
+
+
+	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
+
+	for (const GameObject* go : gameObjectsInFrustrum)
+	{
+		go->Draw();
+	}
+
+#ifndef ENGINE
+	if (!App->IsDebuggingGame())
+	{
+		return update_status::UPDATE_CONTINUE;
+	}
+#endif //ENGINE
+
+	return update_status::UPDATE_CONTINUE;
+}
+
+update_status ModuleRender::PostUpdate()
+{
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -435,7 +438,7 @@ bool ModuleRender::CleanUp()
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
 #endif // ENGINE
-
+	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 	return true;
 }
 
@@ -497,6 +500,11 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
+	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderBuffer);
+
 	glBindTexture(GL_TEXTURE_2D, renderedTexture);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
@@ -513,20 +521,20 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-bool ModuleRender::IsSupportedPath(const std::string& modelPath)
-{
-	bool valid = false;
-
-	std::string format = modelPath.substr(modelPath.size() - 3);
-	std::transform(format.begin(), format.end(), format.begin(), ::toupper);
-
-	if (std::find(modelTypes.begin(), modelTypes.end(), format) != modelTypes.end())
-	{
-		valid = true;
-	}
-
-	return valid;
-}
+//bool ModuleRender::IsSupportedPath(const std::string& modelPath)
+//{
+//	bool valid = false;
+//
+//	std::string format = modelPath.substr(modelPath.size() - 3);
+//	std::transform(format.begin(), format.end(), format.begin(), ::toupper);
+//
+//	if (std::find(modelTypes.begin(), modelTypes.end(), format) != modelTypes.end())
+//	{
+//		valid = true;
+//	}
+//
+//	return valid;
+//}
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
@@ -693,4 +701,43 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 	}
 
 	return false;
+}
+
+void ModuleRender::GenerateGTextures()
+{
+//	glBindFramebuffer(GL_FRAMEBUFFER, gFrameBuffer);
+//
+//	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
+//
+//	GameObject* player = modulePlayer->GetPlayer();
+//#ifdef ENGINE
+//	if (App->IsOnPlayMode())
+//	{
+//		AddToRenderList(player);
+//	}
+//#else
+//	if (player)
+//	{
+//		AddToRenderList(player);
+//	}
+//#endif // !ENGINE
+//	
+//	// Draw opaque objects
+//	glDepthFunc(GL_LEQUAL);
+//	batchManager->DrawOpaque(false);
+//
+//	if (!App->IsOnPlayMode() && !isRoot)
+//	{
+//		// Draw selected opaque
+//		glEnable(GL_STENCIL_TEST);
+//		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+//		glStencilMask(0xFF); // enable writing to the stencil buffer
+//		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+//
+//		batchManager->DrawOpaque(true);
+//
+//		glPolygonMode(GL_FRONT, GL_FILL);
+//		glLineWidth(1);
+//		glDisable(GL_STENCIL_TEST);
+//	}
 }

@@ -54,9 +54,9 @@ bool ModuleProgram::Start()
 	}
 
 	programs.reserve(static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE));
-	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "Default"));
+	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
 
-	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_fs.glsl", "Specular"));
+	programs.push_back(CreateProgram("default_vertex.glsl", "specular_fragment.glsl", "Specular"));
 
 	programs.push_back(CreateProgram("highlight_vertex.glsl", "highlight_fragment.glsl", "Highlight"));
 
@@ -76,6 +76,10 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("deferred_lighting_vs.glsl", "deferred_lighting_fs.glsl", "DeferredLighting"));
 	
 	programs.push_back(CreateProgram("rendering_triangle_vs.glsl", "deferred_lighting_fs.glsl", "TriangleRender"));
+	
+	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
+	
+	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_fs.glsl", "GSpecular"));
 
 	return true;
 }

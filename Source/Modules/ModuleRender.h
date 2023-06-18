@@ -54,15 +54,15 @@ public:
 	void AddToRenderList(const GameObject* gameObject);
 
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
-	bool IsSupportedPath(const std::string& modelPath);
+	// bool IsSupportedPath(const std::string& modelPath); // TODO delete
 
 	void DrawQuadtree(const Quadtree* quadtree);
-
-	// const std::vector<const GameObject*> GetGameObjectsToDraw() const;
 
 private:
 	void UpdateProgram();
 	bool CheckIfTransparent(const GameObject* gameObject);
+
+	void GenerateGTextures();
 
 	void DrawHighlight(GameObject* gameObject);
 
@@ -79,11 +79,7 @@ private:
 
 	unsigned modeRender;
 	
-	std::map<float, ComponentMeshRenderer*> transparentGOToDraw;
-	std::vector<ComponentMeshRenderer*> transparentComponents;
-	std::vector<unsigned long long> drawnGameObjects;
-
-	const std::vector<std::string> modelTypes;
+	// const std::vector<std::string> modelTypes; // TODO delete
 
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
@@ -93,6 +89,8 @@ private:
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
+	
+	GLuint depthStencilRenderBuffer;
 
 	GLuint gFrameBuffer;
 	GLuint gPosition;
@@ -108,6 +106,7 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 {
 	backgroundColor = color;
 }
+
 inline void ModuleRender::SetModeRender()
 {
 	if (modeRender == 4)
