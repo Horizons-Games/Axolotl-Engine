@@ -33,18 +33,18 @@ GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0
 		{
 			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
 		}
-		else
+		else if (flags & BatchManager::HAS_OPAQUE)
 		{
 			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR);
 		}
 	}
-	else 
+	else if (flags & BatchManager::HAS_METALLIC)
 	{
 		if (flags & BatchManager::HAS_TRANSPARENCY)
 		{
 			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
 		}
-		else
+		else if (flags & BatchManager::HAS_OPAQUE)
 		{
 			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC);
 		}
