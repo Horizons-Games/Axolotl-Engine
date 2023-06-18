@@ -5,13 +5,11 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAnimation.h"
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
 
-#include "../Scripts/EnemyManagerScript.h"
-#include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/PlayerDeathScript.h"
+#include "../Scripts/EnemyDeathScript.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -42,22 +40,19 @@ void HealthSystem::Update(float deltaTime)
 
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
-		EnemyManagerScript* manager = owner->GetComponent<EnemyManagerScript>();
-		GameObject* powerUp = manager->RequestPowerUp();
-		if (powerUp != nullptr)
-		{
-			PowerUpLogicScript* powerUpScript = powerUp->GetComponent<PowerUpLogicScript>();
-			ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-			powerUpScript->ActivatePowerUp(transform->GetPosition());
-		}
+		EnemyDeathScript* playerDeathManager = owner->GetComponent<EnemyDeathScript>();
+		playerDeathManager->ManageEnemyDeath();
 	}
-	// Provisional here until we have a way to delay a call to a function a certain time
-	// This should go inside the TakeDamage function but delay setting it to false by 2 seconds or smth like that
-	
+
+	// This if/else should ideally be called inside the TakeDamage function
+	// 
+	// By setting this here, we make certain that 'IsTakingDamage' remains as true during a couple frames
+	// so the state machine could behave correctly (we could delete this once we have a way to delay any function calls)
 	if (currentHealth <= 0)
 	{
 		componentAnimation->SetParameter("IsDead", true);
 	}
+
 	else 
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);

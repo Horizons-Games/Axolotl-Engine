@@ -470,6 +470,9 @@
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp">
+      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -953,6 +956,9 @@
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
+      <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
   </ItemGroup>
