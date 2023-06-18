@@ -40,8 +40,8 @@ void HealthSystem::Update(float deltaTime)
 
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
-		EnemyDeathScript* playerDeathManager = owner->GetComponent<EnemyDeathScript>();
-		playerDeathManager->ManageEnemyDeath();
+		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
+		enemyDeathManager->ManageEnemyDeath();
 	}
 
 	// This if/else should ideally be called inside the TakeDamage function
@@ -70,7 +70,7 @@ void HealthSystem::TakeDamage(float damage)
 void HealthSystem::HealLife(float amountHealed)
 {
 	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
-	LOG_INFO("Healed");
+	LOG_VERBOSE("Healed");
 }
 
 bool HealthSystem::EntityIsAlive() const

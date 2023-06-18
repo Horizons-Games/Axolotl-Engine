@@ -40,9 +40,3 @@ private:
     bool isDashing;
     bool canDash;
 };
-
-inline void PlayerMoveScript::IncreaseSpeed(float amountSpeed)
-{
-	speed += amountSpeed;
-	LOG_INFO("Speed increased");
-}
