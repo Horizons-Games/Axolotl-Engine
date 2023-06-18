@@ -311,20 +311,6 @@ update_status ModuleRender::Update()
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gSpecular);
 
-	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
-	program->BindUniformFloat3("ViewPos", viewPos);
-
-	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
-	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
-	glActiveTexture(GL_TEXTURE10);
-	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
-
-	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
-	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
-
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
 	program->BindUniformInt("renderMode", modeRender);
 
@@ -675,6 +661,17 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	program->BindUniformFloat3("viewPos", viewPos);
+
+	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
+	glActiveTexture(GL_TEXTURE8);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+	glActiveTexture(GL_TEXTURE9);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+	glActiveTexture(GL_TEXTURE10);
+	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
+
+	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
+	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	program->Deactivate();
 }
