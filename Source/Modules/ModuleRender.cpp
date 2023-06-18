@@ -149,7 +149,7 @@ bool ModuleRender::Init()
 
 	context = SDL_GL_CreateContext(window->GetWindow());
 
-	backgroundColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	backgroundColor = float4(0.f, 0.f, 0.f, 1.f);
 
 	batchManager = new BatchManager();
 
@@ -203,12 +203,13 @@ update_status ModuleRender::PreUpdate()
 	int width, height;
 
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, gFrameBuffer);
-
 	glViewport(0, 0, width, height);
 
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
+	
+	gameObjectsInFrustrum.clear();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, gFrameBuffer);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer 
@@ -222,8 +223,6 @@ update_status ModuleRender::Update()
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
 
-	gameObjectsInFrustrum.clear();
-
 	ModuleWindow* window = App->GetModule<ModuleWindow>();
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
@@ -234,7 +233,7 @@ update_status ModuleRender::Update()
 
 	const Skybox* skybox = loadedScene->GetSkybox();
 
-	GameObject* player = modulePlayer->GetPlayer();
+	GameObject* player = modulePlayer->GetPlayer(); // we can make all of this variables a class variable to save time
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
 	{
