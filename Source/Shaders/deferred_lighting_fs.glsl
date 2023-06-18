@@ -290,37 +290,38 @@ void main()
     vec3 viewDir = normalize(ViewPos - fragPos);
     vec4 gammaCorrection = vec4(2.2);
 
+    vec3 Cd = textureMat.rgb;
     vec3 f0 = specularMat.rgb;
 
     // smoothness and roughness
     float roughness = pow(1-smoothness,2) + EPSILON;
     
     // Lights
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
+    vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
     if (num_point > 0)
     {
-        Lo += calculatePointLights(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
+        Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness, fragPos);
     }
 
     if (num_spot > 0)
     {
-        Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
+        Lo += calculateSpotLights(norm, viewDir,Cd, f0, roughness, fragPos);
     }
 
     if (num_spheres > 0)
     {
-        Lo += calculateAreaLightSpheres(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
+        Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
     }
 
     if (num_tubes > 0)
     {
-        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
+        Lo += calculateAreaLightTubes(norm, viewDir, Cd, f0, roughness, fragPos);
     }
 
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
         environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
     vec3 color = ambient + Lo;

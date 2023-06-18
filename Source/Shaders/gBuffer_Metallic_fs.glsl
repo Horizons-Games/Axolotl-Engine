@@ -42,12 +42,12 @@ void main()
 
     gPosition = FragPos;
     gNormal = Normal;
-    //Diffuse
-    gDiffuse = material.diffuse_color;
-    if (material.has_diffuse_map == 1)
-    {
-        gDiffuse = texture(material.diffuse_map, TexCoord);
-    }
+
+    vec4 metallicColor = texture(material.metallic_map,TexCoord);
+    vec4 diffuseColor = texture(material.diffuse_map, TexCoord);
+
+    float metalnessMask = material.has_metallic_map * metallicColor.r + (1 - material.has_metallic_map) * 
+     material.metalness;
 
     //Normals
     if (material.has_normal_map == 1)
@@ -57,17 +57,25 @@ void main()
         gNormal = gNormal * 2.0 - 1.0;
         gNormal.xy *= material.normal_strength;
         gNormal = normalize(gNormal);
-        gNormal = normalize(space * gNormal);
+        gNormal = space * gNormal;
 	}
+       gNormal = normalize(gNormal);
 
-    //Metallic
-    gSpecular = texture(material.metallic_map, TexCoord);
-
-    // smoothness and roughness
-    gSpecular.a = pow(1-material.smoothness,2) + EPSILON;
-    if (material.has_metallic_map == 1)
-	{
-        gSpecular.a = pow(1.0 * gSpecular.a,2) + EPSILON;
+    //Diffuse
+    gDiffuse = vec4(material.diffuse_color.rgb, material.diffuse_color.a);
+    if (material.has_diffuse_map == 1)
+    {
+        gDiffuse = vec4(diffuseColor.rgb, diffuseColor.a);
     }
 
-} 
+    //Metallic and Smoothness
+    gSpecular.a = material.smoothness;
+    gSpecular.rgb = mix(vec3(0.04), gDiffuse.rgb, metalnessMask);
+    if (material.has_metallic_map == 1)
+	{
+        gSpecular.a = metallicColor.a;
+    }
+
+    gDiffuse.rgb = vec3(gDiffuse*(1-metalnessMask));
+
+}
