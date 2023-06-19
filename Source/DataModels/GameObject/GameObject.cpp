@@ -134,30 +134,27 @@ void GameObject::LoadOptions(Json& meta)
 
 	Json jsonComponents = meta["Components"];
 
-	if (jsonComponents.Size() != 0)
+	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 	{
-		for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
+		Json jsonComponent = jsonComponents[i]["Component"];
+		std::string typeName = jsonComponent["type"];
+
+		ComponentType type = GetTypeByName(jsonComponent["type"]);
+
+		if (type == ComponentType::UNKNOWN)
+			continue;
+		Component* component;
+		if (type == ComponentType::LIGHT)
 		{
-			Json jsonComponent = jsonComponents[i]["Component"];
-			std::string typeName = jsonComponent["type"];
-
-			ComponentType type = GetTypeByName(jsonComponent["type"]);
-
-			if (type == ComponentType::UNKNOWN)
-				continue;
-			Component* component;
-			if (type == ComponentType::LIGHT)
-			{
-				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
-			}
-			else
-			{
-				component = CreateComponent(type);
-			}
-
-			component->LoadOptions(jsonComponent);
+			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+			component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 		}
+		else
+		{
+			component = CreateComponent(type);
+		}
+
+		component->LoadOptions(jsonComponent);
 	}
 }
 
