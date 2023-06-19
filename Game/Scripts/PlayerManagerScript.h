@@ -11,6 +11,16 @@ public:
 	PlayerManagerScript();
 	~PlayerManagerScript() override = default;
 
-	void Start() override;
-	void Update(float deltaTime) override;
+	float GetPlayerAttack() const;
+	float GetPlayerDefense() const;
+	float GetPlayerSpeed() const;
+
+	void IncreasePlayerAttack(float attackIncrease);
+	void IncreasePlayerDefense(float defenseIncrease);
+	void IncreasePlayerSpeed(float speedIncrease);
+
+private:
+	float playerAttack;
+	float playerDefense;
+	float playerSpeed;
 };

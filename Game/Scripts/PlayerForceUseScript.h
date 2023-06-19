@@ -15,7 +15,7 @@ class PlayerForceUseScript : public Script
 {
 public:
     PlayerForceUseScript();
-    ~PlayerForceUseScript();
+	~PlayerForceUseScript() override = default;
 
     void Start() override;
     void Update(float deltaTime) override;

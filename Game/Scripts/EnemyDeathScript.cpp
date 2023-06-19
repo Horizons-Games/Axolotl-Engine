@@ -36,9 +36,7 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 		srand(static_cast<unsigned int>(time(0)));
 		int randomActivation = rand() % 10;
 
-		LOG_INFO("{}", randomActivation);
-
-		if (!activePowerUp->IsEnabled() && randomActivation < 2)
+		if (!activePowerUp->IsEnabled() && randomActivation < 10)
 		{
 			return activePowerUp;
 		}

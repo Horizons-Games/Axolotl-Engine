@@ -10,10 +10,11 @@
 
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), defense(0.f)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -61,8 +62,18 @@ void HealthSystem::Update(float deltaTime)
 
 void HealthSystem::TakeDamage(float damage)
 {
-	float actualDamage = std::max(damage - defense, 0.f);
-	currentHealth -= actualDamage;
+	if (owner->CompareTag("Player"))
+	{
+		float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
+		float actualDamage = std::max(damage - playerDefense, 0.f);
+
+		currentHealth -= actualDamage;
+	}
+
+	else
+	{
+		currentHealth -= damage;
+	}
 
 	componentAnimation->SetParameter("IsTakingDamage", true);
 }
@@ -80,9 +91,4 @@ bool HealthSystem::EntityIsAlive() const
 float HealthSystem::GetCurrentHealth() const
 {
 	return currentHealth;
-}
-
-void HealthSystem::IncreaseDefense(float increaseDefense)
-{
-	defense += increaseDefense;
 }

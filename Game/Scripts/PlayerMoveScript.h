@@ -19,14 +19,13 @@ class PlayerMoveScript :
     public Script
 {
 public:
-
     PlayerMoveScript();
+	~PlayerMoveScript() override = default;
 
     void Start() override;
     void PreUpdate(float deltaTime) override;
 
     void Move(float deltaTime);
-	void IncreaseSpeed(float amountSpeed);
 
 private:
     ComponentTransform* componentTransform;
@@ -34,7 +33,6 @@ private:
     ComponentAnimation* componentAnimation;
     PlayerActions playerState;
 
-    float speed;
     float dashForce;
     float nextDash;
     bool isDashing;

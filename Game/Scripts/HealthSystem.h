@@ -22,15 +22,9 @@ public:
 	float GetCurrentHealth() const;
 	bool EntityIsAlive() const;
 
-	// Remove from here
-	void IncreaseDefense(float increaseDefense);
-
 private:
 	float currentHealth;
 	float maxHealth;
-
-	// Remove from here
-	float defense;
 
 	ComponentAnimation* componentAnimation;
 };

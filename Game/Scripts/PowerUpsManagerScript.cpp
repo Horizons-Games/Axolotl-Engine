@@ -4,8 +4,7 @@
 
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/HealthSystem.h"
-#include "../Scripts/PlayerMoveScript.h"
-#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 REGISTERCLASS(PowerUpsManagerScript);
 
@@ -64,20 +63,20 @@ void PowerUpsManagerScript::UsePowerUp()
 
 	else if (activePowerUp == PowerUpType::ATTACK)
 	{
-		BixAttackScript* attackScript = player->GetComponent<BixAttackScript>();
-		attackScript->IncreaseAttack(attackIncrease);
+		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
+		playerManagerScript->IncreasePlayerAttack(attackIncrease);
 	}
 
 	else if (activePowerUp == PowerUpType::DEFENSE)
 	{
-		HealthSystem* healthScript = player->GetComponent<HealthSystem>();
-		healthScript->IncreaseDefense(defenseIncrease);
+		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
+		playerManagerScript->IncreasePlayerDefense(defenseIncrease);
 	}
 
 	else if (activePowerUp == PowerUpType::SPEED)
 	{
-		PlayerMoveScript* moveScript = player->GetComponent<PlayerMoveScript>();
-		moveScript->IncreaseSpeed(speedIncrease);
+		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
+		playerManagerScript->IncreasePlayerSpeed(speedIncrease);
 	}
 }
 
@@ -103,22 +102,19 @@ void PowerUpsManagerScript::DeactivateCurrentPowerUp()
 
 	if (activePowerUp == PowerUpType::ATTACK)
 	{
-		BixAttackScript* attackScript = player->GetComponent<BixAttackScript>();
-		attackScript->IncreaseAttack(-attackIncrease);
-		return;
+		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
+		playerManagerScript->IncreasePlayerAttack(-attackIncrease);
 	}
 
 	else if (activePowerUp == PowerUpType::DEFENSE)
 	{
-		HealthSystem* healthScript = player->GetComponent<HealthSystem>();
-		healthScript->IncreaseDefense(-defenseIncrease);
-		return;
+		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
+		playerManagerScript->IncreasePlayerDefense(-defenseIncrease);
 	}
 
 	else if (activePowerUp == PowerUpType::SPEED)
 	{
-		PlayerMoveScript* moveScript = player->GetComponent<PlayerMoveScript>();
-		moveScript->IncreaseSpeed(-speedIncrease);
-		return;
+		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
+		playerManagerScript->IncreasePlayerSpeed(-speedIncrease);
 	}
 }

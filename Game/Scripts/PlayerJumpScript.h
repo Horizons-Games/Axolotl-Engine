@@ -12,14 +12,14 @@ class PlayerJumpScript : public Script
 {
 public:
     PlayerJumpScript();
+	~PlayerJumpScript() override = default;
 
     void Start() override;
-    void PreUpdate(float deltaTime) override;
+	void PreUpdate(float deltaTime) override;
 
 private:
-    void Jump(float deltatime);
+	void Jump(float deltatime);
 
-private:
     float jumpParameter;
     int jumps;
     int jumpReset;

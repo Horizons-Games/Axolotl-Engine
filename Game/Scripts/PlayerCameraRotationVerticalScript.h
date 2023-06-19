@@ -9,9 +9,9 @@ class PlayerCameraRotationVerticalScript : public Script
 {
 public:
     PlayerCameraRotationVerticalScript();
+	~PlayerCameraRotationVerticalScript() override = default;
 
 	void Start() override;
-
     void PreUpdate(float deltaTime) override;
 
 private:

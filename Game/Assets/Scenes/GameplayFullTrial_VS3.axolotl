@@ -200,11 +200,6 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "DamageAttack",
-                                    "value": 20.0,
-                                    "type": 0
-                                },
-                                {
                                     "name": "AnimationGO",
                                     "value": 6764586723542947213,
                                     "type": 2
@@ -266,11 +261,6 @@
                             "removed": true,
                             "constructName": "PlayerMoveScript",
                             "fields": [
-                                {
-                                    "name": "Speed",
-                                    "value": 300.0,
-                                    "type": 0
-                                },
                                 {
                                     "name": "DashForce",
                                     "value": 10000.0,
@@ -363,7 +353,23 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerManagerScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "PlayerAttack",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PlayerDefense",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PlayerSpeed",
+                                    "value": 300.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     },
                     {

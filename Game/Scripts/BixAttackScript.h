@@ -17,8 +17,6 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	void IncreaseAttack(float amountAttack);
-
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -30,7 +28,6 @@ private:
 	float attackCooldown;
 	float lastAttackTime;
 	float rayAttackSize;
-	float damageAttack;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
