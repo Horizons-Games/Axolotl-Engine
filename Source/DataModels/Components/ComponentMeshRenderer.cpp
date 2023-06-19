@@ -117,7 +117,7 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
-	ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	if (transform == nullptr)
 	{
 		return;
