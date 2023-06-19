@@ -3,6 +3,7 @@
 #include "GL/glew.h"
 #include "Globals.h"
 #include <MathGeoLib/Include/Math/float3.h>
+#include "SDL/include/SDL.h"
 
 Program::Program(unsigned vertexShader,
 				 unsigned fragmentShader,
@@ -32,6 +33,7 @@ Program::Program(unsigned vertexShader,
 			LOG_INFO("Program Log Info: {}", info);
 			free(info);
 		}
+		SDL_assert(SDL_FALSE && "Problem compiling shaders, read console");
 		id = 0;
 	}
 }

@@ -76,9 +76,9 @@ void ComponentSpotLight::Draw() const
 	{
 		return;
 	}
-	if (IsEnabled())
+	if (active)
 	{
-		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
@@ -87,9 +87,10 @@ void ComponentSpotLight::Draw() const
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
 #else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (App->GetPlayState() != Application::PlayState::RUNNING && active &&
+		owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();

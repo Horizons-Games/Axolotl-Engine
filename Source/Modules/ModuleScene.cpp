@@ -591,13 +591,16 @@ void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 
 void ModuleScene::AddGameObject(GameObject* object)
 {
-	if (object->IsStatic())
+	if (object->IsRendereable())
 	{
-		loadedScene->AddStaticObject(object);
-	}
-	else
-	{
-		loadedScene->AddNonStaticObject(object);
+		if (object->IsStatic())
+		{
+			loadedScene->AddStaticObject(object);
+		}
+		else
+		{
+			loadedScene->AddNonStaticObject(object);
+		}
 	}
 }
 
