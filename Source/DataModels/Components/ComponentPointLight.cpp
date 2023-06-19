@@ -57,7 +57,16 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw() const
 {
-#ifndef ENGINE
+#ifdef ENGINE
+	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	{
+		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+
+		float3 position = transform->GetGlobalPosition();
+
+		dd::sphere(position, dd::colors::White, radius);
+	}
+#else
 	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight())
 	{
 		return;
@@ -65,15 +74,6 @@ void ComponentPointLight::Draw() const
 	if (IsEnabled())
 	{
 		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
-		float3 position = transform->GetGlobalPosition();
-
-		dd::sphere(position, dd::colors::White, radius);
-	}
-#else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
-	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 

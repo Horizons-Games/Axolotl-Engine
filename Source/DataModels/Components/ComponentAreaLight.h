@@ -44,6 +44,9 @@ public:
 	void SetLightRadius(float newRadius);
 
 private:
+	void SignalEnable() override;
+	void SignalDisable() override;
+
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 

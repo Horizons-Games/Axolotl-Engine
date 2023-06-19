@@ -71,14 +71,10 @@ ComponentSpotLight::~ComponentSpotLight()
 
 void ComponentSpotLight::Draw() const
 {
-#ifndef ENGINE
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight())
+#ifdef ENGINE
+	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
-		return;
-	}
-	if (IsEnabled())
-	{
-		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
@@ -87,9 +83,13 @@ void ComponentSpotLight::Draw() const
 		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 	}
 #else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight())
 	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		return;
+	}
+	if (IsEnabled())
+	{
+		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward().Normalized();
