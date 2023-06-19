@@ -240,7 +240,7 @@ void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMach
 		else
 		{
 			ImGui::Checkbox("Loop", &state->loop);
-			ImGui::InputFloat("Speed", &state->speed);
+			ImGui::DragFloat("Speed", &state->speed, 0.25f, 0.1, 100, "%.1f");
 
 			if (ImGui::Button("x"))
 			{
