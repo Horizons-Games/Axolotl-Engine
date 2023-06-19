@@ -6,10 +6,6 @@
 
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
-#ifndef ENGINE
-	#include "Modules/ModuleEditor.h"
-	#include "Windows/WindowDebug.h"
-#endif // ENGINE
 
 #include "Math/float3x3.h"
 
@@ -50,20 +46,6 @@ ComponentTransform::ComponentTransform(const ComponentTransform& componentTransf
 
 ComponentTransform::~ComponentTransform()
 {
-}
-
-void ComponentTransform::Draw() const
-{
-#ifndef ENGINE
-	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
-#endif // ENGINE
-	if (drawBoundingBoxes)
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
 }
 
 void ComponentTransform::InternalSave(Json& meta)
