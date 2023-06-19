@@ -156,7 +156,6 @@ void GameObject::Load(const Json& meta)
 		component->Load(jsonComponent);
 	}
 }
-}
 
 void GameObject::Draw() const
 {
