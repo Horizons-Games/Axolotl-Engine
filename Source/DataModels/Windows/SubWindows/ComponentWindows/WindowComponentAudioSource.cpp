@@ -2,7 +2,7 @@
 #include "Components/ComponentAudioSource.h"
 
 WindowComponentAudioSource::WindowComponentAudioSource(ComponentAudioSource* component) :
-	ComponentWindow("Audio Source", component)
+	ComponentWindow("AUDIO SOURCE", component)
 {
 }
 

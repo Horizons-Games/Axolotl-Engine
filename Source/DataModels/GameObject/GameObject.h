@@ -111,6 +111,7 @@ public:
 	void MoveDownChild(const GameObject* childToMove);
 
 	bool IsADescendant(const GameObject* descendant);
+	bool IsRendereable();
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -268,9 +269,5 @@ inline bool GameObject::IsStatic() const
 	return staticObject;
 }
 
-inline void GameObject::SetStatic(bool newStatic)
-{
-	staticObject = newStatic;
-}
 
 #include "DataModels/GameObject/GameObject.inl"

@@ -1,11 +1,11 @@
 #include "GameObject.h"
 
 #include "../Components/ComponentAnimation.h"
-#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentAudioListener.h"
 #include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentBreakable.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentLight.h"
 #include "../Components/ComponentMeshCollider.h"
@@ -135,30 +135,27 @@ void GameObject::LoadOptions(Json& meta)
 
 	Json jsonComponents = meta["Components"];
 
-	if (jsonComponents.Size() != 0)
+	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 	{
-		for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
+		Json jsonComponent = jsonComponents[i]["Component"];
+		std::string typeName = jsonComponent["type"];
+
+		ComponentType type = GetTypeByName(jsonComponent["type"]);
+
+		if (type == ComponentType::UNKNOWN)
+			continue;
+		Component* component;
+		if (type == ComponentType::LIGHT)
 		{
-			Json jsonComponent = jsonComponents[i]["Component"];
-			std::string typeName = jsonComponent["type"];
-
-			ComponentType type = GetTypeByName(jsonComponent["type"]);
-
-			if (type == ComponentType::UNKNOWN)
-				continue;
-			Component* component;
-			if (type == ComponentType::LIGHT)
-			{
-				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType, AreaType::NONE); //TODO look at this when implement metas
-			}
-			else
-			{
-				component = CreateComponent(type);
-			}
-
-			component->LoadOptions(jsonComponent);
+			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+			component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 		}
+		else
+		{
+			component = CreateComponent(type);
+		}
+
+		component->LoadOptions(jsonComponent);
 	}
 }
 
@@ -370,7 +367,7 @@ void GameObject::CopyComponent(Component* component)
 		}
 
 		default:
-			ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
+			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
@@ -566,7 +563,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		
 		case ComponentType::CUBEMAP:
 		{
-			newComponent = std::make_unique<ComponentCubemap>(true,this);
+			newComponent = std::make_unique<ComponentCubemap>(true, this);
 			break;
 		}
 
@@ -630,21 +627,21 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 
 		switch (lightType)
 		{
-		case LightType::POINT:
-			scene->UpdateScenePointLights();
-			scene->RenderPointLights();
-			break;
+			case LightType::POINT:
+				scene->UpdateScenePointLights();
+				scene->RenderPointLights();
+				break;
 
-		case LightType::SPOT:
-			scene->UpdateSceneSpotLights();
-			scene->RenderSpotLights();
-			break;
-		case LightType::AREA:
-			scene->UpdateSceneAreaLights();
-			scene->RenderAreaLights();
-			break;
+			case LightType::SPOT:
+				scene->UpdateSceneSpotLights();
+				scene->RenderSpotLights();
+				break;
+			case LightType::AREA:
+				scene->UpdateSceneAreaLights();
+				scene->RenderAreaLights();
+				break;
 		}
-		
+
 		return referenceBeforeMove;
 	}
 
@@ -724,8 +721,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 									  });
 	if (childIterator == childrenVectorEnd)
 	{
-		ENGINE_LOG(
-			"Object being moved (%s) is not a child of this (%s)", child->GetName().c_str(), this->GetName().c_str());
+		LOG_WARNING("Object being moved ({}) is not a child of this ({})", child, this);
 		return;
 	}
 
@@ -734,7 +730,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == childrenVectorBegin)
 		{
-			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::prev(childIterator);
@@ -743,7 +739,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == std::prev(childrenVectorEnd))
 		{
-			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::next(childIterator);
@@ -796,4 +792,30 @@ void GameObject::SpreadStatic()
 		child->SetStatic(staticObject);
 		child->SpreadStatic();
 	}
+}
+
+void GameObject::SetStatic(bool newStatic)
+{
+	staticObject = newStatic;
+	std::vector<ComponentRigidBody*> rigids = GetComponents<ComponentRigidBody>();
+
+	for (ComponentRigidBody* rigid : rigids)
+	{
+		rigid->SetUpMobility();
+	}
+}
+
+// This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs
+// to be rendereables in quadtree
+bool GameObject::IsRendereable()
+{
+	for (std::unique_ptr<Component>& comp : components)
+	{
+		Drawable* drawable = dynamic_cast<Drawable*>(comp.get());
+		if (drawable)
+		{
+			return true;
+		}
+	}
+	return false;
 }

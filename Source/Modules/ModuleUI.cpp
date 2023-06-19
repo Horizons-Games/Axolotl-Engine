@@ -15,6 +15,11 @@
 #include "GL/glew.h"
 #include "Physics/Physics.h"
 
+#ifdef ENGINE
+	#include "Modules/ModuleEditor.h"
+	#include "DataModels/Windows/EditorWindows/WindowScene.h"
+#endif // ENGINE
+
 ModuleUI::ModuleUI(){};
 
 ModuleUI::~ModuleUI(){};
@@ -150,7 +155,11 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 
 	for (ComponentButton* button : gameObject->GetComponents<ComponentButton>())
 	{
-		if (disabledHierarchy)
+		if (disabledHierarchy
+#ifdef ENGINE
+			|| !App->GetModule<ModuleEditor>()->GetScene()->IsFocused()
+#endif // ENGINE
+		)
 		{
 			button->SetHovered(false);
 			button->SetClicked(false);

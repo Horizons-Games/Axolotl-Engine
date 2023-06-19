@@ -134,7 +134,7 @@ ModuleRender::~ModuleRender()
 bool ModuleRender::Init()
 {
 	ModuleWindow* window = App->GetModule<ModuleWindow>();
-	ENGINE_LOG("--------- Render Init ----------");
+	LOG_VERBOSE("--------- Render Init ----------");
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // desired version
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
@@ -151,15 +151,15 @@ bool ModuleRender::Init()
 	batchManager = new BatchManager();
 
 	GLenum err = glewInit();
-	ENGINE_LOG("glew error %s", glewGetErrorString(err));
-	// � check for errors
-	ENGINE_LOG("Using Glew %s", glewGetString(GLEW_VERSION));
+	// check for errors
+	LOG_INFO("glew error {}", glewGetErrorString(err));
 	// Should be 2.0
+	LOG_INFO("Using Glew {}", glewGetString(GLEW_VERSION));
 
-	ENGINE_LOG("Vendor: %s", glGetString(GL_VENDOR));
-	ENGINE_LOG("Renderer: %s", glGetString(GL_RENDERER));
-	ENGINE_LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-	ENGINE_LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+	LOG_INFO("Vendor: {}", glGetString(GL_VENDOR));
+	LOG_INFO("Renderer: {}", glGetString(GL_RENDERER));
+	LOG_INFO("OpenGL version supported {}", glGetString(GL_VERSION));
+	LOG_INFO("GLSL: {}\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -377,7 +377,7 @@ update_status ModuleRender::PostUpdate()
 
 bool ModuleRender::CleanUp()
 {
-	ENGINE_LOG("Destroying renderer");
+	LOG_VERBOSE("Destroying renderer");
 
 	SDL_GL_DeleteContext(context);
 
@@ -418,7 +418,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		ENGINE_LOG("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

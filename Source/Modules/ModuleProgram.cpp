@@ -158,7 +158,7 @@ unsigned ModuleProgram::CompileShader(unsigned type, const std::string& source)
 			char* info = (char*) malloc(len);
 
 			glGetShaderInfoLog(shaderID, len, &written, info);
-			ENGINE_LOG("Log Info: %s", info);
+			LOG_INFO("Log Info: {}", info);
 
 			free(info);
 		}
