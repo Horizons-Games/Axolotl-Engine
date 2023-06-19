@@ -48,8 +48,7 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	private:
-	bool CheckTransitions(State* state, Transition& transition);
+	bool CheckTransitions(const State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 

@@ -95,17 +95,17 @@ void ComponentAnimation::Update()
 				}
 				else if (state->resource && state->loop)
 				{
-					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+					controller->Play(state, false);
 				}
 			}
 		}
 		else
 		{
 			actualState = nextState;
-			const State* state = stateMachine->GetState(actualState);
+			State* state = stateMachine->GetState(actualState);
 			if (state->resource)
 			{
-				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+				controller->Play(state, false);
 			}
 			else
 			{
@@ -184,7 +184,7 @@ void ComponentAnimation::InternalLoad(const Json& meta)
 	nextState = 0;
 }
 
-bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
+bool ComponentAnimation::CheckTransitions(const State* state, Transition& transition)
 {
 	if (!state)
 	{
