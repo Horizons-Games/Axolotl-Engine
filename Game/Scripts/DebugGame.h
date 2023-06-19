@@ -26,6 +26,7 @@ private:
 	bool isDead;
 	int debugCurrentPos;
 	int debugNextPos;
+	bool playerOnLocation;
 	
 	
 	GameObject* setPlayer;
