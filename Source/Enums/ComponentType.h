@@ -13,6 +13,7 @@ enum class ComponentType
 	CANVAS,
 	IMAGE,
 	BUTTON,
+	SLIDER,
 	RIGIDBODY,
 	MOCKSTATE,
 	AUDIOSOURCE,
