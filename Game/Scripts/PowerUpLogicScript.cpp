@@ -39,7 +39,7 @@ void PowerUpLogicScript::Update(float deltaTime)
 void PowerUpLogicScript::ActivatePowerUp(const float3& position)
 {
 	srand(static_cast<unsigned int>(time(0)));
-	type = PowerUpType(rand() % 4);
+	type = PowerUpType(rand() % 4 + 1);
 	timer = 0.f;
 
 	ownerTransform->SetPosition(position);

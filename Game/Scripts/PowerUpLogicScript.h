@@ -10,11 +10,11 @@ class ComponentRigidBody;
 
 enum class PowerUpType
 {
+	NONE,
 	HEAL,
-	DEFENSE,
 	ATTACK,
-	SPEED,
-	NONE
+	DEFENSE,
+	SPEED
 };
 
 class PowerUpLogicScript : public Script
