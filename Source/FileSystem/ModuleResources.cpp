@@ -560,8 +560,9 @@ void ModuleResources::MonitorResources()
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
 				App->GetModule<ModuleFileSystem>()->Save(
-					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+					(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 				delete saveBuffer;
+				break;
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
