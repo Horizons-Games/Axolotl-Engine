@@ -96,7 +96,7 @@ void ComponentAreaLight::SignalDisable()
 void ComponentAreaLight::Draw() const
 {
 #ifdef ENGINE
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (!App->IsOnPlayMode() && IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
@@ -144,6 +144,7 @@ void ComponentAreaLight::Draw() const
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
+
 		if (areaType == AreaType::SPHERE)
 		{
 			dd::sphere(position, dd::colors::White, shapeRadius);

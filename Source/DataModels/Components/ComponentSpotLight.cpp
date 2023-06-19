@@ -72,7 +72,7 @@ ComponentSpotLight::~ComponentSpotLight()
 void ComponentSpotLight::Draw() const
 {
 #ifdef ENGINE
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (!App->IsOnPlayMode() && IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
