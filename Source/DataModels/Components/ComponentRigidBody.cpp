@@ -49,7 +49,6 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	Component(ComponentType::RIGIDBODY, toCopy.IsEnabled(), toCopy.GetOwner(), true),
 	isKinematic(toCopy.isKinematic),
-	isStatic(toCopy.isStatic),
 	isTrigger(toCopy.isTrigger),
 	currentShape(toCopy.currentShape),
 	boxSize(toCopy.boxSize),
@@ -228,9 +227,8 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
 		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
-		isStatic = false;
 	}
-	else if (isStatic)
+	else if (IsStatic())
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -289,7 +287,6 @@ void ComponentRigidBody::SetCollisionShape(Shape newShape)
 void ComponentRigidBody::InternalSave(Json& meta)
 {
 	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
-	meta["isStatic"] = static_cast<bool>(IsStatic());
 	meta["isTrigger"] = static_cast<bool>(IsTrigger());
 	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
 	meta["mass"] = static_cast<float>(GetMass());
@@ -316,7 +313,6 @@ void ComponentRigidBody::InternalSave(Json& meta)
 void ComponentRigidBody::InternalLoad(const Json& meta)
 {
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
-	SetIsStatic(static_cast<bool>(meta["isStatic"]));
 #ifdef ENGINE
 	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
 #endif
@@ -439,4 +435,9 @@ void ComponentRigidBody::SetDefaultPosition()
 	SetRigidBodyOrigin(transPosBt);
 	UpdateRigidBodyTranslation();
 	UpdateRigidBody();
+}
+
+bool ComponentRigidBody::IsStatic() const
+{
+	return GetOwner()->IsStatic();
 }

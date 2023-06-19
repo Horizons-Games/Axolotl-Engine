@@ -133,14 +133,12 @@ void GameObject::Load(const Json& meta)
 
 	Json jsonComponents = meta["Components"];
 
-	if (jsonComponents.Size() != 0)
+	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 	{
-		for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
-		{
-			Json jsonComponent = jsonComponents[i]["Component"];
-			std::string typeName = jsonComponent["type"];
+		Json jsonComponent = jsonComponents[i]["Component"];
+		std::string typeName = jsonComponent["type"];
 
-			ComponentType type = GetTypeByName(jsonComponent["type"]);
+		ComponentType type = GetTypeByName(jsonComponent["type"]);
 
 			if (type == ComponentType::UNKNOWN)
 				continue;
@@ -781,5 +779,16 @@ void GameObject::SpreadStatic()
 	{
 		child->SetStatic(staticObject);
 		child->SpreadStatic();
+	}
+}
+
+void GameObject::SetStatic(bool newStatic)
+{
+	staticObject = newStatic;
+	std::vector<ComponentRigidBody*> rigids = GetComponents<ComponentRigidBody>();
+
+	for (ComponentRigidBody* rigid : rigids)
+	{
+		rigid->SetUpMobility();
 	}
 }

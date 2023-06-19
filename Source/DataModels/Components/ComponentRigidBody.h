@@ -53,7 +53,6 @@ public:
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
-	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -164,7 +163,6 @@ private:
     float height;
 
 	bool isKinematic = false;
-	bool isStatic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
 
@@ -193,16 +191,6 @@ inline bool ComponentRigidBody::GetIsKinematic() const
 inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
 {
 	isKinematic = newIsKinematic;
-}
-
-inline bool ComponentRigidBody::IsStatic() const
-{
-	return isStatic;
-}
-
-inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
-{
-	isStatic = newIsStatic;
 }
 
 inline bool ComponentRigidBody::IsTrigger() const

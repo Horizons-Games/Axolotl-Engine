@@ -21,7 +21,7 @@ public:
 	ImVec2 GetEndPos() const;
 	ImVec2 GetAvailableRegion() const;
 
-	bool isMouseInsideManipulator(float x, float y) const;
+	bool IsMouseInsideManipulator(float x, float y) const;
 
 protected:
 	void DrawWindowContents() override;
@@ -61,8 +61,12 @@ inline ImVec2 WindowScene::GetAvailableRegion() const
 	return availableRegion;
 }
 
-inline bool WindowScene::isMouseInsideManipulator(float x, float y) const
+inline bool WindowScene::IsMouseInsideManipulator(float x, float y) const
 {
+	if (!IsFocused())
+	{
+		return false;
+	}
 	return x <= viewportBounds[1].x && x >= viewportBounds[1].x - VIEW_MANIPULATE_SIZE && y >= viewportBounds[0].y &&
 		   y <= viewportBounds[0].y + VIEW_MANIPULATE_SIZE;
 }
