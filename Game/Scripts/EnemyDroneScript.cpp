@@ -67,18 +67,10 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
-	if (healthScript && !healthScript->EntityIsAlive())
-	{
-		return;
-	}
-
 	if (stunned)
 	{
 		if(timeStunned < 0)
 		{
-			ComponentRigidBody* rigidBody =
-				owner->GetComponent<ComponentRigidBody>();
-			rigidBody->SetKpForce(0.5f);
 			timeStunned = 0;
 			stunned = false;
 		}
@@ -86,9 +78,6 @@ void EnemyDroneScript::Update(float deltaTime)
 		{
 			if (timeStunnedAux < 0)
 			{
-				ComponentRigidBody* rigidBody =
-					owner->GetComponent<ComponentRigidBody>();
-				rigidBody->DisablePositionController();
 				timeStunnedAux = timeStunned + 1;
 			}
 			timeStunned -= deltaTime;
@@ -96,6 +85,12 @@ void EnemyDroneScript::Update(float deltaTime)
 			return;
 		}
 	}
+
+	if (healthScript && !healthScript->EntityIsAlive())
+	{
+		return;
+	}
+
 	GameObject* seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
 
 	if (seekTarget)

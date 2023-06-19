@@ -8,6 +8,7 @@
 #include "Components/ComponentScript.h"
 
 #include "EnemyDroneScript.h"
+#include "HealthSystem.h"
 
 REGISTERCLASS(PlayerForceAttackScript);
 
@@ -56,7 +57,10 @@ void PlayerForceAttackScript::Update(float deltaTime)
 				(*it)->GetComponent<ComponentRigidBody>();
 
 			btRigidBody* enemybtRb = enemyRigidBody->GetRigidBody();
+			enemyRigidBody->DisablePositionController();
+			enemyRigidBody->DisableRotationController();
 			enemybtRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+			enemybtRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
 
 			// Get next position of the gameObject
@@ -72,6 +76,11 @@ void PlayerForceAttackScript::Update(float deltaTime)
 				(*it)->GetComponent<EnemyDroneScript>();
 
 			enemyDroneScript->SetStunnedTime(stunTime);		
+
+			HealthSystem* enemyHealthScript =
+				(*it)->GetComponent<HealthSystem>();
+
+			enemyHealthScript->TakeDamage(10.0f);
 		}
 	}
 	else
@@ -82,6 +91,8 @@ void PlayerForceAttackScript::Update(float deltaTime)
 			currentCoolDown = std::max(0.0f, currentCoolDown);
 		}
 	}
+
+	ENGINE_LOG("Objetos: %i", enemiesInTheArea.size());
 }
 
 void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
