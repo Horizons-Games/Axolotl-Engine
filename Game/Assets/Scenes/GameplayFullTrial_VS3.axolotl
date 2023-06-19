@@ -255,11 +255,6 @@
                                     "name": "MaxHealth",
                                     "value": 50.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "LoseSceneName",
-                                    "value": "00_LoseScene_VS3",
-                                    "type": 1
                                 }
                             ]
                         }
@@ -386,7 +381,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerDeathScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "LoseSceneName",
+                                    "value": "00_LoseScene_VS3",
+                                    "type": 1
+                                }
+                            ]
                         }
                     }
                 ]
@@ -2319,11 +2320,6 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "LoseSceneName",
-                                    "value": "00_LoseScene_VS3",
-                                    "type": 1
                                 }
                             ]
                         }
@@ -2369,23 +2365,14 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "EnemyManagerScript",
+                            "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "PowerUp",
+                                    "name": "ActivePowerUp",
                                     "value": 11306440819102867434,
                                     "type": 2
                                 }
                             ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "EnemyDeathScript",
-                            "fields": null
                         }
                     }
                 ]
@@ -5360,11 +5347,6 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "LoseSceneName",
-                                    "value": "00_LoseScene_VS3",
-                                    "type": 1
                                 }
                             ]
                         }
@@ -5410,23 +5392,14 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "EnemyManagerScript",
+                            "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "PowerUp",
+                                    "name": "ActivePowerUp",
                                     "value": 1375892197173359520,
                                     "type": 2
                                 }
                             ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "EnemyDeathScript",
-                            "fields": null
                         }
                     }
                 ]
