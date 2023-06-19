@@ -28,7 +28,7 @@ void PowerUpsManagerScript::Update(float deltaTime)
 
 		if (currentPowerUpTimer >= maxPowerUpTimer)
 		{
-			DeactivateCurrentPowerUp();
+			EliminateCurrentPowerUpEffect();
 		}
 	}
 }
@@ -44,7 +44,7 @@ bool PowerUpsManagerScript::SavePowerUp(const PowerUpType& type)
 	return true;
 }
 
-void PowerUpsManagerScript::UsePowerUp()
+void PowerUpsManagerScript::UseSavedPowerUp()
 {
 	// If not powerUp saved or a powerUp is in use, a new powerUp can't be used
 	if (savedPowerUp == PowerUpType::NONE || activePowerUp != PowerUpType::NONE)
@@ -80,7 +80,7 @@ void PowerUpsManagerScript::UsePowerUp()
 	}
 }
 
-void PowerUpsManagerScript::DropPowerUp()
+void PowerUpsManagerScript::DropSavedPowerUp()
 {
 	savedPowerUp = PowerUpType::NONE;
 }
@@ -95,7 +95,7 @@ const PowerUpType& PowerUpsManagerScript::GetActivePowerUpType() const
 	return activePowerUp;
 }
 
-void PowerUpsManagerScript::DeactivateCurrentPowerUp()
+void PowerUpsManagerScript::EliminateCurrentPowerUpEffect()
 {
 	activePowerUp = PowerUpType::NONE;
 	currentPowerUpTimer = 0.f;

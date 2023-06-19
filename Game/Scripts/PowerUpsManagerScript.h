@@ -16,14 +16,14 @@ public:
 	void Update(float deltaTime) override;
 
 	bool SavePowerUp(const PowerUpType& type);
-	void DropPowerUp();
-	void UsePowerUp();
+	void DropSavedPowerUp();
+	void UseSavedPowerUp();
 
 	const PowerUpType& GetSavedPowerUpType() const;
 	const PowerUpType& GetActivePowerUpType() const;
 
 private:
-	void DeactivateCurrentPowerUp();
+	void EliminateCurrentPowerUpEffect();
 
 	float amountHealed;
 	float attackIncrease;

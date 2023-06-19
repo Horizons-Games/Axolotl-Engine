@@ -26,7 +26,7 @@ void InteractWithPowerUpScript::Update(float deltaTime)
 	// Press Z to activate a saved powerup
 	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 	{
-		powerUpsManagerScript->UsePowerUp();
+		powerUpsManagerScript->UseSavedPowerUp();
 	}
 
 	// Press X to drop a saved powerup
@@ -34,7 +34,7 @@ void InteractWithPowerUpScript::Update(float deltaTime)
 	{
 		if (powerUpsManagerScript->GetSavedPowerUpType() != PowerUpType::NONE)
 		{
-			powerUpsManagerScript->DropPowerUp();
+			powerUpsManagerScript->DropSavedPowerUp();
 		}
 	}
 }

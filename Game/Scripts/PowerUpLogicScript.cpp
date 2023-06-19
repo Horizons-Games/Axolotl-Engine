@@ -68,7 +68,7 @@ void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)
 void PowerUpLogicScript::DisablePowerUp() const
 {
 	float3 position = ownerTransform->GetPosition();
-	ownerTransform->SetPosition(float3(position.x, position.y - 2000, position.z));
+	ownerTransform->SetPosition(float3(position.x, position.y - 200, position.z));
 	ownerTransform->UpdateTransformMatrices();
 
 	ownerRb->UpdateRigidBody();
