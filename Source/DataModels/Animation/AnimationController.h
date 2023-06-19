@@ -5,6 +5,7 @@
 
 #include <memory>
 
+class State;
 class ResourceAnimation;
 
 class AnimationController
@@ -13,7 +14,7 @@ public:
 	AnimationController();
 	~AnimationController();
 
-	void Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop, float speed);
+	void Play(State* resource, bool loop);
 	void Stop();
 
 	void Update();
@@ -29,7 +30,7 @@ private:
 	float currentTime;
 	bool isLooping;
 	bool isPlaying;
-	float speed;
+	const State* stateResource;
 	std::shared_ptr<ResourceAnimation> resource;
 };
 

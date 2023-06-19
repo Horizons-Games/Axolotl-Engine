@@ -1,9 +1,15 @@
 #include "AnimationController.h"
 #include "Application.h"
 
+#include "Resources/ResourceStateMachine.h"
 #include "Resources/ResourceAnimation.h"
 
-AnimationController::AnimationController() : currentTime(0.0f), isLooping(true), isPlaying(false), resource(nullptr)
+AnimationController::AnimationController() :
+	currentTime(0.0f),
+	isLooping(true),
+	isPlaying(false),
+	stateResource(nullptr),
+	resource(nullptr)
 {
 }
 
@@ -11,13 +17,13 @@ AnimationController::~AnimationController()
 {
 }
 
-void AnimationController::Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop, float speed)
+void AnimationController::Play(State* stateResource, bool loop)
 {
-	this->resource = resource;
+	this->stateResource = stateResource;
+	resource = std::dynamic_pointer_cast<ResourceAnimation>(stateResource->resource);
 	isLooping = loop;
 	isPlaying = true;
 	currentTime = 0;
-	this->speed = speed;
 }
 
 void AnimationController::Stop()
@@ -32,7 +38,7 @@ void AnimationController::Update()
 	{
 		float duration = resource->GetDuration();
 
-		currentTime += App->GetDeltaTime() * speed;
+		currentTime += App->GetDeltaTime() * stateResource->speed * 10;
 		if (currentTime > duration)
 		{
 			if (isLooping)
