@@ -310,6 +310,21 @@ update_status ModuleRender::Update()
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gSpecular);
 
+	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+
+	program->BindUniformFloat3("viewPos", viewPos);
+
+	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
+	glActiveTexture(GL_TEXTURE8);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+	glActiveTexture(GL_TEXTURE9);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+	glActiveTexture(GL_TEXTURE10);
+	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
+
+	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
+	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
+
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
 	program->BindUniformInt("renderMode", modeRender);
 
@@ -332,7 +347,9 @@ update_status ModuleRender::Update()
 
 	if (skybox)
 	{
-		//skybox->Draw();
+		glDepthRange(0.999, 1.0);
+		skybox->Draw();
+		glDepthRange(0.0, 1.0);
 	}
 
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);

@@ -50,7 +50,7 @@ uniform int numLevels_IBL;
 uniform float cubemap_intensity;
 uniform int renderMode;
 
-uniform vec3 ViewPos;
+uniform vec3 viewPos;
 
 in vec2 TexCoord;
 
@@ -287,7 +287,7 @@ void main()
     vec4 specularMat = texture(gSpecular, TexCoord);
     float smoothness = specularMat.a;
 
-    vec3 viewDir = normalize(ViewPos - fragPos);
+    vec3 viewDir = normalize(viewPos - fragPos);
     vec4 gammaCorrection = vec4(2.2);
 
     vec3 Cd = textureMat.rgb;
