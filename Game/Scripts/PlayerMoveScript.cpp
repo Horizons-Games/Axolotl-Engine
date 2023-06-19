@@ -190,5 +190,4 @@ void PlayerMoveScript::Move(float deltaTime)
 void PlayerMoveScript::IncreaseSpeed(float amountSpeed)
 {
 	speed += amountSpeed;
-	LOG_VERBOSE("Speed increased");
 }

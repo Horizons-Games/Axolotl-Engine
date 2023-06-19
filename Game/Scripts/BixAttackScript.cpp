@@ -170,5 +170,4 @@ bool BixAttackScript::isAttackAvailable()
 void BixAttackScript::IncreaseAttack(float amountAttack)
 {
 	damageAttack += amountAttack;
-	LOG_VERBOSE("Attack increased");
 }

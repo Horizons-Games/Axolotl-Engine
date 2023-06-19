@@ -16,10 +16,9 @@ PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), a
 	REGISTER_FIELD(attackIncrease, float);
 	REGISTER_FIELD(defenseIncrease, float);
 	REGISTER_FIELD(speedIncrease, float);
-
 	REGISTER_FIELD(maxPowerUpTimer, float);
 
-	REGISTER_FIELD(player, GameObject*)
+	REGISTER_FIELD(player, GameObject*);
 }
 
 void PowerUpsManagerScript::Update(float deltaTime)
@@ -99,6 +98,7 @@ const PowerUpType& PowerUpsManagerScript::GetActivePowerUpType() const
 
 void PowerUpsManagerScript::DeactivateCurrentPowerUp()
 {
+	activePowerUp = PowerUpType::NONE;
 	currentPowerUpTimer = 0.f;
 
 	if (activePowerUp == PowerUpType::ATTACK)
@@ -121,6 +121,4 @@ void PowerUpsManagerScript::DeactivateCurrentPowerUp()
 		moveScript->IncreaseSpeed(-speedIncrease);
 		return;
 	}
-
-	activePowerUp = PowerUpType::NONE;
 }

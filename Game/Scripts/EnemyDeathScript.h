@@ -17,6 +17,6 @@ private:
 	GameObject* RequestPowerUp() const;
 	void DisableEnemyActions() const;
 
-	// Once we have vectors, this should be a vector of powerUps ready to be activated
+	// Once we have vectors, this should be a vector of powerUps ready to be activated in the PowerUpsManagerScript
 	GameObject* activePowerUp;
 };

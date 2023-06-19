@@ -70,7 +70,6 @@ void HealthSystem::TakeDamage(float damage)
 void HealthSystem::HealLife(float amountHealed)
 {
 	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
-	LOG_VERBOSE("Healed");
 }
 
 bool HealthSystem::EntityIsAlive() const
@@ -86,5 +85,4 @@ float HealthSystem::GetCurrentHealth() const
 void HealthSystem::IncreaseDefense(float increaseDefense)
 {
 	defense += increaseDefense;
-	LOG_VERBOSE("Defense increased");
 }
