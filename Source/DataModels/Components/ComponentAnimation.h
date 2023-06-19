@@ -48,7 +48,7 @@ public:
 	std::string& GetActualStateName() const;
 
 private:
-	bool CheckTransitions(State* state, Transition& transition);
+	bool CheckTransitions(const State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
