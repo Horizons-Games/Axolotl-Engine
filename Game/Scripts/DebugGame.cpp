@@ -206,44 +206,44 @@ void DebugGame::Teleport()
 	case 1:
 		//playerOnLocation = false;
 		playerRigidBody->SetIsTrigger(true);
-		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 		currentdDebugPointTransform = debugPoint2Transform;
+		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 		debugCurrentPos++;
 		ENGINE_LOG("%d", debugCurrentPos);
 		break;
 	case 2:
 		//playerOnLocation = false;
+		currentdDebugPointTransform = debugPoint3Transform;
 		playerRigidBody->SetIsTrigger(true);
 		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		currentdDebugPointTransform = debugPoint3Transform;
 		debugCurrentPos++;
 		ENGINE_LOG("%d", debugCurrentPos);
 		break;
 	case 3:
 		//playerOnLocation = false;
+		currentdDebugPointTransform = debugPoint4Transform;
 		playerRigidBody->SetIsTrigger(true);
 		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		currentdDebugPointTransform = debugPoint4Transform;
 		debugCurrentPos++;
 		ENGINE_LOG("%d", debugCurrentPos);
 		break;
 	case 4:
 		//playerOnLocation = false;
 		playerRigidBody->SetIsTrigger(true);
-		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 		currentdDebugPointTransform = debugPoint5Transform;
-		debugCurrentPos++;
-		ENGINE_LOG("%d", debugCurrentPos);
-		break;
-
-	case 5:
-		//playerOnLocation = false;
-		playerRigidBody->SetIsTrigger(true);
 		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		currentdDebugPointTransform = debugPoint1Transform;
 		debugCurrentPos = 0;
 		ENGINE_LOG("%d", debugCurrentPos);
 		break;
+
+	//case 5:
+	//	//playerOnLocation = false;
+	//	playerRigidBody->SetIsTrigger(true);
+	//	currentdDebugPointTransform = debugPoint1Transform;
+	//	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
+	//	debugCurrentPos = 0;
+	//	ENGINE_LOG("%d", debugCurrentPos);
+	//	break;
 	}
 }
 
