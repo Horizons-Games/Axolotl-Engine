@@ -5,19 +5,20 @@
 #include "Application.h"
 #include "ModuleInput.h"
 
-#include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/PowerUpsManagerScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
 
 REGISTERCLASS(InteractWithPowerUpScript);
 
-InteractWithPowerUpScript::InteractWithPowerUpScript() : Script()
+InteractWithPowerUpScript::InteractWithPowerUpScript() : Script(), powerUpsManager(nullptr)
 {
+	REGISTER_FIELD(powerUpsManager, GameObject*);
 }
 
 void InteractWithPowerUpScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
-	managerPlayer = owner->GetComponent<PlayerManagerScript>();
+	powerUpsManagerScript = powerUpsManager->GetComponent<PowerUpsManagerScript>();
 }
 
 void InteractWithPowerUpScript::Update(float deltaTime)
@@ -25,15 +26,15 @@ void InteractWithPowerUpScript::Update(float deltaTime)
 	// Press Z to activate a saved powerup
 	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 	{
-		managerPlayer->UsePowerUp();
+		powerUpsManagerScript->UsePowerUp();
 	}
 
 	// Press X to drop a saved powerup
 	else if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
 	{
-		if (managerPlayer->GetPowerUpType() != PowerUpType::NONE)
+		if (powerUpsManagerScript->GetSavedPowerUpType() != PowerUpType::NONE)
 		{
-			managerPlayer->DropPowerUp();
+			powerUpsManagerScript->DropPowerUp();
 		}
 	}
 }

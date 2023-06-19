@@ -175,6 +175,7 @@
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PowerUpLogicScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
@@ -525,6 +526,7 @@
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
+    <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
     <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
     <ClInclude Include="..\Game\Scripts\DroneBullet.h" />

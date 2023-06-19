@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
 class PlayerManagerScript;
+class PowerUpsManagerScript;
 
 class InteractWithPowerUpScript : public Script
 {
@@ -16,7 +17,10 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+
 private:
 	ModuleInput* input;
-	PlayerManagerScript* managerPlayer;
+	GameObject* powerUpsManager;
+
+	PowerUpsManagerScript* powerUpsManagerScript;
 };

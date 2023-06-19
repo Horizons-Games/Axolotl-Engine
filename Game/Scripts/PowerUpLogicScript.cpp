@@ -4,7 +4,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 
-#include "PlayerManagerScript.h"
+#include "../Scripts/PowerUpsManagerScript.h"
 
 REGISTERCLASS(PowerUpLogicScript);
 
@@ -12,23 +12,25 @@ REGISTERCLASS(PowerUpLogicScript);
 
 PowerUpLogicScript::PowerUpLogicScript() : Script()
 {
+	REGISTER_FIELD(powerUpsManager, GameObject*)
 }
 
 void PowerUpLogicScript::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	ownerRb = owner->GetComponent<ComponentRigidBody>();
-	DeactivatePowerUp();
+	DisablePowerUp();
 }
 
 void PowerUpLogicScript::Update(float deltaTime)
 {
 	if (owner->IsEnabled())
 	{
-		counter += deltaTime;
-		if (counter >= SPAWN_LIFE)
+		timer += deltaTime;
+
+		if (timer >= SPAWN_LIFE)
 		{
-			DeactivatePowerUp();
+			DisablePowerUp();
 		}
 	}
 }
@@ -36,8 +38,9 @@ void PowerUpLogicScript::Update(float deltaTime)
 // Once requested, a given powerup will spawn in the given position
 void PowerUpLogicScript::ActivatePowerUp(const float3& position)
 {
+	srand(static_cast<unsigned int>(time(0)));
 	type = PowerUpType(rand() % 4);
-	counter = 0.f;
+	timer = 0.f;
 
 	ownerTransform->SetPosition(position);
 	ownerTransform->UpdateTransformMatrices();
@@ -49,20 +52,20 @@ void PowerUpLogicScript::ActivatePowerUp(const float3& position)
 
 void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	GameObject* go = other->GetOwner();
-	if (!go->CompareTag("Player"))
+	GameObject* hittedGameObject = other->GetOwner();
+	if (!hittedGameObject->CompareTag("Player"))
 	{
 		return;
 	}
 
-	PlayerManagerScript* playerManagerScript = go->GetComponent<PlayerManagerScript>();
+	PowerUpsManagerScript* playerManagerScript = powerUpsManager->GetComponent<PowerUpsManagerScript>();
 	if (playerManagerScript->SavePowerUp(type))
 	{
-		DeactivatePowerUp();
+		DisablePowerUp();
 	}
 }
 
-void PowerUpLogicScript::DeactivatePowerUp()
+void PowerUpLogicScript::DisablePowerUp() const
 {
 	float3 position = ownerTransform->GetPosition();
 	ownerTransform->SetPosition(float3(position.x, position.y - 2000, position.z));

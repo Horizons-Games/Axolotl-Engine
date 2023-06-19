@@ -372,7 +372,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "InteractWithPowerUpScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 9418173620591223368,
+                                    "type": 2
+                                }
+                            ]
                         }
                     },
                     {
@@ -8271,7 +8277,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PowerUpLogicScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 9418173620591223368,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -8349,7 +8361,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PowerUpLogicScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 9418173620591223368,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -8379,6 +8397,75 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Managers",
+                "tag": "",
+                "uid": 9418173620591223368,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpsManagerScript",
+                            "fields": [
+                                {
+                                    "name": "AmountHealed",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackIncrease",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DefenseIncrease",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "SpeedIncrease",
+                                    "value": 60.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxPowerUpTimer",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "Player",
+                                    "value": 6764586723542947213,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]

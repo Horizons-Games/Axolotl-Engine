@@ -8,7 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentTransform;
 class ComponentRigidBody;
 
-enum PowerUpType
+enum class PowerUpType
 {
 	HEAL,
 	DEFENSE,
@@ -30,10 +30,12 @@ public:
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void DeactivatePowerUp();
+	void DisablePowerUp() const;
 
+	float timer;
 	PowerUpType type;
+
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRb;
-	float counter;
+	GameObject* powerUpsManager;
 };

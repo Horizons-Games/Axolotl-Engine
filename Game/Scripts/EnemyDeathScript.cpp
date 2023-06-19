@@ -33,7 +33,9 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 	//for (GameObject* powerUp : powerUps)
 	//{
 		// Make that the enemies don't always drop a powerup (20% chance)
+		srand(static_cast<unsigned int>(time(0)));
 		int randomActivation = rand() % 10;
+
 		LOG_INFO("{}", randomActivation);
 
 		if (!activePowerUp->IsEnabled() && randomActivation < 2)

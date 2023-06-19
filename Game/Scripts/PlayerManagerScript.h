@@ -5,8 +5,6 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-enum PowerUpType;
-
 class PlayerManagerScript : public Script
 {
 public:
@@ -15,14 +13,4 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
-
-	bool SavePowerUp(PowerUpType type);
-	void UsePowerUp();
-	void DropPowerUp();
-
-	const PowerUpType GetPowerUpType();
-
-private:
-	float counterPowerUp;
-	PowerUpType activePowerUp;
 };
