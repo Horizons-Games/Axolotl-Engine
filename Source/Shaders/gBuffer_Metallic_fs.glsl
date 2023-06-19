@@ -37,7 +37,6 @@ in flat int InstanceIndex;
 
 void main()
 {    
-
     Material material = materials[InstanceIndex];
 
     gPosition = FragPos;
@@ -59,7 +58,7 @@ void main()
         gNormal = normalize(gNormal);
         gNormal = space * gNormal;
 	}
-       gNormal = normalize(gNormal);
+    gNormal = normalize(gNormal);
 
     //Diffuse
     gDiffuse = vec4(material.diffuse_color.rgb, material.diffuse_color.a);
@@ -77,5 +76,4 @@ void main()
     }
 
     gDiffuse.rgb = vec3(gDiffuse*(1-metalnessMask));
-
 }

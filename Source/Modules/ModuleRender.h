@@ -67,6 +67,7 @@ private:
 	void DrawHighlight(GameObject* gameObject);
 
 	void BindCameraToProgram(Program* program);
+	void BindCubemapToProgram(Program* program);
 
 	void* context;
 

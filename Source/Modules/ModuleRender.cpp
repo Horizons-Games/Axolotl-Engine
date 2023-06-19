@@ -260,11 +260,17 @@ update_status ModuleRender::Update()
 	}
 	AddToRenderList(goSelected);
 
-	// Bind camera info to the shaders
+	// Bind camera and cubemap info to the shaders
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));	
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
+	//BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
+	//BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER));
 
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
@@ -660,6 +666,13 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	program->BindUniformFloat3("viewPos", viewPos);
+
+	program->Deactivate();
+}
+
+void ModuleRender::BindCubemapToProgram(Program* program)
+{
+	program->Activate();
 
 	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 	glActiveTexture(GL_TEXTURE8);
