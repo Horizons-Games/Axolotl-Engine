@@ -3,72 +3,80 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "debugdraw.h"
+
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr)
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
+	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), 
+	wayPointTwoTransform(nullptr), currentWayPointTransform(nullptr)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(WayPointOne, GameObject*);
-	REGISTER_FIELD_WITH_ACCESSORS(WayPointTwo, GameObject*);
+	REGISTER_FIELD(wayPointOne, GameObject*);
+	REGISTER_FIELD(wayPointTwo, GameObject*);
+	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void PatrolBehaviourScript::Start()
 {
 	if (wayPointOne)
 	{
-		wayPointOneTransform = static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
+		wayPointOneTransform = wayPointOne->GetComponent<ComponentTransform>();
 	}
 
 	if (wayPointTwo)
 	{
-		wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
+		wayPointTwoTransform = wayPointTwo->GetComponent<ComponentTransform>();
 	}
 
-	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	ownerTransform = owner->GetComponent<ComponentTransform>();
 
+	currentWayPointTransform = wayPointOneTransform;
+}
+
+// Initally set the first waypoint as the destiny
+void PatrolBehaviourScript::StartPatrol()
+{
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
-		// Initally set the first waypoint as the destiny
-		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+
+		currentWayPointTransform = wayPointOneTransform;
+
+		SetProportionalController();
 	}
 }
 
-void PatrolBehaviourScript::Update(float deltaTime)
+// When this behaviour is triggered, the enemy will patrol between its waypoints
+// (This can be modularized into any amout of waypoints once the scripts can accept vectors)
+void PatrolBehaviourScript::Patrolling()
 {
-	ENGINE_LOG("%s", "Now patrolling...");
 
-	// When this behaviour is triggered, the enemy will patrol between its waypoints
-	// (This can be modularized into any amout when the scripts can accept vectors)
-	if (ownerTransform->GetPosition().Equals(wayPointOneTransform->GetPosition(), 1.0f))
+	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 2.0f)) 
 	{
-		ownerRigidBody->SetPositionTarget(wayPointTwoTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointTwoTransform->GetRotation());
+		currentWayPointTransform = wayPointTwoTransform;
 	}
 
-	else if (ownerTransform->GetPosition().Equals(wayPointTwoTransform->GetPosition(), 1.0f))
+	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 2.0f)) 
 	{
-		ownerRigidBody->SetPositionTarget(wayPointOneTransform->GetPosition());
-		ownerRigidBody->SetRotationTarget(wayPointOneTransform->GetRotation());
+		currentWayPointTransform = wayPointOneTransform;
 	}
+
+	SetProportionalController();
 }
 
-GameObject* PatrolBehaviourScript::GetWayPointOne() const
+void PatrolBehaviourScript::SetProportionalController() const
 {
-	return wayPointOne;
-}
+	ownerRigidBody->SetPositionTarget(currentWayPointTransform->GetGlobalPosition());
 
-void PatrolBehaviourScript::SetWayPointOne(GameObject* wayPointOne)
-{
-	this->wayPointOne = wayPointOne;
-}
+	Quat errorRotation =
+		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
+			(currentWayPointTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 
-GameObject* PatrolBehaviourScript::GetWayPointTwo() const
-{
-	return wayPointTwo;
-}
+#ifdef DEBUG
+	dd::arrow(ownerTransform->GetGlobalPosition(),
+		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+	dd::arrow(ownerTransform->GetGlobalPosition(), currentWayPointTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
 
-void PatrolBehaviourScript::SetWayPointTwo(GameObject* wayPointTwo)
-{
-	this->wayPointTwo = wayPointTwo;
+	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
 }

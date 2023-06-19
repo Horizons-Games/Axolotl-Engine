@@ -8,9 +8,9 @@
 
 #include "Application.h"
 
-
 WindowComponentImage::WindowComponentImage(ComponentImage* component) :
-	ComponentWindow("IMAGE", component), inputImage(std::make_unique<WindowSpriteInput>(component))
+	ComponentWindow("IMAGE", component),
+	inputImage(std::make_unique<WindowSpriteInput>(component))
 {
 }
 
@@ -30,7 +30,7 @@ void WindowComponentImage::DrawWindowContents()
 		{
 			ImGui::TableNextColumn();
 			image->Load();
-			ImGui::Image((void*)(intptr_t)image->GetGlTexture(), ImVec2(100, 100));
+			ImGui::Image((void*) (intptr_t) image->GetGlTexture(), ImVec2(100, 100));
 			ImGui::TableNextColumn();
 			if (ImGui::Button("X"))
 			{
@@ -45,7 +45,7 @@ void WindowComponentImage::DrawWindowContents()
 			}
 			ImGui::SetNextItemWidth(200);
 			float4 color = asImage->GetColor();
-			if(ImGui::ColorEdit4("##1", &color[0]))
+			if (ImGui::ColorEdit4("##1", (float*) &color))
 			{
 				asImage->SetColor(color);
 			}
@@ -56,7 +56,7 @@ void WindowComponentImage::DrawWindowContents()
 	{
 		inputImage->DrawWindowContents();
 		float4 color = asImage->GetColor();
-		if (ImGui::ColorEdit4("##1", &color[0]))
+		if (ImGui::ColorEdit4("##1", (float*) &color))
 		{
 			asImage->SetColor(color);
 		}

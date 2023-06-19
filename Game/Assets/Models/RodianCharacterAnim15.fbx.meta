@@ -1,0 +1,19 @@
+{
+    "UID": 2674433739858762770,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/RodianCharacterAnim15.Mesh.002_0.mesh",
+        "Assets/Meshes/RodianCharacterAnim15.Head_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/RodianCharacterAnim15Body_0.mat",
+        "Assets/Materials/RodianCharacterAnim15Head.001_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/RodianCharacterAnim15.Armature_Drunk.001.anim",
+        "Assets/Animation/RodianCharacterAnim15.Armature_Drunk2.anim",
+        "Assets/Animation/RodianCharacterAnim15.Armature_Eating.anim",
+        "Assets/Animation/RodianCharacterAnim15.Armature_InitialPose_Drunk.anim",
+        "Assets/Animation/RodianCharacterAnim15.Armature_InitialPose_Eating.anim"
+    ]
+}

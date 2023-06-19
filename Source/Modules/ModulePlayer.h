@@ -21,15 +21,14 @@ public:
 	void UnloadNewPlayer();
 
 	bool IsStatic();
+	void CheckIfActivateMouse();
 
 private:
-	GameObject*  player;
+	GameObject* player;
 	Camera* cameraPlayer;
 	ComponentPlayer* componentPlayer;
 
 	float speed;
 
 	bool bootsOnGround = false;
-	
 };
-
