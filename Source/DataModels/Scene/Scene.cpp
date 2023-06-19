@@ -16,6 +16,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCubemap.h"
 
+#include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
@@ -190,6 +191,11 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
+		case ComponentType::SLIDER:
+			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
+			slider->SetBackground(CreateUIGameObject("Background", gameObject, ComponentType::IMAGE));
+			slider->SetFill(CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE));
+			slider->SetHandle(CreateUIGameObject("Handle", gameObject, ComponentType::BUTTON));
 		default:
 			break;
 	}
