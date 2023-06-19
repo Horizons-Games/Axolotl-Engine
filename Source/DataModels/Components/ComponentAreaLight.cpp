@@ -143,11 +143,12 @@ void ComponentAreaLight::Draw() const
 		}
 	}
 #else
-	if (active && owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (!App->IsOnPlayMode() && active && owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
+
 		if (areaType == AreaType::SPHERE)
 		{
 			dd::sphere(position, dd::colors::White, shapeRadius);

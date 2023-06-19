@@ -198,7 +198,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 H = normalize(L + V);
         float specularDotNL = max(dot(N,L), EPSILON);
         
-        float alpha = roughness * roughness;
+        float alpha = max(roughness * roughness, EPSILON);
         float alphaPrime = clamp(sR/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
         float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
         vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
@@ -248,7 +248,7 @@ vec3 posA = areaTube[i].positionA.xyz;
         vec3 H = normalize(L + V);
         float specularDotNL = max(dot(N,L), EPSILON);
 
-        float alpha = roughness * roughness;
+        float alpha = max(roughness * roughness, EPSILON);
         float alphaPrime = clamp(tubeRadius/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
         float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
         vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
@@ -318,7 +318,8 @@ void main()
     // Lights
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, numLevels_IBL) * cubemap_intensity;
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
+        environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 
