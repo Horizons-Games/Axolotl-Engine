@@ -140,22 +140,22 @@ void GameObject::Load(const Json& meta)
 
 		ComponentType type = GetTypeByName(jsonComponent["type"]);
 
-			if (type == ComponentType::UNKNOWN)
-				continue;
-			Component* component;
-			if (type == ComponentType::LIGHT)
-			{
-				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
-			}
-			else
-			{
-				component = CreateComponent(type);
-			}
-
-			component->Load(jsonComponent);
+		if (type == ComponentType::UNKNOWN)
+			continue;
+		Component* component;
+		if (type == ComponentType::LIGHT)
+		{
+			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+			component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 		}
+		else
+		{
+			component = CreateComponent(type);
+		}
+
+		component->Load(jsonComponent);
 	}
+}
 }
 
 void GameObject::Draw() const
@@ -406,7 +406,7 @@ void GameObject::Enable()
 	assert(parent != nullptr);
 
 	enabled = true;
-	
+
 	this->Activate();
 }
 
@@ -415,7 +415,7 @@ void GameObject::Disable()
 	assert(parent != nullptr);
 
 	enabled = false;
-	
+
 	this->Deactivate();
 }
 
