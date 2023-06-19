@@ -2134,6 +2134,11 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "Player",
+                                    "value": 6764586723542947213,
+                                    "type": 2
+                                },
+                                {
                                     "name": "RotationSensitivity",
                                     "value": 0.05000000074505806,
                                     "type": 0

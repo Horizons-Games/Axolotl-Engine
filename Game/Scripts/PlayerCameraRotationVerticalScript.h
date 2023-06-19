@@ -31,6 +31,8 @@ private:
 
 	std::vector<CameraSample*> samples;
 	ComponentTransform* transform;
-	ComponentTransform* parentTransform;
+
+	GameObject* player;
+	ComponentTransform* playerTransform;
 };
 

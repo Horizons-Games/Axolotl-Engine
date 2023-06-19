@@ -10,9 +10,10 @@
 REGISTERCLASS(PlayerCameraRotationVerticalScript);
 
 PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Script(), 
-		samplePointsObject(nullptr), rotationSensitivity(1.0f), transform(nullptr)
+		samplePointsObject(nullptr), rotationSensitivity(1.0f), transform(nullptr), player(nullptr)
 {
 	REGISTER_FIELD(samplePointsObject, GameObject*);
+	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(rotationSensitivity, float);
 }
 
@@ -26,10 +27,10 @@ void PlayerCameraRotationVerticalScript::Start()
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();
-	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	playerTransform = player->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
-	defaultOffsetVector = transform->GetGlobalPosition() - parentTransform->GetGlobalPosition();
+	defaultOffsetVector = transform->GetGlobalPosition() - playerTransform->GetGlobalPosition();
 	defaultOffset = defaultOffsetVector.Length();
 
 	finalTargetOrientation = transform->GetGlobalRotation();
@@ -41,7 +42,7 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 {
 	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
 	if (closestSample && 
-		(closestSample->position - parentTransform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
+		(closestSample->position - playerTransform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 	{
 		finalTargetPosition = closestSample->position + 
 			closestSample->positionOffset.Normalized()* closestSample->influenceRadius*0.9;
@@ -58,8 +59,8 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 	{
 		if (isInfluenced)
 		{
-			finalTargetPosition = parentTransform->GetGlobalPosition() + defaultOffsetVector;
-			finalTargetOrientation = parentTransform->GetGlobalRotation();
+			finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
+			finalTargetOrientation = playerTransform->GetGlobalRotation();
 			isInfluenced = false;
 		}
 		else
@@ -99,8 +100,8 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 
 	finalTargetOrientation = rotationError * currentRotation;
 
-	float3 cameraVector = (transform->GetGlobalPosition() - parentTransform->GetGlobalPosition()).Normalized();
-	finalTargetPosition = parentTransform->GetGlobalPosition() + rotationError.Transform(cameraVector) * defaultOffset;
+	float3 cameraVector = (transform->GetGlobalPosition() - playerTransform->GetGlobalPosition()).Normalized();
+	finalTargetPosition = playerTransform->GetGlobalPosition() + rotationError.Transform(cameraVector) * defaultOffset;
 	
 }
 
