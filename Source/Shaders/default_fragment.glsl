@@ -170,14 +170,6 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
     return Lo;
 }
 
-float GGXNDAreaLight(float dotNH, float roughness, float alpha, float alphaPrime)
-{
-    float alpha2 = alpha * alpha;
-    float alphaPrime2 = alphaPrime * alphaPrime;
-    
-    return (alpha2 * alphaPrime2) / pow( dotNH * dotNH * ( alpha2 - 1.0 ) + 1.0, 2.0);
-}
-
 vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
     vec3 Lo = vec3(0.0);
@@ -190,26 +182,25 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         float intensity = areaSphere[i].color.a;
         float lightRadius = areaSphere[i].lightRadius;
 
-        // calculate closest point light specular
-        vec3 oldL = sP - FragPos;
         vec3 R = normalize(reflect(-V, N));
-        vec3 centerToRay = max(dot(oldL, R), EPSILON) * R - oldL;
-        vec3 closest = oldL + centerToRay * min(sR/length(centerToRay),1.0);
+        
+        // Attenuation from the closest point view
+        float closeDistance = max(length(FragPos-sP)-sR, 0.0);
+        float maxValue = pow(max(1-pow(closeDistance/lightRadius,4), 0),2);
+        float attenuation = maxValue/(pow(closeDistance,2) + 1);
 
-        float distance = length(closest);
-        vec3 L = closest/distance;
+        // calculate closest point light specular
+        vec3 closest = ClosestRayToSphere(sR, sP - FragPos, R);
+
+        vec3 L = normalize(closest);
         vec3 H = normalize(L + V);
         float specularDotNL = max(dot(N,L), EPSILON);
         
         float alpha = roughness * roughness;
-        float alphaPrime = clamp(sR/(distance*2.0)+alpha, 0.0f, 1.0f);
+        float alphaPrime = clamp(sR/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
         float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
         vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
-
-        // Attenuation from the closest point view
-        float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
-        float attenuation = maxValue/(pow(distance,2) + 1);
         
         // calculate closest point light diffuse
         closest = sP;
@@ -239,50 +230,33 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
         float intensity = areaTube[i].color.a;
         float lightRadius = areaTube[i].lightRadius;
 
-        // calculate closest point light specular
-        vec3 PA = posA - FragPos;
-        vec3 PB = posB - FragPos;
-        float distL0 = length( PA );
-	    float distL1 = length( PB );
-        float NoL0 = dot( PA, N ) / ( 2.0 * distL0 );
-	    float NoL1 = dot( PB, N ) / ( 2.0 * distL1 );
-	    float NoL = ( 2.0 * clamp( NoL0 + NoL1, 0, 1)) / ( distL0 * distL1 + dot( PA, PB ) + 2.0 );
-        vec3 AB = PB - PA;
+        // Attenuation from the closest point view
+        vec3 pointAtt = ClosestPointToLine(FragPos, posA, posB, tubeRadius);
+        float closeDistance = length(pointAtt - FragPos);
+        float maxValue = pow(max(1-pow(closeDistance/lightRadius,4), 0),2);
+        float attenuation = maxValue/(pow(closeDistance,2) + 1);
 
         vec3 R = normalize(reflect(-V, N));
-		
-        float dotABRefle = dot(AB, R);
-        float num = dot(R, PA) * dotABRefle - dot(PA, AB);
-        float denom = length(AB) * length(AB) - dotABRefle * dotABRefle;
-        float t = clamp(num/denom, 0.0f, 1.0f);
         
-        vec3 closest = PA + AB * t;
-   	
         // calculate closest point light specular
-        vec3 oldL = closest;
-        vec3 centerToRay = dot(oldL, R) * R - oldL;
-        closest = oldL + centerToRay * min(tubeRadius/length(centerToRay),1.0);
+        vec3 closest = ClosestRayToLine(FragPos, posA, posB, R);
+   	    closest = ClosestRayToSphere(tubeRadius, closest, R);
 
-        float distance = length(closest);
-        vec3 L = closest/distance;
+        vec3 L = normalize(closest);
         vec3 H = normalize(L + V);
-        float specularDotNL = NoL;
+        float specularDotNL = max(dot(N,L), EPSILON);
 
         float alpha = roughness * roughness;
-        float alphaPrime = clamp(tubeRadius/(distance*2.0)+alpha, 0.0f, 1.0f);
+        float alphaPrime = clamp(tubeRadius/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
         float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
         vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
         float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
-
-        // Attenuation from the closest point view
-        float maxValue = pow(max(1-pow(distance/lightRadius,4), 0),2);
-        float attenuation = maxValue/(pow(distance,2) + 1);
 
         // calculate closest point light diffuse
         float a = length(posA-FragPos);
         float b = length(posB-FragPos);
         float x = (a)/(b + a);
-        closest = posA + AB * x;
+        closest = BisectionIntersection(FragPos, posA, posB);
 
         L = normalize(closest-FragPos);
         float diffuseDotNL = max(dot(N,L), EPSILON);

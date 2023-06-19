@@ -31,6 +31,9 @@ public:
 	ComponentAreaLight(const float3& color, float intensity, GameObject* parent, AreaType areaType);
 	~ComponentAreaLight() override;
 
+	void Enable() override;
+	void Disable() override;
+
 	void Draw() const override;
 
 	const AreaType GetAreaType();
