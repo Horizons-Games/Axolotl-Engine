@@ -209,7 +209,6 @@
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
       <Filter>DataModels\Components</Filter>
@@ -331,17 +330,11 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\EnemyCollidesFloorScript.cpp">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp">
       <Filter>UserScripts\Basics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerMobilityScript.cpp">
-      <Filter>UserScripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
@@ -385,8 +378,15 @@
     <ClCompile Include="DataModels\ParticleSystem\ModulePosition.cpp">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    <ClCompile Include="DataModels\Batch\BatchManager.cpp">
+      <Filter>DataModels\Batch</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
+      <Filter>DataModels\Batch</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleAudio.cpp" />
+    <ClCompile Include="Auxiliar\GameBuilder.cpp">
+      <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
@@ -399,6 +399,106 @@
     </ClCompile>
     <ClCompile Include="DataModels\ParticleSystem\ModuleColor.cpp">
       <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HealthSystem.cpp">
+      <Filter>UserScripts\Health System</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\PopUpWindow.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="AxoLog.cpp" />
+    <ClCompile Include="Modules\ModuleAudio.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentBreakable.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentCubemap.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIImageControl.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleRenderer.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleRotation.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\ParticleSystem\ModuleSize.cpp">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+      <Filter>UserScripts\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
+      <Filter>UserScripts\Player\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -639,7 +739,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="AxoLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
@@ -725,17 +825,8 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EnemyCollidesFloorScript.h">
-      <Filter>UserScripts\Auxiliar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
       <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerMobilityScript.h">
-      <Filter>UserScripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
@@ -755,11 +846,15 @@
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Batch\BatchManager.h">
+      <Filter>DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Batch\GeometryBatch.h">
+      <Filter>DataModels\Batch</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\FieldType.h">
-      <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Enums\ModuleType.h">
       <Filter>Enums</Filter>
@@ -788,13 +883,13 @@
     <ClInclude Include="DataModels\ParticleSystem\ModulePosition.h">
       <Filter>DataModels\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\AddComponentAction.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\GameBuilder.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModulePhysics.h">
@@ -802,6 +897,123 @@
     </ClInclude>
     <ClInclude Include="DataModels\ParticleSystem\ModuleColor.h">
       <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentAreaLight.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Test\par_shapes.h">
+      <Filter>Auxiliar\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HealthSystem.h">
+      <Filter>UserScripts\Health System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\PopUpWindow.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowLoading.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\FieldType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\ComponentType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Audio\AudioData.h">
+      <Filter>Auxiliar\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentBreakable.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentCubemap.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIButtonControl.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIImageControl.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIGameStates.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UITrigger.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MenuMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleRenderer.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleRotation.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\ParticleSystem\ModuleSize.h">
+      <Filter>DataModels\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
+      <Filter>DataModels\Windows\PopUpWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
+      <Filter>UserScripts\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
+      <Filter>UserScripts\Player\Rotation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
+      <Filter>UserScripts\Player\Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
+      <Filter>UserScripts\Player\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
+      <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -880,9 +1092,6 @@
     <Filter Include="UserScripts\Enemies">
       <UniqueIdentifier>{acde5fbc-7f38-40b9-bbf4-7d669f5813ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Auxiliar">
-      <UniqueIdentifier>{b64e48db-e074-4748-b95c-06af30b4bb9d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Basics">
       <UniqueIdentifier>{2efe8905-6d7a-43f9-8bd7-35f513304159}</UniqueIdentifier>
     </Filter>
@@ -892,11 +1101,47 @@
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataModels\Batch">
+      <UniqueIdentifier>{f0a3ad34-d64c-41ad-9eeb-cf7129563751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Health System">
+      <UniqueIdentifier>{562f5fbe-0e28-41cf-b6f2-8398f0b8bbfa}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Enums">
       <UniqueIdentifier>{d915cbe7-b85e-4892-a5e4-88c93b1094f8}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\ParticleSystem">
       <UniqueIdentifier>{1426e775-b621-433b-b6cf-306a93828634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Test">
+      <UniqueIdentifier>{ca480dbf-737f-4123-a23a-ee424eba9c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Windows\PopUpWindows">
+      <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Level">
+      <UniqueIdentifier>{baa08fe2-1b03-4716-a1e9-9cb01a6070fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar\Audio">
+      <UniqueIdentifier>{31a144c8-77e2-4122-82e4-529826c280dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\UI">
+      <UniqueIdentifier>{9ddd7416-8d1e-4b37-be90-b2a1b8cb51e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Movement">
+      <UniqueIdentifier>{b812ac76-6b1f-47cc-a2da-da0913da9b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Rotation">
+      <UniqueIdentifier>{599c1737-d371-4d4d-9b3a-d86d3d749929}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Abilities">
+      <UniqueIdentifier>{1b8a3c16-68e9-40de-8361-9466396630ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Player\Attack">
+      <UniqueIdentifier>{269828a2-35fb-43a3-9bbf-385818dfe41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
+      <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1108,7 +1353,6 @@
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
       <Filter>DataModels\Components</Filter>
@@ -1176,7 +1420,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSpriteInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleAudio.cpp" />
     <ClCompile Include="Modules\ModuleUI.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -1194,9 +1437,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentScript.cpp">
       <Filter>DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\WindowLoading.cpp">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleCommand.cpp">
       <Filter>Modules</Filter>
@@ -1446,7 +1686,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
@@ -1648,9 +1887,6 @@
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentAmbient.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem\UniqueID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1727,9 +1963,6 @@
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\ComponentWindow.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAmbient.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCamera.h">
@@ -1919,14 +2152,8 @@
     <ClInclude Include="Modules\ModuleCommand.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\WindowLoading.h">
-      <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Source">
-      <UniqueIdentifier>{63d396b9-4239-47e8-b629-8ccdfeb9ed44}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{c91453bb-e0c9-4c12-a995-0c020d2586ef}</UniqueIdentifier>
     </Filter>
@@ -1963,13 +2190,6 @@
     <Filter Include="External\ImGuiFileDialog\stb">
       <UniqueIdentifier>{a01da323-8d90-4ae9-b233-e4cde3b5028a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Enums">
-      <UniqueIdentifier>{0e75670f-4efa-4eb9-8114-a78dfd3fed18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DataStructures">
-      <UniqueIdentifier>{a4a64db5-63aa-43da-a784-521505e0df6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Auxiliar" />
     <Filter Include="Auxiliar">
       <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
     </Filter>
@@ -2060,5 +2280,10 @@
     <Filter Include="DataModels\Commands">
       <UniqueIdentifier>{93f530fc-354e-4ca6-9913-b8076d066ac2}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataModels\GameObject\GameObject.inl">
+      <Filter>DataModels\GameObject</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -13,7 +13,8 @@ void AnimationImporter::Import(const char* filePath, std::shared_ptr<ResourceAni
 	char* saveBuffer{};
 	unsigned int size;
 	Save(resource, saveBuffer, size);
-	App->GetModule<ModuleFileSystem>()->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+	App->GetModule<ModuleFileSystem>()->Save(
+		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 
 	delete loadBuffer;
 	delete saveBuffer;
@@ -23,7 +24,7 @@ void AnimationImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceAni
 {
 	unsigned int header[1];
 	unsigned int bytes = sizeof(header);
-	
+
 	memcpy(header, fileBuffer, bytes);
 
 	fileBuffer += bytes;
@@ -52,7 +53,7 @@ void AnimationImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceAni
 		fileBuffer += bytes;
 
 		char* name = new char[nodeHeader[0]]{};
-		bytes = sizeof(char) * (unsigned int)nodeHeader[0];
+		bytes = sizeof(char) * (unsigned int) nodeHeader[0];
 		memcpy(name, fileBuffer, bytes);
 		fileBuffer += bytes;
 		channelName = std::string(name, nodeHeader[0]);
@@ -81,22 +82,21 @@ void AnimationImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceAni
 
 void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[1] =
-	{
+	unsigned int header[1] = {
 		resource->GetNumChannels()
 	};
 
 	size = (sizeof(unsigned int) * 3) * resource->GetNumChannels() + sizeof(header) + sizeof(double);
 
-	for (auto it: resource->GetChannels())
+	for (auto it : resource->GetChannels())
 	{
 		ResourceAnimation::Channel* channel = it.second;
 		size += sizeof(float3) * channel->positions.size();
 		size += sizeof(Quat) * channel->rotations.size();
-		size += sizeof(char)* it.first.length();
+		size += sizeof(char) * it.first.length();
 	}
 
-	char* cursor = new char[size] {};
+	char* cursor = new char[size]{};
 
 	fileBuffer = cursor;
 
@@ -116,8 +116,7 @@ void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource,
 	{
 		ResourceAnimation::Channel* channel = it.second;
 
-		unsigned int nodeHeader[3] =
-		{
+		unsigned int nodeHeader[3] = {
 			it.first.length(),
 			channel->positions.size(),
 			channel->rotations.size(),

@@ -3,7 +3,6 @@
 #include "Component.h"
 
 #include "Auxiliar/Generics/Drawable.h"
-#include "Auxiliar/Generics/Updatable.h"
 
 #include <vector>
 #include <memory>
@@ -12,7 +11,7 @@ class EmitterInstance;
 class ParticleEmitter;
 class ResourceParticleSystem;
 
-class ComponentParticleSystem : public Component, public Drawable, public Updatable
+class ComponentParticleSystem : public Component, public Drawable
 {
 public:
 	ComponentParticleSystem(const bool active, GameObject* owner);
@@ -21,22 +20,30 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
-	void Update() override;
+	void Play();
+	void Stop();
+	void Update();
 	void Reset();
 	void Draw() const override;
+	void Render();
 
 	void CreateEmitterInstance();
 	void CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter);
 	void AddEmitterInstance(EmitterInstance* emitter);
+	void RemoveEmitter(int pos);
 
 	bool IsEmittersEmpty() const;
+	bool IsPlaying() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
 
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
+	void SetEmitters(const std::vector<EmitterInstance*> emitters);
 
 private:
 	std::vector<EmitterInstance*> emitters;
 	std::shared_ptr<ResourceParticleSystem> resource;
+
+	bool isPlaying;
 };
 
 inline bool ComponentParticleSystem::IsEmittersEmpty() const
@@ -44,9 +51,19 @@ inline bool ComponentParticleSystem::IsEmittersEmpty() const
 	return emitters.empty();
 }
 
+inline bool ComponentParticleSystem::IsPlaying() const
+{
+	return isPlaying;
+}
+
 inline void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
 {
 	this->resource = resource;
+}
+
+inline void ComponentParticleSystem::SetEmitters(const std::vector<EmitterInstance*> emitters)
+{
+	this->emitters = emitters;
 }
 
 inline std::vector<EmitterInstance*> ComponentParticleSystem::GetEmitters() const

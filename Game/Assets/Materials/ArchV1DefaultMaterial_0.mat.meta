@@ -1,0 +1,18 @@
+{
+    "UID": 4742124994428126657,
+    "Type": "Materials",
+    "diffuseColor_x": 1.0,
+    "diffuseColor_y": 1.0,
+    "diffuseColor_z": 0.0,
+    "specularColor_x": 0.5,
+    "specularColor_y": 0.30000001192092896,
+    "specularColor_z": 0.5,
+    "normalStrength": 1.0,
+    "smoothness": 0.6499999761581421,
+    "metalness": 0.119999997317791,
+    "DiffuseAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "SpecularAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_MetallicSmoothness.png",
+    "MetallicAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_MetallicSmoothness.png"
+}

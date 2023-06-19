@@ -1,9 +1,10 @@
 #include "ModuleSpawn.h"
 
+#include "Application.h"
 #include "EmitterInstance.h"
 #include "ParticleEmitter.h"
 
-#include "Application.h"
+#include "Modules/ModuleCamera.h"
 
 #include "ImGui/imgui.h"
 
@@ -25,7 +26,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 	// Higher probability for the new particle to be spawned, to be after the last particle used
 	for (unsigned i = lastParticleUsed; !found && i < particles.size(); ++i)
 	{
-		found = particles[i].lifespan == 0.0f;
+		found = particles[i].lifespan <= 0.0f;
 		if (found)
 		{
 			lastParticleUsed = i;
@@ -34,7 +35,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 
 	for (unsigned i = 0; !found && i < lastParticleUsed; ++i)
 	{
-		found = particles[i].lifespan == 0.0f;
+		found = particles[i].lifespan <= 0.0f;
 		if (found)
 		{
 			lastParticleUsed = i;
@@ -50,24 +51,50 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 		float2 life = emitter->GetLifespanRange();
 		float2 gravity = emitter->GetGravityRange();
 
-		particle.initColor = emitter->GetColor();
-		particle.initSize = emitter->IsRandomSize() ? instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
-		particle.initRotation = emitter->IsRandomRot() ?
-			instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x;
-		particle.initLife = emitter->IsRandomLife() ? instance->CalculateRandomValueInRange(life.x, life.y) : life.x;
-		particle.lifespan = particle.initLife;
+		particle.initColor = particle.color = emitter->GetColor();
+		particle.initSize = particle.size = emitter->IsRandomSize() ? 
+			instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
+		particle.sizeOverTime = -1.0f;
+		particle.initRotation = particle.rotation = DegToRad(emitter->IsRandomRot() ?
+			instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x);
+		particle.rotationOverTime = UNINITIALIZED_ROTATION;
+		particle.initLife = particle.lifespan = emitter->IsRandomLife() ? 
+			instance->CalculateRandomValueInRange(life.x, life.y) : life.x;
 		particle.gravity = emitter->IsRandomGravity() ? 
 			instance->CalculateRandomValueInRange(gravity.x, gravity.y) : gravity.x;
+		particle.frame = -1.0f;
 
 		instance->SetAliveParticles(instance->GetAliveParticles() + 1);
+
+		// Calculate the order of drawing of the new particle relative to the camera
+		float3 cameraPos = App->GetModule<ModuleCamera>()->GetSelectedCamera()->GetPosition();
+		particle.distanceToCamera = particle.tranform.TranslatePart().DistanceSq(cameraPos);
+
+		std::vector<unsigned int> sortedPos = instance->GetSortedPositions();
+
+		std::vector<unsigned int>::iterator it =
+			std::lower_bound(sortedPos.begin(), sortedPos.end(), lastParticleUsed,
+				[particles](const unsigned int& a, const unsigned int& b)
+				{
+					return particles[a].distanceToCamera > particles[b].distanceToCamera;
+				});
+
+		sortedPos.insert(it, lastParticleUsed);
+		instance->SetSortedPositions(sortedPos);
 	}
 }
 
 void ModuleSpawn::Update(EmitterInstance* instance)
 {
 	float dt = App->GetDeltaTime();
+
+	const std::shared_ptr<ParticleEmitter> partEmitter = instance->GetEmitter();
+
+	float elapsed = partEmitter->GetElapsed();
+	elapsed += dt;
+	partEmitter->SetElapsed(elapsed);
 	
-	if (spawnRate > 0)
+	if ((elapsed <= partEmitter->GetDuration() || partEmitter->IsLooping()) && spawnRate > 0)
 	{
 		float lastEmission = instance->GetLastEmission() + dt;
 		float emissionPeriod = 1.0f / spawnRate;
@@ -93,7 +120,7 @@ void ModuleSpawn::DrawImGui()
 			ImGui::Text("Spawn rate");
 			ImGui::TableNextColumn();
 			ImGui::Dummy(ImVec2(3.0f, 0.0f)); ImGui::SameLine(0.0f, 0.0f);
-			ImGui::SetNextItemWidth(80.0f);
+			ImGui::SetNextItemWidth(160.0f);
 			if (ImGui::InputFloat("##spawnRate", &spawnRate, 0.1f, 1.0f, "%.2f"))
 			{
 				if (spawnRate > MAX_SPAWN_RATE)

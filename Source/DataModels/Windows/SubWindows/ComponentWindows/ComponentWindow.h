@@ -21,7 +21,6 @@ private:
 	void DrawEnableComponent();
 	void DrawDeleteComponent();
 
-	//for the enable and delete labels
+	// for the enable and delete labels
 	std::string windowUUID;
 };
-

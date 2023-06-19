@@ -1,20 +1,24 @@
 #include "WindowHierarchy.h"
 
 #include "Application.h"
+#include "ModuleEditor.h"
+#include "ModuleInput.h"
+#include "ModulePlayer.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "ModulePlayer.h"
 #include "Scene/Scene.h"
-#include "ModuleInput.h"
+#include "Windows/EditorWindows/WindowScene.h"
+
+#include "DataModels/Components/ComponentTransform.h"
 
 #include "DataStructures/Quadtree.h"
 
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false)
+WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false), lastSelectedGameObject()
 {
-    flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
 
 WindowHierarchy::~WindowHierarchy()
@@ -23,114 +27,83 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
-    GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
-    assert(root);
-    DrawRecursiveHierarchy(root);
+	GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
+	assert(root);
+	DrawRecursiveHierarchy(root);
 
-    ModuleInput* input = App->GetModule<ModuleInput>();
-
-    if (SDL_ShowCursor(SDL_QUERY)
-        && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT
-        || input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
-    {
-        if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-        {
-			CopyAnObject();
-        }
-        if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
-        {
-            PasteAnObject();
-        }
-        if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
-        {
-            CutAnObject();
-        }
-        if (input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
-        {
-            DuplicateAnObject();
-        }
-    }
-
-	// Delete a GameObject with the SUPR key
-	if (input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+	if (IsFocused() || App->GetModule<ModuleEditor>()->GetScene()->IsFocused())
 	{
-		DeleteGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject());
+		ProcessInput();
 	}
+
+	lastSelectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 }
 
-void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
+bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
-    assert(gameObject);
+	assert(gameObject);
 
-    ModuleScene* moduleScene = App->GetModule<ModuleScene>();
-    Scene* loadedScene = moduleScene->GetLoadedScene();
-    
-    char gameObjectLabel[160];  // Label created so ImGui can differentiate the GameObjects
-                                // that have the same name in the hierarchy window
-    sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName().c_str(), gameObject);
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
+	Scene* loadedScene = moduleScene->GetLoadedScene();
 
-    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+	char gameObjectLabel[160]; // Label created so ImGui can differentiate the GameObjects
+							   // that have the same name in the hierarchy window
+	sprintf_s(gameObjectLabel, "%s###%p", gameObject->GetName().c_str(), gameObject);
 
-    GameObject::GameObjectView children = gameObject->GetChildren();
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
-    if (gameObject == loadedScene->GetRoot())
-    {
-        flags |= ImGuiTreeNodeFlags_DefaultOpen;
-    }
-    else
-    {
-        if (children.empty())
-        {
-            flags |= ImGuiTreeNodeFlags_Leaf;
-        }
+	GameObject::GameObjectView children = gameObject->GetChildren();
+	if (gameObject == loadedScene->GetRoot())
+	{
+		flags |= ImGuiTreeNodeFlags_DefaultOpen;
+	}
+	else if (children.empty())
+	{
+		flags |= ImGuiTreeNodeFlags_Leaf;
+	}
 
-        if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED
-            && StateOfSelection::SELECTED == moduleScene->GetSelectedGameObject()->GetStateOfSelection())
-        {            
-            ImGui::SetNextItemOpen(true);
-        }
-    }
+	if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED &&
+		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	{
+		ImGui::SetNextItemOpen(true);
+	}
 
-    if (gameObject == moduleScene->GetSelectedGameObject())
-    {
-        flags |= ImGuiTreeNodeFlags_Selected;
-    }
+	if (gameObject == moduleScene->GetSelectedGameObject())
+	{
+		flags |= ImGuiTreeNodeFlags_Selected;
+	}
 
-    ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
-    bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
-    ImGui::PopStyleColor();
+	ImGui::PushStyleColor(0, (gameObject->IsEnabled() && gameObject->IsActive()) ? white : grey);
+	bool nodeDrawn = ImGui::TreeNodeEx(gameObjectLabel, flags);
+	ImGui::PopStyleColor();
 
-    ImGui::PushID(gameObjectLabel);
-    if ((ImGui::IsMouseReleased(ImGuiMouseButton_Left)
-        && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
-        ||
-       (ImGui::IsMouseReleased(ImGuiMouseButton_Right) 
-        && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)))
-    {
-        moduleScene->ChangeSelectedGameObject(gameObject);
-    }
+	ImGui::PushID(gameObjectLabel);
+	if ((ImGui::IsMouseReleased(ImGuiMouseButton_Left) || ImGui::IsMouseReleased(ImGuiMouseButton_Right)) &&
+		ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
+	{
+		moduleScene->SetSelectedGameObject(gameObject);
+	}
 
-    if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
-    {
-        if (gameObject->GetComponent(ComponentType::TRANSFORM) != nullptr)
-        {
-            if (ImGui::MenuItem("Create Empty child"))
-            {
-                loadedScene->CreateGameObject("Empty GameObject", gameObject);
-            }
+	if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
+	{
+		if (gameObject->GetComponent<ComponentTransform>() != nullptr)
+		{
+			if (ImGui::MenuItem("Create Empty child"))
+			{
+				loadedScene->CreateGameObject("Empty GameObject", gameObject);
+			}
 
-            if (ImGui::MenuItem("Create camera"))
-            {
-                GameObject* newCamera =
-                    loadedScene->CreateCameraGameObject("Basic Camera", gameObject);
-            }
+			if (ImGui::MenuItem("Create camera"))
+			{
+				GameObject* newCamera = loadedScene->CreateCameraGameObject("Basic Camera", gameObject);
+			}
 
-            if (ImGui::MenuItem("Create canvas"))
-            {
-                GameObject* newCamera =
-                    loadedScene->CreateCanvasGameObject("Canvas", gameObject);
-            }
-            Create3DObjectMenu(gameObject);
+			if (ImGui::MenuItem("Create canvas"))
+			{
+				GameObject* newCamera = loadedScene->CreateCanvasGameObject("Canvas", gameObject);
+			}
+			Create3DObjectMenu(gameObject);
 
             //Create Light ShortCut
             if (ImGui::BeginMenu("Create Light"))
@@ -143,80 +116,156 @@ void WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
                 {
                     loadedScene->CreateLightGameObject("Point", gameObject, LightType::POINT);
                 }
+                if (ImGui::BeginMenu("Area Light"))
+                {
+                    if (ImGui::MenuItem("Sphere"))
+                    {
+                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::SPHERE);
+                    }
+                    if (ImGui::MenuItem("Tube"))
+                    {
+                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::TUBE);
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMenu();
             }
             
-            if (ImGui::BeginMenu("Audio"))
-            {
-                if (ImGui::MenuItem("Audio Source"))
-                {
-                    loadedScene->CreateAudioSourceGameObject("Audio Source", gameObject);
-                }
-                
-                ImGui::EndMenu();
-            }
-        }
-        else
-        {
-            Create2DObjectMenu(gameObject);
-        }
+			if (ImGui::BeginMenu("Audio"))
+			{
+				if (ImGui::MenuItem("Audio Source"))
+				{
+					loadedScene->CreateAudioSourceGameObject("Audio Source", gameObject);
+				}
 
-        MoveObjectMenu(gameObject);
+				ImGui::EndMenu();
+			}
+		}
+		else
+		{
+			Create2DObjectMenu(gameObject);
+		}
 
-        if (IsModifiable(gameObject) && ImGui::MenuItem("Delete") && gameObject != App->GetModule<ModulePlayer>()->GetPlayer())
-        {
-            DeleteGameObject(gameObject);
-            ImGui::EndPopup();
-            ImGui::PopID();
-            if (nodeDrawn) // If the parent node is correctly drawn, draw its children
-            {
-                ImGui::TreePop();
-            }
-            return;
-        }
+		MoveObjectMenu(gameObject);
 
-        ImGui::EndPopup();
-    }
-    ImGui::PopID();
+		if (IsModifiable(gameObject) && ImGui::MenuItem("Delete") && gameObject != modulePlayer->GetPlayer())
+		{
+			DeleteGameObject(gameObject);
+			ImGui::EndPopup();
+			ImGui::PopID();
+			if (nodeDrawn) // If the parent node is correctly drawn, draw its children
+			{
+				ImGui::TreePop();
+			}
+			return false;
+		}
 
-    // The root cannot be moved around
-    if (gameObject != loadedScene->GetRoot() && ImGui::BeginDragDropSource())
-    {
-        UID thisID = gameObject->GetUID();
-        ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
-        ImGui::EndDragDropSource();
-    }
+		ImGui::EndPopup();
+	}
+	ImGui::PopID();
 
-    if (ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
-        {
-            UID draggedGameObjectID = *static_cast<UID*>(payload->Data); // Double pointer to keep track correctly
-                                                                         // of the UID of the dragged GameObject
-            GameObject* draggedGameObject =
-                loadedScene->SearchGameObjectByID(draggedGameObjectID);
-            if (draggedGameObject)
-            {
-                draggedGameObject->SetParent(gameObject);
-            }
-        }
+	// The root cannot be moved around
+	if (gameObject != loadedScene->GetRoot() && ImGui::BeginDragDropSource())
+	{
+		UID thisID = gameObject->GetUID();
+		ImGui::SetDragDropPayload("HIERARCHY", &thisID, sizeof(UID));
+		ImGui::EndDragDropSource();
+	}
 
-        ImGui::EndDragDropTarget();
-    }
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+		{
+			UID draggedGameObjectID = *static_cast<UID*>(payload->Data); // Double pointer to keep track correctly
+																		 // of the UID of the dragged GameObject
+			GameObject* draggedGameObject = loadedScene->SearchGameObjectByID(draggedGameObjectID);
 
-    if (nodeDrawn) // If the parent node is correctly drawn, draw its children
-    {
-        for (GameObject* child : children)
-        {
-            DrawRecursiveHierarchy(child);
-        }
-        ImGui::TreePop();
-    }
+			if (draggedGameObject)
+			{
+				GameObject* parentGameObject = draggedGameObject->GetParent();
+
+				GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
+				if (selectedGameObject && selectedGameObject->GetParent())
+				{
+					std::list<GameObject*> listSGO = selectedGameObject->GetAllDescendants();
+					bool actualParentSelected =
+						std::find(std::begin(listSGO), std::end(listSGO), parentGameObject) != std::end(listSGO);
+					bool newParentSelected =
+						std::find(std::begin(listSGO), std::end(listSGO), gameObject) != std::end(listSGO);
+
+					if (actualParentSelected && !newParentSelected)
+					{
+						moduleScene->AddGameObjectAndChildren(draggedGameObject);
+					}
+					else if (!actualParentSelected && newParentSelected)
+					{
+						moduleScene->RemoveGameObjectAndChildren(draggedGameObject);
+					}
+				}
+
+				draggedGameObject->SetParent(gameObject);
+				ImGui::EndDragDropTarget();
+				if (nodeDrawn)
+				{
+					ImGui::TreePop();
+				}
+				return false;
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	if (nodeDrawn) // If the parent node is correctly drawn, draw its children
+	{
+		for (GameObject* child : children)
+		{
+			if (!DrawRecursiveHierarchy(child))
+			{
+				ImGui::TreePop();
+				return false;
+			}
+		}
+		ImGui::TreePop();
+	}
+
+	return true;
+}
+
+void WindowHierarchy::ProcessInput()
+{
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
+	if (SDL_ShowCursor(SDL_QUERY) && input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT ||
+		input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::DOWN)
+	{
+		if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+		{
+			CopyAnObject();
+		}
+		if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN)
+		{
+			PasteAnObject();
+		}
+		if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
+		{
+			CutAnObject();
+		}
+		if (input->GetKey(SDL_SCANCODE_D) == KeyState::DOWN)
+		{
+			DuplicateAnObject();
+		}
+	}
+
+	if (input->GetKey(SDL_SCANCODE_DELETE) == KeyState::DOWN)
+	{
+		DeleteGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject());
+	}
 }
 
 void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 {
-    Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (ImGui::MenuItem("Create Empty 2D child"))
 	{
@@ -241,7 +290,7 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 
 void WindowHierarchy::MoveObjectMenu(GameObject* gameObject)
 {
-    // The root can't be neither deleted nor moved up/down
+	// The root can't be neither deleted nor moved up/down
 	if (gameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot())
 	{
 		if (ImGui::MenuItem("Move Up"))
@@ -258,30 +307,34 @@ void WindowHierarchy::MoveObjectMenu(GameObject* gameObject)
 
 void WindowHierarchy::Create3DObjectMenu(GameObject* gameObject)
 {
-    Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	//Create Resource
+	// Create Resource
 	if (ImGui::BeginMenu("Create 3D object"))
 	{
 		if (ImGui::MenuItem("Cube"))
 		{
-            loadedScene->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
+			loadedScene->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
 		}
+        if (ImGui::MenuItem("Sphere"))
+        {
+            loadedScene->Create3DGameObject("Sphere", gameObject, Premade3D::SPHERE);
+        }
 		if (ImGui::MenuItem("Plane"))
 		{
-            loadedScene->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);
+			loadedScene->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);
 		}
 		if (ImGui::MenuItem("Cylinder"))
 		{
-            loadedScene->Create3DGameObject("Cylinder", gameObject, Premade3D::CYLINDER);
+			loadedScene->Create3DGameObject("Cylinder", gameObject, Premade3D::CYLINDER);
 		}
 		if (ImGui::MenuItem("Capsule"))
 		{
-            loadedScene->Create3DGameObject("Capsule", gameObject, Premade3D::CAPSULE);
+			loadedScene->Create3DGameObject("Capsule", gameObject, Premade3D::CAPSULE);
 		}
 		if (ImGui::MenuItem("Character"))
 		{
-            loadedScene->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
+			loadedScene->Create3DGameObject("Character", gameObject, Premade3D::CHARACTER);
 		}
 		ImGui::EndMenu();
 	}
@@ -289,41 +342,39 @@ void WindowHierarchy::Create3DObjectMenu(GameObject* gameObject)
 
 bool WindowHierarchy::IsModifiable(const GameObject* gameObject) const
 {
-    Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-    return gameObject != loadedScene->GetRoot() &&
-        gameObject != loadedScene->GetDirectionalLight();
+	return gameObject != loadedScene->GetRoot() && gameObject != loadedScene->GetDirectionalLight();
 }
 
 void WindowHierarchy::DeleteGameObject(const GameObject* gameObject) const
 {
-    if (!IsModifiable(gameObject))
-    {
-        // this object can't be deleted
-        return;
-    }
+	if (!IsModifiable(gameObject))
+	{
+		// this object can't be deleted
+		return;
+	}
 
-    ModuleScene* moduleScene = App->GetModule<ModuleScene>();
-    Scene* loadedScene = moduleScene->GetLoadedScene();
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+	Scene* loadedScene = moduleScene->GetLoadedScene();
 
 	if (gameObject == moduleScene->GetSelectedGameObject())
 	{
-		moduleScene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed, 
-																	// change the focus to its parent
-		loadedScene->GetRootQuadtree()->
-			RemoveGameObjectAndChildren(gameObject->GetParent());
+		moduleScene->SetSelectedGameObject(gameObject->GetParent()); // If a GameObject is destroyed,
+																	 // change the focus to its parent
+		loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject->GetParent());
 	}
 	loadedScene->DestroyGameObject(gameObject);
 }
 
 void WindowHierarchy::CopyAnObject()
 {
-    GameObject* selectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	GameObject* selectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (IsModifiable(selectedGameObject))
 	{
 		copyObject = std::make_unique<GameObject>(*selectedGameObject);
-        objectHasBeenCut = false;
+		objectHasBeenCut = false;
 	}
 }
 
@@ -333,19 +384,19 @@ void WindowHierarchy::PasteAnObject()
 	{
 		const ModuleScene* moduleScene = App->GetModule<ModuleScene>();
 		Scene* loadedScene = moduleScene->GetLoadedScene();
-        GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
+		GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
 
-        GameObject* parent = selectedGameObject->GetParent();
+		GameObject* parent = selectedGameObject->GetParent();
 		if (parent == nullptr)
 		{
 			parent = loadedScene->GetRoot();
 		}
-        loadedScene->DuplicateGameObject(copyObject->GetName(), copyObject.get(), parent);
+		loadedScene->DuplicateGameObject(copyObject->GetName(), copyObject.get(), parent);
 
-        if (objectHasBeenCut)
-        {
-            copyObject = nullptr;
-        }
+		if (objectHasBeenCut)
+		{
+			copyObject = nullptr;
+		}
 	}
 }
 
@@ -355,11 +406,11 @@ void WindowHierarchy::CutAnObject()
 	Scene* loadedScene = moduleScene->GetLoadedScene();
 	GameObject* selectedGameObject = moduleScene->GetSelectedGameObject();
 
-    if (IsModifiable(selectedGameObject))
+	if (IsModifiable(selectedGameObject))
 	{
 		CopyAnObject();
 
-		moduleScene->SetSelectedGameObject(selectedGameObject->GetParent()); // If a GameObject is destroyed, 
+		moduleScene->SetSelectedGameObject(selectedGameObject->GetParent()); // If a GameObject is destroyed,
 																			 // change the focus to its parent
 		loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(selectedGameObject->GetParent());
 
@@ -370,7 +421,7 @@ void WindowHierarchy::CutAnObject()
 		}
 
 		loadedScene->DestroyGameObject(selectedGameObject);
-        objectHasBeenCut = true;
+		objectHasBeenCut = true;
 	}
 }
 
@@ -382,7 +433,7 @@ void WindowHierarchy::DuplicateAnObject()
 
 	if (selectedGameObject && IsModifiable(selectedGameObject))
 	{
-		loadedScene->
-            DuplicateGameObject(selectedGameObject->GetName(), selectedGameObject, selectedGameObject->GetParent());
+		loadedScene->DuplicateGameObject(
+			selectedGameObject->GetName(), selectedGameObject, selectedGameObject->GetParent());
 	}
 }

@@ -20,14 +20,16 @@ public:
 	ComponentSpotLight();
 	ComponentSpotLight(const ComponentSpotLight& componentSpotLight);
 	ComponentSpotLight(GameObject* parent);
-	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
-					   const float3& color, float intensity);
-	ComponentSpotLight(float radius, float innerAngle, float outerAngle,
-					   const float3& color, float intensity, GameObject* parent);
+	ComponentSpotLight(float radius, float innerAngle, float outerAngle, const float3& color, float intensity);
+	ComponentSpotLight(
+		float radius, float innerAngle, float outerAngle, const float3& color, float intensity, GameObject* parent);
 
 	~ComponentSpotLight() override;
 
 	void Draw() const override;
+
+	void Enable() override;
+	void Disable() override;
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

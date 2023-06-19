@@ -3,15 +3,19 @@
 #include "../FileSystem/UniqueID.h"
 #include "Geometry/AABB.h"
 
-#include "Resources/ResourceModel.h"
 #include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
 
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
+#include "Components/ComponentAreaLight.h"
+
+#include <queue>
 
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
+class ComponentParticleSystem;
 class GameObject;
 class Quadtree;
 class Skybox;
@@ -21,6 +25,7 @@ class Updatable;
 enum class Premade3D
 {
 	CUBE,
+	SPHERE,
 	PLANE,
 	CYLINDER,
 	CAPSULE,
@@ -43,21 +48,23 @@ public:
 	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
 	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
-	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type);
+	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type, 
+		AreaType areaType = AreaType::NONE);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(const GameObject* gameObject);
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
-	void GenerateLights();
 
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
+	void RenderAreaLights() const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
+	void UpdateSceneAreaLights();
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -66,6 +73,7 @@ public:
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<ComponentCamera*>& GetSceneCameras() const;
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
+	const std::vector<ComponentParticleSystem*>& GetSceneParticles() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
@@ -82,17 +90,18 @@ public:
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetDirectionalLight(GameObject* directionalLight);
 
-
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 
 	void AddStaticObject(GameObject* gameObject);
-	void RemoveStaticObject(GameObject* gameObject);
+	void RemoveStaticObject(const GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
+	void AddParticleSystem(ComponentParticleSystem* particleSystem);
+	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 
 	void InitNewEmptyScene();
 
@@ -100,12 +109,16 @@ public:
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 
+	void InitCubemap();
+
+	void ExecutePendingActions();
+
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
-	const std::vector<GameObject*> CacheBoneHierarchy(
-		GameObject* gameObjectNode,
-		const std::vector<Bone>& bones);
+	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);
+	void GenerateLights();
+	void RemoveGameObjectFromScripts(const GameObject* gameObject);
 
 	std::unique_ptr<Skybox> skybox;
 	std::unique_ptr<Cubemap> cubemap;
@@ -115,21 +128,31 @@ private:
 	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
 	std::vector<Component*> sceneInteractableComponents;
+	std::vector<ComponentParticleSystem*> sceneParticles;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
 	GameObject* directionalLight;
+	GameObject* cubeMapGameObject;
 
 	std::vector<PointLight> pointLights;
 	std::vector<SpotLight> spotLights;
+	std::vector<AreaLightSphere> sphereLights;
+	std::vector<AreaLightTube> tubeLights;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
 	unsigned ssboSpot;
+	unsigned ssboSphere;
+	unsigned ssboTube;
 	
 	AABB rootQuadtreeAABB;
-	//Render Objects
+	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
 	std::vector<GameObject*> nonStaticObjects;
+
+	// All Updatable components should be added at the end of the frame to avoid modifying the iterated list
+	// Similarly, game objects should only be deleted at the end of the frame
+	std::queue<std::function<void(void)>> pendingCreateAndDeleteActions;
 };
 
 inline GameObject* Scene::GetRoot() const
@@ -160,6 +183,11 @@ inline const std::vector<ComponentCamera*>& Scene::GetSceneCameras() const
 inline const std::vector<ComponentCanvas*>& Scene::GetSceneCanvas() const
 {
 	return sceneCanvas;
+}
+
+inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticles() const
+{
+	return sceneParticles;
 }
 
 inline const std::vector<Component*>& Scene::GetSceneInteractable() const
@@ -219,5 +247,25 @@ inline void Scene::AddNonStaticObject(GameObject* gameObject)
 
 inline void Scene::AddUpdatableObject(Updatable* updatable)
 {
-	sceneUpdatableObjects.push_back(updatable);
+	pendingCreateAndDeleteActions.emplace(
+		[=]
+		{
+			sceneUpdatableObjects.push_back(updatable);
+		});
+}
+
+inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
+{
+	sceneParticles.push_back(particleSystem);
+}
+
+inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
+{
+	sceneParticles.erase(std::remove_if(std::begin(sceneParticles),
+		std::end(sceneParticles),
+		[&particleSystem](ComponentParticleSystem* particle)
+		{
+			return particle == particleSystem;
+		}),
+		std::end(sceneParticles));
 }

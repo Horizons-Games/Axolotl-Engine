@@ -8,28 +8,28 @@
 REGISTERCLASS(ButtonSoundScript);
 
 ButtonSoundScript::ButtonSoundScript() : Script(), buttonAudio(nullptr), buttonComponent(nullptr),
-	buttonState(ButtonStates::OUTSIDE)
+buttonState(ButtonStates::OUTSIDE)
 {
 
 }
 
 void ButtonSoundScript::Start()
 {
-	buttonComponent = static_cast<ComponentButton*>(owner->GetComponent(ComponentType::BUTTON));
-	buttonAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	buttonComponent = owner->GetComponent<ComponentButton>();
+	buttonAudio = owner->GetComponent<ComponentAudioSource>();
 }
 
 void ButtonSoundScript::Update(float deltaTime)
 {
 	if (buttonComponent->IsHovered() && buttonState == ButtonStates::OUTSIDE)
 	{
-		buttonAudio->PostEvent(audio::SFX_UI_BUTTON_HOVER);
+		buttonAudio->PostEvent(AUDIO::SFX::UI::BUTTON_HOVER);
 		buttonState = ButtonStates::HOVER;
 	}
 
 	if (buttonComponent->IsClicked() && buttonState == ButtonStates::HOVER)
 	{
-		buttonAudio->PostEvent(audio::SFX_UI_BUTTON_PRESS);
+		buttonAudio->PostEvent(AUDIO::SFX::UI::BUTTON_PRESS);
 		buttonState = ButtonStates::CLICK;
 	}
 

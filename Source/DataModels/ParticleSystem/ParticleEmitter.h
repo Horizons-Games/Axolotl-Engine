@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ParticleModule.h"
+
 #include "Math/float3.h"
 #include "Math/float2.h"
 
@@ -9,10 +11,10 @@
 
 #define MAX_PARTICLES 200
 #define MAX_DURATION 25.0f
-#define MAX_SPEED 10.0f
-#define MAX_SIZE 2.0f
+#define MAX_SPEED 75.0f
+#define MAX_SIZE 10.0f
 #define MAX_ROTATION 359.9f
-#define MAX_GRAVITY 15.0f
+#define MAX_GRAVITY 100.0f
 #define MAX_RADIUS 1000000000.0f
 #define MIN_RADIUS 0.01f
 
@@ -34,9 +36,9 @@
 
 #define CONE_HEIGHT 3
 
-class ParticleModule;
 class ResourceTexture;
 class EmitterInstance;
+class ComponentTransform;
 
 class ParticleEmitter
 {
@@ -60,6 +62,8 @@ public:
 	void SetRandomGravity(bool randGrav);
 	void SetMaxParticles(int maxParticles);
 	void SetDuration(float duration);
+	void SetElapsed(float elapsed);
+	void SetLooping(bool isLooping);
 	void SetName(const char* name);
 	void SetLifespanRange(const float2 &lifespan);
 	void SetSpeedRange(const float2 &speed);
@@ -70,14 +74,17 @@ public:
 	void SetShape(ShapeType shape);
 	void SetAngle(float angle); 
 	void SetRadius(float radius);
+	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
 
 	bool IsRandomLife() const;
 	bool IsRandomSpeed() const;
 	bool IsRandomSize() const;
 	bool IsRandomRot() const;
 	bool IsRandomGravity() const;
+	bool IsLooping() const;
 	int GetMaxParticles() const;
 	float GetDuration() const;
+	float GetElapsed() const;
 	float GetAngle() const;
 	float GetRadius() const;
 	const char* GetName() const;
@@ -89,6 +96,8 @@ public:
 	float4 GetColor() const;
 	ShapeType GetShape() const;
 	std::vector<ParticleModule*> GetModules() const;
+	std::shared_ptr<ResourceTexture> GetTexture() const;
+	ParticleModule* GetModule(const ParticleModule::ModuleType& type) const;
 
 	//ImGui functions
 	void SetVisibleConfig(bool visible);
@@ -100,8 +109,10 @@ private:
 	std::vector<ParticleModule*> modules;
 	std::shared_ptr<ResourceTexture> particleTexture;
 
+	bool isLooping;
 	int maxParticles;
 	float duration;
+	float elapsedTime;
 	float2 lifespan;
 	float2 speed;
 	float2 size;
@@ -165,6 +176,16 @@ inline void ParticleEmitter::SetDuration(float duration)
 	this->duration = duration;
 }
 
+inline void ParticleEmitter::SetElapsed(float elapsed)
+{
+	elapsedTime = elapsed;
+}
+
+inline void ParticleEmitter::SetLooping(bool isLooping)
+{
+	this->isLooping = isLooping;
+}
+
 inline void ParticleEmitter::SetLifespanRange(const float2 &lifespan)
 {
 	this->lifespan = lifespan;
@@ -215,6 +236,11 @@ inline void ParticleEmitter::SetRadius(float radius)
 	this->radius = radius;
 }
 
+inline void ParticleEmitter::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
+{
+	particleTexture = texture;
+}
+
 inline bool ParticleEmitter::IsRandomLife() const
 {
 	return randomLife;
@@ -240,6 +266,11 @@ inline bool ParticleEmitter::IsRandomGravity() const
 	return randomGrav;
 }
 
+inline bool ParticleEmitter::IsLooping() const
+{
+	return isLooping;
+}
+
 inline int ParticleEmitter::GetMaxParticles() const
 {
 	return maxParticles;
@@ -248,6 +279,11 @@ inline int ParticleEmitter::GetMaxParticles() const
 inline float ParticleEmitter::GetDuration() const
 {
 	return duration;
+}
+
+inline float ParticleEmitter::GetElapsed() const
+{
+	return elapsedTime;
 }
 
 inline float ParticleEmitter::GetAngle() const
@@ -303,6 +339,23 @@ inline ParticleEmitter::ShapeType ParticleEmitter::GetShape() const
 inline std::vector<ParticleModule*> ParticleEmitter::GetModules() const
 {
 	return modules;
+}
+
+inline std::shared_ptr<ResourceTexture> ParticleEmitter::GetTexture() const
+{
+	return particleTexture;
+}
+
+inline ParticleModule* ParticleEmitter::GetModule(const ParticleModule::ModuleType& type) const
+{
+	for (ParticleModule* module : modules)
+	{
+		if (module->GetType() == type)
+		{
+			return module;
+		}
+	}
+	return nullptr;
 }
 
 inline void ParticleEmitter::SetVisibleConfig(bool visible)

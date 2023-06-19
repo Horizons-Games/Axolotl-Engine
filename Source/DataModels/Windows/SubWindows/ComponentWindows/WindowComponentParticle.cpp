@@ -29,10 +29,56 @@ void WindowComponentParticle::DrawWindowContents()
 	ComponentParticleSystem* component = static_cast<ComponentParticleSystem*>(this->component);
 	
 	int id = 0;
-	for (EmitterInstance* instance : component->GetEmitters())
+	
+	if (component->GetEmitters().size() > 0)
 	{
-		DrawEmitter(instance, id);
-		++id;
+		ImGui::Separator();
+
+		if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
+		{
+			if (!component->IsPlaying())
+			{
+				component->Play();
+			}
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Button("||"))
+		{
+			if (component->IsPlaying())
+			{
+				component->Stop();
+			}
+		}
+
+		ImGui::Separator();
+	}
+
+	std::vector<EmitterInstance*> emitters = component->GetEmitters();
+
+	int emitterToRemove = -1;
+
+	for (int id = 0; id < emitters.size(); ++id)
+	{
+		ImGui::PushID(id);
+
+		DrawEmitter(emitters[id]);
+
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
+		if (ImGui::Button("Delete Emitter", ImVec2(115.0f, 20.0f)))
+		{
+			emitterToRemove = id;
+		}
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+		ImGui::Separator();
+
+		ImGui::PopID();
+	}
+
+	if (emitterToRemove != -1)
+	{
+		component->RemoveEmitter(emitterToRemove);
 	}
 
 	if (ImGui::Button("Add an Emitter"))
@@ -45,11 +91,9 @@ void WindowComponentParticle::DrawWindowContents()
 	}
 }
 
-void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
+void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 {
 	std::shared_ptr<ParticleEmitter> emitter = instance->GetEmitter();
-
-	ImGui::PushID(id);
 
 	if (emitter)
 	{
@@ -132,6 +176,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 			float2 gravRange = emitter->GetGravityRange();
 			float4 color = emitter->GetColor();
 
+			bool isLooping = emitter->IsLooping();
 			bool randomLife = emitter->IsRandomLife();
 			bool randomSpeed = emitter->IsRandomSpeed();
 			bool randomSize = emitter->IsRandomSize();
@@ -207,6 +252,21 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 				}
 				emitter->SetDuration(duration);
 			}
+
+			ImGui::SameLine(0.0f, 5.0f);
+			ImGui::Text("Loop");
+			ImGui::SameLine(0.0f, 5.0f);
+			if (ImGui::Checkbox("##isLooping", &isLooping))
+			{
+				emitter->SetLooping(isLooping);
+			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Elapsed time");
+			ImGui::TableNextColumn();
+			ImGui::Text("%f seconds", emitter->GetElapsed());
+
+			ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
 			ImGui::TableNextColumn();
 			ImGui::Text("Lifespan");
@@ -509,13 +569,9 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance, int id)
 		{
 			module->DrawImGui();
 		}
-
-		ImGui::Separator();
 	}
 	else
 	{
 		//TODO: Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)
 	}
-
-	ImGui::PopID();
 }

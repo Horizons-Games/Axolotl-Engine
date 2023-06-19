@@ -1,11 +1,11 @@
 #pragma once
-#include "Component.h"
 #include "Auxiliar/Generics/Drawable.h"
 #include "Auxiliar/Generics/Updatable.h"
+#include "Component.h"
 
 #include "Geometry/Frustum.h"
-#include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
+#include "Geometry/Plane.h"
 
 /*
 enum class ECameraFrustumMode
@@ -40,13 +40,11 @@ public:
 
 	void DuplicateCamera(CameraGameObject* camera);
 
-
 private:
-	std::unique_ptr <CameraGameObject> camera;
+	std::unique_ptr<CameraGameObject> camera;
 };
 
 inline CameraGameObject* ComponentCamera::GetCamera()
 {
 	return camera.get();
 }
-

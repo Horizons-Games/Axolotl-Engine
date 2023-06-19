@@ -39,7 +39,7 @@ private:
 	SDL_bool BoolToSDL_Bool(bool boolVal);
 	bool IsFlagSet(SDL_WindowFlags flag) const;
 
-	//SDL_Window is incomplete, so we must provide a destructor to the compiler
+	// SDL_Window is incomplete, so we must provide a destructor to the compiler
 	struct SDLWindowDestroyer
 	{
 		void operator()(SDL_Window* window) const
@@ -48,14 +48,14 @@ private:
 		}
 	};
 
-	//The window we'll be rendering to
+	// The window we'll be rendering to
 	std::unique_ptr<SDL_Window, SDLWindowDestroyer> window;
 
-	//The surface contained by the window
+	// The surface contained by the window
 	SDL_Surface* screenSurface;
 
-	//whether the window was set to regular fullscreen (true) or desktop fullscreen (false)
-	//this is because both flags are set at the same time, so it's impossible to differentiate otherwise
+	// whether the window was set to regular fullscreen (true) or desktop fullscreen (false)
+	// this is because both flags are set at the same time, so it's impossible to differentiate otherwise
 	bool fullscreen;
 
 	float brightness;
@@ -88,7 +88,7 @@ inline float ModuleWindow::GetBrightness() const
 	return brightness;
 }
 
-inline bool ModuleWindow::GetVsync() 
+inline bool ModuleWindow::GetVsync()
 {
 	return vsync;
 }

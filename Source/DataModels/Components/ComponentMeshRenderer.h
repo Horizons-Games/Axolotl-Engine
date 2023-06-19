@@ -2,18 +2,25 @@
 
 #include "Component.h"
 #include "Globals.h"
+
+#include "Components/Component.h"
+
+#include "FileSystem/UniqueID.h"
+#include "Batch/GeometryBatch.h"
+
+
+#include <memory>
 #include "ModuleProgram.h"
 
 #include "Auxiliar/Generics/Drawable.h"
-#include "Auxiliar/Generics/Updatable.h"
 
 #include "Components/Component.h"
 
 #include "FileSystem/UniqueID.h"
 
-#include "Math/float4x4.h"
-#include "Math/float4.h"
 #include "Math/float3.h"
+#include "Math/float4.h"
+#include "Math/float4x4.h"
 
 #include "Program/Program.h"
 
@@ -27,7 +34,7 @@ class WindowMeshInput;
 class WindowMaterialInput;
 class WindowTextureInput;
 
-class ComponentMeshRenderer : public Component, public Drawable, public Updatable
+class ComponentMeshRenderer : public Component, public Drawable
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
@@ -36,11 +43,11 @@ public:
 
 	void InitBones();
 
-	void Update() override;
+	void UpdatePalette();
 
 	void Draw() const override;
 	void DrawMeshes(Program* program) const;
-	void DrawMaterial(Program* program) const; 
+	void DrawMaterial(Program* program) const;
 	void DrawHighlight() const;
 
 	void SaveOptions(Json& meta) override;
@@ -54,20 +61,34 @@ public:
 
 	// Common attributes (setters)
 	void SetDiffuseColor(float4& diffuseColor);
+	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
+	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
+	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
+	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetShaderType(unsigned int shaderType);
 	void SetSmoothness(float smoothness);
-	void SetNormalStrenght(float normalStrength);
+	void SetNormalStrength(float normalStrength);
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
 	// Specular shader attributes (setters)
 	void SetSpecularColor(float3& specularColor);
-	
+
+	void SetTransparent(bool isTransparent);
+
+	void RemoveFromBatch();
+
+	std::vector<ComponentMeshRenderer*> ChangeOfBatch();
+
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
-	const unsigned int GetShaderType() const;
+
+	GeometryBatch* GetBatch() const;
+	void SetBatch(GeometryBatch* geometryBatch);
 
 	// Common attributes (getters)
+	const unsigned int& GetShaderType() const;
 	const float4& GetDiffuseColor() const;
 	const float GetSmoothness() const;
 	const float GetNormalStrenght() const;
@@ -78,6 +99,20 @@ public:
 	// Specular shader attributes (getters)
 	const float3& GetSpecularColor() const;
 
+	const bool IsTransparent() const;
+
+	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
+
+	const std::shared_ptr<ResourceTexture>& GetNormal() const;
+
+	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
+
+	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
+
+	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+
+	const std::vector<float4x4>& GetPalette() const;
+
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
@@ -85,8 +120,6 @@ private:
 	bool IsMeshLoaded() const;
 	bool IsMaterialLoaded() const;
 
-	//declared "mutable" so Draw can be const
-	//as said in Draw, this should be modified in a separate class, so the idea is for this change to be temporal
 	mutable std::shared_ptr<ResourceMesh> mesh;
 	mutable std::shared_ptr<ResourceMaterial> material;
 
@@ -94,6 +127,9 @@ private:
 	std::vector<float4x4> skinPalette;
 
 	WindowMeshInput* inputMesh;
+	WindowMaterialInput* inputMaterial;
+
+	GeometryBatch* batch;
 };
 
 inline void ComponentMeshRenderer::SetBones(const std::vector<GameObject*>& bones)
@@ -109,6 +145,21 @@ inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 inline std::shared_ptr<ResourceMaterial> ComponentMeshRenderer::GetMaterial() const
 {
 	return material;
+}
+
+inline GeometryBatch* ComponentMeshRenderer::GetBatch() const
+{
+	return batch;
+}
+
+inline const std::vector<float4x4>& ComponentMeshRenderer::GetPalette() const
+{
+	return skinPalette;
+}
+
+inline void ComponentMeshRenderer::SetBatch(GeometryBatch* geometryBatch)
+{
+	batch = geometryBatch;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded() const
