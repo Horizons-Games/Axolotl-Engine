@@ -71,33 +71,24 @@ ComponentSpotLight::~ComponentSpotLight()
 
 void ComponentSpotLight::Draw() const
 {
+	bool canDrawLight =
 #ifdef ENGINE
-	if (!App->IsOnPlayMode() && IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
-	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
-		float3 position = transform->GetGlobalPosition();
-		float3 forward = transform->GetGlobalForward().Normalized();
-
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
-	}
+		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight())
+		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+#endif // ENGINE
+
+	if (!canDrawLight)
 	{
 		return;
 	}
-	if (IsEnabled())
-	{
-		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		float3 position = transform->GetGlobalPosition();
-		float3 forward = transform->GetGlobalForward().Normalized();
+	float3 position = transform->GetGlobalPosition();
+	float3 forward = transform->GetGlobalForward().Normalized();
 
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
-	}
-#endif // ENGINE
+	dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
+	dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 }
 
 void ComponentSpotLight::SignalEnable()
