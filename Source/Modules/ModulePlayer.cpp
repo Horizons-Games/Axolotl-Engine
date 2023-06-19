@@ -56,27 +56,36 @@ void ModulePlayer::LoadNewPlayer()
 	Scene* loadedScene = scene->GetLoadedScene();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
-	for (ComponentCamera* camera : cameras)
+
+	GameObject* player = loadedScene->GetPlayer();
+	if (player)
 	{
-		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
-		if (parentOfOwner->GetComponent<ComponentPlayer>())
+		SetPlayer(player);
+
+		for (ComponentCamera* camera : cameras)
 		{
-			SetPlayer(parentOfOwner);
-			cameraPlayer = camera->GetCamera();
+			GameObject* ownerGO = camera->GetOwner();
+			if (ownerGO->CompareTag("MainCamera"))
+			{
+				cameraPlayer = camera->GetCamera();
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
-			//loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+				cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
+				// loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			//scene->RemoveGameObjectAndChildren(player);
-#endif // ENGINE			
-			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
+				// scene->RemoveGameObjectAndChildren(player);
+#endif // ENGINE
+				App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 
-			CheckIfActivateMouse();
+				CheckIfActivateMouse();
 
-			return;
+				return;
+			}
 		}
 	}
-	ENGINE_LOG("Player is not load");
+	else
+	{
+		ENGINE_LOG("Player is not created!");
+	}
 }
 
 void ModulePlayer::UnloadNewPlayer()

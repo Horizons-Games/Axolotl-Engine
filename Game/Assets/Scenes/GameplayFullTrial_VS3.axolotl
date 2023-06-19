@@ -2082,9 +2082,9 @@
         {
             "GameObject": {
                 "name": "Basic Camera",
-                "tag": "",
+                "tag": "MainCamera",
                 "uid": 2439703214949333448,
-                "parentUID": 6764586723542947213,
+                "parentUID": 9011007661183311806,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -2094,15 +2094,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 2.299999952316284,
-                            "localPos_Z": -11.0,
-                            "localRot_X": 0.0,
+                            "localPos_X": 0.0001220703125,
+                            "localPos_Y": 3.3811540603637695,
+                            "localPos_Z": -32.50327682495117,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
                         }
                     },
                     {
