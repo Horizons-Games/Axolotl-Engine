@@ -1,5 +1,10 @@
 #include "PlayerDeathScript.h"
 
+#ifndef ENGINE
+	#include "Application.h"
+	#include "ModuleScene.h"
+#endif // ENGINE
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAnimation.h"
