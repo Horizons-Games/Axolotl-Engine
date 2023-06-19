@@ -168,7 +168,7 @@ inline const float4x4& ComponentTransform2D::GetGlobalMatrix() const
 	return globalMatrix;
 }
 
-inline float4x4 ComponentTransform2D::GetGlobalScaledMatrix() const
+inline float4x4 const ComponentTransform2D::GetGlobalScaledMatrix() const
 {
 	return globalMatrix * float4x4::Scale(size.x, size.y, 0.0f);
 }

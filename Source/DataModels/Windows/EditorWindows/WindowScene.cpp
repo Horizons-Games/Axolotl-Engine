@@ -138,21 +138,15 @@ void WindowScene::DrawGuizmo()
 	if (focusedObject != nullptr && focusedObject->GetParent() != nullptr)
 	{
 		ImVec2 windowPos = ImGui::GetWindowPos();
-		float windowWidth = (float) ImGui::GetWindowWidth();
-		float windowheight = (float) ImGui::GetWindowHeight();
+		float windowWidth = static_cast<float>(ImGui::GetWindowWidth());
+		float windowheight = static_cast<float>(ImGui::GetWindowHeight());
 
 		ImGuizmo::SetDrawlist();
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
-		ImGuizmo::SetOrthographic(false);
 
 		ModuleCamera* camera = App->GetModule<ModuleCamera>();
 		ModuleInput* input = App->GetModule<ModuleInput>();
 
-		ImVec2 windowPos = ImGui::GetWindowPos();
-		float windowWidth = static_cast<float>(ImGui::GetWindowWidth());
-		float windowheight = static_cast<float>(ImGui::GetWindowHeight());
-		ImGuizmo::SetDrawlist();
-		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
 		float4x4 viewMat = float4x4::identity;
 
 		ComponentTransform* focusedTransform = focusedObject->GetComponent<ComponentTransform>();
@@ -250,7 +244,7 @@ void WindowScene::DrawGuizmo()
 		//Guizmo 2D
 		else
 		{
-			ComponentTransform2D* focusedTransform2D = static_cast<ComponentTransform2D*>(focusedObject->GetComponent(ComponentType::TRANSFORM2D));
+			ComponentTransform2D* focusedTransform2D = focusedObject->GetComponent<ComponentTransform2D>();
 			ImGuizmo::SetOrthographic(true);
 			float4x4 projMat = camera->GetOrthoProjectionMatrix().Transposed();
 			float4x4 modelMatrix = focusedTransform2D->GetGlobalMatrix().Transposed();

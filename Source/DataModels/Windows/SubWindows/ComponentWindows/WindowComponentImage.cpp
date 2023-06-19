@@ -40,7 +40,7 @@ void WindowComponentImage::DrawWindowContents()
 			ImGui::SameLine();
 			if(ImGui::Button("Set Native Size")) 
 			{
-				ComponentTransform2D* transform = static_cast<ComponentTransform2D*>(asImage->GetOwner()->GetComponent(ComponentType::TRANSFORM2D));
+				ComponentTransform2D* transform = asImage->GetOwner()->GetComponent<ComponentTransform2D>();
 				transform->SetSize(float2(image->GetWidth(), image->GetHeight()));
 			}
 			ImGui::SetNextItemWidth(200);
