@@ -40,22 +40,24 @@ void PlayerCameraRotationVerticalScript::Start()
 
 void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 {
+	float3 vectorOffset = defaultOffsetVector;
+	Quat orientationOffset = playerTransform->GetGlobalRotation();
 	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
 	if (closestSample && 
 		(closestSample->position - playerTransform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 	{
-		finalTargetPosition = closestSample->position + 
-			closestSample->positionOffset.Normalized()* closestSample->influenceRadius*0.9;
+		vectorOffset = (closestSample->position +
+			closestSample->positionOffset.Normalized() * closestSample->influenceRadius * 0.9) - playerTransform->GetGlobalPosition();
 
 		float3 eulerAngles = closestSample->orientationOffset;
-		finalTargetOrientation = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));
+		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));
 
-		if (!isInfluenced)
+		/*if (!isInfluenced)
 		{
 			isInfluenced = true;
-		}
+		}*/
 	}
-	else
+	/*else
 	{
 		if (isInfluenced)
 		{
@@ -63,11 +65,10 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 			finalTargetOrientation = playerTransform->GetGlobalRotation();
 			isInfluenced = false;
 		}
-		else
-		{
-			Orbit(deltaTime);
-		}
-	}
+	}*/
+
+	finalTargetPosition = playerTransform->GetGlobalPosition() + vectorOffset;
+	finalTargetOrientation = orientationOffset;
 
 	transform->SetGlobalPosition(finalTargetPosition);
 	transform->SetGlobalRotation(finalTargetOrientation);
