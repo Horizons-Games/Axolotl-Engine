@@ -2179,13 +2179,13 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 18.54969596862793,
-                            "localPos_Y": 6.280791282653809,
+                            "localPos_X": 18.224580764770508,
+                            "localPos_Y": 6.031769752502441,
                             "localPos_Z": -14.5,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 30.0,
-                            "localSca_X": 4.0,
+                            "localSca_X": 4.5,
                             "localSca_Y": 0.25,
                             "localSca_Z": 4.5
                         }
@@ -2219,14 +2219,14 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 4.0,
+                            "boxSize_X": 4.5,
                             "boxSize_Y": 0.25,
                             "boxSize_Z": 4.5,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 18.54969596862793,
-                            "rbPos_Y": 6.280791282653809,
+                            "rbPos_X": 18.224580764770508,
+                            "rbPos_Y": 6.031769752502441,
                             "rbPos_Z": -14.5
                         }
                     }
@@ -2484,7 +2484,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 31.899999618530273,
+                            "localPos_X": 32.0,
                             "localPos_Y": 8.25,
                             "localPos_Z": -14.500863075256348,
                             "localRot_X": -179.99998474121094,
@@ -2530,7 +2530,7 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 31.899999618530273,
+                            "rbPos_X": 32.0,
                             "rbPos_Y": 8.25,
                             "rbPos_Z": -14.500863075256348
                         }
@@ -3395,7 +3395,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 14.0,
+                            "localPos_X": 13.561640739440918,
                             "localPos_Y": 8.0,
                             "localPos_Z": -9.5,
                             "localRot_X": -0.0,
@@ -3441,7 +3441,7 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 14.0,
+                            "rbPos_X": 13.561640739440918,
                             "rbPos_Y": 8.0,
                             "rbPos_Z": -9.5
                         }
@@ -4685,7 +4685,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 7.0,
-                            "localPos_Y": 4.000001430511475,
+                            "localPos_Y": 4.000002384185791,
                             "localPos_Z": -25.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -4731,7 +4731,7 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -9.5,
-                            "rbPos_Y": 3.9999992847442627,
+                            "rbPos_Y": 4.0,
                             "rbPos_Z": 8.499996185302734
                         }
                     }
@@ -6525,7 +6525,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -10.484454154968262,
+                            "localPos_X": -10.5,
                             "localPos_Y": 3.9999964237213135,
                             "localPos_Z": 8.500343322753906,
                             "localRot_X": 0.000013660382137459237,
@@ -6571,7 +6571,7 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -10.484454154968262,
+                            "rbPos_X": -10.5,
                             "rbPos_Y": 3.9999964237213135,
                             "rbPos_Z": 8.500343322753906
                         }
@@ -9965,6 +9965,213 @@
                             "rbPos_X": -26.499996185302734,
                             "rbPos_Y": -4.0,
                             "rbPos_Z": 8.500003814697266
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Corridor-Floor",
+                "tag": "",
+                "uid": 11629956363345778628,
+                "parentUID": 2656999126225551568,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 31.904205322265625,
+                            "localPos_Y": 8.250003814697266,
+                            "localPos_Z": 0.49913549423217773,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 179.9999542236328,
+                            "localSca_X": 10.0,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 10.000001907348633
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 4.5,
+                            "boxSize_Y": 0.25,
+                            "boxSize_Z": 10.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 31.904205322265625,
+                            "rbPos_Y": 8.250003814697266,
+                            "rbPos_Z": 0.49913549423217773
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Corridor-Floor",
+                "tag": "",
+                "uid": 3416798455748794668,
+                "parentUID": 2656999126225551568,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 31.902132034301758,
+                            "localPos_Y": 8.250001907348633,
+                            "localPos_Z": -5.500864028930664,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 179.9999542236328,
+                            "localSca_X": 4.5,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 10.000001907348633
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 4.5,
+                            "boxSize_Y": 0.25,
+                            "boxSize_Z": 10.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 31.902132034301758,
+                            "rbPos_Y": 8.250001907348633,
+                            "rbPos_Z": -5.500864028930664
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 6495271748502258050,
+                "parentUID": 17487614031902588812,
+                "enabled": true,
+                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 32.0,
+                            "localPos_Y": 12.0,
+                            "localPos_Z": -9.5,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 10.0,
+                            "localSca_Y": 4.0,
+                            "localSca_Z": 0.5
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 9.5,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 0.5,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 32.0,
+                            "rbPos_Y": 12.0,
+                            "rbPos_Z": -9.5
                         }
                     }
                 ]
