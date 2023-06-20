@@ -36,24 +36,16 @@ void CameraGameObject::SetPositionTarget(const float3& targetPosition, float del
 {
 	float3 positionError = targetPosition - position;
 
-	if (positionError.Length() < 0.01)
+	float3 velocityPosition = positionError * KpPosition;
+	float3 translationVector = velocityPosition * deltaTime;
+	if (translationVector.Length() > positionError.Length())
 	{
 		SetPosition(targetPosition);
 	}
-
 	else
 	{
-		float3 velocityPosition = positionError * KpPosition;
-		float3 translationVector = velocityPosition * deltaTime;
-		if (translationVector.Length() > positionError.Length())
-		{
-			SetPosition(targetPosition);
-		}
-		else
-		{
-			float3 nextPos = position + translationVector;
-			SetPosition(nextPos);
-		}
+		float3 nextPos = position + translationVector;
+		SetPosition(nextPos);
 	}
 }
 
@@ -63,43 +55,34 @@ void CameraGameObject::SetRotationTarget(const Quat& targetRotation, float delta
 	Quat rotationError = targetRotation * rotation.Inverted();
 	rotationError.Normalize();
 
-	if (rotationError.Equals(Quat::identity, 0.05f))
+	float3 axis;
+	float angle;
+	rotationError.ToAxisAngle(axis, angle);
+	axis.Normalize();
+
+	float3 velocityRotation = axis * angle * KpRotation;
+	Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+	Quat wq_0 = angularVelocityQuat * rotation;
+
+	float deltaValue = 0.5f * deltaTime;
+	Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+	if (deltaRotation.Length() > rotationError.Length())
 	{
 		ApplyRotationWithFixedUp(targetRotation, float3::unitY);
-		//ApplyRotation(targetRotation);
+		// ApplyRotation(targetRotation);
 	}
 
 	else
 	{
-		float3 axis;
-		float angle;
-		rotationError.ToAxisAngle(axis, angle);
-		axis.Normalize();
+		Quat nextRotation(rotation.x + deltaRotation.x,
+						  rotation.y + deltaRotation.y,
+						  rotation.z + deltaRotation.z,
+						  rotation.w + deltaRotation.w);
+		nextRotation.Normalize();
 
-		float3 velocityRotation = axis * angle * KpRotation;
-		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
-		Quat wq_0 = angularVelocityQuat * rotation;
-
-		float deltaValue = 0.5f * deltaTime;
-		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
-
-		if (deltaRotation.Length() > rotationError.Length())
-		{
-			ApplyRotationWithFixedUp(targetRotation, float3::unitY);
-			//ApplyRotation(targetRotation);
-		}
-
-		else
-		{
-			Quat nextRotation(rotation.x + deltaRotation.x,
-							  rotation.y + deltaRotation.y,
-							  rotation.z + deltaRotation.z,
-							  rotation.w + deltaRotation.w);
-			nextRotation.Normalize();
-
-			ApplyRotationWithFixedUp(nextRotation, float3::unitY);
-			//ApplyRotation(nextRotation);
-		}
+		ApplyRotationWithFixedUp(nextRotation, float3::unitY);
+		// ApplyRotation(nextRotation);
 	}
 }
 
