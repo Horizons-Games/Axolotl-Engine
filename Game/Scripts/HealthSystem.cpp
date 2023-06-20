@@ -5,13 +5,17 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
-#include "Components/Component.h"
 #include "Components/ComponentCamera.h"
+
+#include "../Scripts/EnemyManagerScript.h"
+#include "../Scripts/PowerUpScript.h"
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), loseSceneName("00_LoseScene_VS3"), dead(false)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
+								loseSceneName("00_LoseScene_VS3"), dead(false), defense(0.f)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -40,12 +44,21 @@ void HealthSystem::Update(float deltaTime)
 #endif // ENGINE
 		if(!componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
 		{
-			ENGINE_LOG("Player is dead");
-
+			LOG_VERBOSE("Player is dead");
 			PlayerDeath();
 		}
 	}
-
+	else if (dead && owner->CompareTag("Enemy"))
+	{
+		EnemyManagerScript* manager =	owner->GetComponent<EnemyManagerScript>();
+		GameObject* powerUp = manager->RequestPowerUp();
+		if (powerUp != nullptr)
+		{
+			PowerUpScript* powerUpScript = powerUp->GetComponent<PowerUpScript>();
+			ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+			powerUpScript->ActivatePowerUp(transform->GetPosition());
+		}
+	}
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the TakeDamage function but delay setting it to false by 2 seconds or smth like that
 	
@@ -62,7 +75,8 @@ void HealthSystem::Update(float deltaTime)
 
 void HealthSystem::TakeDamage(float damage)
 {
-	currentHealth -= damage;
+	float actualDamage = std::max(damage - defense, 0.f);
+	currentHealth -= actualDamage;
 
 	componentAnimation->SetParameter("IsTakingDamage", true);
 }
@@ -70,6 +84,7 @@ void HealthSystem::TakeDamage(float damage)
 void HealthSystem::HealLife(float amountHealed)
 {
 	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
+	LOG_INFO("Healed");
 }
 
 bool HealthSystem::EntityIsAlive() const
@@ -77,6 +92,10 @@ bool HealthSystem::EntityIsAlive() const
 	return currentHealth > 0;
 }
 
+float HealthSystem::GetCurrentHealth() const
+{
+	return currentHealth;
+}
 void HealthSystem::PlayerDeath()
 {
 	// Once the player is dead, disable its scripts
@@ -97,8 +116,7 @@ void HealthSystem::PlayerDeath()
 
 		if (child->GetComponent<ComponentCamera>())
 		{
-			std::vector<ComponentScript*> cameraScripts =
-				child->GetComponents<ComponentScript>();
+			std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
 
 			for (ComponentScript* script : cameraScripts)
 			{

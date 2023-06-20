@@ -145,7 +145,9 @@ void BixAttackScript::CheckCollision()
 				{
 					if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
 					{
-						HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
+						// insertion could take place -> element not hit yet
+						// get component health and do damage
+						HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
 						healthScript->TakeDamage(damageAttack);
 					}
 				}

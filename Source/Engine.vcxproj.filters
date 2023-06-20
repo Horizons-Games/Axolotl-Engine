@@ -209,7 +209,6 @@
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
       <Filter>DataModels\Components</Filter>
@@ -392,6 +391,7 @@
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="AxoLog.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -431,6 +431,12 @@
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PowerUpScript.cpp">
+      <Filter>UserScripts\PowerUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
@@ -460,6 +466,12 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
       <Filter>UserScripts\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
+      <Filter>UserScripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
+      <Filter>UserScripts\PowerUp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -700,7 +712,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="AxoLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
@@ -907,6 +919,12 @@
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PowerUpScript.h">
+      <Filter>UserScripts\PowerUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h">
+      <Filter>UserScripts\Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\PopUpWindows\WindowBuild.h">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClInclude>
@@ -936,6 +954,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
       <Filter>UserScripts\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
+      <Filter>UserScripts\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
+      <Filter>UserScripts\PowerUp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1046,6 +1070,9 @@
     </Filter>
     <Filter Include="UserScripts\UI">
       <UniqueIdentifier>{9ddd7416-8d1e-4b37-be90-b2a1b8cb51e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\PowerUp">
+      <UniqueIdentifier>{3c0319b6-bb2b-47a7-81ae-d8e78fa1ba74}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts\Player\Movement">
       <UniqueIdentifier>{b812ac76-6b1f-47cc-a2da-da0913da9b93}</UniqueIdentifier>
@@ -1272,7 +1299,6 @@
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
       <Filter>DataModels\Components</Filter>
@@ -1606,7 +1632,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>

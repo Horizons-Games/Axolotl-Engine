@@ -164,13 +164,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp" />
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
@@ -213,6 +216,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="AxoLog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -449,7 +456,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataStructures\Quadtree.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
@@ -508,13 +514,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
+    <ClInclude Include="..\Game\Scripts\PowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
     <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
     <ClInclude Include="..\Game\Scripts\DroneBullet.h" />
@@ -835,7 +844,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="AxoLog.h" />
     <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="FileSystem\Importers\AnimationImporter.h" />
     <ClInclude Include="Enums\ModuleType.h" />

@@ -2,7 +2,7 @@
 #include "Components/ComponentAudioListener.h"
 
 WindowComponentAudioListener::WindowComponentAudioListener(ComponentAudioListener* component) :
-	ComponentWindow("Audio Listener", component)
+	ComponentWindow("AUDIO LISTENER", component)
 {
 }
 

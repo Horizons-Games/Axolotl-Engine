@@ -268,9 +268,5 @@ inline bool GameObject::IsStatic() const
 	return staticObject;
 }
 
-inline void GameObject::SetStatic(bool newStatic)
-{
-	staticObject = newStatic;
-}
 
 #include "DataModels/GameObject/GameObject.inl"
