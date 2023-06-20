@@ -8,20 +8,19 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
 
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -39,8 +38,8 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include <stack>
 #include <GL/glew.h>
+#include <stack>
 
 #include "Scripting/IScript.h"
 
@@ -665,7 +664,6 @@ void Scene::RenderPointLights() const
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
 	}
 
-
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -871,7 +869,7 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
-	
+
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
