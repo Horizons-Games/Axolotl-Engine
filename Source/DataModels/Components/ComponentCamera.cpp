@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCamera.h"
 
 #include "Application.h"

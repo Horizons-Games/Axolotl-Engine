@@ -1,5 +1,6 @@
+#include "StdAfx.h"
+
 #include "LogSystem.h"
-#include "AxoLog.h"
 #include <stdarg.h>
 
 void LogSystem::LogError(const char* format, ...)

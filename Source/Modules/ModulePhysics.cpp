@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModulePhysics.h"
 
 #include "Application.h"
@@ -8,14 +10,10 @@
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
 
-#include "AxoLog.h"
-
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
 	#include "Windows/WindowDebug.h"
 #endif
-
-#include <vector>
 
 ModulePhysics::ModulePhysics()
 {
@@ -75,7 +73,7 @@ void ModulePhysics::Reset()
 	Init();
 }
 
-update_status ModulePhysics::PreUpdate()
+UpdateStatus ModulePhysics::PreUpdate()
 {
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
@@ -99,7 +97,7 @@ update_status ModulePhysics::PreUpdate()
 	}
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModulePhysics::ManageCollisions()

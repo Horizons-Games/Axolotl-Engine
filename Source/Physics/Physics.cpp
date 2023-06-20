@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Physics.h"
 
 #include "Application.h"

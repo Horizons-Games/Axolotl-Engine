@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Skybox.h"
 
 #include "GL/glew.h"

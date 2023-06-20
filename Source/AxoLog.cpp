@@ -1,4 +1,4 @@
-#include "AxoLog.h"
+#include "StdAfx.h"
 
 #include "Application.h"
 

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleAudio.h"
 
 #include "Application.h"
@@ -16,8 +18,6 @@
 #ifndef AK_OPTIMIZED
 	#include "AK/Comm/AkCommunication.h"
 #endif // AK_OPTIMIZED
-
-#include "AxoLog.h"
 
 #define BANKNAME_INIT L"Init.bnk"
 
@@ -165,22 +165,22 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-update_status ModuleAudio::PreUpdate()
+UpdateStatus ModuleAudio::PreUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::Update()
+UpdateStatus ModuleAudio::Update()
 {
 	// Process bank requests, events, positions, RTPC, etc.
 	AK::SoundEngine::RenderAudio();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::PostUpdate()
+UpdateStatus ModuleAudio::PostUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleAudio::InitializeBanks()

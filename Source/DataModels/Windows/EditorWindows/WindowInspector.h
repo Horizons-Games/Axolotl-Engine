@@ -4,9 +4,6 @@
 
 #include "FileSystem/UID.h"
 
-#include <memory>
-#include <vector>
-
 class Model;
 class GameObject;
 class Component;

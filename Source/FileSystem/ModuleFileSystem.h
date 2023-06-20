@@ -2,9 +2,6 @@
 #include "Module.h"
 #include "physfs.h"
 
-#include <string>
-#include <vector>
-
 struct zip_t;
 
 class ModuleFileSystem : public Module

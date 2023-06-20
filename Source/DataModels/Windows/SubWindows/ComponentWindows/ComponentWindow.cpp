@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentWindow.h"
 
 #include <sstream>

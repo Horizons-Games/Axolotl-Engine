@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMockState.h"
 #include "ComponentTransform.h"
 

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceMesh.h"
 
 #include "GL/glew.h"

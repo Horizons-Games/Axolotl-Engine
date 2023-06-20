@@ -1,6 +1,9 @@
+#include "StdAfx.h"
+
 #include "ModuleWindow.h"
 
-#include "AxoLog.h"
+#include "Defines/WindowDefines.h"
+#include "Defines/ApplicationDefines.h"
 
 ModuleWindow::ModuleWindow() : fullscreen(false), brightness(0.0f)
 {

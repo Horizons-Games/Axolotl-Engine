@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentRigidBody.h"
 #include "Application.h"
 #include "ComponentTransform.h"

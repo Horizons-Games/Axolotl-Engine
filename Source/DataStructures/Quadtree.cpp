@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Quadtree.h"
 #include "Application.h"
 #include "Components/ComponentTransform.h"
@@ -10,6 +12,9 @@
 
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
+
+#include "Defines/QuadtreeDefines.h"
+#include "Defines/FrustumDefines.h"
 
 #include <queue>
 

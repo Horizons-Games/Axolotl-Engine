@@ -2,8 +2,6 @@
 
 #include "SubWindow.h"
 
-#include <vector>
-
 class WindowFPS : public SubWindow
 {
 public:

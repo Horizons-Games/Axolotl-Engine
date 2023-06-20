@@ -1,0 +1,18 @@
+#pragma once
+
+#define MODEL_EXTENSION ".fbx"
+#define JPG_TEXTURE_EXTENSION ".jpg"
+#define PNG_TEXTURE_EXTENSION ".png"
+#define TIF_TEXTURE_EXTENSION ".tif"
+#define DDS_TEXTURE_EXTENSION ".dds"
+#define TGA_TEXTURE_EXTENSION ".tga"
+#define HDR_TEXTURE_EXTENSION ".hdr"
+#define SCENE_EXTENSION ".axolotl"
+#define SKYBOX_EXTENSION ".sky"
+#define CUBEMAP_EXTENSION ".cube"
+#define MATERIAL_EXTENSION ".mat"
+#define STATEMACHINE_EXTENSION ".state"
+#define MESH_EXTENSION ".mesh"
+#define ANIMATION_EXTENSION ".anim"
+#define META_EXTENSION ".meta"
+#define GENERAL_BINARY_EXTENSION ".bin"

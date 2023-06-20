@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "GeometryBatch.h"
 
 #include "Application.h"
@@ -16,8 +18,6 @@
 
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
-
-#include <algorithm>
 
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"

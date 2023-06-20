@@ -4,8 +4,6 @@
 
 #include "imgui.h"
 
-#include <string>
-
 class EditorWindow : public Window
 {
 public:

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowFrustum.h"
 
 #include "Application.h"

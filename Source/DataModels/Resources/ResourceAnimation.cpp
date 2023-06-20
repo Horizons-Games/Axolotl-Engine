@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceAnimation.h"
 
 ResourceAnimation::ResourceAnimation(UID resourceId,

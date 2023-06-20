@@ -1,9 +1,13 @@
+#include "StdAfx.h"
+
 #include "DataModels/Windows/PopUpWindows/WindowBuild.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "Auxiliar/GameBuilder.h"
+
+#include "Defines/FileSystemDefines.h"
 
 #include <map>
 

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowMainMenu.h"
 
 #include "Application.h"
@@ -15,6 +17,8 @@
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
 #include "EditorWindows/WindowAbout.h"
 #include "PopUpWindows/WindowBuild.h"
+
+#include "Defines/ExtensionDefines.h"
 
 #include <windows.h>
 

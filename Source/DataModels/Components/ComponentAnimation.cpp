@@ -1,7 +1,8 @@
+#include "StdAfx.h"
+
 #include "ComponentAnimation.h"
 #include "Application.h"
 #include "ComponentTransform.h"
-#include "Globals.h"
 
 #include "Animation/AnimationController.h"
 

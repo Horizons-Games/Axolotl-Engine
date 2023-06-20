@@ -1,10 +1,6 @@
 #pragma once
 #include "Module.h"
 
-#include <memory>
-#include <string>
-#include <vector>
-
 class Program;
 
 enum class ProgramType

@@ -35,7 +35,7 @@ public:
 	bool Init() override;
 	bool Start() override;
 
-	update_status Update();
+	UpdateStatus Update();
 
 	Camera* GetCamera();
 	void ChangeCamera(CameraType newType);

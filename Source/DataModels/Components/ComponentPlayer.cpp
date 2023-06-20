@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentPlayer.h"
 #include "Application.h"
 #include "ModulePlayer.h"

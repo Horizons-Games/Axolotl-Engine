@@ -2,8 +2,6 @@
 
 #include "Windows/SubWindows/SubWindow.h"
 
-#include <memory>
-
 class Component;
 
 class ComponentWindow : public SubWindow

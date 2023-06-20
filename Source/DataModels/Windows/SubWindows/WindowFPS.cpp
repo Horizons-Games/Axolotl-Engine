@@ -1,9 +1,9 @@
+#include "StdAfx.h"
+
 #include "WindowFPS.h"
 
 #include "Application.h"
 #include "Modules/ModuleWindow.h"
-
-#include "AxoLog.h"
 
 WindowFPS::WindowFPS() :
 	SubWindow("FPS"),

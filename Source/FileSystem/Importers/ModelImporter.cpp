@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModelImporter.h"
 
 #include "Application.h"

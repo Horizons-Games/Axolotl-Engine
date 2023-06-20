@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "TextureImporter.h"
 
 #include "Application.h"
@@ -5,7 +7,7 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceTexture.h"
 
-#include "AxoLog.h"
+#include "Defines/ExtensionDefines.h"
 
 #include <DirectXTex/DirectXTex.h>
 #include <GL/glew.h>

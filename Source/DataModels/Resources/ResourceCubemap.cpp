@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceCubemap.h"
 
 #include "Application.h"

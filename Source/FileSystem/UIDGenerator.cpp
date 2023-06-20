@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "FileSystem/UIDGenerator.h"
 
 #include <random>

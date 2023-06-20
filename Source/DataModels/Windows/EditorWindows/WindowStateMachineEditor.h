@@ -2,8 +2,6 @@
 
 #include "EditorWindow.h"
 
-#include <memory>
-
 class WindowResourceInput;
 class Resource;
 class ResourceStateMachine;

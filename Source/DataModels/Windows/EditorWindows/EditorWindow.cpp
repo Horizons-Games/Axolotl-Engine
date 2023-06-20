@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "EditorWindow.h"
 
 #include "FileSystem/Json.h"

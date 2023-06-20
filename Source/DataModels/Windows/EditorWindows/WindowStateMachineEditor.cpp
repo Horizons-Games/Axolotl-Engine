@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowStateMachineEditor.h"
 
 #include "imgui.h"

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Component.h"
-#include "Globals.h"
 
 #include "Components/Component.h"
 
@@ -9,7 +8,6 @@
 #include "FileSystem/UID.h"
 
 #include "ModuleProgram.h"
-#include <memory>
 
 #include "Auxiliar/Generics/Drawable.h"
 
@@ -19,7 +17,7 @@
 
 #include "Program/Program.h"
 
-#include <memory>
+#include "Enums/TextureType.h"
 
 class ResourceMesh;
 class ResourceMaterial;

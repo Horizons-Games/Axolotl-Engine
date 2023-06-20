@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMeshCollider.h"
 
 #include "Application.h"

@@ -1,10 +1,7 @@
 #pragma once
 #include "EditorWindow.h"
 
-#include "AxoLog.h"
-
 #include <map>
-#include <vector>
 
 class WindowConsole : public EditorWindow
 {

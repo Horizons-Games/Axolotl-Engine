@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentAudioListener.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/GameObject/GameObject.h"

@@ -1,4 +1,5 @@
-#pragma once
+#include "StdAfx.h"
+
 #include "Application.h"
 
 #include "FileSystem/ModuleFileSystem.h"
@@ -17,6 +18,8 @@
 #include "ModuleUI.h"
 #include "ModuleWindow.h"
 #include "ScriptFactory.h"
+
+#include "Defines/FramerateDefines.h"
 
 #include <ranges>
 
@@ -82,11 +85,11 @@ bool Application::Start()
 	return true;
 }
 
-update_status Application::Update()
+UpdateStatus Application::Update()
 {
 	if (closeGame == true)
 	{
-		return update_status::UPDATE_STOP;
+		return UpdateStatus::UPDATE_STOP;
 	}
 
 	bool playMode = isOnPlayMode;
@@ -94,8 +97,8 @@ update_status Application::Update()
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = module->PreUpdate();
-		if (result != update_status::UPDATE_CONTINUE)
+		UpdateStatus result = module->PreUpdate();
+		if (result != UpdateStatus::UPDATE_CONTINUE)
 		{
 			return result;
 		}
@@ -103,8 +106,8 @@ update_status Application::Update()
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = module->Update();
-		if (result != update_status::UPDATE_CONTINUE)
+		UpdateStatus result = module->Update();
+		if (result != UpdateStatus::UPDATE_CONTINUE)
 		{
 			return result;
 		}
@@ -112,8 +115,8 @@ update_status Application::Update()
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = module->PostUpdate();
-		if (result != update_status::UPDATE_CONTINUE)
+		UpdateStatus result = module->PostUpdate();
+		if (result != UpdateStatus::UPDATE_CONTINUE)
 		{
 			return result;
 		}
@@ -128,7 +131,7 @@ update_status Application::Update()
 
 	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool Application::CleanUp()

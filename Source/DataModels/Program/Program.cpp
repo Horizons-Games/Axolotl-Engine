@@ -1,11 +1,11 @@
+#include "StdAfx.h"
+
 #include "Program.h"
 
 #include "GL/glew.h"
-#include "Globals.h"
+
 #include <MathGeoLib/Include/Math/float3.h>
 #include "SDL/include/SDL.h"
-
-#include "AxoLog.h"
 
 Program::Program(unsigned vertexShader,
 				 unsigned fragmentShader,

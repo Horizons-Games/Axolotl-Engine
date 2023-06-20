@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentAnimation.h"
 
 #include "Components/ComponentAnimation.h"

@@ -1,7 +1,7 @@
 #pragma once
 #include "Windows/EditorWindows/WindowFileBrowser.h"
 
-#include "Globals.h"
+#include "Enums/TextureType.h"
 
 class WindowComponentMeshRenderer;
 

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Scene.h"
 
 #include "Application.h"
@@ -8,42 +10,40 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
-
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 #include "DataModels/Skybox/Skybox.h"
 
 #include "DataStructures/Quadtree.h"
 
+#include "FileSystem/ModuleResources.h"
+
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
-
-#include "FileSystem/ModuleResources.h"
 
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include <stack>
-#include <GL/glew.h>
-
 #include "Scripting/IScript.h"
 
+#include "Defines/QuadtreeDefines.h"
+
+#include <GL/glew.h>
 #include <stack>
 
 Scene::Scene() :
@@ -665,7 +665,6 @@ void Scene::RenderPointLights() const
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
 	}
 
-
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -738,7 +737,7 @@ void Scene::UpdateScenePointLights()
 				PointLight pl;
 				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
 				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
-				
+
 				pointLights.push_back(pl);
 			}
 		}
@@ -788,7 +787,7 @@ void Scene::UpdateSceneAreaLights()
 			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
 			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp =	static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -871,7 +870,7 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
-	
+
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();

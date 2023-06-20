@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"

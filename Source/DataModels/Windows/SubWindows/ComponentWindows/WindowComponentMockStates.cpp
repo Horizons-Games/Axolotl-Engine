@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentMockStates.h"
 
 #include "Components/ComponentMockState.h"

@@ -1,11 +1,11 @@
+#include "StdAfx.h"
+
 #include "ModuleFileSystem.h"
 #include "physfs.h"
 #include "zip.h"
 #ifndef ENGINE
 	#include <assert.h>
 #endif
-
-#include "AxoLog.h"
 
 ModuleFileSystem::ModuleFileSystem()
 {

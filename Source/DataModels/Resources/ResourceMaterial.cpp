@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceMaterial.h"
 #include "FileSystem/Json.h"
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Resource.h"
-#include <memory>
 #include <unordered_map>
 #include <variant>
 

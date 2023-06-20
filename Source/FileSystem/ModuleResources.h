@@ -11,7 +11,8 @@
 #include "Json.h"
 #include "ModuleFileSystem.h"
 
-#include "AxoLog.h"
+#include "Defines/ExtensionDefines.h"
+#include "Defines/FileSystemDefines.h"
 
 class ModelImporter;
 class TextureImporter;
@@ -219,7 +220,7 @@ inline void ModuleResources::CleanResourceBin()
 {
 #ifndef ENGINE
 	resourcesBin.clear();
-#endif //!ENGINE
+#endif //! ENGINE
 }
 
 template<class R>

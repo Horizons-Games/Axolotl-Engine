@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "GameObject.h"
 
 #include "DataModels/Components/ComponentAnimation.h"
@@ -35,8 +37,6 @@
 #endif // ENGINE
 
 #include "Scene/Scene.h"
-
-#include "AxoLog.h"
 
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :

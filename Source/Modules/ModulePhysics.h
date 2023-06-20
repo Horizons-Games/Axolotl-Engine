@@ -3,7 +3,6 @@
 #include "Bullet/LinearMath/btIDebugDraw.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Module.h"
-#include <memory>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -55,7 +54,7 @@ public:
 	~ModulePhysics() override;
 
 	bool Init() override;
-	update_status PreUpdate() override;
+	UpdateStatus PreUpdate() override;
 
 	void ManageCollisions();
 

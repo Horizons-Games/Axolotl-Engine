@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCubemap.h"
 #include "Components/Component.h"
 #include "GameObject/GameObject.h"

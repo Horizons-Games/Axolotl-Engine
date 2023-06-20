@@ -5,9 +5,6 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "Math/Quat.h"
-#include <functional>
-#include <memory>
-#include <vector>
 
 class btRigidBody;
 struct btDefaultMotionState;

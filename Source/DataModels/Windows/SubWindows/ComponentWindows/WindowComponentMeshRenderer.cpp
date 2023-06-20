@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentMeshRenderer.h"
 
 #include "DataModels/Components/ComponentMeshRenderer.h"

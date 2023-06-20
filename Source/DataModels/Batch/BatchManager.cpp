@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "BatchManager.h"
 
 #include "DataModels/Components/ComponentMeshRenderer.h"

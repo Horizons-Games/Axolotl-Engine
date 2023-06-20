@@ -5,7 +5,6 @@
 #include <set>
 
 #include "Geometry/LineSegment.h"
-#include "Globals.h"
 
 class GameObject;
 class Json;

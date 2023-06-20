@@ -1,8 +1,6 @@
 #pragma once
 #include "EditorWindow.h"
 
-#include <memory>
-
 class GameObject;
 
 class WindowHierarchy : public EditorWindow

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowConsole.h"
 
 #include <ranges>

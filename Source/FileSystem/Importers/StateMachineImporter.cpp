@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #pragma warning(disable : 6386)
 
 #include "StateMachineImporter.h"

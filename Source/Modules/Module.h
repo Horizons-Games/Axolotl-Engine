@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Globals.h"
+#include "Enums/UpdateStatus.h"
 
 class Application;
 
@@ -19,11 +19,11 @@ public:
 
 	virtual bool Init();
 
-	virtual update_status PreUpdate();
+	virtual UpdateStatus PreUpdate();
 
-	virtual update_status Update();
+	virtual UpdateStatus Update();
 
-	virtual update_status PostUpdate();
+	virtual UpdateStatus PostUpdate();
 
 	virtual bool CleanUp();
 };
@@ -38,19 +38,19 @@ inline bool Module::Init()
 	return true;
 }
 
-inline update_status Module::PreUpdate()
+inline UpdateStatus Module::PreUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-inline update_status Module::Update()
+inline UpdateStatus Module::Update()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-inline update_status Module::PostUpdate()
+inline UpdateStatus Module::PostUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 inline bool Module::CleanUp()

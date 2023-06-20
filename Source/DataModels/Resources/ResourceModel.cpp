@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Resources/ResourceModel.h"
 
 #include "Application.h"

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleScene.h"
 
 #include "Application.h"
@@ -76,7 +78,7 @@ bool ModuleScene::Start()
 	return true;
 }
 
-update_status ModuleScene::PreUpdate()
+UpdateStatus ModuleScene::PreUpdate()
 {
 	if (App->GetScriptFactory()->IsCompiled())
 	{
@@ -121,10 +123,10 @@ update_status ModuleScene::PreUpdate()
 			}
 		}
 	}
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleScene::Update()
+UpdateStatus ModuleScene::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
@@ -140,10 +142,10 @@ update_status ModuleScene::Update()
 			}
 		}
 	}
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleScene::PostUpdate()
+UpdateStatus ModuleScene::PostUpdate()
 {
 	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
@@ -164,7 +166,7 @@ update_status ModuleScene::PostUpdate()
 
 	loadedScene->ExecutePendingActions();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleScene::CleanUp()

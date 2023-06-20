@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowMaterialInput.h"
 
 #include "Application.h"

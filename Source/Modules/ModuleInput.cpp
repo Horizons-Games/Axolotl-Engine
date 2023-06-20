@@ -1,9 +1,10 @@
-#include "ModuleInput.h"
+#include "StdAfx.h"
+
 #include "Application.h"
-#include "AxoLog.h"
-#include "Globals.h"
+
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
+#include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
@@ -56,7 +57,7 @@ bool ModuleInput::Init()
 	return true;
 }
 
-update_status ModuleInput::Update()
+UpdateStatus ModuleInput::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
@@ -110,7 +111,7 @@ update_status ModuleInput::Update()
 		switch (sdlEvent.type)
 		{
 			case SDL_QUIT:
-				return update_status::UPDATE_STOP;
+				return UpdateStatus::UPDATE_STOP;
 
 			case SDL_WINDOWEVENT:
 				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
@@ -209,7 +210,7 @@ update_status ModuleInput::Update()
 	}
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleInput::CleanUp()

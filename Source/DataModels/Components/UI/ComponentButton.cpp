@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentButton.h"
 #include "Application.h"
 #include "FileSystem/Json.h"

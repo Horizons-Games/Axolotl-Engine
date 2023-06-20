@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentScript.h"
 
 #include "Application.h"
@@ -12,8 +14,6 @@
 #include "IScript.h"
 #include "Math/float3.h"
 #include "ScriptFactory.h"
-
-#include "AxoLog.h"
 
 #include <windows.h>
 

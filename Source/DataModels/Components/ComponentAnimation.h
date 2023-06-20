@@ -7,9 +7,7 @@
 
 #include "Math/float4x4.h"
 #include "Resources/ResourceStateMachine.h"
-#include <memory>
 #include <unordered_map>
-#include <vector>
 
 #define NON_STATE 9999
 

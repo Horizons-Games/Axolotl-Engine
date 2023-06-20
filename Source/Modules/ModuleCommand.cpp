@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Application.h"
 
 #include "ModuleCommand.h"
@@ -11,7 +13,7 @@ ModuleCommand::~ModuleCommand()
 {
 }
 
-update_status ModuleCommand::Update()
+UpdateStatus ModuleCommand::Update()
 {
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	if (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT && input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
@@ -22,7 +24,7 @@ update_status ModuleCommand::Update()
 	{
 		Redo();
 	}
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleCommand::Undo()

@@ -1,6 +1,8 @@
+#include "StdAfx.h"
+
 #include "WindowAbout.h"
 
-#include "Globals.h"
+#include "Defines/ApplicationDefines.h"
 
 WindowAbout::WindowAbout() : EditorWindow("About")
 {

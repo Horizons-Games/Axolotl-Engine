@@ -3,9 +3,7 @@
 #include "Math/float2.h"
 #include "Math/float3.h"
 
-#include <memory>
 #include <unordered_map>
-#include <vector>
 
 #include "GL/glew.h"
 

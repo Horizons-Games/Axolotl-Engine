@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleUI.h"
 
 #include "ModuleScene.h"
@@ -31,7 +33,7 @@ bool ModuleUI::Init()
 	return true;
 }
 
-update_status ModuleUI::Update()
+UpdateStatus ModuleUI::Update()
 {
 	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 
@@ -79,10 +81,10 @@ update_status ModuleUI::Update()
 	glOrtho(-1, 1, -1, 1, -1, 1);
 	glMatrixMode(GL_MODELVIEW);*/
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleUI::PostUpdate()
+UpdateStatus ModuleUI::PostUpdate()
 {
 	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
@@ -99,7 +101,7 @@ update_status ModuleUI::PostUpdate()
 			}
 		}
 	}
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()

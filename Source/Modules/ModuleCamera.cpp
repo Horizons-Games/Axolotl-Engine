@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Application.h"
 
 #include "ModuleCamera.h"
@@ -54,7 +56,7 @@ bool ModuleCamera::Start()
 	return true;
 }
 
-update_status ModuleCamera::Update()
+UpdateStatus ModuleCamera::Update()
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
@@ -89,7 +91,7 @@ update_status ModuleCamera::Update()
 
 	selectedCamera->Update();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleCamera::ChangeCamera(CameraType newType)

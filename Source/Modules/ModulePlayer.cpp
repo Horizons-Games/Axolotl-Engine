@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 
 #include "Application.h"
 
@@ -20,8 +21,6 @@
 #include "DataStructures/Quadtree.h"
 
 #include "Components/ComponentTransform.h"
-
-#include "AxoLog.h"
 
 ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
 

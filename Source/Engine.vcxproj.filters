@@ -458,6 +458,7 @@
     <ClCompile Include="FileSystem\UIDGenerator.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
+    <ClCompile Include="StdAfx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -695,7 +696,6 @@
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="AxoLog.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -934,6 +934,37 @@
     <ClInclude Include="FileSystem\UID.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Enums\UpdateStatus.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\TextureType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\ApplicationDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\FrustumDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\ExtensionDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\FileSystemDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\WindowDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\QuadtreeDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\FramerateDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\GlslDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1059,6 +1090,9 @@
     <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
       <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Defines">
+      <UniqueIdentifier>{6460271c-2e7f-45c7-b8e5-4e3a86769626}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataModels\Timer\Timer.cpp">
@@ -1156,9 +1190,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="FileSystem\UniqueID.cpp">
-      <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
@@ -1463,9 +1494,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>FileSystem\Importers</Filter>
