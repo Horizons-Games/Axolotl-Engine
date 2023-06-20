@@ -43,6 +43,7 @@ class ComponentButton;
 class ComponentCanvas;
 class ComponentImage;
 class ComponentTransform2D;
+class ComponentSlider;
 
 template<typename T>
 struct ComponentToEnum
@@ -155,4 +156,10 @@ template<>
 struct ComponentToEnum<ComponentTransform2D>
 {
 	const static ComponentType value = ComponentType::TRANSFORM2D;
+};
+
+template<>
+struct ComponentToEnum<ComponentSlider>
+{
+	const static ComponentType value = ComponentType::SLIDER;
 };

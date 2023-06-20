@@ -192,10 +192,13 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
 		case ComponentType::SLIDER:
+		{
 			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
 			slider->SetBackground(CreateUIGameObject("Background", gameObject, ComponentType::IMAGE));
 			slider->SetFill(CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE));
 			slider->SetHandle(CreateUIGameObject("Handle", gameObject, ComponentType::BUTTON));
+			break;
+		}
 		default:
 			break;
 	}

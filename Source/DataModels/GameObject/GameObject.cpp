@@ -21,6 +21,7 @@
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
 #include "../Components/UI/ComponentTransform2D.h"
+#include "../Components/UI/ComponentSlider.h"
 
 #include "Application.h"
 
@@ -521,6 +522,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::BUTTON:
 		{
 			newComponent = std::make_unique<ComponentButton>(true, this);
+			break;
+		}
+
+		case ComponentType::SLIDER:
+		{
+			newComponent = std::make_unique<ComponentSlider>(true, this);
 			break;
 		}
 
