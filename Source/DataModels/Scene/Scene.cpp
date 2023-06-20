@@ -992,11 +992,6 @@ void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& 
 	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
 }
 
-void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
-{
-	sceneParticleSystems.push_back(particleSystem);
-}
-
 void Scene::InitCubemap()
 {
 	if (root->GetComponent<ComponentCubemap>() == nullptr)

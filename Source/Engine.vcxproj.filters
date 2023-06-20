@@ -426,6 +426,7 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="AxoLog.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
@@ -935,6 +936,7 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Enums\FieldType.h">
       <Filter>Enums</Filter>
     </ClInclude>

@@ -67,12 +67,6 @@ inline const std::shared_ptr<ResourceParticleSystem>& ComponentParticleSystem::G
 	return resource;
 }
 
-inline void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
-{
-	this->resource = resource;
-}
-
-
 inline void ComponentParticleSystem::SetEmitters(const std::vector<EmitterInstance*> emitters)
 {
 	this->emitters = emitters;
