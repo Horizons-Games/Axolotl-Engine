@@ -2,6 +2,7 @@
 #include "Auxiliar/Generics/Updatable.h"
 #include "DataModels/Components/Component.h"
 
+#include "Math/float2.h"
 #include <memory>
 
 class ComponentSlider : public Component, public Updatable
@@ -15,14 +16,27 @@ public:
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;
 
+	float GetMaxValue() const;
+	float GetMinValue() const;
+	float GetCurrentValue() const;
+
 	void SetBackground(GameObject* background);
 	void SetFill(GameObject* fill);
 	void SetHandle(GameObject* handle);
 
+	void ModifyCurrentValue(float currentValue);
+
 private:
+
+	void OnHandleDragged();
+	void CalculateNormalizedValue();
+
 	GameObject* background;
 	GameObject* fill;
 	GameObject* handle;
+
+	bool wasClicked;
+	float2 actualClickHandlePosition;
 
 	float maxValue = 100.0f;
 	float minValue = 0.0f;
@@ -30,6 +44,21 @@ private:
 	float currentValue = 50.0f;
 	float normalizedValue = 0.5f;
 };
+
+inline float ComponentSlider::GetMaxValue() const
+{
+	return maxValue;
+}
+
+inline float ComponentSlider::GetMinValue() const
+{
+	return minValue;
+}
+
+inline float ComponentSlider::GetCurrentValue() const
+{
+	return currentValue;
+}
 
 inline void ComponentSlider::SetBackground(GameObject* background)
 {
