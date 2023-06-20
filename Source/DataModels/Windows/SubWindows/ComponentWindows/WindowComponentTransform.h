@@ -6,7 +6,8 @@
 
 class ComponentTransform;
 
-enum class Axis {
+enum class Axis
+{
 	X,
 	Y,
 	Z
@@ -38,4 +39,3 @@ private:
 	bool bbdraw;
 	bool uniformScale;
 };
-

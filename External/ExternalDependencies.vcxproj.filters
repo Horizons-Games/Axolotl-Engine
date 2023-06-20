@@ -492,6 +492,9 @@
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h">
       <Filter>wwise</Filter>
     </ClInclude>
+    <ClInclude Include="ImGui\imgui_color_gradient.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -733,6 +736,9 @@
     </ClCompile>
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp">
       <Filter>wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_color_gradient.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

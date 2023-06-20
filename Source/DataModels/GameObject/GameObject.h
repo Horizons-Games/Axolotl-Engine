@@ -1,9 +1,9 @@
 #pragma once
 
+#include <functional>
 #include <list>
 #include <memory>
 #include <ranges>
-#include <functional>
 
 #include "../../FileSystem/UniqueID.h"
 #include "MathGeoLib/Include/Math/vec2d.h"
@@ -11,11 +11,14 @@
 class Component;
 class ComponentMeshRenderer;
 class ComponentCanvas;
+class ComponentScript;
 class Json;
 class ResourceModel;
+class IScript;
 
 enum class ComponentType;
 enum class LightType;
+enum class AreaType;
 
 enum class StateOfSelection
 {
@@ -29,10 +32,10 @@ class GameObject
 public:
 	using GameObjectView =
 		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<GameObject>>>,
-			std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
+									std::function<GameObject*(const std::unique_ptr<GameObject>&)>>;
 	using ComponentView =
 		std::ranges::transform_view<std::ranges::ref_view<const std::vector<std::unique_ptr<Component>>>,
-			std::function<Component*(const std::unique_ptr<Component>&)>>;
+									std::function<Component*(const std::unique_ptr<Component>&)>>;
 
 	explicit GameObject(const std::string& name);
 	GameObject(const std::string& name, UID uid);
@@ -45,7 +48,7 @@ public:
 
 	void Draw() const;
 
-	void InitNewEmptyGameObject(bool is3D=true);
+	void InitNewEmptyGameObject(bool is3D = true);
 
 	void LinkChild(GameObject* child);
 	[[nodiscard]] GameObject* UnlinkChild(const GameObject* child);
@@ -57,7 +60,10 @@ public:
 	GameObject* GetRootGO() const;
 
 	StateOfSelection GetStateOfSelection() const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
+
 	GameObjectView GetChildren() const;
+	std::list<GameObject*> GetAllDescendants();
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
 	ComponentView GetComponents() const;
@@ -65,10 +71,24 @@ public:
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
-	template <typename T,
-		std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
-	const std::vector<T*> GetComponentsByType(ComponentType type) const;
-	void SetStateOfSelection(StateOfSelection stateOfSelection);
+	template<typename C>
+	C* CreateComponent();
+	template<typename C>
+	C* GetComponent() const;
+	template<typename C>
+	std::vector<C*> GetComponents() const;
+	template<typename C>
+	bool RemoveComponent();
+	template<typename C>
+	bool RemoveComponents();
+	bool RemoveComponent(const Component* component);
+
+	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
+	S* GetComponent();
+	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
+	std::vector<S*> GetComponents();
+
+	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 
 	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
 	void Enable();
@@ -77,29 +97,21 @@ public:
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
-	void MoveParent(GameObject* newParent);
 	void SetRootGO(GameObject* newRootGO);
 
 	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
 	void DeactivateChildren();
 	void ActivateChildren();
 
-	bool IsStatic();
+	bool IsStatic() const;
 	void SetStatic(bool newStatic);
 	void SpreadStatic();
 
-	Component* CreateComponent(ComponentType type);
-	Component* CreateComponentLight(LightType lightType);
-	bool RemoveComponent(const Component* component);
-	Component* GetComponent(ComponentType type) const;
-
-	std::list<GameObject*> GetGameObjectsInside();
-
 	void MoveUpChild(const GameObject* childToMove);
 	void MoveDownChild(const GameObject* childToMove);
-	
+
 	bool IsADescendant(const GameObject* descendant);
-	void SetParentAsChildSelected();
+	bool IsRendereable();
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -112,7 +124,10 @@ private:
 			   bool enabled,
 			   bool active,
 			   StateOfSelection selection,
-			   bool staticObject);
+			   bool staticObject,
+			   const std::string& tag = std::string());
+
+	Component* CreateComponent(ComponentType type);
 
 	bool IsAChild(const GameObject* child);
 
@@ -148,14 +163,21 @@ inline UID GameObject::GetUID() const
 
 inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 {
-	if (stateOfSelection == StateOfSelection::NO_SELECTED)
-	{
-		if (parent)
-		{
-			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
-		}
-	}
 	this->stateOfSelection = stateOfSelection;
+	if (parent == nullptr)
+	{
+		return;
+	}
+	switch (stateOfSelection)
+	{
+		case StateOfSelection::NO_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+			break;
+		case StateOfSelection::SELECTED:
+		case StateOfSelection::CHILD_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
+			break;
+	}
 }
 
 inline bool GameObject::IsEnabled() const
@@ -211,11 +233,10 @@ inline bool GameObject::IsActive() const
 inline GameObject::GameObjectView GameObject::GetChildren() const
 {
 	// I haven't found a way allow for an anonymous function
-	std::function<GameObject* (const std::unique_ptr<GameObject>&)> lambda =
-		[](const std::unique_ptr<GameObject>& go)
-		{
-			return go.get();
-		};
+	std::function<GameObject*(const std::unique_ptr<GameObject>&)> lambda = [](const std::unique_ptr<GameObject>& go)
+	{
+		return go.get();
+	};
 	return std::ranges::transform_view(children, lambda);
 }
 
@@ -231,29 +252,11 @@ inline void GameObject::SetChildren(std::vector<std::unique_ptr<GameObject>>& ch
 inline GameObject::ComponentView GameObject::GetComponents() const
 {
 	// I haven't found a way allow for an anonymous function
-	std::function<Component* (const std::unique_ptr<Component>&)> lambda =
-		[](const std::unique_ptr<Component>& c)
-		{
-			return c.get();
-		};
-	return std::ranges::transform_view(components, lambda);
-}
-
-template <typename T,
-	std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
-inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
-{
-	std::vector<T*> components;
-
-	for (const std::unique_ptr<Component>& component : this->components)
+	std::function<Component*(const std::unique_ptr<Component>&)> lambda = [](const std::unique_ptr<Component>& c)
 	{
-		if (component && component->GetType() == type)
-		{
-			components.push_back(dynamic_cast<T*>(component.get()));
-		}
-	}
-
-	return components;
+		return c.get();
+	};
+	return std::ranges::transform_view(components, lambda);
 }
 
 inline bool GameObject::CompareTag(const std::string& commingTag) const
@@ -261,12 +264,10 @@ inline bool GameObject::CompareTag(const std::string& commingTag) const
 	return tag == commingTag;
 }
 
-inline bool GameObject::IsStatic()
+inline bool GameObject::IsStatic() const
 {
 	return staticObject;
 }
 
-inline void GameObject::SetStatic(bool newStatic)
-{
-	staticObject = newStatic;
-}
+
+#include "DataModels/GameObject/GameObject.inl"

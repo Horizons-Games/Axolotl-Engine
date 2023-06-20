@@ -4,13 +4,13 @@
 
 #include "FileSystem/UniqueID.h"
 
-
 class Model;
 class GameObject;
 class Component;
 class ComponentCamera;
 class Resource;
 enum class LightType;
+enum class AreaType;
 class ComponentWindow;
 
 struct AddComponentAction;
@@ -23,23 +23,24 @@ public:
 
 	void SetResource(const std::weak_ptr<Resource>& resource);
 	void ResetSelectedGameObject();
+
 protected:
 	void DrawWindowContents() override;
 
 private:
 	void InspectSelectedGameObject();
-	
+
 	void InspectSelectedResource();
 	void InitTextureImportOptions();
 	void InitTextureLoadOptions();
 	void DrawTextureOptions();
-	
+
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
 	bool WindowRightClick();
 
 	void AddComponentMeshRenderer();
-	void AddComponentLight(LightType type);
+	void AddComponentLight(LightType type, AreaType areaType);
 	void AddComponentPlayer();
 	void AddComponentAnimation();
 
@@ -50,12 +51,13 @@ private:
 	void AddComponentMeshCollider();
 	void AddComponentScript();
 	void AddComponentParticle();
+	void AddComponentBreakable();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;
 
-	//Options (Move this to another class? Probably)
-	//Texture
+	// Options (Move this to another class? Probably)
+	// Texture
 	bool flipVertical;
 	bool flipHorizontal;
 
@@ -67,17 +69,16 @@ private:
 	//--
 
 	UID lastSelectedObjectUID;
-	std::vector<std::unique_ptr<ComponentWindow> > windowsForComponentsOfSelectedObject;
+	std::vector<std::unique_ptr<ComponentWindow>> windowsForComponentsOfSelectedObject;
 	std::vector<AddComponentAction> actions;
 };
 
-
 inline bool WindowInspector::MousePosIsInWindow()
 {
-	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x
-		&& ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth())
-		&& ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y
-		&& ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
+	return (ImGui::GetIO().MousePos.x > ImGui::GetWindowPos().x &&
+			ImGui::GetIO().MousePos.x < (ImGui::GetWindowPos().x + ImGui::GetWindowWidth()) &&
+			ImGui::GetIO().MousePos.y > ImGui::GetWindowPos().y &&
+			ImGui::GetIO().MousePos.y < (ImGui::GetWindowPos().y + ImGui::GetWindowHeight()));
 }
 
 inline bool WindowInspector::WindowRightClick()

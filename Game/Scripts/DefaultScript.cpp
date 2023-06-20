@@ -2,7 +2,7 @@
 
 REGISTERCLASS(DefaultScript);
 
-DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1f,1.2f,1.4f), sentence("Horizons"), character(nullptr), check(true)
+DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1f, 1.2f, 1.4f), sentence("Horizons"), character(nullptr), check(true)
 {
 	REGISTER_FIELD(value, float);
 	REGISTER_FIELD(sentence, std::string);
@@ -13,16 +13,16 @@ DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1f,1.2f,1.4f), sent
 
 void DefaultScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%f", value);
-	ENGINE_LOG("%f %f %f ", vec3[2], vec3[1], vec3[0]);
-	ENGINE_LOG("%s", sentence.c_str());
+	LOG_DEBUG("{}", value);
+	LOG_DEBUG("{} {} {} ", vec3[2], vec3[1], vec3[0]);
+	LOG_DEBUG("{}", sentence.c_str());
 
 	if (character != nullptr)
 	{
-		ENGINE_LOG("%s", character->GetName().c_str())
+		LOG_DEBUG("{}", character);
 	}
 
-	ENGINE_LOG("%s", std::to_string(check).c_str());
+	LOG_DEBUG("{}", check);
 }
 
 const float3& DefaultScript::GetVector3() const
@@ -42,6 +42,6 @@ GameObject* DefaultScript::GetCharacter() const
 
 void DefaultScript::SetCharacter(GameObject* character)
 {
-	ENGINE_LOG("My Character has been changed!");
+	LOG_INFO("My Character has been changed!");
 	this->character = character;
 }

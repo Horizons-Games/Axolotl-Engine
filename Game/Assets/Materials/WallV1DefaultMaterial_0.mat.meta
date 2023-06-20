@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/WallV1_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/WallV1_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/WallV1_DefaultMaterial_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/WallV1_DefaultMaterial_MetallicSmoothness.png",
+    "MetallicAssetPath": "Assets/Textures/WallV1_DefaultMaterial_MetallicSmoothness.png"
 }
