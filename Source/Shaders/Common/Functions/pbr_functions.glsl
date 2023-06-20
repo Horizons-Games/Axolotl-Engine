@@ -43,8 +43,8 @@ float GGXNormalDistribution(float dotNH, float roughness)
 
 float GGXNDAreaLight(float dotNH, float roughness, float alpha, float alphaPrime)
 {
-    float alpha2 = alpha * alpha;
-    float alphaPrime2 = alphaPrime * alphaPrime;
+    float alpha2 = max(alpha * alpha, EPSILON);
+    float alphaPrime2 =  max(alphaPrime * alphaPrime, EPSILON);
     
     return (alpha2 * alphaPrime2) / pow( dotNH * dotNH * ( alpha2 - 1.0 ) + 1.0, 2.0);
 }

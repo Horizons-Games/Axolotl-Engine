@@ -180,7 +180,7 @@ void WindowInspector::InspectSelectedGameObject()
 	if (lastSelectedGameObject)
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
-		ImGui::Checkbox("Enable", &enable);
+		bool enableStateChanged = ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
 		std::string name = lastSelectedGameObject->GetName();
@@ -219,7 +219,7 @@ void WindowInspector::InspectSelectedGameObject()
 			}
 		}
 
-		if (lastSelectedGameObject != loadedScene->GetRoot() &&
+		if (enableStateChanged && lastSelectedGameObject != loadedScene->GetRoot() &&
 			lastSelectedGameObject != loadedScene->GetDirectionalLight())
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();

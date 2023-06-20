@@ -71,39 +71,28 @@ ComponentSpotLight::~ComponentSpotLight()
 
 void ComponentSpotLight::Draw() const
 {
-#ifndef ENGINE
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight())
+	bool canDrawLight =
+#ifdef ENGINE
+		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+#else
+		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+#endif // ENGINE
+
+	if (!canDrawLight)
 	{
 		return;
 	}
-	if (active)
-	{
-		const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+	const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		float3 position = transform->GetGlobalPosition();
-		float3 forward = transform->GetGlobalForward().Normalized();
+	float3 position = transform->GetGlobalPosition();
+	float3 forward = transform->GetGlobalForward().Normalized();
 
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
-	}
-#else
-	if (active && owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
-	{
-		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
-		float3 position = transform->GetGlobalPosition();
-		float3 forward = transform->GetGlobalForward().Normalized();
-
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
-	}
-#endif // ENGINE
+	dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
+	dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 }
 
-void ComponentSpotLight::Enable()
+void ComponentSpotLight::SignalEnable()
 {
-	Component::Enable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (currentScene)
 	{
@@ -112,10 +101,8 @@ void ComponentSpotLight::Enable()
 	}
 }
 
-void ComponentSpotLight::Disable()
+void ComponentSpotLight::SignalDisable()
 {
-	Component::Disable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (currentScene)
 	{
@@ -124,13 +111,8 @@ void ComponentSpotLight::Disable()
 	}
 }
 
-void ComponentSpotLight::SaveOptions(Json& meta)
+void ComponentSpotLight::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -143,13 +125,8 @@ void ComponentSpotLight::SaveOptions(Json& meta)
 	meta["outerAngle"] = (float) outerAngle;
 }
 
-void ComponentSpotLight::LoadOptions(Json& meta)
+void ComponentSpotLight::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];

@@ -4,9 +4,9 @@
 
 struct AreaLightSphere
 {
-	float4 position;  	// xyz position+w radius
-	float4 color; 		// rgb colour+alpha intensity
-	float attRadius;	// radius for attenuation
+	float4 position; // xyz position+w radius
+	float4 color;	 // rgb colour+alpha intensity
+	float attRadius; // radius for attenuation
 	float padding1;
 	float2 padding2;
 };
@@ -15,8 +15,8 @@ struct AreaLightTube
 {
 	float4 positionA;
 	float4 positionB;
-	float4 color; 		// rgb colour+alpha intensity
-	float attRadius;	// radius for attenuation
+	float4 color;	 // rgb colour+alpha intensity
+	float attRadius; // radius for attenuation
 	float padding3;
 	float2 padding4;
 };
@@ -31,9 +31,6 @@ public:
 	ComponentAreaLight(const float3& color, float intensity, GameObject* parent, AreaType areaType);
 	~ComponentAreaLight() override;
 
-	void Enable() override;
-	void Disable() override;
-
 	void Draw() const override;
 
 	const AreaType GetAreaType();
@@ -46,8 +43,12 @@ public:
 	void SetHeight(float newHeight);
 	void SetLightRadius(float newRadius);
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+private:
+	void SignalEnable() override;
+	void SignalDisable() override;
+
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	const std::string GetNameByAreaType(AreaType type);
@@ -103,17 +104,17 @@ inline const std::string ComponentAreaLight::GetNameByAreaType(AreaType type)
 {
 	switch (type)
 	{
-	case AreaType::QUAD:
-		return "AreaType_Quad";
-	case AreaType::TUBE:
-		return "AreaType_Tube";
-	case AreaType::SPHERE:
-		return "AreaType_Sphere";
-	case AreaType::DISK:
-		return "AreaType_Disc";
-	default:
-		assert(false && "Wrong area type introduced");
-		return "";
+		case AreaType::QUAD:
+			return "AreaType_Quad";
+		case AreaType::TUBE:
+			return "AreaType_Tube";
+		case AreaType::SPHERE:
+			return "AreaType_Sphere";
+		case AreaType::DISK:
+			return "AreaType_Disc";
+		default:
+			assert(false && "Wrong area type introduced");
+			return "";
 	}
 }
 

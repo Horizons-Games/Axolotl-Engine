@@ -1,5 +1,3 @@
-#pragma warning(disable : 6386)
-
 #include "StateMachineImporter.h"
 
 #include "Application.h"

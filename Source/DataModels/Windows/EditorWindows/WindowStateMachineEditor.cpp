@@ -83,9 +83,9 @@ void WindowStateMachineEditor::DrawWindowContents()
 	DrawGridStateMachine(canvasP0, scrolling, io.MouseDelta, drawList);
 	
 	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 50));
-	int pos = mousePosInCanvas.x;
+	int pos = static_cast<int>(mousePosInCanvas.x);
 	std::string positionString = std::to_string(pos) + ",";
-	pos = mousePosInCanvas.y;
+	pos = static_cast<int>(mousePosInCanvas.y);
 	positionString += std::to_string(pos);
 	ImGui::Text(positionString.c_str());
 
@@ -243,7 +243,7 @@ void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMach
 		else
 		{
 			ImGui::Checkbox("Loop", &state->loop);
-			ImGui::DragFloat("Speed", &state->speed, 0.25f, 0.1, 100, "%.1f");
+			ImGui::DragFloat("Speed", &state->speed, 0.25f, 0.1f, 100.f, "%.1f");
 
 			if (ImGui::Button("x"))
 			{
