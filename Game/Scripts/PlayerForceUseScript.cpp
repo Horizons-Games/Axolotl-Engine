@@ -177,7 +177,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 			isForceActive = true;
 		}
 		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-		btRigidBody* hittedbtRb = hittedRigidBody->GetRigidBody();
 		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
 		if (input->IsMouseWheelScrolled())

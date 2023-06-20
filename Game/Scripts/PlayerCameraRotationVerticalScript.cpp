@@ -15,6 +15,8 @@ PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Scrip
 	REGISTER_FIELD(samplePointsObject, GameObject*);
 	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(rotationSensitivity, float);
+	REGISTER_FIELD(zOffset, float);
+	REGISTER_FIELD(yOffset, float);
 }
 
 void PlayerCameraRotationVerticalScript::Start()
@@ -30,49 +32,34 @@ void PlayerCameraRotationVerticalScript::Start()
 	playerTransform = player->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
-	defaultOffsetVector = transform->GetGlobalPosition() - playerTransform->GetGlobalPosition();
-	defaultOffset = defaultOffsetVector.Length();
-
 	finalTargetOrientation = transform->GetGlobalRotation();
+	CalculateDefaultOffsetVector();
 
 	isInfluenced = false;
 }
 
 void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 {
+	CalculateDefaultOffsetVector();
 	float3 vectorOffset = defaultOffsetVector;
 	Quat orientationOffset = playerTransform->GetGlobalRotation();
-	CameraSample* closestSample = FindClosestSample(transform->GetGlobalPosition());
+
+	CameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
 	if (closestSample && 
 		(closestSample->position - playerTransform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 	{
-		vectorOffset = (closestSample->position +
-			closestSample->positionOffset.Normalized() * closestSample->influenceRadius * 0.9) - playerTransform->GetGlobalPosition();
+		vectorOffset = closestSample->positionOffset - closestSample->position;
 
 		float3 eulerAngles = closestSample->orientationOffset;
 		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));
 
-		/*if (!isInfluenced)
-		{
-			isInfluenced = true;
-		}*/
 	}
-	/*else
-	{
-		if (isInfluenced)
-		{
-			finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
-			finalTargetOrientation = playerTransform->GetGlobalRotation();
-			isInfluenced = false;
-		}
-	}*/
-
+	
 	finalTargetPosition = playerTransform->GetGlobalPosition() + vectorOffset;
 	finalTargetOrientation = orientationOffset;
 
 	transform->SetGlobalPosition(finalTargetPosition);
 	transform->SetGlobalRotation(finalTargetOrientation);
-
 	transform->RecalculateLocalMatrix();
 }
 
@@ -104,6 +91,12 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 	float3 cameraVector = (transform->GetGlobalPosition() - playerTransform->GetGlobalPosition()).Normalized();
 	finalTargetPosition = playerTransform->GetGlobalPosition() + rotationError.Transform(cameraVector) * defaultOffset;
 	
+}
+
+void PlayerCameraRotationVerticalScript::CalculateDefaultOffsetVector()
+{
+	defaultOffsetVector = -playerTransform->GetGlobalForward() * zOffset + playerTransform->GetGlobalUp() * yOffset;
+	defaultOffset = defaultOffsetVector.Length();
 }
 
 

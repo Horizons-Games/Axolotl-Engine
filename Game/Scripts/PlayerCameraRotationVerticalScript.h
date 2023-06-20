@@ -15,6 +15,7 @@ public:
 
 private:
     void Orbit(float deltaTime);
+	void CalculateDefaultOffsetVector();
 	CameraSample* FindClosestSample(float3 position);
 
 private: 
@@ -34,5 +35,8 @@ private:
 
 	GameObject* player;
 	ComponentTransform* playerTransform;
+
+	float zOffset;
+	float yOffset;
 };
 
