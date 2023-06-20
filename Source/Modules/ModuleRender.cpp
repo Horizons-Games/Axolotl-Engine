@@ -292,12 +292,13 @@ update_status ModuleRender::Update()
 	}
 
 	// -------- DEFERRED LIGHTING ---------------
-
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
 #ifdef ENGINE
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+#else ENGINE
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+#endif ENGINE
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // maybe we should move out this
-#endif // ENGINE
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER);
 	program->Activate();
@@ -328,9 +329,7 @@ update_status ModuleRender::Update()
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
 	program->BindUniformInt("renderMode", modeRender);
 
-#ifdef ENGINE
 	glDrawArrays(GL_TRIANGLES, 0, 3); // maybe we should move out this
-#endif // ENGINE
 
 	program->Deactivate();
 
@@ -338,10 +337,17 @@ update_status ModuleRender::Update()
 
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
+#ifdef ENGINE
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, gFrameBuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+#endif ENGINE
+	
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, gFrameBuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 	// -------- PRE-FORWARD ----------------------
 
@@ -429,8 +435,8 @@ bool ModuleRender::CleanUp()
 #ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
+	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);◘
 #endif // ENGINE
-	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 	return true;
 }
 
@@ -489,6 +495,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		LOG_ERROR("G Framebuffer not complete!");
 	}
 
+#ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -506,6 +513,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+#endif // ENGINE
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
