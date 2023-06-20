@@ -458,6 +458,9 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
+      <Filter>DataModels\GBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -931,6 +934,9 @@
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\GBuffer\GBuffer.h">
+      <Filter>DataModels\GBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1055,6 +1061,9 @@
     </Filter>
     <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
       <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\GBuffer">
+      <UniqueIdentifier>{c1f9434a-5fe1-40ba-ab44-e447bf58d6ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1932,7 +1941,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>

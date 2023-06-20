@@ -22,6 +22,7 @@ class Skybox;
 class Program;
 class Cubemap;
 class GameObject;
+class GBuffer;
 
 class ModuleRender : public Module
 {
@@ -73,6 +74,7 @@ private:
 	float4 backgroundColor;
 
 	BatchManager* batchManager;
+	GBuffer* gBuffer;
 
 	unsigned uboCamera;
 	unsigned vbo;
@@ -88,13 +90,6 @@ private:
 	GLuint renderedTexture;
 	
 	GLuint depthStencilRenderBuffer;
-
-	GLuint gFrameBuffer;
-	GLuint gPosition;
-	GLuint gNormal;
-	GLuint gDiffuse;
-	GLuint gSpecular;
-	GLuint gDepth;
 
 	friend class ModuleEditor;
 };
