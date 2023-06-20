@@ -473,6 +473,9 @@
     <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyVenomiteScript.cpp">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -960,6 +963,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

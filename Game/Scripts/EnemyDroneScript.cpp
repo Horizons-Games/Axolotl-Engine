@@ -39,8 +39,6 @@ void EnemyDroneScript::Start()
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	attackScript = owner->GetComponent<DroneFastAttack>();
 	healthScript = owner->GetComponent<HealthSystem>();
-
-	droneState = DroneBehaviours::IDLE;
 }
 
 void EnemyDroneScript::Update(float deltaTime)

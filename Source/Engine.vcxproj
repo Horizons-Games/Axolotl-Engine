@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\EnemyVenomiteScript.cpp" />
     <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp" />
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp" />
@@ -516,6 +517,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h" />
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h" />

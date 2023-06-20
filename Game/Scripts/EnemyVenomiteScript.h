@@ -5,41 +5,35 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class PatrolBehaviourScript;
+class HealthSystem;
+
 class ComponentTransform;
 class ComponentAnimation;
 class ComponentAudioSource;
 
-class PatrolBehaviourScript;
-class SeekBehaviourScript;
-class DroneFastAttack;
-class HealthSystem;
-
-enum class DroneBehaviours
+enum class VenomiteBehaviours
 {
 	IDLE,
 	PATROL,
+	RANGED_ATTACK,
 	SEEK,
-	ATTACK
+	MELEE_ATTACK
 };
 
-class EnemyDroneScript : public Script
+class EnemyVenomiteScript : public Script
 {
 public:
-	EnemyDroneScript();
-	~EnemyDroneScript() override = default;
+	EnemyVenomiteScript();
+	~EnemyVenomiteScript() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
 
 private:
-	DroneBehaviours droneState;
-
-	float attackDistance;
-	float seekDistance;
+	VenomiteBehaviours venomiteState;
 
 	PatrolBehaviourScript* patrolScript;
-	SeekBehaviourScript* seekScript;
-	DroneFastAttack* attackScript;
 	HealthSystem* healthScript;
 
 	ComponentTransform* ownerTransform;

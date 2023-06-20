@@ -2257,11 +2257,6 @@
                                     "name": "WayPointTwo",
                                     "value": 6536772281141820080,
                                     "type": 2
-                                },
-                                {
-                                    "name": "OwnerRigidBodyGO",
-                                    "value": 1877344391546661261,
-                                    "type": 2
                                 }
                             ]
                         }
@@ -5283,11 +5278,6 @@
                                 {
                                     "name": "WayPointTwo",
                                     "value": 6359887865677729366,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "OwnerRigidBodyGO",
-                                    "value": 9816607705272251187,
                                     "type": 2
                                 }
                             ]
@@ -8537,8 +8527,8 @@
                             "type": "Component_Animation",
                             "active": true,
                             "removed": true,
-                            "stateUID": 0,
-                            "assetPathState": ""
+                            "stateUID": 13450203144240708209,
+                            "assetPathState": "Assets/StateMachine/BixAnimationController.state"
                         }
                     },
                     {
@@ -8575,6 +8565,35 @@
                             "rbPos_X": -10.0,
                             "rbPos_Y": 1.0,
                             "rbPos_Z": 6.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyVenomiteScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PatrolBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "WayPointOne",
+                                    "value": 3563581175877066327,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "WayPointTwo",
+                                    "value": 10807476701630301815,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -10243,8 +10262,8 @@
                             "type": "Component_Animation",
                             "active": true,
                             "removed": true,
-                            "stateUID": 0,
-                            "assetPathState": ""
+                            "stateUID": 13450203144240708209,
+                            "assetPathState": "Assets/StateMachine/BixAnimationController.state"
                         }
                     },
                     {
@@ -10281,6 +10300,35 @@
                             "rbPos_X": -13.0,
                             "rbPos_Y": 1.0,
                             "rbPos_Z": -2.5
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyVenomiteScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PatrolBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "WayPointOne",
+                                    "value": 16819578778866142437,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "WayPointTwo",
+                                    "value": 9133720399368770202,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -11939,6 +11987,122 @@
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 1_1",
+                "tag": "",
+                "uid": 3563581175877066327,
+                "parentUID": 1840805216689931087,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -10.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": -3.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 1_2",
+                "tag": "",
+                "uid": 10807476701630301815,
+                "parentUID": 1840805216689931087,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -10.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 6.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 2_1",
+                "tag": "",
+                "uid": 16819578778866142437,
+                "parentUID": 1840805216689931087,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -13.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": -3.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 2_2",
+                "tag": "",
+                "uid": 9133720399368770202,
+                "parentUID": 1840805216689931087,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -13.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 6.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
