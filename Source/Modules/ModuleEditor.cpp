@@ -363,6 +363,6 @@ void ModuleEditor::CreateFolderSettings()
 	bool settingsFolderNotCreated = !fileSystem->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		fileSystem->AddDirectory(settingsFolder.c_str());
+		fileSystem->CreateDirectory(settingsFolder.c_str());
 	}
 }

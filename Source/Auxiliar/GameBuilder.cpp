@@ -3,13 +3,14 @@
 #include "Application.h"
 #include "AxoLog.h"
 #include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
 
 #include <assert.h>
 #include <future>
 #include <string>
 #include <windows.h>
 
-#include "FileSystem/ModuleFileSystem.h"
+#undef CreateDirectory
 
 namespace builder
 {
@@ -47,7 +48,7 @@ void CopyFolderInLib(const std::string& sourcePath, const std::string& destinati
 	std::string fullLibPath = "Lib/" + destinationInsideLib;
 	if (!fileSystem->Exists(fullLibPath.c_str()))
 	{
-		fileSystem->AddDirectory(fullLibPath.c_str());
+		fileSystem->CreateDirectory(fullLibPath.c_str());
 	}
 
 	std::vector<std::string> items = fileSystem->ListFiles(sourcePath.c_str());

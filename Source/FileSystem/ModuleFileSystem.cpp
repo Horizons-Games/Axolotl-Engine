@@ -142,7 +142,7 @@ unsigned int ModuleFileSystem::Save(const std::string& filePath,
 	return 0;
 }
 
-bool ModuleFileSystem::AddDirectory(const char* directoryPath) const
+bool ModuleFileSystem::CreateDirectory(const char* directoryPath) const
 {
 	if (!PHYSFS_mkdir(directoryPath))
 	{

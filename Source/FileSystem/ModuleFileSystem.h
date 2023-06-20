@@ -24,7 +24,7 @@ public:
 	bool Delete(const char* filePath) const;
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
-	bool AddDirectory(const char* directoryPath) const;
+	bool CreateDirectory(const char* directoryPath) const;
 	std::vector<std::string> ListFiles(const char* directoryPath) const;
 	std::vector<std::string> ListFilesWithPath(const char* directoryPath);
 	long long GetModificationDate(const char* filePath) const;

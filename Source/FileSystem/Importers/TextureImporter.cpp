@@ -5,6 +5,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceTexture.h"
 
+#include "AxoLog.h"
+
 #include <DirectXTex/DirectXTex.h>
 #include <GL/glew.h>
 
