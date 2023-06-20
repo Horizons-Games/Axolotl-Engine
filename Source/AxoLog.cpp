@@ -1,13 +1,15 @@
 #include "AxoLog.h"
 
 #include "Application.h"
-#include "FileSystem/ModuleFileSystem.h"
 
 #include "DataModels/GameObject/GameObject.h"
 #include "DataModels/Resources/Resource.h"
 
 #include <assert.h>
 #include <mutex>
+#include <windows.h>
+
+#include "FileSystem/ModuleFileSystem.h"
 
 namespace
 {
@@ -57,7 +59,7 @@ void AxoLog::StartWritingToFile()
 	assert(fileSystem);
 	if (!fileSystem->Exists(documentsPath))
 	{
-		fileSystem->CreateDirectory(documentsPath);
+		fileSystem->AddDirectory(documentsPath);
 	}
 	// if folder does not exist, we know for sure the file won't either
 	else if (fileSystem->Exists(logFilePath))

@@ -36,6 +36,8 @@
 
 #include "Scene/Scene.h"
 
+#include "AxoLog.h"
+
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :
 	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
@@ -108,7 +110,7 @@ GameObject::~GameObject()
 
 void GameObject::SaveOptions(Json& meta)
 {
-	unsigned long long newParentUID = 0;
+	UID newParentUID = 0;
 	meta["name"] = name.c_str();
 	meta["tag"] = tag.c_str();
 	meta["uid"] = uid;

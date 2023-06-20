@@ -171,5 +171,5 @@ void Application::OnStop()
 
 void Application::OnPause()
 {
-	GetModule<ModuleScene>()->OnPause();
+	
 }

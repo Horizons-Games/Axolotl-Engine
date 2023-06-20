@@ -5,6 +5,9 @@
 
 #include "Enums/ModuleType.h"
 
+#include <memory>
+#include <vector>
+
 class ScriptFactory;
 
 class Application

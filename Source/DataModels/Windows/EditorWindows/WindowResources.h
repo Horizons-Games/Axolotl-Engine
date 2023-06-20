@@ -2,6 +2,9 @@
 
 #include "EditorWindow.h"
 
+#include <memory>
+#include <vector>
+
 class Resource;
 class EditorResourceInterface;
 

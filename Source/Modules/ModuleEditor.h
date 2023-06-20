@@ -1,6 +1,10 @@
 #pragma once
 #include "Module.h"
 
+#include <memory>
+#include <string>
+#include <vector>
+
 class EditorWindow;
 class WindowMainMenu;
 class WindowDebug;

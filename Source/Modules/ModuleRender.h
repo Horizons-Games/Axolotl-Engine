@@ -10,6 +10,8 @@
 #include "Math/float4.h"
 #include "Module.h"
 
+#include "FileSystem/UID.h"
+
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
@@ -76,10 +78,10 @@ private:
 
 	unsigned uboCamera;
 	unsigned vbo;
-	
+
 	std::map<float, ComponentMeshRenderer*> transparentGOToDraw;
 	std::vector<ComponentMeshRenderer*> transparentComponents;
-	std::vector<unsigned long long> drawnGameObjects;
+	std::vector<UID> drawnGameObjects;
 
 	const std::vector<std::string> modelTypes;
 

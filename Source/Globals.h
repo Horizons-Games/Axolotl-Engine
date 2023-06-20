@@ -1,9 +1,5 @@
 #pragma once
 
-#include "AxoLog.h"
-
-#include <windows.h>
-
 #define GLSL_VERSION "#version 440"
 
 enum class update_status

@@ -16,6 +16,8 @@
 #include "EditorWindows/WindowAbout.h"
 #include "PopUpWindows/WindowBuild.h"
 
+#include <windows.h>
+
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
 

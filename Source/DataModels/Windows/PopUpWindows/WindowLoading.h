@@ -3,6 +3,8 @@
 #include "DataModels/Windows/PopUpWindows/PopUpWindow.h"
 #include "imgui.h"
 
+#include <vector>
+
 class WindowLoading : public PopUpWindow
 {
 public:

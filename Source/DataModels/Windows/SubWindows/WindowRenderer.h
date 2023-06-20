@@ -2,6 +2,8 @@
 
 #include "SubWindow.h"
 
+#include <vector>
+
 class WindowRenderer : public SubWindow
 {
 public:

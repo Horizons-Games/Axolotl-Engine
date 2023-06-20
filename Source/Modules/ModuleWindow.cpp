@@ -1,5 +1,7 @@
 #include "ModuleWindow.h"
 
+#include "AxoLog.h"
+
 ModuleWindow::ModuleWindow() : fullscreen(false), brightness(0.0f)
 {
 }

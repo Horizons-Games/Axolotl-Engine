@@ -3,6 +3,9 @@
 #include "Module.h"
 #include "SDL/include/SDL.h"
 
+#include <memory>
+#include <utility>
+
 #define TOP_WINDOWED_PADDING 60
 
 class Application;

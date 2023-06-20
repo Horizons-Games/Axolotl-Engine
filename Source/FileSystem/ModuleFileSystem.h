@@ -2,6 +2,9 @@
 #include "Module.h"
 #include "physfs.h"
 
+#include <string>
+#include <vector>
+
 struct zip_t;
 
 class ModuleFileSystem : public Module
@@ -21,7 +24,7 @@ public:
 	bool Delete(const char* filePath) const;
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
-	bool CreateDirectory(const char* directoryPath) const;
+	bool AddDirectory(const char* directoryPath) const;
 	std::vector<std::string> ListFiles(const char* directoryPath) const;
 	std::vector<std::string> ListFilesWithPath(const char* directoryPath);
 	long long GetModificationDate(const char* filePath) const;
@@ -45,16 +48,6 @@ public:
 private:
 	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
 };
-
-inline bool ModuleFileSystem::CleanUp()
-{
-#ifdef ENGINE
-	logContext->StopWritingToFile();
-#endif //ENGINE
-	// returns non-zero on success, zero on failure
-	int deinitResult = PHYSFS_deinit();
-	return deinitResult != 0;
-}
 
 inline bool ModuleFileSystem::Exists(const char* filePath) const
 {

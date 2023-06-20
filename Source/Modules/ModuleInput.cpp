@@ -1,5 +1,6 @@
 #include "ModuleInput.h"
 #include "Application.h"
+#include "AxoLog.h"
 #include "Globals.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"

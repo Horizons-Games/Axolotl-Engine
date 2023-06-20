@@ -22,6 +22,7 @@
 #include "Scene/Scene.h"
 
 #include <queue>
+#include <windows.h>
 
 #ifdef DEBUG
 	#include "optick.h"

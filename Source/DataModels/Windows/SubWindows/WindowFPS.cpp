@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "Modules/ModuleWindow.h"
 
+#include "AxoLog.h"
+
 WindowFPS::WindowFPS() :
 	SubWindow("FPS"),
 	fpsCaptures(100),

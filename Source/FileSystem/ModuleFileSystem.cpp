@@ -5,6 +5,8 @@
 	#include <assert.h>
 #endif
 
+#include "AxoLog.h"
+
 ModuleFileSystem::ModuleFileSystem()
 {
 }
@@ -31,6 +33,16 @@ bool ModuleFileSystem::Init()
 	PHYSFS_unmount(".");
 #endif // GAME
 	return true;
+}
+
+bool ModuleFileSystem::CleanUp()
+{
+#ifdef ENGINE
+	logContext->StopWritingToFile();
+#endif // ENGINE
+	// returns non-zero on success, zero on failure
+	int deinitResult = PHYSFS_deinit();
+	return deinitResult != 0;
 }
 
 void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
@@ -130,7 +142,7 @@ unsigned int ModuleFileSystem::Save(const std::string& filePath,
 	return 0;
 }
 
-bool ModuleFileSystem::CreateDirectory(const char* directoryPath) const
+bool ModuleFileSystem::AddDirectory(const char* directoryPath) const
 {
 	if (!PHYSFS_mkdir(directoryPath))
 	{

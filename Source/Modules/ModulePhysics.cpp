@@ -8,6 +8,8 @@
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
 
+#include "AxoLog.h"
+
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
 	#include "Windows/WindowDebug.h"

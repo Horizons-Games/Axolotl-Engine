@@ -13,6 +13,10 @@
 #include "Math/float3.h"
 #include "ScriptFactory.h"
 
+#include "AxoLog.h"
+
+#include <windows.h>
+
 namespace
 {
 const float doubleClickTimeFrameInS = .5f;

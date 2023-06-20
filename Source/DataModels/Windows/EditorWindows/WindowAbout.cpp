@@ -1,5 +1,7 @@
 #include "WindowAbout.h"
 
+#include "Globals.h"
+
 WindowAbout::WindowAbout() : EditorWindow("About")
 {
 }

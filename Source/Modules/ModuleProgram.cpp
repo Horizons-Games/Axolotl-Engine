@@ -8,6 +8,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
 
+#include "AxoLog.h"
+
 #ifdef ENGINE
 const std::string ModuleProgram::rootPath = "Source/Shaders/";
 #else

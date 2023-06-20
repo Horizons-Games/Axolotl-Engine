@@ -17,6 +17,8 @@
 	#include "AK/Comm/AkCommunication.h"
 #endif // AK_OPTIMIZED
 
+#include "AxoLog.h"
+
 #define BANKNAME_INIT L"Init.bnk"
 
 ModuleAudio::ModuleAudio()

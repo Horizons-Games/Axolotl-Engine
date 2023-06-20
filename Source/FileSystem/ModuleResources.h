@@ -11,6 +11,8 @@
 #include "Json.h"
 #include "ModuleFileSystem.h"
 
+#include "AxoLog.h"
+
 class ModelImporter;
 class TextureImporter;
 class MeshImporter;

@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "AxoLog.h"
 #ifdef DEBUG
 	#include "optick.h"
 #endif // DEBUG

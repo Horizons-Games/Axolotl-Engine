@@ -21,6 +21,8 @@
 
 #include "Components/ComponentTransform.h"
 
+#include "AxoLog.h"
+
 ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
 
 ModulePlayer::~ModulePlayer(){};
