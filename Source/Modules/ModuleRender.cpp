@@ -435,7 +435,7 @@ bool ModuleRender::CleanUp()
 #ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
-	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);◘
+	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 #endif // ENGINE
 	return true;
 }
