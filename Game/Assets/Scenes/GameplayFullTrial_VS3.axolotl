@@ -121,7 +121,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": true,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -331,7 +330,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -2140,7 +2138,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -2340,7 +2337,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -5378,7 +5374,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -8242,7 +8237,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": true,
                             "isTrigger": true,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -8273,6 +8267,89 @@
                             "removed": true,
                             "constructName": "PowerUpScript",
                             "fields": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Force area",
+                "tag": "",
+                "uid": 13070226142235627783,
+                "parentUID": 6764586723542947213,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 8.0,
+                            "factor": 1.0,
+                            "height": 2.0,
+                            "rbPos_X": 0.0001220703125,
+                            "rbPos_Y": 0.7866215705871582,
+                            "rbPos_Z": -12.963663101196289
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerForceAttackScript",
+                            "fields": [
+                                {
+                                    "name": "Force",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "StunTime",
+                                    "value": 3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CoolDown",
+                                    "value": 6.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]

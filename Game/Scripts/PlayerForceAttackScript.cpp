@@ -92,7 +92,7 @@ void PlayerForceAttackScript::Update(float deltaTime)
 		}
 	}
 
-	ENGINE_LOG("Objetos: %i", enemiesInTheArea.size());
+	LOG_INFO("Objetos: %i", enemiesInTheArea.size());
 }
 
 void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
