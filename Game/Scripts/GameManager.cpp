@@ -1,14 +1,16 @@
 #include "GameManager.h"
 
-//GameManager* GameManager::GetInstance()
-//{
-//	if (instance == nullptr)
-//	{
-//		GameManager::instance = std::make_unique<GameManager>();
-//	}
-//	return instance.get();
-//}
-//
-//GameManager::GameManager()
-//{
-//}
+std::unique_ptr<GameManager> GameManager::instance = nullptr;
+
+GameManager::GameManager()
+{
+}
+
+GameManager* GameManager::GetInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = std::unique_ptr<GameManager>(new GameManager());
+	}
+	return instance.get();
+}
