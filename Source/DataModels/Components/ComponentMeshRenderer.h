@@ -50,11 +50,6 @@ public:
 	void DrawMaterial(Program* program) const;
 	void DrawHighlight() const;
 
-	void SaveOptions(Json& meta) override;
-	/*void SaveUIDOfResourceToMeta
-		(Json& meta, const char* field, const ResourceTexture* texturePtr);*/
-	void LoadOptions(Json& meta) override;
-
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 	void SetBones(const std::vector<GameObject*>& bones);
@@ -117,6 +112,9 @@ public:
 	void UnloadTexture(TextureType textureType);
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	bool IsMeshLoaded() const;
 	bool IsMaterialLoaded() const;
 
