@@ -154,8 +154,8 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3
 
 float GGXNDAreaLight(float dotNH, float roughness, float alpha, float alphaPrime)
 {
-    float alpha2 = alpha * alpha;
-    float alphaPrime2 = alphaPrime * alphaPrime;
+    float alpha2 = max(alpha * alpha, EPSILON) ;
+    float alphaPrime2 = max(alphaPrime * alphaPrime, EPSILON);
     
     return (alpha2 * alphaPrime2) / pow( dotNH * dotNH * ( alpha2 - 1.0 ) + 1.0, 2.0);
 }
@@ -183,7 +183,7 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 H = normalize(L + V);
         float specularDotNL = max(dot(N,L), EPSILON);
         
-        float alpha = roughness * roughness;
+        float alpha = max(roughness * roughness, EPSILON);
         float alphaPrime = clamp(sR/(distance*2.0)+alpha, 0.0f, 1.0f);
         float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
         vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
@@ -250,7 +250,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, 
         vec3 H = normalize(L + V);
         float specularDotNL = NoL;
 
-        float alpha = roughness * roughness;
+        float alpha = max(roughness * roughness, EPSILON);
         float alphaPrime = clamp(tubeRadius/(distance*2.0)+alpha, 0.0f, 1.0f);
         float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
         vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
