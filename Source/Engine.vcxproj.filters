@@ -464,14 +464,14 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
-      <Filter>UserScripts\Player\Attack</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
       <Filter>UserScripts\PowerUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
+      <Filter>UserScripts\Player\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -952,14 +952,14 @@
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
-      <Filter>UserScripts\Player\Attack</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
       <Filter>UserScripts\PowerUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
+      <Filter>UserScripts\Player\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1965,7 +1965,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
