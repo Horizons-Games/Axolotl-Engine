@@ -1,15 +1,14 @@
 #include "GameManager.h"
 
-REGISTERCLASS(GameManager);
-
-GameManager::GameManager() : Script()
-{
-}
-
-void GameManager::Start()
-{
-}
-
-void GameManager::Update(float deltaTime)
-{
-}
+//GameManager* GameManager::GetInstance()
+//{
+//	if (instance == nullptr)
+//	{
+//		GameManager::instance = std::make_unique<GameManager>();
+//	}
+//	return instance.get();
+//}
+//
+//GameManager::GameManager()
+//{
+//}

@@ -9,13 +9,12 @@
 #include "Components/ComponentRigidBody.h"
 #include "debugdraw.h"
 
+#include "GameManager.h"
+
 REGISTERCLASS(DebugGame);
 
 
-DebugGame::DebugGame() : Script(), setPlayer(nullptr), playerHealthSystem(nullptr), playerAttackScript(nullptr), debugPoint1(nullptr), debugPoint2(nullptr),
-debugPoint3(nullptr), debugPoint4(nullptr), debugPoint5(nullptr), playerRigidBody(nullptr), playerTransform(nullptr), debugPoint1Transform(nullptr),
-debugPoint2Transform(nullptr), debugPoint3Transform(nullptr), debugPoint4Transform(nullptr), debugPoint5Transform(nullptr), 
-currentdDebugPointTransform(nullptr)
+DebugGame::DebugGame() : Script()
 {
 	REGISTER_FIELD(setPlayer, GameObject*);
 	REGISTER_FIELD(debugPoint1, GameObject*);
@@ -31,6 +30,8 @@ void DebugGame::Start()
 {
 	//ImmortalityStart
 	player = static_cast<ComponentPlayer*>(setPlayer->GetComponent(ComponentType::PLAYER));
+
+	//GameManager* manager = GameManager::GetInstance();
 
 	std::vector<ComponentScript*> gameObjectScripts =
 		setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
@@ -49,35 +50,35 @@ void DebugGame::Start()
 
 	if (debugPoint1)
 	{
-		debugPoint1Transform = static_cast<ComponentTransform*>(debugPoint1->GetComponent(ComponentType::TRANSFORM));
+		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint1->GetComponent(ComponentType::TRANSFORM)));
 	}
 
 	if (debugPoint2)
 	{
-		debugPoint2Transform = static_cast<ComponentTransform*>(debugPoint2->GetComponent(ComponentType::TRANSFORM));
+		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint2->GetComponent(ComponentType::TRANSFORM)));
 	}
 
 	if (debugPoint3)
 	{
-		debugPoint3Transform = static_cast<ComponentTransform*>(debugPoint3->GetComponent(ComponentType::TRANSFORM));
+		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint3->GetComponent(ComponentType::TRANSFORM)));
 	}
 
 	if (debugPoint4)
 	{
-		debugPoint4Transform = static_cast<ComponentTransform*>(debugPoint4->GetComponent(ComponentType::TRANSFORM));
+		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint4->GetComponent(ComponentType::TRANSFORM)));
 	}
 
 	if (debugPoint5)
 	{
-		debugPoint5Transform = static_cast<ComponentTransform*>(debugPoint5->GetComponent(ComponentType::TRANSFORM));
+		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint5->GetComponent(ComponentType::TRANSFORM)));
 	}
 
 	playerRigidBody = static_cast<ComponentRigidBody*>(setPlayer->GetComponent(ComponentType::RIGIDBODY));
 	playerTransform = static_cast<ComponentTransform*>(setPlayer->GetComponent(ComponentType::TRANSFORM));
 
-	currentdDebugPointTransform = debugPoint1Transform;
+	currentdDebugPointTransform = debugPoints.front();
 
-	debugCurrentPos = 0;
+	debugCurrentPosIndex = 0;
 	playerOnLocation = false;
 }
 
@@ -113,41 +114,16 @@ void DebugGame::Update(float deltaTime)
 	//TELEPORTMOV
 	if(!playerOnLocation)
 	{
-		if (playerTransform->GetGlobalPosition().Equals(debugPoint1Transform->GetGlobalPosition(), 1.0f))
+		for(const ComponentTransform* debugPointTransform : debugPoints)
 		{
-			playerRigidBody->SetIsTrigger(false);
-			playerRigidBody->DisablePositionController();
-			playerOnLocation = true;
+			if (playerTransform->GetGlobalPosition().Equals(debugPointTransform->GetGlobalPosition(), 1.0f))
+			{
+				playerRigidBody->SetIsTrigger(false);
+				playerRigidBody->DisablePositionController();
+				playerOnLocation = true;
+				break;
+			}
 		}
-
-		if (playerTransform->GetGlobalPosition().Equals(debugPoint2Transform->GetGlobalPosition(), 1.0f))
-		{
-			playerRigidBody->SetIsTrigger(false);
-			playerRigidBody->DisablePositionController();
-			playerOnLocation = true;
-		}
-
-		if (playerTransform->GetGlobalPosition().Equals(debugPoint3Transform->GetGlobalPosition(), 1.0f))
-		{
-			playerRigidBody->SetIsTrigger(false);
-			playerRigidBody->DisablePositionController();
-			playerOnLocation = true;
-		}
-
-		if (playerTransform->GetGlobalPosition().Equals(debugPoint4Transform->GetGlobalPosition(), 1.0f))
-		{
-			playerRigidBody->SetIsTrigger(false);
-			playerRigidBody->DisablePositionController();
-			playerOnLocation = true;
-		}
-
-		if (playerTransform->GetGlobalPosition().Equals(debugPoint5Transform->GetGlobalPosition(), 1.0f))
-		{
-			playerRigidBody->SetIsTrigger(false);
-			playerRigidBody->DisablePositionController();
-			playerOnLocation = true;
-		}
-		
 	}
 	
 
@@ -193,58 +169,11 @@ void DebugGame::DeathTouch()
 void DebugGame::Teleport()
 {
 	ENGINE_LOG("TELEPORTING");
-	switch (debugCurrentPos)
-	{
-	case 0:
-		//playerOnLocation = false;
-		playerRigidBody->SetIsTrigger(true);
-		currentdDebugPointTransform = debugPoint1Transform;
-		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		debugCurrentPos++;
-		ENGINE_LOG("%d", debugCurrentPos);
-		break;
-	case 1:
-		//playerOnLocation = false;
-		playerRigidBody->SetIsTrigger(true);
-		currentdDebugPointTransform = debugPoint2Transform;
-		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		debugCurrentPos++;
-		ENGINE_LOG("%d", debugCurrentPos);
-		break;
-	case 2:
-		//playerOnLocation = false;
-		currentdDebugPointTransform = debugPoint3Transform;
-		playerRigidBody->SetIsTrigger(true);
-		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		debugCurrentPos++;
-		ENGINE_LOG("%d", debugCurrentPos);
-		break;
-	case 3:
-		//playerOnLocation = false;
-		currentdDebugPointTransform = debugPoint4Transform;
-		playerRigidBody->SetIsTrigger(true);
-		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		debugCurrentPos++;
-		ENGINE_LOG("%d", debugCurrentPos);
-		break;
-	case 4:
-		//playerOnLocation = false;
-		playerRigidBody->SetIsTrigger(true);
-		currentdDebugPointTransform = debugPoint5Transform;
-		playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-		debugCurrentPos = 0;
-		ENGINE_LOG("%d", debugCurrentPos);
-		break;
-
-	//case 5:
-	//	//playerOnLocation = false;
-	//	playerRigidBody->SetIsTrigger(true);
-	//	currentdDebugPointTransform = debugPoint1Transform;
-	//	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
-	//	debugCurrentPos = 0;
-	//	ENGINE_LOG("%d", debugCurrentPos);
-	//	break;
-	}
+	playerRigidBody->SetIsTrigger(true);
+	currentdDebugPointTransform = debugPoints[debugCurrentPosIndex];
+	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
+	debugCurrentPosIndex = (debugCurrentPosIndex + 1) % debugPoints.size();
+	ENGINE_LOG("%d", debugCurrentPosIndex);
 }
 
 

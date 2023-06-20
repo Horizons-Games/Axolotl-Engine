@@ -1,16 +1,17 @@
 #pragma once
 
-#include "Scripting\Script.h"
-#include "RuntimeInclude.h"
+#include <memory>
 
-RUNTIME_MODIFIABLE_INCLUDE;
-
-class GameManager : public Script
+class GameManager
 {
-public:
-	GameManager();
-	~GameManager() override = default;
-
-	void Start() override;
-	void Update(float deltaTime) override;
+//public:
+//	~GameManager() = default;
+//
+//	static GameManager* GetInstance();
+//
+//public:
+//	GameManager();
+//
+//private:
+//	static std::unique_ptr<GameManager> instance;
 };

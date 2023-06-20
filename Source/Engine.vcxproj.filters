@@ -455,6 +455,9 @@
     <ClCompile Include="..\Game\Scripts\DebugGame.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\GameManager.cpp">
+      <Filter>UserScripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -917,6 +920,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DebugGame.h">
       <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\GameManager.h">
+      <Filter>UserScripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

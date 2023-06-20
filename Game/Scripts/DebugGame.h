@@ -24,7 +24,7 @@ public:
 
 private:
 	bool isDead;
-	int debugCurrentPos;
+	int debugCurrentPosIndex;
 	int debugNextPos;
 	bool playerOnLocation;
 	
@@ -40,11 +40,7 @@ private:
 	GameObject* debugPoint4;
 	GameObject* debugPoint5;
 
-	ComponentTransform* debugPoint1Transform;
-	ComponentTransform* debugPoint2Transform;
-	ComponentTransform* debugPoint3Transform;
-	ComponentTransform* debugPoint4Transform;
-	ComponentTransform* debugPoint5Transform;
+	std::vector<ComponentTransform*> debugPoints;
 	ComponentTransform* currentdDebugPointTransform;
 	ComponentTransform* playerTransform;
 	ComponentRigidBody* playerRigidBody;
