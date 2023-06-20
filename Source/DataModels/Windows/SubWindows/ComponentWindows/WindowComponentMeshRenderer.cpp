@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/UIDGenerator.h"
 #include "ModuleRender.h"
 
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
@@ -27,7 +28,8 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
-	reset(false), newMaterial(false)
+	reset(false),
+	newMaterial(false)
 {
 	InitMaterialValues();
 }
@@ -49,7 +51,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 		std::shared_ptr<ResourceMaterial> materialAsShared = asMeshRenderer->GetMaterial();
-		static char* meshPath = (char*)("unknown");
+		static char* meshPath = (char*) ("unknown");
 
 		if (newMaterial)
 		{
@@ -73,7 +75,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 		else
 		{
-			meshPath = (char*)("unknown");
+			meshPath = (char*) ("unknown");
 		}
 
 		if (materialAsShared)
@@ -91,8 +93,8 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
-				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-				//TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
+				UID draggedMeshUID = *(UID*) payload->Data; // Double pointer to keep track correctly
+				// TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
 				std::shared_ptr<ResourceMesh> newMesh =
 					App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(draggedMeshUID);
 				// And then this should be RequestResource not SearchResource
@@ -106,12 +108,10 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 			ImGui::EndDragDropTarget();
 		}
-		
 
 		bool showMeshBrowser;
 
 		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
-
 
 		if (showMeshBrowser)
 		{
@@ -128,13 +128,14 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of vertices: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumVertices() : 0);
+			ImGui::TextColored(
+				ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ? meshAsShared->GetNumVertices() : 0);
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of triangles: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumFaces() : 0); // faces = triangles
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),
+							   "%i ",
+							   (meshAsShared) ? meshAsShared->GetNumFaces() : 0); // faces = triangles
 
 			ImGui::EndTable();
 		}
@@ -283,7 +284,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (diffuseTexture)
 			{
 				diffuseTexture->Load();
-				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+				ImGui::Image((void*) (intptr_t) diffuseTexture->GetGlTexture(), ImVec2(100, 100));
 				if (ImGui::Button("Remove Texture Diffuse"))
 				{
 					diffuseTexture->Unload();
@@ -382,7 +383,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Apply"))
 			{
-				if (asMeshRenderer->IsTransparent() != isTransparent || 
+				if (asMeshRenderer->IsTransparent() != isTransparent ||
 					asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
 				{
 					changeBatch = true;

@@ -4,6 +4,7 @@
 #include "Scene/Scene.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/UIDGenerator.h"
 #include "Modules/ModuleScene.h"
 
 #include "Components/ComponentScript.h"

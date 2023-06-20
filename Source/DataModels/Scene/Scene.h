@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 #include "Geometry/AABB.h"
 
 #include "Resources/ResourceMesh.h"

@@ -17,6 +17,8 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
+#include <algorithm>
+
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE

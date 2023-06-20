@@ -5,7 +5,7 @@
 #include <memory>
 #include <ranges>
 
-#include "../../FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 #include "MathGeoLib/Include/Math/vec2d.h"
 
 class Component;

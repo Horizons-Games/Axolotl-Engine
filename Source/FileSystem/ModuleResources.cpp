@@ -11,6 +11,7 @@
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/UIDGenerator.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceAnimation.h"
@@ -67,7 +68,7 @@ bool ModuleResources::CleanUp()
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
 {
-	//std::shared_ptr<Resource> importedRes;
+	// std::shared_ptr<Resource> importedRes;
 	std::string assetsPath = CreateAssetsPath(fileName, type);
 	switch (type)
 	{

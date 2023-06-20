@@ -2,6 +2,7 @@
 
 #include "Resource.h"
 #include <memory>
+#include <vector>
 
 enum class TextureCompression
 {
