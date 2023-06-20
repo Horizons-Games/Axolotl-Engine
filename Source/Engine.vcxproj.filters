@@ -452,10 +452,10 @@
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp">
+    <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
+    <ClCompile Include="..\Game\Scripts\DroneFastBullet.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
@@ -934,10 +934,10 @@
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneBullet.h">
+    <ClInclude Include="..\Game\Scripts\DroneFastBullet.h">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneAttack.h">
+    <ClInclude Include="..\Game\Scripts\DroneFastAttack.h">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">

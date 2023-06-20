@@ -177,8 +177,8 @@
     <ClCompile Include="..\Game\Scripts\PowerUpLogicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
-    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
-    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneFastBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HealthSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp" />
@@ -528,8 +528,8 @@
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
-    <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
-    <ClInclude Include="..\Game\Scripts\DroneBullet.h" />
+    <ClInclude Include="..\Game\Scripts\DroneFastAttack.h" />
+    <ClInclude Include="..\Game\Scripts\DroneFastBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
     <ClInclude Include="..\Game\Scripts\MenuMusic.h" />

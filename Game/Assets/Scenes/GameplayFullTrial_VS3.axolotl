@@ -2291,7 +2291,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneAttack",
+                            "constructName": "DroneFastAttack",
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
@@ -5318,7 +5318,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneAttack",
+                            "constructName": "DroneFastAttack",
                             "fields": [
                                 {
                                     "name": "AttackCooldown",

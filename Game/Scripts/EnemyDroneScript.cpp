@@ -8,7 +8,7 @@
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
-#include "../Scripts/DroneAttack.h"
+#include "../Scripts/DroneFastAttack.h"
 #include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -37,7 +37,7 @@ void EnemyDroneScript::Start()
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
-	attackScript = owner->GetComponent<DroneAttack>();
+	attackScript = owner->GetComponent<DroneFastAttack>();
 	healthScript = owner->GetComponent<HealthSystem>();
 
 	droneState = DroneBehaviours::IDLE;

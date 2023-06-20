@@ -12,7 +12,7 @@ class ComponentAudioSource;
 
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
-class DroneAttack;
+class DroneFastAttack;
 class HealthSystem;
 
 enum class DroneBehaviours
@@ -40,7 +40,7 @@ private:
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
-	DroneAttack* attackScript;
+	DroneFastAttack* attackScript;
 	HealthSystem* healthScript;
 
 	ComponentTransform* ownerTransform;

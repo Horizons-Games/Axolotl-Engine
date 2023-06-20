@@ -1,4 +1,4 @@
-#include "DroneBullet.h"
+#include "DroneFastBullet.h"
 
 #include "Application.h"
 
@@ -20,14 +20,14 @@
 
 
 
-REGISTERCLASS(DroneBullet);
+REGISTERCLASS(DroneFastBullet);
 
-DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), bulletLifeTime(10.0f),
+DroneFastBullet::DroneFastBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), bulletLifeTime(10.0f),
 	damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f)
 {
 }
 
-void DroneBullet::Start()
+void DroneFastBullet::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
@@ -35,7 +35,7 @@ void DroneBullet::Start()
 	originTime = SDL_GetTicks() / 1000.0f;
 }
 
-void DroneBullet::Update(float deltaTime)
+void DroneFastBullet::Update(float deltaTime)
 {
 #ifdef DEBUG
 	Ray rayDebug(transform->GetPosition(), transform->GetLocalForward());
@@ -52,13 +52,13 @@ void DroneBullet::Update(float deltaTime)
 	}
 }
 
-void DroneBullet::ShootBullet(float deltaTime)
+void DroneFastBullet::ShootBullet(float deltaTime)
 {
 	transform->SetPosition(transform->GetGlobalPosition() + transform->GetGlobalForward() * velocity * deltaTime * 1000);
 	transform->UpdateTransformMatrices();
 }
 
-void DroneBullet::CheckCollision()
+void DroneFastBullet::CheckCollision()
 {
 	Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 	LineSegment line(ray, rayAttackSize);
@@ -78,7 +78,7 @@ void DroneBullet::CheckCollision()
 	}
 }
 
-void DroneBullet::DestroyBullet()
+void DroneFastBullet::DestroyBullet()
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

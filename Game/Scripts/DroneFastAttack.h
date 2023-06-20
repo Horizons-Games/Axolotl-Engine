@@ -8,11 +8,11 @@ class ComponentTransform;
 class ComponentAnimation;
 class Scene;
 
-class DroneAttack : public Script
+class DroneFastAttack : public Script
 {
 public:
-	DroneAttack();
-	~DroneAttack() override = default;
+	DroneFastAttack();
+	~DroneFastAttack() override = default;
 
 	void Start() override;
 

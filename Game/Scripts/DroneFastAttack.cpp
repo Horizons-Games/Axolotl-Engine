@@ -1,4 +1,4 @@
-#include "DroneAttack.h"
+#include "DroneFastAttack.h"
 
 #include "Application.h"
 
@@ -15,13 +15,13 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "../Scripts/DroneBullet.h"
+#include "../Scripts/DroneFastBullet.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
-REGISTERCLASS(DroneAttack);
+REGISTERCLASS(DroneFastAttack);
 
-DroneAttack::DroneAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
+DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr)
 {
@@ -32,7 +32,7 @@ DroneAttack::DroneAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f),
 	REGISTER_FIELD(bulletVelocity, float);
 }
 
-void DroneAttack::Start()
+void DroneFastAttack::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
@@ -46,7 +46,7 @@ void DroneAttack::Start()
 	}
 }
 
-void DroneAttack::PerformAttack()
+void DroneFastAttack::PerformAttack()
 {
 	if (IsAttackAvailable())
 	{
@@ -63,10 +63,10 @@ void DroneAttack::PerformAttack()
 		bulletTransf->SetRotation(transform->GetGlobalRotation());
 		bulletTransf->UpdateTransformMatrices();
 
-		// Attack the DroneBullet script to the new bullet to give it its logic
+		// Attack the DroneFastBullet script to the new bullet to give it its logic
 		ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
-		script->SetConstuctor("DroneBullet");
+		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneFastBullet"));
+		script->SetConstuctor("DroneFastBullet");
 		script->GetScript()->SetGameObject(bullet);
 		script->GetScript()->SetApplication(App);
 
@@ -78,7 +78,7 @@ void DroneAttack::PerformAttack()
 	}
 }
 
-bool DroneAttack::IsAttackAvailable()
+bool DroneFastAttack::IsAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }
