@@ -342,12 +342,12 @@ update_status ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
-#endif ENGINE
-	
+#else
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, gFrameBuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+#endif ENGINE
 
 	// -------- PRE-FORWARD ----------------------
 
