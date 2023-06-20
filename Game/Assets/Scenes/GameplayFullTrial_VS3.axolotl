@@ -86,7 +86,7 @@
                 "parentUID": 9011007661183311806,
                 "enabled": true,
                 "active": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {

@@ -91,8 +91,6 @@ void PlayerForceAttackScript::Update(float deltaTime)
 			currentCoolDown = std::max(0.0f, currentCoolDown);
 		}
 	}
-
-	LOG_INFO("Objetos: %i", enemiesInTheArea.size());
 }
 
 void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
@@ -105,7 +103,7 @@ void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 
 void PlayerForceAttackScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end(); it++)
+	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it == enemiesInTheArea.end(); it++)
 	{
 		const ComponentRigidBody* rigidBody =
 			(*it)->GetComponent<ComponentRigidBody>();
