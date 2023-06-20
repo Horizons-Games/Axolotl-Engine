@@ -57,36 +57,27 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw() const
 {
-#ifndef ENGINE
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight())
+	bool canDrawLight =
+#ifdef ENGINE
+		IsEnabled() && App->GetPlayState() != Application::PlayState::RUNNING &&
+		GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+#else
+		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+#endif // ENGINE
+
+	if (!canDrawLight)
 	{
 		return;
 	}
-	if (active)
-	{
-		const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		float3 position = transform->GetGlobalPosition();
+	float3 position = transform->GetGlobalPosition();
 
-		dd::sphere(position, dd::colors::White, radius);
-	}
-#else
-	if (App->GetPlayState() != Application::PlayState::RUNNING && active &&
-		owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
-	{
-		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
-		float3 position = transform->GetGlobalPosition();
-
-		dd::sphere(position, dd::colors::White, radius);
-	}
-#endif // ENGINE
+	dd::sphere(position, dd::colors::White, radius);
 }
 
-void ComponentPointLight::Enable()
+void ComponentPointLight::SignalEnable()
 {
-	Component::Enable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (currentScene)
 	{
@@ -95,10 +86,8 @@ void ComponentPointLight::Enable()
 	}
 }
 
-void ComponentPointLight::Disable()
+void ComponentPointLight::SignalDisable()
 {
-	Component::Disable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (currentScene)
 	{
@@ -107,13 +96,8 @@ void ComponentPointLight::Disable()
 	}
 }
 
-void ComponentPointLight::SaveOptions(Json& meta)
+void ComponentPointLight::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -124,13 +108,8 @@ void ComponentPointLight::SaveOptions(Json& meta)
 	meta["radius"] = (float) radius;
 }
 
-void ComponentPointLight::LoadOptions(Json& meta)
+void ComponentPointLight::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];
