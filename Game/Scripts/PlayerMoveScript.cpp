@@ -10,13 +10,14 @@
 
 #include "Auxiliar/Audio/AudioData.h"
 
+#include "../Scripts/PlayerManagerScript.h"
+
 REGISTERCLASS(PlayerMoveScript);
 
-PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
+PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
 dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
 {
-	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
 }
@@ -43,14 +44,14 @@ void PlayerMoveScript::Move(float deltaTime)
 	btVector3 movement(0, 0, 0);
 	float3 totalDirection = float3::zero;
 	
-	float nspeed = speed;
+	float newSpeed = owner->GetComponent<PlayerManagerScript>()->GetPlayerSpeed();
 	bool shiftPressed = false;
 
 	//run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
 		componentAnimation->SetParameter("IsRunning", true);
-		nspeed *= 2;
+		newSpeed *= 2;
 		shiftPressed = true;
 	}
 
@@ -116,7 +117,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	if (!totalDirection.IsZero())
 	{
 		totalDirection = totalDirection.Normalized();
-		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
+		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&

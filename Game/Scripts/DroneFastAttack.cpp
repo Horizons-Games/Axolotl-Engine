@@ -1,12 +1,13 @@
-#include "DroneAttack.h"
+#include "DroneFastAttack.h"
 
 #include "Application.h"
 
-#include "ModuleInput.h"
-#include "Scripting/ScriptFactory.h"
+#include "Geometry/Ray.h"
+#include "debugdraw.h"
 
-#include "Scene/Scene.h"
+#include "Scripting/ScriptFactory.h"
 #include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
@@ -14,86 +15,70 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "DroneBullet.h"
-
-#include "GameObject/GameObject.h"
+#include "../Scripts/DroneFastBullet.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "Geometry/Ray.h"
+REGISTERCLASS(DroneFastAttack);
 
-#include "debugdraw.h"
-
-REGISTERCLASS(DroneAttack);
-
-DroneAttack::DroneAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
-input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
-bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), bulletVelocity(0.2f),
-bulletPrefab(nullptr)
+DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
+	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
+	bulletVelocity(0.2f), bulletPrefab(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
-	REGISTER_FIELD(animationGO, GameObject*);
+
 	REGISTER_FIELD(bulletOriginGO, GameObject*);
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
 }
 
-void DroneAttack::Start()
+void DroneFastAttack::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
+	animation = owner->GetComponent<ComponentAnimation>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	if (animationGO)
-	{
-		animation = animationGO->GetComponent<ComponentAnimation>();
-	}
 	if (bulletOriginGO)
 	{
 		bulletOrigin = bulletOriginGO->GetComponent<ComponentTransform>();
 	}
-
-	input = App->GetModule<ModuleInput>();
 }
 
-void DroneAttack::Update(float deltaTime)
+void DroneFastAttack::PerformAttack()
 {
-}
-
-void DroneAttack::PerformAttack()
-{
-	if (isAttackAvailable())
+	if (IsAttackAvailable())
 	{
-		if (animation)
-		{
-			animation->SetParameter("attack", true);
-		}
+		animation->SetParameter("attack", true);
 
+		// Create a new bullet
 		GameObject* root = loadedScene->GetRoot();
-
-		GameObject* bullet = loadedScene->DuplicateGameObject(
-			bulletPrefab->GetName(), bulletPrefab, root);
+		GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, root);
 		ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
+
+		// Set the new bullet in the drone, ready for being shooted
 		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
 		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
 		bulletTransf->SetRotation(transform->GetGlobalRotation());
 		bulletTransf->UpdateTransformMatrices();
 
+		// Attack the DroneFastBullet script to the new bullet to give it its logic
 		ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
-		script->SetConstuctor("DroneBullet");
+		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneFastBullet"));
+		script->SetConstuctor("DroneFastBullet");
 		script->GetScript()->SetGameObject(bullet);
 		script->GetScript()->SetApplication(App);
-		script->Start();//Should be done automatically but the engine still does not do the Start for runtime created scripts
+
+		// Once the engine automatically runs the Start() for newly created objects, delete this line
+		script->Start();
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
-
 		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
 	}
 }
 
-bool DroneAttack::isAttackAvailable()
+bool DroneFastAttack::IsAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }

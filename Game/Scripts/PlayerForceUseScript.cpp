@@ -34,10 +34,6 @@ currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componen
 	REGISTER_FIELD(maxTimeForce, float);
 }
 
-PlayerForceUseScript::~PlayerForceUseScript()
-{
-}
-
 void PlayerForceUseScript::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();

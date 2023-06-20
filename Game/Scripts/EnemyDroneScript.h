@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-// This script performs the movement for the drone
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentScript;
 class ComponentTransform;
@@ -11,7 +12,7 @@ class ComponentAudioSource;
 
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
-class DroneAttack;
+class DroneFastAttack;
 class HealthSystem;
 
 enum class DroneBehaviours
@@ -39,7 +40,7 @@ private:
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
-	DroneAttack* attackScript;
+	DroneFastAttack* attackScript;
 	HealthSystem* healthScript;
 
 	ComponentTransform* ownerTransform;

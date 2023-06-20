@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-#include "Bullet/LinearMath/btVector3.h"
-
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerCameraRotationVerticalScript;
 class PlayerRotationScript;
@@ -11,12 +11,11 @@ class PlayerMoveScript;
 class ComponentAnimation;
 class ComponentAudioSource;
 
-class PlayerForceUseScript :
-    public Script
+class PlayerForceUseScript : public Script
 {
 public:
     PlayerForceUseScript();
-    ~PlayerForceUseScript();
+	~PlayerForceUseScript() override = default;
 
     void Start() override;
     void Update(float deltaTime) override;

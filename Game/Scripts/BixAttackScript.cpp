@@ -12,7 +12,8 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "HealthSystem.h"
+#include "../Scripts/HealthSystem.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 #include "GameObject/GameObject.h"
 
@@ -32,8 +33,7 @@ namespace
 }
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
-	transform(nullptr),
+	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), transform(nullptr),
 	//Provisional
 	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
 	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr)
@@ -41,7 +41,6 @@ BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackT
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
-	REGISTER_FIELD(damageAttack, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 
 	//Provisional
@@ -139,17 +138,16 @@ void BixAttackScript::CheckCollision()
 		if (Physics::Raycast(line, hit, transform->GetOwner()))
 		{
 			playSFX = true;
-			if (hit.gameObject->GetRootGO())
+			if (hit.gameObject->GetRootGO() && hit.gameObject->GetRootGO()->CompareTag("Enemy"))
 			{
-				if (hit.gameObject->GetRootGO()->CompareTag("Enemy"))
+				if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
 				{
-					if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
-					{
-						// insertion could take place -> element not hit yet
-						// get component health and do damage
-						HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
-						healthScript->TakeDamage(damageAttack);
-					}
+					// insertion could take place -> element not hit yet
+					// get component health and do damage
+					HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
+
+					float damageAttack = owner->GetComponent<PlayerManagerScript>()->GetPlayerAttack();
+					healthScript->TakeDamage(damageAttack);
 				}
 			}
 		}

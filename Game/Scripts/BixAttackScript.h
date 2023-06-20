@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-#include "Components/ComponentTransform.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
 class ComponentAudioSource;
@@ -16,8 +17,6 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	void IncreaseAttack(float amountAttack);
-
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -29,7 +28,6 @@ private:
 	float attackCooldown;
 	float lastAttackTime;
 	float rayAttackSize;
-	float damageAttack;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
@@ -49,9 +47,3 @@ private:
 	ComponentTransform* ray4Transform;
 	//--Provisional
 };
-
-inline void BixAttackScript::IncreaseAttack(float amountAttack)
-{
-	damageAttack += amountAttack;
-	LOG_INFO("Attack increased");
-}
