@@ -9,6 +9,13 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
+#ifndef ENGINE
+	#include "Modules/ModuleDebugDraw.h"
+	#include "Modules/ModuleEditor.h"
+
+	#include "Windows/WindowDebug.h"
+#endif // ENGINE
+
 #include "debugdraw.h"
 
 ComponentAreaLight::ComponentAreaLight() :
@@ -66,26 +73,54 @@ ComponentAreaLight::~ComponentAreaLight()
 	}
 }
 
+void ComponentAreaLight::Enable()
+{
+	Component::Enable();
+
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateSceneAreaLights();
+		currentScene->RenderAreaLights();
+	}
+}
+
+void ComponentAreaLight::Disable()
+{
+	Component::Disable();
+
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateSceneAreaLights();
+		currentScene->RenderAreaLights();
+	}
+}
+
 void ComponentAreaLight::Draw() const
 {
 #ifndef ENGINE
-
-#else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawAreaLight())
 	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		return;
+	}
+	if (active)
+	{
+		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		if (areaType == AreaType::SPHERE)
 		{
 			dd::sphere(position, dd::colors::White, shapeRadius);
+			
+			// attenuation shape
 			dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
 		}
 		else if (areaType == AreaType::TUBE)
 		{
 			Quat matrixRotation = transform->GetGlobalRotation();
 			float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
-			float3 translation = transform->GetGlobalPosition();
+			float3 translation = position;
 			float3 pointA = float3(0, 0.5f, 0) * height;
 			float3 pointB = float3(0, -0.5f, 0) * height;
 
@@ -94,6 +129,48 @@ void ComponentAreaLight::Draw() const
 			pointB = (matrixRotation * pointB) + translation;
 
 			dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
+			
+			// attenuation shape
+			dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
+			dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
+			dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
+		}
+		else if (areaType == AreaType::QUAD)
+		{
+		}
+		else if (areaType == AreaType::DISK)
+		{
+		}
+	}
+#else
+	if (!App->IsOnPlayMode() && active && owner == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	{
+		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+
+		float3 position = transform->GetGlobalPosition();
+
+		if (areaType == AreaType::SPHERE)
+		{
+			dd::sphere(position, dd::colors::White, shapeRadius);
+			
+			// attenuation shape
+			dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
+		}
+		else if (areaType == AreaType::TUBE)
+		{
+			Quat matrixRotation = transform->GetGlobalRotation();
+			float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
+			float3 translation = position;
+			float3 pointA = float3(0, 0.5f, 0) * height;
+			float3 pointB = float3(0, -0.5f, 0) * height;
+
+			// Apply rotation & translation
+			pointA = (matrixRotation * pointA) + translation;
+			pointB = (matrixRotation * pointB) + translation;
+
+			dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
+			
+			// attenuation shape
 			dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
 			dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
 			dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
