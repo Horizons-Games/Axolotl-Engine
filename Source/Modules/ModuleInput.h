@@ -49,6 +49,8 @@ public:
 
 	bool IsMouseWheelScrolled() const;
 
+	KeyState operator[](SDL_Scancode index);
+
 private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
@@ -172,4 +174,9 @@ inline void ModuleInput::SetShowCursor(bool set)
 inline bool ModuleInput::IsMouseWheelScrolled() const
 {
 	return mouseWheelScrolled;
+}
+
+inline KeyState ModuleInput::operator[](SDL_Scancode index)
+{
+	return keysState[index];
 }

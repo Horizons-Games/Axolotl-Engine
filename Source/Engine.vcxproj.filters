@@ -455,6 +455,9 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\Component.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\UIDGenerator.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>

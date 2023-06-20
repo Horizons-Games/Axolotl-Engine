@@ -108,7 +108,7 @@ GameObject::~GameObject()
 	children.clear();
 }
 
-void GameObject::SaveOptions(Json& meta)
+void GameObject::Save(Json& meta)
 {
 	UID newParentUID = 0;
 	meta["name"] = name.c_str();
@@ -116,7 +116,6 @@ void GameObject::SaveOptions(Json& meta)
 	meta["uid"] = uid;
 	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
-	meta["active"] = (bool) active;
 	meta["static"] = (bool) staticObject;
 
 	Json jsonComponents = meta["Components"];
@@ -125,11 +124,11 @@ void GameObject::SaveOptions(Json& meta)
 	{
 		Json jsonComponent = jsonComponents[i]["Component"];
 
-		components[i]->SaveOptions(jsonComponent);
+		components[i]->Save(jsonComponent);
 	}
 }
 
-void GameObject::LoadOptions(Json& meta)
+void GameObject::Load(const Json& meta)
 {
 	std::string tag = meta["tag"];
 	SetTag(tag.c_str());
@@ -158,7 +157,7 @@ void GameObject::LoadOptions(Json& meta)
 			component = CreateComponent(type);
 		}
 
-		component->LoadOptions(jsonComponent);
+		component->Load(jsonComponent);
 	}
 }
 
@@ -211,7 +210,7 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 	newParent->LinkChild(this);
 
-	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
+	(parent->IsActive() && parent->IsEnabled()) ? Activate() : Deactivate();
 }
 
 void GameObject::LinkChild(GameObject* child)
@@ -410,12 +409,8 @@ void GameObject::Enable()
 	assert(parent != nullptr);
 
 	enabled = true;
-	active = parent->IsActive();
 
-	for (std::unique_ptr<GameObject>& child : children)
-	{
-		child->ActivateChildren();
-	}
+	this->Activate();
 }
 
 void GameObject::Disable()
@@ -423,31 +418,47 @@ void GameObject::Disable()
 	assert(parent != nullptr);
 
 	enabled = false;
-	active = false;
+
+	this->Deactivate();
+}
+
+void GameObject::Activate()
+{
+	active = parent->IsActive();
+
+	if (!active)
+	{
+		return;
+	}
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->DeactivateChildren();
+		child->Activate();
+	}
+
+	for (std::unique_ptr<Component>& component : components)
+	{
+		// If the Component is currently disabled itself, avoid sending the signal
+		if (component->IsEnabled())
+		{
+			component->SignalEnable();
+		}
 	}
 }
 
-void GameObject::DeactivateChildren()
+void GameObject::Deactivate()
 {
 	active = false;
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->DeactivateChildren();
+		child->Deactivate();
 	}
-}
 
-void GameObject::ActivateChildren()
-{
-	active = (parent->IsActive() && parent->IsEnabled());
-
-	for (std::unique_ptr<GameObject>& child : children)
+	for (std::unique_ptr<Component>& component : components)
 	{
-		child->ActivateChildren();
+		// No need to check, we know component->IsEnabled will return false
+		component->SignalDisable();
 	}
 }
 

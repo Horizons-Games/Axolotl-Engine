@@ -34,9 +34,6 @@ public:
 
 	void DrawBones(GameObject* parent) const;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
 	void ActivateDrawBones(bool drawBones);
 
@@ -46,6 +43,9 @@ public:
 	std::string& GetActualStateName() const;
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	bool CheckTransitions(const State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);

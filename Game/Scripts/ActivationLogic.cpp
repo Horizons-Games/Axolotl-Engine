@@ -1,5 +1,3 @@
-#include "StdAfx.h"
-
 #include "ActivationLogic.h"
 
 #include "Application.h"
