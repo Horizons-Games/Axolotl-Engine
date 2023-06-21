@@ -399,7 +399,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		{
 			loadedInteractable.push_back(button);
 		}
-		Component* particle = obj->GetComponent(ComponentType::PARTICLE);
+		Component* particle = obj->GetComponent<ComponentParticleSystem>();
 		if (particle != nullptr)
 		{
 			loadedParticle.push_back(static_cast<ComponentParticleSystem*>(particle));
