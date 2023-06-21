@@ -5,6 +5,7 @@
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
 
+#include "Components/Component.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
@@ -64,7 +65,7 @@ bool ModuleScene::Start()
 		Json startConfig(doc, doc);
 		startConfig.fromBuffer(buffer);
 		delete buffer;
-		
+
 		std::string startingScene = startConfig["StartingScene"];
 		std::string scenePath = LIB_PATH "Scenes/" + startingScene;
 		assert(fileSystem->Exists(scenePath.c_str()));
@@ -86,23 +87,9 @@ update_status ModuleScene::PreUpdate()
 			{
 				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
-
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Init();
-				}
 			}
 		}
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-		{
-			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-			{
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Start();
-				}
-			}
-		}
+		InitAndStartScriptingComponents();
 	}
 
 	if (!App->GetScriptFactory()->IsCompiling())
@@ -189,7 +176,7 @@ void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 
 void ModuleScene::OnPlay()
 {
-	ENGINE_LOG("Play pressed");
+	LOG_VERBOSE("Play pressed");
 
 	Json jsonScene(tmpDoc, tmpDoc);
 
@@ -200,7 +187,7 @@ void ModuleScene::OnPlay()
 
 void ModuleScene::OnStop()
 {
-	ENGINE_LOG("Stop pressed");
+	LOG_VERBOSE("Stop pressed");
 
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
@@ -223,6 +210,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	// First Init
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
+		if (!gameObject->IsActive())
+		{
+			continue;
+		}
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Init();
@@ -234,7 +225,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
-			componentScript->Start();
+			if (componentScript->IsEnabled())
+			{
+				componentScript->Start();
+			}
 		}
 	}
 }
@@ -271,7 +265,7 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
+		loadedScene->GetSceneGameObjects()[i]->Save(jsonGameObject);
 	}
 
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
@@ -294,7 +288,6 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	{
 		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
 	}
-	
 
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
@@ -313,12 +306,12 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	fileSystem->Load(filePath.c_str(), buffer);
 #endif
 	rapidjson::Document doc;
-	Json Json(doc, doc);
+	Json sceneJson(doc, doc);
 
-	Json.fromBuffer(buffer);
+	sceneJson.fromBuffer(buffer);
 	delete buffer;
 
-	LoadSceneFromJson(Json, mantainActualScene);
+	LoadSceneFromJson(sceneJson, mantainActualScene);
 
 #ifndef ENGINE
 	ModulePlayer* player = App->GetModule<ModulePlayer>();
@@ -337,6 +330,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	if (!mantainActualScene)
 	{
+		loadedScene.reset();
 		loadedScene = std::make_unique<Scene>();
 
 		loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
@@ -403,7 +397,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 			rigidBody->UpdateRigidBodyTranslation();
 			rigidBody->UpdateRigidBody();
 		}
-
 	}
 
 	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponent<ComponentTransform>();
@@ -451,12 +444,16 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 	}
 }
 
-std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy)
+std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy)
 {
+	struct GameObjectDeserializationInfo
+	{
+		GameObject* gameObject;
+		UID parentUID;
+		bool enabled;
+	};
 	std::vector<GameObject*> gameObjects{};
-	std::unordered_map<UID, GameObject*> gameObjectMap{};
-	std::unordered_map<UID, UID> childParentMap{};
-	std::unordered_map<UID, std::pair<bool, bool>> enabledAndActive{};
+	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -465,10 +462,9 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		UID uid = jsonGameObject["uid"];
 		UID parentUID = jsonGameObject["parentUID"];
 		bool enabled = jsonGameObject["enabled"];
-		bool active = jsonGameObject["active"];
 		GameObject* gameObject;
 
-		if (!mantainActualHierarchy)
+		if (!mantainCurrentHierarchy)
 		{
 			gameObject = new GameObject(name, uid);
 		}
@@ -480,31 +476,28 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			uid = newUID;
 		}
 
-		gameObjectMap[uid] = gameObject;
-		childParentMap[uid] = parentUID;
-		enabledAndActive[uid] = std::make_pair(enabled, active);
+		gameObjectMap[uid] = { gameObject, parentUID, enabled };
 		gameObjects.push_back(gameObject);
 	}
 
-	mantainActualHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
-						   : loadedScene->SetSceneGameObjects(gameObjects);
+	mantainCurrentHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
+							: loadedScene->SetSceneGameObjects(gameObjects);
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
 
-		gameObjects[i]->LoadOptions(jsonGameObject);
+		gameObjects[i]->Load(jsonGameObject);
 	}
 
-	for (auto it = std::begin(gameObjects); it != std::end(gameObjects); ++it)
+	for (GameObject* gameObject : gameObjects)
 	{
-		GameObject* gameObject = *it;
 		UID uid = gameObject->GetUID();
-		UID parent = childParentMap[uid];
+		UID parent = gameObjectMap[uid].parentUID;
 
 		if (parent == 0)
 		{
-			if (!mantainActualHierarchy)
+			if (!mantainCurrentHierarchy)
 			{
 				loadedScene->SetRoot(gameObject);
 			}
@@ -516,19 +509,19 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			continue;
 		}
 
-		if (mantainActualHierarchy)
+		if (mantainCurrentHierarchy)
 		{
 			parent = uidMap[parent];
 		}
 
-		GameObject* parentGameObject = gameObjectMap[parent];
+		GameObject* parentGameObject = gameObjectMap[parent].gameObject;
 		parentGameObject->LinkChild(gameObject);
 	}
 
 	std::vector<GameObject*> loadedObjects{};
-	for (const auto& uidAndGameObject : gameObjectMap)
+	for (const auto& [key, value] : gameObjectMap)
 	{
-		GameObject* gameObject = uidAndGameObject.second;
+		GameObject* gameObject = value.gameObject;
 		loadedObjects.push_back(gameObject);
 
 		if (gameObject == loadedScene->GetRoot())
@@ -536,23 +529,13 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			continue;
 		}
 
-		bool enabled = enabledAndActive[gameObject->GetUID()].first;
-		bool active = enabledAndActive[gameObject->GetUID()].second;
-		if (enabled)
+		if (value.enabled)
 		{
 			gameObject->Enable();
 		}
 		else
 		{
 			gameObject->Disable();
-		}
-		if (active)
-		{
-			gameObject->ActivateChildren();
-		}
-		else
-		{
-			gameObject->DeactivateChildren();
 		}
 	}
 
@@ -591,13 +574,16 @@ void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 
 void ModuleScene::AddGameObject(GameObject* object)
 {
-	if (object->IsStatic())
+	if (object->IsRendereable())
 	{
-		loadedScene->AddStaticObject(object);
-	}
-	else
-	{
-		loadedScene->AddNonStaticObject(object);
+		if (object->IsStatic())
+		{
+			loadedScene->AddStaticObject(object);
+		}
+		else
+		{
+			loadedScene->AddNonStaticObject(object);
+		}
 	}
 }
 
