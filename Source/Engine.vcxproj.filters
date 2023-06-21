@@ -946,9 +946,6 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
@@ -960,6 +957,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

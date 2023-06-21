@@ -36,8 +36,9 @@ BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackT
 	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), transform(nullptr),
 	//Provisional
 	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
-	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr)
+	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
 	//--Provisional
+	playerManager(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
@@ -78,6 +79,8 @@ void BixAttackScript::Start()
 	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	//--Provisional
+
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 }
 
 void BixAttackScript::Update(float deltaTime)
@@ -146,7 +149,7 @@ void BixAttackScript::CheckCollision()
 					// get component health and do damage
 					HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
 
-					float damageAttack = owner->GetComponent<PlayerManagerScript>()->GetPlayerAttack();
+					float damageAttack = playerManager->GetPlayerAttack();
 					healthScript->TakeDamage(damageAttack);
 				}
 			}
