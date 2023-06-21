@@ -36,12 +36,8 @@ void ComponentTransform2D::Update()
 	CalculateWorldBoundingBox();
 }
 
-void ComponentTransform2D::SaveOptions(Json& meta)
+void ComponentTransform2D::InternalSave(Json& meta)
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	meta["localPositionX"] = static_cast<float>(pos.x);
 	meta["localPositionY"] = static_cast<float>(pos.y);
 	meta["localPositionZ"] = static_cast<float>(pos.z);
@@ -69,12 +65,8 @@ void ComponentTransform2D::SaveOptions(Json& meta)
 	meta["worldAABB_max_y"] = static_cast<float>(worldAABB.maxPoint.y);
 }
 
-void ComponentTransform2D::LoadOptions(Json& meta)
+void ComponentTransform2D::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	pos.x = static_cast<float>(meta["localPositionX"]);
 	pos.y = static_cast<float>(meta["localPositionY"]);
 	pos.z = static_cast<float>(meta["localPositionZ"]);
