@@ -2034,7 +2034,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>

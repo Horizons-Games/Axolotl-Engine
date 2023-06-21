@@ -313,7 +313,8 @@ void ParticleSystemImporter::Load
 			UID resourcePointer;
 			bytes = sizeof(UID);
 			memcpy(&resourcePointer, fileBuffer, bytes);
-			std::shared_ptr<ResourceTexture> resourceParticleTexture = App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(resourceParticleTexture);
+			std::shared_ptr<ResourceTexture> resourceParticleTexture =
+				App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(resourcePointer);
 			emitter->SetParticleTexture(resourceParticleTexture);
 			fileBuffer += bytes;
 #endif
