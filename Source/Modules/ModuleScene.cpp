@@ -87,23 +87,9 @@ update_status ModuleScene::PreUpdate()
 			{
 				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
-
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Init();
-				}
 			}
 		}
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-		{
-			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-			{
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Start();
-				}
-			}
-		}
+		InitAndStartScriptingComponents();
 	}
 
 	if (!App->GetScriptFactory()->IsCompiling())
@@ -224,6 +210,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	// First Init
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
+		if (!gameObject->IsActive())
+		{
+			continue;
+		}
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Init();
@@ -235,7 +225,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
-			componentScript->Start();
+			if (componentScript->IsEnabled())
+			{
+				componentScript->Start();
+			}
 		}
 	}
 }
@@ -272,7 +265,7 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
+		loadedScene->GetSceneGameObjects()[i]->Save(jsonGameObject);
 	}
 
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
@@ -458,7 +451,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		GameObject* gameObject;
 		UID parentUID;
 		bool enabled;
-		bool active;
 	};
 	std::vector<GameObject*> gameObjects{};
 	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
@@ -470,7 +462,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		UID uid = jsonGameObject["uid"];
 		UID parentUID = jsonGameObject["parentUID"];
 		bool enabled = jsonGameObject["enabled"];
-		bool active = jsonGameObject["active"];
 		GameObject* gameObject;
 
 		if (!mantainCurrentHierarchy)
@@ -485,7 +476,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			uid = newUID;
 		}
 
-		gameObjectMap[uid] = { gameObject, parentUID, enabled, active };
+		gameObjectMap[uid] = { gameObject, parentUID, enabled };
 		gameObjects.push_back(gameObject);
 	}
 
@@ -496,7 +487,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
 
-		gameObjects[i]->LoadOptions(jsonGameObject);
+		gameObjects[i]->Load(jsonGameObject);
 	}
 
 	for (GameObject* gameObject : gameObjects)
@@ -546,14 +537,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		{
 			gameObject->Disable();
 		}
-		if (value.active)
-		{
-			gameObject->ActivateChildren();
-		}
-		else
-		{
-			gameObject->DeactivateChildren();
-		}
 	}
 
 	uidMap.clear();
@@ -591,13 +574,16 @@ void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 
 void ModuleScene::AddGameObject(GameObject* object)
 {
-	if (object->IsStatic())
+	if (object->IsRendereable())
 	{
-		loadedScene->AddStaticObject(object);
-	}
-	else
-	{
-		loadedScene->AddNonStaticObject(object);
+		if (object->IsStatic())
+		{
+			loadedScene->AddStaticObject(object);
+		}
+		else
+		{
+			loadedScene->AddNonStaticObject(object);
+		}
 	}
 }
 

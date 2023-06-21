@@ -43,8 +43,8 @@ public:
 	GameObject(const GameObject& gameObject);
 	~GameObject();
 
-	void SaveOptions(Json& json);
-	void LoadOptions(Json& meta);
+	void Save(Json& json);
+	void Load(const Json& meta);
 
 	void Draw() const;
 
@@ -90,18 +90,18 @@ public:
 
 	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 
-	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
+	// This method returns true if and only if the GameObject is currently enabled
+	bool IsEnabled() const;
 	void Enable();
 	void Disable();
+
+	// This method returns true if IsEnabled returns true for this GameObject and for all its "ancestors" in the hierarchy
+	bool IsActive() const;
 
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
 	void SetRootGO(GameObject* newRootGO);
-
-	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
-	void DeactivateChildren();
-	void ActivateChildren();
 
 	bool IsStatic() const;
 	void SetStatic(bool newStatic);
@@ -111,6 +111,7 @@ public:
 	void MoveDownChild(const GameObject* childToMove);
 
 	bool IsADescendant(const GameObject* descendant);
+	bool IsRendereable();
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -128,6 +129,8 @@ private:
 
 	Component* CreateComponent(ComponentType type);
 
+	void Activate();
+	void Deactivate();
 	bool IsAChild(const GameObject* child);
 
 	enum class HierarchyDirection
@@ -226,7 +229,7 @@ inline void GameObject::SetTag(const std::string& newTag)
 
 inline bool GameObject::IsActive() const
 {
-	return active;
+	return active && enabled;
 }
 
 inline GameObject::GameObjectView GameObject::GetChildren() const

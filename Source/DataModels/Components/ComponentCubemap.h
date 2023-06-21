@@ -8,8 +8,8 @@ public:
 	ComponentCubemap(bool active, GameObject* owner);
 	~ComponentCubemap() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	bool IsStatic();
 	void SetStatic(bool newStatic);

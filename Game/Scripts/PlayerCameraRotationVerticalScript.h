@@ -1,19 +1,22 @@
 #pragma once
+
 #include "Script.h"
-class PlayerCameraRotationVerticalScript :
-    public Script
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
+
+class PlayerCameraRotationVerticalScript : public Script
 {
 public:
     PlayerCameraRotationVerticalScript();
+	~PlayerCameraRotationVerticalScript() override = default;
 
 	void Start() override;
-
     void PreUpdate(float deltaTime) override;
 
 private:
     void Rotation(float deltaTime);
 
-private: 
 	float rotationSensitivity;
 };
 
