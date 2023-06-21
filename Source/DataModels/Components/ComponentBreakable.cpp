@@ -20,22 +20,14 @@ void ComponentBreakable::Update()
 {
 }
 
-void ComponentBreakable::SaveOptions(Json& meta)
+void ComponentBreakable::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
 	meta["subscribed"] = (bool) subscribed;
 	meta["impulsion"] = (float) impulsionForce;
 }
 
-void ComponentBreakable::LoadOptions(Json& meta)
+void ComponentBreakable::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 	subscribed = (bool) meta["subscribed"];
 	impulsionForce = (float) meta["impulsion"];
 }
@@ -52,11 +44,11 @@ void ComponentBreakable::BreakComponentBy(ComponentRigidBody* rigidbody)
 				subscribed = false;
 			}
 
-			auto lastChildren = owner->GetAllDescendants() | std::views::filter(
-																 [](const GameObject* child)
-																 {
-																	 return child->GetChildren().empty();
-																 });
+			auto lastChildren = GetOwner()->GetAllDescendants() | std::views::filter(
+																	  [](const GameObject* child)
+																	  {
+																		  return child->GetChildren().empty();
+																	  });
 
 			for (auto child : lastChildren)
 			{
@@ -68,9 +60,9 @@ void ComponentBreakable::BreakComponentBy(ComponentRigidBody* rigidbody)
 				child->GetComponent<ComponentRigidBody>();
 				ComponentRigidBody* childRigidBody = child->GetComponent<ComponentRigidBody>();
 				childRigidBody->UpdateRigidBody();
-				//randomize the impulsion
-				float3 impulsionPower = impulsionPower.RandomDir(lcg, impulsionForce);//max 4.0f min 0.0f
-				btVector3 impulsionMul{ impulsionPower.x,impulsionPower.y,impulsionPower.z };
+				// randomize the impulsion
+				float3 impulsionPower = impulsionPower.RandomDir(lcg, impulsionForce); // max 4.0f min 0.0f
+				btVector3 impulsionMul{ impulsionPower.x, impulsionPower.y, impulsionPower.z };
 				impulsion = impulsion.cross(impulsionMul);
 				childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 			}
@@ -88,11 +80,11 @@ void ComponentBreakable::BreakComponent()
 			subscribed = false;
 		}
 
-		auto lastChildren = owner->GetAllDescendants() | std::views::filter(
-															 [](const GameObject* child)
-															 {
-																 return child->GetChildren().empty();
-															 });
+		auto lastChildren = GetOwner()->GetAllDescendants() | std::views::filter(
+																  [](const GameObject* child)
+																  {
+																	  return child->GetChildren().empty();
+																  });
 
 		for (auto child : lastChildren)
 		{
@@ -104,9 +96,9 @@ void ComponentBreakable::BreakComponent()
 			child->CreateComponent<ComponentRigidBody>();
 			ComponentRigidBody* childRigidBody = child->GetComponent<ComponentRigidBody>();
 			childRigidBody->UpdateRigidBody();
-			//randomize the impulsion
+			// randomize the impulsion
 			float3 impulsionPower = impulsionPower.RandomDir(lcg, impulsionForce);
-			btVector3 impulsionMul{ impulsionPower.x,impulsionPower.y,impulsionPower.z };
+			btVector3 impulsionMul{ impulsionPower.x, impulsionPower.y, impulsionPower.z };
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 		}

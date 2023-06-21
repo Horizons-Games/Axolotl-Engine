@@ -470,6 +470,9 @@
     <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
       <Filter>UserScripts\PowerUp</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\Component.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1959,7 +1962,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>

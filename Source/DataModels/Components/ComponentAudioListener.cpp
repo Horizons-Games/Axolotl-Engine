@@ -41,39 +41,26 @@ void ComponentAudioListener::OnTransformChanged()
 	AK::SoundEngine::SetPosition(listenerID, listenerTransform);
 }
 
-void ComponentAudioListener::Enable()
+void ComponentAudioListener::SignalEnable()
 {
-	Component::Enable();
-
-	AK::SoundEngine::RegisterGameObj(listenerID, owner->GetName().c_str());
+	AK::SoundEngine::RegisterGameObj(listenerID, GetOwner()->GetName().c_str());
 	AK::SoundEngine::SetDefaultListeners(&listenerID, 1);
 
 	OnTransformChanged();
 }
 
-void ComponentAudioListener::Disable()
+void ComponentAudioListener::SignalDisable()
 {
 	AK::SoundEngine::UnregisterGameObj(listenerID);
-
-	Component::Disable();
 }
 
-void ComponentAudioListener::SaveOptions(Json& meta)
+void ComponentAudioListener::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
 }
 
-void ComponentAudioListener::LoadOptions(Json& meta)
+void ComponentAudioListener::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
-	if (!active)
+	if (!IsEnabled())
 	{
 		AK::SoundEngine::UnregisterGameObj(listenerID);
 	}
