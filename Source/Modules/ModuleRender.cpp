@@ -116,7 +116,6 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 
 ModuleRender::ModuleRender() :
 	context(nullptr),
-	// modelTypes({ "FBX" }), TODO delete
 	frameBuffer(0),
 	renderedTexture(0),
 	depthStencilRenderBuffer(0)
@@ -176,8 +175,8 @@ bool ModuleRender::Init()
 #ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
-	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 #endif // ENGINE
+	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
@@ -262,12 +261,10 @@ update_status ModuleRender::Update()
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
 	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
-	//BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
-	//BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
-	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
 
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
@@ -295,33 +292,15 @@ update_status ModuleRender::Update()
 	}
 
 	// -------- DEFERRED LIGHTING ---------------
-#ifdef ENGINE
+
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-#else ENGINE
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-#endif ENGINE
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // maybe we should move out this
 
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRIANGLE_RENDER);
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
 
 	gBuffer->BindTexture();
-
-	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
-
-	program->BindUniformFloat3("viewPos", viewPos);
-
-	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
-	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
-	glActiveTexture(GL_TEXTURE10);
-	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
-
-	program->BindUniformInt("numLevels_IBL", cubemap->GetNumMiMaps());
-	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
 	program->BindUniformInt("renderMode", modeRender);
@@ -334,25 +313,16 @@ update_status ModuleRender::Update()
 
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
-#ifdef ENGINE
 	gBuffer->ReadFrameBuffer();
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
-#else
-	gBuffer->ReadFrameBuffer();
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-#endif ENGINE
 
 	// -------- PRE-FORWARD ----------------------
 
 	if (skybox)
 	{
-		glDepthRange(0.999, 1.0);
 		skybox->Draw();
-		glDepthRange(0.0, 1.0);
 	}
 
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
@@ -389,7 +359,6 @@ update_status ModuleRender::Update()
 
 	glDisable(GL_BLEND);
 
-
 	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 
 	for (const GameObject* go : gameObjectsInFrustrum)
@@ -425,8 +394,8 @@ bool ModuleRender::CleanUp()
 #ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
-	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 #endif // ENGINE
+	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 	return true;
 }
 
@@ -442,8 +411,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
 	gBuffer->InitGBuffer(width,height);
 
-#ifdef ENGINE
-	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderBuffer);
@@ -466,25 +433,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 
-#endif // ENGINE
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-
-//bool ModuleRender::IsSupportedPath(const std::string& modelPath)
-//{
-//	bool valid = false;
-//
-//	std::string format = modelPath.substr(modelPath.size() - 3);
-//	std::transform(format.begin(), format.end(), format.begin(), ::toupper);
-//
-//	if (std::find(modelTypes.begin(), modelTypes.end(), format) != modelTypes.end())
-//	{
-//		valid = true;
-//	}
-//
-//	return valid;
-//}
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
@@ -669,43 +619,4 @@ bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 	}
 
 	return false;
-}
-
-void ModuleRender::GenerateGTextures()
-{
-//	glBindFramebuffer(GL_FRAMEBUFFER, gFrameBuffer);
-//
-//	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
-//
-//	GameObject* player = modulePlayer->GetPlayer();
-//#ifdef ENGINE
-//	if (App->IsOnPlayMode())
-//	{
-//		AddToRenderList(player);
-//	}
-//#else
-//	if (player)
-//	{
-//		AddToRenderList(player);
-//	}
-//#endif // !ENGINE
-//	
-//	// Draw opaque objects
-//	glDepthFunc(GL_LEQUAL);
-//	batchManager->DrawOpaque(false);
-//
-//	if (!App->IsOnPlayMode() && !isRoot)
-//	{
-//		// Draw selected opaque
-//		glEnable(GL_STENCIL_TEST);
-//		glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
-//		glStencilMask(0xFF); // enable writing to the stencil buffer
-//		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-//
-//		batchManager->DrawOpaque(true);
-//
-//		glPolygonMode(GL_FRONT, GL_FILL);
-//		glLineWidth(1);
-//		glDisable(GL_STENCIL_TEST);
-//	}
 }

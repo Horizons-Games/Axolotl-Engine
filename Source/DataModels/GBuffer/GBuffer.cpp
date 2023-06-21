@@ -1,14 +1,13 @@
 #include "GBuffer.h"
-#include "Globals.h"
-
+#include "AxoLog.h"
 
 GBuffer::GBuffer() :
-gFrameBuffer(0),
-gPosition(0),
-gNormal(0),
-gDiffuse(0),
-gSpecular(0),
-gDepth(0)
+	gFrameBuffer(0),
+	gPosition(0),
+	gNormal(0),
+	gDiffuse(0),
+	gSpecular(0),
+	gDepth(0)
 {
 }
 
@@ -19,7 +18,7 @@ GBuffer::~GBuffer()
 	glDeleteTextures(1, &gNormal);
 	glDeleteTextures(1, &gDiffuse);
 	glDeleteTextures(1, &gSpecular);
-	glDeleteTextures(1, &gDepth);
+	glDeleteRenderbuffers(1, &gDepth);
 }
 
 void GBuffer::BindFrameBuffer()

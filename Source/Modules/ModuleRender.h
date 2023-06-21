@@ -8,9 +8,7 @@
 
 #include "GL/glew.h"
 #include "Math/float4.h"
-#include "Module.h"
 
-#include <map>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -55,15 +53,12 @@ public:
 	void AddToRenderList(const GameObject* gameObject);
 
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
-	// bool IsSupportedPath(const std::string& modelPath); // TODO delete
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
 private:
 	void UpdateProgram();
 	bool CheckIfTransparent(const GameObject* gameObject);
-
-	void GenerateGTextures();
 
 	void DrawHighlight(GameObject* gameObject);
 
@@ -82,8 +77,6 @@ private:
 
 	unsigned modeRender;
 	
-	// const std::vector<std::string> modelTypes; // TODO delete
-
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
 

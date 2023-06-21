@@ -1,9 +1,6 @@
 #include "ModuleProgram.h"
 
 #include "Application.h"
-#include "FileSystem/ModuleFileSystem.h"
-
-#include "Application.h"
 #include "DataModels/Program/Program.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "GL/glew.h"
@@ -72,10 +69,9 @@ bool ModuleProgram::Start()
 
 	programs.push_back(
 		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
-
-	programs.push_back(CreateProgram("deferred_lighting_vs.glsl", "deferred_lighting_fs.glsl", "DeferredLighting"));
 	
-	programs.push_back(CreateProgram("rendering_triangle_vs.glsl", "deferred_lighting_fs.glsl", "TriangleRender"));
+	programs.push_back(
+		CreateProgram("render_clip_space_vertex.glsl", "deferred_lighting_fragment.glsl", "Scene Render"));
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
 	
