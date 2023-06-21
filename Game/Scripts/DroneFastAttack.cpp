@@ -23,7 +23,7 @@ REGISTERCLASS(DroneFastAttack);
 
 DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
-	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false)
+	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
@@ -74,14 +74,27 @@ void DroneFastAttack::PerformAttack()
 
 	lastAttackTime = SDL_GetTicks() / 1000.0f;
 	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
-	
+
+	//Set reposition
+	needReposition = true;
 }
 
 void DroneFastAttack::Reposition()
 {
+	if (transform->GetGlobalPosition().Equals(newReposition), 0.3f) 
+	{
+		needReposition = false;
+	}
+	//set target position
+
 }
 
 bool DroneFastAttack::IsAttackAvailable() const
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+}
+
+bool DroneFastAttack::NeedReposition() const
+{
+	return needReposition;
 }

@@ -20,6 +20,7 @@ public:
 	void Reposition();
 
 	bool IsAttackAvailable() const;
+	bool NeedReposition() const;
 
 private:
 
@@ -38,4 +39,6 @@ private:
 	float bulletVelocity;
 
 	Scene* loadedScene;
+
+	float3 newReposition;
 };

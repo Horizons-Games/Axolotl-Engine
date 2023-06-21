@@ -116,9 +116,16 @@ void EnemyDroneScript::Update(float deltaTime)
 	{
 		if (attackScript->IsAttackAvailable())
 		{
-			seekScript->DisableMovement();
 			attackScript->PerformAttack();
 		}
+
+		if (attackScript->NeedReposition())
+		{
+			attackScript->Reposition();
+		}
+		seekScript->DisableMovement();
+
+		seekScript->RotateToTarget();
 
 		componentAnimation->SetParameter("IsAttacking", true);
 	}
