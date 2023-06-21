@@ -7,6 +7,7 @@
 #include "FileSystem/Importers/CubemapImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
+#include "FileSystem/Importers/NavMeshImporter.h"
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
@@ -40,6 +41,7 @@ bool ModuleResources::Init()
 	modelImporter = std::make_unique<ModelImporter>();
 	textureImporter = std::make_unique<TextureImporter>();
 	meshImporter = std::make_unique<MeshImporter>();
+	navMeshImporter = std::make_unique<NavMeshImporter>();
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
 	cubemapImporter = std::make_unique<CubemapImporter>();
@@ -71,6 +73,14 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 	std::string assetsPath = CreateAssetsPath(fileName, type);
 	switch (type)
 	{
+		case ResourceType::NavMesh:
+			assetsPath += NAVMESH_EXTENSION;
+			importedRes = CreateNewResource("DefaultNavMesh", assetsPath, ResourceType::NavMesh);
+			CreateMetaFileOfResource(importedRes);
+			navMeshImporter->Import(assetsPath.c_str(),
+			std::dynamic_pointer_cast<ResourceNavMesh>(importedRes));
+			//TODO when we finish the ResourceNavMesh we need to create a PreMade Default or other form to create the resource
+			break;
 		case ResourceType::Material:
 			assetsPath += MATERIAL_EXTENSION;
 			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
@@ -156,6 +166,11 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 				new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath),
 				CollectionAwareDeleter<Resource>());
 			break;
+		case ResourceType::NavMesh:
+			res = std::shared_ptr<EditorResource<ResourceNavMesh>>(
+				new EditorResource<ResourceNavMesh>(uid, fileName, assetsPath, libraryPath),
+				CollectionAwareDeleter<Resource>());
+			break;
 		case ResourceType::Scene: // TODO
 			return nullptr;
 		case ResourceType::Material:
@@ -198,6 +213,8 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 			return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
 		case ResourceType::Mesh:
 			return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+		case ResourceType::NavMesh:
+			return std::make_shared<ResourceNavMesh>(uid, fileName, assetsPath, libraryPath);
 		case ResourceType::Scene: // TODO
 			return nullptr;
 		case ResourceType::Material:
@@ -313,6 +330,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				case ResourceType::Mesh:
 					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
 					break;
+				case ResourceType::NavMesh:
+					navMeshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceNavMesh>(resource));
+					break;
 				case ResourceType::Scene:
 					break;
 				case ResourceType::Material:
@@ -416,6 +436,9 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 		case ResourceType::Mesh:
 			meshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
 			break;
+		case ResourceType::NavMesh:
+			navMeshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceNavMesh>(resource));
+			break;
 		case ResourceType::Scene:
 			break;
 		case ResourceType::Material:
@@ -456,11 +479,11 @@ void ModuleResources::CreateAssetAndLibFolders()
 	//(actually there is a library that looks really clean but might be overkill:
 	// https://github.com/Neargye/magic_enum)
 	// ensure this vector is updated whenever a new type of resource is added
-	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,	  ResourceType::Mesh,
-												   ResourceType::Model,		  ResourceType::Scene,
-												   ResourceType::Texture,	  ResourceType::SkyBox,
-												   ResourceType::Cubemap,	  ResourceType::Animation,
-												   ResourceType::StateMachine };
+	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,		ResourceType::Mesh,
+												   ResourceType::Model,			ResourceType::Scene,
+												   ResourceType::Texture,		ResourceType::SkyBox,
+												   ResourceType::Cubemap,		ResourceType::Animation,
+												   ResourceType::StateMachine,	ResourceType::NavMesh };
 
 	for (ResourceType type : allResourceTypes)
 	{
@@ -692,6 +715,10 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::Material;
 	}
+	else if (normalizedExtension == NAVMESH_EXTENSION)
+	{
+		return ResourceType::NavMesh;
+	}
 	else if (normalizedExtension == MESH_EXTENSION)
 	{
 		return ResourceType::Mesh;
@@ -722,6 +749,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 			return "Scenes";
 		case ResourceType::Material:
 			return "Materials";
+		case ResourceType::NavMesh:
+			return "NavMesh";
 		case ResourceType::SkyBox:
 			return "SkyBox";
 		case ResourceType::Cubemap:
@@ -757,6 +786,10 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 	if (typeName == "Materials")
 	{
 		return ResourceType::Material;
+	}
+	if (typeName == "NavMesh")
+	{
+		return ResourceType::NavMesh;
 	}
 	if (typeName == "SkyBox")
 	{

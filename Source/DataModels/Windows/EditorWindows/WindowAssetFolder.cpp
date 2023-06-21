@@ -23,12 +23,19 @@ void WindowAssetFolder::DrawWindowContents()
 		type = ResourceType::Material;
 		name = "NewMaterial";
 	}
-
+	ImGui::SameLine();
 	if (ImGui::Button("Create StateMachine"))
 	{
 		ImGui::OpenPopup("Select Name");
 		type = ResourceType::StateMachine;
 		name = "NewStateMachine";
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Create NavMesh (PlaceHolder)"))
+	{
+		ImGui::OpenPopup("Select Name");
+		type = ResourceType::NavMesh;
+		name = "NewNavMesh";
 	}
 
 	if (ImGui::BeginPopupModal("Select Name", NULL, ImGuiWindowFlags_AlwaysAutoResize))

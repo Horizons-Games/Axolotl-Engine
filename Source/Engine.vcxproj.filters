@@ -461,6 +461,12 @@
     <ClCompile Include="Modules\ModuleNavigation.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -936,6 +942,12 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleNavigation.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceNavMesh.h">
+      <Filter>DataModels\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
