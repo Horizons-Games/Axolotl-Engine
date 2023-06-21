@@ -2,9 +2,7 @@
 
 #include "ResourceCubemap.h"
 
-#include "Application.h"
 #include "DataModels/Resources/ResourceTexture.h"
-#include "FileSystem/ModuleResources.h"
 #include "GL/glew.h"
 
 ResourceCubemap::ResourceCubemap(UID resourceUID,

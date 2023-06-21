@@ -6,6 +6,8 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
 
+#include "GeometryBatch.h"
+
 #include <assert.h>
 
 BatchManager::BatchManager()

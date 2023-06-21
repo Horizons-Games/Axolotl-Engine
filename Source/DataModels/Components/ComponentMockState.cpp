@@ -8,8 +8,6 @@
 
 #include "FileSystem/Json.h"
 
-#include "Geometry/LineSegment.h"
-#include "Geometry/Ray.h"
 #include "Physics/Physics.h"
 
 ComponentMockState::ComponentMockState(bool active, GameObject* owner) :

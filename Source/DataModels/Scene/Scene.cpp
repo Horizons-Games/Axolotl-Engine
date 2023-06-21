@@ -25,7 +25,6 @@
 
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -39,6 +38,8 @@
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
 
 #include "Scripting/IScript.h"
 

@@ -6,21 +6,16 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
-
-#include "Components/ComponentTransform.h"
 
 ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
 

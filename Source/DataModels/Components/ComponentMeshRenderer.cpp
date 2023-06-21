@@ -5,6 +5,7 @@
 #include "ComponentTransform.h"
 
 #include "Application.h"
+#include "Globals.h"
 
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -12,7 +13,6 @@
 #include "ModuleCamera.h"
 #include "ModuleRender.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
 
 #include "Program/Program.h"
 
@@ -20,9 +20,12 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
+#include "Batch/BatchManager.h"
+#include "Batch/GeometryBatch.h"
+
 #include "GameObject/GameObject.h"
 
-#include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include <GL/glew.h>
 
@@ -491,6 +494,7 @@ void ComponentMeshRenderer::UnloadTextures()
 		}
 	}
 }
+
 void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 {
 	if (material)

@@ -8,6 +8,7 @@
 #include "Modules/ModuleCamera.h"
 #include "Modules/ModuleDebugDraw.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 WindowFrustum::WindowFrustum() : SubWindow("Frustum")
 {

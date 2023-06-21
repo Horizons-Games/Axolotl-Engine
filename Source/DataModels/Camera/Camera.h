@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Geometry/Frustum.h"
-#include <map>
 
-#include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
 #include "Math/Quat.h"
 #include "Math/float4x4.h"

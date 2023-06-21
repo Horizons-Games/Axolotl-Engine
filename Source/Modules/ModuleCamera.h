@@ -1,5 +1,4 @@
 #pragma once
-#include "Camera/Camera.h"
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
@@ -25,6 +24,9 @@
 
 class GameObject;
 class WindowScene;
+class Camera;
+
+enum class CameraType;
 
 class ModuleCamera : public Module
 {

@@ -13,6 +13,9 @@
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
 
+#include "DataModels/Batch/BatchManager.h"
+#include "DataModels/Batch/GeometryBatch.h"
+
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Resources/ResourceTexture.h"

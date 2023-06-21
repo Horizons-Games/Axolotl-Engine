@@ -5,8 +5,6 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 
-#include "geometry/AABB.h"
-#include "geometry/OBB.h"
 #include "math/float3.h"
 #include "math/float4x4.h"
 
@@ -15,8 +13,6 @@
 
 #include "Defines/QuadtreeDefines.h"
 #include "Defines/FrustumDefines.h"
-
-#include <queue>
 
 Quadtree::Quadtree(const AABB& boundingBox) :
 	boundingBox(boundingBox),

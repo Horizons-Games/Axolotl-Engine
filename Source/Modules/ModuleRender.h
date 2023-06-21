@@ -2,10 +2,6 @@
 
 #include "Module.h"
 
-#include "DataModels/Batch/BatchManager.h"
-
-#include "DataStructures/Quadtree.h"
-
 #include "GL/glew.h"
 #include "Math/float4.h"
 #include "Module.h"
@@ -24,6 +20,7 @@ class Skybox;
 class Program;
 class Cubemap;
 class GameObject;
+class BatchManager;
 
 class ModuleRender : public Module
 {

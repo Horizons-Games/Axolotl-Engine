@@ -3,9 +3,6 @@
 #include "FileSystem/UID.h"
 #include "Geometry/AABB.h"
 
-#include "Resources/ResourceMesh.h"
-#include "Resources/ResourceModel.h"
-
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
@@ -20,6 +17,8 @@ class Quadtree;
 class Skybox;
 class Cubemap;
 class Updatable;
+
+struct Bone;
 
 enum class Premade3D
 {

@@ -810,7 +810,6 @@
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>DataModels\Batch</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
@@ -967,6 +966,9 @@
     </ClInclude>
     <ClInclude Include="Defines\GlslDefines.h">
       <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

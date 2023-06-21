@@ -13,7 +13,6 @@
 
 class AnimationController;
 class ResourceAnimation;
-class ResourceStateMachine;
 class State;
 class Transition;
 class GameObject;

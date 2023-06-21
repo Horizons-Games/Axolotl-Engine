@@ -6,6 +6,8 @@
 #include "ModuleCamera.h"
 #include "ModuleRender.h"
 
+#include "Camera/Camera.h"
+
 WindowCamera::WindowCamera() : SubWindow("Camera")
 {
 }

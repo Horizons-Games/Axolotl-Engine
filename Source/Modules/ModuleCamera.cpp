@@ -9,6 +9,7 @@
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentCamera.h"
 

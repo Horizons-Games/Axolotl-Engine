@@ -17,6 +17,8 @@
 #include "GL/glew.h"
 #include "Physics/Physics.h"
 
+#include "Camera/Camera.h"
+
 #ifdef ENGINE
 	#include "Modules/ModuleEditor.h"
 	#include "DataModels/Windows/EditorWindows/WindowScene.h"

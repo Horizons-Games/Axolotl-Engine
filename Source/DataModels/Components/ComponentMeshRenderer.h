@@ -2,30 +2,22 @@
 
 #include "Component.h"
 
-#include "Components/Component.h"
-
-#include "Batch/GeometryBatch.h"
 #include "FileSystem/UID.h"
 
-#include "ModuleProgram.h"
 
 #include "Auxiliar/Generics/Drawable.h"
-
-#include "Math/float3.h"
-#include "Math/float4.h"
-#include "Math/float4x4.h"
-
-#include "Program/Program.h"
-
-#include "Enums/TextureType.h"
 
 class ResourceMesh;
 class ResourceMaterial;
 class ResourceTexture;
+class GeometryBatch;
+class Program;
 class Json;
 class WindowMeshInput;
 class WindowMaterialInput;
 class WindowTextureInput;
+
+enum class TextureType;
 
 class ComponentMeshRenderer : public Component, public Drawable
 {

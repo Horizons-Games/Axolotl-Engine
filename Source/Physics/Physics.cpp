@@ -9,6 +9,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"

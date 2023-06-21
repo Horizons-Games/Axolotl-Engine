@@ -13,6 +13,8 @@
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
 
+#include "Camera/Camera.h"
+
 Skybox::Skybox() : skyboxRes(nullptr)
 {
 }

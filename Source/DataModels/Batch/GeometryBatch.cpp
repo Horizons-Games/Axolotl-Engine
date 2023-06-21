@@ -5,6 +5,8 @@
 #include "Application.h"
 #include "ModuleProgram.h"
 
+#include "BatchManager.h"
+
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
 

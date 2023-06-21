@@ -27,6 +27,7 @@
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Batch/BatchManager.h"
 #include "DataStructures/Quadtree.h"
 #include "ModulePlayer.h"
 

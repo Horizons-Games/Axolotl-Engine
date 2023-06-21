@@ -14,14 +14,18 @@
 #include "Components/ComponentTransform.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include "DataStructures/Quadtree.h"
+
 #include "Program/Program.h"
 
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include <queue>
 #include <windows.h>

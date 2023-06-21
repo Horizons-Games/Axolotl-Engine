@@ -3,7 +3,6 @@
 #include "Module.h"
 
 #include <list>
-#include <utility>
 
 class ModuleCommand : public Module
 {

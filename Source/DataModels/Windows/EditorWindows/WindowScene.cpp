@@ -13,6 +13,8 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
 
 WindowScene::WindowScene() :
 	EditorWindow("Scene"),

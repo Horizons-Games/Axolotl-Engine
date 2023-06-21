@@ -2,11 +2,10 @@
 
 #include "Resources/ResourceModel.h"
 
-#include "Application.h"
 #include "FileSystem/ModuleResources.h"
 
-#include "DataModels/Resources/ResourceMaterial.h"
-#include "DataModels/Resources/ResourceMesh.h"
+// #include "DataModels/Resources/ResourceMaterial.h"
+// #include "DataModels/Resources/ResourceMesh.h"
 
 ResourceModel::ResourceModel(UID resourceUID,
 							 const std::string& fileName,

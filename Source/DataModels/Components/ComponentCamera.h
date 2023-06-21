@@ -3,9 +3,7 @@
 #include "Auxiliar/Generics/Updatable.h"
 #include "Component.h"
 
-#include "Geometry/Frustum.h"
-#include "Geometry/OBB.h"
-#include "Geometry/Plane.h"
+#include <memory>
 
 /*
 enum class ECameraFrustumMode
