@@ -153,7 +153,7 @@ update_status ModuleScene::Update()
 	}
 
 	// Particles need to be updated 
-	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticles())
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
 		particle->Update();
 	}

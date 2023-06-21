@@ -73,7 +73,6 @@ public:
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<ComponentCamera*>& GetSceneCameras() const;
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
-	const std::vector<ComponentParticleSystem*>& GetSceneParticles() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
@@ -131,7 +130,6 @@ private:
 	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
 	std::vector<Component*> sceneInteractableComponents;
-	std::vector<ComponentParticleSystem*> sceneParticles;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
 	//Draw is const so I need this vector
@@ -189,11 +187,6 @@ inline const std::vector<ComponentCamera*>& Scene::GetSceneCameras() const
 inline const std::vector<ComponentCanvas*>& Scene::GetSceneCanvas() const
 {
 	return sceneCanvas;
-}
-
-inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticles() const
-{
-	return sceneParticles;
 }
 
 inline const std::vector<Component*>& Scene::GetSceneInteractable() const
@@ -272,16 +265,16 @@ inline void Scene::AddUpdatableObject(Updatable* updatable)
 
 inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
 {
-	sceneParticles.push_back(particleSystem);
+	sceneParticleSystems.push_back(particleSystem);
 }
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
-	sceneParticles.erase(std::remove_if(std::begin(sceneParticles),
-		std::end(sceneParticles),
+	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
+											  std::end(sceneParticleSystems),
 		[&particleSystem](ComponentParticleSystem* particle)
 		{
 			return particle == particleSystem;
 		}),
-		std::end(sceneParticles));
+							   std::end(sceneParticleSystems));
 }

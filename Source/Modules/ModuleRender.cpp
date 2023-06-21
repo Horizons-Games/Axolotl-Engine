@@ -314,7 +314,7 @@ update_status ModuleRender::Update()
 	}
 
 	// Draw Particles
-	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticles())
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
 		particle->Render();
 	}
