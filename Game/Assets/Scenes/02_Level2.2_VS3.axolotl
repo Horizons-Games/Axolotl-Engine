@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "02_Level2.2",
+                "name": "02_Level2.2_VS3",
                 "tag": "",
                 "uid": 67125992557613803,
                 "parentUID": 0,
@@ -3408,7 +3408,7 @@
                 "tag": "",
                 "uid": 5825609231830220241,
                 "parentUID": 10995451546110365644,
-                "enabled": false,
+                "enabled": true,
                 "static": true,
                 "Components": [
                     {
