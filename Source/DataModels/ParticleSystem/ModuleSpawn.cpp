@@ -88,7 +88,7 @@ void ModuleSpawn::Update(EmitterInstance* instance)
 {
 	float dt = App->GetDeltaTime();
 
-	const std::shared_ptr<ParticleEmitter> partEmitter = instance->GetEmitter();
+	ParticleEmitter* partEmitter = instance->GetEmitter();
 
 	float elapsed = partEmitter->GetElapsed();
 	elapsed += dt;

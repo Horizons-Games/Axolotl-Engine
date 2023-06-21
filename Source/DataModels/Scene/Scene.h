@@ -98,7 +98,6 @@ public:
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 	void AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
 
-	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(const GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);

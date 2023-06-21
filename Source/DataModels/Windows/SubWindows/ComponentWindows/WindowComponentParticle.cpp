@@ -97,13 +97,6 @@ void WindowComponentParticle::DrawWindowContents()
 			component->RemoveEmitter(emitterToRemove);
 		}
 
-		int id = 0;
-		for (EmitterInstance* instance : component->GetEmitters())
-		{
-			DrawEmitter(instance, id);
-			++id;
-		}
-
 		if (ImGui::Button("Add an Emitter"))
 		{
 			std::unique_ptr<ParticleEmitter> emitter = std::make_unique<ParticleEmitter>();

@@ -254,7 +254,7 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 			break;
 		}
 
-		const std::shared_ptr<ResourceTexture>& texture = emitter->GetTexture();
+		const std::shared_ptr<ResourceTexture>& texture = emitter->GetParticleTexture();
 
 		if (texture)
 		{

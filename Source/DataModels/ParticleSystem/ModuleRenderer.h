@@ -79,5 +79,5 @@ inline ModuleRenderer::BlendingMode ModuleRenderer::GetBlending() const
 
 inline std::shared_ptr<ResourceTexture> ModuleRenderer::GetTexture()
 {
-	return emitter->GetTexture();
+	return emitter->GetParticleTexture();
 }

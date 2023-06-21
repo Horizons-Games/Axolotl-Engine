@@ -16,7 +16,7 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	void DrawEmitter(EmitterInstance* instance, int id);
+	void DrawEmitter(EmitterInstance* instance);
 	std::unique_ptr<WindowParticleSystemInput> inputParticleSystem;
 };
 
