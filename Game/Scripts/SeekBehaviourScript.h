@@ -18,6 +18,7 @@ public:
 	void Seeking() const;
 	void DisableMovement() const;
 	void DisableRotation() const;
+	void RotateToTarget() const;
 
 private:
 	GameObject* target;
