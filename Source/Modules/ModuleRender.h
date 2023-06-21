@@ -26,14 +26,6 @@ class ModuleRender : public Module
 {
 public:
 
-	enum ModeRender{
-		POSITION = 1,
-		NORMAL = 2,
-		DIFFUSE = 3,
-		SPECULAR = 4,
-		LENGTH = 5
-	};
-
 	ModuleRender();
 	~ModuleRender() override;
 
@@ -65,6 +57,15 @@ public:
 	void DrawQuadtree(const Quadtree* quadtree);
 
 private:
+
+	enum class ModeRender {
+		DEFAULT = 0,
+		POSITION = 1,
+		NORMAL = 2,
+		DIFFUSE = 3,
+		SPECULAR = 4,
+		LENGTH
+	};
 
 	bool CheckIfTransparent(const GameObject* gameObject);
 
@@ -103,9 +104,7 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 
 inline void ModuleRender::ChangeRenderMode()
 {
-		int modeRenderAsInt = static_cast<int>(modeRender);
-		modeRenderAsInt = (modeRenderAsInt + 1) % static_cast<int>(ModeRender::LENGTH);
-		modeRender = static_cast<ModeRender>(modeRenderAsInt);
+		modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
 }
 
 inline float4 ModuleRender::GetBackgroundColor() const
