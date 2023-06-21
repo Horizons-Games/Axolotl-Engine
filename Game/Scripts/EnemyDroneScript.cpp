@@ -64,12 +64,23 @@ void EnemyDroneScript::Update(float deltaTime)
 			patrolScript->StartPatrol();
 		}
 
-		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance)
-			&& droneState != DroneBehaviours::SEEK)
+		if (droneState != DroneBehaviours::SEEK)
 		{
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
-			droneState = DroneBehaviours::SEEK;
+			bool inFront = true;
+			if (std::abs(ownerTransform->GetGlobalForward().
+				AngleBetween(seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition())) > 1.5708f)
+			{
+				inFront = false;
+			}
+
+			if ((ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance) && inFront)
+				|| (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance / 2.0f) 
+					&& !inFront))
+			{
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+				droneState = DroneBehaviours::SEEK;
+			}
 		}
 
 		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
