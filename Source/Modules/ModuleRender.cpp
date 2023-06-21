@@ -27,6 +27,8 @@
 #include "Scene/Scene.h"
 #include "Camera/Camera.h"
 
+#include "Skybox/Skybox.h"
+
 #include <queue>
 #include <windows.h>
 

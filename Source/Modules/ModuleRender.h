@@ -16,11 +16,13 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Skybox;
+class Quadtree;
 class Program;
 class Cubemap;
 class GameObject;
+class GeometryBatch;
 class BatchManager;
+class ComponentMeshRenderer;
 
 class ModuleRender : public Module
 {

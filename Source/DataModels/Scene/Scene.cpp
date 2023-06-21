@@ -43,6 +43,8 @@
 
 #include "Scripting/IScript.h"
 
+#include "Skybox/Skybox.h"
+
 #include "Defines/QuadtreeDefines.h"
 
 #include <GL/glew.h>

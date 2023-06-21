@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 
+#include "Modules/ModuleInput.h"
+
 #include "Application.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
