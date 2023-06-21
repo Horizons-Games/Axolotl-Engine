@@ -24,4 +24,6 @@ public:
 private:
 	float3 currentFocusPos;
 	float3 currentFocusDir;
+
+	bool rotating;
 };

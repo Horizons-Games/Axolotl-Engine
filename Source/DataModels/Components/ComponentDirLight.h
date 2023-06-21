@@ -15,9 +15,7 @@ public:
 
 	void Draw() const override;
 
-	void Enable() override;
-	void Disable() override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 };

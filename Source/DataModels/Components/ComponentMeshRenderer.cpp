@@ -25,9 +25,10 @@
 #include <GL/glew.h>
 
 #ifdef ENGINE
-
 	#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
-
+#else
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
@@ -116,6 +117,21 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	if (transform == nullptr)
+	{
+		return;
+	}
+#ifndef ENGINE
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif // ENGINE
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
 }
 
 void ComponentMeshRenderer::DrawMeshes(Program* program) const
@@ -331,12 +347,8 @@ void ComponentMeshRenderer::DrawHighlight() const
 	}
 }
 
-void ComponentMeshRenderer::SaveOptions(Json& meta)
+void ComponentMeshRenderer::InternalSave(Json& meta)
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	UID uid = 0;
 	std::string assetPath = "";
 
@@ -359,12 +371,8 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
-void ComponentMeshRenderer::LoadOptions(Json& meta)
+void ComponentMeshRenderer::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 #ifdef ENGINE
 	std::string path = meta["assetPathMaterial"];
 	bool materialExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());

@@ -55,6 +55,8 @@ void ComponentAnimation::Update()
 {
 	if (stateMachine)
 	{
+		GameObject* owner = GetOwner();
+
 		if ((actualState == 0) && (lastState == NON_STATE)) // Entry State
 		{
 			SaveModelTransform(owner);
@@ -93,17 +95,17 @@ void ComponentAnimation::Update()
 				}
 				else if (state->resource && state->loop)
 				{
-					controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+					controller->Play(state, false);
 				}
 			}
 		}
 		else
 		{
 			actualState = nextState;
-			const State* state = stateMachine->GetState(actualState);
+			State* state = stateMachine->GetState(actualState);
 			if (state->resource)
 			{
-				controller->Play(std::dynamic_pointer_cast<ResourceAnimation>(state->resource), false);
+				controller->Play(state, false);
 			}
 			else
 			{
@@ -124,7 +126,7 @@ void ComponentAnimation::Draw() const
 {
 	if (!App->IsOnPlayMode() && drawBones)
 	{
-		DrawBones(owner);
+		DrawBones(GetOwner());
 	}
 }
 
@@ -143,13 +145,8 @@ void ComponentAnimation::DrawBones(GameObject* parent) const
 	}
 }
 
-void ComponentAnimation::SaveOptions(Json& meta)
+void ComponentAnimation::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
 	UID uidState = 0;
 	std::string assetPath = "";
 
@@ -163,12 +160,8 @@ void ComponentAnimation::SaveOptions(Json& meta)
 	meta["assetPathState"] = assetPath.c_str();
 }
 
-void ComponentAnimation::LoadOptions(Json& meta)
+void ComponentAnimation::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 	std::shared_ptr<ResourceStateMachine> resourceState;
 #ifdef ENGINE
 	std::string path = meta["assetPathState"];
@@ -191,7 +184,7 @@ void ComponentAnimation::LoadOptions(Json& meta)
 	nextState = 0;
 }
 
-bool ComponentAnimation::CheckTransitions(State* state, Transition& transition)
+bool ComponentAnimation::CheckTransitions(const State* state, Transition& transition)
 {
 	if (!state)
 	{
