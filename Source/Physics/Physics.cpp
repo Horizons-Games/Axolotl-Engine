@@ -21,8 +21,6 @@
 
 #include "Geometry/Frustum.h"
 #include "Geometry/Triangle.h"
-#include "Math/float2.h"
-#include <queue>
 
 float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 {

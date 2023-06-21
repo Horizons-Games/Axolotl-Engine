@@ -4,7 +4,6 @@
 
 #include "GL/glew.h"
 
-#include <MathGeoLib/Include/Math/float3.h>
 #include "SDL/include/SDL.h"
 
 Program::Program(unsigned vertexShader,

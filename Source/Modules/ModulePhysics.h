@@ -3,8 +3,6 @@
 #include "Bullet/LinearMath/btIDebugDraw.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Module.h"
-#include <unordered_map>
-#include <unordered_set>
 
 class btRigidBody;
 struct btBroadphasePair;

@@ -1,10 +1,5 @@
 #pragma once
 
-#include "Math/float2.h"
-#include "Math/float3.h"
-
-#include <unordered_map>
-
 #include "GL/glew.h"
 
 #define DOUBLE_BUFFERS 2

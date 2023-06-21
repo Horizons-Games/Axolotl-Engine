@@ -15,8 +15,6 @@
 
 #include "GameObject/GameObject.h"
 
-#include "Math/float3.h"
-
 #include "debugdraw.h"
 
 ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :

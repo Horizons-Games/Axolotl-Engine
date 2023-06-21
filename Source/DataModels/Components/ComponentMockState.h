@@ -1,8 +1,6 @@
 #pragma once
 #include "Component.h"
 
-#include "Math/float3.h"
-
 #pragma message(__FILE__ " TODO: Remove this component")
 
 class ComponentMockState : public Component

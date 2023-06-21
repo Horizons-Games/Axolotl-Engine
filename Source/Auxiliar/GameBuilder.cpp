@@ -8,12 +8,6 @@
 
 #include "Defines/FileSystemDefines.h"
 
-#include <assert.h>
-#include <future>
-#include <windows.h>
-
-#undef CreateDirectory
-
 namespace builder
 {
 namespace

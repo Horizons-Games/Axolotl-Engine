@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Math/Quat.h"
-#include "Math/float3.h"
-
 class State;
 class ResourceAnimation;
 

@@ -2,8 +2,6 @@
 
 #include "ComponentWindow.h"
 
-#include "Math/float3.h"
-
 class ComponentTransform;
 
 enum class Axis

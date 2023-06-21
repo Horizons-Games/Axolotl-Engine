@@ -2,8 +2,6 @@
 
 #include "WindowConsole.h"
 
-#include <ranges>
-
 WindowConsole::WindowConsole() : EditorWindow("Console")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar;

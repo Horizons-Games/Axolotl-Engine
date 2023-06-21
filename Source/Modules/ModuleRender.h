@@ -8,10 +8,6 @@
 
 #include "FileSystem/UID.h"
 
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
-
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;

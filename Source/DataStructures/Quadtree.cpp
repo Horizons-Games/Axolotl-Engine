@@ -5,9 +5,6 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 
-#include "math/float3.h"
-#include "math/float4x4.h"
-
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 

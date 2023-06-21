@@ -2,8 +2,6 @@
 #include "DataModels/Commands/Command.h"
 #include "Module.h"
 
-#include <list>
-
 class ModuleCommand : public Module
 {
 public:

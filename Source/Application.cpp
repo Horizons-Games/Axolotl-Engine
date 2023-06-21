@@ -21,8 +21,6 @@
 
 #include "Defines/FramerateDefines.h"
 
-#include <ranges>
-
 constexpr int FRAMES_BUFFER = 50;
 
 Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false), closeGame(false)

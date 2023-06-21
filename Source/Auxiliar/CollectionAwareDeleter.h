@@ -1,9 +1,5 @@
 #pragma once
 
-#include <list>
-#include <map>
-#include <set>
-
 template<typename Pointer, typename MapKey = unsigned long long /*key of the Resources map*/>
 class CollectionAwareDeleter
 {

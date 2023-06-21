@@ -9,8 +9,6 @@
 
 #include "Defines/FileSystemDefines.h"
 
-#include <map>
-
 namespace
 {
 const std::string noneSelected = "-";

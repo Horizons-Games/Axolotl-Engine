@@ -1,10 +1,9 @@
 #pragma once
 
-#include <list>
-#include <ranges>
-
 #include "FileSystem/UID.h"
 #include "MathGeoLib/Include/Math/vec2d.h"
+
+#include <ranges>
 
 class Component;
 class ComponentMeshRenderer;

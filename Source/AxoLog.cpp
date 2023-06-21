@@ -6,11 +6,7 @@
 #include "DataModels/Resources/Resource.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#include <assert.h>
 #include <mutex>
-#include <windows.h>
-
-#undef CreateDirectory
 
 namespace
 {

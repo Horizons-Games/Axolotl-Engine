@@ -8,8 +8,6 @@
 
 #include "GeometryBatch.h"
 
-#include <assert.h>
-
 BatchManager::BatchManager()
 {
 }

@@ -3,8 +3,6 @@
 #include "Auxiliar/Generics/Updatable.h"
 #include "Component.h"
 
-#include <memory>
-
 /*
 enum class ECameraFrustumMode
 {

@@ -29,9 +29,6 @@
 
 #include "Skybox/Skybox.h"
 
-#include <queue>
-#include <windows.h>
-
 #ifdef DEBUG
 	#include "optick.h"
 #endif // DEBUG

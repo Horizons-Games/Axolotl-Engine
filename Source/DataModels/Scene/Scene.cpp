@@ -48,7 +48,6 @@
 #include "Defines/QuadtreeDefines.h"
 
 #include <GL/glew.h>
-#include <stack>
 
 Scene::Scene() :
 	root(nullptr),

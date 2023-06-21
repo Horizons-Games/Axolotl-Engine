@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Resource.h"
-#include <unordered_map>
-#include <variant>
 
 enum class FieldTypeParameter
 {

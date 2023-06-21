@@ -1,10 +1,6 @@
 #pragma once
 #include "Module.h"
 
-#include <future>
-#include <map>
-#include <thread>
-
 #include "DataModels/Resources/Resource.h"
 
 #include "Application.h"

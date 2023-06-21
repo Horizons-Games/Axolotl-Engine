@@ -12,10 +12,7 @@
 #include "Components/ComponentScript.h"
 
 #include "IScript.h"
-#include "Math/float3.h"
 #include "ScriptFactory.h"
-
-#include <windows.h>
 
 namespace
 {

@@ -5,8 +5,6 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#include <assert.h>
-
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
 #include "AK/SoundEngine/Common/AkModule.h"		 // Default memory manager
