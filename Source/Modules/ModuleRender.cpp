@@ -231,17 +231,15 @@ update_status ModuleRender::Update()
 	const Skybox* skybox = loadedScene->GetSkybox();
 
 	GameObject* player = modulePlayer->GetPlayer(); // we can make all of this variables a class variable to save time
+
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
-	{
-		AddToRenderList(player);
-	}
 #else
 	if (player)
+#endif
 	{
 		AddToRenderList(player);
 	}
-#endif // !ENGINE
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 

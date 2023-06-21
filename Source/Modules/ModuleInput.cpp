@@ -210,7 +210,7 @@ update_status ModuleInput::Update()
 	if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_M] == KeyState::DOWN &&
 		SDL_ShowCursor(SDL_QUERY))
 	{
-		App->GetModule<ModuleRender>()->SetModeRender();
+		App->GetModule<ModuleRender>()->ChangeRenderMode();
 	}
 #endif
 

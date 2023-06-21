@@ -26,6 +26,14 @@ class ModuleRender : public Module
 {
 public:
 
+	enum ModeRender{
+		POSITION = 1,
+		NORMAL = 2,
+		DIFFUSE = 3,
+		SPECULAR = 4,
+		LENGTH = 5
+	};
+
 	ModuleRender();
 	~ModuleRender() override;
 
@@ -41,7 +49,7 @@ public:
 	void UpdateBuffers(unsigned width, unsigned height);
 
 	void SetBackgroundColor(float4 color);
-	void SetModeRender();
+	void ChangeRenderMode();
 	float4 GetBackgroundColor() const;
 
 	GLuint GetRenderedTexture() const;
@@ -57,7 +65,7 @@ public:
 	void DrawQuadtree(const Quadtree* quadtree);
 
 private:
-	void UpdateProgram();
+
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawHighlight(GameObject* gameObject);
@@ -93,16 +101,11 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 	backgroundColor = color;
 }
 
-inline void ModuleRender::SetModeRender()
+inline void ModuleRender::ChangeRenderMode()
 {
-	if (modeRender == 4)
-	{
-		modeRender = 0;
-	}
-	else
-	{
-		modeRender++;
-	}
+		int modeRenderAsInt = static_cast<int>(modeRender);
+		modeRenderAsInt = (modeRenderAsInt + 1) % static_cast<int>(ModeRender::LENGTH);
+		modeRender = static_cast<ModeRender>(modeRenderAsInt);
 }
 
 inline float4 ModuleRender::GetBackgroundColor() const
