@@ -4,7 +4,6 @@
 
 #include "GL/glew.h"
 #include "Math/float4.h"
-#include "Module.h"
 
 #include "FileSystem/UID.h"
 
