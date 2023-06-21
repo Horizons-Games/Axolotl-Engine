@@ -1,5 +1,8 @@
 #include "UIImageControl.h"
 
+#include "ModuleInput.h"
+#include "Components/UI/ComponentImage.h"
+
 REGISTERCLASS(UIImageControl);
 
 UIImageControl::UIImageControl() : Script(), disableImgObject(nullptr), enableImgObject(nullptr), imageComponent(nullptr),

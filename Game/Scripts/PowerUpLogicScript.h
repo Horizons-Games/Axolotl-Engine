@@ -2,27 +2,26 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "Math/float3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
 
-enum PowerUpType
+enum class PowerUpType
 {
+	NONE,
 	HEAL,
-	DEFENSE,
 	ATTACK,
-	SPEED,
-	NONE
+	DEFENSE,
+	SPEED
 };
 
-class PowerUpScript : public Script
+class PowerUpLogicScript : public Script
 {
 public:
-	PowerUpScript();
-	~PowerUpScript() override = default;
+	PowerUpLogicScript();
+	~PowerUpLogicScript() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -31,10 +30,12 @@ public:
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void DeactivatePowerUp();
+	void DisablePowerUp() const;
 
+	float timer;
 	PowerUpType type;
+
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRb;
-	float counter;
+	GameObject* powerUpsManager;
 };
