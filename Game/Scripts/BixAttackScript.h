@@ -16,6 +16,8 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
+	void IncreaseAttack(float amountAttack);
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -47,3 +49,9 @@ private:
 	ComponentTransform* ray4Transform;
 	//--Provisional
 };
+
+inline void BixAttackScript::IncreaseAttack(float amountAttack)
+{
+	damageAttack += amountAttack;
+	LOG_INFO("Attack increased");
+}

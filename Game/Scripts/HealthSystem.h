@@ -15,6 +15,8 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
+	void IncreaseDefense(float increaseDefense);
+	
 	float GetCurrentHealth() const;
 
 	bool EntityIsAlive() const;
@@ -24,9 +26,16 @@ public:
 private:
 	float currentHealth;
 	float maxHealth;
+	float defense;
 	bool dead;
 
 	ComponentAnimation* componentAnimation;
 
 	std::string loseSceneName;
 };
+
+inline void HealthSystem::IncreaseDefense(float increaseDefense)
+{
+	defense += increaseDefense;
+	LOG_INFO("Defense increased");
+}
