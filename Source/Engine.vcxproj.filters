@@ -477,7 +477,7 @@
       <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
-      <Filter>UserScripts\Player\Attack</Filter>
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -968,7 +968,7 @@
       <Filter>UserScripts\Basics</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
-      <Filter>UserScripts\Player\Attack</Filter>
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -172,7 +172,6 @@
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp" />
@@ -526,7 +525,6 @@
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
