@@ -125,6 +125,7 @@ ModuleRender::ModuleRender() :
 ModuleRender::~ModuleRender()
 {
 	delete batchManager;
+	delete gBuffer;
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
 }
