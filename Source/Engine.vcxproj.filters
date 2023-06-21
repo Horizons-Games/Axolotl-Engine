@@ -813,7 +813,6 @@
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>DataModels\Batch</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
@@ -867,9 +866,6 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Audio\AudioData.h">
-      <Filter>Auxiliar\Audio</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentBreakable.h">
       <Filter>DataModels\Components</Filter>
@@ -933,6 +929,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Audio\AudioData.h">
+      <Filter>Auxiliar\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

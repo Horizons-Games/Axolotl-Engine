@@ -26,8 +26,6 @@ namespace SEWERS
 {
 static const wchar_t* BIGDOOR_OPEN = L"sfx_bigDoor_open";
 static const wchar_t* BIGDOOR_CLOSE = L"sfx_bigDoor_close";
-static const wchar_t* AMBIENT = L"sewers_ambient";
-static const wchar_t* STOP_AMBIENT = L"sewers_ambient_stop";
 } // namespace SEWERS
 namespace CANTINA
 {

@@ -6,6 +6,11 @@
 				<Sound Name="sfx_NPC_deepVoiceTalk-001" ID="{5D7A336A-E935-498E-A7F4-9C1D553543EB}" ShortID="432948759">
 					<PropertyList>
 						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-10</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Attenuation">
@@ -37,7 +42,7 @@
 						<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-8</Value>
+								<Value>-10</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>

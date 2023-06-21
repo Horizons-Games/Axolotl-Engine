@@ -9,17 +9,13 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{2F84F262-A8D6-C036-DE5C-B5976E57181E}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{951CE029-7AA5-D127-DC9F-BA0A2B13B9F9}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
 				<File Id="106158711" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>cantina_music.wav</ShortName>
 					<CachePath>SFX/cantina_music_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="347047974" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>First_Level_Sewers__v1.wav</ShortName>
-					<CachePath>SFX/First_Level_Sewers__v1_10C4C929.wem</CachePath>
 				</File>
 				<File Id="397861920" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>182680-amb-doomdrones-ripley-hall.wav</ShortName>
@@ -75,11 +71,6 @@
 						<MediaRef Id="397861920"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3000297385" Name="sewersMusic">
-					<MediaRefs>
-						<MediaRef Id="347047974"/>
-					</MediaRefs>
-				</Event>
 				<Event Id="2073224732" Name="sfx_ambient_crowd_talking_01">
 					<MediaRefs>
 						<MediaRef Id="652056130"/>
@@ -100,7 +91,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{673D902A-B07C-8152-C1A9-DD6A4927F6A8}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{7A3ECBE9-C273-F94B-B50A-C63A7AA985A3}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -208,7 +199,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{2FC6A815-6D61-CB68-F319-CFFEA3532ACC}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{C8D1769B-A08F-6DB2-5F4A-FC2A2C757D86}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -374,7 +365,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{1D437556-426F-86F3-7CD9-4916B4EB3710}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{28D48F15-CE0C-1106-3075-2F753A84DB3E}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -584,7 +575,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{13FAB44A-AACC-FF2B-9C92-49B6CA792BBA}">
+		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{46EFF73B-E83E-0D87-72A8-5C7EC06AA97F}">
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
 			<Media>
@@ -814,5 +805,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{9AC2274C-C1B7-7A80-A797-1BEB8F06BC9E}</FileHash>
+	<FileHash>{F3D091ED-F7E2-63EC-20E4-87963C7F3ACB}</FileHash>
 </SoundBanksInfo>

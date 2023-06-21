@@ -13,28 +13,6 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="First_Level_Sewers__v1" ID="{CEE64C54-2203-474B-8E18-0908068F32B3}" ShortID="97423702">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="First_Level_Sewers__v1" ID="{CC52A5C4-2BFA-4CEA-BA23-81EADBD2D02E}">
-									<Language>SFX</Language>
-									<AudioFile>First_Level_Sewers__v1.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="347047974"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="First_Level_Sewers__v1" ID="{CC52A5C4-2BFA-4CEA-BA23-81EADBD2D02E}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="ambient_sewers" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" ShortID="458882770">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
@@ -88,7 +66,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-9</Value>
+										<Value>-13</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -121,7 +99,7 @@
 								<Property Name="OverrideEffect" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-7</Value>
+										<Value>-10</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -226,6 +204,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<Sound Name="sfx_bigDoor_close-001" ID="{A52D03B5-D2CB-4F69-9D1E-2D2D4799B46C}" ShortID="291914677">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -251,7 +236,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-7</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
