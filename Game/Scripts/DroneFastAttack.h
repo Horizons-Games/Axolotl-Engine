@@ -17,12 +17,16 @@ public:
 	void Start() override;
 
 	void PerformAttack();
+	void Reposition();
+
+	bool IsAttackAvailable() const;
 
 private:
-	bool IsAttackAvailable();
 
 	float attackCooldown;
 	float lastAttackTime;
+
+	bool needReposition;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;

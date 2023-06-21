@@ -18,6 +18,7 @@ class HealthSystem;
 enum class DroneBehaviours
 {
 	IDLE,
+	FIRSTPATROL,
 	PATROL,
 	SEEK,
 	ATTACK

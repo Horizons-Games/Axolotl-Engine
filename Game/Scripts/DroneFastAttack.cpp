@@ -23,7 +23,7 @@ REGISTERCLASS(DroneFastAttack);
 
 DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
-	bulletVelocity(0.2f), bulletPrefab(nullptr)
+	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
@@ -48,37 +48,40 @@ void DroneFastAttack::Start()
 
 void DroneFastAttack::PerformAttack()
 {
-	if (IsAttackAvailable())
-	{
-		animation->SetParameter("attack", true);
+	
+	animation->SetParameter("attack", true);
 
-		// Create a new bullet
-		GameObject* root = loadedScene->GetRoot();
-		GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, root);
-		ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
+	// Create a new bullet
+	GameObject* root = loadedScene->GetRoot();
+	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, root);
+	ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
 
-		// Set the new bullet in the drone, ready for being shooted
-		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
-		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-		bulletTransf->SetRotation(transform->GetGlobalRotation());
-		bulletTransf->UpdateTransformMatrices();
+	// Set the new bullet in the drone, ready for being shooted
+	bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
+	bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
+	bulletTransf->SetRotation(transform->GetGlobalRotation());
+	bulletTransf->UpdateTransformMatrices();
 
-		// Attack the DroneFastBullet script to the new bullet to give it its logic
-		ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneFastBullet"));
-		script->SetConstuctor("DroneFastBullet");
-		script->GetScript()->SetGameObject(bullet);
-		script->GetScript()->SetApplication(App);
+	// Attack the DroneFastBullet script to the new bullet to give it its logic
+	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
+	script->SetScript(App->GetScriptFactory()->ConstructScript("DroneFastBullet"));
+	script->SetConstuctor("DroneFastBullet");
+	script->GetScript()->SetGameObject(bullet);
+	script->GetScript()->SetApplication(App);
 
-		// Once the engine automatically runs the Start() for newly created objects, delete this line
-		script->Start();
+	// Once the engine automatically runs the Start() for newly created objects, delete this line
+	script->Start();
 
-		lastAttackTime = SDL_GetTicks() / 1000.0f;
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
-	}
+	lastAttackTime = SDL_GetTicks() / 1000.0f;
+	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+	
 }
 
-bool DroneFastAttack::IsAttackAvailable()
+void DroneFastAttack::Reposition()
+{
+}
+
+bool DroneFastAttack::IsAttackAvailable() const
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }
