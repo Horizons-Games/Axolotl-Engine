@@ -4,8 +4,8 @@
 enum class DroneExplosionState
 {
 	NOTDEAD,
-	SELECTEDPOS,
-	WAITTINGEXPLOSION
+	WAITTINGEXPLOSION,
+	EXPLOTING
 };
 
 class DroneExplosionAttack : public Script
@@ -20,7 +20,5 @@ public:
 	void UpdateDroneColor();
 
 private:
-	float3 explosionPos;
-
 	DroneExplosionState attackState;
 };
