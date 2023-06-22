@@ -84,7 +84,6 @@ void DroneAttack::PerformAttack()
 		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneBullet"));
 		script->SetConstuctor("DroneBullet");
 		script->GetScript()->SetOwner(bullet);
-		script->GetScript()->SetApplication(App);
 		script->Start();//Should be done automatically but the engine still does not do the Start for runtime created scripts
 
 		lastAttackTime = SDL_GetTicks() / 1000.0f;

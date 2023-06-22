@@ -306,7 +306,6 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 	newScript->SetConstuctor(selectedScript);
 	IScript* Iscript = App->GetScriptFactory()->ConstructScript(selectedScript);
 	Iscript->SetOwner(component->GetOwner());
-	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
 }
 

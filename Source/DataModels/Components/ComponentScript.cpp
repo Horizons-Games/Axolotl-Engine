@@ -14,6 +14,26 @@
 
 #include "ComponentRigidBody.h"
 
+namespace
+{
+template<typename T>
+std::optional<Field<T>> GetField(IScript* script, const std::string& name)
+{
+	for (const TypeFieldPair& enumAndType : script->GetFields())
+	{
+		if (TypeToEnum<T>::value == enumAndType.first)
+		{
+			Field<T> field = std::get<Field<T>>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
+		}
+	}
+	return std::nullopt;
+}
+}
+
 ComponentScript::ComponentScript(bool active, GameObject* owner) :
 	Component(ComponentType::SCRIPT, active, owner, true),
 	script(nullptr)
@@ -184,7 +204,6 @@ void ComponentScript::LoadOptions(Json& meta)
 		return;
 	}
 
-	script->SetApplication(App.get());
 	script->SetOwner(owner);
 	Json fields = meta["fields"];
 	for (unsigned int i = 0; i < fields.Size(); ++i)
@@ -196,7 +215,7 @@ void ComponentScript::LoadOptions(Json& meta)
 			case FieldType::FLOAT:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<float>> optField = script->GetField<float>(valueName);
+				std::optional<Field<float>> optField = GetField<float>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -206,7 +225,7 @@ void ComponentScript::LoadOptions(Json& meta)
 			case FieldType::VECTOR3:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
+				std::optional<Field<float3>> optField = GetField<float3>(script, valueName);
 				if (optField)
 				{
 					float3 vec3(field["value x"], field["value y"], field["value z"]);
@@ -218,7 +237,7 @@ void ComponentScript::LoadOptions(Json& meta)
 			case FieldType::STRING:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<std::string>> optField = script->GetField<std::string>(valueName);
+				std::optional<Field<std::string>> optField = GetField<std::string>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -229,7 +248,7 @@ void ComponentScript::LoadOptions(Json& meta)
 			case FieldType::GAMEOBJECT:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<GameObject*>> optField = script->GetField<GameObject*>(valueName);
+				std::optional<Field<GameObject*>> optField = GetField<GameObject*>(script, valueName);
 				if (optField)
 				{
 					UID fieldUID = field["value"];
@@ -259,7 +278,7 @@ void ComponentScript::LoadOptions(Json& meta)
 			case FieldType::BOOLEAN:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
+				std::optional<Field<bool>> optField = GetField<bool>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);

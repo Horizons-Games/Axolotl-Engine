@@ -25,6 +25,9 @@ public:
 
     void Move(float deltaTime);
 
+	float GetSpeed() const;
+	void SetSpeed(float speed);
+
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;
@@ -40,3 +43,12 @@ private:
 	HealthSystem* healthScript;
 };
 
+inline float PlayerMoveScript::GetSpeed() const
+{
+	return speed;
+}
+
+inline void PlayerMoveScript::SetSpeed(float speed)
+{
+	this->speed = speed;
+}

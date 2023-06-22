@@ -7,6 +7,8 @@
 #include "Application.h"
 #include "GameObject/GameObject.h"
 
+#include "Scripting/RegisterFieldMacros.h"
+
 #include "RuntimeLinkLibrary.h"
 RUNTIME_COMPILER_LINKLIBRARY("ExternalDependencies.lib");
 RUNTIME_COMPILER_LINKLIBRARY("Engine.lib");
@@ -16,6 +18,7 @@ RUNTIME_COMPILER_LINKLIBRARY("DirectXTex.lib");
 class Script : public TInterface<IID_IUPDATEABLE, IScript>
 {
 public:
+	Script();
 	virtual ~Script() override = default;
 
 	virtual void Init() override{};
@@ -26,4 +29,36 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override{};
 	virtual void OnCollisionExit(ComponentRigidBody* other) override{};
 	virtual void CleanUp() override{};
+
+	GameObject* GetOwner() const override;
+	void SetOwner(GameObject* owner) override;
+
+	const std::vector<TypeFieldPair>& GetFields() const override;
+
+	void Serialize(ISimpleSerializer* pSerializer) override;
+
+protected:
+	void AddMember(TypeFieldPair&& member);
+
+protected:
+	GameObject* owner;
+	Application* App;
+
+private:
+	std::vector<TypeFieldPair> members;
 };
+
+inline GameObject* Script::GetOwner() const
+{
+	return owner;
+}
+
+inline void Script::SetOwner(GameObject* owner)
+{
+	this->owner = owner;
+}
+
+inline const std::vector<TypeFieldPair>& Script::GetFields() const
+{
+	return members;
+}

@@ -500,6 +500,7 @@
     </ClCompile>
     <ClCompile Include="Physics\Physics.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
+    <ClCompile Include="Scripting\Script.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
