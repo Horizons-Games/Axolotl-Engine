@@ -15,7 +15,8 @@ public:
 
 private:
     void Orbit(float deltaTime);
-	void CalculateDefaultOffsetVector();
+	void CalculateOffsetVector();
+	void CalculateOffsetVector(float3 offset);
 	CameraSample* FindClosestSample(float3 position);
 
 private: 
