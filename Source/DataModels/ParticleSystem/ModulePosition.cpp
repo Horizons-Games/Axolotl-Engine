@@ -7,7 +7,7 @@
 
 #include <algorithm>
 
-ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter)
+ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(ModuleType::POSITION, emitter)
 {
 }
 

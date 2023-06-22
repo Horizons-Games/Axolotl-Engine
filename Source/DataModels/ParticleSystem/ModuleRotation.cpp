@@ -4,7 +4,8 @@
 
 #include "ImGui/imgui.h"
 
-ModuleRotation::ModuleRotation(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
+ModuleRotation::ModuleRotation(ParticleEmitter* emitter) :
+	ParticleModule(ModuleType::ROTATION, emitter),
 	random(true), rotationOverTime(float2(-0.5f, 0.5f))
 {
 }

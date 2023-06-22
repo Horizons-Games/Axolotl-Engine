@@ -4,7 +4,8 @@
 
 #include "ImGui/imgui.h"
 
-ModuleSize::ModuleSize(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
+ModuleSize::ModuleSize(ParticleEmitter* emitter) :
+	ParticleModule(ModuleType::SIZE, emitter),
 	random(true), sizeOverTime(float2(0.001, 0.01))
 {
 }

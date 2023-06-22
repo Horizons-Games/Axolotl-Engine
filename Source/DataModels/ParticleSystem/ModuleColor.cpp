@@ -5,7 +5,7 @@
 
 #include "ImGui/imgui.h"
 
-ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
+ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::COLOR, emitter),
 	initAlpha(1.0f), endAlpha(0.0f), draggingMark(nullptr), selectedMark(nullptr)
 {
 }
