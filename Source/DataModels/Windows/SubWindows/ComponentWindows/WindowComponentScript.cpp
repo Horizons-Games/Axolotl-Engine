@@ -1,18 +1,25 @@
+#include "StdAfx.h"
+
 #include "WindowComponentScript.h"
 
 #include "Application.h"
 #include "Scene/Scene.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/UIDGenerator.h"
 #include "Modules/ModuleScene.h"
 
 #include "Components/ComponentScript.h"
 
 #include "IScript.h"
-#include "Math/float3.h"
 #include "ScriptFactory.h"
 
 #include "Auxiliar/Reflection/VectorField.h"
+
+namespace
+{
+const float doubleClickTimeFrameInS = .5f;
+}
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component),
@@ -44,6 +51,9 @@ float WindowComponentScript::DrawFloatField(float value, std::string name)
 
 void WindowComponentScript::DrawWindowContents()
 {
+	// Store the starting position of the collapsing header
+	ImVec2 headerMinPos = ImGui::GetItemRectMin();
+
 	DrawEnableAndDeleteComponent();
 
 	ImGui::Text("");
@@ -69,7 +79,7 @@ void WindowComponentScript::DrawWindowContents()
 				finalLabel.c_str(), &currentItem, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
 			ChangeScript(script, constructors[currentItem]);
-			ENGINE_LOG("%s SELECTED, drawing its contents.", script->GetConstructName().c_str());
+			LOG_VERBOSE("{} SELECTED, drawing its contents.", script->GetConstructName());
 		}
 
 		label = "Create Script##";
@@ -93,11 +103,9 @@ void WindowComponentScript::DrawWindowContents()
 	ImGui::Separator();
 
 	std::string scriptName = script->GetConstructName().c_str();
-	std::string scriptExtension = ".cpp:";
-	std::string fullScriptName = scriptName + scriptExtension;
-	ImGui::Text(fullScriptName.c_str());
+	ImGui::Text(scriptName.c_str());
 
-	if (ImGui::GetWindowWidth() > static_cast<float>(fullScriptName.size()) * 13.0f)
+	if (ImGui::GetWindowWidth() > static_cast<float>(scriptName.size()) * 13.0f)
 	{
 		ImGui::SameLine(ImGui::GetWindowWidth() - 120.0f);
 	}
@@ -111,7 +119,7 @@ void WindowComponentScript::DrawWindowContents()
 	finalLabel = label + thisID;
 	if (ImGui::Button(finalLabel.c_str()))
 	{
-		ENGINE_LOG("%s REMOVED, showing list of available scripts.", script->GetConstructName().c_str());
+		LOG_VERBOSE("{} REMOVED, showing list of available scripts.", script->GetConstructName());
 
 		script->SetScript(nullptr);			  // This deletes the script itself
 		script->SetConstuctor(std::string()); // And this makes it so it's also deleted from the serialization
@@ -299,6 +307,25 @@ void WindowComponentScript::DrawWindowContents()
 		}
 		++index;
 	}
+
+	// Store the ending position of the collapsing header
+	ImVec2 headerMaxPos = ImGui::GetItemRectMax();
+
+	// Adjust headerMin and headerMax for the full width of the header
+	headerMinPos.x = ImGui::GetWindowPos().x;
+	headerMaxPos.x = ImGui::GetWindowPos().x + ImGui::GetWindowWidth();
+
+	secondsSinceLastClick += App->GetDeltaTime();
+
+	if (ImGui::IsMouseHoveringRect(headerMinPos, headerMaxPos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	{
+		if (IsDoubleClicked())
+		{
+			std::string scriptPath = "Scripts\\" + script->GetConstructName() + ".cpp";
+			ShellExecuteA(0, 0, scriptPath.c_str(), 0, 0, SW_SHOW);
+		}
+		secondsSinceLastClick = 0;
+	}
 }
 
 void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char* selectedScript)
@@ -343,7 +370,7 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	// Both header and source have the same name, so only checking the header is enough
 	if (fileSystem->Exists(scriptHeaderPath.c_str()))
 	{
-		ENGINE_LOG("That name is already in use, please use a different one");
+		LOG_INFO("That name is already used by another script, please use a different one");
 		return;
 	}
 
@@ -364,7 +391,7 @@ void WindowComponentScript::AddNewScriptToProject(const std::string& scriptName)
 	fileSystem->Save(scriptHeaderPath.c_str(), headerString.c_str(), headerString.size());
 	fileSystem->Save(scriptSourcePath.c_str(), sourceString.c_str(), sourceString.size());
 
-	ENGINE_LOG("New script %s created", scriptName.c_str());
+	LOG_INFO("New script {} created", scriptName);
 }
 
 void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToReplace,
@@ -382,4 +409,9 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 		stringToReplace.replace(startPos, from.length(), to);
 		startPos += to.length();
 	}
+}
+
+bool WindowComponentScript::IsDoubleClicked()
+{
+	return secondsSinceLastClick <= doubleClickTimeFrameInS;
 }

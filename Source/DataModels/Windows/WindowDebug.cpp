@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowDebug.h"
 
 #include "ImGui/imgui.h"
@@ -33,6 +35,7 @@ void WindowDebug::Draw(bool& enabled)
 				glPolygonMode(GL_FRONT_AND_BACK, wireframeMode ? GL_LINE : GL_FILL);
 			}
 			ImGui::Checkbox("Draw Bounding Boxes", &drawBoundingBoxes);
+			ImGui::Checkbox("Draw Area Lights", &drawAreaLight);
 			ImGui::Checkbox("Draw Spot Lights", &drawSpotLight);
 			ImGui::Checkbox("Draw Directional Lights", &drawDirLight);
 			ImGui::Checkbox("Draw Point Lights", &drawPointLight);

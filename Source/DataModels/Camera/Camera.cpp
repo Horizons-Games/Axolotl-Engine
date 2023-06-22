@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Camera.h"
 
 #include "Application.h"
@@ -16,10 +18,6 @@
 
 #include "Windows/EditorWindows/WindowScene.h"
 
-#include "DataStructures/Quadtree.h"
-
-#include "Geometry/Triangle.h"
-#include "Math/Quat.h"
 #include "Math/float3x3.h"
 
 Camera::Camera(const CameraType type) :
@@ -209,7 +207,7 @@ void Camera::KeyboardRotate()
 
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	if (input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
+	if ((*input)[SDL_SCANCODE_UP] != KeyState::IDLE)
 	{
 		if (rotationAngle + rotationSpeed * acceleration < 180)
 			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);

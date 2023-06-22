@@ -3,6 +3,8 @@
 #include "DataModels/Components/ComponentScript.h"
 #include "../Scripts/HelloWorldScript.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(DefaultScript);
 
 DefaultScript::DefaultScript() : Script(), value(10), vecStr{ "Esto", "es un", "vector string", "de prueba" }, vec{ 1.2f,2.3f,3.3f }, vec3(2.1f, 1.2f, 1.4f), sentence("Horizons"), character(nullptr), check(true)
@@ -20,16 +22,16 @@ DefaultScript::DefaultScript() : Script(), value(10), vecStr{ "Esto", "es un", "
 
 void DefaultScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%f", value);
-	ENGINE_LOG("%f %f %f ", vec3[2], vec3[1], vec3[0]);
-	ENGINE_LOG("%s", sentence.c_str());
+	LOG_DEBUG("{}", value);
+	LOG_DEBUG("{} {} {} ", vec3[2], vec3[1], vec3[0]);
+	LOG_DEBUG("{}", sentence.c_str());
 
 	if (character != nullptr)
 	{
-		ENGINE_LOG("%s", character->GetName().c_str())
+		LOG_DEBUG("{}", character);
 	}
 
-	ENGINE_LOG("%s", std::to_string(check).c_str());
+	LOG_DEBUG("{}", check);
 }
 
 const float3& DefaultScript::GetVector3() const
@@ -69,7 +71,7 @@ GameObject* DefaultScript::GetCharacter() const
 
 void DefaultScript::SetCharacter(GameObject* character)
 {
-	ENGINE_LOG("My Character has been changed!");
+	LOG_INFO("My Character has been changed!");
 	this->character = character;
 }
 

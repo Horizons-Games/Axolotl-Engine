@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowMeshInput.h"
 
 #include "Application.h"

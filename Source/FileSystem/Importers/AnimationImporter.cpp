@@ -1,8 +1,12 @@
+#include "StdAfx.h"
+
 #include "AnimationImporter.h"
 
 #include "Application.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+
+#include "Defines/ExtensionDefines.h"
 
 void AnimationImporter::Import(const char* filePath, std::shared_ptr<ResourceAnimation> resource)
 {
@@ -82,7 +86,9 @@ void AnimationImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceAni
 
 void AnimationImporter::Save(const std::shared_ptr<ResourceAnimation>& resource, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[1] = { resource->GetNumChannels() };
+	unsigned int header[1] = {
+		resource->GetNumChannels()
+	};
 
 	size = (sizeof(unsigned int) * 3) * resource->GetNumChannels() + sizeof(header) + sizeof(double);
 

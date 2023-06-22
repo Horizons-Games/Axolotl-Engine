@@ -3,6 +3,7 @@
 #include "Windows/Window.h"
 
 #include "imgui.h"
+
 class EditorWindow : public Window
 {
 public:

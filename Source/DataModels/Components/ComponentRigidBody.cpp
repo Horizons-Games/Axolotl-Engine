@@ -1,12 +1,11 @@
+#include "StdAfx.h"
+
 #include "ComponentRigidBody.h"
 #include "Application.h"
 #include "ComponentTransform.h"
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
 #include "Geometry/Sphere.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
-#include "Math/float4x4.h"
 #include "ModulePhysics.h"
 #include "debugdraw.h"
 #include <ImGui/imgui.h>
@@ -47,9 +46,8 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 }
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
-	Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true),
+	Component(ComponentType::RIGIDBODY, toCopy.IsEnabled(), toCopy.GetOwner(), true),
 	isKinematic(toCopy.isKinematic),
-	isStatic(toCopy.isStatic),
 	isTrigger(toCopy.isTrigger),
 	currentShape(toCopy.currentShape),
 	boxSize(toCopy.boxSize),
@@ -96,11 +94,10 @@ void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 {
 	assert(other);
 
-	for (ComponentScript* script : owner->GetComponents<ComponentScript>())
+	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
 		script->OnCollisionEnter(other);
 	}
-
 }
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
@@ -113,7 +110,7 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 {
 	assert(other);
 
-	for (ComponentScript* script : owner->GetComponents<ComponentScript>())
+	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
 		script->OnCollisionExit(other);
 	}
@@ -122,18 +119,10 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 void ComponentRigidBody::OnTransformChanged()
 {
 #ifdef ENGINE
-    if (!App->IsOnPlayMode())
-    {
-		if (!isSceneOnLoad)
-		{
-			UpdateRigidBody();
-		}
-		else 
-		{
-			isSceneOnLoad = false;
-		}
-        
-    }
+	if (!App->IsOnPlayMode())
+	{
+		UpdateRigidBody();
+	}
 #endif
 }
 
@@ -155,7 +144,7 @@ void ComponentRigidBody::Update()
 		float3 centerPoint = transform->GetLocalAABB().CenterPoint();
 		btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
 		float3 newPos = { pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() };
-		newPos -= float3(translation.x(),translation.y(),translation.z());
+		newPos -= float3(translation.x(), translation.y(), translation.z());
 		transform->SetGlobalPosition(newPos);
 		transform->RecalculateLocalMatrix();
 		transform->UpdateTransformMatrices();
@@ -212,13 +201,12 @@ int ComponentRigidBody::GenerateId() const
 	return nextId++;
 }
 
-void ComponentRigidBody::SetRigidBodyOrigin(btVector3 origin) 
+void ComponentRigidBody::SetRigidBodyOrigin(btVector3 origin)
 {
-    btTransform worldTransform = rigidBody->getWorldTransform();
-    worldTransform.setOrigin(origin);
-    rigidBody->setWorldTransform(worldTransform);
+	btTransform worldTransform = rigidBody->getWorldTransform();
+	worldTransform.setOrigin(origin);
+	rigidBody->setWorldTransform(worldTransform);
 }
-
 
 void ComponentRigidBody::UpdateRigidBodyTranslation()
 {
@@ -227,7 +215,6 @@ void ComponentRigidBody::UpdateRigidBodyTranslation()
 
 	translation = (rigidBody->getWorldTransform().getOrigin() - transPosBt);
 }
-
 
 void ComponentRigidBody::SetUpMobility()
 {
@@ -239,9 +226,8 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
 		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
-		isStatic = false;
 	}
-	else if (isStatic)
+	else if (IsStatic())
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -297,14 +283,9 @@ void ComponentRigidBody::SetCollisionShape(Shape newShape)
 	}
 }
 
-void ComponentRigidBody::SaveOptions(Json& meta)
+void ComponentRigidBody::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
 	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
-	meta["isStatic"] = static_cast<bool>(IsStatic());
 	meta["isTrigger"] = static_cast<bool>(IsTrigger());
 	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
 	meta["mass"] = static_cast<float>(GetMass());
@@ -324,18 +305,13 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["factor"] = static_cast<float>(GetFactor());
 	meta["height"] = static_cast<float>(GetHeight());
 	meta["rbPos_X"] = static_cast<float>(GetRigidBodyOrigin().getX());
-    meta["rbPos_Y"] = static_cast<float>(GetRigidBodyOrigin().getY());
-    meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());
+	meta["rbPos_Y"] = static_cast<float>(GetRigidBodyOrigin().getY());
+	meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());
 }
 
-void ComponentRigidBody::LoadOptions(Json& meta)
+void ComponentRigidBody::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
-	SetIsStatic(static_cast<bool>(meta["isStatic"]));
 #ifdef ENGINE
 	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
 #endif
@@ -349,12 +325,16 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetUseRotationController(static_cast<bool>(meta["useRotationController"]));
 	SetKpForce(static_cast<float>(meta["KpForce"]));
 	SetKpTorque(static_cast<float>(meta["KpTorque"]));
-	SetBoxSize({ static_cast<float>(meta["boxSize_X"]), static_cast<float>(meta["boxSize_Y"]), static_cast<float>(meta["boxSize_Z"]) });
+	SetBoxSize({ static_cast<float>(meta["boxSize_X"]),
+				 static_cast<float>(meta["boxSize_Y"]),
+				 static_cast<float>(meta["boxSize_Z"]) });
 	SetRadius(static_cast<float>(meta["radius"]));
 	SetFactor(static_cast<float>(meta["factor"]));
 	SetHeight(static_cast<float>(meta["height"]));
-	SetRigidBodyOrigin({ static_cast<float>(meta["rbPos_X"]), static_cast<float>(meta["rbPos_Y"]), static_cast<float>(meta["rbPos_Z"]) });
-	
+	SetRigidBodyOrigin({ static_cast<float>(meta["rbPos_X"]),
+						 static_cast<float>(meta["rbPos_Y"]),
+						 static_cast<float>(meta["rbPos_Z"]) });
+
 	int currentShape = static_cast<int>(meta["currentShape"]);
 
 	if (currentShape != 0)
@@ -366,16 +346,14 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetGravity({ 0, static_cast<float>(meta["gravity_Y"]), 0 });
 }
 
-void ComponentRigidBody::Enable()
+void ComponentRigidBody::SignalEnable()
 {
-	Component::Enable();
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	rigidBody->setGravity(gravity);
 }
 
-void ComponentRigidBody::Disable()
+void ComponentRigidBody::SignalDisable()
 {
-	Component::Disable();
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
@@ -386,7 +364,7 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 
 void ComponentRigidBody::ClearCollisionEnterDelegate()
 {
-    delegateCollisionEnter.clear();
+	delegateCollisionEnter.clear();
 }
 void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
 {
@@ -456,4 +434,9 @@ void ComponentRigidBody::SetDefaultPosition()
 	SetRigidBodyOrigin(transPosBt);
 	UpdateRigidBodyTranslation();
 	UpdateRigidBody();
+}
+
+bool ComponentRigidBody::IsStatic() const
+{
+	return GetOwner()->IsStatic();
 }

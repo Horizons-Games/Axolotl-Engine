@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Scripting/Script.h"
 
 #include "Application.h"

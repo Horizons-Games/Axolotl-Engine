@@ -14,32 +14,38 @@ public:
 
 	~ComponentScript() override;
 
-	virtual void Init();
-	virtual void Start();
-	virtual void PreUpdate() override;
-	virtual void Update() override;
-	virtual void PostUpdate() override;
+	void Init();
+	void Start();
+	void PreUpdate() override;
+	void Update() override;
+	void PostUpdate() override;
 
 	void OnCollisionEnter(ComponentRigidBody* other);
 	void OnCollisionExit(ComponentRigidBody* other);
 
-	virtual void CleanUp();
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void CleanUp();
 
 	std::string GetConstructName() const;
-
-	
 
 	void SetConstuctor(const std::string& constructor);
 	void SetScript(IScript* script);
 	IScript* GetScript() const;
 
 private:
+	bool ScripCanBeCalled() const;
+
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
+	void SignalEnable() override;
+
+private:
 	// This will be managed by the runtime library
 	IScript* script;
 	std::string constructName;
+
+	bool initialized = false;
+	bool started = false;
 };
 
 inline std::string ComponentScript::GetConstructName() const

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentScript.h"
 
 #include "Application.h"
@@ -8,7 +10,6 @@
 
 #include "FileSystem/Json.h"
 
-#include "Math/float3.h"
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
@@ -46,23 +47,25 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (IsEnabled() && script)
+	if (!initialized && GetOwner()->IsActive() && ScripCanBeCalled())
 	{
 		script->Init();
+		initialized = true;
 	}
 }
 
 void ComponentScript::Start()
 {
-	if (IsEnabled() && script)
+	if (!started && IsEnabled() && ScripCanBeCalled())
 	{
 		script->Start();
+		started = true;
 	}
 }
 
 void ComponentScript::PreUpdate()
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->PreUpdate(App->GetDeltaTime());
 	}
@@ -70,7 +73,7 @@ void ComponentScript::PreUpdate()
 
 void ComponentScript::Update()
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->Update(App->GetDeltaTime());
 	}
@@ -78,7 +81,7 @@ void ComponentScript::Update()
 
 void ComponentScript::PostUpdate()
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->PostUpdate(App->GetDeltaTime());
 	}
@@ -86,36 +89,37 @@ void ComponentScript::PostUpdate()
 
 void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->OnCollisionEnter(other);
 	}
-
 }
 void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (IsEnabled() && script && !App->GetScriptFactory()->IsCompiling())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->OnCollisionExit(other);
 	}
 }
 
-
-
 void ComponentScript::CleanUp()
 {
-	if (IsEnabled() && script)
+	// Call CleanUp regardless if the script is active or not
+	if (script)
 	{
 		script->CleanUp();
 	}
+	started = false;
+	initialized = false;
 }
 
-void ComponentScript::SaveOptions(Json& meta)
+bool ComponentScript::ScripCanBeCalled() const
 {
-	// Save serialize values of Script
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
+	return script && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling();
+}
+
+void ComponentScript::InternalSave(Json& meta)
+{
 	meta["constructName"] = this->constructName.c_str();
 	Json fields = meta["fields"];
 
@@ -190,12 +194,8 @@ void ComponentScript::SaveOptions(Json& meta)
 	}
 }
 
-void ComponentScript::LoadOptions(Json& meta)
+void ComponentScript::InternalLoad(const Json& meta)
 {
-	// Load serialize values of Script
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 	constructName = meta["constructName"];
 	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
 
@@ -204,7 +204,7 @@ void ComponentScript::LoadOptions(Json& meta)
 		return;
 	}
 
-	script->SetOwner(owner);
+	script->SetOwner(GetOwner());
 	Json fields = meta["fields"];
 	for (unsigned int i = 0; i < fields.Size(); ++i)
 	{
@@ -289,5 +289,14 @@ void ComponentScript::LoadOptions(Json& meta)
 			default:
 				break;
 		}
+	}
+}
+
+void ComponentScript::SignalEnable()
+{
+	if (App->IsOnPlayMode())
+	{
+		Init();
+		Start();
 	}
 }

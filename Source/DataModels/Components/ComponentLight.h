@@ -4,8 +4,6 @@
 
 #include "GameObject/GameObject.h"
 
-#include "Math/float3.h"
-
 enum class LightType 
 { 
 	UNKNOWN, 
@@ -43,12 +41,8 @@ public:
 
 	virtual void Draw() const override{};
 
-	virtual void Enable() override{}
-	
-	virtual void Disable() override{}
-
-	virtual void SaveOptions(Json& meta) override{};
-	virtual void LoadOptions(Json& meta) override{};
+	virtual void InternalSave(Json& meta) override{};
+	virtual void InternalLoad(const Json& meta) override{};
 
 	const float3& GetColor() const;
 	float GetIntensity() const;

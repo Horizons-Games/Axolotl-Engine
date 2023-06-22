@@ -1,7 +1,6 @@
 #pragma once
 #include "EditorWindow.h"
 #include "Resources/Resource.h"
-#include <memory>
 
 class WindowFileBrowser;
 

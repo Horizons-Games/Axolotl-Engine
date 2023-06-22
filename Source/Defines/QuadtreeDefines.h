@@ -1,0 +1,4 @@
+#pragma once
+
+#define QUADTREE_INITIAL_SIZE 50
+#define QUADTREE_INITIAL_ALTITUDE 10

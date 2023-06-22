@@ -6,6 +6,8 @@
 
 #include "Components/ComponentTransform.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(HelloWorldScript);
 
 HelloWorldScript::HelloWorldScript() : Script(), helloWorld("Hello World"), movingGameObject(nullptr)
@@ -17,9 +19,9 @@ HelloWorldScript::HelloWorldScript() : Script(), helloWorld("Hello World"), movi
 void HelloWorldScript::Update(float deltaTime)
 {
 	// Print "Hello World" each frame
-	ENGINE_LOG("%s", helloWorld.c_str());
+	LOG_INFO("{}", helloWorld);
 
-	// Recieves a GameObject and moves it (sometimes the transform does not update until you click on it)
+	// Receives a GameObject and moves it (sometimes the transform does not update until you click on it)
 	if (movingGameObject != nullptr)
 	{
 		ComponentTransform* goTransform = movingGameObject->GetComponent<ComponentTransform>();

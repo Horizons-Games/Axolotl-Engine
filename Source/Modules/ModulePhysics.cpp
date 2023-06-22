@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModulePhysics.h"
 
 #include "Application.h"
@@ -12,8 +14,6 @@
 	#include "Modules/ModuleEditor.h"
 	#include "Windows/WindowDebug.h"
 #endif
-
-#include <vector>
 
 ModulePhysics::ModulePhysics()
 {
@@ -73,7 +73,7 @@ void ModulePhysics::Reset()
 	Init();
 }
 
-update_status ModulePhysics::PreUpdate()
+UpdateStatus ModulePhysics::PreUpdate()
 {
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
@@ -97,7 +97,7 @@ update_status ModulePhysics::PreUpdate()
 	}
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModulePhysics::ManageCollisions()
@@ -198,6 +198,11 @@ void ModulePhysics::ManageCollisions()
 
 void ModulePhysics::AddRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 {
+	if (rigidBodyComponents[rb->GetID()] != nullptr)
+	{
+		LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
+		return;
+	}
 	dynamicsWorld->addRigidBody(body);
 	rigidBodyComponents[rb->GetID()] = rb;
 }
@@ -239,7 +244,7 @@ void GLDebugDrawer::drawSphere(const btVector3& p, btScalar radius, const btVect
 void GLDebugDrawer::drawTriangle(
 	const btVector3& a, const btVector3& b, const btVector3& c, const btVector3& color, btScalar alpha)
 {
-	ENGINE_LOG("drawTriangle not implemented");
+	LOG_WARNING("drawTriangle not implemented");
 }
 
 void GLDebugDrawer::drawContactPoint(
@@ -255,7 +260,7 @@ void GLDebugDrawer::drawAabb(const btVector3& from, const btVector3& to, const b
 
 void GLDebugDrawer::reportErrorWarning(const char* warningString)
 {
-	ENGINE_LOG(warningString);
+	LOG_WARNING(warningString);
 }
 
 void GLDebugDrawer::draw3dText(const btVector3& location, const char* textString)

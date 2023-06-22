@@ -24,7 +24,7 @@ public:
 	~ModuleInput() override;
 
 	bool Init() override;
-	update_status Update() override;
+	UpdateStatus Update() override;
 	bool CleanUp() override;
 
 	KeyState GetKey(int scanCode) const;
@@ -48,6 +48,8 @@ public:
 	void SetShowCursor(bool set);
 
 	bool IsMouseWheelScrolled() const;
+
+	KeyState operator[](SDL_Scancode index);
 
 private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
@@ -172,4 +174,9 @@ inline void ModuleInput::SetShowCursor(bool set)
 inline bool ModuleInput::IsMouseWheelScrolled() const
 {
 	return mouseWheelScrolled;
+}
+
+inline KeyState ModuleInput::operator[](SDL_Scancode index)
+{
+	return keysState[index];
 }

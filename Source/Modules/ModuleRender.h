@@ -2,26 +2,22 @@
 
 #include "Module.h"
 
-#include "DataModels/Batch/BatchManager.h"
-
-#include "DataStructures/Quadtree.h"
-
 #include "GL/glew.h"
 #include "Math/float4.h"
-#include "Module.h"
 
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
+#include "FileSystem/UID.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Skybox;
+class Quadtree;
 class Program;
 class Cubemap;
 class GameObject;
+class GeometryBatch;
+class BatchManager;
+class ComponentMeshRenderer;
 
 class ModuleRender : public Module
 {
@@ -31,9 +27,9 @@ public:
 
 	bool Init() override;
 
-	update_status PreUpdate() override;
-	update_status Update() override;
-	update_status PostUpdate() override;
+	UpdateStatus PreUpdate() override;
+	UpdateStatus Update() override;
+	UpdateStatus PostUpdate() override;
 
 	bool CleanUp() override;
 
@@ -76,10 +72,10 @@ private:
 
 	unsigned uboCamera;
 	unsigned vbo;
-	
+
 	std::map<float, ComponentMeshRenderer*> transparentGOToDraw;
 	std::vector<ComponentMeshRenderer*> transparentComponents;
-	std::vector<unsigned long long> drawnGameObjects;
+	std::vector<UID> drawnGameObjects;
 
 	const std::vector<std::string> modelTypes;
 

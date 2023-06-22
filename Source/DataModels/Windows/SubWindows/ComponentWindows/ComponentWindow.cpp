@@ -1,48 +1,50 @@
+#include "StdAfx.h"
+
 #include "ComponentWindow.h"
 
 #include <sstream>
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAnimation.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAreaLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioListener.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAudioSource.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBreakable.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAreaLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBreakable.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 
 #include "Application.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAreaLight.h"
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentBreakable.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentAreaLight.h"
 #include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/ComponentBreakable.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
@@ -52,6 +54,8 @@
 #include "Commands/CommandComponentEnabled.h"
 #include "ComponentWindow.h"
 #include "ModuleCommand.h"
+
+#include "FileSystem/UIDGenerator.h"
 
 ComponentWindow::~ComponentWindow()
 {
@@ -102,19 +106,19 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())
 				{
-				case LightType::DIRECTIONAL:
-					return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
-				case LightType::POINT:
-					return std::make_unique<WindowComponentPointLight>(static_cast<ComponentPointLight*>(component));
-				case LightType::SPOT:
-					return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
-				case LightType::AREA:
-					return std::make_unique<WindowComponentAreaLight>(static_cast<ComponentAreaLight*>(component));
-				case LightType::UNKNOWN:
-				default:
-					return std::make_unique<WindowComponentLight>(asLight);
+					case LightType::DIRECTIONAL:
+						return std::make_unique<WindowComponentDirLight>(static_cast<ComponentDirLight*>(component));
+					case LightType::POINT:
+						return std::make_unique<WindowComponentPointLight>(
+							static_cast<ComponentPointLight*>(component));
+					case LightType::SPOT:
+						return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
+					case LightType::AREA:
+						return std::make_unique<WindowComponentAreaLight>(static_cast<ComponentAreaLight*>(component));
+					case LightType::UNKNOWN:
+					default:
+						return std::make_unique<WindowComponentLight>(asLight);
 				}
-			
 		}
 	}
 	return nullptr;
@@ -123,7 +127,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 ComponentWindow::ComponentWindow(const std::string& name, Component* component) :
 	SubWindow(name),
 	component(component),
-	windowUUID(UniqueID::GenerateUUID())
+	windowUUID(std::to_string(UniqueID::GenerateUID()))
 {
 	flags |= ImGuiTreeNodeFlags_DefaultOpen;
 }

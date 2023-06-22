@@ -1,17 +1,15 @@
+#include "StdAfx.h"
+
 #include "Quadtree.h"
 #include "Application.h"
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 
-#include "geometry/AABB.h"
-#include "geometry/OBB.h"
-#include "math/float3.h"
-#include "math/float4x4.h"
-
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
-#include <queue>
+#include "Defines/QuadtreeDefines.h"
+#include "Defines/FrustumDefines.h"
 
 Quadtree::Quadtree(const AABB& boundingBox) :
 	boundingBox(boundingBox),

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentMeshCollider.h"
 
 #include "Components/ComponentMeshCollider.h"

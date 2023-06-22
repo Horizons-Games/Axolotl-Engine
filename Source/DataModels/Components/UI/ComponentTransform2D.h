@@ -5,11 +5,7 @@
 
 #include "Geometry/AABB2D.h"
 
-#include "Math/Quat.h"
 #include "Math/TransformOps.h"
-#include "Math/float2.h"
-#include "Math/float3.h"
-#include "Math/float4x4.h"
 
 class ComponentCanvas;
 
@@ -20,9 +16,6 @@ public:
 	~ComponentTransform2D() override;
 
 	void Update() override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
 
 	void SetPosition(const float3& localPosition);
 	void SetRotation(const float3& rotation);
@@ -53,6 +46,9 @@ public:
 	ComponentCanvas* WhichCanvasContainsMe();
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	float3 GetPositionRelativeToParent();
 	float3 GetScreenPosition();
 

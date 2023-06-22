@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Resource.h"
-#include <memory>
-#include <unordered_map>
-#include <variant>
 
 enum class FieldTypeParameter
 {
@@ -33,6 +30,7 @@ struct State
 	std::vector<UID> transitionsOriginedHere;
 	std::vector<UID> transitionsDestinedHere;
 	bool loop;
+	float speed;
 
 	State() : id(0), loop(false)
 	{
@@ -42,7 +40,8 @@ struct State
 		id(id),
 		name(name),
 		auxiliarPos(std::pair<int, int>(x, y)),
-		loop(false)
+		loop(false),
+		speed(1.0f)
 	{
 	}
 

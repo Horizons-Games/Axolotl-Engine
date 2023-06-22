@@ -1,9 +1,10 @@
+#include "StdAfx.h"
+
 #include "CameraEngine.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 
@@ -19,15 +20,13 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 #include "Geometry/Sphere.h"
-#include "Geometry/Triangle.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
 #include "Physics/Physics.h"
 
 CameraEngine::CameraEngine() : Camera(CameraType::C_ENGINE)
 {
 	currentFocusDir = frustum->Front().Normalized();
 	currentFocusPos = position;
+	rotating = false;
 };
 
 CameraEngine::CameraEngine(const std::unique_ptr<Camera>& camera) : Camera(camera, CameraType::C_ENGINE)
@@ -61,9 +60,13 @@ bool CameraEngine::Update()
 		{
 			// Shift speed
 			if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+			{
 				Run();
+			}
 			else
+			{
 				Walk();
+			}
 
 			// this should probably be encapsulated in a method, or moved to the Physics part of the Engine
 			// --RAYCAST CALCULATION-- //
@@ -81,16 +84,6 @@ bool CameraEngine::Update()
 				}
 			}
 			// --RAYCAST CALCULATION-- //
-
-			// Move and rotate with right buttons and ASDWQE
-			if (input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
-				input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
-			{
-				input->SetFreeLookCursor();
-				UnlimitedCursor();
-				Move();
-				FreeLook();
-			}
 
 			// Zoom with mouse wheel
 			if (input->IsMouseWheelScrolled() && input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
@@ -149,6 +142,28 @@ bool CameraEngine::Update()
 				RecalculateOffsetPlanes();
 			}
 		}
+	}
+
+	if ((sceneFocused || rotating) && !App->IsOnPlayMode())
+	{
+		// Move and rotate with right buttons and ASDWQE
+		if (input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&
+			input->GetKey(SDL_SCANCODE_LALT) == KeyState::IDLE)
+		{
+			rotating = true;
+			input->SetFreeLookCursor();
+			UnlimitedCursor();
+			Move();
+			FreeLook();
+		}
+		else
+		{
+			rotating = false;
+		}
+	}
+	else
+	{
+		rotating = false;
 	}
 
 	return true;

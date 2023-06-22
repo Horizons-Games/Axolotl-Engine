@@ -1,15 +1,14 @@
 #pragma once
 #include "Module.h"
 
-#include <future>
-#include <map>
-#include <thread>
-
 #include "DataModels/Resources/Resource.h"
 
 #include "Application.h"
 #include "Json.h"
 #include "ModuleFileSystem.h"
+
+#include "Defines/ExtensionDefines.h"
+#include "Defines/FileSystemDefines.h"
 
 class ModelImporter;
 class TextureImporter;
@@ -120,7 +119,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	ResourceType type = FindTypeByExtension(path);
 	if (type == ResourceType::Unknown)
 	{
-		ENGINE_LOG("Extension not supported");
+		LOG_WARNING("Extension not supported");
 	}
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	std::string fileName = fileSystem->GetFileName(path);
@@ -217,7 +216,7 @@ inline void ModuleResources::CleanResourceBin()
 {
 #ifndef ENGINE
 	resourcesBin.clear();
-#endif //!ENGINE
+#endif //! ENGINE
 }
 
 template<class R>

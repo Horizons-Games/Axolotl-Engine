@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 
@@ -6,12 +8,6 @@
 
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
-#ifndef ENGINE
-	#include "Modules/ModuleEditor.h"
-	#include "Windows/WindowDebug.h"
-#endif // ENGINE
-
-#include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
 	Component(ComponentType::TRANSFORM, active, owner, false),
@@ -52,26 +48,8 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Draw() const
+void ComponentTransform::InternalSave(Json& meta)
 {
-#ifndef ENGINE
-	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
-#endif // ENGINE
-	if (drawBoundingBoxes)
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
-}
-
-void ComponentTransform::SaveOptions(Json& meta)
-{
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	meta["localPos_X"] = static_cast<float>(pos.x);
 	meta["localPos_Y"] = static_cast<float>(pos.y);
 	meta["localPos_Z"] = static_cast<float>(pos.z);
@@ -85,12 +63,8 @@ void ComponentTransform::SaveOptions(Json& meta)
 	meta["localSca_Z"] = static_cast<float>(sca.z);
 }
 
-void ComponentTransform::LoadOptions(Json& meta)
+void ComponentTransform::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	pos.x = static_cast<float>(meta["localPos_X"]);
 	pos.y = static_cast<float>(meta["localPos_Y"]);
 	pos.z = static_cast<float>(meta["localPos_Z"]);
@@ -157,13 +131,18 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 	}
 }
 
-void ComponentTransform::UpdateTransformMatrices()
+void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 {
 	CalculateMatrices();
-	for (Component* components : GetOwner()->GetComponents())
+
+	if (notifyChanges)
 	{
-		components->OnTransformChanged();
+		for (Component* components : GetOwner()->GetComponents())
+		{
+			components->OnTransformChanged();
+		}
 	}
+	
 
 	if (GetOwner()->GetChildren().empty())
 		return;
@@ -175,27 +154,11 @@ void ComponentTransform::UpdateTransformMatrices()
 
 		if(childTransform)
 		{
-			childTransform->UpdateTransformMatrices();
+			childTransform->UpdateTransformMatrices(notifyChanges);
 		}
 	}
 }
 
-void ComponentTransform::UpdateTransformMatricesOnLoad()
-{
-	CalculateMatrices();
-	if (GetOwner()->GetChildren().empty())
-		return;
-
-	for (GameObject* child : GetOwner()->GetChildren())
-	{
-		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
-
-		if (childTransform)
-		{
-			childTransform->UpdateTransformMatricesOnLoad();
-		}
-	}
-}
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified,

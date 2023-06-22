@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "SubWindow.h"
 
 bool SubWindow::defaultEnabled = true;

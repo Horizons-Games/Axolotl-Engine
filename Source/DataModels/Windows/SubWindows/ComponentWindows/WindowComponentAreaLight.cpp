@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentAreaLight.h"
 
 #include "Application.h"
@@ -62,7 +64,6 @@ void WindowComponentAreaLight::DrawWindowContents()
 				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
 				{
 					bool isSelected = (currentType == lightTypes[i]);
-
 
 					if (ImGui::Selectable(lightTypes[i], isSelected)) // Watch this
 					{

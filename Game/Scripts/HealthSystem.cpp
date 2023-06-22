@@ -5,6 +5,10 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentScript.h"
+#include "Components/ComponentCamera.h"
+
+#include "AxoLog.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -37,7 +41,8 @@ void HealthSystem::Update(float deltaTime)
 #endif // ENGINE
 		if(!componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
 		{
-			ENGINE_LOG("Player is dead");
+			LOG_VERBOSE("Player is dead");
+			PlayerDeath();
 		}
 	}
 
@@ -70,4 +75,35 @@ void HealthSystem::HealLife(float amountHealed)
 bool HealthSystem::EntityIsAlive() const
 {
 	return currentHealth > 0;
+}
+
+float HealthSystem::GetCurrentHealth() const
+{
+	return currentHealth;
+}
+void HealthSystem::PlayerDeath()
+{
+	// Once the player is dead, disable its scripts
+	std::vector<ComponentScript*> gameObjectScripts =
+		owner->GetComponents<ComponentScript>();
+
+	for (ComponentScript* script : gameObjectScripts)
+	{
+		script->Disable();
+	}
+
+	GameObject::GameObjectView children = owner->GetChildren();
+
+	for (const GameObject* child : children)
+	{
+		if (child->GetComponent<ComponentCamera>())
+		{
+			std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
+
+			for (ComponentScript* script : cameraScripts)
+			{
+				script->Disable();
+			}
+		}
+	}
 }

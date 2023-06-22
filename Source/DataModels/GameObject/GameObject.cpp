@@ -1,31 +1,35 @@
+#include "StdAfx.h"
+
 #include "GameObject.h"
 
-#include "../Components/ComponentAnimation.h"
-#include "../Components/ComponentCubemap.h"
-#include "../Components/ComponentAudioListener.h"
-#include "../Components/ComponentAudioSource.h"
-#include "../Components/ComponentCamera.h"
-#include "../Components/ComponentDirLight.h"
-#include "../Components/ComponentLight.h"
-#include "../Components/ComponentMeshCollider.h"
-#include "../Components/ComponentMeshRenderer.h"
-#include "../Components/ComponentMockState.h"
-#include "../Components/ComponentPlayer.h"
-#include "../Components/ComponentPointLight.h"
-#include "../Components/ComponentRigidBody.h"
-#include "../Components/ComponentScript.h"
-#include "../Components/ComponentSpotLight.h"
-#include "../Components/ComponentTransform.h"
-#include "../Components/UI/ComponentButton.h"
-#include "../Components/UI/ComponentCanvas.h"
-#include "../Components/UI/ComponentImage.h"
-#include "../Components/UI/ComponentTransform2D.h"
-#include "../Components/ComponentBreakable.h"
+#include "DataModels/Components/ComponentAnimation.h"
+#include "DataModels/Components/ComponentAudioListener.h"
+#include "DataModels/Components/ComponentAudioSource.h"
+#include "DataModels/Components/ComponentBreakable.h"
+#include "DataModels/Components/ComponentCamera.h"
+#include "DataModels/Components/ComponentCubemap.h"
+#include "DataModels/Components/ComponentDirLight.h"
+#include "DataModels/Components/ComponentLight.h"
+#include "DataModels/Components/ComponentMeshCollider.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
+#include "DataModels/Components/ComponentMockState.h"
+#include "DataModels/Components/ComponentPlayer.h"
+#include "DataModels/Components/ComponentPointLight.h"
+#include "DataModels/Components/ComponentRigidBody.h"
+#include "DataModels/Components/ComponentScript.h"
+#include "DataModels/Components/ComponentSpotLight.h"
+#include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/UI/ComponentButton.h"
+#include "DataModels/Components/UI/ComponentCanvas.h"
+#include "DataModels/Components/UI/ComponentImage.h"
+#include "DataModels/Components/UI/ComponentTransform2D.h"
 
 #include "Application.h"
 
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
+
+#include "FileSystem/UIDGenerator.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -104,15 +108,14 @@ GameObject::~GameObject()
 	children.clear();
 }
 
-void GameObject::SaveOptions(Json& meta)
+void GameObject::Save(Json& meta)
 {
-	unsigned long long newParentUID = 0;
+	UID newParentUID = 0;
 	meta["name"] = name.c_str();
 	meta["tag"] = tag.c_str();
 	meta["uid"] = uid;
 	meta["parentUID"] = parent ? parent->GetUID() : 0;
 	meta["enabled"] = (bool) enabled;
-	meta["active"] = (bool) active;
 	meta["static"] = (bool) staticObject;
 
 	Json jsonComponents = meta["Components"];
@@ -121,11 +124,11 @@ void GameObject::SaveOptions(Json& meta)
 	{
 		Json jsonComponent = jsonComponents[i]["Component"];
 
-		components[i]->SaveOptions(jsonComponent);
+		components[i]->Save(jsonComponent);
 	}
 }
 
-void GameObject::LoadOptions(Json& meta)
+void GameObject::Load(const Json& meta)
 {
 	std::string tag = meta["tag"];
 	SetTag(tag.c_str());
@@ -134,30 +137,27 @@ void GameObject::LoadOptions(Json& meta)
 
 	Json jsonComponents = meta["Components"];
 
-	if (jsonComponents.Size() != 0)
+	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 	{
-		for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
+		Json jsonComponent = jsonComponents[i]["Component"];
+		std::string typeName = jsonComponent["type"];
+
+		ComponentType type = GetTypeByName(jsonComponent["type"]);
+
+		if (type == ComponentType::UNKNOWN)
+			continue;
+		Component* component;
+		if (type == ComponentType::LIGHT)
 		{
-			Json jsonComponent = jsonComponents[i]["Component"];
-			std::string typeName = jsonComponent["type"];
-
-			ComponentType type = GetTypeByName(jsonComponent["type"]);
-
-			if (type == ComponentType::UNKNOWN)
-				continue;
-			Component* component;
-			if (type == ComponentType::LIGHT)
-			{
-				LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-				component = CreateComponentLight(lightType, AreaType::NONE); //TODO look at this when implement metas
-			}
-			else
-			{
-				component = CreateComponent(type);
-			}
-
-			component->LoadOptions(jsonComponent);
+			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
+			component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 		}
+		else
+		{
+			component = CreateComponent(type);
+		}
+
+		component->Load(jsonComponent);
 	}
 }
 
@@ -210,7 +210,7 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 	newParent->LinkChild(this);
 
-	(parent->IsActive() && parent->IsEnabled()) ? ActivateChildren() : DeactivateChildren();
+	(parent->IsActive() && parent->IsEnabled()) ? Activate() : Deactivate();
 }
 
 void GameObject::LinkChild(GameObject* child)
@@ -225,7 +225,7 @@ void GameObject::LinkChild(GameObject* child)
 		ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 		if (transform)
 		{
-			transform->UpdateTransformMatrices();
+			transform->UpdateTransformMatrices(false);
 		}
 		else
 		{
@@ -369,7 +369,7 @@ void GameObject::CopyComponent(Component* component)
 		}
 
 		default:
-			ENGINE_LOG("Component of type %s could not be copied!", GetNameByType(type).c_str());
+			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
@@ -409,12 +409,8 @@ void GameObject::Enable()
 	assert(parent != nullptr);
 
 	enabled = true;
-	active = parent->IsActive();
 
-	for (std::unique_ptr<GameObject>& child : children)
-	{
-		child->ActivateChildren();
-	}
+	this->Activate();
 }
 
 void GameObject::Disable()
@@ -422,31 +418,47 @@ void GameObject::Disable()
 	assert(parent != nullptr);
 
 	enabled = false;
-	active = false;
+
+	this->Deactivate();
+}
+
+void GameObject::Activate()
+{
+	active = parent->IsActive();
+
+	if (!active)
+	{
+		return;
+	}
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->DeactivateChildren();
+		child->Activate();
+	}
+
+	for (std::unique_ptr<Component>& component : components)
+	{
+		// If the Component is currently disabled itself, avoid sending the signal
+		if (component->IsEnabled())
+		{
+			component->SignalEnable();
+		}
 	}
 }
 
-void GameObject::DeactivateChildren()
+void GameObject::Deactivate()
 {
 	active = false;
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->DeactivateChildren();
+		child->Deactivate();
 	}
-}
 
-void GameObject::ActivateChildren()
-{
-	active = (parent->IsActive() && parent->IsEnabled());
-
-	for (std::unique_ptr<GameObject>& child : children)
+	for (std::unique_ptr<Component>& component : components)
 	{
-		child->ActivateChildren();
+		// No need to check, we know component->IsEnabled will return false
+		component->SignalDisable();
 	}
 }
 
@@ -558,7 +570,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 		case ComponentType::CUBEMAP:
 		{
-			newComponent = std::make_unique<ComponentCubemap>(true,this);
+			newComponent = std::make_unique<ComponentCubemap>(true, this);
 			break;
 		}
 
@@ -614,21 +626,21 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 
 		switch (lightType)
 		{
-		case LightType::POINT:
-			scene->UpdateScenePointLights();
-			scene->RenderPointLights();
-			break;
+			case LightType::POINT:
+				scene->UpdateScenePointLights();
+				scene->RenderPointLights();
+				break;
 
-		case LightType::SPOT:
-			scene->UpdateSceneSpotLights();
-			scene->RenderSpotLights();
-			break;
-		case LightType::AREA:
-			scene->UpdateSceneAreaLights();
-			scene->RenderAreaLights();
-			break;
+			case LightType::SPOT:
+				scene->UpdateSceneSpotLights();
+				scene->RenderSpotLights();
+				break;
+			case LightType::AREA:
+				scene->UpdateSceneAreaLights();
+				scene->RenderAreaLights();
+				break;
 		}
-		
+
 		return referenceBeforeMove;
 	}
 
@@ -700,8 +712,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 									  });
 	if (childIterator == childrenVectorEnd)
 	{
-		ENGINE_LOG(
-			"Object being moved (%s) is not a child of this (%s)", child->GetName().c_str(), this->GetName().c_str());
+		LOG_WARNING("Object being moved ({}) is not a child of this ({})", child, this);
 		return;
 	}
 
@@ -710,7 +721,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == childrenVectorBegin)
 		{
-			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::prev(childIterator);
@@ -719,7 +730,7 @@ void GameObject::MoveChild(const GameObject* child, HierarchyDirection direction
 	{
 		if (childIterator == std::prev(childrenVectorEnd))
 		{
-			ENGINE_LOG("Trying to move child (%s) out of children vector bounds", child->GetName().c_str());
+			LOG_VERBOSE("Trying to move child ({}) out of children vector bounds", child);
 			return;
 		}
 		childToSwap = std::next(childIterator);
@@ -772,4 +783,30 @@ void GameObject::SpreadStatic()
 		child->SetStatic(staticObject);
 		child->SpreadStatic();
 	}
+}
+
+void GameObject::SetStatic(bool newStatic)
+{
+	staticObject = newStatic;
+	std::vector<ComponentRigidBody*> rigids = GetComponents<ComponentRigidBody>();
+
+	for (ComponentRigidBody* rigid : rigids)
+	{
+		rigid->SetUpMobility();
+	}
+}
+
+// This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs
+// to be rendereables in quadtree
+bool GameObject::IsRendereable()
+{
+	for (std::unique_ptr<Component>& comp : components)
+	{
+		Drawable* drawable = dynamic_cast<Drawable*>(comp.get());
+		if (drawable)
+		{
+			return true;
+		}
+	}
+	return false;
 }

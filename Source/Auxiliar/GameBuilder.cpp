@@ -1,14 +1,12 @@
+#include "StdAfx.h"
+
 #include "Auxiliar/GameBuilder.h"
 
 #include "Application.h"
-#include "EngineLog.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#include <assert.h>
-#include <future>
-#include <string>
-#include <windows.h>
+#include "Defines/FileSystemDefines.h"
 
 namespace builder
 {
@@ -36,7 +34,7 @@ void CompileGame(const std::wstring& batchFilePath)
 	CloseHandle(processInfo.hThread);
 	CloseHandle(processInfo.hProcess);
 
-	ENGINE_LOG("Done compiling!");
+	LOG_INFO("Done compiling!");
 }
 
 void CopyFolderInLib(const std::string& sourcePath, const std::string& destinationInsideLib)
@@ -91,7 +89,7 @@ void CreateZip(const std::string& startingScene)
 
 	AddConfigToZip(startingScene);
 
-	ENGINE_LOG("Done creating ZIP!");
+	LOG_INFO("Done creating ZIP!");
 }
 
 } // namespace
@@ -103,11 +101,11 @@ void BuildGame(BuildType buildType, bool generateZip, const std::string& startin
 	switch (buildType)
 	{
 		case BuildType::DEBUG_GAME:
-			ENGINE_LOG("Building DebugGame...\n");
+			LOG_INFO("Building DebugGame...\n");
 			buildScript += L"buildDebug";
 			break;
 		case BuildType::RELEASE_GAME:
-			ENGINE_LOG("Building ReleaseGame...\n");
+			LOG_INFO("Building ReleaseGame...\n");
 			buildScript += L"buildRelease";
 			break;
 	}
@@ -128,12 +126,12 @@ void Terminate()
 {
 	if (Compiling())
 	{
-		ENGINE_LOG("For now, you can't exit the engine while the game is compiling. Waiting on compilation to finish.");
+		LOG_INFO("For now, you can't exit the engine while the game is compiling. Waiting on compilation to finish.");
 		compileThread.get();
 	}
 	if (Zipping())
 	{
-		ENGINE_LOG(
+		LOG_INFO(
 			"For now, you can't exit the engine while the binaries are being zipped. Waiting on zipping to finish.");
 		zipThread.get();
 	}

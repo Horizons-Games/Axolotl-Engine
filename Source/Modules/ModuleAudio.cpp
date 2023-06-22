@@ -1,9 +1,9 @@
+#include "StdAfx.h"
+
 #include "ModuleAudio.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
-
-#include <assert.h>
 
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
@@ -163,22 +163,22 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-update_status ModuleAudio::PreUpdate()
+UpdateStatus ModuleAudio::PreUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::Update()
+UpdateStatus ModuleAudio::Update()
 {
 	// Process bank requests, events, positions, RTPC, etc.
 	AK::SoundEngine::RenderAudio();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::PostUpdate()
+UpdateStatus ModuleAudio::PostUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleAudio::InitializeBanks()
@@ -205,20 +205,21 @@ bool ModuleAudio::InitializeBanks()
 		AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
 		if (eResult != AK_Success)
 		{
-			ENGINE_LOG("Failed to load bank %c; Error: %d", BANKNAME_INIT, eResult);
+			LOG_ERROR("Failed to load bank {}; Error: {}", BANKNAME_INIT, eResult);
 			return false;
 		}
 	}
 
 	for (const std::string& bankFolderItem : bankFolderContents)
 	{
-		if (bankFolderItem != "Init.bnk" && fileSystem->GetFileExtension(bankFolderItem) == ".bnk")
+		if (bankFolderItem != "Init.bnk" &&
+			App->GetModule<ModuleFileSystem>()->GetFileExtension(bankFolderItem) == ".bnk")
 		{
 			std::wstring bankNameAsWString = std::wstring(std::begin(bankFolderItem), std::end(bankFolderItem));
 			AKRESULT eResult = AK::SoundEngine::LoadBank(bankNameAsWString.c_str(), bankID);
 			if (eResult != AK_Success)
 			{
-				ENGINE_LOG("Failed to load bank %c; Error: %d", bankFolderItem.c_str(), eResult);
+				LOG_ERROR("Failed to load bank {}; Error: {}", bankFolderItem, eResult);
 				return false;
 			}
 		}

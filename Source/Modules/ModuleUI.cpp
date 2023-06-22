@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleUI.h"
 
 #include "ModuleScene.h"
@@ -15,6 +17,13 @@
 #include "GL/glew.h"
 #include "Physics/Physics.h"
 
+#include "Camera/Camera.h"
+
+#ifdef ENGINE
+	#include "Modules/ModuleEditor.h"
+	#include "DataModels/Windows/EditorWindows/WindowScene.h"
+#endif // ENGINE
+
 ModuleUI::ModuleUI(){};
 
 ModuleUI::~ModuleUI(){};
@@ -26,7 +35,7 @@ bool ModuleUI::Init()
 	return true;
 }
 
-update_status ModuleUI::Update()
+UpdateStatus ModuleUI::Update()
 {
 	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 
@@ -74,10 +83,10 @@ update_status ModuleUI::Update()
 	glOrtho(-1, 1, -1, 1, -1, 1);
 	glMatrixMode(GL_MODELVIEW);*/
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleUI::PostUpdate()
+UpdateStatus ModuleUI::PostUpdate()
 {
 	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
@@ -94,7 +103,7 @@ update_status ModuleUI::PostUpdate()
 			}
 		}
 	}
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
@@ -150,7 +159,11 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 
 	for (ComponentButton* button : gameObject->GetComponents<ComponentButton>())
 	{
-		if (disabledHierarchy)
+		if (disabledHierarchy
+#ifdef ENGINE
+			|| !App->GetModule<ModuleEditor>()->GetScene()->IsFocused()
+#endif // ENGINE
+		)
 		{
 			button->SetHovered(false);
 			button->SetClicked(false);

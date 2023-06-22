@@ -1,8 +1,9 @@
+#include "StdAfx.h"
+
 #include "EditorWindow.h"
 
-#include "../FileSystem/Json.h"
-#include "../FileSystem/ModuleFileSystem.h"
-#include "../FileSystem/UniqueID.h"
+#include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "Application.h"
 #include "physfs.h"
 
@@ -21,7 +22,7 @@ void EditorWindow::Draw(bool& enabled)
 		if (ImGui::Begin(name.c_str(), &enabled, flags))
 		{
 			DrawWindowContents();
-			focused = ImGui::IsWindowFocused();
+			focused = ImGui::IsWindowFocused() && ImGui::IsWindowHovered();
 		}
 		ImGui::End();
 	}

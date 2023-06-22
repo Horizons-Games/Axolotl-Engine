@@ -1,15 +1,17 @@
-#include "ModuleInput.h"
+#include "StdAfx.h"
+
+#include "Modules/ModuleInput.h"
+
 #include "Application.h"
-#include "Globals.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
-#include "ModulePlayer.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleUI.h"
 #include "Scene/Scene.h"
 #include "Windows/WindowMainMenu.h"
 #include "imgui_impl_sdl.h"
+#include "AxoLog.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -25,12 +27,12 @@ ModuleInput::~ModuleInput()
 
 bool ModuleInput::Init()
 {
-	ENGINE_LOG("Init SDL input event system");
+	LOG_VERBOSE("Init SDL input event system");
 	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
-		ENGINE_LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
+		LOG_ERROR("SDL_EVENTS could not initialize! SDL_Error: {}\n", SDL_GetError());
 		return false;
 	}
 
@@ -55,7 +57,7 @@ bool ModuleInput::Init()
 	return true;
 }
 
-update_status ModuleInput::Update()
+UpdateStatus ModuleInput::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
@@ -109,7 +111,7 @@ update_status ModuleInput::Update()
 		switch (sdlEvent.type)
 		{
 			case SDL_QUIT:
-				return update_status::UPDATE_STOP;
+				return UpdateStatus::UPDATE_STOP;
 
 			case SDL_WINDOWEVENT:
 				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
@@ -208,12 +210,12 @@ update_status ModuleInput::Update()
 	}
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleInput::CleanUp()
 {
-	ENGINE_LOG("Quitting SDL input event subsystem");
+	LOG_VERBOSE("Quitting SDL input event subsystem");
 
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 

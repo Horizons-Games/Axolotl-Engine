@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentImage.h"
 #include "ComponentCanvas.h"
 #include "ComponentTransform2D.h"
@@ -85,13 +87,8 @@ void ComponentImage::Draw() const
 	}
 }
 
-void ComponentImage::SaveOptions(Json& meta)
+void ComponentImage::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	UID uidImage = 0;
 	std::string assetPath = "";
 
@@ -109,13 +106,8 @@ void ComponentImage::SaveOptions(Json& meta)
 	meta["color_w"] = static_cast<float>(color.w);
 }
 
-void ComponentImage::LoadOptions(Json& meta)
+void ComponentImage::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 #ifdef ENGINE
 	std::string path = meta["assetPathImage"];
 	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());

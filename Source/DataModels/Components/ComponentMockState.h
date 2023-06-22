@@ -1,16 +1,13 @@
 #pragma once
 #include "Component.h"
 
-#include "Math/float3.h"
+#pragma message(__FILE__ " TODO: Remove this component")
 
 class ComponentMockState : public Component
 {
 public:
 	ComponentMockState(bool active, GameObject* owner);
 	~ComponentMockState() override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
 
 	bool GetIsWinState() const;
 	bool GetIsFailState() const;
@@ -20,6 +17,10 @@ public:
 
 	std::string GetSceneName() const;
 	void SetSceneName(const std::string& newTag);
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	bool isWinState;

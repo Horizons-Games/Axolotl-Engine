@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCanvas.h"
 
 #include "Application.h"
@@ -23,20 +25,12 @@ ComponentCanvas::~ComponentCanvas()
 {
 }
 
-void ComponentCanvas::SaveOptions(Json& meta)
+void ComponentCanvas::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
 }
 
-void ComponentCanvas::LoadOptions(Json& meta)
+void ComponentCanvas::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 	RecalculateSizeAndScreenFactor();
 }
 

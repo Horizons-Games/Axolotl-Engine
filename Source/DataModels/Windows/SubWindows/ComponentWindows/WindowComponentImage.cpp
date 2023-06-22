@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentImage.h"
 
 #include "Components/UI/ComponentImage.h"
