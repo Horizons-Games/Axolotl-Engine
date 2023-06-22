@@ -35,15 +35,14 @@ void EnemyDroneScript::Start()
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
-	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
-
-	seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	attackScript = owner->GetComponent<DroneFastAttack>();
 	healthScript = owner->GetComponent<HealthSystem>();
 
+	seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
+	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
 	droneState = DroneBehaviours::IDLE;
 }
