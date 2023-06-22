@@ -168,15 +168,15 @@ void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticle
 	}
 }
 
-void ComponentParticleSystem::CheckEmitterInstances()
+void ComponentParticleSystem::CheckEmitterInstances(bool forceRecalculate)
 {
-	if (resource == nullptr) 
+	if (resource == nullptr)
 	{
 		ClearEmitters();
 		return;
 	}
 
-	if (emitters.size() != resource->GetNumEmitters())
+	if (forceRecalculate || emitters.size() != resource->GetNumEmitters())
 	{
 		ClearEmitters();
 		InitEmitterInstances();
@@ -201,6 +201,7 @@ void ComponentParticleSystem::ClearEmitters()
 
 	emitters.clear();
 }
+
 void ComponentParticleSystem::RemoveEmitter(int pos)
 {
 	delete emitters[pos];

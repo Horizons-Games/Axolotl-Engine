@@ -614,11 +614,11 @@ void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 	}
 }
 
-void ModuleScene::ParticlesSystemUpdate()
+void ModuleScene::ParticlesSystemUpdate(bool forceRecalculate)
 {
 	for(ComponentParticleSystem* particleComponent : loadedScene->GetSceneParticleSystems())
 	{
-		particleComponent->CheckEmitterInstances();
+		particleComponent->CheckEmitterInstances(forceRecalculate);
 	}
 }
 

@@ -35,7 +35,7 @@ public:
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
 	void SetEmitters(const std::vector<EmitterInstance*> emitters);
 
-	void CheckEmitterInstances();
+	void CheckEmitterInstances(bool forceRecalculate);
 	void RemoveEmitter(int pos);
 
 private:
