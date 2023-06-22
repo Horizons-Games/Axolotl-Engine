@@ -134,7 +134,16 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	if (!totalDirection.IsZero())
 	{
+		totalDirection.y = 0;
 		totalDirection = totalDirection.Normalized();
+		
+		btTransform worldTransform = btRb->getWorldTransform();
+		Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), totalDirection, float3::unitY, float3::unitY);
+		rot = rot * componentTransform->GetGlobalRotation();
+		worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
+		btRb->setWorldTransform(worldTransform);
+		btRb->getMotionState()->setWorldTransform(worldTransform);
+
 		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
 	}
 

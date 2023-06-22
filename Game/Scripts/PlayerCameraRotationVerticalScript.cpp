@@ -42,13 +42,14 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 {
 	CalculateDefaultOffsetVector();
 	float3 positionOffset = playerTransform->GetGlobalPosition() + defaultOffsetVector;
-	Quat orientationOffset = playerTransform->GetGlobalRotation();
+	//Quat orientationOffset = playerTransform->GetGlobalRotation();
+	Quat orientationOffset = Quat::identity;
 
 	CameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
 	if (closestSample && 
 		(closestSample->position - playerTransform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 	{
-		positionOffset = closestSample->position + closestSample->positionOffset;
+		positionOffset = playerTransform->GetGlobalPosition() + closestSample->positionOffset;
 
 		float3 eulerAngles = closestSample->orientationOffset;
 		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));
@@ -95,7 +96,8 @@ void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
 
 void PlayerCameraRotationVerticalScript::CalculateDefaultOffsetVector()
 {
-	defaultOffsetVector = -playerTransform->GetGlobalForward() * zOffset + playerTransform->GetGlobalUp() * yOffset;
+	//defaultOffsetVector = -playerTransform->GetGlobalForward().Normalized() * zOffset + playerTransform->GetGlobalUp().Normalized() * yOffset;
+	defaultOffsetVector = -float3::unitZ * zOffset + playerTransform->GetGlobalUp().Normalized() * yOffset;
 	defaultOffset = defaultOffsetVector.Length();
 }
 
