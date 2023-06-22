@@ -35,11 +35,15 @@ void EnemyDroneScript::Start()
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
+	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
+
+	seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	attackScript = owner->GetComponent<DroneFastAttack>();
 	healthScript = owner->GetComponent<HealthSystem>();
+
 
 	droneState = DroneBehaviours::IDLE;
 }
@@ -51,12 +55,8 @@ void EnemyDroneScript::Update(float deltaTime)
 		return;
 	}
 
-	GameObject* seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
-
 	if (seekTarget)
 	{
-		ComponentTransform* seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
-
 		if (droneState != DroneBehaviours::PATROL)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
@@ -138,30 +138,7 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		if (attackScript->NeedReposition())
 		{
-			ComponentTransform* seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
-
-			float3 nextPosition = ownerTransform->GetGlobalPosition() - seekTargetTransform->GetGlobalPosition();
-			float distanceOS = nextPosition.Length();
-			nextPosition.Normalize();
-
-			float rotation = - (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.5)) + 1.0);
-
-			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-			LOG_INFO("randon {}", r);
-			if (r > 0.5)
-			{
-				rotation = std::abs(rotation);
-			}
-			LOG_INFO("{}", rotation);
-
-			float x = nextPosition.x;
-			float z = nextPosition.z;
-			nextPosition.x = x * Cos(rotation) - z * Sin(rotation);
-			nextPosition.z = x * Sin(rotation) + z * Cos(rotation);
-			nextPosition *= (attackDistance - 2);
-			nextPosition += seekTargetTransform->GetGlobalPosition();
-			nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
-			attackScript->Reposition(nextPosition);
+			CalculateNextPosition();
 		}
 
 		if (!attackScript->MovingToNewReposition())
@@ -170,6 +147,31 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 
 		seekScript->RotateToTarget();
-
 	}
+}
+
+void EnemyDroneScript::CalculateNextPosition() const
+{
+	float3 nextPosition = ownerTransform->GetGlobalPosition() - seekTargetTransform->GetGlobalPosition();
+	float distanceOS = nextPosition.Length();
+	nextPosition.Normalize();
+
+	float rotation = -(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.5)) + 1.0);
+
+	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+	LOG_INFO("randon {}", r);
+	if (r > 0.5)
+	{
+		rotation = std::abs(rotation);
+	}
+	LOG_INFO("{}", rotation);
+
+	float x = nextPosition.x;
+	float z = nextPosition.z;
+	nextPosition.x = x * Cos(rotation) - z * Sin(rotation);
+	nextPosition.z = x * Sin(rotation) + z * Cos(rotation);
+	nextPosition *= (attackDistance - 2);
+	nextPosition += seekTargetTransform->GetGlobalPosition();
+	nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
+	attackScript->Reposition(nextPosition);
 }

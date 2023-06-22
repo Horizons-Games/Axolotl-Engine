@@ -35,6 +35,8 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	void CalculateNextPosition() const;
+
 	DroneBehaviours droneState;
 	DroneBehaviours lastDroneState;
 
@@ -46,7 +48,10 @@ private:
 	DroneFastAttack* attackScript;
 	HealthSystem* healthScript;
 
+	GameObject* seekTarget;
+
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
+	ComponentTransform* seekTargetTransform;
 };
