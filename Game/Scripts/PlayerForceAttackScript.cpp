@@ -28,17 +28,13 @@ PlayerForceAttackScript::~PlayerForceAttackScript()
 
 void PlayerForceAttackScript::Start()
 {
+	input = App->GetModule<ModuleInput>();
+	rigidBody =	owner->GetComponent<ComponentRigidBody>();
+	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 }
 
 void PlayerForceAttackScript::Update(float deltaTime)
 {
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	
-	const ComponentTransform* parentTransform =
-		owner->GetParent()->GetComponent<ComponentTransform>();
-	ComponentRigidBody* rigidBody =
-		owner->GetComponent<ComponentRigidBody>();
-
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
 
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCoolDown <= 0)
@@ -61,27 +57,27 @@ void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	if (other->GetOwner()->GetTag() == "Enemy")
 	{
 		enemiesInTheArea.push_back(other->GetOwner());
+		enemiesInTheArea.push_back(other->GetOwner());
+		enemiesInTheArea.push_back(other->GetOwner());
 	}
 }
 
 void PlayerForceAttackScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it == enemiesInTheArea.end(); it++)
-	{
-		const ComponentRigidBody* rigidBody =
-			(*it)->GetComponent<ComponentRigidBody>();
-		if (rigidBody == other)
+	enemiesInTheArea.erase(
+		std::remove_if(
+			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const GameObject* gameObject)
 		{
-			enemiesInTheArea.erase(it);
+			return gameObject == other->GetOwner();
 		}
-	}
+		),
+		std::end(enemiesInTheArea));
 }
 
 void PlayerForceAttackScript::PushEnemies()
 {
 	const ComponentTransform* transform =
 		owner->GetComponent<ComponentTransform>();
-
 
 	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
 		it++)

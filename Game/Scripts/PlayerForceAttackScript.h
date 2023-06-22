@@ -1,5 +1,11 @@
 #pragma once
 #include "Script.h"
+
+class ModuleInput;
+class ComponentRigidBody;
+class ComponentTransform;
+
+
 class PlayerForceAttackScript : public Script
 {
 public:
@@ -21,4 +27,8 @@ private:
 	float stunTime;
 	float coolDown;
 	float currentCoolDown;
+
+	ModuleInput* input;
+	ComponentRigidBody* rigidBody;
+	ComponentTransform* parentTransform;
 };
