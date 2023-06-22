@@ -9,6 +9,8 @@
 #include "Modules/ModuleUI.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAreaLight.h"
+
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
 
@@ -207,21 +209,36 @@ void WindowScene::DrawGuizmo()
 
 						switch (light->GetLightType())
 						{
-							case LightType::DIRECTIONAL:
-								scene->RenderDirectionalLight();
+						case LightType::DIRECTIONAL:
+							scene->RenderDirectionalLight();
+							break;
+
+						case LightType::SPOT:
+							scene->UpdateSceneSpotLights();
+							scene->RenderSpotLights();
+							break;
+
+						case LightType::POINT:
+							scene->UpdateScenePointLights();
+							scene->RenderPointLights();
+							break;
+
+						case LightType::AREA:
+							const ComponentAreaLight* area = static_cast<const ComponentAreaLight*>(light);
+							const AreaType type = area->GetAreaType();
+
+							switch (type)
+							{
+							case AreaType::SPHERE:
+								scene->UpdateSceneAreaSpheres();
+								scene->RenderAreaSpheres();
 								break;
-							case LightType::SPOT:
-								scene->UpdateSceneSpotLights();
-								scene->RenderSpotLights();
+
+							case AreaType::TUBE:
+								scene->UpdateSceneAreaTubes();
+								scene->RenderAreaTubes();
 								break;
-							case LightType::POINT:
-								scene->UpdateScenePointLights();
-								scene->RenderPointLights();
-								break;
-							case LightType::AREA:
-								scene->UpdateSceneAreaLights();
-								scene->RenderAreaLights();
-								break;
+							}
 						}
 					}
 				}

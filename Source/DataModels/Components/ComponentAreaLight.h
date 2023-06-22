@@ -33,10 +33,10 @@ public:
 
 	void Draw() const override;
 
-	const AreaType GetAreaType();
-	const float GetShapeRadius();
-	const float GetHeight();
-	const float GetAttRadius();
+	const AreaType GetAreaType() const;
+	const float GetShapeRadius() const;
+	const float GetHeight() const;
+	const float GetAttRadius() const;
 
 	void SetAreaType(AreaType newType);
 	void SetShapeRadius(float newRadius);
@@ -62,22 +62,22 @@ private:
 	float attRadius;
 };
 
-inline const AreaType ComponentAreaLight::GetAreaType()
+inline const AreaType ComponentAreaLight::GetAreaType() const
 {
 	return areaType;
 }
 
-inline const float ComponentAreaLight::GetShapeRadius()
+inline const float ComponentAreaLight::GetShapeRadius() const
 {
 	return shapeRadius;
 }
 
-inline const float ComponentAreaLight::GetHeight()
+inline const float ComponentAreaLight::GetHeight() const
 {
 	return height;
 }
 
-inline const float ComponentAreaLight::GetAttRadius()
+inline const float ComponentAreaLight::GetAttRadius() const
 {
 	return attRadius;
 }

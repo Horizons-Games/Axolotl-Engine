@@ -717,6 +717,40 @@ void Scene::RenderAreaLights() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
+void Scene::RenderAreaSpheres() const
+{
+	// Area Sphere
+	size_t numSphere = sphereLights.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSphere);
+
+	if (numSphere > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(AreaLightSphere) * numSphere, &sphereLights[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderAreaTubes() const
+{
+	// Area Tube
+	size_t numTube = tubeLights.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numTube);
+
+	if (numTube > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(AreaLightTube) * numTube, &tubeLights[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
 void Scene::UpdateScenePointLights()
 {
 	pointLights.clear();
@@ -801,6 +835,77 @@ void Scene::UpdateSceneAreaLights()
 					sphereLights.push_back(sl);
 				}
 				else if (areaLightComp->GetAreaType() == AreaType::TUBE)
+				{
+					Quat matrixRotation = transform->GetGlobalRotation();
+					float3 translation = transform->GetGlobalPosition();
+					float3 pointA = float3(0, 0.5f, 0) * areaLightComp->GetHeight();
+					float3 pointB = float3(0, -0.5f, 0) * areaLightComp->GetHeight();
+
+					// Apply rotation & translation
+					pointA = (matrixRotation * pointA) + translation;
+					pointB = (matrixRotation * pointB) + translation;
+
+					AreaLightTube tl;
+					tl.positionA = float4(pointA, areaLightComp->GetShapeRadius());
+					tl.positionB = float4(pointB, areaLightComp->GetShapeRadius());
+					tl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					tl.attRadius = areaLightComp->GetAttRadius();
+
+					tubeLights.push_back(tl);
+				}
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaSpheres()
+{
+	sphereLights.clear();
+
+	std::vector<GameObject*> children = GetSceneGameObjects();
+
+	for (GameObject* child : children)
+	{
+		if (child && child->IsActive())
+		{
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			{
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
+				{
+					float3 center = transform->GetGlobalPosition();
+					float radius = areaLightComp->GetShapeRadius();
+
+					AreaLightSphere sl;
+					sl.position = float4(center, radius);
+					sl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					sl.attRadius = areaLightComp->GetAttRadius();
+
+					sphereLights.push_back(sl);
+				}
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaTubes()
+{
+	tubeLights.clear();
+
+	std::vector<GameObject*> children = GetSceneGameObjects();
+
+	for (GameObject* child : children)
+	{
+		if (child && child->IsActive())
+		{
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			{
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+				if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{
 					Quat matrixRotation = transform->GetGlobalRotation();
 					float3 translation = transform->GetGlobalPosition();

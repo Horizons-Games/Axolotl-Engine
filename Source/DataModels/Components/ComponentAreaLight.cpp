@@ -97,7 +97,7 @@ void ComponentAreaLight::Draw() const
 {
 	bool canDrawLight =
 #ifdef ENGINE
-		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
 		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawAreaLight();
 #endif // ENGINE
@@ -106,17 +106,20 @@ void ComponentAreaLight::Draw() const
 	{
 		return;
 	}
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
-	if (areaType == AreaType::SPHERE)
+
+	switch (areaType)
+	{
+	case AreaType::SPHERE:
 	{
 		dd::sphere(position, dd::colors::White, shapeRadius);
-
 		// attenuation shape
 		dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
+		break;
 	}
-	else if (areaType == AreaType::TUBE)
+	case AreaType::TUBE:
 	{
 		Quat matrixRotation = transform->GetGlobalRotation();
 		float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
@@ -134,19 +137,29 @@ void ComponentAreaLight::Draw() const
 		dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
 		dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
 		dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
+
+		break;
 	}
-	else if (areaType == AreaType::QUAD)
-	{
-	}
-	else if (areaType == AreaType::DISK)
-	{
+	case AreaType::QUAD:
+		break;
+	case AreaType::DISK:
+		break;
 	}
 }
 
 void ComponentAreaLight::OnTransformChanged()
 {
-	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaLights();
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaLights();
+	if (areaType == AreaType::SPHERE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSpheres();
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSpheres();
+	}
+	else
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTubes();
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTubes();
+	}
+	
 }
 
 void ComponentAreaLight::InternalSave(Json& meta)

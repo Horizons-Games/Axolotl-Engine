@@ -244,7 +244,9 @@ void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMach
 
 			if (ImGui::Button("x"))
 			{
-				state->resource = nullptr;
+				state->resource = nullptr; 
+
+				return;
 			};
 			ImGui::SameLine();
 			ImGui::Text(state->resource->GetFileName().c_str());

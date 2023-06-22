@@ -61,10 +61,14 @@ public:
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
 	void RenderAreaLights() const;
+	void RenderAreaSpheres() const;
+	void RenderAreaTubes() const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
+	void UpdateSceneAreaSpheres();
+	void UpdateSceneAreaTubes();
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
