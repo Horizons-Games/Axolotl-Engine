@@ -12,6 +12,8 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
+	void PushEnemies();
+
 private:
 	std::vector<GameObject*> enemiesInTheArea;
 

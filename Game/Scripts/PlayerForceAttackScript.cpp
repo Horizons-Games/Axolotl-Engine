@@ -44,44 +44,7 @@ void PlayerForceAttackScript::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCoolDown <= 0)
 	{
 		currentCoolDown = coolDown;
-		const ComponentTransform* transform =
-			owner->GetComponent<ComponentTransform>();
-		
-	
-		for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
-			 it++)
-		{
-			const ComponentTransform* enemyTransform =
-				(*it)->GetComponent<ComponentTransform>();
-			ComponentRigidBody* enemyRigidBody =
-				(*it)->GetComponent<ComponentRigidBody>();
-
-			btRigidBody* enemybtRb = enemyRigidBody->GetRigidBody();
-			enemyRigidBody->DisablePositionController();
-			enemyRigidBody->DisableRotationController();
-			enemybtRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
-			enemybtRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
-
-
-			// Get next position of the gameObject
-			float3 nextPosition = enemyTransform->GetGlobalPosition() - transform->GetGlobalPosition();
-			nextPosition.Normalize();
-			nextPosition += float3(0, 0.5f, 0);
-			nextPosition *= force;
-
-			btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
-			enemybtRb->setLinearVelocity(newVelocity);
-			
-			EnemyDroneScript* enemyDroneScript =
-				(*it)->GetComponent<EnemyDroneScript>();
-
-			enemyDroneScript->SetStunnedTime(stunTime);		
-
-			HealthSystem* enemyHealthScript =
-				(*it)->GetComponent<HealthSystem>();
-
-			enemyHealthScript->TakeDamage(10.0f);
-		}
+		PushEnemies();
 	}
 	else
 	{
@@ -111,5 +74,47 @@ void PlayerForceAttackScript::OnCollisionExit(ComponentRigidBody* other)
 		{
 			enemiesInTheArea.erase(it);
 		}
+	}
+}
+
+void PlayerForceAttackScript::PushEnemies()
+{
+	const ComponentTransform* transform =
+		owner->GetComponent<ComponentTransform>();
+
+
+	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
+		it++)
+	{
+		const ComponentTransform* enemyTransform =
+			(*it)->GetComponent<ComponentTransform>();
+		ComponentRigidBody* enemyRigidBody =
+			(*it)->GetComponent<ComponentRigidBody>();
+
+		btRigidBody* enemybtRb = enemyRigidBody->GetRigidBody();
+		enemyRigidBody->DisablePositionController();
+		enemyRigidBody->DisableRotationController();
+		enemybtRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+		enemybtRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
+
+
+		// Get next position of the gameObject
+		float3 nextPosition = enemyTransform->GetGlobalPosition() - transform->GetGlobalPosition();
+		nextPosition.Normalize();
+		nextPosition += float3(0, 0.5f, 0);
+		nextPosition *= force;
+
+		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
+		enemybtRb->setLinearVelocity(newVelocity);
+
+		EnemyDroneScript* enemyDroneScript =
+			(*it)->GetComponent<EnemyDroneScript>();
+
+		enemyDroneScript->SetStunnedTime(stunTime);
+
+		HealthSystem* enemyHealthScript =
+			(*it)->GetComponent<HealthSystem>();
+
+		enemyHealthScript->TakeDamage(10.0f);
 	}
 }
