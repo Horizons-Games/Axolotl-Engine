@@ -6,6 +6,8 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class PatrolBehaviourScript;
+class SeekBehaviourScript;
+class DroneFastAttack;
 class HealthSystem;
 
 class ComponentTransform;
@@ -34,9 +36,15 @@ private:
 	VenomiteBehaviours venomiteState;
 
 	PatrolBehaviourScript* patrolScript;
+	SeekBehaviourScript* seekScript;
+	// TODO: DroneFastAttack script should be renamed by RangedFastAttack or something of the sorts
+	std::vector<DroneFastAttack*> rangedAttackScripts;
+
 	HealthSystem* healthScript;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
+
+	float attackDistance;
 };

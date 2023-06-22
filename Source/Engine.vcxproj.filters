@@ -458,9 +458,6 @@
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClCompile>
@@ -477,7 +474,10 @@
       <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
-      <Filter>UserScripts\Basics</Filter>
+      <Filter>UserScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -949,12 +949,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
-      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
@@ -968,7 +962,11 @@
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1100,9 +1098,6 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Health System\DeathActions">
       <UniqueIdentifier>{b68e19c9-8630-4623-a368-b6677dab8c33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Basics">
-      <UniqueIdentifier>{b24a4fdd-9741-4353-b93a-d6cec03e0b75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
