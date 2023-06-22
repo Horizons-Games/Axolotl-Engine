@@ -133,6 +133,16 @@ void EnemyDroneScript::Update(float deltaTime)
 
 			float3 nextPoition = seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition();
 			nextPoition.Normalize();
+
+			float rotation = - static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.6)) + 1.2;
+			if ((rand() / RAND_MAX) > 0.5)
+			{
+				rotation = std::abs(rotation);
+			}
+			LOG_INFO("{}", rotation);
+
+			nextPoition.x = nextPoition.x * Cos(rotation) - nextPoition.z * Sin(rotation);
+			nextPoition.z = nextPoition.x * Sin(rotation) - nextPoition.z * Cos(rotation);
 			nextPoition *= attackDistance;
 			nextPoition += seekTargetTransform->GetGlobalPosition();
 			attackScript->Reposition(nextPoition);

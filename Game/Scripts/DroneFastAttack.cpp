@@ -88,7 +88,7 @@ void DroneFastAttack::PerformAttack()
 void DroneFastAttack::Reposition(float3 nextPosition)
 {
 	needReposition = false;
-	
+	movingToNewReposition = true;
 	//set new target position
 	owner->GetComponent<ComponentRigidBody>()->SetPositionTarget(nextPosition);
 }
@@ -103,7 +103,11 @@ bool DroneFastAttack::NeedReposition() const
 	return needReposition;
 }
 
-bool DroneFastAttack::MovingToNewReposition() const
+bool DroneFastAttack::MovingToNewReposition()
 {
-	return transform->GetGlobalPosition().Equals(newReposition, 0.3f);
+	if (transform->GetGlobalPosition().Equals(newReposition, 0.3f))
+	{
+		movingToNewReposition = false;
+	}
+	return movingToNewReposition;
 }

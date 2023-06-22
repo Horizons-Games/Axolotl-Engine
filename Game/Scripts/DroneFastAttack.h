@@ -22,7 +22,7 @@ public:
 
 	bool IsAttackAvailable() const;
 	bool NeedReposition() const;
-	bool MovingToNewReposition() const;
+	bool MovingToNewReposition();
 
 private:
 
