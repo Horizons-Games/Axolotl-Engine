@@ -64,7 +64,7 @@ public:
 	void SetDuration(float duration);
 	void SetElapsed(float elapsed);
 	void SetLooping(bool isLooping);
-	void SetName(const char* name);
+	void SetName(const std::string &name);
 	void SetLifespanRange(const float2 &lifespan);
 	void SetSpeedRange(const float2 &speed);
 	void SetSizeRange(const float2 &size);
@@ -217,7 +217,7 @@ inline void ParticleEmitter::SetColor(const float4& color)
 	this->color = color;
 }
 
-inline void ParticleEmitter::SetName(const char* name)
+inline void ParticleEmitter::SetName(const std::string &name)
 {
 	this->name = name;
 }
