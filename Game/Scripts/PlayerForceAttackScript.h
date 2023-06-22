@@ -27,6 +27,7 @@ private:
 	float stunTime;
 	float coolDown;
 	float currentCoolDown;
+	float forceDamage;
 
 	ModuleInput* input;
 	ComponentRigidBody* rigidBody;

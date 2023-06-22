@@ -124,5 +124,4 @@ void EnemyDroneScript::SetStunnedTime(float newTime)
 {
 	stunned = true;
 	timeStunned = newTime;
-	timeStunnedAux = std::min(0.5f, newTime);
 }

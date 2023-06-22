@@ -40,7 +40,6 @@ private:
 	float attackDistance;
 	float seekDistance;
 	float timeStunned;
-	float timeStunnedAux;
 	bool stunned;
 
 	PatrolBehaviourScript* patrolScript;

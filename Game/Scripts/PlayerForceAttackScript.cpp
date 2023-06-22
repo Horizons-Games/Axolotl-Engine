@@ -13,13 +13,15 @@
 REGISTERCLASS(PlayerForceAttackScript);
 
 PlayerForceAttackScript::PlayerForceAttackScript() : Script(), force(10.0f), stunTime(3.0f), coolDown(6.0f), 
-	currentCoolDown(0.0f)
+	currentCoolDown(0.0f), forceDamage(10.0f)
 {
 	enemiesInTheArea.reserve(10);
 
 	REGISTER_FIELD(force, float);
 	REGISTER_FIELD(stunTime, float);
 	REGISTER_FIELD(coolDown, float);
+	REGISTER_FIELD(forceDamage, float);
+
 }
 
 PlayerForceAttackScript::~PlayerForceAttackScript()
@@ -111,6 +113,6 @@ void PlayerForceAttackScript::PushEnemies()
 		HealthSystem* enemyHealthScript =
 			(*it)->GetComponent<HealthSystem>();
 
-		enemyHealthScript->TakeDamage(10.0f);
+		enemyHealthScript->TakeDamage(forceDamage);
 	}
 }
