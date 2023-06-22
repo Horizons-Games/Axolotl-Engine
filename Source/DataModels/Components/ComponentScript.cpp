@@ -109,6 +109,37 @@ void ComponentScript::SaveOptions(Json& meta)
 				break;
 			}
 
+			case FieldType::VECTOR:
+			{
+				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
+				std::function<std::any(const std::any&, const std::string&)> elementDrawer =
+					[this, &vectorField](const std::any& value, const std::string& name) -> std::any
+				{
+					switch (vectorField.innerType)
+					{
+					case FieldType::FLOAT:
+						return float();
+					case FieldType::STRING:
+						return std::string();
+					case FieldType::BOOLEAN:
+						return bool();
+					case FieldType::GAMEOBJECT:
+						return std::any();
+					case FieldType::VECTOR3:
+						return float3();
+					break;
+					}
+					return std::any();  // Default return 
+				};
+
+				std::vector<std::any> vectorValue = vectorField.getter();
+
+				for (int i = 0; i < vectorValue.size(); ++i)
+				{
+					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
+				}
+			}
+
 			case FieldType::STRING:
 			{
 				field["name"] = std::get<Field<std::string>>(enumAndValue.second).name.c_str();
