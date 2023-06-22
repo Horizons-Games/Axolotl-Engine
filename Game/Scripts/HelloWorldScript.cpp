@@ -4,6 +4,7 @@
 #include "Modules/ModuleInput.h"
 #include "Scene/Scene.h"
 
+#include "Application.h"
 #include "Components/ComponentTransform.h"
 
 #include "AxoLog.h"

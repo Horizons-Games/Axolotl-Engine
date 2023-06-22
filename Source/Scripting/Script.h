@@ -4,9 +4,6 @@
 #include "InterfacesIds.h"
 #include "ObjectInterfacePerModule.h"
 
-#include "Application.h"
-#include "GameObject/GameObject.h"
-
 #include "Scripting/RegisterFieldMacros.h"
 
 #include "RuntimeLinkLibrary.h"

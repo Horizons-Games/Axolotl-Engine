@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DataModels/GameObject/GameObject.h"
 #include <ranges>
 
 // The parameter name must be the exact name of the field inside the class

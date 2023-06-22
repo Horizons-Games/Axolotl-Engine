@@ -1,6 +1,7 @@
 #include "UIButtonControl.h"
 
-#include <Components/ComponentScript.h>
+#include "Application.h"
+#include "Components/ComponentScript.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
 #include "UIGameStates.h"

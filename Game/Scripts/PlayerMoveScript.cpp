@@ -1,5 +1,6 @@
 #include "PlayerMoveScript.h"
 
+#include "Application.h"
 #include "ModuleInput.h"
 
 #include "Components/ComponentRigidBody.h"

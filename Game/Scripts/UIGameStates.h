@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 
 class ComponentPlayer;
+class ModuleInput;
 
 class UIGameStates : public Script
 {
