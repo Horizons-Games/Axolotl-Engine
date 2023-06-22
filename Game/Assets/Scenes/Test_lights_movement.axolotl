@@ -1,0 +1,882 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "Test_lights_movement",
+                "tag": "",
+                "uid": 18225021710681344009,
+                "parentUID": 0,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 8107584984144160977,
+                "parentUID": 18225021710681344009,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 0.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated",
+                "tag": "",
+                "uid": 6829716228675658227,
+                "parentUID": 18225021710681344009,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.009999999776482582,
+                            "localSca_Y": 0.009999999776482582,
+                            "localSca_Z": 0.009999999776482582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 9164335789719456364,
+                            "assetPathState": "Assets/StateMachine/default_gunan.state"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8872048128707947883,
+                "parentUID": 6829716228675658227,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Neck",
+                "tag": "",
+                "uid": 15926280152224385246,
+                "parentUID": 8872048128707947883,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -21.11453628540039,
+                            "localPos_Z": -17.14017677307129,
+                            "localRot_X": -60.16445541381836,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Head",
+                "tag": "",
+                "uid": 8829036043325739212,
+                "parentUID": 15926280152224385246,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 43.63534164428711,
+                            "localPos_Y": -1.7542338371276855,
+                            "localPos_Z": 9.883751328769626e-15,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 29.835548400878906,
+                            "localRot_Z": -90.00000762939453,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Jaw",
+                "tag": "",
+                "uid": 17874712042690697251,
+                "parentUID": 8829036043325739212,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -1.9193004369735718,
+                            "localPos_Z": 19.882457733154297,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Jaw_Mesh_lower",
+                "tag": "",
+                "uid": 2630735846955336656,
+                "parentUID": 17874712042690697251,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.5906086623112374e-15,
+                            "localPos_Y": -13.10620403289795,
+                            "localPos_Z": -19.541030883789063,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated.Jaw_Mesh_lower_0",
+                "tag": "",
+                "uid": 3293578875339483650,
+                "parentUID": 2630735846955336656,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15284970844494723787,
+                            "assetPathMesh": "Assets/Meshes/Gunan_animated.Jaw_Mesh_lower_0.mesh",
+                            "materialUID": 11127701460381394507,
+                            "assetPathMaterial": "Assets/Materials/Gunan_animatedTeethridge_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated.Jaw_Mesh_lower_1",
+                "tag": "",
+                "uid": 11482514483420551125,
+                "parentUID": 2630735846955336656,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1615634364766841257,
+                            "assetPathMesh": "Assets/Meshes/Gunan_animated.Jaw_Mesh_lower_1.mesh",
+                            "materialUID": 6285578725188221075,
+                            "assetPathMaterial": "Assets/Materials/Gunan_animatedTeeth_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EyeL",
+                "tag": "",
+                "uid": 7359250478207027277,
+                "parentUID": 8829036043325739212,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 14.799999237060547,
+                            "localPos_Y": 30.413740158081055,
+                            "localPos_Z": 40.748538970947266,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EyeL_Mesh",
+                "tag": "",
+                "uid": 8591089746488833129,
+                "parentUID": 7359250478207027277,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 8.750041007995605,
+                            "localSca_Y": 8.750041007995605,
+                            "localSca_Z": 8.750041007995605
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated.EyeL_Mesh_0",
+                "tag": "",
+                "uid": 16824169118076649456,
+                "parentUID": 8591089746488833129,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2475658038396284269,
+                            "assetPathMesh": "Assets/Meshes/Gunan_animated.EyeL_Mesh_0.mesh",
+                            "materialUID": 2287607946349795999,
+                            "assetPathMaterial": "Assets/Materials/Gunan_animatedEyes_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EyeR",
+                "tag": "",
+                "uid": 13849086674591303220,
+                "parentUID": 8829036043325739212,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -14.799999237060547,
+                            "localPos_Y": 30.413740158081055,
+                            "localPos_Z": 40.748538970947266,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EyeR_Mesh",
+                "tag": "",
+                "uid": 4312494875801092983,
+                "parentUID": 13849086674591303220,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 8.750041007995605,
+                            "localSca_Y": 8.750041007995605,
+                            "localSca_Z": 8.750041007995605
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated.EyeR_Mesh_0",
+                "tag": "",
+                "uid": 13469687766830983147,
+                "parentUID": 4312494875801092983,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 9098914618941356029,
+                            "assetPathMesh": "Assets/Meshes/Gunan_animated.EyeR_Mesh_0.mesh",
+                            "materialUID": 2287607946349795999,
+                            "assetPathMaterial": "Assets/Materials/Gunan_animatedEyes_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Jaw_Mesh_upper",
+                "tag": "",
+                "uid": 9779714180162536525,
+                "parentUID": 8829036043325739212,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.7691763366031264e-15,
+                            "localPos_Y": -15.025504112243652,
+                            "localPos_Z": 0.3414267599582672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated.Jaw_Mesh_upper_0",
+                "tag": "",
+                "uid": 2512390249059363328,
+                "parentUID": 9779714180162536525,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15687331135741703502,
+                            "assetPathMesh": "Assets/Meshes/Gunan_animated.Jaw_Mesh_upper_0.mesh",
+                            "materialUID": 11127701460381394507,
+                            "assetPathMaterial": "Assets/Materials/Gunan_animatedTeethridge_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated.Jaw_Mesh_upper_1",
+                "tag": "",
+                "uid": 964836582242657377,
+                "parentUID": 9779714180162536525,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 793195669722632264,
+                            "assetPathMesh": "Assets/Meshes/Gunan_animated.Jaw_Mesh_upper_1.mesh",
+                            "materialUID": 6285578725188221075,
+                            "assetPathMaterial": "Assets/Materials/Gunan_animatedTeeth_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Head_Mesh",
+                "tag": "",
+                "uid": 2859408251301286155,
+                "parentUID": 8872048128707947883,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Gunan_animated.Head_Mesh_0",
+                "tag": "",
+                "uid": 1745910648239366907,
+                "parentUID": 2859408251301286155,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5380672432666282375,
+                            "assetPathMesh": "Assets/Meshes/Gunan_animated.Head_Mesh_0.mesh",
+                            "materialUID": 2055626814150413733,
+                            "assetPathMaterial": "Assets/Materials/Gunan_animatedSkin_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 8860664824650164869,
+                "parentUID": 18225021710681344009,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.023567955940961838,
+                            "localPos_Y": 0.39860671758651733,
+                            "localPos_Z": 1.1213243007659912,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": true,
+                            "mouse": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 2369708689298060271,
+                "parentUID": 8860664824650164869,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area Light",
+                "tag": "",
+                "uid": 15577246893560561765,
+                "parentUID": 16824169118076649456,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.02117478847503662,
+                            "localPos_Y": -0.011660099029541016,
+                            "localPos_Z": 1.1785058975219727,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 0.0,
+                            "color_light_Z": 0.0,
+                            "intensity": 2.680000066757202,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Sphere",
+                            "shapeRadius": 0.009999999776482582,
+                            "height": 1.0,
+                            "attRadius": 0.05000000074505806
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area Light",
+                "tag": "",
+                "uid": 1541587813076251008,
+                "parentUID": 13469687766830983147,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.007941961288452148,
+                            "localPos_Y": -0.01165914535522461,
+                            "localPos_Z": 1.1785054206848145,
+                            "localRot_X": 1.4559423096456635e-19,
+                            "localRot_Y": 1.798166909805426e-34,
+                            "localRot_Z": 1.415267100561557e-13,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 0.0,
+                            "color_light_Z": 0.0,
+                            "intensity": 2.680000066757202,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Sphere",
+                            "shapeRadius": 0.009999999776482582,
+                            "height": 1.0,
+                            "attRadius": 0.05000000074505806
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -25.0,
+                "y": -10.0,
+                "z": -25.0
+            },
+            "MaxPoint": {
+                "x": 25.0,
+                "y": 10.0,
+                "z": 25.0
+            }
+        }
+    },
+    "Skybox": {
+        "skyboxUID": 4377575066284441384,
+        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 992078593789236745,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    }
+}
