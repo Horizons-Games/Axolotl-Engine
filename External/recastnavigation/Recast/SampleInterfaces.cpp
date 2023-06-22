@@ -8,8 +8,8 @@
 #include <stdarg.h>
 
 #include "Recast.h"
-#include "DebugUtils/RecastDebugDraw.h"
-#include "DebugUtils/DetourDebugDraw.h"
+#include "../DebugUtils/RecastDebugDraw.h"
+#include "../DebugUtils/DetourDebugDraw.h"
 #include "SDL.h"
 #include "SDL_opengl.h"
 

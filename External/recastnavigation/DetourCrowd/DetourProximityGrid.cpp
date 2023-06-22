@@ -19,10 +19,10 @@
 #include <string.h>
 #include <new>
 #include "DetourProximityGrid.h"
-#include "Detour/DetourCommon.h"
-#include "Detour/DetourMath.h"
-#include "Detour/DetourAlloc.h"
-#include "Detour/DetourAssert.h"
+#include "../Detour/DetourCommon.h"
+#include "../Detour/DetourMath.h"
+#include "../Detour/DetourAlloc.h"
+#include "../Detour/DetourAssert.h"
 
 
 dtProximityGrid* dtAllocProximityGrid()

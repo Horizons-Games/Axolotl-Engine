@@ -1,7 +1,7 @@
 #ifndef DETOURTILECACHE_H
 #define DETOURTILECACHE_H
 
-#include "Detour/DetourStatus.h"
+#include "../Detour/DetourStatus.h"
 
 
 

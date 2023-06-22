@@ -22,13 +22,13 @@
 #include <stdlib.h>
 #include <new>
 #include "DetourCrowd.h"
-#include "Detour/DetourNavMesh.h"
-#include "Detour/DetourNavMeshQuery.h"
-#include "DetourCrowd/DetourObstacleAvoidance.h"
-#include "Detour/DetourCommon.h"
-#include "Detour/DetourMath.h"
-#include "Detour/DetourAssert.h"
-#include "Detour/DetourAlloc.h"
+#include "../Detour/DetourNavMesh.h"
+#include "../Detour/DetourNavMeshQuery.h"
+#include "../DetourCrowd/DetourObstacleAvoidance.h"
+#include "../Detour/DetourCommon.h"
+#include "../Detour/DetourMath.h"
+#include "../Detour/DetourAssert.h"
+#include "../Detour/DetourAlloc.h"
 
 
 dtCrowd* dtAllocCrowd()

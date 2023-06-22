@@ -492,6 +492,35 @@
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h">
       <Filter>wwise</Filter>
     </ClInclude>
+    <ClInclude Include="recastnavigation\DebugUtils\DebugDraw.h" />
+    <ClInclude Include="recastnavigation\DebugUtils\DetourDebugDraw.h" />
+    <ClInclude Include="recastnavigation\DebugUtils\RecastDebugDraw.h" />
+    <ClInclude Include="recastnavigation\DebugUtils\RecastDump.h" />
+    <ClInclude Include="recastnavigation\Detour\ChunkyTriMesh.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourAlloc.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourAssert.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourCommon.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourMath.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNavMesh.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNavMeshBuilder.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNavMeshQuery.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNode.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourStatus.h" />
+    <ClInclude Include="recastnavigation\Detour\InputGeom.h" />
+    <ClInclude Include="recastnavigation\Detour\MeshLoaderObj.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourCrowd.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourLocalBoundary.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourObstacleAvoidance.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourPathCorridor.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourPathQueue.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourProximityGrid.h" />
+    <ClInclude Include="recastnavigation\DetourTileCache\DetourTileCache.h" />
+    <ClInclude Include="recastnavigation\DetourTileCache\DetourTileCacheBuilder.h" />
+    <ClInclude Include="recastnavigation\fastlz\fastlz.h" />
+    <ClInclude Include="recastnavigation\Recast\Recast.h" />
+    <ClInclude Include="recastnavigation\Recast\RecastAlloc.h" />
+    <ClInclude Include="recastnavigation\Recast\RecastAssert.h" />
+    <ClInclude Include="recastnavigation\Recast\SampleInterfaces.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -734,6 +763,39 @@
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32\stdafx.cpp">
       <Filter>wwise</Filter>
     </ClCompile>
+    <ClCompile Include="recastnavigation\DebugUtils\DebugDraw.cpp" />
+    <ClCompile Include="recastnavigation\DebugUtils\DetourDebugDraw.cpp" />
+    <ClCompile Include="recastnavigation\DebugUtils\RecastDebugDraw.cpp" />
+    <ClCompile Include="recastnavigation\DebugUtils\RecastDump.cpp" />
+    <ClCompile Include="recastnavigation\Detour\ChunkyTriMesh.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourAlloc.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourCommon.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNavMesh.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNode.cpp" />
+    <ClCompile Include="recastnavigation\Detour\InputGeom.cpp" />
+    <ClCompile Include="recastnavigation\Detour\MeshLoaderObj.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourCrowd.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourLocalBoundary.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourPathCorridor.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourPathQueue.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourProximityGrid.cpp" />
+    <ClCompile Include="recastnavigation\DetourTileCache\DetourTileCache.cpp" />
+    <ClCompile Include="recastnavigation\DetourTileCache\DetourTileCacheBuilder.cpp" />
+    <ClCompile Include="recastnavigation\fastlz\fastlz.c" />
+    <ClCompile Include="recastnavigation\Recast\Recast.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastAlloc.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastArea.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastContour.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastFilter.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastLayers.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastMesh.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastMeshDetail.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastRasterization.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastRegion.cpp" />
+    <ClCompile Include="recastnavigation\Recast\SampleInterfaces.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FontIcons\CustomFont.ifs">

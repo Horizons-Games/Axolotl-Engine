@@ -19,9 +19,9 @@
 #ifndef SAMPLEINTERFACES_H
 #define SAMPLEINTERFACES_H
 
-#include "DebugUtils/DebugDraw.h"
+#include "../DebugUtils/DebugDraw.h"
 #include "Recast.h"
-#include "DebugUtils/RecastDump.h"
+#include "../DebugUtils/RecastDump.h"
 
 // These are example implementations of various interfaces used in Recast and Detour.
 
