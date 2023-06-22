@@ -1,8 +1,14 @@
 #pragma once
 #include "Resource.h"
-//#include "Recast/SampleInterfaces.h"
+#include "Recast/SampleInterfaces.h"
 //#include "Utils/Buffer.h"
 #include <vector>
+
+class dtNavMesh;
+class dtNavMeshQuery;
+class dtCrowd;
+class dtTileCache;
+class Scene;
 
 class ResourceNavMesh : virtual public Resource
 {
@@ -21,17 +27,17 @@ public:
 	void SaveLoadOptions(Json& meta) override{};
 	void LoadLoadOptions(Json& meta) override{};
 
-	//bool Build(Scene* scene);
-	//void DrawGizmos(Scene* scene);	
+	bool Build(Scene* scene);
+	void DrawGizmos(Scene* scene);	
 	//void Load(Buffer<char>& buffer);
-	//void CleanUp();
+	void CleanUp();
 	//Buffer<char> Save();
 
-	// bool IsGenerated() const;
-	// dtCrowd* GetCrowd() const;
-	// dtNavMeshQuery* GetNavMeshQuery() const;
-	// dtNavMesh* GetNavMesh() const;
-	// dtTileCache* GetTileCache() const;
+	bool IsGenerated() const;
+	dtCrowd* GetCrowd() const;
+	dtNavMeshQuery* GetNavMeshQuery() const;
+	dtNavMesh* GetNavMesh() const;
+	dtTileCache* GetTileCache() const;
 
 	float GetAgentHeight() const;
 	float GetAgentRadius() const;
@@ -97,10 +103,6 @@ public:
 		MAX_DRAWMODE
 	};
 
-	// private:
-	// void InitCrowd();
-
-private:
 	float agentHeight = 2.0f;
 	float agentRadius = 0.5f;
 	float agentMaxClimb = 0.9f;
@@ -127,19 +129,21 @@ private:
 	int maxTiles = 0;
 	int maxPolysPerTile = 0;
 
+private:
+	void InitCrowd();
 	DrawMode drawMode = DrawMode::DRAWMODE_NAVMESH;
 
-	// BuildContext* ctx = nullptr;
+	BuildContext* ctx = nullptr;
 
-	// class dtNavMesh* navMesh = nullptr;
-	// class dtNavMeshQuery* navQuery = nullptr;
-	// class dtCrowd* crowd = nullptr;
+	dtNavMesh* navMesh = nullptr;
+	dtNavMeshQuery* navQuery = nullptr;
+	dtCrowd* crowd = nullptr;
 
-	// class dtTileCache* tileCache = nullptr;
+	dtTileCache* tileCache = nullptr;
 
-	// struct LinearAllocator* talloc = nullptr;
-	// struct FastLZCompressor* tcomp = nullptr;
-	// struct MeshProcess* tmproc = nullptr;
+	struct LinearAllocator* talloc = nullptr;
+	struct FastLZCompressor* tcomp = nullptr;
+	struct MeshProcess* tmproc = nullptr;
 
 	unsigned char navMeshDrawFlags = 0;
 };
