@@ -36,6 +36,7 @@ public:
 
 private:
 	DroneBehaviours droneState;
+	DroneBehaviours lastDroneState;
 
 	float attackDistance;
 	float seekDistance;

@@ -91,6 +91,7 @@ void DroneFastAttack::Reposition(float3 nextPosition)
 	movingToNewReposition = true;
 	//set new target position
 	owner->GetComponent<ComponentRigidBody>()->SetPositionTarget(nextPosition);
+	owner->GetComponent<ComponentRigidBody>()->SetKpForce(10.0f);
 }
 
 bool DroneFastAttack::IsAttackAvailable() const

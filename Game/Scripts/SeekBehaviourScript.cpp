@@ -56,5 +56,5 @@ void SeekBehaviourScript::RotateToTarget() const
 	dd::arrow(ownerTransform->GetGlobalPosition(), targetTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
 #endif // DEBUG
 
-	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
+	ownerRigidBody->SetRotationTarget(errorRotation);
 }

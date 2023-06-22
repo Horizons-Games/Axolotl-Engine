@@ -5,6 +5,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -17,7 +18,7 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr)
+	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -98,9 +99,17 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		if (droneState == DroneBehaviours::FIRSTATTACK)
 		{
-			attackScript->StartAttack();
+			if (lastDroneState != DroneBehaviours::ATTACK)
+			{
+				attackScript->StartAttack();
+			}
 			droneState = DroneBehaviours::ATTACK;
 		}
+		else
+		{
+			owner->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
+		}
+		lastDroneState = droneState;
 	}
 
 	if (patrolScript && droneState == DroneBehaviours::PATROL)
@@ -134,21 +143,27 @@ void EnemyDroneScript::Update(float deltaTime)
 			float3 nextPoition = seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition();
 			nextPoition.Normalize();
 
-			float rotation = - static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.6)) + 1.2;
-			if ((rand() / RAND_MAX) > 0.5)
+			float rotation = - (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.5)) + 1.0);
+
+			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			LOG_INFO("randon {}", r);
+			if (r > 0.5)
 			{
 				rotation = std::abs(rotation);
 			}
 			LOG_INFO("{}", rotation);
 
-			nextPoition.x = nextPoition.x * Cos(rotation) - nextPoition.z * Sin(rotation);
-			nextPoition.z = nextPoition.x * Sin(rotation) - nextPoition.z * Cos(rotation);
-			nextPoition *= attackDistance;
+			nextPoition.z = nextPoition.z * Cos(rotation) - nextPoition.x * Sin(rotation);
+			nextPoition.x = nextPoition.z * Sin(rotation) + nextPoition.x * Cos(rotation);
+			nextPoition *= attackDistance - 1;
 			nextPoition += seekTargetTransform->GetGlobalPosition();
 			attackScript->Reposition(nextPoition);
 		}
 
-		
+		if (!attackScript->MovingToNewReposition())
+		{
+			seekScript->DisableMovement();
+		}
 
 		seekScript->RotateToTarget();
 
