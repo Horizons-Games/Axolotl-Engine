@@ -67,7 +67,6 @@ void ParticleSystemImporter::Save
 		{
 			size += sizeof(UID);
 		}
-		size += emitter->GetModules().size();
 		size += (sizeof(int) + sizeof(bool)) * emitter->GetModules().size();
 	}
 
