@@ -46,6 +46,12 @@ void DroneFastAttack::Start()
 	}
 }
 
+void DroneFastAttack::StartAttack()
+{
+	needReposition = false;
+	movingToNewReposition = false;
+}
+
 void DroneFastAttack::PerformAttack()
 {
 	
@@ -79,14 +85,12 @@ void DroneFastAttack::PerformAttack()
 	needReposition = true;
 }
 
-void DroneFastAttack::Reposition()
+void DroneFastAttack::Reposition(float3 nextPosition)
 {
-	if (transform->GetGlobalPosition().Equals(newReposition), 0.3f) 
-	{
-		needReposition = false;
-	}
-	//set target position
-
+	needReposition = false;
+	
+	//set new target position
+	owner->GetComponent<ComponentRigidBody>()->SetPositionTarget(nextPosition);
 }
 
 bool DroneFastAttack::IsAttackAvailable() const
@@ -97,4 +101,9 @@ bool DroneFastAttack::IsAttackAvailable() const
 bool DroneFastAttack::NeedReposition() const
 {
 	return needReposition;
+}
+
+bool DroneFastAttack::MovingToNewReposition() const
+{
+	return transform->GetGlobalPosition().Equals(newReposition, 0.3f);
 }

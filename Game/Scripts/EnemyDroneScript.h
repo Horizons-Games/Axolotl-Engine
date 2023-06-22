@@ -21,6 +21,7 @@ enum class DroneBehaviours
 	FIRSTPATROL,
 	PATROL,
 	SEEK,
+	FIRSTATTACK,
 	ATTACK
 };
 

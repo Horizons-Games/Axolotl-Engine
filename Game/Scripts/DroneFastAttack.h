@@ -16,11 +16,13 @@ public:
 
 	void Start() override;
 
+	void StartAttack();
 	void PerformAttack();
-	void Reposition();
+	void Reposition(float3 nextPosition);
 
 	bool IsAttackAvailable() const;
 	bool NeedReposition() const;
+	bool MovingToNewReposition() const;
 
 private:
 
@@ -28,6 +30,7 @@ private:
 	float lastAttackTime;
 
 	bool needReposition;
+	bool movingToNewReposition;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
