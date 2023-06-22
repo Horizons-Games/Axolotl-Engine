@@ -26,6 +26,7 @@
 	#include "Windows/EditorWindows/WindowInspector.h"
 	#include "Windows/EditorWindows/WindowResources.h"
 	#include "Windows/EditorWindows/WindowScene.h"
+	#include "Windows/EditorWindows/WindowNavigation.h"
 #else
 	#include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -85,6 +86,7 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
+	windows.push_back(std::make_unique<WindowNavigation>());
 	
 	char* buffer = StateWindows();
 
