@@ -41,21 +41,21 @@ void PlayerCameraRotationVerticalScript::Start()
 void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 {
 	CalculateDefaultOffsetVector();
-	float3 vectorOffset = defaultOffsetVector;
+	float3 positionOffset = playerTransform->GetGlobalPosition() + defaultOffsetVector;
 	Quat orientationOffset = playerTransform->GetGlobalRotation();
 
 	CameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
 	if (closestSample && 
 		(closestSample->position - playerTransform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
 	{
-		vectorOffset = closestSample->positionOffset - closestSample->position;
+		positionOffset = closestSample->position + closestSample->positionOffset;
 
 		float3 eulerAngles = closestSample->orientationOffset;
 		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));
 
 	}
 	
-	finalTargetPosition = playerTransform->GetGlobalPosition() + vectorOffset;
+	finalTargetPosition = positionOffset;
 	finalTargetOrientation = orientationOffset;
 
 	transform->SetGlobalPosition(finalTargetPosition);

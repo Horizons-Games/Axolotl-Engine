@@ -8467,8 +8467,8 @@
                                 },
                                 {
                                     "name": "PositionOffset",
-                                    "value x": -3.0,
-                                    "value y": 4.0,
+                                    "value x": -5.0,
+                                    "value y": 2.0,
                                     "value z": 0.0,
                                     "type": 3
                                 },
