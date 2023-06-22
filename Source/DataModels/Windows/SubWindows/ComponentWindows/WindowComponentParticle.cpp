@@ -9,6 +9,7 @@
 #include "ParticleSystem/ParticleModule.h"
 
 #include "Application.h"
+#include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
@@ -41,6 +42,14 @@ void WindowComponentParticle::DrawWindowContents()
 		if (ImGui::Button("x"))
 		{
 			component->SetResource(nullptr);
+			return;
+		}
+
+		if (ImGui::Button("Save"))
+		{
+			resource->SetChanged(true);
+			App->GetModule<ModuleResources>()->ReimportResource(resource->GetUID());
+			App->GetModule<ModuleScene>()->ParticlesSystemUpdate(true);
 			return;
 		}
 	
@@ -109,7 +118,7 @@ void WindowComponentParticle::DrawWindowContents()
 			App->GetModule<ModuleScene>()->ParticlesSystemUpdate();
 		}
 	}
-	else 
+	else
 	{
 		inputParticleSystem->DrawWindowContents();
 	}
