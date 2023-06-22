@@ -55,12 +55,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 		else
 		{
-			if (timeStunnedAux < 0)
-			{
-				timeStunnedAux = timeStunned + 1;
-			}
 			timeStunned -= deltaTime;
-			timeStunnedAux -= deltaTime;
 			return;
 		}
 	}
