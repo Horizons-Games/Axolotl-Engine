@@ -411,6 +411,17 @@ void ModuleResources::ReimportResource(UID resourceUID)
 		App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 		delete saveBuffer;
 	}
+	if (resource->GetType() == ResourceType::ParticleSystem)
+	{
+		std::shared_ptr<ResourceParticleSystem> particleResource =
+			std::dynamic_pointer_cast<ResourceParticleSystem>(resource);
+		char* saveBuffer = {};
+		unsigned int size = 0;
+		particleSystemImporter->Save(particleResource, saveBuffer, size);
+
+		App->GetModule<ModuleFileSystem>()->Save(particleResource->GetAssetsPath().c_str(), saveBuffer, size);
+		delete saveBuffer;
+	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
 
@@ -617,6 +628,8 @@ void ModuleResources::MonitorResources()
 					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 				delete saveBuffer;
 			}
+			else if (resource->GetType() == ResourceType::ParticleSystem)
+				break;
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
 		for (std::shared_ptr<Resource>& resource : toCreateMeta)

@@ -10,7 +10,5 @@ public:
 
     void Import(const char* filePath, std::shared_ptr<ResourceParticleSystem> resource) override;
     void Load(const char* fileBuffer, std::shared_ptr<ResourceParticleSystem> resource) override;
-
-protected:
-    void Save(const std::shared_ptr<ResourceParticleSystem>& resource, char*& fileBuffer, unsigned int& size) override;
+	void Save(const std::shared_ptr<ResourceParticleSystem>& resource, char*& fileBuffer, unsigned int& size) override;
 };
