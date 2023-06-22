@@ -57,7 +57,7 @@ void ParticleSystemImporter::Save
 
 	size = sizeof(header)
 		// header of emitter (Size name + size Modules + check Resource) + content of Emitter
-		+ (sizeof(unsigned int) * 5 + sizeof(float) * 17 + sizeof(bool) * 5) * resource->GetNumEmitters();
+		+ (sizeof(unsigned int) * 5 + sizeof(float) * 17 + sizeof(bool) * 6) * resource->GetNumEmitters();
 
 	for(size_t i = 0; i < header[0]; i++)
 	{
@@ -191,6 +191,12 @@ void ParticleSystemImporter::Save
 		cursor += bytes;
 
 		bytes = sizeof(bool);
+		bool looping = emitter->IsLooping();
+		memcpy(cursor, &looping, bytes);
+
+		cursor += bytes;
+
+		bytes = sizeof(bool);
 		bool randomLife = emitter->IsRandomLife();
 		memcpy(cursor, &randomLife, bytes);
 
@@ -229,7 +235,6 @@ void ParticleSystemImporter::Save
 #ifdef ENGINE
 		jsonVisibleConfig[i] = static_cast<bool>(emitter->IsVisibleConfig());
 #endif // ENGINE
-
 	}
 
 #ifdef ENGINE
@@ -275,7 +280,7 @@ void ParticleSystemImporter::Load
 		char* name = new char[emitterHeader[0]]{};
 		bytes = sizeof(char) * emitterHeader[0];
 		memcpy(name, fileBuffer, bytes);
-		emitter->SetName(name);
+		emitter->SetName(std::string(name, emitterHeader[0]));
 		delete[] name;
 
 		fileBuffer += bytes;
@@ -288,16 +293,13 @@ void ParticleSystemImporter::Load
 
 			fileBuffer += bytes;
 
-			ParticleModule* module = new ParticleModule(static_cast<ParticleModule::ModuleType>(type), emitter.get());
-
 			bytes = sizeof(bool);
 			bool enabled;
 			memcpy(&enabled, &fileBuffer, bytes);
 
 			fileBuffer += bytes;
 
-			module->SetEnabled(enabled);
-			emitter->AddModule(module);
+			emitter->GetModules()[i]->SetEnabled(enabled);
 		}
 
 		if (emitterHeader[2])
@@ -320,7 +322,7 @@ void ParticleSystemImporter::Load
 #endif
 		}
 
-		bytes = sizeof(bool);
+		bytes = sizeof(int);
 		int maxParticles;
 		memcpy(&maxParticles, fileBuffer, bytes);
 		emitter->SetMaxParticles(maxParticles);
@@ -341,7 +343,13 @@ void ParticleSystemImporter::Load
 		bytes = sizeof(float) * 2;
 		float2 speed;
 		memcpy(&speed, fileBuffer, bytes);
-		emitter->SetSizeRange(speed);
+		emitter->SetSpeedRange(speed);
+		fileBuffer += bytes;
+
+		bytes = sizeof(float) * 2;
+		float2 size;
+		memcpy(&size, fileBuffer, bytes);
+		emitter->SetSizeRange(size);
 		fileBuffer += bytes;
 
 		bytes = sizeof(float) * 2;
@@ -371,7 +379,13 @@ void ParticleSystemImporter::Load
 		bytes = sizeof(float);
 		float radius;
 		memcpy(&radius, fileBuffer, bytes);
-		emitter->SetAngle(radius);
+		emitter->SetRadius(radius);
+		fileBuffer += bytes;
+
+		bytes = sizeof(bool);
+		bool looping;
+		memcpy(&looping, fileBuffer, bytes);
+		emitter->SetLooping(looping);
 		fileBuffer += bytes;
 
 		bytes = sizeof(bool);
