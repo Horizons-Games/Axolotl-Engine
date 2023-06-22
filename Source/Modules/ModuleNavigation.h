@@ -20,7 +20,7 @@ public:
 	void BakeNavMesh(); // Builds new navMesh
 
 	void DrawGizmos();	   // Draws NavMesh Gizmos
-	ResourceNavMesh& GetNavMesh(); // Returns navMesh
+	std::shared_ptr<ResourceNavMesh> GetNavMesh(); // Returns navMesh
 	void Raycast(float3 startPosition,
 				 float3 targetPosition,
 				 bool& hitResult,
@@ -35,5 +35,5 @@ public:
 	UID navMeshId = 0;
 
 private:
-	ResourceNavMesh navMesh;
+	std::shared_ptr<ResourceNavMesh> navMesh;
 };

@@ -35,13 +35,13 @@ update_status ModuleNavigation::PreUpdate()
 
 update_status ModuleNavigation::Update()
 {
-	if (!navMesh.IsGenerated())
+	if (!navMesh->IsGenerated())
 	{
 		return update_status::UPDATE_CONTINUE;
 	}
 
-	navMesh.GetTileCache()->update(App->GetDeltaTime(), navMesh.GetNavMesh()); // Update obstacles
-	navMesh.GetCrowd()->update(App->GetDeltaTime(), nullptr);					 // Update agents
+	navMesh->GetTileCache()->update(App->GetDeltaTime(), navMesh->GetNavMesh()); // Update obstacles
+	navMesh->GetCrowd()->update(App->GetDeltaTime(), nullptr);					// Update agents
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -52,25 +52,24 @@ update_status ModuleNavigation::PostUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
-// ?
-//void ModuleNavigation::ChangeNavMesh(UID navMeshId_)
-//{
-//	App->resources->DecreaseReferenceCount(navMeshId);
-//	navMeshId = navMeshId_;
-//	App->resources->IncreaseReferenceCount(navMeshId);
-//}
+void ModuleNavigation::ChangeNavMesh(UID navMeshId_)
+{
+	//App->resources->DecreaseReferenceCount(navMeshId);
+	navMeshId = navMeshId_;
+	//App->resources->IncreaseReferenceCount(navMeshId);
+}
 
 void ModuleNavigation::BakeNavMesh()
 {
 	/*MSTimer timer;
 	timer.Start();*/
 	ENGINE_LOG("Loading NavMesh");
-	bool generated = navMesh.Build(App->GetModule<ModuleScene>()->GetLoadedScene());
+	bool generated = navMesh->Build(App->GetModule<ModuleScene>()->GetLoadedScene());
 	//unsigned timeMs = timer.Stop();
 	if (generated)
 	{
-		navMesh.GetTileCache()->update(App->GetDeltaTime(), navMesh.GetNavMesh());
-		navMesh.GetCrowd()->update(App->GetDeltaTime(), nullptr);
+		navMesh->GetTileCache()->update(App->GetDeltaTime(), navMesh->GetNavMesh());
+		navMesh->GetCrowd()->update(App->GetDeltaTime(), nullptr);
 
 		ENGINE_LOG("NavMesh successfully baked");
 	}
@@ -82,10 +81,10 @@ void ModuleNavigation::BakeNavMesh()
 
 void ModuleNavigation::DrawGizmos()
 {
-	navMesh.DrawGizmos(App->GetModule<ModuleScene>()->GetLoadedScene());
+	navMesh->DrawGizmos(App->GetModule<ModuleScene>()->GetLoadedScene());
 }
 
-ResourceNavMesh& ModuleNavigation::GetNavMesh()
+std::shared_ptr<ResourceNavMesh> ModuleNavigation::GetNavMesh()
 {
 	return navMesh;
 }
@@ -95,10 +94,10 @@ void ModuleNavigation::Raycast(float3 startPosition, float3 targetPosition, bool
 	hitResult = false;
 	hitPosition = startPosition;
 
-	if (!navMesh.IsGenerated())
+	if (!navMesh->IsGenerated())
 		return;
 
-	dtNavMeshQuery* navQuery = navMesh.GetNavMeshQuery();
+	dtNavMeshQuery* navQuery = navMesh->GetNavMeshQuery();
 	if (navQuery == nullptr)
 		return;
 
@@ -152,10 +151,10 @@ void ModuleNavigation::Raycast(float3 startPosition, float3 targetPosition, bool
 
 void ModuleNavigation::GetNavMeshHeightInPosition(const float3 position, float& height)
 {
-	if (!navMesh.IsGenerated())
+	if (!navMesh->IsGenerated())
 		return;
 
-	dtNavMeshQuery* navQuery = navMesh.GetNavMeshQuery();
+	dtNavMeshQuery* navQuery = navMesh->GetNavMeshQuery();
 	if (navQuery == nullptr)
 		return;
 

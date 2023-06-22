@@ -9,6 +9,7 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentAreaLight.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include <queue>
 
@@ -64,6 +65,7 @@ public:
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
+	void UpdateSceneMeshRenderers();
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -133,6 +135,7 @@ private:
 	std::vector<SpotLight> spotLights;
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
+	std::vector<ComponentMeshRenderer*> meshRenderers;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;

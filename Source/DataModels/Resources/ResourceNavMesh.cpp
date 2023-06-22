@@ -28,27 +28,6 @@
 #include "Recast/RecastAssert.h"
 #include "fastlz/fastlz.h"
 
-ResourceNavMesh::ResourceNavMesh(UID resourceUID,
-								 const std::string& fileName,
-								 const std::string& assetsPath,
-								 const std::string& libraryPath) :
-	Resource(resourceUID, fileName, assetsPath, libraryPath)
-{
-	navMeshDrawFlags = DU_DRAWNAVMESH_OFFMESHCONS | DU_DRAWNAVMESH_CLOSEDLIST;
-
-	ctx = new BuildContext();
-	talloc = new LinearAllocator(32000);
-	tcomp = new FastLZCompressor;
-	tmproc = new MeshProcess;
-}
-
-ResourceNavMesh::~ResourceNavMesh()
-{
-	CleanUp();
-
-	// RELEASE(ctx);
-}
-
 #define MAX_AGENTS 128
 
 // This value specifies how many layers (or "floors") each navmesh tile is expected to have.
@@ -119,7 +98,7 @@ struct FastLZCompressor : public dtTileCacheCompressor
 	}
 };
 
- struct LinearAllocator : public dtTileCacheAlloc
+struct LinearAllocator : public dtTileCacheAlloc
 {
 	unsigned char* buffer;
 	int capacity;
@@ -167,7 +146,7 @@ struct FastLZCompressor : public dtTileCacheCompressor
 	}
 };
 
- struct MeshProcess : public dtTileCacheMeshProcess
+struct MeshProcess : public dtTileCacheMeshProcess
 {
 	InputGeom* m_geom;
 
@@ -218,7 +197,7 @@ struct FastLZCompressor : public dtTileCacheCompressor
 	}
 };
 
- struct RasterizationContext
+struct RasterizationContext
 {
 	RasterizationContext() : solid(0), triareas(0), lset(0), chf(0), ntiles(0)
 	{
@@ -246,7 +225,7 @@ struct FastLZCompressor : public dtTileCacheCompressor
 	int ntiles;
 };
 
- static int RasterizeTileLayers(float* verts,
+static int RasterizeTileLayers(float* verts,
 							   int nVerts,
 							   int nTris,
 							   BuildContext* ctx,
@@ -355,7 +334,7 @@ struct FastLZCompressor : public dtTileCacheCompressor
 	// const ConvexVolume* vols = geom->getConvexVolumes();
 	// for (int i = 0; i < geom->getConvexVolumeCount(); ++i) {
 	//	rcMarkConvexPolyArea(ctx, vols[i].verts, vols[i].nverts, vols[i].hmin, vols[i].hmax, (unsigned char)
-	//vols[i].area, *rc.chf);
+	// vols[i].area, *rc.chf);
 	//}
 
 	rc.lset = rcAllocHeightfieldLayerSet();
@@ -416,6 +395,27 @@ struct FastLZCompressor : public dtTileCacheCompressor
 	}
 
 	return n;
+}
+
+ResourceNavMesh::ResourceNavMesh(UID resourceUID,
+								 const std::string& fileName,
+								 const std::string& assetsPath,
+								 const std::string& libraryPath) :
+	Resource(resourceUID, fileName, assetsPath, libraryPath)
+{
+	navMeshDrawFlags = DU_DRAWNAVMESH_OFFMESHCONS | DU_DRAWNAVMESH_CLOSEDLIST;
+
+	ctx = new BuildContext();
+	talloc = new LinearAllocator(32000);
+	tcomp = new FastLZCompressor;
+	tmproc = new MeshProcess;
+}
+
+ResourceNavMesh::~ResourceNavMesh()
+{
+	CleanUp();
+
+	// RELEASE(ctx);
 }
 
 void DrawTiles(duDebugDraw* dd, dtTileCache* tc)
@@ -511,9 +511,15 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 {
 	CleanUp();
 
-	std::vector<float> verts = scene->GetVertices();
+	scene->UpdateSceneMeshRenderers();
+	return false;
+
+	/*std::vector<float> verts = scene->GetVertices();
 	std::vector<int> tris = scene->GetTriangles();
-	std::vector<float> normals = scene->GetNormals();
+	std::vector<float> normals = scene->GetNormals();*/
+	std::vector<float> verts;
+	std::vector<int> tris;
+	std::vector<float> normals;
 
 	unsigned ntris = tris.size() / 3;
 
@@ -530,7 +536,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	float bmin[3] = { FLT_MAX, FLT_MAX, FLT_MAX };
 	float bmax[3] = { FLT_MIN, FLT_MIN, FLT_MIN };
-	for (ComponentBoundingBox boundingBox : scene->boundingBoxComponents)
+	/*for (ComponentBoundingBox boundingBox : scene->boundingBoxComponents)
 	{
 		AABB currentBB = boundingBox.GetWorldAABB();
 		float3 currentBBMin = currentBB.minPoint;
@@ -541,7 +547,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 		bmax[0] = currentBBMax.x > bmax[0] ? currentBBMax.x : bmax[0];
 		bmax[1] = currentBBMax.y > bmax[1] ? currentBBMax.y : bmax[1];
 		bmax[2] = currentBBMax.z > bmax[2] ? currentBBMax.z : bmax[2];
-	}
+	}*/
 
 	rcConfig cfg;
 	memset(&cfg, 0, sizeof(cfg));
@@ -728,7 +734,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	float bmin[3] = { FLT_MAX, FLT_MAX, FLT_MAX };
 	float bmax[3] = { FLT_MIN, FLT_MIN, FLT_MIN };
-	for (ComponentBoundingBox boundingBox : scene->boundingBoxComponents)
+	/*for (ComponentBoundingBox boundingBox : scene->boundingBoxComponents)
 	{
 		AABB currentBB = boundingBox.GetWorldAABB();
 		float3 currentBBMin = currentBB.minPoint;
@@ -739,7 +745,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 		bmax[0] = currentBBMax.x > bmax[0] ? currentBBMax.x : bmax[0];
 		bmax[1] = currentBBMax.y > bmax[1] ? currentBBMax.y : bmax[1];
 		bmax[2] = currentBBMax.z > bmax[2] ? currentBBMax.z : bmax[2];
-	}
+	}*/
 
 	DebugDrawGL dd;
 

@@ -834,6 +834,23 @@ void Scene::UpdateSceneAreaLights()
 	}
 }
 
+void Scene::UpdateSceneMeshRenderers()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentMeshRenderer* componentMeshRenderer = go->GetComponent<ComponentMeshRenderer>();
+
+			if (componentMeshRenderer)
+			{
+				meshRenderers.push_back(componentMeshRenderer);
+			}
+		}
+	}
+}
+
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
