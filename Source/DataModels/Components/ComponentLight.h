@@ -46,6 +46,8 @@ public:
 	virtual void InternalSave(Json& meta) override{};
 	virtual void InternalLoad(const Json& meta) override{};
 
+	virtual void OnTransformChanged() override{};
+
 	const float3& GetColor() const;
 	float GetIntensity() const;
 	LightType GetLightType() const;

@@ -101,13 +101,10 @@ public:
 	void AddUpdatableObject(Updatable* updatable);
 
 	void InitNewEmptyScene();
-
 	void InitLights();
-
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
-
 	void InitCubemap();
 
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 	void ExecutePendingActions();
 
 private:

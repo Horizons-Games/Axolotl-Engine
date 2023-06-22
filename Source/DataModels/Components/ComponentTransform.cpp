@@ -143,7 +143,6 @@ void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 		}
 	}
 	
-
 	if (GetOwner()->GetChildren().empty())
 		return;
 

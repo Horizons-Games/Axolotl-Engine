@@ -43,6 +43,8 @@ public:
 	void SetHeight(float newHeight);
 	void SetLightRadius(float newRadius);
 
+	void OnTransformChanged();
+
 private:
 	void SignalEnable() override;
 	void SignalDisable() override;

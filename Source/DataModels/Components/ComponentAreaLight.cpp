@@ -143,6 +143,12 @@ void ComponentAreaLight::Draw() const
 	}
 }
 
+void ComponentAreaLight::OnTransformChanged()
+{
+	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaLights();
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaLights();
+}
+
 void ComponentAreaLight::InternalSave(Json& meta)
 {
 	meta["color_light_X"] = (float) color.x;
