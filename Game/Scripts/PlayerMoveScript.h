@@ -3,8 +3,8 @@
 #include "Script.h"
 
 class ComponentAudioSource;
-class ComponentAnimation;
 class ComponentTransform;
+class ComponentAnimation;
 class HealthSystem;
 
 enum class PlayerActions

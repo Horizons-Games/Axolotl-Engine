@@ -1,6 +1,7 @@
 #include "PlayerMoveScript.h"
 
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -15,8 +16,8 @@
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
-componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), healthScript(nullptr)
+componentAudio(nullptr), playerState(PlayerActions::IDLE), 
+componentAnimation(nullptr), dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), healthScript(nullptr)
 {
 	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(dashForce, float);
@@ -52,6 +53,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
+	ComponentTransform* cameraTransform = App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentTransform>();
 	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
@@ -86,7 +88,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += componentTransform->GetLocalForward().Normalized();
+		totalDirection += cameraTransform->GetGlobalForward().Normalized();
 
 	}
 
@@ -99,7 +101,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
-		totalDirection += -componentTransform->GetLocalForward().Normalized();
+		totalDirection += -cameraTransform->GetGlobalForward().Normalized();
 
 	}
 
@@ -113,7 +115,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += -componentTransform->GetGlobalRight().Normalized();
+		totalDirection += -cameraTransform->GetGlobalRight().Normalized();
 
 	}
 
@@ -127,7 +129,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += componentTransform->GetGlobalRight().Normalized();
+		totalDirection += cameraTransform->GetGlobalRight().Normalized();
 	}
 
 	if (!totalDirection.IsZero())

@@ -50,6 +50,11 @@ Camera* ModulePlayer::GetCameraPlayer()
 	return cameraPlayer;
 }
 
+GameObject* ModulePlayer::GetCameraPlayerObject()
+{
+	return cameraPlayerObject;
+}
+
 void ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
@@ -68,6 +73,7 @@ void ModulePlayer::LoadNewPlayer()
 			if (ownerGO->CompareTag("MainCamera"))
 			{
 				cameraPlayer = camera->GetCamera();
+				cameraPlayerObject = ownerGO;
 #ifdef ENGINE
 				cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
 				// loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
