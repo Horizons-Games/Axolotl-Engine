@@ -140,8 +140,9 @@ void EnemyDroneScript::Update(float deltaTime)
 		{
 			ComponentTransform* seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
-			float3 nextPoition = seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition();
-			nextPoition.Normalize();
+			float3 nextPosition = ownerTransform->GetGlobalPosition() - seekTargetTransform->GetGlobalPosition();
+			float distanceOS = nextPosition.Length();
+			nextPosition.Normalize();
 
 			float rotation = - (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.5)) + 1.0);
 
@@ -153,11 +154,14 @@ void EnemyDroneScript::Update(float deltaTime)
 			}
 			LOG_INFO("{}", rotation);
 
-			nextPoition.z = nextPoition.z * Cos(rotation) - nextPoition.x * Sin(rotation);
-			nextPoition.x = nextPoition.z * Sin(rotation) + nextPoition.x * Cos(rotation);
-			nextPoition *= attackDistance - 1;
-			nextPoition += seekTargetTransform->GetGlobalPosition();
-			attackScript->Reposition(nextPoition);
+			float x = nextPosition.x;
+			float z = nextPosition.z;
+			nextPosition.x = x * Cos(rotation) - z * Sin(rotation);
+			nextPosition.z = x * Sin(rotation) + z * Cos(rotation);
+			nextPosition *= (attackDistance - 2);
+			nextPosition += seekTargetTransform->GetGlobalPosition();
+			nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
+			attackScript->Reposition(nextPosition);
 		}
 
 		if (!attackScript->MovingToNewReposition())
