@@ -19,16 +19,17 @@
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "PlayerRotationScript.h"
-#include "PlayerCameraRotationVerticalScript.h"
-#include "PlayerMoveScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/PlayerCameraRotationVerticalScript.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
-maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
-currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource (nullptr)
+	gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
+	maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
+	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
+	playerManagerScript(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -42,7 +43,7 @@ void PlayerForceUseScript::Start()
 	currentTimeForce = maxTimeForce;
 
 	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
-	moveScript = owner->GetParent()->GetComponent<PlayerMoveScript>();
+	playerManagerScript = owner->GetParent()->GetComponent<PlayerManagerScript>();
 
 	rotationVerticalScript = owner->GetComponent<PlayerCameraRotationVerticalScript>();
 }
@@ -86,10 +87,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 2.0f);
 			}
 
-			if (moveScript)
+			if (playerManagerScript)
 			{
-				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
-				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
+				lastMoveSpeed = playerManagerScript->GetField<float>("PlayerSpeed")->getter();
+				playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
 			}
 
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
@@ -119,9 +120,9 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
 		}
 
-		if (moveScript)
+		if (playerManagerScript)
 		{
-			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed);
+			playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed);
 		}
 
 		if (isForceActive)

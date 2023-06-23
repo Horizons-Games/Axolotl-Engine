@@ -7,7 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerCameraRotationVerticalScript;
 class PlayerRotationScript;
-class PlayerMoveScript;
+class PlayerManagerScript;
 class ComponentAnimation;
 class ComponentAudioSource;
 
@@ -40,7 +40,7 @@ private:
 	
 	PlayerRotationScript* rotationHorizontalScript;
 	PlayerCameraRotationVerticalScript* rotationVerticalScript;
-	PlayerMoveScript* moveScript;
+	PlayerManagerScript* playerManagerScript;
 
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
