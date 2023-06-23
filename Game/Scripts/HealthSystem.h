@@ -20,6 +20,8 @@ public:
 	void HealLife(float amountHealed);
 	
 	float GetCurrentHealth() const;
+	float GetMaxHealth() const;
+
 	bool EntityIsAlive() const;
 
 private:

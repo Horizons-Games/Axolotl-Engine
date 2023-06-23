@@ -46,5 +46,6 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 
-	float attackDistance;
+	float rangedAttackDistance;
+	float meleeAttackDistance;
 };

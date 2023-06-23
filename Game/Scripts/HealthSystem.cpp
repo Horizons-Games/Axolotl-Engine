@@ -88,3 +88,8 @@ float HealthSystem::GetCurrentHealth() const
 {
 	return currentHealth;
 }
+
+float HealthSystem::GetMaxHealth() const
+{
+	return maxHealth;
+}

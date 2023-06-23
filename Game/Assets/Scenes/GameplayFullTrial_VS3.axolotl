@@ -8332,8 +8332,13 @@
                             "constructName": "EnemyVenomiteScript",
                             "fields": [
                                 {
-                                    "name": "AttackDistance",
+                                    "name": "RangedAttackDistance",
                                     "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MeleeAttackDistance",
+                                    "value": 2.0,
                                     "type": 0
                                 }
                             ]
@@ -8434,6 +8439,26 @@
                                 {
                                     "name": "BulletVelocity",
                                     "value": 0.20000000298023224,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 100.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 100.0,
                                     "type": 0
                                 }
                             ]
