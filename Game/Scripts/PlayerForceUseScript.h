@@ -5,7 +5,7 @@
 #include "Bullet/LinearMath/btVector3.h"
 
 
-class PlayerCameraRotationVerticalScript;
+class CameraControllerScript;
 class PlayerRotationScript;
 class PlayerMoveScript;
 class ComponentAnimation;
@@ -40,7 +40,7 @@ private:
     std::string tag;
 	
 	PlayerRotationScript* rotationHorizontalScript;
-	PlayerCameraRotationVerticalScript* rotationVerticalScript;
+	CameraControllerScript* rotationVerticalScript;
 	PlayerMoveScript* moveScript;
 
 	ComponentAnimation* componentAnimation;

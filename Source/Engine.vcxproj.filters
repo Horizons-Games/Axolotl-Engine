@@ -443,7 +443,7 @@
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
       <Filter>UserScripts\Player\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
+    <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp">
       <Filter>UserScripts\Player\Rotation</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
@@ -925,7 +925,7 @@
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
       <Filter>UserScripts\Player\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
+    <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Player\Rotation</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">

@@ -180,7 +180,7 @@
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
@@ -529,7 +529,7 @@
     <ClInclude Include="..\Game\Scripts\MenuMusic.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h" />
+    <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />

@@ -4,11 +4,11 @@
 class CameraSample;
 
 
-class PlayerCameraRotationVerticalScript :
+class CameraControllerScript :
     public Script
 {
 public:
-    PlayerCameraRotationVerticalScript();
+	CameraControllerScript();
 
 	void Start() override;
     void PreUpdate(float deltaTime) override;

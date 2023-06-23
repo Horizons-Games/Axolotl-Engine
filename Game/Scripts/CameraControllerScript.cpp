@@ -1,4 +1,4 @@
-#include "PlayerCameraRotationVerticalScript.h"
+#include "CameraControllerScript.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -7,9 +7,9 @@
 #include "Components/ComponentScript.h"
 #include "../Scripts/CameraSample.h"
 
-REGISTERCLASS(PlayerCameraRotationVerticalScript);
+REGISTERCLASS(CameraControllerScript);
 
-PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Script(), 
+CameraControllerScript::CameraControllerScript() : Script(),
 		samplePointsObject(nullptr), transform(nullptr), player(nullptr)
 {
 	REGISTER_FIELD(samplePointsObject, GameObject*);
@@ -19,7 +19,7 @@ PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Scrip
 	REGISTER_FIELD(zOffset, float);
 }
 
-void PlayerCameraRotationVerticalScript::Start()
+void CameraControllerScript::Start()
 {
 	if (samplePointsObject)
 	{
@@ -36,7 +36,7 @@ void PlayerCameraRotationVerticalScript::Start()
 	CalculateOffsetVector();
 }
 
-void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
+void CameraControllerScript::PreUpdate(float deltaTime)
 {
 	float3 sourceDirection = transform->GetGlobalForward().Normalized();
 	float3 targetDirection = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
@@ -75,14 +75,14 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 	transform->RecalculateLocalMatrix();
 }
 
-void PlayerCameraRotationVerticalScript::CalculateOffsetVector()
+void CameraControllerScript::CalculateOffsetVector()
 {
 	//defaultOffsetVector = -float3::unitZ * zOffset + playerTransform->GetGlobalUp().Normalized() * yOffset;
 	defaultOffsetVector = float3::unitX * xOffset + float3::unitY * yOffset + float3::unitZ * zOffset;
 	defaultOffset = defaultOffsetVector.Length();
 }
 
-void PlayerCameraRotationVerticalScript::CalculateOffsetVector(float3 offset)
+void CameraControllerScript::CalculateOffsetVector(float3 offset)
 {
 
 	defaultOffsetVector = offset;
@@ -90,7 +90,7 @@ void PlayerCameraRotationVerticalScript::CalculateOffsetVector(float3 offset)
 }
 
 
-CameraSample* PlayerCameraRotationVerticalScript::FindClosestSample(float3 position)
+CameraSample* CameraControllerScript::FindClosestSample(float3 position)
 {
 	CameraSample* closestSample = nullptr;
 	float minDistance = std::numeric_limits<float>::max();
