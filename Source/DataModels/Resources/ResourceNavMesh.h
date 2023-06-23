@@ -103,6 +103,9 @@ public:
 		MAX_DRAWMODE
 	};
 
+private:
+	void InitCrowd();
+
 	float agentHeight = 2.0f;
 	float agentRadius = 0.5f;
 	float agentMaxClimb = 0.9f;
@@ -129,8 +132,6 @@ public:
 	int maxTiles = 0;
 	int maxPolysPerTile = 0;
 
-private:
-	void InitCrowd();
 	DrawMode drawMode = DrawMode::DRAWMODE_NAVMESH;
 
 	BuildContext* ctx = nullptr;
