@@ -1,4 +1,4 @@
-#include "DroneFastAttack.h"
+#include "RangedFastAttackBehaviourScript.h"
 
 #include "Application.h"
 
@@ -15,13 +15,14 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "../Scripts/DroneFastBullet.h"
+#include "../Scripts/RangedFastAttackBullet.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
-REGISTERCLASS(DroneFastAttack);
+REGISTERCLASS(RangedFastAttackBehaviourScript);
 
-DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
+RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), 
+	audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr)
 {
@@ -32,7 +33,7 @@ DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTi
 	REGISTER_FIELD(bulletVelocity, float);
 }
 
-void DroneFastAttack::Start()
+void RangedFastAttackBehaviourScript::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
@@ -46,7 +47,7 @@ void DroneFastAttack::Start()
 	}
 }
 
-void DroneFastAttack::PerformAttack()
+void RangedFastAttackBehaviourScript::PerformAttack()
 {
 	if (IsAttackAvailable())
 	{
@@ -65,8 +66,8 @@ void DroneFastAttack::PerformAttack()
 
 		// Attack the DroneFastBullet script to the new bullet to give it its logic
 		ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-		script->SetScript(App->GetScriptFactory()->ConstructScript("DroneFastBullet"));
-		script->SetConstuctor("DroneFastBullet");
+		script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
+		script->SetConstuctor("RangedFastAttackBullet");
 		script->GetScript()->SetGameObject(bullet);
 		script->GetScript()->SetApplication(App);
 
@@ -78,7 +79,7 @@ void DroneFastAttack::PerformAttack()
 	}
 }
 
-bool DroneFastAttack::IsAttackAvailable()
+bool RangedFastAttackBehaviourScript::IsAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }

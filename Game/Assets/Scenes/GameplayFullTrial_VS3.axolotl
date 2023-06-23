@@ -2225,7 +2225,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneFastAttack",
+                            "constructName": "RangedFastAttackBehaviourScript",
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
@@ -5158,7 +5158,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneFastAttack",
+                            "constructName": "RangedFastAttackBehaviourScript",
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
@@ -8389,7 +8389,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneFastAttack",
+                            "constructName": "RangedFastAttackBehaviourScript",
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
@@ -8419,7 +8419,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneFastAttack",
+                            "constructName": "RangedFastAttackBehaviourScript",
                             "fields": [
                                 {
                                     "name": "AttackCooldown",

@@ -449,12 +449,6 @@
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneFastBullet.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
@@ -481,6 +475,12 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -943,12 +943,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneFastBullet.h">
-      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneFastAttack.h">
-      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
@@ -981,6 +975,12 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+    <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h">
+      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1103,14 +1103,14 @@
     <Filter Include="UserScripts\Gameplay\Behaviours">
       <UniqueIdentifier>{5bdab4b3-f7b5-49c8-bc42-4b8a1cd3511d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\DroneAttackBehaviour">
-      <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Gameplay\PowerUps">
       <UniqueIdentifier>{3c0319b6-bb2b-47a7-81ae-d8e78fa1ba74}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts\Gameplay\Health System\DeathActions">
       <UniqueIdentifier>{b68e19c9-8630-4623-a368-b6677dab8c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour">
+      <UniqueIdentifier>{79d0b2cb-fa14-4daf-82af-09f2727e8fc2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

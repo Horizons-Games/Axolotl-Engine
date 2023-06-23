@@ -7,7 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
-class DroneFastAttack;
+class RangedFastAttackBehaviourScript;
 class HealthSystem;
 
 class ComponentTransform;
@@ -37,8 +37,7 @@ private:
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
-	// TODO: DroneFastAttack script should be renamed to RangedFastAttack or something of the sorts
-	std::vector<DroneFastAttack*> rangedAttackScripts;
+	std::vector<RangedFastAttackBehaviourScript*> rangedAttackScripts;
 
 	HealthSystem* healthScript;
 

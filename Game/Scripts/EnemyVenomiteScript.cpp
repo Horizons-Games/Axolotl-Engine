@@ -7,7 +7,7 @@
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
-#include "../Scripts/DroneFastAttack.h"
+#include "../Scripts/RangedFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(EnemyVenomiteScript);
@@ -28,7 +28,7 @@ void EnemyVenomiteScript::Start()
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
-	rangedAttackScripts = owner->GetComponents<DroneFastAttack>();
+	rangedAttackScripts = owner->GetComponents<RangedFastAttackBehaviourScript>();
 
 	healthScript = owner->GetComponent<HealthSystem>();
 }
@@ -87,7 +87,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		seekScript->Seeking();
 		seekScript->DisableMovement();
 
-		for (DroneFastAttack* rangedAttackScript : rangedAttackScripts)
+		for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
 		{
 			rangedAttackScript->PerformAttack();
 		}

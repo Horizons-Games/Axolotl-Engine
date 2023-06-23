@@ -6,11 +6,11 @@ class ComponentTransform;
 class ComponentAudioSource;
 class Scene;
 
-class DroneFastBullet : public Script
+class RangedFastAttackBullet : public Script
 {
 public:
-	DroneFastBullet();
-	~DroneFastBullet() override = default;
+	RangedFastAttackBullet();
+	~RangedFastAttackBullet() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;

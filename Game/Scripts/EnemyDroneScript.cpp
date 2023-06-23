@@ -9,7 +9,7 @@
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
-#include "../Scripts/DroneFastAttack.h"
+#include "../Scripts/RangedFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -38,7 +38,7 @@ void EnemyDroneScript::Start()
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
-	attackScript = owner->GetComponent<DroneFastAttack>();
+	attackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
 }
 
