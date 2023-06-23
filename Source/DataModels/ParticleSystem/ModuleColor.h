@@ -19,17 +19,17 @@ public:
 
 	float GetInitAlpha() const;
 	float GetEndAlpha() const;
-	ImGradient GetGradient() const;
+	ImGradient* GetGradient() const;
 
 	void SetInitAlpha(float initAlpha);
 	void SetEndAlpha(float endAlpha);
-	void SetGradient(ImGradient gradient);
+	void SetGradient(ImGradient* gradient);
 
 private:
 	float initAlpha;
 	float endAlpha;
 
-	ImGradient gradient;
+	ImGradient* gradient;
 	ImGradientMark* draggingMark;
 	ImGradientMark* selectedMark;
 };
@@ -41,10 +41,10 @@ inline float ModuleColor::GetInitAlpha() const
 
 inline float ModuleColor::GetEndAlpha() const
 {
-	return initAlpha;
+	return endAlpha;
 }
 
-inline ImGradient ModuleColor::GetGradient() const
+inline ImGradient* ModuleColor::GetGradient() const
 {
 	return gradient;
 }
@@ -59,7 +59,7 @@ inline void ModuleColor::SetEndAlpha(float endAlpha)
 	this->endAlpha = endAlpha;
 }
 
-inline void ModuleColor::SetGradient(ImGradient gradient)
+inline void ModuleColor::SetGradient(ImGradient* gradient)
 {
 	this->gradient = gradient;
 }
