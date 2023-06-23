@@ -53,3 +53,8 @@ void SeekBehaviourScript::DisableRotation() const
 {
 	ownerRigidBody->DisableRotationController();
 }
+
+GameObject* SeekBehaviourScript::GetTarget() const
+{
+	return target;
+}

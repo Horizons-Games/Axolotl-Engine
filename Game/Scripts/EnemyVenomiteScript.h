@@ -37,7 +37,7 @@ private:
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
-	// TODO: DroneFastAttack script should be renamed by RangedFastAttack or something of the sorts
+	// TODO: DroneFastAttack script should be renamed to RangedFastAttack or something of the sorts
 	std::vector<DroneFastAttack*> rangedAttackScripts;
 
 	HealthSystem* healthScript;

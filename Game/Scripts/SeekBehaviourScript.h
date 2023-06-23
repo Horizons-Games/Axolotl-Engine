@@ -19,6 +19,8 @@ public:
 	void DisableMovement() const;
 	void DisableRotation() const;
 
+	GameObject* GetTarget() const;
+
 private:
 	GameObject* target;
 

@@ -48,7 +48,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		return;
 	}
 
-	GameObject* seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
+	GameObject* seekTarget = seekScript->GetTarget();
 
 	if (seekTarget)
 	{

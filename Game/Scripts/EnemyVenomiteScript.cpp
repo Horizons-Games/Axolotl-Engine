@@ -39,11 +39,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		return;
 	}
 
-	GameObject* seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
-
-	// TODO: This shouldn't go here, but we don't have a way to instantly activate and deactivate an animation state
-	// And make the state machine act accordingly
-	componentAnimation->SetParameter("IsAttacking", false);
+	GameObject* seekTarget = seekScript->GetTarget();
 
 	if (seekTarget)
 	{
@@ -66,6 +62,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	{
 		patrolScript->Patrolling();
 
+		componentAnimation->SetParameter("IsAttacking", false);
 		componentAnimation->SetParameter("IsWalking", true);
 	}
 
@@ -79,7 +76,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			rangedAttackScript->PerformAttack();
 		}
 
-		componentAnimation->SetParameter("IsWalking", false);
 		componentAnimation->SetParameter("IsAttacking", true);
 	}
 }
