@@ -32,11 +32,15 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void SetStunnedTime(float newTime);
+
 private:
 	DroneBehaviours droneState;
 
 	float attackDistance;
 	float seekDistance;
+	float timeStunned;
+	bool stunned;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
