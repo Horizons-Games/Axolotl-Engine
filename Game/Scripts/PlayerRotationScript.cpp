@@ -14,6 +14,7 @@ PlayerRotationScript::PlayerRotationScript() : Script(), rotationSensitivity(50.
 
 void PlayerRotationScript::Start()
 {
+	canRotate = true;
 	rotationSensitivity /= 50.0f;
 }
 
@@ -24,17 +25,31 @@ void PlayerRotationScript::PreUpdate(float deltaTime)
 
 void PlayerRotationScript::Rotation(float deltaTime)
 {
-	ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-	btRigidBody* btRb = rigidBody->GetRigidBody();
+	if(canRotate)
+	{ 
+		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+		btRigidBody* btRb = rigidBody->GetRigidBody();
 
-	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivity;
-	btVector3 angularVelocity(0, 0, 0);
+		float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivity;
+		btVector3 angularVelocity(0, 0, 0);
 
-	if (horizontalMotion != 0)
-	{
-		btRb->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
-		angularVelocity = btVector3(0.0f, -horizontalMotion * deltaTime, 0.0f);
+		if (horizontalMotion != 0)
+		{
+			btRb->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
+			angularVelocity = btVector3(0.0f, -horizontalMotion * deltaTime, 0.0f);
+		}
+
+			btRb->setAngularVelocity(angularVelocity);
+
 	}
+}
 
-	btRb->setAngularVelocity(angularVelocity);
+bool PlayerRotationScript::GetCanRotate()
+{
+	return canRotate;
+}
+
+void PlayerRotationScript::SetCanRotate(bool canRotate)
+{
+	this->canRotate = canRotate;
 }

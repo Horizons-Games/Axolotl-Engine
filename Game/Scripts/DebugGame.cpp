@@ -3,7 +3,11 @@
 #include "Components/ComponentPlayer.h"
 #include "ModuleInput.h"
 #include "HealthSystem.h"
+#include "ModuleCamera.h"
 #include "BixAttackScript.h"
+#include "PlayerMoveScript.h"
+#include "PlayerJumpScript.h"
+#include "PlayerRotationScript.h"
 #include <Components/ComponentScript.h>
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
@@ -45,6 +49,22 @@ void DebugGame::Start()
 		{
 			playerAttackScript = static_cast<BixAttackScript*>(gameObjectScripts[i]->GetScript());
 		}
+
+		if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
+		{
+			playerMoveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
+		}
+
+		if (gameObjectScripts[i]->GetConstructName() == "PlayerJumpScript")
+		{
+			playerJumpScript = static_cast<PlayerJumpScript*>(gameObjectScripts[i]->GetScript());
+		}
+
+		if (gameObjectScripts[i]->GetConstructName() == "PlayerRotationScript")
+		{
+			playerRotationScript = static_cast<PlayerRotationScript*>(gameObjectScripts[i]->GetScript());
+		}
+
 	}
 	//TeleportStart
 
@@ -87,6 +107,12 @@ void DebugGame::Update(float deltaTime)
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	
 	//INPUTS
+
+	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+	{
+		GodCamera();
+	}
+
 	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN)
 	{
 		FillHealth();
@@ -127,6 +153,32 @@ void DebugGame::Update(float deltaTime)
 	}
 	
 
+
+}
+
+void DebugGame::GodCamera() {
+
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+
+	if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump() && playerRotationScript->GetCanRotate()) 
+	{
+		playerMoveScript->SetIsParalized(true);
+		playerJumpScript->SetCanJump(false);
+		playerRotationScript->SetCanRotate(false);
+		camera->SetSelectedPosition(1);
+		camera->SetSelectedCamera(camera->GetSelectedPosition());
+		ENGINE_LOG("GOD CAMERA ACTIVATED");
+	}
+	else if(playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump() && !playerRotationScript->GetCanRotate())
+	{
+		playerMoveScript->SetIsParalized(false);
+		playerJumpScript->SetCanJump(true);
+		playerRotationScript->SetCanRotate(true);
+		camera->SetSelectedPosition(0);
+		camera->SetSelectedCamera(camera->GetSelectedPosition());
+		ENGINE_LOG("GOD CAMERA DEACTIVATED");
+	}
+	
 
 }
 

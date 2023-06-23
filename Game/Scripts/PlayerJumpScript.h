@@ -13,6 +13,9 @@ public:
     void Start() override;
     void PreUpdate(float deltaTime) override;
 
+	bool GetCanJump();
+	void SetCanJump(bool canJump);
+
 private:
     void Jump(float deltatime);
 
@@ -21,6 +24,7 @@ private:
     int jumps;
     int jumpReset;
     bool canDoubleJump;
+	bool canJump;
 
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;

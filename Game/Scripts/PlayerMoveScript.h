@@ -25,11 +25,15 @@ public:
 
     void Move(float deltaTime);
 
+	bool GetIsParalized();
+	void SetIsParalized(bool isParalized);
+
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;
     ComponentAnimation* componentAnimation;
     PlayerActions playerState;
+	bool isParalized;
 
     float speed;
     float dashForce;
@@ -39,4 +43,6 @@ private:
 
 	HealthSystem* healthScript;
 };
+
+
 

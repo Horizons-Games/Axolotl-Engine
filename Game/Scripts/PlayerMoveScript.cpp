@@ -29,6 +29,9 @@ void PlayerMoveScript::Start()
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 
+	isParalized = false;
+
+
 	std::vector<ComponentScript*> gameObjectScripts =
 		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
@@ -63,143 +66,156 @@ void PlayerMoveScript::Move(float deltaTime)
 	float nspeed = speed;
 	bool shiftPressed = false;
 
-	//run
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+	if (!isParalized)
 	{
-		componentAnimation->SetParameter("IsRunning", true);
-		nspeed *= 2;
-		shiftPressed = true;
-	}
-
-	else
-	{
-		componentAnimation->SetParameter("IsRunning", false);
-	}
-
-	// Forward
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
-	{
-		if (playerState == PlayerActions::IDLE)
+		//run
+		if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
-			playerState = PlayerActions::WALKING;
+			componentAnimation->SetParameter("IsRunning", true);
+			nspeed *= 2;
+			shiftPressed = true;
 		}
 
-		totalDirection += componentTransform->GetLocalForward().Normalized();
-
-	}
-
-	// Back
-	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
-	{
-		if (playerState == PlayerActions::IDLE)
+		else
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
-			playerState = PlayerActions::WALKING;
-		}
-		totalDirection += -componentTransform->GetLocalForward().Normalized();
-
-	}
-
-	// Right
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
-	{
-		if (playerState == PlayerActions::IDLE)
-		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
-			playerState = PlayerActions::WALKING;
+			componentAnimation->SetParameter("IsRunning", false);
 		}
 
-		totalDirection += -componentTransform->GetGlobalRight().Normalized();
-
-	}
-
-	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
-	{
-		if (playerState == PlayerActions::IDLE)
+		// Forward
+		if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
-			playerState = PlayerActions::WALKING;
-		}
-
-		totalDirection += componentTransform->GetGlobalRight().Normalized();
-	}
-
-	if (!totalDirection.IsZero())
-	{
-		totalDirection = totalDirection.Normalized();
-		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
-	}
-
-	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
-		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
-		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
-		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
-	{
-		if (playerState == PlayerActions::WALKING)
-		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			componentAnimation->SetParameter("IsWalking", false);
-			playerState = PlayerActions::IDLE;
-		}
-	}
-		
-	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
-	{
-		if (!isDashing)
-		{
-			componentAnimation->SetParameter("IsRolling", true);
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
-
-			if (!movement.isZero()) 
+			if (playerState == PlayerActions::IDLE)
 			{
-				if (shiftPressed)
-				{
-					movement /= 2;
-				}
-				btRb->setLinearVelocity(movement);
-				btRb->applyCentralImpulse(movement.normalized() * dashForce);
-				isDashing = true;
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+				componentAnimation->SetParameter("IsWalking", true);
+				playerState = PlayerActions::WALKING;
+			}
+
+			totalDirection += componentTransform->GetLocalForward().Normalized();
+
+		}
+
+		// Back
+		if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+		{
+			if (playerState == PlayerActions::IDLE)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+				componentAnimation->SetParameter("IsWalking", true);
+				playerState = PlayerActions::WALKING;
+			}
+			totalDirection += -componentTransform->GetLocalForward().Normalized();
+
+		}
+
+		// Right
+		if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+		{
+			if (playerState == PlayerActions::IDLE)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+				componentAnimation->SetParameter("IsWalking", true);
+				playerState = PlayerActions::WALKING;
+			}
+
+			totalDirection += -componentTransform->GetGlobalRight().Normalized();
+
+		}
+
+		// Left
+		if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+		{
+			if (playerState == PlayerActions::IDLE)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+				componentAnimation->SetParameter("IsWalking", true);
+				playerState = PlayerActions::WALKING;
+			}
+
+			totalDirection += componentTransform->GetGlobalRight().Normalized();
+		}
+
+		if (!totalDirection.IsZero())
+		{
+			totalDirection = totalDirection.Normalized();
+			movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
+		}
+
+		if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
+			input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
+			input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
+			input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
+		{
+			if (playerState == PlayerActions::WALKING)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+				componentAnimation->SetParameter("IsWalking", false);
+				playerState = PlayerActions::IDLE;
 			}
 		}
 
-		if (nextDash == 0)
+		if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
 		{
-			canDash = false;
-			nextDash = 3000 + static_cast<float>(SDL_GetTicks());
-		}
-	}
-	else
-	{
-		componentAnimation->SetParameter("IsRolling", false);
+			if (!isDashing)
+			{
+				componentAnimation->SetParameter("IsRolling", true);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 
-		btVector3 currentVelocity = btRb->getLinearVelocity();
-		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
+				if (!movement.isZero())
+				{
+					if (shiftPressed)
+					{
+						movement /= 2;
+					}
+					btRb->setLinearVelocity(movement);
+					btRb->applyCentralImpulse(movement.normalized() * dashForce);
+					isDashing = true;
+				}
+			}
 
-		if (!isDashing)
-		{
-			btRb->setLinearVelocity(newVelocity);
+			if (nextDash == 0)
+			{
+				canDash = false;
+				nextDash = 3000 + static_cast<float>(SDL_GetTicks());
+			}
 		}
 		else
 		{
-			if (math::Abs(currentVelocity.getX()) < dashForce/100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+			componentAnimation->SetParameter("IsRolling", false);
+
+			btVector3 currentVelocity = btRb->getLinearVelocity();
+			btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
+
+			if (!isDashing)
 			{
 				btRb->setLinearVelocity(newVelocity);
-				isDashing = false;
+			}
+			else
+			{
+				if (math::Abs(currentVelocity.getX()) < dashForce / 100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+				{
+					btRb->setLinearVelocity(newVelocity);
+					isDashing = false;
+				}
 			}
 		}
-	}
 
-	// Cooldown Dash
-	if (nextDash != 0 && nextDash < SDL_GetTicks())
-	{
-		canDash = true;
-		nextDash = 0;
+		// Cooldown Dash
+		if (nextDash != 0 && nextDash < SDL_GetTicks())
+		{
+			canDash = true;
+			nextDash = 0;
+		}
 	}
+}
+
+bool PlayerMoveScript::GetIsParalized()
+{
+	return isParalized;
+}
+
+void PlayerMoveScript::SetIsParalized(bool isParalized)
+{
+	this->isParalized = isParalized;
 }

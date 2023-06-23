@@ -28,6 +28,8 @@ void PlayerJumpScript::Start()
 	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 
+	canJump = true;
+
 	std::vector<ComponentScript*> gameObjectScripts =
 		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
@@ -51,6 +53,8 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 
 void PlayerJumpScript::Jump(float deltatime)
 {
+	if (canJump) 
+	{
 	float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
 	const ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
 	const ModuleInput* input = App->GetModule<ModuleInput>();
@@ -94,4 +98,15 @@ void PlayerJumpScript::Jump(float deltatime)
 
 		componentAnimation->SetParameter("IsDoubleJumping", false);
 	}
+	}
+}
+
+bool PlayerJumpScript::GetCanJump()
+{
+	return canJump;
+}
+
+void PlayerJumpScript::SetCanJump(bool canJump)
+{
+	this->canJump = canJump;
 }

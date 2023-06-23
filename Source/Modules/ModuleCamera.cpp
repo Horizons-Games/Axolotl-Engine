@@ -75,7 +75,7 @@ update_status ModuleCamera::Update()
 			selectedPosition++;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		/*else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
 		{
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
@@ -84,7 +84,7 @@ update_status ModuleCamera::Update()
 		{
 			selectedPosition = 1;
 			SetSelectedCamera(selectedPosition);
-		}
+		}*/
 	}
 
 	selectedCamera->Update();
