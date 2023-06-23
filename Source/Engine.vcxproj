@@ -164,19 +164,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp" />
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PowerUpLogicScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
-    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
-    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneFastBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\HealthSystem.cpp" />
-    <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp" />
@@ -513,19 +519,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />
+    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
+    <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
+    <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
-    <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
-    <ClInclude Include="..\Game\Scripts\DroneBullet.h" />
+    <ClInclude Include="..\Game\Scripts\DroneFastAttack.h" />
+    <ClInclude Include="..\Game\Scripts\DroneFastBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\CameraSample.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
-    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h" />
     <ClInclude Include="..\Game\Scripts\MenuMusic.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h" />

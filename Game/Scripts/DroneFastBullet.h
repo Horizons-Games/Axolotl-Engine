@@ -2,22 +2,20 @@
 
 #include "Scripting\Script.h"
 
-
 class ComponentTransform;
 class ComponentAudioSource;
 class Scene;
 
-class DroneBullet : public Script
+class DroneFastBullet : public Script
 {
-
 public:
-	DroneBullet();
-	~DroneBullet() override = default;
+	DroneFastBullet();
+	~DroneFastBullet() override = default;
 
-private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+private:
 	void ShootBullet(float deltaTime);
 	void CheckCollision();
 	void DestroyBullet();
@@ -30,5 +28,4 @@ private:
 
 	ComponentTransform* transform;
 	ComponentAudioSource* audioSource;
-
 };

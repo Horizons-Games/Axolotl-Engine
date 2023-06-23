@@ -1,38 +1,33 @@
-#include "DroneBullet.h"
+#include "DroneFastBullet.h"
 
 #include "Application.h"
 
-#include "ModuleInput.h"
 #include "ModuleScene.h"
-
 #include "Scene/Scene.h"
-
 #include "Scripting/ScriptFactory.h"
 
 #include "Physics/Physics.h"
+#include "Geometry/Ray.h"
+#include "debugdraw.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 
-#include "HealthSystem.h"
-
-#include "GameObject/GameObject.h"
+#include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "Geometry/Ray.h"
 
-#include "debugdraw.h"
 
-REGISTERCLASS(DroneBullet);
+REGISTERCLASS(DroneFastBullet);
 
-DroneBullet::DroneBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), bulletLifeTime(10.0f),
+DroneFastBullet::DroneFastBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), bulletLifeTime(10.0f),
 	damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f)
 {
 }
 
-void DroneBullet::Start()
+void DroneFastBullet::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
@@ -40,13 +35,11 @@ void DroneBullet::Start()
 	originTime = SDL_GetTicks() / 1000.0f;
 }
 
-void DroneBullet::Update(float deltaTime)
+void DroneFastBullet::Update(float deltaTime)
 {
 #ifdef DEBUG
-
 	Ray rayDebug(transform->GetPosition(), transform->GetLocalForward());
 	dd::arrow(rayDebug.pos, rayDebug.pos + rayDebug.dir * rayAttackSize, dd::colors::Red, 0.05f);
-	
 #endif // DEBUG
 
 	ShootBullet(deltaTime);
@@ -59,44 +52,33 @@ void DroneBullet::Update(float deltaTime)
 	}
 }
 
-void DroneBullet::ShootBullet(float deltaTime)
+void DroneFastBullet::ShootBullet(float deltaTime)
 {
 	transform->SetPosition(transform->GetGlobalPosition() + transform->GetGlobalForward() * velocity * deltaTime * 1000);
 	transform->UpdateTransformMatrices();
 }
 
-void DroneBullet::CheckCollision()
+void DroneFastBullet::CheckCollision()
 {
 	Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 	LineSegment line(ray, rayAttackSize);
 	RaycastHit hit;
+
 	if (Physics::Raycast(line, hit, transform->GetOwner()))
 	{
-		if (hit.gameObject->GetRootGO())
+		// We should avoid using GetRootGO()
+		if (hit.gameObject->GetRootGO() && hit.gameObject->GetRootGO()->CompareTag("Player"))
 		{
-			if (hit.gameObject->GetRootGO()->CompareTag("Player"))
-			{
-				std::vector<ComponentScript*> gameObjectScripts =
-					hit.gameObject->GetRootGO()->GetComponents<ComponentScript>();
-
-					for (int i = 0; i < gameObjectScripts.size(); ++i)
-					{
-						if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-						{
-							HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-							healthScript->TakeDamage(damageAttack);
-						}
-					}
-			}
+			HealthSystem* playerHealthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
+			playerHealthScript->TakeDamage(damageAttack);
 		}
 
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01);//Provisional sfx
-
+		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
 		DestroyBullet();
 	}
 }
 
-void DroneBullet::DestroyBullet()
+void DroneFastBullet::DestroyBullet()
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

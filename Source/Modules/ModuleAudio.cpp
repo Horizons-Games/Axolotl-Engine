@@ -232,5 +232,6 @@ bool ModuleAudio::InitializeBanks()
 			}
 		}
 	}
+	
 	return true;
 }
