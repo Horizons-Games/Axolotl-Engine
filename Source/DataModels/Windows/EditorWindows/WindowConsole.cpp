@@ -4,8 +4,9 @@
 
 namespace
 {
-size_t maxConsoleLines = 50U;
-}
+const std::vector<size_t> consoleLineLengths{ 10U, 25U, 50U, 100U };
+size_t selectedMaxLinesIndex = 2U;
+} // namespace
 
 WindowConsole::WindowConsole() : EditorWindow("Console")
 {
@@ -41,6 +42,7 @@ void WindowConsole::DrawWindowContents()
 void WindowConsole::LimitConsoleContents()
 {
 	size_t consoleLines = consoleContents.size();
+	size_t maxConsoleLines = consoleLineLengths[selectedMaxLinesIndex];
 	if (maxConsoleLines < consoleLines)
 	{
 		auto contentsBegin = std::begin(consoleContents);
@@ -88,7 +90,55 @@ void WindowConsole::DrawOptionsMenu()
 			consoleContents.clear();
 		}
 
+		DrawMaxLengthSelection();
+
 		ImGui::EndMenuBar();
+	}
+}
+
+void WindowConsole::DrawMaxLengthSelection()
+{
+	int numButtons = static_cast<int>(consoleLineLengths.size());
+	const char* limitText = "Limit console lines:";
+
+	// Align the buttons to the right
+	ImGuiStyle& style = ImGui::GetStyle();
+
+	float buttonWidth = ImGui::CalcTextSize("XXX").x + style.FramePadding.x * 2.0f;
+	float buttonsWidth = (buttonWidth + style.ItemSpacing.x) * numButtons;
+
+	float textWidth = ImGui::CalcTextSize(limitText).x + style.FramePadding.x * 2.0f;
+
+	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - buttonsWidth - textWidth);
+
+	ImGui::TextUnformatted(limitText);
+	ImGui::SameLine();
+
+	for (int i = 0; i < numButtons; ++i)
+	{
+		ImGui::PushID(i);
+
+		// store the condition in case it changes during draw
+		bool selected = i == selectedMaxLinesIndex;
+		if (selected)
+		{
+			ImVec4 activeColor = ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive);
+			ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
+		}
+
+		if (ImGui::Button(std::to_string(consoleLineLengths[i]).c_str(), ImVec2(buttonWidth, 0)))
+		{
+			selectedMaxLinesIndex = i;
+		}
+
+		if (selected)
+		{
+			ImGui::PopStyleColor();
+		}
+
+		ImGui::PopID();
+
+		ImGui::SameLine();
 	}
 }
 

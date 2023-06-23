@@ -16,6 +16,7 @@ protected:
 private:
 	void LimitConsoleContents();
 	void DrawOptionsMenu();
+	void DrawMaxLengthSelection();
 	void DrawConsole();
 
 	std::deque<AxoLog::LogLine> consoleContents;
