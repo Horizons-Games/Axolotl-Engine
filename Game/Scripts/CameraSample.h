@@ -11,6 +11,7 @@ public:
 	~CameraSample() override = default;
 
 	void Start() override;
+	void PreUpdate(float deltaTime) override;
 
 	float3 position;
 	float influenceRadius;

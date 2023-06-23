@@ -4,6 +4,8 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 
+#include "debugdraw.h"
+
 REGISTERCLASS(CameraSample);
 
 CameraSample::CameraSample() : Script(), 
@@ -22,6 +24,14 @@ void CameraSample::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	position = transform->GetGlobalPosition();
+}
+
+void CameraSample::PreUpdate(float deltaTime)
+{
+	if (App->IsOnPlayMode())
+	{
+		dd::sphere(position, dd::colors::Yellow, influenceRadius);
+	}
 }
 
 
