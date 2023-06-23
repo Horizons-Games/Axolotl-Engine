@@ -1,6 +1,7 @@
 #include "ModuleNavigation.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "fileSystem/ModuleResources.h"
 #include "DetourTileCache/DetourTileCache.h"
 #include "DetourCrowd/DetourCrowd.h"
 #include "Detour/DetourCommon.h"
@@ -15,6 +16,9 @@ ModuleNavigation::~ModuleNavigation()
 
 bool ModuleNavigation::Init()
 {
+	ModuleResources* moduleResources = App->GetModule<ModuleResources>();
+	moduleResources->CreateDefaultResource(ResourceType::NavMesh, "navMesh");
+	navMesh = moduleResources->RequestResource<ResourceNavMesh>("Assets/NavMesh/navMesh.nav");
 	return true;
 }
 
