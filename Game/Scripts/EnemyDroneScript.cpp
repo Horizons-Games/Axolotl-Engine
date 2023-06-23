@@ -103,9 +103,10 @@ void EnemyDroneScript::Update(float deltaTime)
 				attackScript->StartAttack();
 			}
 
-			if (healthScript->GetField<float>("currentHealth")->getter() <= 10.0f)
+			if (healthScript->GetField<float>("CurrentHealth")->getter() <= 10.0f)
 			{
 				droneState = DroneBehaviours::EXPLOSIONATTACK;
+				seekScript->RotateToTarget();
 			}
 			else
 			{

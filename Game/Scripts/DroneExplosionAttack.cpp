@@ -29,7 +29,7 @@ void DroneExplosionAttack::Start()
 
 void DroneExplosionAttack::Update(float deltaTime)
 {
-	if (parentHealthSystem->GetField<float>("currentHealth")->getter() <= 10.0f 
+	if (parentHealthSystem->GetField<float>("CurrentHealth")->getter() <= 10.0f 
 		&& parentEnemyDroneScript->GetDroneBehaviour() == DroneBehaviours::EXPLOSIONATTACK
 		&& attackState == DroneExplosionState::NOTDEAD)
 	{
@@ -40,6 +40,7 @@ void DroneExplosionAttack::Update(float deltaTime)
 	if (attackState == DroneExplosionState::WAITTINGEXPLOSION)
 	{
 		explosionTime -= deltaTime;
+		LOG_INFO("{}", explosionTime);
 		UpdateDroneColor();
 		if (explosionTime < 0)
 		{
@@ -50,12 +51,15 @@ void DroneExplosionAttack::Update(float deltaTime)
 	{
 		LOG_INFO("BOOOM");
 		targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
+		parentHealthSystem->TakeDamage(explosionDamage); 
+		owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 	}
 }
 
 void DroneExplosionAttack::SetExplosionPosition(float3 explosionPos)
 {
-	owner->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
+	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
+	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(3.0f);
 	attackState = DroneExplosionState::WAITTINGEXPLOSION;
 }
 
