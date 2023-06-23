@@ -20,11 +20,17 @@ void DroneExplosionAttack::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	parentHealthSystem = owner->GetParent()->GetComponent<HealthSystem>();
 	rigidBody->SetKpForce(50);
 }
 
 void DroneExplosionAttack::Update(float deltaTime)
 {
+	if (parentHealthSystem->GetField<float>("currentHealth")->getter() <= 10.0f)
+	{
+
+	}
+
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
 	if (attackState == DroneExplosionState::WAITTINGEXPLOSION)
 	{
@@ -38,7 +44,7 @@ void DroneExplosionAttack::Update(float deltaTime)
 	else if (attackState == DroneExplosionState::EXPLOTING && targetPlayer)
 	{
 		LOG_INFO("BOOOM");
-		//targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
+		targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
 	}
 }
 

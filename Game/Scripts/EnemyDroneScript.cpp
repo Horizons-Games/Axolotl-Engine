@@ -54,7 +54,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		return;
 	}
 
-	if (seekTarget)
+	if (seekTarget && lastDroneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
 		if (droneState != DroneBehaviours::PATROL)
 		{
@@ -84,7 +84,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 
 		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
-			&& droneState != DroneBehaviours::ATTACK)
+			&& droneState != DroneBehaviours::FASTATTACK)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			droneState = DroneBehaviours::FIRSTATTACK;
@@ -98,11 +98,19 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		if (droneState == DroneBehaviours::FIRSTATTACK)
 		{
-			if (lastDroneState != DroneBehaviours::ATTACK)
+			if (lastDroneState != DroneBehaviours::FASTATTACK)
 			{
 				attackScript->StartAttack();
 			}
-			droneState = DroneBehaviours::ATTACK;
+
+			if (healthScript->GetField<float>("currentHealth")->getter() <= 10.0f)
+			{
+				droneState = DroneBehaviours::EXPLOSIONATTACK;
+			}
+			else
+			{
+				droneState = DroneBehaviours::FASTATTACK;
+			}
 		}
 		else
 		{
@@ -126,7 +134,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsAttacking", false);
 	}
 
-	if (seekScript && attackScript && droneState == DroneBehaviours::ATTACK)
+	if (seekScript && attackScript && droneState == DroneBehaviours::FASTATTACK)
 	{
 		if (attackScript->IsAttackAvailable())
 		{

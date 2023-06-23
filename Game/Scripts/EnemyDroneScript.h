@@ -22,7 +22,8 @@ enum class DroneBehaviours
 	PATROL,
 	SEEK,
 	FIRSTATTACK,
-	ATTACK
+	FASTATTACK,
+	EXPLOSIONATTACK
 };
 
 class EnemyDroneScript : public Script
