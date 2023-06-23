@@ -66,6 +66,7 @@ public:
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
 	void UpdateSceneMeshRenderers();
+	void UpdateSceneBoundingBoxes();
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -79,6 +80,12 @@ public:
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
+	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
+	std::vector<AABB> GetBoundingBoxes() const;
+
+	std::vector<float> GetVertices();
+	std::vector<int> GetTriangles();
+	std::vector<float> GetNormals();
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
@@ -136,6 +143,7 @@ private:
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
 	std::vector<ComponentMeshRenderer*> meshRenderers;
+	std::vector<AABB> boundingBoxes;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
@@ -226,6 +234,16 @@ inline Skybox* Scene::GetSkybox() const
 inline Cubemap* Scene::GetCubemap() const
 {
 	return cubemap.get();
+}
+
+inline std::vector<ComponentMeshRenderer*> Scene::GetMeshRenderers() const
+{
+	return meshRenderers;
+}
+
+inline std::vector<AABB> Scene::GetBoundingBoxes() const
+{
+	return boundingBoxes;
 }
 
 inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
