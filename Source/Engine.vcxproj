@@ -164,22 +164,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp" />
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ButtonSoundScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaMusicScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\EnemyManagerScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\PowerUpScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PowerUpLogicScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp" />
-    <ClCompile Include="..\Game\Scripts\DroneAttack.cpp" />
-    <ClCompile Include="..\Game\Scripts\DroneBullet.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp" />
+    <ClCompile Include="..\Game\Scripts\DroneFastBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HealthSystem.cpp" />
-    <ClCompile Include="..\Game\Scripts\HelloWorldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp" />
@@ -194,6 +196,7 @@
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -514,22 +517,24 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />
+    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="..\Game\Scripts\EnemyManagerScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
-    <ClInclude Include="..\Game\Scripts\PowerUpScript.h" />
+    <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
+    <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
-    <ClInclude Include="..\Game\Scripts\DroneAttack.h" />
-    <ClInclude Include="..\Game\Scripts\DroneBullet.h" />
+    <ClInclude Include="..\Game\Scripts\DroneFastAttack.h" />
+    <ClInclude Include="..\Game\Scripts\DroneFastBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
-    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h" />
     <ClInclude Include="..\Game\Scripts\MenuMusic.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h" />
@@ -550,6 +555,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />
     <ClInclude Include="Auxiliar\GameBuilder.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -588,6 +594,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />

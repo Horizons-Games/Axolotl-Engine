@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentButton.h"
-#include "ModuleInput.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentButton;
+class ComponentImage;
+class ModuleInput;
 
 class UIImageControl : public Script
 {
@@ -21,8 +22,8 @@ private:
 	float powerupTimer = 0;
 	float time = 0;
 	bool powerupStatus = false;
-	bool hudStatus = false; //This is to show the complete HUD just hardcode
-	bool check; //This is to show the complete HUD just hardcode
+	bool hudStatus = false; // This is to show the complete HUD just hardcode
+	bool check; // This is to show the complete HUD just hardcode
 
 	GameObject* disableImgObject;
 	GameObject* enableImgObject;

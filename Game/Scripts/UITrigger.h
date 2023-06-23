@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
 
 // This script handles the activation of the doors
 
@@ -29,13 +32,17 @@ public:
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
+
+private:
+
 	bool isLoseTrigger;
 	bool isWinTrigger;
 	bool isNextSceneTrigger;
 	bool isLoseByDamage;
-
-private:
-
+	bool onTriggerState;
+	float damageTaken;
+	float damageTimer = 0;
+	float timer = 0;
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;

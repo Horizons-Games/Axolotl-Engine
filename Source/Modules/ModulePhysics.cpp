@@ -154,7 +154,7 @@ void ModulePhysics::ManageCollisions()
 						if (collisions.find(key) == collisions.end())
 						{
 							rb->OnCollisionEnter(other);
-							other->OnCollisionEnter(rb);
+							//other->OnCollisionEnter(rb);
 						}
 						else
 						{
@@ -198,6 +198,11 @@ void ModulePhysics::ManageCollisions()
 
 void ModulePhysics::AddRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 {
+	if (rigidBodyComponents[rb->GetID()] != nullptr)
+	{
+		LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
+		return;
+	}
 	dynamicsWorld->addRigidBody(body);
 	rigidBodyComponents[rb->GetID()] = rb;
 }

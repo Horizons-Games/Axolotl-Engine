@@ -1,0 +1,11 @@
+{
+    "UID": 16262555514862254068,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Cantina_SeatingFloor.Cube.007_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Cantina_SeatingFloorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

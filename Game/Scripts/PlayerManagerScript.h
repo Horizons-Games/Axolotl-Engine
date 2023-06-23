@@ -5,24 +5,22 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-enum PowerUpType;
-
 class PlayerManagerScript : public Script
 {
 public:
 	PlayerManagerScript();
 	~PlayerManagerScript() override = default;
 
-	void Start() override;
-	void Update(float deltaTime) override;
+	float GetPlayerAttack() const;
+	float GetPlayerDefense() const;
+	float GetPlayerSpeed() const;
 
-	bool SavePowerUp(PowerUpType type);
-	void UsePowerUp();
-	void DropPowerUp();
-
-	const PowerUpType GetPowerUpType();
+	void IncreasePlayerAttack(float attackIncrease);
+	void IncreasePlayerDefense(float defenseIncrease);
+	void IncreasePlayerSpeed(float speedIncrease);
 
 private:
-	float counterPowerUp;
-	PowerUpType activePowerUp;
+	float playerAttack;
+	float playerDefense;
+	float playerSpeed;
 };
