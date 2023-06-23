@@ -23,27 +23,19 @@ ComponentCanvas::~ComponentCanvas()
 {
 }
 
-void ComponentCanvas::SaveOptions(Json& meta)
+void ComponentCanvas::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
 }
 
-void ComponentCanvas::LoadOptions(Json& meta)
+void ComponentCanvas::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 	RecalculateSizeAndScreenFactor();
 }
 
 void ComponentCanvas::RecalculateSizeAndScreenFactor()
 {
-	std::pair<int, int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
-	size = float2(region.first, region.second);
+	std::pair<float, float> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
+	size = float2(floor(region.first), floor(region.second));
 	float2 factor = size.Div(screenReferenceSize);
 	screenFactor = factor.x < factor.y ? factor.x : factor.y;
 }

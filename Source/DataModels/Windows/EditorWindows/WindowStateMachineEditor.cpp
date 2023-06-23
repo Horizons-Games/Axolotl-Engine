@@ -81,6 +81,13 @@ void WindowStateMachineEditor::DrawWindowContents()
 	const ImVec2 mousePosInCanvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
 	DrawGridStateMachine(canvasP0, scrolling, io.MouseDelta, drawList);
+	
+	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 50));
+	int pos = static_cast<int>(mousePosInCanvas.x);
+	std::string positionString = std::to_string(pos) + ",";
+	pos = static_cast<int>(mousePosInCanvas.y);
+	positionString += std::to_string(pos);
+	ImGui::Text(positionString.c_str());
 
 	// Right and Left Click On the Void
 	if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) &&
@@ -104,7 +111,10 @@ void WindowStateMachineEditor::DrawWindowContents()
 		{
 			std::pair<int, int> posSelectedState = stateAsShared->GetState(stateIdSelected)->auxiliarPos;
 			DrawActualTransitionCreation(
-				ImVec2(posSelectedState.first, posSelectedState.second), origin, mousePosInCanvas, drawList);
+				ImVec2(static_cast<float>(posSelectedState.first), static_cast<float>(posSelectedState.second)),
+				origin,
+				mousePosInCanvas,
+				drawList);
 		}
 
 		DrawTransitions(stateAsShared, origin, drawList);
@@ -214,7 +224,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 
 void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMachine>& stateAsShared)
 {
-	if (stateIdSelected < stateAsShared->GetNumStates() && stateIdSelected > 0)
+	if (stateIdSelected < static_cast<int>(stateAsShared->GetNumStates()) && stateIdSelected > 0)
 	{
 		State* state = stateAsShared->GetState(stateIdSelected);
 		ImGui::Text("State");
@@ -233,13 +243,14 @@ void WindowStateMachineEditor::DrawStateEditor(std::shared_ptr<ResourceStateMach
 		else
 		{
 			ImGui::Checkbox("Loop", &state->loop);
+			ImGui::DragFloat("Speed", &state->speed, 0.25f, 0.1f, 100.f, "%.1f");
 
-			ImGui::Text(state->resource->GetFileName().c_str());
-			ImGui::SameLine();
 			if (ImGui::Button("x"))
 			{
 				state->resource = nullptr;
 			};
+			ImGui::SameLine();
+			ImGui::Text(state->resource->GetFileName().c_str());
 		}
 	}
 }
@@ -412,7 +423,7 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 		Transition transition = it.second;
 		State* stateOrigin = stateAsShared->GetState(transition.originState);
 		State* stateDestination = stateAsShared->GetState(transition.destinationState);
-		ImGui::PushID(it.first);
+		ImGui::PushID(static_cast<int>(it.first));
 		ImVec2 posStateOriginCenter = ImVec2(origin.x + stateOrigin->auxiliarPos.first + sizeState.x / 2,
 											 origin.y + stateOrigin->auxiliarPos.second + sizeState.y / 2);
 		ImVec2 postStateDestinationCenter = ImVec2(origin.x + stateDestination->auxiliarPos.first + sizeState.x / 2,
@@ -440,8 +451,15 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 		ImVec2 p2Im = ImVec2(p2.x, p2.y);
 		ImVec2 p3Im = ImVec2(p3.x, p3.y);
 
-		drawList->AddLine(exitPoint, enterPoint, IM_COL32(255, 255, 255, 255));
-		drawList->AddTriangleFilled(p1Im, p2Im, p3Im, IM_COL32(255, 255, 255, 255));
+		ImU32 color = IM_COL32(255, 255, 255, 255);
+
+		if (transitionIdSelected == it.first)
+		{
+			color = IM_COL32(240, 180, 20, 255);
+		}
+
+		drawList->AddLine(exitPoint, enterPoint, color);
+		drawList->AddTriangleFilled(p1Im, p2Im, p3Im, color);
 
 		ImVec2 pCenter = ImVec2(center.x - triangleLength / 2.f, center.y - triangleHeight / 2.f);
 
@@ -480,13 +498,14 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 										  const ImVec2& mouseDelta,
 										  ImDrawList* drawList)
 {
-	for (int i = 0; i < stateAsShared->GetNumStates(); i++)
+	for (unsigned int i = 0; i < stateAsShared->GetNumStates(); i++)
 	{
 		State* state = stateAsShared->GetState(i);
 		if (state != nullptr)
 		{
 			ImGui::PushID(i);
-			ImVec2 posState = ImVec2(state->auxiliarPos.first, state->auxiliarPos.second);
+			ImVec2 posState =
+				ImVec2(static_cast<float>(state->auxiliarPos.first), static_cast<float>(state->auxiliarPos.second));
 			ImVec2 minRect = ImVec2(origin.x + posState.x, origin.y + posState.y);
 			ImVec2 maxRect = ImVec2(origin.x + posState.x + sizeState.x, origin.y + posState.y + sizeState.y);
 			ImGui::SetCursorScreenPos(minRect);
@@ -517,7 +536,8 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 				}
 				if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 				{
-					state->auxiliarPos = std::make_pair<int, int>(posState.x + mouseDelta.x, posState.y + mouseDelta.y);
+					state->auxiliarPos = std::make_pair<int, int>(static_cast<int>(posState.x + mouseDelta.x),
+																  static_cast<int>(posState.y + mouseDelta.y));
 					// stateAsShared->EditState(i, state);
 				}
 				if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
@@ -534,19 +554,30 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 
 			if (i != 0)
 			{
+				ImU32 colorRectFilled = IM_COL32(100, 100, 120, 255);
+				ImU32 colorRectMultiColorUp = IM_COL32(65, 65, 75, 255);
+				ImU32 colorRectMultiColorDown = IM_COL32(25, 25, 45, 255);
+
+				if (stateIdSelected == i)
+				{
+					colorRectFilled = IM_COL32(240, 180, 20, 255);
+					colorRectMultiColorUp = IM_COL32(245, 208, 11, 255);
+					colorRectMultiColorDown = IM_COL32(186, 120, 2, 255);
+				}
+
 				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
-										ImVec2(maxRect.x + 2, maxRect.y + 2),
-										IM_COL32(100, 100, 120, 255),
+										ImVec2(maxRect.x + 2, maxRect.y + 2), colorRectFilled,
 										4.0f);
 				drawList->AddRectFilledMultiColor(minRect,
 												  maxRect,
-												  IM_COL32(65, 65, 75, 255),
-												  IM_COL32(65, 65, 75, 255),
-												  IM_COL32(25, 25, 45, 255),
-												  IM_COL32(25, 25, 45, 255));
+												  colorRectMultiColorUp,
+												  colorRectMultiColorUp,
+												  colorRectMultiColorDown,
+												  colorRectMultiColorDown);
 			}
 			else
 			{
+				//Entry State
 				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
 										ImVec2(maxRect.x + 2, maxRect.y + 2),
 										IM_COL32(0, 120, 0, 255),
@@ -584,7 +615,7 @@ void WindowStateMachineEditor::DrawRightClickPopUp(std::shared_ptr<ResourceState
 		openContextMenu = false;
 		if (stateAsShared)
 		{
-			if (stateIdSelected >= 0 && stateIdSelected < stateAsShared->GetNumStates())
+			if (stateIdSelected >= 0 && stateIdSelected < static_cast<int>(stateAsShared->GetNumStates()))
 			{
 				if (ImGui::MenuItem("Add Transition"))
 				{
@@ -610,7 +641,8 @@ void WindowStateMachineEditor::DrawRightClickPopUp(std::shared_ptr<ResourceState
 			{
 				if (ImGui::MenuItem("Create State"))
 				{
-					stateAsShared->AddNewState(mousePosInCanvas.x, mousePosInCanvas.y);
+					stateAsShared->AddNewState(static_cast<int>(mousePosInCanvas.x),
+											   static_cast<int>(mousePosInCanvas.y));
 				}
 			}
 		}

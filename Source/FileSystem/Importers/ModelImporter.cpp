@@ -15,9 +15,9 @@
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 
-void myCallback(const char* msg, char* userData)
+void myCallback(const char* msg, char*)
 {
-	ENGINE_LOG("[assimp] %s", msg);
+	LOG_VERBOSE("[assimp] {}", msg);
 }
 
 ModelImporter::ModelImporter()
@@ -34,7 +34,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	stream.callback = myCallback;
 	aiAttachLogStream(&stream);
 
-	ENGINE_LOG("Import Model from %s", filePath);
+	LOG_VERBOSE("Import Model from {}", filePath);
 
 	const aiScene* scene =
 		aiImportFile(filePath, aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
@@ -54,7 +54,7 @@ void ModelImporter::Import(const char* filePath, std::shared_ptr<ResourceModel> 
 	}
 	else
 	{
-		ENGINE_LOG("Error loading %s: %s", filePath, aiGetErrorString());
+		LOG_ERROR("Error loading {}: {}", filePath, aiGetErrorString());
 	}
 }
 
@@ -79,15 +79,16 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 	unsigned int countAnim = 0;
 #endif
 
-	size = (sizeof(float4x4) + sizeof(int) + sizeof(unsigned int) * 2) * resource->GetNumNodes();
+	size = (sizeof(float4x4) + sizeof(int) + sizeof(unsigned int) * 2) *
+		   static_cast<unsigned int>(resource->GetNumNodes());
 
 	for (ResourceModel::Node* node : resource->GetNodes())
 	{
-		size += sizeof(UID) * 2 * node->meshRenderers.size();
-		size += sizeof(char) * node->name.size();
+		size += sizeof(UID) * 2 * static_cast<unsigned int>(node->meshRenderers.size());
+		size += sizeof(char) * static_cast<unsigned int>(node->name.size());
 	}
 
-	size += sizeof(UID) * resource->GetNumAnimations();
+	size += sizeof(UID) * static_cast<unsigned int>(resource->GetNumAnimations());
 
 	unsigned int header[2] = { (unsigned int) resource->GetNumNodes(), (unsigned int) resource->GetNumAnimations() };
 
@@ -104,13 +105,14 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	for (ResourceModel::Node* node : resource->GetNodes())
 	{
-		unsigned int nodeHeader[2] = { node->name.size(), node->meshRenderers.size() };
+		unsigned int nodeHeader[2] = { static_cast<unsigned int>(node->name.size()),
+									   static_cast<unsigned int>(node->meshRenderers.size()) };
 
 		bytes = sizeof(nodeHeader);
 		memcpy(cursor, nodeHeader, bytes);
 		cursor += bytes;
 
-		bytes = sizeof(char) * node->name.size();
+		bytes = sizeof(char) * static_cast<unsigned int>(node->name.size());
 		memcpy(cursor, &(node->name[0]), bytes);
 		cursor += bytes;
 
@@ -237,7 +239,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 #ifdef ENGINE
 		ModuleResources* resources = App->GetModule<ModuleResources>();
-		for (int i = 0; i < nodeHeader[1]; i++)
+		for (unsigned int i = 0; i < nodeHeader[1]; i++)
 		{
 			std::string meshPath = jsonMeshes[countMeshes];
 			std::string matPath = jsonMat[countMat];
@@ -318,7 +320,7 @@ void ModelImporter::ImportAnimations(const aiScene* scene, const std::shared_ptr
 	std::vector<std::shared_ptr<ResourceAnimation>> animations;
 	animations.reserve(scene->mNumAnimations);
 
-	for (int i = 0; i < scene->mNumAnimations; ++i)
+	for (unsigned int i = 0; i < scene->mNumAnimations; ++i)
 	{
 		aiAnimation* animation = scene->mAnimations[i];
 
@@ -369,12 +371,12 @@ void ModelImporter::ImportNode(const aiScene* scene,
 		resourceNode->parent = parentIdx;
 		resourceNode->transform = transform * accTransform;
 
-		ENGINE_LOG("Node name: %s", name.c_str());
+		LOG_VERBOSE("Node name: {}", name);
 		if (node->mParent)
 		{
-			ENGINE_LOG("Parent node name: %s", node->mParent->mName.C_Str());
+			LOG_VERBOSE("Parent node name: {}", node->mParent->mName.C_Str());
 		}
-		ENGINE_LOG("Node parentIdx: %i", parentIdx);
+		LOG_VERBOSE("Node parentIdx: {}", parentIdx);
 
 		float3 pos;
 		float4x4 rot;
@@ -382,25 +384,25 @@ void ModelImporter::ImportNode(const aiScene* scene,
 
 		transform.Decompose(pos, rot, scale);
 
-		ENGINE_LOG("Transform:\n\tpos: (%f, %f, %f)\trot: (%f, %f, %f)\t scale: (%f, %f, %f)",
-				   pos.x,
-				   pos.y,
-				   pos.z,
-				   RadToDeg(rot.ToEulerXYZ().x),
-				   RadToDeg(rot.ToEulerXYZ().y),
-				   RadToDeg(rot.ToEulerXYZ().z),
-				   scale.x,
-				   scale.y,
-				   scale.z);
+		LOG_VERBOSE("Transform:\n\tpos: ({}, {}, {})\trot: ({}, {}, {})\t scale: ({}, {}, {})",
+					pos.x,
+					pos.y,
+					pos.z,
+					RadToDeg(rot.ToEulerXYZ().x),
+					RadToDeg(rot.ToEulerXYZ().y),
+					RadToDeg(rot.ToEulerXYZ().z),
+					scale.x,
+					scale.y,
+					scale.z);
 
 		// loading meshes and materials
-		for (int i = 0; i < node->mNumMeshes; ++i)
+		for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 		{
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-			ENGINE_LOG("Importing mesh %s", mesh->mName.C_Str());
-			ENGINE_LOG("Importing material %s", material->GetName().C_Str());
+			LOG_VERBOSE("Importing mesh {}", mesh->mName.C_Str());
+			LOG_VERBOSE("Importing material {}", material->GetName().C_Str());
 
 			std::shared_ptr<ResourceMesh> resourceMesh = ImportMesh(mesh, filePath, i);
 			std::shared_ptr<ResourceMaterial> resourceMaterial = ImportMaterial(material, filePath, i);
@@ -409,11 +411,11 @@ void ModelImporter::ImportNode(const aiScene* scene,
 		}
 		resource->AppendNode(resourceNode);
 
-		ENGINE_LOG("\n", parentIdx);
+		LOG_VERBOSE("\n{}", parentIdx);
 
-		int newParentIdx = resource->GetNumNodes() - 1;
+		int newParentIdx = static_cast<int>(resource->GetNumNodes()) - 1;
 
-		for (int i = 0; i < node->mNumChildren; ++i)
+		for (unsigned int i = 0; i < node->mNumChildren; ++i)
 		{
 			ImportNode(scene, filePath, resource, node->mChildren[i], newParentIdx, float4x4::identity);
 		}
@@ -529,7 +531,7 @@ void ModelImporter::CheckPathMaterial(const char* filePath, const aiString& file
 			// Cheking in asset textures folder
 			if (stat((TEXTURES_PATH + name).c_str(), &buffer) != 0)
 			{
-				ENGINE_LOG("Texture not found!");
+				LOG_WARNING("Texture not found!");
 			}
 			else
 			{
@@ -553,7 +555,7 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 	size = (sizeof(unsigned int) * 3) * animation->mNumChannels + sizeof(header) + sizeof(double);
 
-	for (int i = 0; i < animation->mNumChannels; ++i)
+	for (unsigned int i = 0; i < animation->mNumChannels; ++i)
 	{
 		size += sizeof(float3) * animation->mChannels[i]->mNumPositionKeys;
 		size += sizeof(Quat) * animation->mChannels[i]->mNumRotationKeys;
@@ -574,7 +576,7 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 	cursor += bytes;
 
-	for (int i = 0; i < animation->mNumChannels; ++i)
+	for (unsigned int i = 0; i < animation->mNumChannels; ++i)
 	{
 		aiNodeAnim* nodeAnim = animation->mChannels[i];
 
@@ -596,7 +598,7 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 		if (nodeAnim->mPositionKeys != nullptr)
 		{
-			for (int i = 0; i < nodeAnim->mNumPositionKeys; ++i)
+			for (unsigned int i = 0; i < nodeAnim->mNumPositionKeys; ++i)
 			{
 				bytes = sizeof(float3);
 				memcpy(cursor, &(nodeAnim->mPositionKeys[i].mValue), bytes);
@@ -607,7 +609,7 @@ void ModelImporter::SaveInfoAnimation(const aiAnimation* animation, char*& fileB
 
 		if (nodeAnim->mRotationKeys != nullptr)
 		{
-			for (int i = 0; i < nodeAnim->mNumRotationKeys; ++i)
+			for (unsigned int i = 0; i < nodeAnim->mNumRotationKeys; ++i)
 			{
 				bytes = sizeof(Quat);
 				Quat* rotation = new Quat(nodeAnim->mRotationKeys[i].mValue.x,

@@ -15,7 +15,7 @@ enum class main_states
 
 std::unique_ptr<Application> App;
 #ifdef ENGINE
-std::unique_ptr<EngineLog> engineLog = std::make_unique<EngineLog>();
+std::unique_ptr<AxoLog> logContext = std::make_unique<AxoLog>();
 #endif // ENGINE
 
 int main(int argc, char** argv)
@@ -33,16 +33,16 @@ int main(int argc, char** argv)
 		{
 			case main_states::MAIN_CREATION:
 
-				ENGINE_LOG("Application Creation --------------");
+				LOG_VERBOSE("Application Creation --------------");
 				App = std::make_unique<Application>();
 				state = main_states::MAIN_INIT;
 				break;
 
 			case main_states::MAIN_INIT:
-				ENGINE_LOG("Application Init --------------");
+				LOG_VERBOSE("Application Init --------------");
 				if (App->Init() == false)
 				{
-					ENGINE_LOG("Application Init exits with error -----");
+					LOG_ERROR("Application Init exits with error -----");
 					state = main_states::MAIN_EXIT;
 				}
 				else
@@ -54,10 +54,10 @@ int main(int argc, char** argv)
 
 			case main_states::MAIN_START:
 
-				ENGINE_LOG("Application Start --------------");
+				LOG_VERBOSE("Application Start --------------");
 				if (App->Start() == false)
 				{
-					ENGINE_LOG("Application Start exits with error -----");
+					LOG_ERROR("Application Start exits with error -----");
 					state = main_states::MAIN_EXIT;
 				}
 				else
@@ -73,24 +73,28 @@ int main(int argc, char** argv)
 
 				if (updateReturn == update_status::UPDATE_ERROR)
 				{
-					ENGINE_LOG("Application Update exits with error -----");
+					LOG_ERROR("Application Update exits with error -----");
 					state = main_states::MAIN_EXIT;
 				}
 
 				if (updateReturn == update_status::UPDATE_STOP)
+				{
 					state = main_states::MAIN_FINISH;
+				}
 			}
 			break;
 
 			case main_states::MAIN_FINISH:
 
-				ENGINE_LOG("Application CleanUp --------------");
+				LOG_VERBOSE("Application CleanUp --------------");
 				if (App->CleanUp() == false)
 				{
-					ENGINE_LOG("Application CleanUp exits with error -----");
+					LOG_ERROR("Application CleanUp exits with error -----");
 				}
 				else
+				{
 					mainReturn = EXIT_SUCCESS;
+				}
 
 				state = main_states::MAIN_EXIT;
 
@@ -98,7 +102,7 @@ int main(int argc, char** argv)
 		}
 	}
 
-	ENGINE_LOG("Bye :)\n");
+	LOG_INFO("Bye :)\n");
 #ifdef DEBUG
 	OPTICK_SHUTDOWN();
 #endif // DEBUG
