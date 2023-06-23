@@ -88,10 +88,7 @@ void ModulePlayer::LoadNewPlayer()
 			}
 		}
 	}
-	else
-	{
-		ENGINE_LOG("Player is not created!");
-	}
+	LOG_ERROR("Player is not loaded");
 }
 
 void ModulePlayer::UnloadNewPlayer()

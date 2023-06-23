@@ -1,9 +1,15 @@
 #include "AnimationController.h"
 #include "Application.h"
 
+#include "Resources/ResourceStateMachine.h"
 #include "Resources/ResourceAnimation.h"
 
-AnimationController::AnimationController() : currentTime(0.0f), isLooping(true), isPlaying(false), resource(nullptr)
+AnimationController::AnimationController() :
+	currentTime(0.0f),
+	isLooping(true),
+	isPlaying(false),
+	stateResource(nullptr),
+	resource(nullptr)
 {
 }
 
@@ -11,9 +17,10 @@ AnimationController::~AnimationController()
 {
 }
 
-void AnimationController::Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop)
+void AnimationController::Play(State* stateResource, bool loop)
 {
-	this->resource = resource;
+	this->stateResource = stateResource;
+	resource = std::dynamic_pointer_cast<ResourceAnimation>(stateResource->resource);
 	isLooping = loop;
 	isPlaying = true;
 	currentTime = 0;
@@ -29,9 +36,9 @@ void AnimationController::Update()
 {
 	if (isPlaying && resource)
 	{
-		float duration = resource->GetDuration();
+		float duration = static_cast<float>(resource->GetDuration());
 
-		currentTime += App->GetDeltaTime() * 10;
+		currentTime += App->GetDeltaTime() * stateResource->speed * 10;
 		if (currentTime > duration)
 		{
 			if (isLooping)
@@ -52,10 +59,11 @@ bool AnimationController::GetTransform(const std::string& name, float3& pos, Qua
 
 	if (channel)
 	{
-		float currentSample = (currentTime * (channel->positions.size() - 1)) / resource->GetDuration();
+		float currentSample =
+			static_cast<float>((currentTime * (channel->positions.size() - 1)) / resource->GetDuration());
 
-		int first = floor(currentSample);
-		int second = ceil(currentSample);
+		int first = static_cast<int>(floor(currentSample));
+		int second = static_cast<int>(ceil(currentSample));
 
 		float3 firstPos = channel->positions[first];
 		float3 secondPos = channel->positions[second];

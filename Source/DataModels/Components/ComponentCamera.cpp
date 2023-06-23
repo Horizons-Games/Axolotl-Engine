@@ -57,25 +57,15 @@ void ComponentCamera::Draw() const
 #endif // ENGINE
 }
 
-void ComponentCamera::SaveOptions(Json& meta)
+void ComponentCamera::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-
 	meta["frustumOfset"] = camera->GetFrustumOffset();
 	meta["drawFrustum"] = camera->IsDrawFrustum();
 	// meta["frustumMode"] = camera->GetFrustumMode();
 }
 
-void ComponentCamera::LoadOptions(Json& meta)
+void ComponentCamera::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	camera->SetFrustumOffset((float) meta["frustumOfset"]);
 	camera->SetIsDrawFrustum((bool) meta["drawFrustum"]);
 	// frustumMode = GetFrustumModeByName(meta["frustumMode"]);

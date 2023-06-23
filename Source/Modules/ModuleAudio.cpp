@@ -3,7 +3,9 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include <algorithm>
 #include <assert.h>
+#include <iterator>
 
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
@@ -190,7 +192,13 @@ bool ModuleAudio::InitializeBanks()
 		const wchar_t* pathAsWChar = AKTEXT("WwiseProject/GeneratedSoundBanks/Windows");
 		lowLevelIO.SetBasePath(pathAsWChar);
 		std::wstring pathAsWString = std::wstring(pathAsWChar);
-		soundBanksFolderPath = std::string(std::begin(pathAsWString), std::end(pathAsWString));
+		std::transform(std::begin(pathAsWString),
+					   std::end(pathAsWString),
+					   std::back_inserter(soundBanksFolderPath),
+					   [](wchar_t c)
+					   {
+						   return static_cast<char>(c);
+					   });
 	}
 
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
@@ -205,22 +213,24 @@ bool ModuleAudio::InitializeBanks()
 		AKRESULT eResult = AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID);
 		if (eResult != AK_Success)
 		{
-			ENGINE_LOG("Failed to load bank %c; Error: %d", BANKNAME_INIT, eResult);
+			LOG_ERROR("Failed to load bank {}; Error: {}", BANKNAME_INIT, eResult);
 			return false;
 		}
 	}
 
 	for (const std::string& bankFolderItem : bankFolderContents)
 	{
-		if (bankFolderItem != "Init.bnk" && fileSystem->GetFileExtension(bankFolderItem) == ".bnk")
+		if (bankFolderItem != "Init.bnk" &&
+			App->GetModule<ModuleFileSystem>()->GetFileExtension(bankFolderItem) == ".bnk")
 		{
 			std::wstring bankNameAsWString = std::wstring(std::begin(bankFolderItem), std::end(bankFolderItem));
 			AKRESULT eResult = AK::SoundEngine::LoadBank(bankNameAsWString.c_str(), bankID);
 			if (eResult != AK_Success)
 			{
-				ENGINE_LOG("Failed to load bank %c; Error: %d", bankFolderItem.c_str(), eResult);
+				LOG_ERROR("Failed to load bank {}; Error: {}", bankFolderItem, eResult);
 				return false;
 			}
 		}
 	}
+	return true;
 }

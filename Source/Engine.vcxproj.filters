@@ -209,7 +209,6 @@
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
       <Filter>DataModels\Components</Filter>
@@ -395,6 +394,7 @@
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="AxoLog.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -463,6 +463,9 @@
     </ClCompile>
     <ClCompile Include="Modules\ModuleNavigation.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\Component.cpp">
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -703,7 +706,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="AxoLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
@@ -943,6 +946,10 @@
     <ClInclude Include="Modules\ModuleNavigation.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1278,7 +1285,6 @@
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp">
       <Filter>DataModels\Components</Filter>
@@ -1612,7 +1618,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
@@ -1946,7 +1951,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="EngineLog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
