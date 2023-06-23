@@ -61,7 +61,7 @@ void ModuleColor::DrawImGui()
 		if (ImGui::BeginTable("##alphaTable", 4))
 		{			
 			ImGui::TableNextColumn();
-			ImGui::Text("Init value"); 
+			ImGui::Text("Init value");
 			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::DragFloat("##initAlpha", &initAlpha, 0.01, 0.0f, 1.0f, "%.2f");
