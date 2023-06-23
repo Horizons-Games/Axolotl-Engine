@@ -8,12 +8,13 @@
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/RangedFastAttackBehaviourScript.h"
+#include "../Scripts/MeleeFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(EnemyVenomiteScript);
 
 EnemyVenomiteScript::EnemyVenomiteScript() : Script(), venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
-	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(2.0f),
+	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(2.0f), meleeAttackScript(nullptr),
 	healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), componentAudioSource(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
@@ -29,7 +30,7 @@ void EnemyVenomiteScript::Start()
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	rangedAttackScripts = owner->GetComponents<RangedFastAttackBehaviourScript>();
-
+	meleeAttackScript = owner->GetComponent<MeleeFastAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
 }
 
@@ -67,8 +68,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			venomiteState = VenomiteBehaviours::SEEK;
 		}
 
-		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance)
-			&& venomiteState != VenomiteBehaviours::MELEE_ATTACK)
+		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
 		{
 			venomiteState = VenomiteBehaviours::MELEE_ATTACK;
 		}
@@ -82,7 +82,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsWalking", true);
 	}
 
-	if (seekScript && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
+	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
 	{
 		seekScript->Seeking();
 		seekScript->DisableMovement();
@@ -103,11 +103,20 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsWalking", true);
 	}
 
-	if (seekScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
+	if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
 	{
 		seekScript->Seeking();
 		seekScript->DisableMovement();
 
-		componentAnimation->SetParameter("IsAttacking", true);
+		if (meleeAttackScript->IsAttackAvailable())
+		{
+			meleeAttackScript->PerformAttack();
+			componentAnimation->SetParameter("IsAttacking", true);
+		}
+
+		else
+		{
+			componentAnimation->SetParameter("IsAttacking", false);
+		}
 	}
 }

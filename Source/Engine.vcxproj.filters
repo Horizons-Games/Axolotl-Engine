@@ -321,12 +321,6 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
@@ -477,10 +471,19 @@
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -798,12 +801,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
@@ -976,10 +973,19 @@
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h">
-      <Filter>UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1109,7 +1115,13 @@
     <Filter Include="UserScripts\Gameplay\Health System\DeathActions">
       <UniqueIdentifier>{b68e19c9-8630-4623-a368-b6677dab8c33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\RangedFastAttackBehaviour">
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours">
+      <UniqueIdentifier>{7524808f-fb05-4b80-9a04-3dbdfa2c3fdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Movement Behaviours">
+      <UniqueIdentifier>{911bcf4f-181f-48db-8333-dfa64145ceda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour">
       <UniqueIdentifier>{79d0b2cb-fa14-4daf-82af-09f2727e8fc2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

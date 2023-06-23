@@ -2171,11 +2171,6 @@
                                     "name": "Target",
                                     "value": 6764586723542947213,
                                     "type": 2
-                                },
-                                {
-                                    "name": "OwnerRigidBodyGO",
-                                    "value": 1877344391546661261,
-                                    "type": 2
                                 }
                             ]
                         }
@@ -5103,11 +5098,6 @@
                                 {
                                     "name": "Target",
                                     "value": 6764586723542947213,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "OwnerRigidBodyGO",
-                                    "value": 9816607705272251187,
                                     "type": 2
                                 }
                             ]
@@ -8375,11 +8365,6 @@
                                     "name": "Target",
                                     "value": 6764586723542947213,
                                     "type": 2
-                                },
-                                {
-                                    "name": "OwnerRigidBodyGO",
-                                    "value": 16136953576962853185,
-                                    "type": 2
                                 }
                             ]
                         }
@@ -8459,6 +8444,51 @@
                                 {
                                     "name": "MaxHealth",
                                     "value": 100.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "MeleeFastAttackBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "AttackCooldown",
+                                    "value": 6.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DamageAttack",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "Ray1GO",
+                                    "value": 7257921946238388633,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray2GO",
+                                    "value": 7105779219128993068,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray3GO",
+                                    "value": 7800627162705889721,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Ray4GO",
+                                    "value": 1317229046149991986,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "RayAttackSize",
+                                    "value": 10.0,
                                     "type": 0
                                 }
                             ]

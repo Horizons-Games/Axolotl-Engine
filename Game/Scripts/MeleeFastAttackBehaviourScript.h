@@ -5,38 +5,26 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class ModuleInput;
-
-class ComponentAudioSource;
 class ComponentTransform;
-class ComponentAnimation;
 
-class PlayerManagerScript;
-
-class BixAttackScript : public Script
+class MeleeFastAttackBehaviourScript : public Script
 {
-
 public:
-	BixAttackScript();
-	~BixAttackScript() override = default;
+	MeleeFastAttackBehaviourScript();
+	~MeleeFastAttackBehaviourScript() override = default;
 
-private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
 	void PerformAttack();
-	bool isAttackAvailable();
+	bool IsAttackAvailable();
+
+private:
 	void CheckCollision();
 
 	float attackCooldown;
 	float lastAttackTime;
-
-	ComponentAudioSource* audioSource;
-	ComponentTransform* transform;
-	ComponentAnimation* animation;
-	GameObject* animationGO;
-
-	ModuleInput* input;
+	float damageAttack;
 
 	//Provisional
 	std::vector<Ray> rays;
@@ -54,5 +42,5 @@ private:
 	float rayAttackSize;
 	//--Provisional
 
-	PlayerManagerScript* playerManager;
+	ComponentTransform* ownerTransform;
 };

@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
 class RangedFastAttackBehaviourScript;
+class MeleeFastAttackBehaviourScript;
 class HealthSystem;
 
 class ComponentTransform;
@@ -38,7 +39,7 @@ private:
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
 	std::vector<RangedFastAttackBehaviourScript*> rangedAttackScripts;
-
+	MeleeFastAttackBehaviourScript* meleeAttackScript;
 	HealthSystem* healthScript;
 
 	ComponentTransform* ownerTransform;

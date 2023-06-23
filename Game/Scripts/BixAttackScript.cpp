@@ -19,18 +19,13 @@
 
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "Geometry/Ray.h"
+#include "../MathGeoLib/Include/Geometry/Ray.h"
 
 #include "debugdraw.h"
 
 #include <set>
 
 REGISTERCLASS(BixAttackScript);
-
-namespace
-{
-	std::vector<Ray> rays;
-}
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
 	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), transform(nullptr),
