@@ -512,14 +512,11 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	CleanUp();
 
 	scene->UpdateSceneMeshRenderers();
-	return false;
+	scene->UpdateSceneBoundingBoxes();
 
-	/*std::vector<float> verts = scene->GetVertices();
+	std::vector<float> verts = scene->GetVertices();
 	std::vector<int> tris = scene->GetTriangles();
-	std::vector<float> normals = scene->GetNormals();*/
-	std::vector<float> verts;
-	std::vector<int> tris;
-	std::vector<float> normals;
+	std::vector<float> normals = scene->GetNormals();
 
 	unsigned ntris = tris.size() / 3;
 
@@ -536,18 +533,18 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	float bmin[3] = { FLT_MAX, FLT_MAX, FLT_MAX };
 	float bmax[3] = { FLT_MIN, FLT_MIN, FLT_MIN };
-	/*for (ComponentBoundingBox boundingBox : scene->boundingBoxComponents)
+	for (AABB boundingBox : scene->GetBoundingBoxes())
 	{
-		AABB currentBB = boundingBox.GetWorldAABB();
-		float3 currentBBMin = currentBB.minPoint;
-		float3 currentBBMax = currentBB.maxPoint;
+		//AABB currentBB = boundingBox.GetWorldAABB();
+		float3 currentBBMin = boundingBox.minPoint;
+		float3 currentBBMax = boundingBox.maxPoint;
 		bmin[0] = currentBBMin.x < bmin[0] ? currentBBMin.x : bmin[0];
 		bmin[1] = currentBBMin.y < bmin[1] ? currentBBMin.y : bmin[1];
 		bmin[2] = currentBBMin.z < bmin[2] ? currentBBMin.z : bmin[2];
 		bmax[0] = currentBBMax.x > bmax[0] ? currentBBMax.x : bmax[0];
 		bmax[1] = currentBBMax.y > bmax[1] ? currentBBMax.y : bmax[1];
 		bmax[2] = currentBBMax.z > bmax[2] ? currentBBMax.z : bmax[2];
-	}*/
+	}
 
 	rcConfig cfg;
 	memset(&cfg, 0, sizeof(cfg));
@@ -734,18 +731,18 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	float bmin[3] = { FLT_MAX, FLT_MAX, FLT_MAX };
 	float bmax[3] = { FLT_MIN, FLT_MIN, FLT_MIN };
-	/*for (ComponentBoundingBox boundingBox : scene->boundingBoxComponents)
+	for (AABB boundingBox : scene->GetBoundingBoxes())
 	{
-		AABB currentBB = boundingBox.GetWorldAABB();
-		float3 currentBBMin = currentBB.minPoint;
-		float3 currentBBMax = currentBB.maxPoint;
+		//AABB currentBB = boundingBox.GetWorldAABB();
+		float3 currentBBMin = boundingBox.minPoint;
+		float3 currentBBMax = boundingBox.maxPoint;
 		bmin[0] = currentBBMin.x < bmin[0] ? currentBBMin.x : bmin[0];
 		bmin[1] = currentBBMin.y < bmin[1] ? currentBBMin.y : bmin[1];
 		bmin[2] = currentBBMin.z < bmin[2] ? currentBBMin.z : bmin[2];
 		bmax[0] = currentBBMax.x > bmax[0] ? currentBBMax.x : bmax[0];
 		bmax[1] = currentBBMax.y > bmax[1] ? currentBBMax.y : bmax[1];
 		bmax[2] = currentBBMax.z > bmax[2] ? currentBBMax.z : bmax[2];
-	}*/
+	}
 
 	DebugDrawGL dd;
 
