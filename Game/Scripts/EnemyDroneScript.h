@@ -35,6 +35,9 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	DroneBehaviours GetDroneBehaviour() const;
+	float3 GetSeekTargetPosition() const;
+
 private:
 	void CalculateNextPosition() const;
 

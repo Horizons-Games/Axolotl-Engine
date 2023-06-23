@@ -157,6 +157,16 @@ void EnemyDroneScript::Update(float deltaTime)
 	}
 }
 
+DroneBehaviours EnemyDroneScript::GetDroneBehaviour() const
+{
+	return droneState;
+}
+
+float3 EnemyDroneScript::GetSeekTargetPosition() const
+{
+	return seekTargetTransform->GetGlobalPosition();
+}
+
 void EnemyDroneScript::CalculateNextPosition() const
 {
 	float3 nextPosition = ownerTransform->GetGlobalPosition() - seekTargetTransform->GetGlobalPosition();

@@ -1,10 +1,12 @@
 #include "DroneExplosionAttack.h"
 
 #include "Components/Component.h"
+#include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/EnemyDroneScript.h"
 
 REGISTERCLASS(DroneExplosionAttack);
 
@@ -21,14 +23,17 @@ void DroneExplosionAttack::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentHealthSystem = owner->GetParent()->GetComponent<HealthSystem>();
+	parentEnemyDroneScript = owner->GetParent()->GetComponent<EnemyDroneScript>();
 	rigidBody->SetKpForce(50);
 }
 
 void DroneExplosionAttack::Update(float deltaTime)
 {
-	if (parentHealthSystem->GetField<float>("currentHealth")->getter() <= 10.0f)
+	if (parentHealthSystem->GetField<float>("currentHealth")->getter() <= 10.0f 
+		&& parentEnemyDroneScript->GetDroneBehaviour() == DroneBehaviours::EXPLOSIONATTACK
+		&& attackState == DroneExplosionState::NOTDEAD)
 	{
-
+		SetExplosionPosition( parentEnemyDroneScript->GetSeekTargetPosition());
 	}
 
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());

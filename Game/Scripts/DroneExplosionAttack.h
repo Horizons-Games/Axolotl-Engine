@@ -14,6 +14,7 @@ enum class DroneExplosionState
 class ComponentRigidBody;
 class ComponentTransform;
 class HealthSystem;
+class EnemyDroneScript;
 class GameObject;
 
 class DroneExplosionAttack : public Script
@@ -41,6 +42,7 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	HealthSystem* parentHealthSystem;
+	EnemyDroneScript* parentEnemyDroneScript;
 
 	float explosionDamage;
 	float explosionTime;
