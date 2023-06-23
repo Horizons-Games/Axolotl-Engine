@@ -21,7 +21,6 @@ ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* 
 	Component(ComponentType::PARTICLE, active, owner, true), 
 	resource(nullptr), isPlaying(true)
 {
-	App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(this);
 }
 
 ComponentParticleSystem::~ComponentParticleSystem()
