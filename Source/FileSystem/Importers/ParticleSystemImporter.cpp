@@ -11,6 +11,8 @@
 #include "ParticleSystem/ModuleSpawn.h"
 #include "ParticleSystem/ModuleRenderer.h"
 #include "ParticleSystem/ModuleColor.h"
+#include "ParticleSystem/ModuleRotation.h"
+#include "ParticleSystem/ModuleSize.h"
 
 ParticleSystemImporter::ParticleSystemImporter()
 {
@@ -86,12 +88,21 @@ void ParticleSystemImporter::Save
 					size += sizeof(float);
 					break;
 				case ParticleModule::ModuleType::RENDER:
-					//size += sizeof(int) * 2;
+					size += sizeof(int) * 4;
+					size += sizeof(float);
+					size += sizeof(bool) * 2;
 					break;
 				case ParticleModule::ModuleType::POSITION:
 					break;
 				case ParticleModule::ModuleType::COLOR:
-					//size += sizeof(ImGradientMark) * 2; //It's a struct so it's continuous memory
+					size += sizeof(float) * 10;
+				case ParticleModule::ModuleType::ROTATION:
+					size += sizeof(bool);
+					size += sizeof(float) * 2;
+					break;
+				case ParticleModule::ModuleType::SIZE:
+					size += sizeof(bool);
+					size += sizeof(float) * 2;
 					break;
 				default:
 					break;
@@ -487,7 +498,7 @@ void ParticleSystemImporter::SaveModule(char*& cursor, ParticleModule*& module)
 		}
 		case ParticleModule::ModuleType::RENDER:
 		{
-			/*ModuleRenderer* render = dynamic_cast<ModuleRenderer*>(module);
+			ModuleRenderer* render = dynamic_cast<ModuleRenderer*>(module);
 
 			bytes = sizeof(int);
 			int aligment = static_cast<int>(render->GetAlignment());
@@ -501,22 +512,31 @@ void ParticleSystemImporter::SaveModule(char*& cursor, ParticleModule*& module)
 
 			cursor += bytes;
 
-			std::shared_ptr<ResourceTexture> resource = render->GetTexture();
-
-			bytes = sizeof(bool);
-			bool checkTexture = resource != nullptr;
-			memcpy(cursor, &checkTexture, bytes);
+			bytes = sizeof(int);
+			std::pair<int,int> tiles = render->GetTiles();
+			memcpy(cursor, &(tiles.first), bytes);
+			cursor += bytes;
+			memcpy(cursor, &(tiles.second), bytes);
 
 			cursor += bytes;
 
-			if (checkTexture)
-			{
-				bytes = sizeof(UID);
-				UID textureUID = resource->GetUID();
-				memcpy(cursor, &textureUID, bytes);
+			bytes = sizeof(float);
+			float sheetSpeed = render->GetSheetSpeed();
+			memcpy(cursor, &sheetSpeed, bytes);
 
-				cursor += bytes;
-			}*/
+			cursor += bytes;
+
+			bytes = sizeof(bool);
+			bool randomFrame = render->GetRandomFrame();
+			memcpy(cursor, &randomFrame, bytes);
+
+			cursor += bytes;
+
+			bytes = sizeof(bool);
+			bool frameBlending = render->GetFrameBlending();
+			memcpy(cursor, &frameBlending, bytes);
+
+			cursor += bytes;
 
 			break;
 		}
@@ -524,21 +544,66 @@ void ParticleSystemImporter::SaveModule(char*& cursor, ParticleModule*& module)
 			break;
 		case ParticleModule::ModuleType::COLOR:
 		{
-			/*ModuleColor* color = dynamic_cast<ModuleColor*>(module);
+			ModuleColor* color = dynamic_cast<ModuleColor*>(module);
 
-			bytes = sizeof(ImGradientMark);
-			ImGradientMark* firstMark = color->GetGradient().getMarks().front();
-			memcpy(cursor, firstMark, bytes);
+			ImGradient* gradient = color->GetGradient();
+			ImGradientMark* firstMark = gradient->getMarks().front();
+
+			bytes = sizeof(float) * 4;
+			memcpy(cursor, &(firstMark->color), bytes);
+			cursor += bytes;
+			
+			ImGradientMark* secondMark = gradient->getMarks().back();
+			
+			bytes = sizeof(float) * 4;
+			memcpy(cursor, &(secondMark->color), bytes);
+			cursor += bytes;
+
+			bytes = sizeof(float);
+			float initAlpha = color->GetInitAlpha();
+			memcpy(cursor, &initAlpha, bytes);
+			cursor += bytes;
+
+			bytes = sizeof(float);
+			float endAlpha = color->GetEndAlpha();
+			memcpy(cursor, &endAlpha, bytes);
+			cursor += bytes;
+
+			break;
+		}
+		case ParticleModule::ModuleType::ROTATION:
+		{
+			ModuleRotation* rotation = dynamic_cast<ModuleRotation*>(module);
+
+			bytes = sizeof(bool);
+			bool random = rotation->IsRandom();
+			memcpy(cursor, &random, bytes);
 
 			cursor += bytes;
 
-			bytes = sizeof(ImGradientMark);
-			ImGradientMark* secondMark = color->GetGradient().getMarks().back();
-			memcpy(cursor, secondMark, bytes);
+			bytes = sizeof(float) * 2;
+			float2 rotOverTime = rotation->GetRotation();
+			memcpy(cursor, &rotOverTime, bytes);
+
+			cursor += bytes;
+			break;
+		}
+		case ParticleModule::ModuleType::SIZE:
+		{
+			ModuleSize* size = dynamic_cast<ModuleSize*>(module);
+
+			bytes = sizeof(bool);
+			bool random = size->IsRandom();
+			memcpy(cursor, &random, bytes);
 
 			cursor += bytes;
 
-			break;*/
+			bytes = sizeof(float) * 2;
+			float2 sizeOverTime = size->GetSize();
+			memcpy(cursor, &sizeOverTime, bytes);
+
+			cursor += bytes;
+			break;
 		}
 		default:
 			break;
@@ -601,7 +666,7 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 		}
 		case ParticleModule::ModuleType::RENDER:
 		{
-			/*ModuleRenderer* render = dynamic_cast<ModuleRenderer*>(module);
+			ModuleRenderer* render = dynamic_cast<ModuleRenderer*>(module);
 
 			bytes = sizeof(int);
 			int alignment;
@@ -617,7 +682,42 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 
 			render->SetBlending(static_cast<ModuleRenderer::BlendingMode>(blending));
 
-			fileBuffer += bytes;*/
+			fileBuffer += bytes;
+
+			bytes = sizeof(int);
+			int tileX;
+			memcpy(&tileX, fileBuffer, bytes);
+			fileBuffer += bytes;
+			int tileY;
+			memcpy(&tileY, fileBuffer, bytes);
+
+			render->SetTiles(tileX,tileY);
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(float);
+			float sheetSpeed;
+			memcpy(&sheetSpeed, fileBuffer, bytes);
+
+			render->SetSheetSpeed(sheetSpeed);
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(bool);
+			bool randomFrame;
+			memcpy(&randomFrame, fileBuffer, bytes);
+
+			render->SetRandomFrame(randomFrame);
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(bool);
+			bool frameBlending;
+			memcpy(&frameBlending, fileBuffer, bytes);
+
+			render->SetFrameBlending(frameBlending);
+
+			fileBuffer += bytes;
 
 			break;
 		}
@@ -625,31 +725,93 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 			break;
 		case ParticleModule::ModuleType::COLOR:
 		{
-			/*ModuleColor* color = dynamic_cast<ModuleColor*>(module);
+			ModuleColor* colorModule = dynamic_cast<ModuleColor*>(module);
 
-			ImGradient colorGradient;
-
-			bytes = sizeof(ImGradientMark);
-			ImGradientMark* firstMark = new ImGradientMark;
-			memcpy(firstMark, fileBuffer, bytes);
-
-			colorGradient.addMark(firstMark->position,
-				ImColor(firstMark->color[0], firstMark->color[1], firstMark->color[2], firstMark->color[3]));
-			delete firstMark;
+			float* colorPointerFirst = new float[4];
+			bytes = sizeof(float) * 4;
+			memcpy(colorPointerFirst, fileBuffer, bytes);
 			fileBuffer += bytes;
+			std::vector<float> colorFirstMark(colorPointerFirst, colorPointerFirst + 4);
+			delete[] colorPointerFirst;
 
-			bytes = sizeof(ImGradientMark);
-			ImGradientMark* secondMark = new ImGradientMark;
-			memcpy(secondMark, fileBuffer, bytes);
-
-			colorGradient.addMark(
-				secondMark->position,
-				ImColor(secondMark->color[0], secondMark->color[1], secondMark->color[2], secondMark->color[3]));
-			delete secondMark;
+			float* colorPointerSecond = new float[4];
+			bytes = sizeof(float) * 4;
+			memcpy(colorPointerSecond, fileBuffer, bytes);
 			fileBuffer += bytes;
+			std::vector<float> colorSecondMark(colorPointerSecond, colorPointerSecond + 4);
+			delete[] colorPointerSecond;
 			
-			color->SetGradient(colorGradient);
-			break;*/
+			ImGradient* gradient = colorModule->GetGradient();
+			ImGradientMark* firstMark = gradient->getMarks().front();
+			firstMark->color[0] = colorFirstMark[0];
+			firstMark->color[1] = colorFirstMark[1];
+			firstMark->color[2] = colorFirstMark[2];
+			firstMark->color[3] = colorFirstMark[3];
+			ImGradientMark* secondMark = gradient->getMarks().back();
+			secondMark->color[0] = colorSecondMark[0];
+			secondMark->color[1] = colorSecondMark[1];
+			secondMark->color[2] = colorSecondMark[2];
+			secondMark->color[3] = colorSecondMark[3];
+
+			bytes = sizeof(float);
+			float initAlpha;
+			memcpy(&initAlpha, fileBuffer, bytes);
+			fileBuffer += bytes;
+
+			colorModule->SetInitAlpha(initAlpha);
+
+			bytes = sizeof(float);
+			float endAlpha;
+			memcpy(&endAlpha, fileBuffer, bytes);
+			fileBuffer += bytes;
+
+			colorModule->SetEndAlpha(endAlpha);
+
+			break;
+		}
+		case ParticleModule::ModuleType::ROTATION:
+		{
+			ModuleRotation* rotation = dynamic_cast<ModuleRotation*>(module);
+
+			bytes = sizeof(bool);
+			bool random;
+			memcpy(&random, fileBuffer, bytes);
+
+			rotation->SetRandom(random);
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(float) * 2;
+			float2 rotOverTime;
+			memcpy(&rotOverTime, fileBuffer, bytes);
+
+			rotation->SetRotation(rotOverTime);
+
+			fileBuffer += bytes;
+
+			break;
+		}
+		case ParticleModule::ModuleType::SIZE:
+		{
+			ModuleSize* size = dynamic_cast<ModuleSize*>(module);
+
+			bytes = sizeof(bool);
+			bool random;
+			memcpy(&random, fileBuffer, bytes);
+
+			size->SetRandom(random);
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(float) * 2;
+			float2 sizeOverTime;
+			memcpy(&sizeOverTime, fileBuffer, bytes);
+
+			size->SetSize(sizeOverTime);
+
+			fileBuffer += bytes;
+
+			break;
 		}
 		default:
 			break;
