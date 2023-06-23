@@ -9,7 +9,8 @@
 REGISTERCLASS(PowerUpsManagerScript);
 
 PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), attackIncrease(10.f), defenseIncrease(10.f), 
-	speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr)
+	speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr), activePowerUp(PowerUpType::NONE),
+	savedPowerUp(PowerUpType::NONE)
 {
 	REGISTER_FIELD(amountHealed, float);
 	REGISTER_FIELD(attackIncrease, float);
@@ -97,9 +98,6 @@ const PowerUpType& PowerUpsManagerScript::GetActivePowerUpType() const
 
 void PowerUpsManagerScript::EliminateCurrentPowerUpEffect()
 {
-	activePowerUp = PowerUpType::NONE;
-	currentPowerUpTimer = 0.f;
-
 	if (activePowerUp == PowerUpType::ATTACK)
 	{
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
@@ -117,4 +115,7 @@ void PowerUpsManagerScript::EliminateCurrentPowerUpEffect()
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerSpeed(-speedIncrease);
 	}
+
+	currentPowerUpTimer = 0.f;
+	activePowerUp = PowerUpType::NONE;
 }

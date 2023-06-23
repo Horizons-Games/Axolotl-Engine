@@ -479,6 +479,9 @@
     <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -949,6 +952,9 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
@@ -968,6 +974,13 @@
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

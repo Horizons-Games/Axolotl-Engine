@@ -5,6 +5,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -17,7 +18,7 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr)
+	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0), stunned(false)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -43,6 +44,20 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (stunned)
+	{
+		if(timeStunned < 0)
+		{
+			timeStunned = 0;
+			stunned = false;
+		}
+		else
+		{
+			timeStunned -= deltaTime;
+			return;
+		}
+	}
+
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
@@ -101,4 +116,10 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		componentAnimation->SetParameter("IsAttacking", true);
 	}
+}
+
+void EnemyDroneScript::SetStunnedTime(float newTime)
+{
+	stunned = true;
+	timeStunned = newTime;
 }

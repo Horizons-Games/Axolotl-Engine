@@ -9,6 +9,8 @@ class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentTransform;
 
+class PlayerManagerScript;
+
 enum class PlayerActions
 {
     IDLE,
@@ -37,4 +39,6 @@ private:
     float nextDash;
     bool isDashing;
     bool canDash;
+
+	PlayerManagerScript* playerManager;
 };

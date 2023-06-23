@@ -15,8 +15,8 @@
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
-componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
+	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
+	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
@@ -27,6 +27,8 @@ void PlayerMoveScript::Start()
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
+
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
@@ -44,7 +46,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	btVector3 movement(0, 0, 0);
 	float3 totalDirection = float3::zero;
 	
-	float newSpeed = owner->GetComponent<PlayerManagerScript>()->GetPlayerSpeed();
+	float newSpeed = playerManager->GetPlayerSpeed();
 	bool shiftPressed = false;
 
 	//run
