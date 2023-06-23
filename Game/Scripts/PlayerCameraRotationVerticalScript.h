@@ -14,30 +14,27 @@ public:
     void PreUpdate(float deltaTime) override;
 
 private:
-    void Orbit(float deltaTime);
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
 	CameraSample* FindClosestSample(float3 position);
 
 private: 
-	float rotationSensitivity;
 
 	float3 finalTargetPosition;
 	Quat finalTargetOrientation;
 	float3 defaultOffsetVector;
 	float defaultOffset;
 
-	bool isInfluenced;
-
 	GameObject* samplePointsObject;
-
 	std::vector<CameraSample*> samples;
+
 	ComponentTransform* transform;
 
 	GameObject* player;
 	ComponentTransform* playerTransform;
 
-	float zOffset;
+	float xOffset;
 	float yOffset;
+	float zOffset;
 };
 

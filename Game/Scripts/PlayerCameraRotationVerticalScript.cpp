@@ -10,13 +10,13 @@
 REGISTERCLASS(PlayerCameraRotationVerticalScript);
 
 PlayerCameraRotationVerticalScript::PlayerCameraRotationVerticalScript() : Script(), 
-		samplePointsObject(nullptr), rotationSensitivity(1.0f), transform(nullptr), player(nullptr)
+		samplePointsObject(nullptr), transform(nullptr), player(nullptr)
 {
 	REGISTER_FIELD(samplePointsObject, GameObject*);
 	REGISTER_FIELD(player, GameObject*);
-	REGISTER_FIELD(rotationSensitivity, float);
-	REGISTER_FIELD(zOffset, float);
+	REGISTER_FIELD(xOffset, float);
 	REGISTER_FIELD(yOffset, float);
+	REGISTER_FIELD(zOffset, float);
 }
 
 void PlayerCameraRotationVerticalScript::Start()
@@ -34,13 +34,23 @@ void PlayerCameraRotationVerticalScript::Start()
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
 	CalculateOffsetVector();
-
-	isInfluenced = false;
 }
 
 void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 {
+	float3 sourceDirection = transform->GetGlobalForward().Normalized();
+	float3 targetDirection = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
 	Quat orientationOffset = Quat::identity;
+
+	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01))
+	{
+		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
+		orientationOffset = rot * transform->GetGlobalRotation();
+	}
+	else
+	{
+		orientationOffset = transform->GetGlobalRotation();
+	}
 
 	CameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
 	if (closestSample && 
@@ -48,8 +58,8 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 	{
 		CalculateOffsetVector(closestSample->positionOffset);
 
-		float3 eulerAngles = closestSample->orientationOffset;
-		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));
+		/*float3 eulerAngles = closestSample->orientationOffset;
+		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));*/
 
 	}
 	else
@@ -65,40 +75,10 @@ void PlayerCameraRotationVerticalScript::PreUpdate(float deltaTime)
 	transform->RecalculateLocalMatrix();
 }
 
-void PlayerCameraRotationVerticalScript::Orbit(float deltaTime)
-{
-	Quat currentRotation = transform->GetGlobalRotation();
-	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * deltaTime * rotationSensitivity;
-	float verticalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().y * deltaTime * rotationSensitivity;
-
-	Quat rotationError = Quat::identity;
-
-	if (math::Abs(horizontalMotion) > 0.001)
-	{
-		rotationError = Quat::RotateY(-horizontalMotion) * rotationError;
-	}
-
-	if (math::Abs(verticalMotion) > 0.001)
-	{
-		float3 eulerAngles = currentRotation.ToEulerXYZ();
-		float finalPitch = eulerAngles.x - verticalMotion;
-		if (RadToDeg(finalPitch) < 40.0f && (RadToDeg(finalPitch) > -15.0f))
-		{
-			rotationError = Quat::RotateX(-verticalMotion) * rotationError;
-		}
-	}
-
-	finalTargetOrientation = rotationError * currentRotation;
-
-	float3 cameraVector = (transform->GetGlobalPosition() - playerTransform->GetGlobalPosition()).Normalized();
-	finalTargetPosition = playerTransform->GetGlobalPosition() + rotationError.Transform(cameraVector) * defaultOffset;
-	
-}
-
 void PlayerCameraRotationVerticalScript::CalculateOffsetVector()
 {
-	
-	defaultOffsetVector = -float3::unitZ * zOffset + playerTransform->GetGlobalUp().Normalized() * yOffset;
+	//defaultOffsetVector = -float3::unitZ * zOffset + playerTransform->GetGlobalUp().Normalized() * yOffset;
+	defaultOffsetVector = float3::unitX * xOffset + float3::unitY * yOffset + float3::unitZ * zOffset;
 	defaultOffset = defaultOffsetVector.Length();
 }
 

@@ -2,6 +2,7 @@
 
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -36,7 +37,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	ComponentTransform* cameraTransform = App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentTransform>();
+	Camera* camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
@@ -71,7 +72,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += cameraTransform->GetGlobalForward().Normalized();
+		totalDirection += camera->GetFrustum()->Front().Normalized();
 
 	}
 
@@ -84,7 +85,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
-		totalDirection += -cameraTransform->GetGlobalForward().Normalized();
+		totalDirection += -camera->GetFrustum()->Front().Normalized();
 
 	}
 
@@ -98,7 +99,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += -cameraTransform->GetGlobalRight().Normalized();
+		totalDirection += camera->GetFrustum()->WorldRight().Normalized();
 
 	}
 
@@ -112,7 +113,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += cameraTransform->GetGlobalRight().Normalized();
+		totalDirection += -camera->GetFrustum()->WorldRight().Normalized();
 	}
 
 	if (!totalDirection.IsZero())
