@@ -36,7 +36,7 @@ void AnimationController::Update()
 {
 	if (isPlaying && resource)
 	{
-		float duration = resource->GetDuration();
+		float duration = static_cast<float>(resource->GetDuration());
 
 		currentTime += App->GetDeltaTime() * stateResource->speed * 10;
 		if (currentTime > duration)
@@ -59,10 +59,11 @@ bool AnimationController::GetTransform(const std::string& name, float3& pos, Qua
 
 	if (channel)
 	{
-		float currentSample = (currentTime * (channel->positions.size() - 1)) / resource->GetDuration();
+		float currentSample =
+			static_cast<float>((currentTime * (channel->positions.size() - 1)) / resource->GetDuration());
 
-		int first = floor(currentSample);
-		int second = ceil(currentSample);
+		int first = static_cast<int>(floor(currentSample));
+		int second = static_cast<int>(ceil(currentSample));
 
 		float3 firstPos = channel->positions[first];
 		float3 secondPos = channel->positions[second];
