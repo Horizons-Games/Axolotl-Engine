@@ -1,0 +1,14 @@
+{
+    "UID": 15549470011344037795,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/BixAnimated_VS3.Armature_Idle.anim",
+        "Assets/Animation/BixAnimated_VS3.Armature_IdleRandom1.anim",
+        "Assets/Animation/BixAnimated_VS3.Armature_IdleRandom2.anim",
+        "Assets/Animation/BixAnimated_VS3.Armature_Run.anim",
+        "Assets/Animation/BixAnimated_VS3.Armature_Attack1Idle.anim",
+        "Assets/Animation/BixAnimated_VS3.Armature_Attack2Idle.anim",
+        "Assets/Animation/BixAnimated_VS3.Armature_Attack3AlterIdle.anim",
+        "Assets/Animation/BixAnimated_VS3.Armature_Attack3AlterIdle.anim"
+    ]
+}
