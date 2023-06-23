@@ -1921,16 +1921,6 @@
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MockState",
-                            "active": true,
-                            "removed": true,
-                            "isWinState": true,
-                            "isFailState": false,
-                            "sceneName": "WinVS1"
-                        }
                     }
                 ]
             }
@@ -14808,16 +14798,6 @@
                             "assetPathMesh": "Assets/Meshes/Cube.mesh",
                             "materialUID": 13337687243703339233,
                             "assetPathMaterial": "Assets/Materials/BBC_Color.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MockState",
-                            "active": true,
-                            "removed": true,
-                            "isWinState": true,
-                            "isFailState": false,
-                            "sceneName": "LoseVS1"
                         }
                     }
                 ]
