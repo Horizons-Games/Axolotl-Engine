@@ -13,6 +13,7 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::
 
 ModuleColor::~ModuleColor()
 {
+	delete gradient;
 }
 
 void ModuleColor::Spawn(EmitterInstance* instance)
