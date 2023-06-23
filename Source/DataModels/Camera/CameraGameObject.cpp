@@ -52,7 +52,7 @@ void CameraGameObject::SetPositionTarget(const float3& targetPosition, float del
 void CameraGameObject::SetRotationTarget(const Quat& targetRotation, float deltaTime)
 {
 
-	Quat rotationError = targetRotation * rotation.Inverted();
+	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
 	rotationError.Normalize();
 
 	float3 axis;
