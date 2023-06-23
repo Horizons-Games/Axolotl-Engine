@@ -2,6 +2,11 @@
 
 #include <ranges>
 
+namespace
+{
+size_t maxConsoleLines = 50U;
+}
+
 WindowConsole::WindowConsole() : EditorWindow("Console")
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar;
@@ -27,9 +32,23 @@ void WindowConsole::DrawWindowContents()
 {
 	consoleContents.insert(std::end(consoleContents), std::begin(logContext->logLines), std::end(logContext->logLines));
 	logContext->logLines.clear();
+	LimitConsoleContents();
 
 	DrawOptionsMenu();
 	DrawConsole();
+}
+
+void WindowConsole::LimitConsoleContents()
+{
+	size_t consoleLines = consoleContents.size();
+	if (maxConsoleLines < consoleLines)
+	{
+		auto contentsBegin = std::begin(consoleContents);
+		// the first parameter of std::advance is an input/output one
+		// meaning it will be modified by the method
+		std::advance(contentsBegin, consoleLines - maxConsoleLines);
+		consoleContents.erase(std::begin(consoleContents), contentsBegin);
+	}
 }
 
 void WindowConsole::DrawOptionsMenu()
