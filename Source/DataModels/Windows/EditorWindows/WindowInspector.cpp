@@ -13,7 +13,6 @@
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
-#include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -85,15 +84,6 @@ WindowInspector::WindowInspector() :
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentRigidBody>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
-
-	actions.push_back(AddComponentAction(
-		"Create MockState Component",
-		std::bind(&WindowInspector::AddComponentMockState, this),
-		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
-		{
-			return gameObjectDoesNotHaveComponent.template operator()<ComponentMockState>(gameObject);
-		},
-		ComponentFunctionality::GAMEPLAY));
 
 	actions.push_back(AddComponentAction("Create AudioSource Component",
 										 std::bind(&WindowInspector::AddComponentAudioSource, this),
@@ -433,11 +423,6 @@ void WindowInspector::ResetSelectedGameObject()
 void WindowInspector::AddComponentRigidBody()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
-}
-
-void WindowInspector::AddComponentMockState()
-{
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }
 
 void WindowInspector::AddComponentAudioSource()

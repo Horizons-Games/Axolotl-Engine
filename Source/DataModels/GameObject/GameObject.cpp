@@ -10,7 +10,6 @@
 #include "../Components/ComponentLight.h"
 #include "../Components/ComponentMeshCollider.h"
 #include "../Components/ComponentMeshRenderer.h"
-#include "../Components/ComponentMockState.h"
 #include "../Components/ComponentPlayer.h"
 #include "../Components/ComponentPointLight.h"
 #include "../Components/ComponentRigidBody.h"
@@ -532,12 +531,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::BUTTON:
 		{
 			newComponent = std::make_unique<ComponentButton>(true, this);
-			break;
-		}
-
-		case ComponentType::MOCKSTATE:
-		{
-			newComponent = std::make_unique<ComponentMockState>(true, this);
 			break;
 		}
 
