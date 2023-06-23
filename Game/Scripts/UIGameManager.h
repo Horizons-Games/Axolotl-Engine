@@ -4,11 +4,11 @@
 
 class ComponentPlayer;
 
-class UIGameStates : public Script
+class UIGameManager : public Script
 {
 public:
-	UIGameStates();
-	~UIGameStates() override = default;
+	UIGameManager();
+	~UIGameManager() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -23,7 +23,7 @@ private:
 	GameObject* loseStateObject;
 	GameObject* winStateObject;
 	GameObject* mainMenuObject;
-	GameObject* hudStateObject;
+	GameObject* hudObject;
 	GameObject* setPlayer;
 	ComponentPlayer* player;
 	ModuleInput* input;
@@ -32,7 +32,7 @@ private:
 
 };
 
-inline void UIGameStates::SetMenuIsOpen(bool menuState)
+inline void UIGameManager::SetMenuIsOpen(bool menuState)
 {
 	menuIsOpen = menuState;
 	MenuIsOpen();

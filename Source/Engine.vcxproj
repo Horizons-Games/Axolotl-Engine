@@ -188,8 +188,9 @@
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp" />
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageControl.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp" />
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp" />
@@ -539,8 +540,9 @@
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
-    <ClInclude Include="..\Game\Scripts\UIGameStates.h" />
+    <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageControl.h" />
+    <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h" />
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />

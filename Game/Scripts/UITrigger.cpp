@@ -17,14 +17,14 @@
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "UIGameStates.h"
+#include "UIGameManager.h"
 #include "HealthSystem.h"
 #include "Components/ComponentScript.h"
 
 REGISTERCLASS(UITrigger);
 
 UITrigger::UITrigger() : Script(),componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setGameStateObject(nullptr),
-uiGameStatesClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
+UIGameManagerClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
 playerHealthSystem(nullptr), setPlayer(nullptr), onTriggerState(false), damageTaken(1)
 {
 	REGISTER_FIELD(isWinTrigger, bool);
@@ -48,7 +48,7 @@ void UITrigger::Start()
 
 	if (setGameStateObject != nullptr)
 	{
-		uiGameStatesClass = setGameStateObject->GetComponent<UIGameStates>();
+		UIGameManagerClass = setGameStateObject->GetComponent<UIGameManager>();
 	}
 
 	if (isLoseByDamage)
@@ -63,11 +63,11 @@ void UITrigger::Update(float deltaTime)
 	{
 		if (isWinTrigger)
 		{
-			uiGameStatesClass->WinStateScene(true);
+			UIGameManagerClass->WinStateScene(true);
 		}
 		else if (isLoseTrigger)
 		{
-			uiGameStatesClass->LoseStateScene(true);
+			UIGameManagerClass->LoseStateScene(true);
 		}
 		else if (isLoseByDamage)
 		{
@@ -77,7 +77,7 @@ void UITrigger::Update(float deltaTime)
 				timer++;
 				playerHealthSystem->TakeDamage(damageTaken);
 			}
-			//uiGameStatesClass->LoseStateScene(true);
+			//UIGameManagerClass->LoseStateScene(true);
 		}
 	}
 }

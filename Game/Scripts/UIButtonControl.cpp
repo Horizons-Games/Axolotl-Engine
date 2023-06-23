@@ -3,19 +3,19 @@
 #include <Components/ComponentScript.h>
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
-#include "UIGameStates.h"
+#include "UIGameManager.h"
 
 
 
 REGISTERCLASS(UIButtonControl);
 
 UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), buttonComponent(nullptr),
-buttonHover(nullptr), isGameExit(false), isGameResume(false), setGameStateObject(nullptr), uiGameStatesClass(nullptr)
+buttonHover(nullptr), isGameExit(false), isGameResume(false), setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
 	REGISTER_FIELD(buttonHover, GameObject*);
-	REGISTER_FIELD(setGameStateObject, GameObject*);
+	REGISTER_FIELD(setUiGameManagerObject, GameObject*);
 	REGISTER_FIELD(isGameExit, bool);
 	REGISTER_FIELD(isGameResume, bool);
 }
@@ -26,12 +26,12 @@ void UIButtonControl::Start()
 	
 	if (isGameResume != false)
 	{
-		std::vector<ComponentScript*> gameObjectScripts = setGameStateObject->GetComponents<ComponentScript>();
+		std::vector<ComponentScript*> gameObjectScripts = setUiGameManagerObject->GetComponents<ComponentScript>();
 		for (int i = 0; i < gameObjectScripts.size(); ++i)
 		{
-			if (gameObjectScripts[i]->GetConstructName() == "UIGameStates")
+			if (gameObjectScripts[i]->GetConstructName() == "UIGameManager")
 			{
-				uiGameStatesClass = static_cast<UIGameStates*>(gameObjectScripts[i]->GetScript());
+				UIGameManagerClass = static_cast<UIGameManager*>(gameObjectScripts[i]->GetScript());
 				break;
 			}
 		}
@@ -57,8 +57,8 @@ void UIButtonControl::Update(float deltaTime)
 
 			if (isGameResume != false)
 			{
-				uiGameStatesClass->SetMenuIsOpen(false);
-				uiGameStatesClass->MenuIsOpen();
+				UIGameManagerClass->SetMenuIsOpen(false);
+				UIGameManagerClass->MenuIsOpen();
 			}
 		}
 	}

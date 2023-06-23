@@ -7,7 +7,6 @@
                 "uid": 16986399840152337944,
                 "parentUID": 0,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -44,7 +43,6 @@
                 "uid": 11768532019124242966,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -67,10 +65,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 579.5,
-                            "worldAABB_min_y": 365.5,
-                            "worldAABB_max_x": 579.5,
-                            "worldAABB_max_y": 365.5
+                            "worldAABB_min_x": 783.0,
+                            "worldAABB_min_y": 454.5,
+                            "worldAABB_max_x": 783.0,
+                            "worldAABB_max_y": 454.5
                         }
                     },
                     {
@@ -90,7 +88,6 @@
                 "uid": 6751946775892563900,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -131,7 +128,6 @@
                 "uid": 15981248757803877047,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -169,7 +165,6 @@
                 "uid": 166302450348542042,
                 "parentUID": 15981248757803877047,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -222,8 +217,7 @@
                 "tag": "",
                 "uid": 12387220515077554983,
                 "parentUID": 513652320529916109,
-                "enabled": false,
-                "active": true,
+                "enabled": true,
                 "static": true,
                 "Components": [
                     {
@@ -246,10 +240,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     }
                 ]
@@ -257,12 +251,11 @@
         },
         {
             "GameObject": {
-                "name": "Game States",
+                "name": "UI Game Manager",
                 "tag": "",
                 "uid": 513652320529916109,
                 "parentUID": 11768532019124242966,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -285,10 +278,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     },
                     {
@@ -297,43 +290,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "UIGameStates",
-                            "fields": [
-                                {
-                                    "name": "WinStateObject",
-                                    "value": 8883378862259977135,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "LoseStateObject",
-                                    "value": 2647224833030324505,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "MainMenuObject",
-                                    "value": 12387220515077554983,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "HudStateObject",
-                                    "value": 14886606599652691690,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "SetPlayer",
-                                    "value": 0,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "WinSceneName",
-                                    "value": "00_WinScene_VS3",
-                                    "type": 1
-                                },
-                                {
-                                    "name": "LoseSceneName",
-                                    "value": "00_LoseScene_VS3",
-                                    "type": 1
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]
@@ -345,8 +302,7 @@
                 "tag": "",
                 "uid": 14886606599652691690,
                 "parentUID": 11768532019124242966,
-                "enabled": true,
-                "active": true,
+                "enabled": false,
                 "static": true,
                 "Components": [
                     {
@@ -369,10 +325,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     }
                 ]
@@ -385,7 +341,6 @@
                 "uid": 4605498543365059219,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -408,10 +363,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -32.625,
+                            "worldAABB_min_y": 14.0625,
+                            "worldAABB_max_x": 1598.625,
+                            "worldAABB_max_y": 894.9375
                         }
                     },
                     {
@@ -437,7 +392,6 @@
                 "uid": 14688717216352521428,
                 "parentUID": 8883378862259977135,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -460,10 +414,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 579.5,
-                            "worldAABB_min_y": 365.5,
-                            "worldAABB_max_x": 579.5,
-                            "worldAABB_max_y": 365.5
+                            "worldAABB_min_x": 783.0,
+                            "worldAABB_min_y": 454.5,
+                            "worldAABB_max_x": 783.0,
+                            "worldAABB_max_y": 454.5
                         }
                     },
                     {
@@ -489,7 +443,6 @@
                 "uid": 13465077221523545772,
                 "parentUID": 8883378862259977135,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -512,10 +465,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 488.953125,
-                            "worldAABB_min_y": 623.8604736328125,
-                            "worldAABB_max_x": 670.046875,
-                            "worldAABB_max_y": 662.4937744140625
+                            "worldAABB_min_x": 660.65625,
+                            "worldAABB_min_y": 803.5875244140625,
+                            "worldAABB_max_x": 905.34375,
+                            "worldAABB_max_y": 855.7874755859375
                         }
                     },
                     {
@@ -573,7 +526,6 @@
                 "uid": 8883378862259977135,
                 "parentUID": 513652320529916109,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -596,10 +548,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     }
                 ]
@@ -612,7 +564,6 @@
                 "uid": 2647224833030324505,
                 "parentUID": 513652320529916109,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -635,10 +586,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     }
                 ]
@@ -651,7 +602,6 @@
                 "uid": 123636988483932324,
                 "parentUID": 2647224833030324505,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -674,10 +624,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 579.5,
-                            "worldAABB_min_y": 365.5,
-                            "worldAABB_max_x": 579.5,
-                            "worldAABB_max_y": 365.5
+                            "worldAABB_min_x": 783.0,
+                            "worldAABB_min_y": 454.5,
+                            "worldAABB_max_x": 783.0,
+                            "worldAABB_max_y": 454.5
                         }
                     },
                     {
@@ -703,7 +653,6 @@
                 "uid": 15142716652660801965,
                 "parentUID": 2647224833030324505,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -726,10 +675,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 488.953125,
-                            "worldAABB_min_y": 623.8604736328125,
-                            "worldAABB_max_x": 670.046875,
-                            "worldAABB_max_y": 662.4937744140625
+                            "worldAABB_min_x": 660.65625,
+                            "worldAABB_min_y": 803.5875244140625,
+                            "worldAABB_max_x": 905.34375,
+                            "worldAABB_max_y": 855.7874755859375
                         }
                     },
                     {
@@ -771,7 +720,6 @@
                 "uid": 6201927956827422330,
                 "parentUID": 14886606599652691690,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -794,10 +742,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -9.4168701171875,
-                            "worldAABB_min_y": 46.15624237060547,
-                            "worldAABB_max_x": 257.39459228515625,
-                            "worldAABB_max_y": 119.19739532470703
+                            "worldAABB_min_x": -12.723770141601563,
+                            "worldAABB_min_y": 23.01396942138672,
+                            "worldAABB_max_x": 347.782470703125,
+                            "worldAABB_max_y": 121.70459747314453
                         }
                     },
                     {
@@ -823,7 +771,6 @@
                 "uid": 15174984080837510951,
                 "parentUID": 14886606599652691690,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -846,10 +793,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -9.303733825683594,
-                            "worldAABB_min_y": 117.88446807861328,
-                            "worldAABB_max_x": 173.91787719726563,
-                            "worldAABB_max_y": 168.89254760742188
+                            "worldAABB_min_x": -12.570838928222656,
+                            "worldAABB_min_y": 119.93061828613281,
+                            "worldAABB_max_x": 234.99172973632813,
+                            "worldAABB_max_y": 188.85093688964844
                         }
                     },
                     {
@@ -875,7 +822,6 @@
                 "uid": 807207372060436822,
                 "parentUID": 14886606599652691690,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -898,10 +844,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 854.3399658203125,
-                            "worldAABB_min_y": 67.93276977539063,
-                            "worldAABB_max_x": 1182.7232666015625,
-                            "worldAABB_max_y": 160.89422607421875
+                            "worldAABB_min_x": 1154.3541259765625,
+                            "worldAABB_min_y": 52.437625885009766,
+                            "worldAABB_max_x": 1598.0540771484375,
+                            "worldAABB_max_y": 178.04388427734375
                         }
                     },
                     {
@@ -927,7 +873,6 @@
                 "uid": 8283983699282130668,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -950,10 +895,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 113.24395751953125,
-                            "worldAABB_min_y": 472.0887756347656,
-                            "worldAABB_max_x": 934.2023315429688,
-                            "worldAABB_max_y": 683.3648071289063
+                            "worldAABB_min_x": 153.01123046875,
+                            "worldAABB_min_y": 598.51904296875,
+                            "worldAABB_max_x": 1262.26123046875,
+                            "worldAABB_max_y": 883.98779296875
                         }
                     },
                     {
@@ -1019,7 +964,6 @@
                 "uid": 7665678808526599654,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -1042,10 +986,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7560424804688,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.66748046875,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 1244.09326171875,
+                            "worldAABB_min_y": 661.852294921875,
+                            "worldAABB_max_x": 1447.99951171875,
+                            "worldAABB_max_y": 865.758544921875
                         }
                     },
                     {
@@ -1111,7 +1055,6 @@
                 "uid": 17710475867707915243,
                 "parentUID": 12387220515077554983,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1134,10 +1077,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -32.625,
+                            "worldAABB_min_y": 14.0625,
+                            "worldAABB_max_x": 1598.625,
+                            "worldAABB_max_y": 894.9375
                         }
                     },
                     {
@@ -1161,9 +1104,8 @@
                 "name": "Background",
                 "tag": "",
                 "uid": 1171631755761056426,
-                "parentUID": 12387220515077554983,
+                "parentUID": 14949599671357259751,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1186,10 +1128,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -32.625,
+                            "worldAABB_min_y": 14.0625,
+                            "worldAABB_max_x": 1598.625,
+                            "worldAABB_max_y": 894.9375
                         }
                     },
                     {
@@ -1213,9 +1155,8 @@
                 "name": "Bacgorund 02",
                 "tag": "",
                 "uid": 3482351185434479368,
-                "parentUID": 12387220515077554983,
+                "parentUID": 14949599671357259751,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1232,16 +1173,16 @@
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
                             "localScaleZ": 0.5,
-                            "sizeX": 4000.0,
+                            "sizeX": 3850.0,
                             "sizeY": 2160.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -2.0390625,
+                            "worldAABB_min_y": 14.0625,
+                            "worldAABB_max_x": 1568.0390625,
+                            "worldAABB_max_y": 894.9375
                         }
                     },
                     {
@@ -1265,9 +1206,8 @@
                 "name": "Buttons",
                 "tag": "",
                 "uid": 13655197261670099969,
-                "parentUID": 12387220515077554983,
+                "parentUID": 16422052428738995150,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1290,10 +1230,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     }
                 ]
@@ -1306,7 +1246,6 @@
                 "uid": 6987034644540923482,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1329,10 +1268,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 326.26300048828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 356.4453125
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 401.484375,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 442.265625
                         }
                     },
                     {
@@ -1430,7 +1369,6 @@
                 "uid": 12355808308610146460,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1453,10 +1391,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 274.0929260253906,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 304.2752380371094
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 330.9939880371094,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 371.7752380371094
                         }
                     },
                     {
@@ -1554,7 +1492,6 @@
                 "uid": 8070171967447656135,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1577,10 +1514,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 376.06378173828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 406.24609375
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 468.7734375,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 509.5546875
                         }
                     },
                     {
@@ -1637,12 +1574,12 @@
                             "fields": [
                                 {
                                     "name": "EnableObject",
-                                    "value": 0,
+                                    "value": 15554064808726390915,
                                     "type": 2
                                 },
                                 {
                                     "name": "DisableObject",
-                                    "value": 0,
+                                    "value": 16422052428738995150,
                                     "type": 2
                                 },
                                 {
@@ -1678,7 +1615,6 @@
                 "uid": 15271769425309136725,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1701,10 +1637,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 425.562744140625,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 455.74505615234375
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 535.6546630859375,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 576.4359130859375
                         }
                     },
                     {
@@ -1802,7 +1738,6 @@
                 "uid": 9390179494795624199,
                 "parentUID": 13655197261670099969,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1825,10 +1760,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     }
                 ]
@@ -1841,7 +1776,6 @@
                 "uid": 3957986034107420629,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1864,10 +1798,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 276.643310546875,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 306.82562255859375
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 334.44000244140625,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 375.22125244140625
                         }
                     },
                     {
@@ -1893,7 +1827,6 @@
                 "uid": 9087097676567620906,
                 "parentUID": 13655197261670099969,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1916,10 +1849,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
                         }
                     }
                 ]
@@ -1932,7 +1865,6 @@
                 "uid": 12618697974337634863,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1955,10 +1887,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 326.26300048828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 356.4453125
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 401.484375,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 442.265625
                         }
                     },
                     {
@@ -1984,7 +1916,6 @@
                 "uid": 11592286474923486985,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -2007,10 +1938,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 376.06378173828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 406.24609375
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 468.7734375,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 509.5546875
                         }
                     },
                     {
@@ -2036,7 +1967,6 @@
                 "uid": 5187515975094820869,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -2059,10 +1989,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 425.562744140625,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 455.74505615234375
+                            "worldAABB_min_x": 650.4609375,
+                            "worldAABB_min_y": 535.6546630859375,
+                            "worldAABB_max_x": 915.5390625,
+                            "worldAABB_max_y": 576.4359130859375
                         }
                     },
                     {
@@ -2088,7 +2018,6 @@
                 "uid": 13852057165170518423,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -2111,10 +2040,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7862548828125,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.69775390625,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 1244.134033203125,
+                            "worldAABB_min_y": 661.852294921875,
+                            "worldAABB_max_x": 1448.040283203125,
+                            "worldAABB_max_y": 865.758544921875
                         }
                     },
                     {
@@ -2140,7 +2069,6 @@
                 "uid": 3382941020527924418,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -2163,10 +2091,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7862548828125,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.69775390625,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 1244.134033203125,
+                            "worldAABB_min_y": 661.852294921875,
+                            "worldAABB_max_x": 1448.040283203125,
+                            "worldAABB_max_y": 865.758544921875
                         }
                     },
                     {
@@ -2192,7 +2120,6 @@
                 "uid": 1939664189683118765,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -2215,10 +2142,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7862548828125,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.69775390625,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 1244.134033203125,
+                            "worldAABB_min_y": 661.852294921875,
+                            "worldAABB_max_x": 1448.040283203125,
+                            "worldAABB_max_y": 865.758544921875
                         }
                     },
                     {
@@ -2232,6 +2159,1155 @@
                             "color_y": 1.0,
                             "color_z": 1.0,
                             "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 14949599671357259751,
+                "parentUID": 12387220515077554983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Options Bar",
+                "tag": "",
+                "uid": 11463190140270902665,
+                "parentUID": 2304694963445147342,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 3850.0,
+                            "sizeY": 2160.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": -2.0390625,
+                            "worldAABB_min_y": 14.0625,
+                            "worldAABB_max_x": 1568.0390625,
+                            "worldAABB_max_y": 894.9375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 12697489571565054786,
+                            "assetPathImage": "Assets/Textures/OptionsMenu_OptionsBar.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Menu",
+                "tag": "",
+                "uid": 16422052428738995150,
+                "parentUID": 12387220515077554983,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Options",
+                "tag": "",
+                "uid": 15554064808726390915,
+                "parentUID": 12387220515077554983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Selected",
+                "tag": "",
+                "uid": 2820365513112609999,
+                "parentUID": 15554064808726390915,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hover",
+                "tag": "",
+                "uid": 14729848246731544557,
+                "parentUID": 15554064808726390915,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IDLE",
+                "tag": "",
+                "uid": 2304694963445147342,
+                "parentUID": 15554064808726390915,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 701.4375,
+                            "worldAABB_min_y": 372.9375,
+                            "worldAABB_max_x": 864.5625,
+                            "worldAABB_max_y": 536.0625
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Game",
+                "tag": "",
+                "uid": 10256812976077170107,
+                "parentUID": 2304694963445147342,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -733.5999755859375,
+                            "localPositionY": 405.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 230.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 90.86065673828125,
+                            "worldAABB_min_y": 103.78125,
+                            "worldAABB_max_x": 278.45440673828125,
+                            "worldAABB_max_y": 144.5625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 0.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 0.0,
+                            "sceneName": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIButtonControl",
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 1346641362747699719,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Video",
+                "tag": "",
+                "uid": 15213304528150512981,
+                "parentUID": 2304694963445147342,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -244.0,
+                            "localPositionY": 405.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 230.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 490.19061279296875,
+                            "worldAABB_min_y": 103.78125,
+                            "worldAABB_max_x": 677.7843627929688,
+                            "worldAABB_max_y": 144.5625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 0.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 0.0,
+                            "sceneName": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIButtonControl",
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 6666435791508676774,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hud",
+                "tag": "",
+                "uid": 1423046441115844482,
+                "parentUID": 2304694963445147342,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 243.0500030517578,
+                            "localPositionY": 405.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 230.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 887.4407958984375,
+                            "worldAABB_min_y": 103.78125,
+                            "worldAABB_max_x": 1075.0345458984375,
+                            "worldAABB_max_y": 144.5625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 0.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 0.0,
+                            "sceneName": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIButtonControl",
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 9006371732912217512,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Keys",
+                "tag": "",
+                "uid": 8610461811382850753,
+                "parentUID": 2304694963445147342,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 730.1749877929688,
+                            "localPositionY": 405.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 230.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1284.752197265625,
+                            "worldAABB_min_y": 103.78125,
+                            "worldAABB_max_x": 1472.345947265625,
+                            "worldAABB_max_y": 144.5625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 0.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 0.0,
+                            "sceneName": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIButtonControl",
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 7632887505008503883,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Keys_Hover",
+                "tag": "",
+                "uid": 7632887505008503883,
+                "parentUID": 14729848246731544557,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 729.875,
+                            "localPositionY": 400.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 241.0,
+                            "sizeY": 46.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1280.021484375,
+                            "worldAABB_min_y": 109.4906234741211,
+                            "worldAABB_max_x": 1476.587158203125,
+                            "worldAABB_max_y": 147.00936889648438
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 9365402899268810243,
+                            "assetPathImage": "Assets/Textures/OptionsMenu_H_keys.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hud_Hover",
+                "tag": "",
+                "uid": 9006371732912217512,
+                "parentUID": 14729848246731544557,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 242.64999389648438,
+                            "localPositionY": 400.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 247.0,
+                            "sizeY": 46.25,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 880.1817016601563,
+                            "worldAABB_min_y": 109.388671875,
+                            "worldAABB_max_x": 1081.64111328125,
+                            "worldAABB_max_y": 147.111328125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 6257662738845311808,
+                            "assetPathImage": "Assets/Textures/OptionsMenu_H_hud.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Video_Hover",
+                "tag": "",
+                "uid": 6666435791508676774,
+                "parentUID": 14729848246731544557,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -244.75,
+                            "localPositionY": 400.2250061035156,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 245.0,
+                            "sizeY": 45.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 483.46173095703125,
+                            "worldAABB_min_y": 109.71490478515625,
+                            "worldAABB_max_x": 683.2898559570313,
+                            "worldAABB_max_y": 146.41802978515625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 16548449229740990979,
+                            "assetPathImage": "Assets/Textures/OptionsMenu_H_video.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Game_Hover",
+                "tag": "",
+                "uid": 1346641362747699719,
+                "parentUID": 14729848246731544557,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -731.9249877929688,
+                            "localPositionY": 400.1499938964844,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 245.5,
+                            "sizeY": 45.25,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 85.90570831298828,
+                            "worldAABB_min_y": 109.67414093017578,
+                            "worldAABB_max_x": 286.14166259765625,
+                            "worldAABB_max_y": 146.5811767578125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 8788779548093579847,
+                            "assetPathImage": "Assets/Textures/OptionsMenu_H_game.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Game_Selected",
+                "tag": "",
+                "uid": 15907807577423645114,
+                "parentUID": 2820365513112609999,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -731.9249877929688,
+                            "localPositionY": 400.1499938964844,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 245.0,
+                            "sizeY": 45.25,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 86.109619140625,
+                            "worldAABB_min_y": 109.67414093017578,
+                            "worldAABB_max_x": 285.937744140625,
+                            "worldAABB_max_y": 146.5811767578125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 2141599699047595756,
+                            "assetPathImage": "Assets/Textures/OptionsMenu_Selected_game.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Back to menu",
+                "tag": "",
+                "uid": 4780070807582119271,
+                "parentUID": 2304694963445147342,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 675.0,
+                            "localPositionY": -400.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 250.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1231.59375,
+                            "worldAABB_min_y": 760.359375,
+                            "worldAABB_max_x": 1435.5,
+                            "worldAABB_max_y": 801.140625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 11461992855467350399,
+                            "assetPathImage": "Assets/Textures/MainMenu_Button_Back.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.699999988079071,
+                            "colorHovered_y": 0.699999988079071,
+                            "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.5,
+                            "colorClicked_y": 0.5,
+                            "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
+                            "sceneName": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ButtonSoundScript",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIButtonControl",
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 16422052428738995150,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 15554064808726390915,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
                         }
                     }
                 ]

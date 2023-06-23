@@ -413,7 +413,7 @@
     <ClCompile Include="..\Game\Scripts\UIImageControl.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp">
+    <ClCompile Include="..\Game\Scripts\UIGameManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
@@ -472,6 +472,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ActionsPowerUpScript.cpp">
       <Filter>UserScripts\PowerUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp">
+      <Filter>UserScripts\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -901,7 +904,7 @@
     <ClInclude Include="..\Game\Scripts\UIImageControl.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\UIGameStates.h">
+    <ClInclude Include="..\Game\Scripts\UIGameManager.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UITrigger.h">
@@ -957,6 +960,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActionsPowerUpScript.h">
       <Filter>UserScripts\PowerUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
