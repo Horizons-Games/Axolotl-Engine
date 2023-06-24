@@ -48,6 +48,11 @@ void ComponentSlider::Update()
 		{
 			if (actualClickHandlePosition.x != point.x)
 			{
+				ComponentTransform2D* transform = handle->GetComponent<ComponentTransform2D>();
+				float3 position = transform->GetPosition();
+				float motion = point.x - actualClickHandlePosition.x;
+				transform->SetPosition(float3(position.x + motion, position.y, position.z));
+				transform->CalculateMatrices();
 				actualClickHandlePosition = point;
 				OnHandleDragged();
 			}
