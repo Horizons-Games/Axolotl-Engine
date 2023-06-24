@@ -105,11 +105,11 @@ void WindowConsole::DrawMaxLengthSelection()
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	float buttonWidth = ImGui::CalcTextSize("XXX").x + style.FramePadding.x * 2.0f;
-	float buttonsWidth = (buttonWidth + style.ItemSpacing.x) * numButtons;
+	float buttonContainerWidth  = (buttonWidth + style.ItemSpacing.x) * numButtons;
 
 	float textWidth = ImGui::CalcTextSize(limitText).x + style.FramePadding.x * 2.0f;
 
-	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - buttonsWidth - textWidth);
+	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - buttonContainerWidth  - textWidth);
 
 	ImGui::TextUnformatted(limitText);
 	ImGui::SameLine();
