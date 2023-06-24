@@ -8,7 +8,8 @@ enum class DroneExplosionState
 {
 	NOTDEAD,
 	WAITTINGEXPLOSION,
-	EXPLOTING
+	EXPLOTING,
+	DEAD
 };
 
 class ComponentRigidBody;
