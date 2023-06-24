@@ -21,6 +21,7 @@ PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), a
 	REGISTER_FIELD(speedIncrease, float);
 	REGISTER_FIELD(maxPowerUpTimer, float);
 	REGISTER_FIELD(radiusSeeking, float);
+	REGISTER_FIELD(debugDraw, bool);
 }
 
 void PowerUpsManagerScript::Start()

@@ -62,7 +62,11 @@ void PowerUpLogicScript::Update(float deltaTime)
 			}
 		}
 #ifdef DEBUG
-		dd::sphere(ownerTransform->GetGlobalPosition(), dd::colors::Peru, radius);
+		if (powerUpManagerScript->GetDebugDraw())
+		{
+			dd::sphere(ownerTransform->GetGlobalPosition(), dd::colors::Peru, radius);
+
+		}
 #endif // DEBUG
 	}
 }

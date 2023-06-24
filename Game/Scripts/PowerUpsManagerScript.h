@@ -24,6 +24,7 @@ public:
 	const PowerUpType& GetActivePowerUpType() const;
 
 	const float GetRadiusSeeking();
+	const bool GetDebugDraw();
 
 private:
 	void EliminateCurrentPowerUpEffect();
@@ -37,6 +38,7 @@ private:
 	float currentPowerUpTimer;
 
 	float radiusSeeking;
+	bool debugDraw;
 
 	GameObject* player;
 
@@ -48,4 +50,9 @@ private:
 inline const float PowerUpsManagerScript::GetRadiusSeeking()
 {
 	return radiusSeeking;
+}
+
+inline const bool PowerUpsManagerScript::GetDebugDraw()
+{
+	return debugDraw;
 }
