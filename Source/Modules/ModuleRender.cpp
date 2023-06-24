@@ -238,7 +238,7 @@ UpdateStatus ModuleRender::Update()
 	GameObject* player = modulePlayer->GetPlayer(); // we can make all of this variables a class variable to save time
 
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::STOPPED)
 #else
 	if (player)
 #endif
