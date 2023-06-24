@@ -63,12 +63,16 @@ public:
 	void RenderAreaLights() const;
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
+	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
+	void RenderAreaTube(const ComponentAreaLight* compTube) const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
 	void UpdateSceneAreaSpheres();
 	void UpdateSceneAreaTubes();
+	void UpdateSceneAreaSphere(const ComponentAreaLight* compSphere);
+	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -135,6 +139,9 @@ private:
 	std::vector<SpotLight> spotLights;
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
+
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedSpheres;
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedTubes;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;

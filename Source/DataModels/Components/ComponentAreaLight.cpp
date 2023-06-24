@@ -66,30 +66,51 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 ComponentAreaLight::~ComponentAreaLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	
 	if (currentScene)
 	{
-		currentScene->UpdateSceneAreaLights();
-		currentScene->RenderAreaLights();
+		if (areaType == AreaType::SPHERE)
+		{
+			currentScene->UpdateSceneAreaSpheres();
+			currentScene->RenderAreaSpheres();
+		}
+		else
+		{
+			currentScene->UpdateSceneAreaTubes();
+			currentScene->RenderAreaTubes();
+		}
 	}
 }
 
 void ComponentAreaLight::SignalEnable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
+
+	if (areaType == AreaType::SPHERE)
 	{
-		currentScene->UpdateSceneAreaLights();
-		currentScene->RenderAreaLights();
+		currentScene->UpdateSceneAreaSpheres();
+		currentScene->RenderAreaSpheres();
+	}
+	else
+	{
+		currentScene->UpdateSceneAreaTubes();
+		currentScene->RenderAreaTubes();
 	}
 }
 
 void ComponentAreaLight::SignalDisable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
+
+	if (areaType == AreaType::SPHERE)
 	{
-		currentScene->UpdateSceneAreaLights();
-		currentScene->RenderAreaLights();
+		currentScene->UpdateSceneAreaSpheres();
+		currentScene->RenderAreaSpheres();
+	}
+	else
+	{
+		currentScene->UpdateSceneAreaTubes();
+		currentScene->RenderAreaTubes();
 	}
 }
 
@@ -149,17 +170,18 @@ void ComponentAreaLight::Draw() const
 
 void ComponentAreaLight::OnTransformChanged()
 {
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (areaType == AreaType::SPHERE)
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSpheres();
-		App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSpheres();
+		currentScene->UpdateSceneAreaSphere(this);
+		currentScene->RenderAreaSphere(this);
 	}
 	else
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTubes();
-		App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTubes();
+		currentScene->UpdateSceneAreaTube(this);
+		currentScene->RenderAreaTube(this);
 	}
-	
 }
 
 void ComponentAreaLight::InternalSave(Json& meta)

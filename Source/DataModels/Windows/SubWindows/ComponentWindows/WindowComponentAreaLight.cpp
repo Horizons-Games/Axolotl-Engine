@@ -185,13 +185,13 @@ void WindowComponentAreaLight::DrawWindowContents()
 
 			if (modifiedSphere)
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSpheres();
-				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSpheres();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSphere(asAreaLight);
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSphere(asAreaLight);
 			}
 			if (modifiedTube)
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTubes();
-				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTubes();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTube(asAreaLight);
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTube(asAreaLight);
 			}
 
 			ImGui::EndTable();

@@ -38,11 +38,9 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include <GL/glew.h>
-#include <stack>
-
 #include "Scripting/IScript.h"
 
+#include <GL/glew.h>
 #include <stack>
 
 Scene::Scene() :
@@ -751,6 +749,46 @@ void Scene::RenderAreaTubes() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
+void Scene::RenderAreaSphere(const ComponentAreaLight* compSphere) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedSpheres.size(); ++i)
+	{
+		if (cachedSpheres[i].first == compSphere)
+		{
+			found = true;
+
+			unsigned int pos = cachedSpheres[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere)*pos, sizeof(AreaLightSphere), 
+							&sphereLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
+void Scene::RenderAreaTube(const ComponentAreaLight* compTube) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedTubes.size(); ++i)
+	{
+		if (cachedTubes[i].first == compTube)
+		{
+			found = true;
+
+			unsigned int pos = cachedTubes[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * pos, sizeof(AreaLightTube),
+							&tubeLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
 void Scene::UpdateScenePointLights()
 {
 	pointLights.clear();
@@ -781,9 +819,7 @@ void Scene::UpdateSceneSpotLights()
 {
 	spotLights.clear();
 
-	std::vector<GameObject*> children = GetSceneGameObjects();
-
-	for (GameObject* child : children)
+	for (GameObject* child : sceneGameObjects)
 	{
 		if (child && child->IsActive())
 		{
@@ -810,10 +846,13 @@ void Scene::UpdateSceneAreaLights()
 {
 	sphereLights.clear();
 	tubeLights.clear();
+	cachedSpheres.clear();
+	cachedTubes.clear();
 
-	std::vector<GameObject*> children = GetSceneGameObjects();
+	unsigned int posSpheres = 0;
+	unsigned int posTubes = 0;
 
-	for (GameObject* child : children)
+	for (GameObject* child : sceneGameObjects)
 	{
 		if (child && child->IsActive())
 		{
@@ -833,6 +872,9 @@ void Scene::UpdateSceneAreaLights()
 					sl.attRadius = areaLightComp->GetAttRadius();
 
 					sphereLights.push_back(sl);
+					cachedSpheres.push_back(std::make_pair(areaLightComp, posSpheres));
+
+					++posSpheres;
 				}
 				else if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{
@@ -852,6 +894,9 @@ void Scene::UpdateSceneAreaLights()
 					tl.attRadius = areaLightComp->GetAttRadius();
 
 					tubeLights.push_back(tl);
+					cachedTubes.push_back(std::make_pair(areaLightComp, posTubes));
+
+					++posTubes;
 				}
 			}
 		}
@@ -861,10 +906,11 @@ void Scene::UpdateSceneAreaLights()
 void Scene::UpdateSceneAreaSpheres()
 {
 	sphereLights.clear();
+	cachedSpheres.clear();
 
-	std::vector<GameObject*> children = GetSceneGameObjects();
+	unsigned int pos = 0;
 
-	for (GameObject* child : children)
+	for (GameObject* child : sceneGameObjects)
 	{
 		if (child && child->IsActive())
 		{
@@ -884,6 +930,9 @@ void Scene::UpdateSceneAreaSpheres()
 					sl.attRadius = areaLightComp->GetAttRadius();
 
 					sphereLights.push_back(sl);
+					cachedSpheres.push_back(std::make_pair(areaLightComp, pos));
+
+					++pos;
 				}
 			}
 		}
@@ -893,10 +942,11 @@ void Scene::UpdateSceneAreaSpheres()
 void Scene::UpdateSceneAreaTubes()
 {
 	tubeLights.clear();
+	cachedTubes.clear();
 
-	std::vector<GameObject*> children = GetSceneGameObjects();
+	unsigned int pos = 0;
 
-	for (GameObject* child : children)
+	for (GameObject* child : sceneGameObjects)
 	{
 		if (child && child->IsActive())
 		{
@@ -923,8 +973,71 @@ void Scene::UpdateSceneAreaTubes()
 					tl.attRadius = areaLightComp->GetAttRadius();
 
 					tubeLights.push_back(tl);
+					cachedTubes.push_back(std::make_pair(areaLightComp, pos));
+
+					++pos;
 				}
 			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaSphere(const ComponentAreaLight* compSphere)
+{
+	bool found = false;
+	const GameObject* go = compSphere->GetOwner();
+	
+	for (int i = 0; i < !found && cachedSpheres.size(); ++i)
+	{
+		if (cachedSpheres[i].first == compSphere)
+		{
+			found = true;
+
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			float3 center = transform->GetGlobalPosition();
+			float radius = compSphere->GetShapeRadius();
+
+			unsigned int pos = cachedSpheres[i].second;
+			AreaLightSphere sl = sphereLights[pos];
+			sl.position = float4(center, radius);
+			sl.color = float4(compSphere->GetColor(), compSphere->GetIntensity());
+			sl.attRadius = compSphere->GetAttRadius();
+
+			sphereLights[pos] = sl;
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
+{
+	bool found = false;
+	const GameObject* go = compTube->GetOwner();
+
+	for (int i = 0; !found && i < cachedTubes.size(); ++i)
+	{
+		if (cachedTubes[i].first == compTube)
+		{
+			found = true;
+
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+
+			Quat matrixRotation = transform->GetGlobalRotation();
+			float3 translation = transform->GetGlobalPosition();
+			float3 pointA = float3(0, 0.5f, 0) * compTube->GetHeight();
+			float3 pointB = float3(0, -0.5f, 0) * compTube->GetHeight();
+
+			// Apply rotation & translation
+			pointA = (matrixRotation * pointA) + translation;
+			pointB = (matrixRotation * pointB) + translation;
+
+			unsigned int pos = cachedTubes[i].second;
+			AreaLightTube tl = tubeLights[pos];
+			tl.positionA = float4(pointA, compTube->GetShapeRadius());
+			tl.positionB = float4(pointB, compTube->GetShapeRadius());
+			tl.color = float4(compTube->GetColor(), compTube->GetIntensity());
+			tl.attRadius = compTube->GetAttRadius();
+
+			tubeLights[pos] = tl;
 		}
 	}
 }

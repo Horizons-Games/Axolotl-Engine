@@ -222,23 +222,6 @@ void WindowScene::DrawGuizmo()
 							scene->UpdateScenePointLights();
 							scene->RenderPointLights();
 							break;
-
-						case LightType::AREA:
-							const ComponentAreaLight* area = static_cast<const ComponentAreaLight*>(light);
-							const AreaType type = area->GetAreaType();
-
-							switch (type)
-							{
-							case AreaType::SPHERE:
-								scene->UpdateSceneAreaSpheres();
-								scene->RenderAreaSpheres();
-								break;
-
-							case AreaType::TUBE:
-								scene->UpdateSceneAreaTubes();
-								scene->RenderAreaTubes();
-								break;
-							}
 						}
 					}
 				}
