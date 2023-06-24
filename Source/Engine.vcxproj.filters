@@ -249,14 +249,8 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMockState.cpp">
-      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
       <Filter>DataModels\Components\UI</Filter>
@@ -741,14 +735,8 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMockState.h">
-      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
       <Filter>DataModels\Components\UI</Filter>
@@ -1361,14 +1349,8 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMockState.cpp">
-      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
       <Filter>DataModels\Components\UI</Filter>
@@ -1688,14 +1670,8 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMockState.h">
-      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
       <Filter>DataModels\Components\UI</Filter>
@@ -2021,14 +1997,8 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMockState.h">
-      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
       <Filter>DataModels\Components\UI</Filter>

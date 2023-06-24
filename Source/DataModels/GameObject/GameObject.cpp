@@ -12,7 +12,6 @@
 #include "DataModels/Components/ComponentLight.h"
 #include "DataModels/Components/ComponentMeshCollider.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
-#include "DataModels/Components/ComponentMockState.h"
 #include "DataModels/Components/ComponentPlayer.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
@@ -536,12 +535,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::BUTTON:
 		{
 			newComponent = std::make_unique<ComponentButton>(true, this);
-			break;
-		}
-
-		case ComponentType::MOCKSTATE:
-		{
-			newComponent = std::make_unique<ComponentMockState>(true, this);
 			break;
 		}
 

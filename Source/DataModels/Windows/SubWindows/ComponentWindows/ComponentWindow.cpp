@@ -18,7 +18,6 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMockStates.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
@@ -38,7 +37,6 @@
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
@@ -96,8 +94,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentAudioListener>(static_cast<ComponentAudioListener*>(component));
 			case ComponentType::MESHCOLLIDER:
 				return std::make_unique<WindowComponentMeshCollider>(static_cast<ComponentMeshCollider*>(component));
-			case ComponentType::MOCKSTATE:
-				return std::make_unique<WindowComponentMockStates>(static_cast<ComponentMockState*>(component));
 			case ComponentType::SCRIPT:
 				return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 			case ComponentType::CUBEMAP:

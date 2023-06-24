@@ -45,7 +45,6 @@ private:
 	void AddComponentAnimation();
 
 	void AddComponentRigidBody();
-	void AddComponentMockState();
 	void AddComponentAudioSource();
 	void AddComponentAudioListener();
 	void AddComponentMeshCollider();
