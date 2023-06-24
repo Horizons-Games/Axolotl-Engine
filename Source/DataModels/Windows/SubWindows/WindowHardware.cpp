@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowHardware.h"
 
 #include <cmath>

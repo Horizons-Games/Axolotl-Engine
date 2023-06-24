@@ -1,10 +1,12 @@
+#include "StdAfx.h"
+
 #include "ResourceSkyBox.h"
 
 #include "GL/glew.h"
 
-#include "Application.h"
 #include "DataModels/Resources/ResourceTexture.h"
-#include "FileSystem/ModuleResources.h"
+
+#include "AxoLog.h"
 
 ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 							   const std::string& fileName,

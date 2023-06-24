@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentCubemap.h"
 #include "Components/ComponentCubemap.h"
 #include "ModuleScene.h"

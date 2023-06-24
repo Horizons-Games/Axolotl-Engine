@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentSpotLight.h"
 
 #include "Application.h"

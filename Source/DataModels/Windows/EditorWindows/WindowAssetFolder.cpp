@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowAssetFolder.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"

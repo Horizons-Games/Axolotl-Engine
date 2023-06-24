@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentAudioSource.h"
 #include "Components/ComponentAudioSource.h"
 

@@ -1,7 +1,8 @@
+#include "StdAfx.h"
+
 #include "ComponentAnimation.h"
 #include "Application.h"
 #include "ComponentTransform.h"
-#include "Globals.h"
 
 #include "Animation/AnimationController.h"
 
@@ -13,8 +14,6 @@
 #include "ModuleInput.h"
 
 #include "GameObject/GameObject.h"
-
-#include "Math/float3.h"
 
 #include "debugdraw.h"
 

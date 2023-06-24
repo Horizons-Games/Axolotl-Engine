@@ -2,7 +2,7 @@
 
 #include "Components/ComponentPlayer.h"
 #include "ModuleInput.h"
-#include "ModuleScene.h";
+#include "ModuleScene.h"
 
 
 REGISTERCLASS(UIGameStates);

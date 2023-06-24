@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 
@@ -6,8 +8,6 @@
 
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
-
-#include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
 	Component(ComponentType::TRANSFORM, active, owner, false),

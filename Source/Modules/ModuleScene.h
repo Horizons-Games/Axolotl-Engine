@@ -3,7 +3,8 @@
 #include "Module.h"
 
 #include "FileSystem/Json.h"
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
+
 #include <map>
 
 class GameObject;
@@ -18,9 +19,9 @@ public:
 
 	bool Init() override;
 	bool Start() override;
-	update_status PreUpdate() override;
-	update_status Update() override;
-	update_status PostUpdate() override;
+	UpdateStatus PreUpdate() override;
+	UpdateStatus Update() override;
+	UpdateStatus PostUpdate() override;
 	bool CleanUp() override;
 
 	Scene* GetLoadedScene() const;
