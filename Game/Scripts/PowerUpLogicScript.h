@@ -7,7 +7,6 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
-class PlayerManagerScript;
 class PowerUpsManagerScript;
 
 enum class PowerUpType
