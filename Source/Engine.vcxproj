@@ -164,7 +164,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Game\Scripts\CatchPowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp" />
     <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp" />
@@ -518,7 +517,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Game\Scripts\CatchPowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
