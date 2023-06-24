@@ -16,6 +16,7 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/GBuffer/GBuffer.h"
 
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -120,18 +121,16 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 
 ModuleRender::ModuleRender() :
 	context(nullptr),
-	modelTypes({ "FBX" }),
 	frameBuffer(0),
 	renderedTexture(0),
-	depthStencilRenderbuffer(0),
-	vertexShader("default_vertex.glsl"),
-	fragmentShader("default_fragment.glsl")
+	depthStencilRenderBuffer(0)
 {
 }
 
 ModuleRender::~ModuleRender()
 {
 	delete batchManager;
+	delete gBuffer;
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
 }
@@ -151,9 +150,10 @@ bool ModuleRender::Init()
 
 	context = SDL_GL_CreateContext(window->GetWindow());
 
-	backgroundColor = float4(0.3f, 0.3f, 0.3f, 1.f);
+	backgroundColor = float4(0.f, 0.f, 0.f, 1.f);
 
 	batchManager = new BatchManager();
+	gBuffer = new GBuffer();
 
 	GLenum err = glewInit();
 	// check for errors
@@ -182,14 +182,10 @@ bool ModuleRender::Init()
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
 #endif // ENGINE
-	glGenRenderbuffers(1, &depthStencilRenderbuffer);
+	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
-
-	// Set the list of draw buffers.
-	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-	glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
 
 	//Reserve space for Camera matrix
 	glGenBuffers(1, &uboCamera);
@@ -208,19 +204,17 @@ UpdateStatus ModuleRender::PreUpdate()
 {
 	int width, height;
 
-	renderMapOpaque.clear();
-	renderMapTransparent.clear();
-
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
-
 	glViewport(0, 0, width, height);
 
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
+	
+	gameObjectsInFrustrum.clear();
+
+	gBuffer->BindFrameBuffer();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glStencilMask(0x00); // disable writing to the stencil buffer
+	glStencilMask(0x00); // disable writing to the stencil buffer 
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -231,23 +225,25 @@ UpdateStatus ModuleRender::Update()
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
 
-	gameObjectsInFrustrum.clear();
-
 	ModuleWindow* window = App->GetModule<ModuleWindow>();
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
 
-	GameObject* player = modulePlayer->GetPlayer();
-
 	Scene* loadedScene = scene->GetLoadedScene();
 
 	const Skybox* skybox = loadedScene->GetSkybox();
 
-	if (skybox)
+	GameObject* player = modulePlayer->GetPlayer(); // we can make all of this variables a class variable to save time
+
+#ifdef ENGINE
+	if (App->IsOnPlayMode())
+#else
+	if (player)
+#endif
 	{
-		skybox->Draw();
+		AddToRenderList(player);
 	}
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
@@ -262,19 +258,18 @@ UpdateStatus ModuleRender::Update()
 	{
 		AddToRenderList(nonStaticObj);
 	}
-	
-#ifndef ENGINE
-	AddToRenderList(App->GetModule<ModulePlayer>()->GetPlayer());
-#endif // !ENGINE
-
 	AddToRenderList(goSelected);
-	
-	// Bind camera info to the shaders
+
+	// Bind camera and cubemap info to the shaders
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
 
-	//AddToRenderList(goSelected);
-	
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(loadedScene->GetRootQuadtree());
@@ -283,28 +278,10 @@ UpdateStatus ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
-
-#ifdef ENGINE
-	if (App->IsOnPlayMode())
-	{
-		AddToRenderList(player);
-	}
-#else
-	if (player)
-	{
-		AddToRenderList(player);
-	}
-#endif // !ENGINE
-	
-	drawnGameObjects.clear();
-
-	// -------- SCENE BATCH RENDERING -----------
+	// -------- DEFERRED GEOMETRY -----------
 
 	// Draw opaque objects
-	glDepthFunc(GL_LEQUAL);
 	batchManager->DrawOpaque(false);
-
 	if (!App->IsOnPlayMode() && !isRoot)
 	{
 		// Draw selected opaque
@@ -315,10 +292,46 @@ UpdateStatus ModuleRender::Update()
 
 		batchManager->DrawOpaque(true);
 
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
+
+	// -------- DEFERRED LIGHTING ---------------
+
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // maybe we should move out this
+
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT);
+	program->Activate();
+
+	gBuffer->BindTexture();
+
+	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
+	program->BindUniformInt("renderMode", modeRender);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3); // maybe we should move out this
+
+	program->Deactivate();
+
+	int width, height;
+
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+
+	gBuffer->ReadFrameBuffer();
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+
+	// -------- PRE-FORWARD ----------------------
+
+	if (skybox)
+	{
+		skybox->Draw();
+	}
+
+	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
+
+	// -------- DEFERRED + FORWARD ---------------
 
 	// Draw Transparent objects
 	glEnable(GL_BLEND);
@@ -371,8 +384,6 @@ UpdateStatus ModuleRender::PostUpdate()
 {
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
@@ -383,12 +394,12 @@ bool ModuleRender::CleanUp()
 	SDL_GL_DeleteContext(context);
 
 	glDeleteBuffers(1, &uboCamera);
-	
+
 #ifdef ENGINE
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
 #endif // ENGINE
-	glDeleteRenderbuffers(1, &depthStencilRenderbuffer);
+	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 	return true;
 }
 
@@ -402,7 +413,15 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
+	gBuffer->InitGBuffer(width,height);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderBuffer);
+
 	glBindTexture(GL_TEXTURE_2D, renderedTexture);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
@@ -411,32 +430,14 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderbuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderbuffer);
-
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-bool ModuleRender::IsSupportedPath(const std::string& modelPath)
-{
-	bool valid = false;
-
-	std::string format = modelPath.substr(modelPath.size() - 3);
-	std::transform(format.begin(), format.end(), format.begin(), ::toupper);
-
-	if (std::find(modelTypes.begin(), modelTypes.end(), format) != modelTypes.end())
-	{
-		valid = true;
-	}
-
-	return valid;
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
@@ -581,7 +582,6 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
-	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
@@ -590,6 +590,14 @@ void ModuleRender::BindCameraToProgram(Program* program)
 
 	program->BindUniformFloat3("viewPos", viewPos);
 
+	program->Deactivate();
+}
+
+void ModuleRender::BindCubemapToProgram(Program* program)
+{
+	program->Activate();
+
+	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 	glActiveTexture(GL_TEXTURE8);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
 	glActiveTexture(GL_TEXTURE9);

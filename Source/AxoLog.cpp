@@ -26,7 +26,7 @@ void AxoLog::Write(const char file[], int line, LogSeverity severity, const std:
 	// meaning that there won't be any deadlocks if the mutex is attempted to be locked twice
 	std::scoped_lock lock(writeLock);
 
-	LogLine logLine{ severity, file, line, formattedLine };
+	LogLine logLine{ severity, file, static_cast<uint16_t>(line), formattedLine };
 	logLines.push_back(logLine);
 
 	std::string detailedString = logLine.ToDetailedString();

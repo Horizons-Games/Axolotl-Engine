@@ -177,6 +177,6 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 
 void ModuleCamera::RecalculateOrthoProjectionMatrix()
 {
-	std::pair<int, int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
-	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
+	std::pair<float, float> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
+	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, floor(region.first), floor(region.second));
 }

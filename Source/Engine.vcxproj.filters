@@ -455,6 +455,9 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
+      <Filter>DataModels\GBuffer</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -930,6 +933,13 @@
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\GBuffer\GBuffer.h">
+      <Filter>DataModels\GBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="FileSystem\UIDGenerator.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1094,6 +1104,9 @@
     </Filter>
     <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
       <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\GBuffer">
+      <UniqueIdentifier>{c1f9434a-5fe1-40ba-ab44-e447bf58d6ca}</UniqueIdentifier>
     </Filter>
     <Filter Include="Defines">
       <UniqueIdentifier>{6460271c-2e7f-45c7-b8e5-4e3a86769626}</UniqueIdentifier>

@@ -347,7 +347,8 @@ void WindowInspector::DrawTextureOptions()
 	if (ImGui::BeginTable("table1", 2))
 	{
 		ImGui::TableNextColumn();
-		ImGui::Image((void*) resourceTexture->GetGlTexture(), ImVec2(100, 100));
+		ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(resourceTexture->GetGlTexture())),
+					 ImVec2(100, 100));
 		ImGui::TableNextColumn();
 		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
 		ImGui::Text("Height %.2f", resourceTexture->GetHeight());

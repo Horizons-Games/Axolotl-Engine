@@ -147,17 +147,17 @@ inline ResourceType ResourceStateMachine::GetType() const
 
 inline unsigned int ResourceStateMachine::GetNumStates() const
 {
-	return states.size();
+	return static_cast<unsigned int>(states.size());
 }
 
 inline unsigned int ResourceStateMachine::GetNumTransitions() const
 {
-	return transitions.size();
+	return static_cast<unsigned int>(transitions.size());
 }
 
 inline unsigned int ResourceStateMachine::GetNumParameters() const
 {
-	return defaultParameters.size();
+	return static_cast<unsigned int>(defaultParameters.size());
 }
 
 inline State* ResourceStateMachine::GetState(size_t stateIndex) const
