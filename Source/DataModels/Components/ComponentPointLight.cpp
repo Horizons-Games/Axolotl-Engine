@@ -7,10 +7,10 @@
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
-	#include "Modules/ModuleDebugDraw.h"
-	#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+#include "Modules/ModuleEditor.h"
 
-	#include "Windows/WindowDebug.h"
+#include "Windows/WindowDebug.h"
 #endif // ENGINE
 
 #include "Application.h"
@@ -48,6 +48,7 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 ComponentPointLight::~ComponentPointLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateScenePointLights();
@@ -75,9 +76,21 @@ void ComponentPointLight::Draw() const
 	dd::sphere(position, dd::colors::White, radius);
 }
 
+void ComponentPointLight::OnTransformChanged()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLight(this);
+		currentScene->RenderPointLight(this);
+	}	
+}
+
 void ComponentPointLight::SignalEnable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateScenePointLights();
@@ -88,6 +101,7 @@ void ComponentPointLight::SignalEnable()
 void ComponentPointLight::SignalDisable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	
 	if (currentScene)
 	{
 		currentScene->UpdateScenePointLights();

@@ -199,32 +199,6 @@ void WindowScene::DrawGuizmo()
 						break;
 				}
 				focusedTransform->UpdateTransformMatrices();
-
-				for (Component* component : focusedObject->GetComponents())
-				{
-					if (component->GetType() == ComponentType::LIGHT)
-					{
-						Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
-						const ComponentLight* light = (ComponentLight*) component;
-
-						switch (light->GetLightType())
-						{
-						case LightType::DIRECTIONAL:
-							scene->RenderDirectionalLight();
-							break;
-
-						case LightType::SPOT:
-							scene->UpdateSceneSpotLights();
-							scene->RenderSpotLights();
-							break;
-
-						case LightType::POINT:
-							scene->UpdateScenePointLights();
-							scene->RenderPointLights();
-							break;
-						}
-					}
-				}
 			}
 
 			float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;

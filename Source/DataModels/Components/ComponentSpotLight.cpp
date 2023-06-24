@@ -7,10 +7,10 @@
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
-	#include "Modules/ModuleDebugDraw.h"
-	#include "Modules/ModuleEditor.h"
+#include "Modules/ModuleDebugDraw.h"
+#include "Modules/ModuleEditor.h"
 
-	#include "Windows/WindowDebug.h"
+#include "Windows/WindowDebug.h"
 #endif // ENGINE
 
 #include "Application.h"
@@ -62,6 +62,7 @@ ComponentSpotLight::ComponentSpotLight(
 ComponentSpotLight::~ComponentSpotLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateSceneSpotLights();
@@ -91,9 +92,21 @@ void ComponentSpotLight::Draw() const
 	dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 }
 
+void ComponentSpotLight::OnTransformChanged()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	if (currentScene)
+	{
+		currentScene->UpdateSceneSpotLight(this);
+		currentScene->RenderSpotLight(this);
+	}
+}
+
 void ComponentSpotLight::SignalEnable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateSceneSpotLights();
@@ -104,6 +117,7 @@ void ComponentSpotLight::SignalEnable()
 void ComponentSpotLight::SignalDisable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateSceneSpotLights();

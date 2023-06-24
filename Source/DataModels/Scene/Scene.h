@@ -63,6 +63,8 @@ public:
 	void RenderAreaLights() const;
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
+	void RenderPointLight(const ComponentPointLight* compPoint) const;
+	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
 	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
 	void RenderAreaTube(const ComponentAreaLight* compTube) const;
 
@@ -71,6 +73,8 @@ public:
 	void UpdateSceneAreaLights();
 	void UpdateSceneAreaSpheres();
 	void UpdateSceneAreaTubes();
+	void UpdateScenePointLight(const ComponentPointLight* compPoint);
+	void UpdateSceneSpotLight(const ComponentSpotLight* compSpot);
 	void UpdateSceneAreaSphere(const ComponentAreaLight* compSphere);
 	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
 
@@ -140,6 +144,8 @@ private:
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
 
+	std::vector<std::pair<const ComponentPointLight*, unsigned int>> cachedPoints;
+	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> cachedSpots;
 	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedSpheres;
 	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedTubes;
 
