@@ -7,6 +7,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
+class PlayerManagerScript;
+class PowerUpsManagerScript;
 
 enum class PowerUpType
 {
@@ -38,4 +40,9 @@ private:
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRb;
 	GameObject* powerUpsManager;
+	PowerUpsManagerScript* powerUpManagerScript;
+
+	ComponentTransform* playerTransform;
+
+	bool isSeeking;
 };
