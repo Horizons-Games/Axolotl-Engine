@@ -67,7 +67,7 @@ private:
 	{
 		LogSeverity severity;
 		std::string file;
-		uint16_t line;
+		unsigned int line;
 		std::string message;
 
 		std::string ToDetailedString(bool addBreak = true) const;

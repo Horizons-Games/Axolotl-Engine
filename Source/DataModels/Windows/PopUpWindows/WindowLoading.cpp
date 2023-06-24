@@ -43,28 +43,25 @@ bool WindowLoading::DrawSpinner(const char* label, float radius, int thickness, 
 	const ImRect bb(pos, ImVec2(pos.x + size.x, pos.y + size.y));
 	ImGui::ItemSize(bb, style.FramePadding.y);
 	if (!ImGui::ItemAdd(bb, id))
-	{
 		return false;
-	}
 
 	// Render
 	window->DrawList->PathClear();
 
-	float num_segments = 30;
-	int start = static_cast<int>(abs(ImSin(static_cast<float>(g.Time) * 1.8f) * (num_segments - 5)));
+	int num_segments = 30;
+	int start = abs(ImSin(g.Time * 1.8f) * (num_segments - 5));
 
-	const float a_min = IM_PI * 2.0f * (static_cast<float>(start)) / num_segments;
-	const float a_max = IM_PI * 2.0f * (num_segments - 3) / num_segments;
+	const float a_min = IM_PI * 2.0f * ((float) start) / (float) num_segments;
+	const float a_max = IM_PI * 2.0f * ((float) num_segments - 3) / (float) num_segments;
 
 	const ImVec2 centre = ImVec2(pos.x + radius, pos.y + radius + style.FramePadding.y);
 
-	for (float i = 0; i < num_segments; i++)
+	for (int i = 0; i < num_segments; i++)
 	{
-		const float a = a_min + (i / num_segments) * (a_max - a_min);
-		window->DrawList->PathLineTo(ImVec2(centre.x + ImCos(a + static_cast<float>(g.Time) * 8) * radius,
-											centre.y + ImSin(a + static_cast<float>(g.Time) * 8) * radius));
+		const float a = a_min + ((float) i / (float) num_segments) * (a_max - a_min);
+		window->DrawList->PathLineTo(
+			ImVec2(centre.x + ImCos(a + g.Time * 8) * radius, centre.y + ImSin(a + g.Time * 8) * radius));
 	}
 
-	window->DrawList->PathStroke(color, false, static_cast<float>(thickness));
-	return true;
+	window->DrawList->PathStroke(color, false, thickness);
 }

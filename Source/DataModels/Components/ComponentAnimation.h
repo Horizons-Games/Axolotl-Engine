@@ -13,12 +13,12 @@
 
 #define NON_STATE 9999
 
-class GameObject;
 class AnimationController;
 class ResourceAnimation;
 class ResourceStateMachine;
-struct State;
-struct Transition;
+class State;
+class Transition;
+class GameObject;
 
 class ComponentAnimation : public Component, public Drawable, public Updatable
 {

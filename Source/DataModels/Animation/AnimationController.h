@@ -5,7 +5,7 @@
 
 #include <memory>
 
-struct State;
+class State;
 class ResourceAnimation;
 
 class AnimationController

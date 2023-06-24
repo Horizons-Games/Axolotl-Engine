@@ -75,7 +75,7 @@ inline ResourceAnimation::Channel* ResourceAnimation::GetChannel(const std::stri
 
 inline unsigned int ResourceAnimation::GetNumChannels() const
 {
-	return static_cast<unsigned int>(channels.size());
+	return channels.size();
 }
 
 inline void ResourceAnimation::SetDuration(double duration)

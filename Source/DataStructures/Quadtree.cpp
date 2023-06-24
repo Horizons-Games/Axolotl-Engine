@@ -134,11 +134,10 @@ bool Quadtree::Remove(const GameObject* gameObject)
 	bool removed = false;
 	if (!IsLeaf())
 	{
-		// use bit-wise OR to prevent short-circuit evaluation
 		bool childrenRemovedObject = frontRightNode->Remove(gameObject);
-		childrenRemovedObject |= frontLeftNode->Remove(gameObject);
-		childrenRemovedObject |= backRightNode->Remove(gameObject);
-		childrenRemovedObject |= backLeftNode->Remove(gameObject);
+		childrenRemovedObject += frontLeftNode->Remove(gameObject);
+		childrenRemovedObject += backRightNode->Remove(gameObject);
+		childrenRemovedObject += backLeftNode->Remove(gameObject);
 
 		if (childrenRemovedObject)
 		{

@@ -553,7 +553,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />
     <ClInclude Include="Auxiliar\GameBuilder.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -592,7 +591,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
