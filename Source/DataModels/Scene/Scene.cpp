@@ -194,9 +194,19 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 		case ComponentType::SLIDER:
 		{
 			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
-			slider->SetBackground(CreateUIGameObject("Background", gameObject, ComponentType::IMAGE));
-			slider->SetFill(CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE));
-			slider->SetHandle(CreateUIGameObject("Handle", gameObject, ComponentType::BUTTON));
+			GameObject* background = CreateUIGameObject("Background", gameObject, ComponentType::IMAGE);
+			background->GetComponent<ComponentTransform2D>()->SetSize(float2(400, 50));
+			background->GetComponent<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
+			slider->SetBackground(background);
+			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
+			fill->GetComponent<ComponentTransform2D>()->SetSize(float2(400, 50));
+			ComponentImage* imageFill = fill->GetComponent<ComponentImage>();
+			imageFill->SetColor(float4(0.0f, 1.0f, 0.0f, 1.0f));
+			imageFill->SetRenderPercentage(slider->CalculateNormalizedValue());
+			slider->SetFill(fill);
+			GameObject* handle = CreateUIGameObject("Handle", gameObject, ComponentType::BUTTON);
+			handle->GetComponent<ComponentTransform2D>()->SetSize(float2(25, 60));
+			slider->SetHandle(handle);
 			break;
 		}
 		default:
