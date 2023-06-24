@@ -1,17 +1,16 @@
 #pragma once
-#include "Auxiliar/Generics/Updatable.h"
 #include "DataModels/Components/Component.h"
 
 #include "Math/float2.h"
 #include <memory>
 
-class ComponentSlider : public Component, public Updatable
+class ComponentSlider : public Component
 {
 public:
 	ComponentSlider(bool active, GameObject* owner);
 	~ComponentSlider() override;
 
-	void Update() override;
+	void CheckSlider();
 
 	void SaveOptions(Json& meta) override;
 	void LoadOptions(Json& meta) override;

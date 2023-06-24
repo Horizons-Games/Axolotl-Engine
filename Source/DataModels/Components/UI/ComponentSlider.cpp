@@ -26,7 +26,7 @@ ComponentSlider::~ComponentSlider()
 {
 }
 
-void ComponentSlider::Update()
+void ComponentSlider::CheckSlider()
 {
 	if (background == nullptr || handle == nullptr || fill == nullptr) return;
 
@@ -39,30 +39,17 @@ void ComponentSlider::Update()
 #else
 		float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
 #endif
-		if (!wasClicked)
+		ComponentTransform2D* handleTransform = button->GetOwner()->GetComponent<ComponentTransform2D>();
+		float centerWorldPoint =
+			(handleTransform->GetWorldAABB().maxPoint.x + handleTransform->GetWorldAABB().minPoint.x) / 2.0f;
+
+		if (centerWorldPoint != point.x)
 		{
-			actualClickHandlePosition = point;
-			wasClicked = true;
+			float3 handlePosition = handleTransform->GetPosition();
+			float motion = handlePosition.x + (point.x - centerWorldPoint);
+			handleTransform->SetPosition(float3(motion, handlePosition.y, handlePosition.z));
+			handleTransform->CalculateMatrices();
 		}
-		else
-		{
-			if (actualClickHandlePosition.x != point.x)
-			{
-				ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
-				ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
-				float3 handlePosition = handleTransform->GetPosition();
-				float3 backgroundPosition = backgroundTransform->GetGlobalPosition();
-				float motion = point.x - actualClickHandlePosition.x;
-				handleTransform->SetPosition(float3(handlePosition.x + motion, handlePosition.y, handlePosition.z));
-				handleTransform->CalculateMatrices();
-				actualClickHandlePosition = point;
-				OnHandleDragged();
-			}
-		}
-	}
-	else if (wasClicked)
-	{
-		wasClicked = false;
 	}
 }
 
