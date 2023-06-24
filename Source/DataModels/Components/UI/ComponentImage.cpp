@@ -23,7 +23,8 @@
 
 ComponentImage::ComponentImage(bool active, GameObject* owner) :
 	Component(ComponentType::IMAGE, active, owner, true),
-	color(float4(1.0f, 1.0f, 1.0f, 1.0f))
+	color(float4(1.0f, 1.0f, 1.0f, 1.0f)),
+	renderPercentage(1.0f)
 {
 }
 
@@ -63,6 +64,7 @@ void ComponentImage::Draw() const
 
 		glActiveTexture(GL_TEXTURE0);
 		program->BindUniformFloat4("spriteColor", GetFullColor());
+		program->BindUniformFloat("renderPercentage", renderPercentage);
 		if (image)
 		{
 			image->Load();
