@@ -3128,13 +3128,13 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 1.0,
+                            "boxSize_X": 3.5,
                             "boxSize_Y": 4.0,
                             "boxSize_Z": 0.5,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 3.5,
+                            "rbPos_X": 0.0,
                             "rbPos_Y": 4.0,
                             "rbPos_Z": -19.5
                         }
@@ -4056,7 +4056,7 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 1.5,
+                            "boxSize_X": 6.0,
                             "boxSize_Y": 4.0,
                             "boxSize_Z": 0.5,
                             "radius": 3.464101552963257,
@@ -4064,7 +4064,7 @@
                             "height": 2.0,
                             "rbPos_X": 5.000005722045898,
                             "rbPos_Y": 4.0,
-                            "rbPos_Z": 0.500002384185791
+                            "rbPos_Z": -3.5
                         }
                     }
                 ]
@@ -4520,7 +4520,7 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 1.5,
+                            "boxSize_X": 4.5,
                             "boxSize_Y": 4.0,
                             "boxSize_Z": 0.5,
                             "radius": 3.464101552963257,
@@ -4528,7 +4528,7 @@
                             "height": 2.0,
                             "rbPos_X": -3.999998092651367,
                             "rbPos_Y": 4.000056743621826,
-                            "rbPos_Z": 18.499998092651367
+                            "rbPos_Z": 14.5
                         }
                     }
                 ]
@@ -9230,7 +9230,7 @@
                             "removed": false,
                             "localPos_X": 39.5,
                             "localPos_Y": 12.0,
-                            "localPos_Z": -9.0,
+                            "localPos_Z": -9.5,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -9276,7 +9276,7 @@
                             "height": 2.0,
                             "rbPos_X": 38.0,
                             "rbPos_Y": 12.0,
-                            "rbPos_Z": -9.0
+                            "rbPos_Z": -9.5
                         }
                     }
                 ]
@@ -9325,7 +9325,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": false,
+                            "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -9336,13 +9336,13 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 11.0,
+                            "boxSize_X": 13.0,
                             "boxSize_Y": 8.0,
                             "boxSize_Z": 0.5,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 15.5,
+                            "rbPos_X": 19.5,
                             "rbPos_Y": 8.0,
                             "rbPos_Z": -9.5
                         }
@@ -9596,7 +9596,7 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 5.5,
+                            "boxSize_X": 9.5,
                             "boxSize_Y": 4.0,
                             "boxSize_Z": 0.5,
                             "radius": 3.464101552963257,
@@ -9604,7 +9604,7 @@
                             "height": 2.0,
                             "rbPos_X": 34.50000762939453,
                             "rbPos_Y": 12.0,
-                            "rbPos_Z": -23.4999942779541
+                            "rbPos_Z": -19.0
                         }
                     }
                 ]
@@ -13754,8 +13754,8 @@
                             "removed": true,
                             "meshUID": 5838496268976162218,
                             "assetPathMesh": "Assets/Meshes/Cube.mesh",
-                            "materialUID": 5838496268976162218,
-                            "assetPathMaterial": "Assets/Meshes/Cube.mesh"
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     },
                     {
@@ -15093,6 +15093,108 @@
                             "rbPos_X": 29.999977111816406,
                             "rbPos_Y": 24.25,
                             "rbPos_Z": -158.5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "WIN TRIGGER",
+                "tag": "",
+                "uid": 13854690290088862613,
+                "parentUID": 662664265048171825,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.5,
+                            "localPos_Y": 0.5,
+                            "localPos_Z": -26.999969482421875,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 5.0,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 4.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 29.999980926513672,
+                            "rbPos_Y": 16.75,
+                            "rbPos_Z": -160.49996948242188
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UITrigger",
+                            "fields": [
+                                {
+                                    "name": "IsWinTrigger",
+                                    "value": true,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsLoseTrigger",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsNextSceneTrigger",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsLoseByDamage",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetPlayer",
+                                    "value": 1653959188448536335,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DamageTaken",
+                                    "value": 1.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]
