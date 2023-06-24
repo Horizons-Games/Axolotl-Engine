@@ -206,6 +206,11 @@ update_status ModuleInput::Update()
 	{
 		App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
 	}
+
+	if (keysState[SDL_SCANCODE_F5] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->ChangeRenderMode();
+	}
 #endif
 
 	return update_status::UPDATE_CONTINUE;
