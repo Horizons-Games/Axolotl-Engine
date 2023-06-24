@@ -109,6 +109,8 @@ void ComponentImage::SaveOptions(Json& meta)
 	meta["color_y"] = static_cast<float>(color.y);
 	meta["color_z"] = static_cast<float>(color.z);
 	meta["color_w"] = static_cast<float>(color.w);
+
+	meta["renderPercentage"] = static_cast<float>(renderPercentage);
 }
 
 void ComponentImage::LoadOptions(Json& meta)
@@ -144,6 +146,8 @@ void ComponentImage::LoadOptions(Json& meta)
 	color.y = static_cast<float>(meta["color_y"]);
 	color.z = static_cast<float>(meta["color_z"]);
 	color.w = static_cast<float>(meta["color_w"]);
+
+	renderPercentage = static_cast<float>(meta["renderPercentage"]);
 }
 
 inline float4 ComponentImage::GetFullColor() const
