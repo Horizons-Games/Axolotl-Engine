@@ -32,6 +32,7 @@ void Skybox::Draw() const
 		{
 			skyboxRes->Load();
 		}
+		glDepthRange(0.999, 1.0);
 		glDepthMask(GL_FALSE);
 
 		program->Activate();
@@ -50,6 +51,7 @@ void Skybox::Draw() const
 		glBindVertexArray(0);
 		program->Deactivate();
 		glDepthMask(GL_TRUE);
+		glDepthRange(0.0, 1.0);
 	}
 }
 
