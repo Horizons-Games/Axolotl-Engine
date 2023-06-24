@@ -49,11 +49,14 @@ void DroneExplosionAttack::Update(float deltaTime)
 			attackState = DroneExplosionState::EXPLOTING;
 		}
 	}
-	else if (attackState == DroneExplosionState::EXPLOTING && targetPlayer)
+	else if (attackState == DroneExplosionState::EXPLOTING)
 	{
 		LOG_INFO("BOOOM");
-		targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
-		parentHealthSystem->TakeDamage(explosionDamage); 
+		if (targetPlayer)
+		{
+			targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
+		}
+		parentHealthSystem->TakeDamage(explosionDamage);
 		owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 		attackState = DroneExplosionState::DEAD;
 	}

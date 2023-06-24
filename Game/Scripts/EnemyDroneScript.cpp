@@ -171,6 +171,11 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		seekScript->RotateToTarget();
 	}
+
+	if (droneState == DroneBehaviours::EXPLOSIONATTACK)
+	{
+		seekScript->RotateToTarget();
+	}
 }
 
 DroneBehaviours EnemyDroneScript::GetDroneBehaviour() const
