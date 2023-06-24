@@ -3,7 +3,6 @@
 #include "DataModels/Components/Component.h"
 
 #include "Math/float4.h"
-#include <memory>
 
 class ResourceTexture;
 class ResourceMesh;

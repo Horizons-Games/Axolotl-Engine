@@ -2,11 +2,6 @@
 
 #include "Resource.h"
 
-#include "Math/Quat.h"
-#include "Math/float3.h"
-
-#include <unordered_map>
-
 class ResourceAnimation : virtual public Resource
 {
 public:
@@ -75,7 +70,7 @@ inline ResourceAnimation::Channel* ResourceAnimation::GetChannel(const std::stri
 
 inline unsigned int ResourceAnimation::GetNumChannels() const
 {
-	return channels.size();
+	return static_cast<unsigned int>(channels.size());
 }
 
 inline void ResourceAnimation::SetDuration(double duration)

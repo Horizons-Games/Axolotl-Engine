@@ -1,12 +1,11 @@
+#include "StdAfx.h"
+
 #include "ComponentRigidBody.h"
 #include "Application.h"
 #include "ComponentTransform.h"
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
 #include "Geometry/Sphere.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
-#include "Math/float4x4.h"
 #include "ModulePhysics.h"
 #include "debugdraw.h"
 #include <ImGui/imgui.h>
@@ -30,7 +29,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	currentShape = Shape::BOX;
 	motionState = std::make_unique<btDefaultMotionState>(startTransform);
 	shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
-	rigidBody = std::make_unique<btRigidBody>(100, motionState.get(), shape.get());
+	rigidBody = std::make_unique<btRigidBody>(100.f, motionState.get(), shape.get());
 
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
@@ -133,7 +132,7 @@ void ComponentRigidBody::Update()
 
 	if (!rigidBody->isStaticOrKinematicObject())
 	{
-		rigidBody->setCcdMotionThreshold(0.1);
+		rigidBody->setCcdMotionThreshold(0.1f);
 		rigidBody->setCcdSweptSphereRadius(0.1f);
 
 		btTransform trans;

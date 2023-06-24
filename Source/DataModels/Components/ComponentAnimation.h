@@ -5,20 +5,15 @@
 
 #include "Components/Component.h"
 
-#include "Math/float4x4.h"
 #include "Resources/ResourceStateMachine.h"
-#include <memory>
-#include <unordered_map>
-#include <vector>
 
 #define NON_STATE 9999
 
+class GameObject;
 class AnimationController;
 class ResourceAnimation;
-class ResourceStateMachine;
-class State;
-class Transition;
-class GameObject;
+struct State;
+struct Transition;
 
 class ComponentAnimation : public Component, public Drawable, public Updatable
 {

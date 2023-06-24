@@ -1,11 +1,5 @@
 #pragma once
 
-#include "Globals.h"
-
-#include <memory>
-#include <string>
-#include <vector>
-
 #ifndef ENGINE
 	#define LOG_INFO(...)	 // ignore it
 	#define LOG_VERBOSE(...) // ignore it
@@ -67,7 +61,7 @@ private:
 	{
 		LogSeverity severity;
 		std::string file;
-		unsigned int line;
+		uint16_t line;
 		std::string message;
 
 		std::string ToDetailedString(bool addBreak = true) const;

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "MaterialImporter.h"
 #include "Application.h"
 #include "DataModels/Resources/ResourceTexture.h"

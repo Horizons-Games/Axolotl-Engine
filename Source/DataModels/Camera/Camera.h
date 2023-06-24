@@ -1,32 +1,14 @@
 #pragma once
 
 #include "Geometry/Frustum.h"
-#include <map>
-#include <memory>
-#include <string>
 
-#include "Geometry/Frustum.h"
 #include "Geometry/Plane.h"
 #include "Math/Quat.h"
 #include "Math/float4x4.h"
+#include "Enums/EFrustumMode.h"
+#include "CameraDefines.h"
 
-enum class EFrustumMode
-{
-	normalFrustum,
-	offsetFrustum,
-	noFrustum
-};
 
-#define DEFAULT_MOVE_SPEED 9.f
-#define DEFAULT_ROTATION_DEGREE 30
-#define DEFAULT_ROTATION_SPEED 5.f
-#define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
-#define DEFAULT_MOUSE_ZOOM_SPEED 2.f
-#define DEFAULT_SHIFT_ACCELERATION 2.f
-#define DEFAULT_FRUSTUM_MODE EFrustumMode::normalFrustum
-#define DEFAULT_FRUSTUM_OFFSET 1.f
-#define DEFAULT_FRUSTUM_DISTANCE 20000.f
-#define DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE 2000.f
 enum class CameraType
 {
 	C_ENGINE,

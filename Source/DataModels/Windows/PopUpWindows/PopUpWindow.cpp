@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "DataModels/Windows/PopUpWindows/PopUpWindow.h"
 
 PopUpWindow::PopUpWindow(const std::string& name) : Window(name)

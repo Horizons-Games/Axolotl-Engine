@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "DataModels/Components/Component.h"
 
 #include "DataModels/GameObject/GameObject.h"

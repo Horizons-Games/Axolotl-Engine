@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentBreakable.h"
 #include "Components/ComponentBreakable.h"
 

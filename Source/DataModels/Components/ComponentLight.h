@@ -4,8 +4,6 @@
 
 #include "GameObject/GameObject.h"
 
-#include "Math/float3.h"
-
 enum class LightType 
 { 
 	UNKNOWN, 

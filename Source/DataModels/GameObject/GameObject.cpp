@@ -1,31 +1,34 @@
+#include "StdAfx.h"
+
 #include "GameObject.h"
 
-#include "../Components/ComponentAnimation.h"
-#include "../Components/ComponentAudioListener.h"
-#include "../Components/ComponentAudioSource.h"
-#include "../Components/ComponentBreakable.h"
-#include "../Components/ComponentCamera.h"
-#include "../Components/ComponentCubemap.h"
-#include "../Components/ComponentDirLight.h"
-#include "../Components/ComponentLight.h"
-#include "../Components/ComponentMeshCollider.h"
-#include "../Components/ComponentMeshRenderer.h"
-#include "../Components/ComponentMockState.h"
-#include "../Components/ComponentPlayer.h"
-#include "../Components/ComponentPointLight.h"
-#include "../Components/ComponentRigidBody.h"
-#include "../Components/ComponentScript.h"
-#include "../Components/ComponentSpotLight.h"
-#include "../Components/ComponentTransform.h"
-#include "../Components/UI/ComponentButton.h"
-#include "../Components/UI/ComponentCanvas.h"
-#include "../Components/UI/ComponentImage.h"
-#include "../Components/UI/ComponentTransform2D.h"
+#include "DataModels/Components/ComponentAnimation.h"
+#include "DataModels/Components/ComponentAudioListener.h"
+#include "DataModels/Components/ComponentAudioSource.h"
+#include "DataModels/Components/ComponentBreakable.h"
+#include "DataModels/Components/ComponentCamera.h"
+#include "DataModels/Components/ComponentCubemap.h"
+#include "DataModels/Components/ComponentDirLight.h"
+#include "DataModels/Components/ComponentLight.h"
+#include "DataModels/Components/ComponentMeshCollider.h"
+#include "DataModels/Components/ComponentMeshRenderer.h"
+#include "DataModels/Components/ComponentPlayer.h"
+#include "DataModels/Components/ComponentPointLight.h"
+#include "DataModels/Components/ComponentRigidBody.h"
+#include "DataModels/Components/ComponentScript.h"
+#include "DataModels/Components/ComponentSpotLight.h"
+#include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/UI/ComponentButton.h"
+#include "DataModels/Components/UI/ComponentCanvas.h"
+#include "DataModels/Components/UI/ComponentImage.h"
+#include "DataModels/Components/UI/ComponentTransform2D.h"
 
 #include "Application.h"
 
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
+
+#include "FileSystem/UIDGenerator.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -106,7 +109,7 @@ GameObject::~GameObject()
 
 void GameObject::Save(Json& meta)
 {
-	unsigned long long newParentUID = 0;
+	UID newParentUID = 0;
 	meta["name"] = name.c_str();
 	meta["tag"] = tag.c_str();
 	meta["uid"] = uid;
@@ -532,12 +535,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::BUTTON:
 		{
 			newComponent = std::make_unique<ComponentButton>(true, this);
-			break;
-		}
-
-		case ComponentType::MOCKSTATE:
-		{
-			newComponent = std::make_unique<ComponentMockState>(true, this);
 			break;
 		}
 

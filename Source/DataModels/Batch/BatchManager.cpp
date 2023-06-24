@@ -1,10 +1,12 @@
+#include "StdAfx.h"
+
 #include "BatchManager.h"
 
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
 
-#include <assert.h>
+#include "GeometryBatch.h"
 
 BatchManager::BatchManager()
 {
@@ -74,10 +76,19 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 		{
 			flags |= HAS_SPECULAR;
 		}
+		if (material->IsTransparent())
+		{
+			flags |= HAS_TRANSPARENCY;
+		}
+		else
+		{
+			flags |= HAS_OPAQUE;
+		}
 	}
 	else
 	{
 		flags |= HAS_METALLIC;
+		flags |= HAS_OPAQUE;
 	}
 
 	//verify if it's transparent or opaque

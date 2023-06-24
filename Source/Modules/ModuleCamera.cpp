@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Application.h"
 
 #include "ModuleCamera.h"
@@ -7,6 +9,7 @@
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentCamera.h"
 
@@ -54,7 +57,7 @@ bool ModuleCamera::Start()
 	return true;
 }
 
-update_status ModuleCamera::Update()
+UpdateStatus ModuleCamera::Update()
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
@@ -89,7 +92,7 @@ update_status ModuleCamera::Update()
 
 	selectedCamera->Update();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleCamera::ChangeCamera(CameraType newType)
@@ -174,6 +177,6 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 
 void ModuleCamera::RecalculateOrthoProjectionMatrix()
 {
-	std::pair<int, int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
-	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
+	std::pair<float, float> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
+	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, floor(region.first), floor(region.second));
 }

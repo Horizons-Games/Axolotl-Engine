@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleDebugDraw.h"
 
 #define DEBUG_DRAW_IMPLEMENTATION
@@ -605,13 +607,13 @@ bool ModuleDebugDraw::CleanUp()
 	return true;
 }
 
-update_status ModuleDebugDraw::Update()
+UpdateStatus ModuleDebugDraw::Update()
 {
 #ifdef ENGINE
 	dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 #endif // ENGINE
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height)

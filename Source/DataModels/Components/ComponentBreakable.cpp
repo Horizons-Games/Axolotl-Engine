@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentBreakable.h"
 
 #include "GameObject/GameObject.h"
@@ -5,7 +7,6 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "FileSystem/Json.h"
-#include "Globals.h"
 
 ComponentBreakable::ComponentBreakable(const bool active, GameObject* owner) :
 	Component(ComponentType::BREAKABLE, active, owner, true)

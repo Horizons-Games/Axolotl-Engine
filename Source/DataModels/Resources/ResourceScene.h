@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Resource.h"
-#include <memory>
 
 struct OptionsScene
 {

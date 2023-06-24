@@ -1,6 +1,6 @@
-#include "WindowConsole.h"
+#include "StdAfx.h"
 
-#include <ranges>
+#include "WindowConsole.h"
 
 namespace
 {

@@ -1,8 +1,12 @@
+#include "StdAfx.h"
+
 #include "MeshImporter.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceMesh.h"
+
+#include "Defines/ExtensionDefines.h"
 
 MeshImporter::MeshImporter()
 {
@@ -49,7 +53,7 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*& fi
 
 	for (unsigned int i = 0; i < resource->GetNumBones(); ++i)
 	{
-		size += resource->GetBones()[i].name.size();
+		size += static_cast<unsigned int>(resource->GetBones()[i].name.size());
 		size += resource->GetNumWeights()[i] * (sizeof(unsigned int) + sizeof(float));
 	}
 
@@ -110,7 +114,7 @@ void MeshImporter::Save(const std::shared_ptr<ResourceMesh>& resource, char*& fi
 		cursor += bytes;
 
 		bytes = sizeof(unsigned int);
-		unsigned int sizeNameHeader = resource->GetBones()[i].name.size();
+		unsigned int sizeNameHeader = static_cast<unsigned int>(resource->GetBones()[i].name.size());
 		memcpy(cursor, &sizeNameHeader, bytes);
 
 		cursor += bytes;

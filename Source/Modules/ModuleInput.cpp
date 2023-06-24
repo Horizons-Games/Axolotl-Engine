@@ -1,15 +1,17 @@
-#include "ModuleInput.h"
+#include "StdAfx.h"
+
+#include "Modules/ModuleInput.h"
+
 #include "Application.h"
-#include "Globals.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
-#include "ModulePlayer.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleUI.h"
 #include "Scene/Scene.h"
 #include "Windows/WindowMainMenu.h"
 #include "imgui_impl_sdl.h"
+#include "AxoLog.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -55,7 +57,7 @@ bool ModuleInput::Init()
 	return true;
 }
 
-update_status ModuleInput::Update()
+UpdateStatus ModuleInput::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
@@ -109,7 +111,7 @@ update_status ModuleInput::Update()
 		switch (sdlEvent.type)
 		{
 			case SDL_QUIT:
-				return update_status::UPDATE_STOP;
+				return UpdateStatus::UPDATE_STOP;
 
 			case SDL_WINDOWEVENT:
 				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED ||
@@ -206,9 +208,14 @@ update_status ModuleInput::Update()
 	{
 		App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
 	}
+
+	if (keysState[SDL_SCANCODE_F5] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->ChangeRenderMode();
+	}
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleInput::CleanUp()

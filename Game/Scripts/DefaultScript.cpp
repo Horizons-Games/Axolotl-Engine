@@ -1,5 +1,7 @@
 #include "DefaultScript.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(DefaultScript);
 
 DefaultScript::DefaultScript() : Script(), value(10), vec3(2.1f, 1.2f, 1.4f), sentence("Horizons"), character(nullptr), check(true)

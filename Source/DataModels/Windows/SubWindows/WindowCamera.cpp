@@ -1,8 +1,12 @@
+#include "StdAfx.h"
+
 #include "WindowCamera.h"
 
 #include "Application.h"
 #include "ModuleCamera.h"
 #include "ModuleRender.h"
+
+#include "Camera/Camera.h"
 
 WindowCamera::WindowCamera() : SubWindow("Camera")
 {

@@ -24,7 +24,7 @@ public:
 	~ModuleInput() override;
 
 	bool Init() override;
-	update_status Update() override;
+	UpdateStatus Update() override;
 	bool CleanUp() override;
 
 	KeyState GetKey(int scanCode) const;

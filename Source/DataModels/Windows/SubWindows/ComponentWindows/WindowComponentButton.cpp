@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentButton.h"
 
 #include "Components/UI/ComponentButton.h"

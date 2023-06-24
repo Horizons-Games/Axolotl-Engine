@@ -2,7 +2,7 @@
 
 #include "EditorWindow.h"
 
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 
 class Model;
 class GameObject;
@@ -45,7 +45,6 @@ private:
 	void AddComponentAnimation();
 
 	void AddComponentRigidBody();
-	void AddComponentMockState();
 	void AddComponentAudioSource();
 	void AddComponentAudioListener();
 	void AddComponentMeshCollider();

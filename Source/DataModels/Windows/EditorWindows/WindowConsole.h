@@ -1,9 +1,6 @@
 #pragma once
 #include "EditorWindow.h"
 
-#include <map>
-#include <deque>
-
 class WindowConsole : public EditorWindow
 {
 public:

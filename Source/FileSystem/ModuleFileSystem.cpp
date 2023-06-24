@@ -1,9 +1,8 @@
+#include "StdAfx.h"
+
 #include "ModuleFileSystem.h"
 #include "physfs.h"
 #include "zip.h"
-#ifndef ENGINE
-	#include <assert.h>
-#endif
 
 ModuleFileSystem::ModuleFileSystem()
 {
@@ -31,6 +30,16 @@ bool ModuleFileSystem::Init()
 	PHYSFS_unmount(".");
 #endif // GAME
 	return true;
+}
+
+bool ModuleFileSystem::CleanUp()
+{
+#ifdef ENGINE
+	logContext->StopWritingToFile();
+#endif // ENGINE
+	// returns non-zero on success, zero on failure
+	int deinitResult = PHYSFS_deinit();
+	return deinitResult != 0;
 }
 
 void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
@@ -110,7 +119,7 @@ unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) 
 
 unsigned int ModuleFileSystem::Save(const std::string& filePath,
 									const void* buffer,
-									unsigned int size,
+									size_t size,
 									bool append /*= false*/) const
 {
 	PHYSFS_File* file = append ? PHYSFS_openAppend(filePath.c_str()) : PHYSFS_openWrite(filePath.c_str());
@@ -120,7 +129,7 @@ unsigned int ModuleFileSystem::Save(const std::string& filePath,
 		PHYSFS_close(file);
 		return 1;
 	}
-	if (PHYSFS_writeBytes(file, buffer, size) < size)
+	if (PHYSFS_writeBytes(file, buffer, size) < static_cast<PHYSFS_sint64>(size))
 	{
 		LOG_ERROR("Physfs has error {{}} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
@@ -324,7 +333,7 @@ void ModuleFileSystem::ZipLibFolder() const
 void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath,
 										 const std::string& newFileName,
 										 const void* buffer,
-										 unsigned int size,
+										 size_t size,
 										 bool overwriteIfExists) const
 {
 	if (overwriteIfExists)
