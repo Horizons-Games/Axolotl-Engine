@@ -195,7 +195,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
-				resourceMaterial->GetNormalStrength()
+				static_cast<uint64_t>(resourceMaterial->GetNormalStrength())
 			};
 
 			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
@@ -814,7 +814,7 @@ int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resource
 		instanceData.push_back(index);
 	}
 	
-	return instanceData.size() - 1;
+	return static_cast<int>(instanceData.size()) - 1;
 }
 
 GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const std::shared_ptr<ResourceMesh> mesh)

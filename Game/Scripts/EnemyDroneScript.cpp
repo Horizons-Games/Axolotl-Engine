@@ -18,7 +18,8 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE)
+	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0), stunned(false),
+	lastDroneState(DroneBehaviours::IDLE)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -49,6 +50,20 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (stunned)
+	{
+		if(timeStunned < 0)
+		{
+			timeStunned = 0;
+			stunned = false;
+		}
+		else
+		{
+			timeStunned -= deltaTime;
+			return;
+		}
+	}
+
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
@@ -192,4 +207,10 @@ void EnemyDroneScript::CalculateNextPosition() const
 	nextPosition += seekTargetTransform->GetGlobalPosition();
 	nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
 	attackScript->Reposition(nextPosition);
+}
+
+void EnemyDroneScript::SetStunnedTime(float newTime)
+{
+	stunned = true;
+	timeStunned = newTime;
 }

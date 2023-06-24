@@ -37,6 +37,7 @@ public:
 
 	DroneBehaviours GetDroneBehaviour() const;
 	float3 GetSeekTargetPosition() const;
+	void SetStunnedTime(float newTime);
 
 private:
 	void CalculateNextPosition() const;
@@ -46,6 +47,8 @@ private:
 
 	float attackDistance;
 	float seekDistance;
+	float timeStunned;
+	bool stunned;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;

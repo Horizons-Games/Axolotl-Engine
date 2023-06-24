@@ -479,6 +479,9 @@
     <ClCompile Include="..\Game\Scripts\DroneExplosionAttack.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -970,7 +973,14 @@
     <ClInclude Include="..\Game\Scripts\DroneExplosionAttack.h">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
-  </ItemGroup>
+    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+</ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
       <UniqueIdentifier>{9b9c67b8-fd2e-4214-873c-555832194d39}</UniqueIdentifier>
