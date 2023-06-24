@@ -39,9 +39,6 @@ private:
 	GameObject* fill;
 	GameObject* handle;
 
-	bool wasClicked;
-	float2 actualClickHandlePosition;
-
 	float maxValue = 100.0f;
 	float minValue = 0.0f;
 

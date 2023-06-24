@@ -17,8 +17,7 @@ ComponentSlider::ComponentSlider(bool active, GameObject* owner) :
 	Component(ComponentType::SLIDER, active, owner, true),
 	background(nullptr),
 	fill(nullptr),
-	handle(nullptr),
-	wasClicked(false)
+	handle(nullptr)
 {
 }
 
@@ -39,16 +38,32 @@ void ComponentSlider::CheckSlider()
 #else
 		float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
 #endif
-		ComponentTransform2D* handleTransform = button->GetOwner()->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
 		float centerWorldPoint =
 			(handleTransform->GetWorldAABB().maxPoint.x + handleTransform->GetWorldAABB().minPoint.x) / 2.0f;
 
 		if (centerWorldPoint != point.x)
 		{
+			ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
+			bool insideBackground = backgroundTransform->GetWorldAABB().maxPoint.x >= point.x &&
+									backgroundTransform->GetWorldAABB().minPoint.x <= point.x;
 			float3 handlePosition = handleTransform->GetPosition();
-			float motion = handlePosition.x + (point.x - centerWorldPoint);
+			float motion;
+
+			if (insideBackground)
+			{
+				motion = handlePosition.x + (point.x - centerWorldPoint);
+			}
+			else
+			{
+				backgroundTransform->GetWorldAABB().minPoint.x > point.x
+					? motion = handlePosition.x + (backgroundTransform->GetWorldAABB().minPoint.x - centerWorldPoint)
+					: motion = handlePosition.x + (backgroundTransform->GetWorldAABB().maxPoint.x - centerWorldPoint);
+			}
+
 			handleTransform->SetPosition(float3(motion, handlePosition.y, handlePosition.z));
 			handleTransform->CalculateMatrices();
+			OnHandleDragged();
 		}
 	}
 }
