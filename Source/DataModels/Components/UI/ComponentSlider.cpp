@@ -1,6 +1,7 @@
 #include "ComponentSlider.h"
 #include "ComponentTransform2D.h"
 #include "ComponentButton.h"
+#include "ComponentImage.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -73,26 +74,36 @@ void ComponentSlider::LoadOptions(Json& meta)
 	canBeRemoved = static_cast<bool>(meta["removed"]);
 }
 
+void ComponentSlider::SetMaxValue(float maxValue)
+{
+	this->maxValue = maxValue;
+	if (currentValue > maxValue)
+	{
+		currentValue = maxValue;
+	}
+	OnHandleDragged();
+}
+
+void ComponentSlider::SetMinValue(float minValue)
+{
+	this->minValue = minValue;
+	if (currentValue < minValue)
+	{
+		currentValue = minValue;
+	}
+	OnHandleDragged();
+}
+
 void ComponentSlider::ModifyCurrentValue(float currentValue)
 {
 	this->currentValue = currentValue;
-	CalculateNormalizedValue();
 	OnHandleDragged();
 }
 
 void ComponentSlider::OnHandleDragged()
 {
-	LOG_DEBUG("SLIDER MOVED");
-}
-
-void ComponentSlider::CalculateNormalizedValue()
-{
-	if (maxValue - minValue == 0)
+	if (fill != nullptr)
 	{
-		normalizedValue = 0;
-	}
-	else
-	{
-		normalizedValue = (currentValue - minValue) / (maxValue - minValue);
+		fill->GetComponent<ComponentImage>()->SetRenderPercentage(CalculateNormalizedValue());
 	}
 }

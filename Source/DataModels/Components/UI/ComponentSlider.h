@@ -19,6 +19,10 @@ public:
 	float GetMaxValue() const;
 	float GetMinValue() const;
 	float GetCurrentValue() const;
+	float CalculateNormalizedValue() const;
+
+	void SetMaxValue(float maxValue);
+	void SetMinValue(float minValue);
 
 	void SetBackground(GameObject* background);
 	void SetFill(GameObject* fill);
@@ -29,7 +33,6 @@ public:
 private:
 
 	void OnHandleDragged();
-	void CalculateNormalizedValue();
 
 	GameObject* background;
 	GameObject* fill;
@@ -42,7 +45,6 @@ private:
 	float minValue = 0.0f;
 
 	float currentValue = 50.0f;
-	float normalizedValue = 0.5f;
 };
 
 inline float ComponentSlider::GetMaxValue() const
@@ -58,6 +60,16 @@ inline float ComponentSlider::GetMinValue() const
 inline float ComponentSlider::GetCurrentValue() const
 {
 	return currentValue;
+}
+
+inline float ComponentSlider::CalculateNormalizedValue() const
+{
+	float normalizedValue = 0.0f;
+	if (maxValue - minValue != 0)
+	{
+		normalizedValue = (currentValue - minValue) / (maxValue - minValue);
+	};
+	return normalizedValue;
 }
 
 inline void ComponentSlider::SetBackground(GameObject* background)
