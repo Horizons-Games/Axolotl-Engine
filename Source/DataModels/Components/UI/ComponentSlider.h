@@ -34,6 +34,8 @@ private:
 
 	void OnHandleDragged();
 
+	void SaveGameObject(Json& meta, const char* name, GameObject* go);
+	GameObject* LoadGameObject(Json& meta, const char* name);
 	GameObject* background;
 	GameObject* fill;
 	GameObject* handle;

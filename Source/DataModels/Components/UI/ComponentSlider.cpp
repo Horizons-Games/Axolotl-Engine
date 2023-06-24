@@ -5,6 +5,8 @@
 
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 #include "Physics/Physics.h"
 
 #include "GameObject/GameObject.h"
@@ -64,6 +66,13 @@ void ComponentSlider::SaveOptions(Json& meta)
 	meta["active"] = static_cast<bool>(active);
 	meta["removed"] = static_cast<bool>(canBeRemoved);
 
+	SaveGameObject(meta, "background", background);
+	SaveGameObject(meta, "fill", fill);
+	SaveGameObject(meta, "handle", handle);
+
+	meta["minValue"] = minValue;
+	meta["maxValue"] = maxValue;
+	meta["currentValue"] = currentValue;
 }
 
 void ComponentSlider::LoadOptions(Json& meta)
@@ -72,6 +81,14 @@ void ComponentSlider::LoadOptions(Json& meta)
 	type = GetTypeByName(meta["type"]);
 	active = static_cast<bool>(meta["active"]);
 	canBeRemoved = static_cast<bool>(meta["removed"]);
+
+	background = LoadGameObject(meta, "background");
+	fill = LoadGameObject(meta, "fill");
+	handle = LoadGameObject(meta, "handle");
+
+	minValue = static_cast<float>(meta["minValue"]);
+	maxValue = static_cast<float>(meta["maxValue"]);
+	ModifyCurrentValue(static_cast<float>(meta["currentValue"]));
 }
 
 void ComponentSlider::SetMaxValue(float maxValue)
@@ -106,4 +123,35 @@ void ComponentSlider::OnHandleDragged()
 	{
 		fill->GetComponent<ComponentImage>()->SetRenderPercentage(CalculateNormalizedValue());
 	}
+}
+
+void ComponentSlider::SaveGameObject(Json& meta, const char* name, GameObject* go)
+{
+	if (go != nullptr)
+	{
+		meta[name] = go->GetUID();
+	}
+	else
+	{
+		meta[name] = 0;
+	}
+}
+
+GameObject* ComponentSlider::LoadGameObject(Json& meta, const char* name)
+{
+	UID uid = meta[name];
+	if (uid != 0)
+	{
+		UID newUID;
+		if (App->GetModule<ModuleScene>()->hasNewUID(uid, newUID))
+		{
+			return App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newUID);
+		}
+		else
+		{
+			return App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(uid);
+		}
+	}
+
+	return nullptr;
 }
