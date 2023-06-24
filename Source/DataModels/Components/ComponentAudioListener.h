@@ -12,15 +12,14 @@ public:
 
 	void OnTransformChanged() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
-	void Enable();
-	void Disable();
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+	void SignalEnable() override;
+	void SignalDisable() override;
 
 private:
 	uint64_t listenerID;
 	AkTransform listenerTransform;
 	ComponentTransform* transform;
-
 };

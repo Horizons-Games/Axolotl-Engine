@@ -1,11 +1,11 @@
 #pragma once
-#include "Component.h"
 #include "Auxiliar/Generics/Drawable.h"
 #include "Auxiliar/Generics/Updatable.h"
+#include "Component.h"
 
 #include "Geometry/Frustum.h"
-#include "Geometry/Plane.h"
 #include "Geometry/OBB.h"
+#include "Geometry/Plane.h"
 
 /*
 enum class ECameraFrustumMode
@@ -33,20 +33,19 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	CameraGameObject* GetCamera();
 
 	void DuplicateCamera(CameraGameObject* camera);
 
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
-	std::unique_ptr <CameraGameObject> camera;
+	std::unique_ptr<CameraGameObject> camera;
 };
 
 inline CameraGameObject* ComponentCamera::GetCamera()
 {
 	return camera.get();
 }
-

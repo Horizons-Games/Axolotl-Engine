@@ -27,10 +27,11 @@ public:
 	bool IsCompiling();
 	bool IsCompiled();
 	std::vector<const char*> GetConstructors();
+
 private:
 	void IncludeDirs();
 
-	//Runtime Systems
+	// Runtime Systems
 	ICompilerLogger* pCompilerLogger;
 	IRuntimeObjectSystem* pRuntimeObjectSystem;
 

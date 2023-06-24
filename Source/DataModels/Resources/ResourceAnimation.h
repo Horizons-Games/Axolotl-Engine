@@ -2,38 +2,37 @@
 
 #include "Resource.h"
 
-#include "Math/float3.h"
 #include "Math/Quat.h"
+#include "Math/float3.h"
 
 #include <unordered_map>
-
 
 class ResourceAnimation : virtual public Resource
 {
 public:
-struct Channel
-{
-	std::vector<float3> positions;
-	std::vector<Quat> rotations;
-};
+	struct Channel
+	{
+		std::vector<float3> positions;
+		std::vector<Quat> rotations;
+	};
 
 public:
 	ResourceAnimation(UID resourceId,
-		const std::string& fileName,
-		const std::string& assetsPath,
-		const std::string& libraryPath);
+					  const std::string& fileName,
+					  const std::string& assetsPath,
+					  const std::string& libraryPath);
 	~ResourceAnimation() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void SaveLoadOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void SaveLoadOptions(Json& meta) override{};
 
-	void LoadImporterOptions(Json& meta) override {};
-	void LoadLoadOptions(Json& meta) override {};
+	void LoadImporterOptions(Json& meta) override{};
+	void LoadLoadOptions(Json& meta) override{};
 
 	std::unordered_map<std::string, Channel*> GetChannels() const;
-	Channel* GetChannel(const std::string &name) const;
+	Channel* GetChannel(const std::string& name) const;
 	unsigned int GetNumChannels() const;
 	double GetDuration() const;
 
@@ -41,7 +40,7 @@ public:
 	void SetChannels(const std::unordered_map<std::string, ResourceAnimation::Channel*>& channels);
 
 protected:
-	void InternalLoad() override {};
+	void InternalLoad() override{};
 	void InternalUnload() override;
 
 private:
@@ -76,7 +75,7 @@ inline ResourceAnimation::Channel* ResourceAnimation::GetChannel(const std::stri
 
 inline unsigned int ResourceAnimation::GetNumChannels() const
 {
-	return channels.size();
+	return static_cast<unsigned int>(channels.size());
 }
 
 inline void ResourceAnimation::SetDuration(double duration)

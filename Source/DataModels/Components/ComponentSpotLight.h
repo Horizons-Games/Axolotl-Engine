@@ -20,17 +20,19 @@ public:
 	ComponentSpotLight();
 	ComponentSpotLight(const ComponentSpotLight& componentSpotLight);
 	ComponentSpotLight(GameObject* parent);
-	ComponentSpotLight(float radius, float innerAngle, float outerAngle, 
-					   const float3& color, float intensity);
-	ComponentSpotLight(float radius, float innerAngle, float outerAngle,
-					   const float3& color, float intensity, GameObject* parent);
+	ComponentSpotLight(float radius, float innerAngle, float outerAngle, const float3& color, float intensity);
+	ComponentSpotLight(
+		float radius, float innerAngle, float outerAngle, const float3& color, float intensity, GameObject* parent);
 
 	~ComponentSpotLight() override;
 
 	void Draw() const override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void SignalEnable() override;
+	void SignalDisable() override;
+
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	float GetRadius() const;
 	float GetInnerAngle() const;

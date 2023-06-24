@@ -1,6 +1,7 @@
 #pragma once
-
 #include "EditorWindow.h"
+
+#include <map>
 
 class WindowConsole : public EditorWindow
 {
@@ -12,6 +13,10 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	std::vector<std::string> consoleContents;
-};
+	void DrawOptionsMenu();
+	void DrawConsole();
 
+	std::vector<AxoLog::LogLine> consoleContents;
+	std::map<LogSeverity, bool> severityFilters;
+	std::map<LogSeverity, ImVec4> severityColors;
+};

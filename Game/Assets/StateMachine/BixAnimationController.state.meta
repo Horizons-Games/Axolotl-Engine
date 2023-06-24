@@ -1,0 +1,17 @@
+{
+    "UID": 13450203144240708209,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/Bix_v11.Attack.anim",
+        "Assets/Animation/Bix_v11.Death.anim",
+        "Assets/Animation/Bix_v11.IdleArmed.anim",
+        "Assets/Animation/Bix_v11.IdleDisarmed.anim",
+        "Assets/Animation/Bix_v11.Jump.anim",
+        "Assets/Animation/Bix_v11.ReceiveDamage.anim",
+        "Assets/Animation/Bix_v11.Running.anim",
+        "Assets/Animation/Bix_v11.Roll.anim",
+        "Assets/Animation/Bix_v11.UseForce.anim",
+        "Assets/Animation/Bix_v11.Walking.anim",
+        "Assets/Animation/Bix_v11.Jump.anim"
+    ]
+}

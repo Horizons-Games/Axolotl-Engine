@@ -7,38 +7,41 @@
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
-#include "Modules/ModuleEditor.h"
-#include "Modules/ModuleDebugDraw.h"
+	#include "Modules/ModuleDebugDraw.h"
+	#include "Modules/ModuleEditor.h"
 
-#include "Windows/WindowDebug.h"
-#endif //ENGINE
+	#include "Windows/WindowDebug.h"
+#endif // ENGINE
 
 #include "Application.h"
 
 #include "debugdraw.h"
 
-ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, true), radius (1.0f)
+ComponentPointLight::ComponentPointLight() : ComponentLight(LightType::POINT, true), radius(1.0f)
 {
 }
 
 ComponentPointLight::ComponentPointLight(const ComponentPointLight& componentPointLight) :
-	ComponentLight(componentPointLight), radius(componentPointLight.GetRadius())
+	ComponentLight(componentPointLight),
+	radius(componentPointLight.GetRadius())
 {
 }
 
 ComponentPointLight::ComponentPointLight(GameObject* parent) :
-	ComponentLight(LightType::POINT, parent, true), radius(1.0f)
+	ComponentLight(LightType::POINT, parent, true),
+	radius(1.0f)
 {
 }
 
 ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity) :
-	ComponentLight(LightType::POINT, color, intensity, true), radius(radius)
+	ComponentLight(LightType::POINT, color, intensity, true),
+	radius(radius)
 {
 }
 
-ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity,
-											GameObject* parent) :
-	ComponentLight(LightType::POINT, color, intensity, parent, true), radius(radius)
+ComponentPointLight::ComponentPointLight(float radius, const float3& color, float intensity, GameObject* parent) :
+	ComponentLight(LightType::POINT, color, intensity, parent, true),
+	radius(radius)
 {
 }
 
@@ -54,54 +57,63 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw() const
 {
-#ifndef ENGINE
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight())
+	bool canDrawLight =
+#ifdef ENGINE
+		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+#else
+		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+#endif // ENGINE
+
+	if (!canDrawLight)
 	{
 		return;
 	}
-#endif //ENGINE
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+
+	float3 position = transform->GetGlobalPosition();
+
+	dd::sphere(position, dd::colors::White, radius);
+}
+
+void ComponentPointLight::SignalEnable()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
 	{
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()
-				->GetComponent(ComponentType::TRANSFORM));
-
-		float3 position = transform->GetGlobalPosition();
-
-		dd::sphere(position, dd::colors::White, radius);
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
 	}
 }
 
-void ComponentPointLight::SaveOptions(Json& meta)
+void ComponentPointLight::SignalDisable()
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
-
-	meta["color_light_X"] = (float)color.x;
-	meta["color_light_Y"] = (float)color.y;
-	meta["color_light_Z"] = (float)color.z;
-
-	meta["intensity"] = (float)intensity;
-
-	meta["lightType"] = GetNameByLightType(lightType).c_str();
-	meta["radius"] = (float)radius;
-	
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateScenePointLights();
+		currentScene->RenderPointLights();
+	}
 }
 
-void ComponentPointLight::LoadOptions(Json& meta)
+void ComponentPointLight::InternalSave(Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	meta["color_light_X"] = (float) color.x;
+	meta["color_light_Y"] = (float) color.y;
+	meta["color_light_Z"] = (float) color.z;
 
-	color.x = (float)meta["color_light_X"];
-	color.y = (float)meta["color_light_Y"];
-	color.z = (float)meta["color_light_Z"];
+	meta["intensity"] = (float) intensity;
 
-	intensity = (float)meta["intensity"];
+	meta["lightType"] = GetNameByLightType(lightType).c_str();
+	meta["radius"] = (float) radius;
+}
+
+void ComponentPointLight::InternalLoad(const Json& meta)
+{
+	color.x = (float) meta["color_light_X"];
+	color.y = (float) meta["color_light_Y"];
+	color.z = (float) meta["color_light_Z"];
+
+	intensity = (float) meta["intensity"];
 
 	lightType = GetLightTypeByName(meta["lightType"]);
 	radius = meta["radius"];

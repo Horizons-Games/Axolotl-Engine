@@ -6,40 +6,50 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "debugdraw.h"
 
 REGISTERCLASS(SeekBehaviourScript);
 
-SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr)
+SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr), 
+	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), targetTransform(nullptr), ownerTransform(nullptr)
 {
-	REGISTER_FIELD_WITH_ACCESSORS(Target, GameObject*);
+	REGISTER_FIELD(target, GameObject*);
+	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void SeekBehaviourScript::Start()
 {
 	if (target)
 	{
-		targetTransform = static_cast<ComponentTransform*>(target->GetComponent(ComponentType::TRANSFORM));
+		targetTransform = target->GetComponent<ComponentTransform>();
 	}
-	ownerRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	ownerTransform = owner->GetComponent<ComponentTransform>();
 }
 
-void SeekBehaviourScript::Update(float deltaTime)
+// When this behaviour is triggered, the enemy will go towards its target
+void SeekBehaviourScript::Seeking() const
 {
-	ENGINE_LOG("%s", "Now seeking...");
+	ownerRigidBody->SetPositionTarget(targetTransform->GetGlobalPosition());
+	Quat errorRotation = 
+		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(), 
+			(targetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
 
-	// When this behaviour is triggered, the enemy will go towards its target
-	ownerRigidBody->SetPositionTarget(targetTransform->GetPosition());
+#ifdef DEBUG
+	dd::arrow(ownerTransform->GetGlobalPosition(),
+		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+	dd::arrow(ownerTransform->GetGlobalPosition(), targetTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
 
-	Quat xCorrectness(0.7071f, 0.0f, 0.0f, 0.7071f);
-	ownerRigidBody->SetRotationTarget(Quat(targetTransform->GetRotation()) * xCorrectness);
+	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
 }
 
-GameObject* SeekBehaviourScript::GetTarget() const
+void SeekBehaviourScript::DisableMovement() const
 {
-	return target;
+	ownerRigidBody->DisablePositionController();
 }
 
-void SeekBehaviourScript::SetTarget(GameObject* target)
+void SeekBehaviourScript::DisableRotation() const
 {
-	this->target = target;
+	ownerRigidBody->DisableRotationController();
 }

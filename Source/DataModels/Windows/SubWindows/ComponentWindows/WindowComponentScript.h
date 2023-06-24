@@ -18,6 +18,14 @@ protected:
 
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
+
+	void OpenCreateNewScriptPopUp();
+	void AddNewScriptToProject(const std::string& scriptName);
+
+	void ReplaceSubstringsInString(std::string& stringToReplace, const std::string& from, const std::string& to);
+
+	bool IsDoubleClicked();
+
+	float secondsSinceLastClick = 0;
 	UID windowUID;
 };
-

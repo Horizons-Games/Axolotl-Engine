@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Components/Component.h"
 #include "Auxiliar/Generics/Updatable.h"
+#include "Components/Component.h"
 
 #include "Geometry/AABB2D.h"
 
+#include "Math/Quat.h"
+#include "Math/TransformOps.h"
 #include "Math/float2.h"
 #include "Math/float3.h"
 #include "Math/float4x4.h"
-#include "Math/Quat.h"
-#include "Math/TransformOps.h"
 
 class ComponentCanvas;
 
@@ -20,9 +20,6 @@ public:
 	~ComponentTransform2D() override;
 
 	void Update() override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
 
 	void SetPosition(const float3& localPosition);
 	void SetRotation(const float3& rotation);
@@ -45,17 +42,20 @@ public:
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
 	const float4x4 GetGlobalScaledMatrix() const;
-	
+
 	const AABB2D& GetWorldAABB() const;
-	
+
 	void CalculateMatrices();
 	void CalculateWorldBoundingBox();
 	ComponentCanvas* WhichCanvasContainsMe();
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	float3 GetPositionRelativeToParent();
 	float3 GetScreenPosition();
-	
+
 	ComponentCanvas* RecursiveWhichCanvasContainsMe(const GameObject* object);
 
 	float3 eulerAngles;
@@ -110,9 +110,12 @@ inline void ComponentTransform2D::SetScale(const float3& localScale)
 {
 	this->sca = localScale;
 
-	if (sca.x <= 0) sca.x = 0.0001f;
-	if (sca.y <= 0) sca.y = 0.0001f;
-	if (sca.z <= 0) sca.z = 0.0001f;
+	if (sca.x <= 0)
+		sca.x = 0.0001f;
+	if (sca.y <= 0)
+		sca.y = 0.0001f;
+	if (sca.z <= 0)
+		sca.z = 0.0001f;
 }
 
 inline void ComponentTransform2D::SetSize(const float2& newSize)

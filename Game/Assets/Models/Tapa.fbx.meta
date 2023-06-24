@@ -1,0 +1,11 @@
+{
+    "UID": 14000522414459875993,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Tapa.Tapa_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/TapaDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

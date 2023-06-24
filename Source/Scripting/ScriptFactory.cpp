@@ -1,45 +1,42 @@
 #include "ScriptFactory.h"
-#include "RuntimeObjectSystem.h"
-#include "LogSystem.h"
-#include "IObject.h"
-#include "IScript.h"
-#include "Script.h"
-#include "EngineLog.h"
+#include "AxoLog.h"
+#include "Components/ComponentScript.h"
+#include "AxoLog.h"
 #include "FileSystemUtils.h"
 #include "GameObject/GameObject.h"
-#include "Components/ComponentScript.h"
+#include "IObject.h"
+#include "IScript.h"
+#include "LogSystem.h"
+#include "RuntimeObjectSystem.h"
+#include "Script.h"
 #include <conio.h>
 
-
 #if defined _WINDOWS_ && defined GetObject
-#undef GetObject
+	#undef GetObject
 #endif
 
 ScriptFactory::ScriptFactory() : pCompilerLogger(nullptr), pRuntimeObjectSystem(nullptr)
 {
-	
 }
 
 ScriptFactory::~ScriptFactory()
 {
 	if (pRuntimeObjectSystem)
 	{
-		//This doesn't work. Need to check if it's actually necessary
-		//pRuntimeObjectSystem->CleanObjectFiles();
+		// This doesn't work. Need to check if it's actually necessary
+		// pRuntimeObjectSystem->CleanObjectFiles();
 	}
 	if (pRuntimeObjectSystem && pRuntimeObjectSystem->GetObjectFactorySystem())
 	{
 		pRuntimeObjectSystem->GetObjectFactorySystem()->RemoveListener(this);
-
 	}
 	delete pRuntimeObjectSystem;
 	delete pCompilerLogger;
 }
 
-
 bool ScriptFactory::Init()
 {
-	//Initialise the RuntimeObjectSystem
+	// Initialise the RuntimeObjectSystem
 	pRuntimeObjectSystem = new RuntimeObjectSystem;
 
 	pCompilerLogger = new LogSystem();
@@ -70,7 +67,6 @@ void ScriptFactory::RecompileAll()
 	pRuntimeObjectSystem->CompileAll(true);
 }
 
-
 std::vector<const char*> ScriptFactory::GetConstructors()
 {
 	AUDynArray<IObjectConstructor*> constructors;
@@ -93,7 +89,7 @@ bool ScriptFactory::IsCompiled()
 	return pRuntimeObjectSystem->GetIsCompiledComplete();
 }
 
-void ScriptFactory::LoadCompiledModules() 
+void ScriptFactory::LoadCompiledModules()
 {
 	pRuntimeObjectSystem->LoadCompiledModule();
 }
@@ -145,16 +141,18 @@ IScript* ScriptFactory::ConstructScript(const char* name)
 IScript* ScriptFactory::GetScript(const char* name)
 {
 	auto it = std::find_if(std::begin(allScripts),
-		std::end(allScripts),
-		[&name](const std::pair<ObjectId, IScript*>& pair)
-		{
-			return pair.second->GetConstructor()->GetName() == name;
-		});
+						   std::end(allScripts),
+						   [&name](const std::pair<ObjectId, IScript*>& pair)
+						   {
+							   return pair.second->GetConstructor()->GetName() == name;
+						   });
 	return it == std::end(allScripts) ? nullptr : it->second;
 }
 
-void ScriptFactory::IncludeDirs() {
-	FileSystemUtils::Path basePath = pRuntimeObjectSystem->FindFile(__FILE__).ParentPath().ParentPath().ParentPath() / "Source";
+void ScriptFactory::IncludeDirs()
+{
+	FileSystemUtils::Path basePath =
+		pRuntimeObjectSystem->FindFile(__FILE__).ParentPath().ParentPath().ParentPath() / "Source";
 	FileSystemUtils::Path source = basePath;
 	pRuntimeObjectSystem->AddIncludeDir(source.c_str());
 
@@ -179,17 +177,14 @@ void ScriptFactory::IncludeDirs() {
 	FileSystemUtils::Path mathGeoLib = external / "MathGeoLib" / "Include";
 	pRuntimeObjectSystem->AddIncludeDir(mathGeoLib.c_str());
 
-
 	FileSystemUtils::Path rapidjson = external / "rapidjson" / "include";
 	pRuntimeObjectSystem->AddIncludeDir(rapidjson.c_str());
-
 
 	FileSystemUtils::Path externalLibs = source / "x64" / "DebugEngine";
 	pRuntimeObjectSystem->AddLibraryDir(externalLibs.c_str());
 
 	FileSystemUtils::Path game = source.ParentPath() / "Game";
 	pRuntimeObjectSystem->AddLibraryDir(game.c_str());
-
 
 	FileSystemUtils::Path debugDebug = source / "build" / "x64" / "Debug";
 	pRuntimeObjectSystem->AddLibraryDir(debugDebug.c_str());
