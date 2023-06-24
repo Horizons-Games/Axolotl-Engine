@@ -10,7 +10,7 @@ enum class FieldType
 	FLOAT,
 	STRING,
 	GAMEOBJECT,
-	VECTOR3,
+	FLOAT3,
 	VECTOR,
 	BOOLEAN
 };
@@ -29,7 +29,7 @@ struct TypeToEnum<float>
 template<>
 struct TypeToEnum<float3>
 {
-	const static FieldType value = FieldType::VECTOR3;
+	const static FieldType value = FieldType::FLOAT3;
 };
 
 template<>

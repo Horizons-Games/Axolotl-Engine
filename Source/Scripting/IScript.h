@@ -96,7 +96,7 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 			break;
 		}
 
-		case FieldType::VECTOR3:
+		case FieldType::FLOAT3:
 		{
 			Field<float3> field = std::get<Field<float3>>(enumAndField.second);
 			float3 value = field.getter();

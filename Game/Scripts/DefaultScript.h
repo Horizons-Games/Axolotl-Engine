@@ -19,19 +19,19 @@ public:
 	void PostUpdate(float deltaTime) override {};
 	void CleanUp() override {};
 
-	const float3& GetVector3() const;
-	void SetVector3(const float3& vec3);
+	const float3& GetFloat3() const;
+	void SetFloat3(const float3& fl3);
 	
 	const std::vector<float>& GetVectorFloat() const;
-	void SetVectorFloat(const std::vector<float>& vec);
+	void SetVectorFloat(const std::vector<float>& vecFloat);
 	const std::vector<float3>& GetVectorFloat3() const;
-	void SetVectorFloat3(const std::vector<float3>& vec);
+	void SetVectorFloat3(const std::vector<float3>& vecFloat3);
 	const std::vector<std::string>& GetVectorStr() const;
-	void SetVectorStr(const std::vector<std::string>& vec);
+	void SetVectorStr(const std::vector<std::string>& vecStr);
 	const std::vector<GameObject*>& GetVectorGO() const;
-	void SetVectorGO(const std::vector<GameObject*>& vec);
+	void SetVectorGO(const std::vector<GameObject*>& vecGO);
 	const std::vector<bool>& GetVectorBool() const;
-	void SetVectorBool(const std::vector<bool>& vec);
+	void SetVectorBool(const std::vector<bool>& vecBool);
 
 
 	GameObject* GetCharacter() const;
@@ -39,9 +39,9 @@ public:
 
 private:
 	float value;
-	float3 vec3;
-	std::vector<float> vec;
-	std::vector<float3> vecVec3;
+	float3 fl3;
+	std::vector<float> vecFloat;
+	std::vector<float3> vecFloat3;
 	std::vector<std::string> vecStr;
 	std::vector<GameObject*> vecGO;
 	std::vector<bool> vecBool;

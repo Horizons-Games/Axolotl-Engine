@@ -97,7 +97,8 @@ void ComponentScript::SaveOptions(Json& meta)
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
-			case FieldType::VECTOR3:
+
+			case FieldType::FLOAT3:
 			{
 				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
 				field["name"] = fieldInstance.name.c_str();
@@ -112,7 +113,7 @@ void ComponentScript::SaveOptions(Json& meta)
 			case FieldType::VECTOR:
 			{
 				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
-				std::function<std::any(const std::any&, const std::string&)> elementDrawer =
+				std::function<std::any(const std::any&, const std::string&)> elementSaver =
 					[this, &vectorField](const std::any& value, const std::string& name) -> std::any
 				{
 					switch (vectorField.innerType)
@@ -125,7 +126,7 @@ void ComponentScript::SaveOptions(Json& meta)
 						return bool();
 					case FieldType::GAMEOBJECT:
 						return std::any();
-					case FieldType::VECTOR3:
+					case FieldType::FLOAT3:
 						return float3();
 					break;
 					}
@@ -136,7 +137,7 @@ void ComponentScript::SaveOptions(Json& meta)
 
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
-					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
+					vectorValue[i] = elementSaver(vectorValue[i], vectorField.name + std::to_string(i));
 				}
 			}
 
@@ -213,7 +214,7 @@ void ComponentScript::LoadOptions(Json& meta)
 				}
 				break;
 			}
-			case FieldType::VECTOR3:
+			case FieldType::FLOAT3:
 			{
 				std::string valueName = field["name"];
 				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);

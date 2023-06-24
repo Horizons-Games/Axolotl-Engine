@@ -190,7 +190,7 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 			}
 
-			case FieldType::VECTOR3:
+			case FieldType::FLOAT3:
 			{
 				Field<float3> float3Field = std::get<Field<float3>>(member);
 				float3 value = float3Field.getter();
@@ -216,14 +216,11 @@ void WindowComponentScript::DrawWindowContents()
 						return bool(DrawBoolField(std::any_cast<bool>(value), name));
 					case FieldType::GAMEOBJECT:
 						return std::any(DrawGOField(std::any_cast<GameObject*>(value), name));
-					case FieldType::VECTOR3:
+					case FieldType::FLOAT3:
 						return float3(DrawFloat3Field(std::any_cast<float3>(value), name));
-					//case FieldType::VECTOR:
-						break;
 					}
 					return std::any();  // Default return 
 				};
-
 
 				std::vector<std::any> vectorValue = vectorField.getter();
 
@@ -245,7 +242,7 @@ void WindowComponentScript::DrawWindowContents()
 				label = stringField.name;
 				finalLabel = label + separator + thisID;
 
-				stringField.setter(DrawStringField(value, finalLabel.c_str()));
+				stringField.setter(DrawStringField(value, finalLabel).c_str());
 				
 				break;
 			}
