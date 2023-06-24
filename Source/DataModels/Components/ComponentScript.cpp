@@ -98,6 +98,22 @@ void ComponentScript::SaveOptions(Json& meta)
 				break;
 			}
 
+			case FieldType::STRING:
+			{
+				field["name"] = std::get<Field<std::string>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<std::string>>(enumAndValue.second).getter().c_str();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				field["name"] = std::get<Field<bool>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<bool>>(enumAndValue.second).getter();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
 			case FieldType::FLOAT3:
 			{
 				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
@@ -106,45 +122,6 @@ void ComponentScript::SaveOptions(Json& meta)
 				field["value x"] = fieldValue[0];
 				field["value y"] = fieldValue[1];
 				field["value z"] = fieldValue[2];
-				field["type"] = static_cast<int>(enumAndValue.first);
-				break;
-			}
-
-			case FieldType::VECTOR:
-			{
-				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
-				std::function<std::any(const std::any&, const std::string&)> elementSaver =
-					[this, &vectorField](const std::any& value, const std::string& name) -> std::any
-				{
-					switch (vectorField.innerType)
-					{
-					case FieldType::FLOAT:
-						return float();
-					case FieldType::STRING:
-						return std::string();
-					case FieldType::BOOLEAN:
-						return bool();
-					case FieldType::GAMEOBJECT:
-						return std::any();
-					case FieldType::FLOAT3:
-						return float3();
-					break;
-					}
-					return std::any();  // Default return 
-				};
-
-				std::vector<std::any> vectorValue = vectorField.getter();
-
-				for (int i = 0; i < vectorValue.size(); ++i)
-				{
-					vectorValue[i] = elementSaver(vectorValue[i], vectorField.name + std::to_string(i));
-				}
-			}
-
-			case FieldType::STRING:
-			{
-				field["name"] = std::get<Field<std::string>>(enumAndValue.second).name.c_str();
-				field["value"] = std::get<Field<std::string>>(enumAndValue.second).getter().c_str();
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
@@ -166,11 +143,57 @@ void ComponentScript::SaveOptions(Json& meta)
 				break;
 			}
 
-			case FieldType::BOOLEAN:
+			case FieldType::VECTOR:
 			{
-				field["name"] = std::get<Field<bool>>(enumAndValue.second).name.c_str();
-				field["value"] = std::get<Field<bool>>(enumAndValue.second).getter();
-				field["type"] = static_cast<int>(enumAndValue.first);
+				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
+				std::vector<std::any> vectorValue = vectorField.getter();
+
+				for (int i = 0; i < vectorValue.size(); ++i) {
+					ENGINE_LOG("%d", i);
+					switch (vectorField.innerType)
+					{
+					case FieldType::FLOAT:
+						field[i]["name"] = vectorField.name.c_str();
+						field[i]["value"] = std::any_cast<float>(vectorValue[i]);
+						field[i]["type"] = static_cast<int>(enumAndValue.first);
+						break;
+
+					case FieldType::STRING:
+						field[i]["name"] = vectorField.name.c_str();
+						field[i]["value"] = std::any_cast<std::string>(vectorValue[i]).c_str();
+						field[i]["type"] = static_cast<int>(enumAndValue.first);
+						break;
+
+					case FieldType::BOOLEAN:
+						field[i]["name"] = vectorField.name.c_str();
+						field[i]["value"] = std::any_cast<bool>(vectorValue[i]);
+						field[i]["type"] = static_cast<int>(enumAndValue.first);
+						break;
+
+					case FieldType::GAMEOBJECT:
+						field[i]["name"] = vectorField.name.c_str();
+
+						if (std::any_cast<GameObject*>(vectorValue[i]) != nullptr)
+						{
+							field[i]["value"] = std::any_cast<GameObject*>(vectorValue[i])->GetUID();
+						}
+						else
+						{
+							field[i]["value"] = 0;
+						}
+
+						field[i]["type"] = static_cast<int>(enumAndValue.first);						
+						break;
+
+					case FieldType::FLOAT3:
+						field[i]["name"] = vectorField.name.c_str();
+						field[i]["value x"] = std::any_cast<float3>(vectorValue[i])[0];
+						field[i]["value y"] = std::any_cast<float3>(vectorValue[i])[1];
+						field[i]["value z"] = std::any_cast<float3>(vectorValue[i])[2];
+						field[i]["type"] = static_cast<int>(enumAndValue.first);
+						break;
+					}
+				}
 				break;
 			}
 

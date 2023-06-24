@@ -199,6 +199,45 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 			}
 
+			case FieldType::STRING:
+			{
+				Field<std::string> stringField = std::get<Field<std::string>>(member);
+				std::string value = stringField.getter();
+			
+				label = stringField.name;
+				finalLabel = label + separator + thisID;
+
+				stringField.setter(DrawStringField(value, finalLabel).c_str());
+				
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				Field<bool> booleanField = std::get<Field<bool>>(member);
+				bool value = booleanField.getter();
+
+				label = booleanField.name;
+				finalLabel = label + separator + thisID;
+				
+				booleanField.setter(DrawBoolField(value, finalLabel.c_str()));
+				
+				break;
+			}
+
+			case FieldType::GAMEOBJECT:
+			{
+				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
+				GameObject* value = gameObjectField.getter();
+
+
+				GameObject* draggedObject = DrawGOField(value, gameObjectField.name);
+
+				gameObjectField.setter(draggedObject);
+
+				break;
+			}
+
 			case FieldType::VECTOR:
 			{
 				VectorField vectorField = std::get<VectorField>(member);
@@ -231,45 +270,6 @@ void WindowComponentScript::DrawWindowContents()
 
 				vectorField.setter(vectorValue);
 
-				break;
-			}
-
-			case FieldType::STRING:
-			{
-				Field<std::string> stringField = std::get<Field<std::string>>(member);
-				std::string value = stringField.getter();
-			
-				label = stringField.name;
-				finalLabel = label + separator + thisID;
-
-				stringField.setter(DrawStringField(value, finalLabel).c_str());
-				
-				break;
-			}
-
-			case FieldType::GAMEOBJECT:
-			{
-				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
-				GameObject* value = gameObjectField.getter();
-
-				
-				GameObject* draggedObject = DrawGOField(value, gameObjectField.name);
-
-				gameObjectField.setter(draggedObject);
-
-				break;
-			}
-
-			case FieldType::BOOLEAN:
-			{
-				Field<bool> booleanField = std::get<Field<bool>>(member);
-				bool value = booleanField.getter();
-
-				label = booleanField.name;
-				finalLabel = label + separator + thisID;
-				
-				booleanField.setter(DrawBoolField(value, finalLabel.c_str()));
-				
 				break;
 			}
 
