@@ -1,13 +1,17 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-#include "Components/ComponentTransform.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
+
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
+
+class PlayerManagerScript;
 
 class BixAttackScript : public Script
 {
@@ -15,8 +19,6 @@ class BixAttackScript : public Script
 public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
-
-	void IncreaseAttack(float amountAttack);
 
 private:
 	void Start() override;
@@ -29,7 +31,6 @@ private:
 	float attackCooldown;
 	float lastAttackTime;
 	float rayAttackSize;
-	float damageAttack;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
@@ -48,10 +49,6 @@ private:
 	ComponentTransform* ray3Transform;
 	ComponentTransform* ray4Transform;
 	//--Provisional
-};
 
-inline void BixAttackScript::IncreaseAttack(float amountAttack)
-{
-	damageAttack += amountAttack;
-	LOG_INFO("Attack increased");
-}
+	PlayerManagerScript* playerManager;
+};

@@ -5,20 +5,20 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
-#include "../Scripts/DroneAttack.h"
+#include "../Scripts/DroneFastAttack.h"
 #include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
-
 
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr)
+	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0), stunned(false)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -27,45 +27,39 @@ EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScri
 
 void EnemyDroneScript::Start()
 {
+	if (seekDistance < attackDistance)
+	{
+		seekDistance = attackDistance;
+	}
+
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
-	attackScript = owner->GetComponent<DroneAttack>();
+	attackScript = owner->GetComponent<DroneFastAttack>();
 	healthScript = owner->GetComponent<HealthSystem>();
-
-	/*std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
-
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "PatrolBehaviourScript")
-		{
-			patrolScript = static_cast<PatrolBehaviourScript*>(gameObjectScripts[i]->GetScript());
-		}
-
-		else if (gameObjectScripts[i]->GetConstructName() == "SeekBehaviourScript")
-		{
-			seekScript = static_cast<SeekBehaviourScript*>(gameObjectScripts[i]->GetScript());
-		}
-
-		else if (gameObjectScripts[i]->GetConstructName() == "DroneAttack")
-		{
-			attackScript = static_cast<DroneAttack*>(gameObjectScripts[i]->GetScript());
-		}
-
-		else if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-		}
-	}*/
 
 	droneState = DroneBehaviours::IDLE;
 }
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (stunned)
+	{
+		if(timeStunned < 0)
+		{
+			timeStunned = 0;
+			stunned = false;
+		}
+		else
+		{
+			timeStunned -= deltaTime;
+			return;
+		}
+	}
+
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
@@ -124,4 +118,10 @@ void EnemyDroneScript::Update(float deltaTime)
 
 		componentAnimation->SetParameter("IsAttacking", true);
 	}
+}
+
+void EnemyDroneScript::SetStunnedTime(float newTime)
+{
+	stunned = true;
+	timeStunned = newTime;
 }

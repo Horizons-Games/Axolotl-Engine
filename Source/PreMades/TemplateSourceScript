@@ -1,5 +1,7 @@
 #include "{0}.h"
 
+#include "Components/ComponentScript.h"
+
 REGISTERCLASS({0});
 
 {0}::{0}() : Script()

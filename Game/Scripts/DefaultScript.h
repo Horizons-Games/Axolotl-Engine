@@ -1,7 +1,8 @@
 #pragma once
+
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "Math/float3.h"
+
 RUNTIME_MODIFIABLE_INCLUDE;
 
 // This script is just to show how to instantiate/use the different types of variables

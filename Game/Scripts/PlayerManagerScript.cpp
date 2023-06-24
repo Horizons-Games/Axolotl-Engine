@@ -2,111 +2,45 @@
 
 #include "Components/ComponentScript.h"
 
-#include "PowerUpScript.h"
-#include "HealthSystem.h"
-#include "PlayerMoveScript.h"
-#include "BixAttackScript.h"
+#include "../Scripts/PlayerJumpScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerManagerScript);
 
-#define HEALED_INCREASE 10.f
-#define DEFENSE_INCREASE 10.f
-#define ATTACK_INCREASE 10.f
-#define SPEED_INCREASE 60.f
-#define POWER_UP_TIMER 10.f
-
-PlayerManagerScript::PlayerManagerScript() : Script()
+PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
 {
+	REGISTER_FIELD(playerAttack, float);
+	REGISTER_FIELD(playerDefense, float);
+	REGISTER_FIELD(playerSpeed, float);
 }
 
-void PlayerManagerScript::Start()
+float PlayerManagerScript::GetPlayerAttack() const
 {
-	counterPowerUp = -1;
-	activePowerUp = PowerUpType::NONE;
+	return playerAttack;
 }
 
-void PlayerManagerScript::Update(float deltaTime)
+float PlayerManagerScript::GetPlayerDefense() const
 {
-	if (counterPowerUp >= 0)
-	{
-		counterPowerUp += deltaTime;
-		if (counterPowerUp >= POWER_UP_TIMER)
-		{
-			counterPowerUp = -1;
-			
-			if (activePowerUp == PowerUpType::DEFENSE)
-			{
-				HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
-				healthScript->IncreaseDefense(-DEFENSE_INCREASE);
-				return;
-			}
-			else if (activePowerUp == PowerUpType::ATTACK)
-			{
-				BixAttackScript* attackScript = owner->GetComponent<BixAttackScript>();
-				attackScript->IncreaseAttack(-ATTACK_INCREASE);
-				return;
-			}
-			else if (activePowerUp == PowerUpType::SPEED)
-			{
-				PlayerMoveScript* moveScript = owner->GetComponent<PlayerMoveScript>();
-				moveScript->IncreaseSpeed(-SPEED_INCREASE);
-				return;
-			}
-		}
-	}
+	return playerDefense;
 }
 
-bool PlayerManagerScript::SavePowerUp(PowerUpType type)
+float PlayerManagerScript::GetPlayerSpeed() const
 {
-	if (activePowerUp != PowerUpType::NONE)
-	{
-		return false;
-	}
-	activePowerUp = type;
-	LOG_INFO("PowerUp saved: %i", activePowerUp);
-	return true;
+	return playerSpeed;
 }
 
-void PlayerManagerScript::UsePowerUp()
+void PlayerManagerScript::IncreasePlayerAttack(float attackIncrease)
 {
-	if (activePowerUp == PowerUpType::NONE)
-	{
-		return;
-	}
-	counterPowerUp = 0;
-
-	LOG_INFO("PowerUp Used: %i", activePowerUp);
-
-	if (activePowerUp == PowerUpType::HEAL)
-	{
-		HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
-		healthScript->HealLife(HEALED_INCREASE);
-	}
-	else if (activePowerUp == PowerUpType::DEFENSE)
-	{
-		HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
-		healthScript->IncreaseDefense(DEFENSE_INCREASE);
-	}
-	else if (activePowerUp == PowerUpType::ATTACK)
-	{
-		BixAttackScript* attackScript = owner->GetComponent<BixAttackScript>();
-		attackScript->IncreaseAttack(ATTACK_INCREASE);
-	}
-	else if (activePowerUp == PowerUpType::SPEED)
-	{
-		PlayerMoveScript* moveScript = owner->GetComponent<PlayerMoveScript>();
-		moveScript->IncreaseSpeed(SPEED_INCREASE);
-	}
-	activePowerUp = PowerUpType::NONE;
+	playerAttack += attackIncrease;
 }
 
-void PlayerManagerScript::DropPowerUp()
+void PlayerManagerScript::IncreasePlayerDefense(float defenseIncrease)
 {
-	LOG_INFO("PowerUp Dropped: %i", activePowerUp);
-	activePowerUp = PowerUpType::NONE;
+	playerDefense += defenseIncrease;
 }
 
-const PowerUpType PlayerManagerScript::GetPowerUpType()
+void PlayerManagerScript::IncreasePlayerSpeed(float speedIncrease)
 {
-	return activePowerUp;
+	playerSpeed += speedIncrease;
 }
