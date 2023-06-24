@@ -44,6 +44,7 @@ public:
 	bool HasOcclusion();
 	bool HasSpecular();
 	bool HasMetallic();
+	bool HasEmissive();
 
 	LoadOptionsMaterial& GetLoadOptions();
 
@@ -183,6 +184,11 @@ inline bool ResourceMaterial::HasSpecular()
 inline bool ResourceMaterial::HasMetallic()
 {
 	return metallic != nullptr;
+}
+
+inline bool ResourceMaterial::HasEmissive()
+{
+	return emission != nullptr;
 }
 
 inline void ResourceMaterial::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)

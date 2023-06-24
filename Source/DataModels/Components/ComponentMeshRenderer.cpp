@@ -575,6 +575,11 @@ void ComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& 
 	this->material->SetSpecular(specular);
 }
 
+void ComponentMeshRenderer::SetEmissive(const std::shared_ptr<ResourceTexture>& emissive)
+{
+	this->material->SetEmission(emissive);
+}
+
 void ComponentMeshRenderer::SetShaderType(unsigned int shaderType)
 {
 	this->material->SetShaderType(shaderType);

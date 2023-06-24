@@ -27,6 +27,7 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
+	inputTextureEmission(std::make_unique<WindowTextureInput>(this, TextureType::EMISSION)),
 	reset(false), newMaterial(false)
 {
 	InitMaterialValues();
@@ -414,7 +415,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetDiffuse(diffuseTexture);
 				asMeshRenderer->SetMetallic(metallicMap);
 				asMeshRenderer->SetNormal(normalMap);
-				asMeshRenderer->SetEmission(emissionMap);
+				asMeshRenderer->SetEmissive(emissionMap);
 				asMeshRenderer->SetSmoothness(smoothness);
 				asMeshRenderer->SetMetalness(metalness);
 				asMeshRenderer->SetNormalStrength(normalStrength);

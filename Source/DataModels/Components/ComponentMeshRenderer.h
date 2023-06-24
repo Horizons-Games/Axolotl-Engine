@@ -60,6 +60,7 @@ public:
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetEmissive(const std::shared_ptr<ResourceTexture>& emissive);
 	void SetShaderType(unsigned int shaderType);
 	void SetSmoothness(float smoothness);
 	void SetNormalStrength(float normalStrength);

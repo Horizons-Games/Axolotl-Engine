@@ -7,6 +7,7 @@ GBuffer::GBuffer() :
 	gNormal(0),
 	gDiffuse(0),
 	gSpecular(0),
+	gEmissive(0),
 	gDepth(0)
 {
 }
@@ -18,6 +19,7 @@ GBuffer::~GBuffer()
 	glDeleteTextures(1, &gNormal);
 	glDeleteTextures(1, &gDiffuse);
 	glDeleteTextures(1, &gSpecular);
+	glDeleteTextures(1, &gEmissive);
 	glDeleteRenderbuffers(1, &gDepth);
 }
 
@@ -51,6 +53,8 @@ void GBuffer::BindTexture()
 	glBindTexture(GL_TEXTURE_2D, gDiffuse);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, gSpecular);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, gEmissive);
 }
 
 void GBuffer::UnBindTexture()
@@ -90,9 +94,16 @@ void GBuffer::InitGBuffer(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gSpecular, 0);
 
-	unsigned int attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2,
-		GL_COLOR_ATTACHMENT3 };
-	glDrawBuffers(4, attachments);
+	glGenTextures(1, &gEmissive);
+	glBindTexture(GL_TEXTURE_2D, gEmissive);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gEmissive, 0);
+
+	unsigned int attachments[5] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2,
+		GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
+	glDrawBuffers(5, attachments);
 
 	glGenRenderbuffers(1, &gDepth);
 	glBindRenderbuffer(GL_RENDERBUFFER, gDepth);
