@@ -48,11 +48,13 @@ void ComponentSlider::Update()
 		{
 			if (actualClickHandlePosition.x != point.x)
 			{
-				ComponentTransform2D* transform = handle->GetComponent<ComponentTransform2D>();
-				float3 position = transform->GetPosition();
+				ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
+				ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
+				float3 handlePosition = handleTransform->GetPosition();
+				float3 backgroundPosition = backgroundTransform->GetGlobalPosition();
 				float motion = point.x - actualClickHandlePosition.x;
-				transform->SetPosition(float3(position.x + motion, position.y, position.z));
-				transform->CalculateMatrices();
+				handleTransform->SetPosition(float3(handlePosition.x + motion, handlePosition.y, handlePosition.z));
+				handleTransform->CalculateMatrices();
 				actualClickHandlePosition = point;
 				OnHandleDragged();
 			}
@@ -93,7 +95,7 @@ void ComponentSlider::LoadOptions(Json& meta)
 
 	minValue = static_cast<float>(meta["minValue"]);
 	maxValue = static_cast<float>(meta["maxValue"]);
-	ModifyCurrentValue(static_cast<float>(meta["currentValue"]));
+	currentValue = static_cast<float>(meta["currentValue"]);
 }
 
 void ComponentSlider::SetMaxValue(float maxValue)
