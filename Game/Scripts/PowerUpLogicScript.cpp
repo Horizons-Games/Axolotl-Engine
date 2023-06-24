@@ -61,12 +61,12 @@ void PowerUpLogicScript::Update(float deltaTime)
 				isSeeking = false;
 			}
 		}
-#ifdef DEBUG
+#ifdef ENGINE
 		if (powerUpManagerScript->GetDebugDraw())
 		{
 			dd::sphere(ownerTransform->GetGlobalPosition(), dd::colors::Peru, radius);
 		}
-#endif // DEBUG
+#endif // ENGINE
 	}
 }
 
