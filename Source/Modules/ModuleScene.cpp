@@ -578,12 +578,10 @@ void ModuleScene::AddGameObject(GameObject* object)
 	{
 		if (object->IsStatic())
 		{
-			LOG_DEBUG("{} added to Quadtree", object);
 			loadedScene->AddStaticObject(object);
 		}
 		else
 		{
-			LOG_DEBUG("{} added to Non-Static objects", object);
 			loadedScene->AddNonStaticObject(object);
 		}
 	}

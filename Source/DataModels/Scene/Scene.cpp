@@ -908,12 +908,10 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 	{
 		if (gameObject->IsStatic())
 		{
-			LOG_DEBUG("{} added to Quadtree", gameObject);
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
 		}
 		else
 		{
-			LOG_DEBUG("{} added to Non-Static objects", gameObject);
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
 		}
 	}

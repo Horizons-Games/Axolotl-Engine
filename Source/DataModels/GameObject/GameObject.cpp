@@ -801,10 +801,8 @@ bool GameObject::IsRendereable()
 		Drawable* drawable = dynamic_cast<Drawable*>(comp.get());
 		if (drawable)
 		{
-			LOG_DEBUG("{} IS DRAWABLE!", this);
 			return true;
 		}
 	}
-	LOG_DEBUG("{} IS NOT!!!! DRAWABLE!", this);
 	return false;
 }

@@ -370,7 +370,6 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
 		const GameObject* actualGameObject = hitGameObject.second;
-		LOG_DEBUG("{} was hit", actualGameObject);
 
 		bool isInside = std::any_of(children.begin(),
 									children.end(),
@@ -384,14 +383,12 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 
 			if (!componentMeshRenderer)
 			{
-				LOG_DEBUG("{} discarded, no mesh renderer", actualGameObject);
 				continue;
 			}
 			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
 
 			if (!goMeshAsShared)
 			{
-				LOG_DEBUG("{} discarded, no mesh resource", actualGameObject);
 				continue;
 			}
 
@@ -408,7 +405,6 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 				{
 					continue;
 				}
-				LOG_DEBUG("{} successfully hit", actualGameObject);
 
 				// Only save a gameObject when any of its triangles is hit
 				// and it is the nearest triangle to the frustum
@@ -425,7 +421,6 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	}
 
 	hit.gameObject = newSelectedGameObject;
-	LOG_DEBUG("hit returning: {}", newSelectedGameObject ? newSelectedGameObject->GetName() : "NULL");
 	hit.distance = minCurrentDistance;
 	hit.hitPoint = nearestHitPoint;
 	hit.normal = hitNormal;
