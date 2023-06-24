@@ -1,15 +1,17 @@
+#include "StdAfx.h"
+
 #include "WindowComponentScript.h"
 
 #include "Application.h"
 #include "Scene/Scene.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/UIDGenerator.h"
 #include "Modules/ModuleScene.h"
 
 #include "Components/ComponentScript.h"
 
 #include "IScript.h"
-#include "Math/float3.h"
 #include "ScriptFactory.h"
 
 namespace

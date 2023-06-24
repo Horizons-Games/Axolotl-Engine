@@ -2,17 +2,13 @@
 #include "DataModels/Commands/Command.h"
 #include "Module.h"
 
-#include <list>
-#include <memory>
-#include <utility>
-
 class ModuleCommand : public Module
 {
 public:
 	ModuleCommand();
 	~ModuleCommand() override;
 
-	update_status Update() override;
+	UpdateStatus Update() override;
 
 	template<typename C, typename... Args, std::enable_if_t<std::is_base_of<Command, C>::value, bool> = true>
 	void CreateAndExecuteCommand(Args&&... args);

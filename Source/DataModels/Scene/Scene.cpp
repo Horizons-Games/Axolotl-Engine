@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Scene.h"
 
 #include "Application.h"
@@ -23,22 +25,27 @@
 
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "DataStructures/Quadtree.h"
+
+#include "Defines/QuadtreeDefines.h"
+
+#include "FileSystem/ModuleResources.h"
 
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "FileSystem/ModuleResources.h"
-
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
 #include "Resources/ResourceSkyBox.h"
 
 #include "Scripting/IScript.h"
+
+#include "Skybox/Skybox.h"
 
 #include <GL/glew.h>
 #include <stack>
@@ -859,7 +866,7 @@ void Scene::UpdateScenePointLights()
 				PointLight pl;
 				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
 				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
-				
+
 				pointLights.push_back(pl);
 				cachedPoints.push_back(std::make_pair(pointLightComp, pos));
 
@@ -919,7 +926,7 @@ void Scene::UpdateSceneAreaLights()
 			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
 			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp =	static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentSpotLight.h"
 #include "ComponentTransform.h"
 

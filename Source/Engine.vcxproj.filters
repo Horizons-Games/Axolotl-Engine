@@ -97,9 +97,6 @@
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem\UniqueID.cpp">
-      <Filter>FileSystem</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
     </ClCompile>
@@ -252,14 +249,8 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMockState.cpp">
-      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
       <Filter>DataModels\Components\UI</Filter>
@@ -458,9 +449,16 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
+      <Filter>DataModels\GBuffer</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\UIDGenerator.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -567,9 +565,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>FileSystem\Importers</Filter>
@@ -701,7 +696,6 @@
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="AxoLog.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -741,14 +735,8 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMockState.h">
-      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
       <Filter>DataModels\Components\UI</Filter>
@@ -813,7 +801,6 @@
     <ClInclude Include="DataModels\Batch\GeometryBatch.h">
       <Filter>DataModels\Batch</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h">
       <Filter>FileSystem\Importers</Filter>
     </ClInclude>
@@ -933,6 +920,53 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\GBuffer\GBuffer.h">
+      <Filter>DataModels\GBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+    <ClInclude Include="FileSystem\UIDGenerator.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\UID.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Enums\UpdateStatus.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\TextureType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\ApplicationDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\FrustumDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\ExtensionDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\FileSystemDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\WindowDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\QuadtreeDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\FramerateDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\GlslDefines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1059,6 +1093,12 @@
     <Filter Include="UserScripts\EnemyBehaviour\DroneAttack">
       <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataModels\GBuffer">
+      <UniqueIdentifier>{c1f9434a-5fe1-40ba-ab44-e447bf58d6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Defines">
+      <UniqueIdentifier>{6460271c-2e7f-45c7-b8e5-4e3a86769626}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataModels\Timer\Timer.cpp">
@@ -1156,9 +1196,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentSpotLight.cpp">
       <Filter>DataModels\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="FileSystem\UniqueID.cpp">
-      <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp">
       <Filter>FileSystem\Importers</Filter>
@@ -1312,14 +1349,8 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentMockState.cpp">
-      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
       <Filter>DataModels\Components\UI</Filter>
@@ -1463,9 +1494,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>FileSystem\Importers</Filter>
@@ -1642,14 +1670,8 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMockState.h">
-      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
       <Filter>DataModels\Components\UI</Filter>
@@ -1975,14 +1997,8 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMockStates.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentMockState.h">
-      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentCanvas.h">
       <Filter>DataModels\Components\UI</Filter>

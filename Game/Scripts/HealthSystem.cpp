@@ -8,6 +8,8 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(HealthSystem);
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), loseSceneName("00_LoseScene_VS3"), dead(false)
