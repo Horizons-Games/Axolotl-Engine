@@ -1,6 +1,8 @@
 #include "PlayerMoveScript.h"
 
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -38,6 +40,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
+	Camera* camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
@@ -72,7 +75,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += componentTransform->GetLocalForward().Normalized();
+		totalDirection += camera->GetFrustum()->Front().Normalized();
 
 	}
 
@@ -85,7 +88,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
-		totalDirection += -componentTransform->GetLocalForward().Normalized();
+		totalDirection += -camera->GetFrustum()->Front().Normalized();
 
 	}
 
@@ -99,7 +102,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += -componentTransform->GetGlobalRight().Normalized();
+		totalDirection += camera->GetFrustum()->WorldRight().Normalized();
 
 	}
 
@@ -113,12 +116,21 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += componentTransform->GetGlobalRight().Normalized();
+		totalDirection += -camera->GetFrustum()->WorldRight().Normalized();
 	}
 
 	if (!totalDirection.IsZero())
 	{
+		totalDirection.y = 0;
 		totalDirection = totalDirection.Normalized();
+		
+		btTransform worldTransform = btRb->getWorldTransform();
+		Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), totalDirection, float3::unitY, float3::unitY);
+		rot = rot * componentTransform->GetGlobalRotation();
+		worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
+		btRb->setWorldTransform(worldTransform);
+		btRb->getMotionState()->setWorldTransform(worldTransform);
+
 		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 	}
 

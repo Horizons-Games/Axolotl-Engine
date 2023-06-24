@@ -21,7 +21,7 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
+ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr){};
 
 ModulePlayer::~ModulePlayer(){};
 
@@ -50,30 +50,42 @@ Camera* ModulePlayer::GetCameraPlayer()
 	return cameraPlayer;
 }
 
+GameObject* ModulePlayer::GetCameraPlayerObject()
+{
+	return cameraPlayerObject;
+}
+
 void ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
-	for (ComponentCamera* camera : cameras)
+
+	GameObject* player = loadedScene->GetPlayer();
+	if (player)
 	{
-		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
-		if (parentOfOwner->GetComponent<ComponentPlayer>())
+		SetPlayer(player);
+
+		for (ComponentCamera* camera : cameras)
 		{
-			SetPlayer(parentOfOwner);
-			cameraPlayer = camera->GetCamera();
+			GameObject* ownerGO = camera->GetOwner();
+			if (ownerGO->CompareTag("MainCamera"))
+			{
+				cameraPlayer = camera->GetCamera();
+				cameraPlayerObject = ownerGO;
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
-			//loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+				cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
+				// loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			//scene->RemoveGameObjectAndChildren(player);
-#endif // ENGINE			
-			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
+				// scene->RemoveGameObjectAndChildren(player);
+#endif // ENGINE
+				App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 
-			CheckIfActivateMouse();
+				CheckIfActivateMouse();
 
-			return;
+				return;
+			}
 		}
 	}
 	LOG_ERROR("Player is not loaded");

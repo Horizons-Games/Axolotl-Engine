@@ -67,6 +67,7 @@ public:
 	void UpdateSceneAreaLights();
 
 	GameObject* GetRoot() const;
+	GameObject* GetPlayer() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;

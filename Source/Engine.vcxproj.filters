@@ -330,6 +330,9 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
@@ -440,7 +443,7 @@
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.cpp">
+    <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
@@ -472,6 +475,15 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleNavigation.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleNavigation.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
+      <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
@@ -804,6 +816,12 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -928,7 +946,7 @@
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerCameraRotationVerticalScript.h">
+    <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
@@ -969,6 +987,15 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleNavigation.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleNavigation.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\GBuffer\GBuffer.h">
+      <Filter>DataModels\GBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Enums\EFrustumMode.h">
       <Filter>Enums</Filter>
@@ -1107,6 +1134,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Health System\DeathActions">
       <UniqueIdentifier>{b68e19c9-8630-4623-a368-b6677dab8c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\GBuffer">
+      <UniqueIdentifier>{c1f9434a-5fe1-40ba-ab44-e447bf58d6ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
