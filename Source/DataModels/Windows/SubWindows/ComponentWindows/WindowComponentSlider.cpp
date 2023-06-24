@@ -20,8 +20,20 @@ void WindowComponentSlider::DrawWindowContents()
 
 	if (asSlider)
 	{
+		float minValue = asSlider->GetMinValue();
+		float maxValue = asSlider->GetMaxValue();
+		if (ImGui::DragFloat("Range", &minValue))
+		{
+			if (minValue <= maxValue) asSlider->SetMinValue(minValue);
+		}
+		ImGui::SameLine();
+		if (ImGui::DragFloat("##MaxRange", &maxValue))
+		{
+			if(minValue <= maxValue) asSlider->SetMaxValue(maxValue);
+		}
+
 		float currentValue = asSlider->GetCurrentValue();
-		if (ImGui::SliderFloat("Value", &currentValue, asSlider->GetMinValue(), asSlider->GetMinValue()))
+		if (ImGui::SliderFloat("Value", &currentValue, minValue, maxValue))
 		{
 			asSlider->ModifyCurrentValue(currentValue);
 		}
