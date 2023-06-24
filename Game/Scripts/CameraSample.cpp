@@ -28,10 +28,9 @@ void CameraSample::Start()
 
 void CameraSample::PreUpdate(float deltaTime)
 {
-	if (App->IsOnPlayMode())
-	{
-		dd::sphere(position, dd::colors::Yellow, influenceRadius);
-	}
+#ifdef ENGINE
+	dd::sphere(position, dd::colors::Yellow, influenceRadius);
+#endif // ENGINE
 }
 
 
