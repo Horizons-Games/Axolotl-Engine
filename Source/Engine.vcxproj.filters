@@ -964,6 +964,11 @@
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
