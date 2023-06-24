@@ -1,9 +1,10 @@
+#include "StdAfx.h"
+
 #include "CameraEngine.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 
@@ -19,9 +20,6 @@
 #include "Windows/EditorWindows/WindowScene.h"
 
 #include "Geometry/Sphere.h"
-#include "Geometry/Triangle.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
 #include "Physics/Physics.h"
 
 CameraEngine::CameraEngine() : Camera(CameraType::C_ENGINE)

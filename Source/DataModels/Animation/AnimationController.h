@@ -1,10 +1,5 @@
 #pragma once
 
-#include "Math/Quat.h"
-#include "Math/float3.h"
-
-#include <memory>
-
 struct State;
 class ResourceAnimation;
 

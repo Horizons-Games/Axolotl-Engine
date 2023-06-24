@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCamera.h"
 
 #include "Application.h"
@@ -13,6 +15,8 @@
 #include "Camera/CameraEngine.h"
 #include "Camera/CameraGameObject.h"
 #include "Camera/CameraGod.h"
+
+#include "Geometry/Frustum.h"
 
 ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 	Component(ComponentType::CAMERA, active, owner, false)

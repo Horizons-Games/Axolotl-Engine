@@ -1,8 +1,6 @@
 #pragma once
 #include "EditorWindow.h"
 
-#include <map>
-
 class WindowConsole : public EditorWindow
 {
 public:

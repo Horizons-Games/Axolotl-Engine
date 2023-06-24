@@ -1,7 +1,6 @@
 #pragma once
 #include "Component.h"
 
-#include "Math/float3.h"
 #include "Physics/Physics.h"
 
 enum class Direction

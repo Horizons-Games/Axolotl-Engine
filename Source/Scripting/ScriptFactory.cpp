@@ -1,7 +1,6 @@
-#include "ScriptFactory.h"
-#include "AxoLog.h"
+#include "StdAfx.h"
+
 #include "Components/ComponentScript.h"
-#include "AxoLog.h"
 #include "FileSystemUtils.h"
 #include "GameObject/GameObject.h"
 #include "IObject.h"
@@ -9,6 +8,7 @@
 #include "LogSystem.h"
 #include "RuntimeObjectSystem.h"
 #include "Script.h"
+#include "ScriptFactory.h"
 #include <conio.h>
 
 #if defined _WINDOWS_ && defined GetObject

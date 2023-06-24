@@ -1,6 +1,8 @@
 #pragma once
 #include "Windows/EditorWindows/WindowFileBrowser.h"
 
+#include "Enums/TextureType.h"
+
 class WindowComponentMeshRenderer;
 
 class WindowTextureInput : public WindowFileBrowser

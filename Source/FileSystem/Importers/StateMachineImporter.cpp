@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "StateMachineImporter.h"
 
 #include "Application.h"

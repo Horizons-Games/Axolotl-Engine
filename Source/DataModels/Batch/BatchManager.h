@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #ifndef ENGINE
 #include "FileSystem/ModuleResources.h"
 #endif // !ENGINE

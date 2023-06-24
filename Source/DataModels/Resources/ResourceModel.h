@@ -4,9 +4,6 @@
 
 #include "Math/float4x4.h"
 
-#include <memory>
-#include <vector>
-
 class ResourceMesh;
 class ResourceMaterial;
 class ResourceAnimation;

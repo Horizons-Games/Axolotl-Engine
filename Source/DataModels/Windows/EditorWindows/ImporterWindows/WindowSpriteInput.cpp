@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowSpriteInput.h"
 
 #include "Application.h"

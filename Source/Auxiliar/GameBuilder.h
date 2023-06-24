@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 namespace builder
 {
 enum class BuildType

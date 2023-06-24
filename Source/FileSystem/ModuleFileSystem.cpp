@@ -1,9 +1,8 @@
+#include "StdAfx.h"
+
 #include "ModuleFileSystem.h"
 #include "physfs.h"
 #include "zip.h"
-#ifndef ENGINE
-	#include <assert.h>
-#endif
 
 ModuleFileSystem::ModuleFileSystem()
 {
@@ -31,6 +30,16 @@ bool ModuleFileSystem::Init()
 	PHYSFS_unmount(".");
 #endif // GAME
 	return true;
+}
+
+bool ModuleFileSystem::CleanUp()
+{
+#ifdef ENGINE
+	logContext->StopWritingToFile();
+#endif // ENGINE
+	// returns non-zero on success, zero on failure
+	int deinitResult = PHYSFS_deinit();
+	return deinitResult != 0;
 }
 
 void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)

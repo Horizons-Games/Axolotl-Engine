@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowFPS.h"
 
 #include "Application.h"

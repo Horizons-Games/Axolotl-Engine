@@ -1,12 +1,11 @@
-#include "AxoLog.h"
+#include "StdAfx.h"
 
 #include "Application.h"
-#include "FileSystem/ModuleFileSystem.h"
 
 #include "DataModels/GameObject/GameObject.h"
 #include "DataModels/Resources/Resource.h"
+#include "FileSystem/ModuleFileSystem.h"
 
-#include <assert.h>
 #include <mutex>
 
 namespace

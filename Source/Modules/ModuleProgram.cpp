@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleProgram.h"
 
 #include "Application.h"

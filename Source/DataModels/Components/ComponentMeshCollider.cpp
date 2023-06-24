@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMeshCollider.h"
 
 #include "Application.h"
@@ -6,9 +8,7 @@
 #include "ComponentTransform.h"
 #include "FileSystem/Json.h"
 
-#include "Geometry/LineSegment.h"
 #include "Geometry/Ray.h"
-#include "Physics/Physics.h"
 
 ComponentMeshCollider::ComponentMeshCollider(bool active, GameObject* owner) :
 	Component(ComponentType::MESHCOLLIDER, active, owner, true),

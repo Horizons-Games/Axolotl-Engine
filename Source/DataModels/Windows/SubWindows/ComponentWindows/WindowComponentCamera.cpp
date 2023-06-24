@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentCamera.h"
 
 #include "Camera/CameraGameObject.h"

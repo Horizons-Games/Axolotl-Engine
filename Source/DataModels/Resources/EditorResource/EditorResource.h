@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 
 #include "Resources/EditorResource/EditorResourceInterface.h"
 #include "Resources/Resource.h"

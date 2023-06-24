@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowInspector.h"
 
 #include "Application.h"

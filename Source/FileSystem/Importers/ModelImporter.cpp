@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModelImporter.h"
 
 #include "Application.h"
@@ -8,8 +10,6 @@
 #include "FileSystem/ModuleResources.h"
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
-
-#include "Math/float3.h"
 
 #include "assimp/cimport.h"
 #include "assimp/postprocess.h"

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowRenderer.h"
 
 #include <fstream>

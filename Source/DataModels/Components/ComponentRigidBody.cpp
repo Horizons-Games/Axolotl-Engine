@@ -1,12 +1,11 @@
+#include "StdAfx.h"
+
 #include "ComponentRigidBody.h"
 #include "Application.h"
 #include "ComponentTransform.h"
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
 #include "Geometry/Sphere.h"
-#include "Math/Quat.h"
-#include "Math/float3x3.h"
-#include "Math/float4x4.h"
 #include "ModulePhysics.h"
 #include "debugdraw.h"
 #include <ImGui/imgui.h>

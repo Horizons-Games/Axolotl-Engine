@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "imgui_internal.h"
 

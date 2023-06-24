@@ -1,9 +1,6 @@
 #pragma once
 #include "Resource.h"
 
-#include "Math/float3.h"
-#include "Math/float4x4.h"
-
 struct Bone
 {
 	float4x4 transform;

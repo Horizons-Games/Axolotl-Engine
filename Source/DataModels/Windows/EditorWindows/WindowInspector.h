@@ -2,7 +2,7 @@
 
 #include "EditorWindow.h"
 
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 
 class Model;
 class GameObject;

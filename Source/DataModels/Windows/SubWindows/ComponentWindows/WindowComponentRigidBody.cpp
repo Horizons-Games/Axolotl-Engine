@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentRigidBody.h"
 
 #include "Bullet/btBulletDynamicsCommon.h"

@@ -1,8 +1,6 @@
 #pragma once
 #include "EditorWindow.h"
 
-#include <future>
-
 #include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "FontIcons/CustomFont.h"
 #include "ImGuiFileDialog/ImGuiFileDialog.h"

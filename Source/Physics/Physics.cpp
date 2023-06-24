@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Physics.h"
 
 #include "Application.h"
@@ -7,6 +9,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -18,8 +21,6 @@
 
 #include "Geometry/Frustum.h"
 #include "Geometry/Triangle.h"
-#include "Math/float2.h"
-#include <queue>
 
 float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 {

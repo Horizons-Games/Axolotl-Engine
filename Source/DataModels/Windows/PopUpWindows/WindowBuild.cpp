@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "DataModels/Windows/PopUpWindows/WindowBuild.h"
 
 #include "Application.h"
@@ -5,7 +7,7 @@
 
 #include "Auxiliar/GameBuilder.h"
 
-#include <map>
+#include "Defines/FileSystemDefines.h"
 
 namespace
 {

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <assert.h>
-#include <string>
-
 #include "Enums/ComponentType.h"
 
 const static std::string GetNameByType(ComponentType type);

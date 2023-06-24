@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "GBuffer.h"
 #include "AxoLog.h"
 
