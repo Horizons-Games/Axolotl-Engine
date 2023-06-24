@@ -678,7 +678,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />
     <ClInclude Include="Auxiliar\GameBuilder.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -713,6 +712,7 @@
     </ClInclude>
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
     <ClInclude Include="Defines\ApplicationDefines.h" />
+    <ClInclude Include="Defines\CameraDefines.h" />
     <ClInclude Include="Defines\FrustumDefines.h" />
     <ClInclude Include="Defines\ExtensionDefines.h" />
     <ClInclude Include="Defines\FileSystemDefines.h" />
@@ -995,7 +995,6 @@
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="DataModels\GBuffer\GBuffer.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="FileSystem\UID.h" />
     <ClInclude Include="FileSystem\UIDGenerator.h" />
     <ClInclude Include="Modules\Module.h" />

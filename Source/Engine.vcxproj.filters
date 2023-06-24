@@ -852,12 +852,6 @@
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Audio\AudioData.h">
-      <Filter>Auxiliar\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentBreakable.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -927,7 +921,6 @@
     <ClInclude Include="Enums\EFrustumMode.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="FileSystem\UIDGenerator.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -967,6 +960,15 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Audio\AudioData.h">
+      <Filter>Auxiliar\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\CameraDefines.h">
+      <Filter>Defines</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1630,7 +1632,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1824,9 +1825,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>FileSystem\Importers</Filter>

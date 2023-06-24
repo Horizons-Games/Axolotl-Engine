@@ -2,8 +2,6 @@
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
-#include "Camera/CameraDefines.h"
-
 #define ORBIT_SPEED_MULTIPLIER 2.f
 
 #define MAX_MOUSE_SPEED_MODIFIER 5.f
