@@ -16,9 +16,4 @@ public:
 	float3 position;
 	float influenceRadius;
 	float3 positionOffset;
-	float3 orientationOffset;
-
-private:
-	ComponentTransform* transform;
-	
 };
