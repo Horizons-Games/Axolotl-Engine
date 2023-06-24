@@ -365,29 +365,33 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	float3 nearestHitPoint = float3::zero;
 	float3 hitNormal = float3::zero;
 
-	GameObject::GameObjectView children = exceptionGameObject->GetChildren();
+	std::list<GameObject*> children = exceptionGameObject->GetAllDescendants();
 
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
 		const GameObject* actualGameObject = hitGameObject.second;
+		LOG_DEBUG("{} was hit", actualGameObject);
 
-		bool isInside = false;
-
-		auto it = std::find(children.begin(), children.end(), actualGameObject);
-
-		isInside = it != children.end();
-		if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
+		bool isInside = std::any_of(children.begin(),
+									children.end(),
+									[actualGameObject](GameObject* other)
+									{
+										return other == actualGameObject;
+									});
+		if (actualGameObject && !isInside)
 		{
 			ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
 
 			if (!componentMeshRenderer)
 			{
+				LOG_DEBUG("{} discarded, no mesh renderer", actualGameObject);
 				continue;
 			}
 			std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
 
 			if (!goMeshAsShared)
 			{
+				LOG_DEBUG("{} discarded, no mesh resource", actualGameObject);
 				continue;
 			}
 
@@ -404,6 +408,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 				{
 					continue;
 				}
+				LOG_DEBUG("{} successfully hit", actualGameObject);
 
 				// Only save a gameObject when any of its triangles is hit
 				// and it is the nearest triangle to the frustum
@@ -420,6 +425,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	}
 
 	hit.gameObject = newSelectedGameObject;
+	LOG_DEBUG("hit returning: {}", newSelectedGameObject ? newSelectedGameObject->GetName() : "NULL");
 	hit.distance = minCurrentDistance;
 	hit.hitPoint = nearestHitPoint;
 	hit.normal = hitNormal;
@@ -447,11 +453,12 @@ void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>&
 		{
 			const GameObject* actualGameObject = hitGameObject.second;
 
-			bool isInside = false;
-
-			auto it = std::find(children.begin(), children.end(), actualGameObject);
-
-			isInside = it != children.end();
+			bool isInside = std::any_of(children.begin(),
+										children.end(),
+										[actualGameObject](GameObject* other)
+										{
+											return other == actualGameObject;
+										});
 			if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
 			{
 				ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();

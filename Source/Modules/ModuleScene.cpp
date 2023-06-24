@@ -453,7 +453,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		bool enabled;
 	};
 	std::vector<GameObject*> gameObjects{};
-	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
+	std::unordered_map<UID, GameObjectDeserializationInfo> gameObjectMap{};
 
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
@@ -578,10 +578,12 @@ void ModuleScene::AddGameObject(GameObject* object)
 	{
 		if (object->IsStatic())
 		{
+			LOG_DEBUG("{} added to Quadtree", object);
 			loadedScene->AddStaticObject(object);
 		}
 		else
 		{
+			LOG_DEBUG("{} added to Non-Static objects", object);
 			loadedScene->AddNonStaticObject(object);
 		}
 	}
