@@ -1,8 +1,5 @@
 #pragma once
 
-#include <assert.h>
-#include <string>
-
 #include "Enums/ComponentType.h"
 
 const static std::string GetNameByType(ComponentType type);
@@ -105,8 +102,6 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_RigidBody";
 		case ComponentType::BREAKABLE:
 			return "Component_Breakable";
-		case ComponentType::MOCKSTATE:
-			return "Component_MockState";
 		case ComponentType::AUDIOSOURCE:
 			return "Component_AudioSource";
 		case ComponentType::AUDIOLISTENER:
@@ -177,11 +172,6 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Breakable")
 	{
 		return ComponentType::BREAKABLE;
-	}
-
-	if (typeName == "Component_MockState")
-	{
-		return ComponentType::MOCKSTATE;
 	}
 
 	if (typeName == "Component_AudioSource")
