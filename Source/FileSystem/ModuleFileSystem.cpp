@@ -252,13 +252,14 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 										char*& fileBuffer,
 										unsigned int& size)
 {
-	unsigned int header[4] = { (unsigned int) pathTextures[0].size(),
+	unsigned int header[5] = { (unsigned int) pathTextures[0].size(),
 							   (unsigned int) pathTextures[1].size(),
 							   (unsigned int) pathTextures[2].size(),
-							   (unsigned int) pathTextures[3].size() };
+							   (unsigned int) pathTextures[3].size(),
+							   (unsigned int) pathTextures[4].size()};
 
 	size = (unsigned int) (sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + pathTextures[2].size() +
-						   pathTextures[3].size());
+						   pathTextures[3].size() + pathTextures[4].size());
 
 	char* cursor = new char[size]{};
 
@@ -286,6 +287,11 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 
 	bytes = (unsigned int) pathTextures[3].size();
 	memcpy(cursor, pathTextures[3].c_str(), bytes);
+
+	cursor += bytes;
+
+	bytes = (unsigned int) pathTextures[4].size();
+	memcpy(cursor, pathTextures[4].c_str(), bytes);
 }
 
 void ModuleFileSystem::ZipFolder(zip_t* zip, const char* path) const
