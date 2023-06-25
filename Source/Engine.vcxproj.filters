@@ -934,6 +934,10 @@
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

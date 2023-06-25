@@ -3,14 +3,7 @@
 #include "Module.h"
 #include "ModuleDebugDraw.h"
 
-#define DEFAULT_MOVE_SPEED 9.f
-#define DEFAULT_ROTATION_DEGREE 30
-#define DEFAULT_ROTATION_SPEED 5.f
-#define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
-#define DEFAULT_SHIFT_ACCELERATION 2.f
-#define DEFAULT_FRUSTUM_MODE 0
-#define DEFAULT_FRUSTUM_OFFSET 1.f
-#define DEFAULT_FRUSTUM_DISTANCE 20000.f
+#include "Camera/CameraDefines.h"
 
 #define ORBIT_SPEED_MULTIPLIER 2.f
 
