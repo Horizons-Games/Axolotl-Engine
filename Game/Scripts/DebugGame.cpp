@@ -1,5 +1,6 @@
-#include "DebugGame.h"
+#include "StdAfx.h"
 
+#include "DebugGame.h"
 #include "Components/ComponentPlayer.h"
 #include "ModuleInput.h"
 #include "HealthSystem.h"
@@ -12,6 +13,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "debugdraw.h"
+#include "Application.h"
 
 #include "GameManager.h"
 
@@ -33,68 +35,50 @@ DebugGame::DebugGame() : Script()
 void DebugGame::Start()
 {
 	//ImmortalityStart
-	player = static_cast<ComponentPlayer*>(setPlayer->GetComponent(ComponentType::PLAYER));
+	player = setPlayer->GetComponent<ComponentPlayer>();
 
 	//GameManager* manager = GameManager::GetInstance();
 
-	std::vector<ComponentScript*> gameObjectScripts =
-		setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			playerHealthSystem = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-		}
-		if (gameObjectScripts[i]->GetConstructName() == "BixAttackScript")
-		{
-			playerAttackScript = static_cast<BixAttackScript*>(gameObjectScripts[i]->GetScript());
-		}
+	/*std::vector<ComponentScript*> gameObjectScripts =*/
+		/*setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);*/
 
-		if (gameObjectScripts[i]->GetConstructName() == "PlayerMoveScript")
-		{
-			playerMoveScript = static_cast<PlayerMoveScript*>(gameObjectScripts[i]->GetScript());
-		}
+	playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
+	playerAttackScript = setPlayer->GetComponent<BixAttackScript>();
+	playerMoveScript = setPlayer->GetComponent<PlayerMoveScript>();
+	playerJumpScript = setPlayer->GetComponent<PlayerJumpScript>();
+	playerRotationScript = setPlayer->GetComponent<PlayerRotationScript>();
 
-		if (gameObjectScripts[i]->GetConstructName() == "PlayerJumpScript")
-		{
-			playerJumpScript = static_cast<PlayerJumpScript*>(gameObjectScripts[i]->GetScript());
-		}
 
-		if (gameObjectScripts[i]->GetConstructName() == "PlayerRotationScript")
-		{
-			playerRotationScript = static_cast<PlayerRotationScript*>(gameObjectScripts[i]->GetScript());
-		}
-
-	}
+	
 	//TeleportStart
 
 	if (debugPoint1)
 	{
-		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint1->GetComponent(ComponentType::TRANSFORM)));
+		debugPoints.push_back(debugPoint1->GetComponent<ComponentTransform>());
 	}
 
 	if (debugPoint2)
 	{
-		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint2->GetComponent(ComponentType::TRANSFORM)));
+		debugPoints.push_back(debugPoint2->GetComponent<ComponentTransform>());
 	}
 
 	if (debugPoint3)
 	{
-		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint3->GetComponent(ComponentType::TRANSFORM)));
+		debugPoints.push_back(debugPoint3->GetComponent<ComponentTransform>());
 	}
 
 	if (debugPoint4)
 	{
-		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint4->GetComponent(ComponentType::TRANSFORM)));
+		debugPoints.push_back(debugPoint4->GetComponent<ComponentTransform>());
 	}
 
 	if (debugPoint5)
 	{
-		debugPoints.push_back(static_cast<ComponentTransform*>(debugPoint5->GetComponent(ComponentType::TRANSFORM)));
+		debugPoints.push_back(debugPoint5->GetComponent<ComponentTransform>());
 	}
 
-	playerRigidBody = static_cast<ComponentRigidBody*>(setPlayer->GetComponent(ComponentType::RIGIDBODY));
-	playerTransform = static_cast<ComponentTransform*>(setPlayer->GetComponent(ComponentType::TRANSFORM));
+	playerRigidBody = setPlayer->GetComponent<ComponentRigidBody>();
+	playerTransform = setPlayer->GetComponent<ComponentTransform>();
 
 	currentdDebugPointTransform = debugPoints.front();
 
@@ -167,7 +151,7 @@ void DebugGame::GodCamera() {
 		playerRotationScript->SetCanRotate(false);
 		camera->SetSelectedPosition(1);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		ENGINE_LOG("GOD CAMERA ACTIVATED");
+		LOG_DEBUG("GOD CAMERA ACTIVATED");
 	}
 	else if(playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump() && !playerRotationScript->GetCanRotate())
 	{
@@ -176,7 +160,7 @@ void DebugGame::GodCamera() {
 		playerRotationScript->SetCanRotate(true);
 		camera->SetSelectedPosition(0);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		ENGINE_LOG("GOD CAMERA DEACTIVATED");
+		LOG_DEBUG("GOD CAMERA DEACTIVATED");
 	}
 	
 
@@ -185,7 +169,7 @@ void DebugGame::GodCamera() {
 void DebugGame::FillHealth()
 {
 	playerHealthSystem->HealLife(playerHealthSystem->GetMaxHealth());
-	ENGINE_LOG("Full Health");
+	LOG_DEBUG("Full Health");
 }
 
 void DebugGame::BeImmortal()
@@ -193,12 +177,12 @@ void DebugGame::BeImmortal()
 	if (!playerHealthSystem->GetIsImmortal()) 
 	{
 		playerHealthSystem->SetIsImmortal(true);
-		ENGINE_LOG("Immortal ON");
+		LOG_DEBUG("Immortal ON");
 	}
 	else if (playerHealthSystem->GetIsImmortal())
 	{
 		playerHealthSystem->SetIsImmortal(false);
-		ENGINE_LOG("Immortal OFF");
+		LOG_DEBUG("Immortal OFF");
 	}
 }
 
@@ -208,24 +192,24 @@ void DebugGame::DeathTouch()
 	if (!playerAttackScript->GetIsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(true);
-		ENGINE_LOG("Death Touch ON");
+		LOG_DEBUG("Death Touch ON");
 	}
 	else if (playerAttackScript->GetIsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(false);
-		ENGINE_LOG("Death Touch OFF");	
+		LOG_DEBUG("Death Touch OFF");	
 	}
 
 }
 
 void DebugGame::Teleport()
 {
-	ENGINE_LOG("TELEPORTING");
+	LOG_DEBUG("TELEPORTING");
 	playerRigidBody->SetIsTrigger(true);
 	currentdDebugPointTransform = debugPoints[debugCurrentPosIndex];
 	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 	debugCurrentPosIndex = (debugCurrentPosIndex + 1) % debugPoints.size();
-	ENGINE_LOG("%d", debugCurrentPosIndex);
+	LOG_DEBUG("%d", debugCurrentPosIndex);
 }
 
 
