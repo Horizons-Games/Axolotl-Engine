@@ -38,12 +38,12 @@
         },
         {
             "GameObject": {
-                "name": "Directional_Light",
+                "name": "Level 2.1",
                 "tag": "",
                 "uid": 16349821240862717224,
                 "parentUID": 4712558058616077283,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -205,7 +205,7 @@
                 "name": "Bix_v11",
                 "tag": "Player",
                 "uid": 2451953546989777664,
-                "parentUID": 13709335104208681883,
+                "parentUID": 4712558058616077283,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -5477,15 +5477,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -4.3686676025390625,
+                            "localPos_X": -5.530992031097412,
                             "localPos_Y": 20.0,
-                            "localPos_Z": 80.0,
+                            "localPos_Z": 80.00039672851563,
                             "localRot_X": -180.0,
                             "localRot_Y": 89.98020935058594,
                             "localRot_Z": -180.0,
-                            "localSca_X": 0.5000001788139343,
+                            "localSca_X": 0.5000001192092896,
                             "localSca_Y": 20.0,
-                            "localSca_Z": 37.765411376953125
+                            "localSca_Z": 35.609771728515625
                         }
                     },
                     {
@@ -5519,13 +5519,13 @@
                             "gravity_Y": -9.8100004196167,
                             "boxSize_X": 0.5000001192092896,
                             "boxSize_Y": 20.0,
-                            "boxSize_Z": 37.76540756225586,
+                            "boxSize_Z": 35.609771728515625,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -4.3686676025390625,
+                            "rbPos_X": -5.530992031097412,
                             "rbPos_Y": 20.0,
-                            "rbPos_Z": 80.0
+                            "rbPos_Z": 80.00039672851563
                         }
                     }
                 ]
@@ -5885,15 +5885,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 35.237144470214844,
+                            "localPos_X": 32.93695068359375,
                             "localPos_Y": 23.261091232299805,
                             "localPos_Z": 80.0,
                             "localRot_X": -0.000010017911336035468,
                             "localRot_Y": 90.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 0.4999997913837433,
+                            "localSca_X": 0.49999991059303284,
                             "localSca_Y": 16.477766036987305,
-                            "localSca_Z": 2.2227540016174316
+                            "localSca_Z": 4.44404411315918
                         }
                     },
                     {
@@ -5925,13 +5925,13 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 0.4999997913837433,
+                            "boxSize_X": 0.49999991059303284,
                             "boxSize_Y": 16.477766036987305,
-                            "boxSize_Z": 2.2227542400360107,
+                            "boxSize_Z": 4.44404411315918,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 35.237144470214844,
+                            "rbPos_X": 32.93695068359375,
                             "rbPos_Y": 23.261091232299805,
                             "rbPos_Z": 80.0
                         }
