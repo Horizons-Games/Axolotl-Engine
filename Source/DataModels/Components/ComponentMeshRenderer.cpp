@@ -491,12 +491,19 @@ void ComponentMeshRenderer::UnloadTextures()
 			texture->Unload();
 		}
 
-		/*texture = material->GetSpecular();
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			texture->Unload();
-		}*/
+		}
+
 		texture = material->GetMetallic();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetEmission();
 		if (texture)
 		{
 			texture->Unload();
@@ -540,6 +547,12 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 			break;
 		case TextureType::METALLIC:
 			texture = material->GetMetallic();
+			if (texture)
+			{
+				texture->Unload();
+			}
+		case TextureType::EMISSION:
+			texture = material->GetEmission();
 			if (texture)
 			{
 				texture->Unload();
