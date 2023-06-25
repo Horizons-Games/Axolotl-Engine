@@ -13,6 +13,7 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/PlayerManagerScript.h"
+#include "PlayerForceUseScript.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
@@ -35,7 +36,11 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	Move(deltaTime);
+	if (!owner->GetParent()->GetComponent<PlayerForceUseScript>()->IsForceActive())
+	{
+		Move(deltaTime);
+	}
+	
 }
 
 void PlayerMoveScript::Move(float deltaTime)

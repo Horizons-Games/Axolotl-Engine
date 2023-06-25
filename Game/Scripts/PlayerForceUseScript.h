@@ -20,6 +20,8 @@ public:
     void Start() override;
     void Update(float deltaTime) override;
 
+	bool IsForceActive() const;
+
 private:
 
     GameObject* gameObjectAttached;
@@ -44,3 +46,8 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 };
+
+inline bool PlayerForceUseScript::IsForceActive() const
+{
+	return isForceActive;
+}
