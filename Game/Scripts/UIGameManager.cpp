@@ -1,9 +1,9 @@
+#include "StdAfx.h"
 #include "UIGameManager.h"
-
 #include "Components/ComponentPlayer.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h";
-#include "PowerUpLogicScript.h"
+
 
 
 REGISTERCLASS(UIGameManager);

@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "PowerUpsManagerScript.h"
 
 #include "Components/ComponentScript.h"

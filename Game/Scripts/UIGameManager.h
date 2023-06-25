@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "PowerUpLogicScript.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 

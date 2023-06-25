@@ -7,7 +7,6 @@
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "AxoLog.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -51,7 +50,7 @@ void HealthSystem::Update(float deltaTime)
 		componentAnimation->SetParameter("IsDead", true);
 	}
 
-	else 
+	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
 	}

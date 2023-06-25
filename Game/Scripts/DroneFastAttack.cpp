@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "DroneFastAttack.h"
 
 #include "Application.h"

@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "EnemyDeathScript.h"
 
 #include "Components/ComponentTransform.h"

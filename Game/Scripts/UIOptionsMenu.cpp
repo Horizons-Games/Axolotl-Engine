@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "UIOptionsMenu.h"
 
 #include <Components/ComponentScript.h>
