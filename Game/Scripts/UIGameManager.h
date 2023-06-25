@@ -20,13 +20,15 @@ public:
 	bool menuIsOpen;
 	void WinStateScene(bool setState);
 	void LoseStateScene(bool setState);
+	void EnableUIPwrUp(enum class PowerUpType pwrUp);
+	void ActiveUIPwrUP();
 
 private:
-
+	enum class PowerUpType savePwrUp;
 	GameObject* loseStateObject;
 	GameObject* winStateObject;
 	GameObject* mainMenuObject;
-	GameObject* hudObject;
+	GameObject* hudCanvasObject;
 	GameObject* setPlayer;
 	ComponentPlayer* player;
 	ModuleInput* input;

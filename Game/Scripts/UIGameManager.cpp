@@ -3,15 +3,16 @@
 #include "Components/ComponentPlayer.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h";
+#include "PowerUpLogicScript.h"
 
 
 REGISTERCLASS(UIGameManager);
 
 UIGameManager::UIGameManager() : Script(), loseStateObject(nullptr), winStateObject(nullptr), mainMenuObject(nullptr),
-player(nullptr), menuIsOpen(false), hudObject(nullptr), WinSceneName("00_WinScene_VS3"), LoseSceneName("00_LoseScene_VS3")
+player(nullptr), menuIsOpen(false), hudCanvasObject(nullptr), WinSceneName("00_WinScene_VS3"), LoseSceneName("00_LoseScene_VS3")
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
-	REGISTER_FIELD(hudObject, GameObject*);
+	REGISTER_FIELD(hudCanvasObject, GameObject*);
 	REGISTER_FIELD(setPlayer, GameObject*);
 	REGISTER_FIELD(WinSceneName, std::string);
 	REGISTER_FIELD(LoseSceneName, std::string);
@@ -38,13 +39,13 @@ void UIGameManager::MenuIsOpen()
 	if (menuIsOpen == false)
 	{
 		mainMenuObject->Disable();
-		hudObject->Enable();
+		hudCanvasObject->Enable();
 		player->SetMouse(false);
 	}
 	if (menuIsOpen == true)
 	{
 		mainMenuObject->Enable();
-		hudObject->Disable();
+		hudCanvasObject->Disable();
 		player->SetMouse(true);
 
 	}
@@ -80,4 +81,30 @@ void UIGameManager::LoseStateScene(bool setState)
 	}
 
 #endif // GAME
+}
+
+void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
+{
+	switch (pwrUp)
+	{
+	case PowerUpType::NONE:
+		return;
+	case PowerUpType::HEAL:
+		return;
+	case PowerUpType::ATTACK:
+		return;
+	case PowerUpType::DEFENSE:
+		return;
+	case PowerUpType::SPEED:
+		return;
+	default:
+		break;
+	}
+
+	savePwrUp = pwrUp;
+}
+
+void UIGameManager::ActiveUIPwrUP()
+{
+
 }

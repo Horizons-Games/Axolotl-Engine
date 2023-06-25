@@ -68,7 +68,7 @@ void UIButtonControl::Update(float deltaTime)
 		{
 			buttonHover->Enable();
 		}
-		if (!buttonComponent->IsHovered())
+		else if (!buttonComponent->IsHovered())
 		{
 			buttonHover->Disable();
 		}
