@@ -4180,7 +4180,7 @@
                 "tag": "",
                 "uid": 7451413167197661091,
                 "parentUID": 12416367461132679938,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -5382,7 +5382,7 @@
                 "tag": "",
                 "uid": 17668741064119849543,
                 "parentUID": 8885598870489454996,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -5449,7 +5449,7 @@
                 "tag": "",
                 "uid": 8007891329344591229,
                 "parentUID": 8885598870489454996,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
