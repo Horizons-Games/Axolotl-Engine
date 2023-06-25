@@ -27,7 +27,7 @@ REGISTERCLASS(PlayerForceUseScript);
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
 maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
-currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource (nullptr)
+currentTimeForce(0.0f), breakForce(false), componentAudioSource (nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -35,13 +35,12 @@ currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componen
 
 void PlayerForceUseScript::Start()
 {
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
-
 	currentTimeForce = maxTimeForce;
 
-	rotationScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
-	moveScript = owner->GetParent()->GetComponent<PlayerMoveScript>();
+	rotationScript = owner->GetComponent<PlayerRotationScript>();
+	moveScript = owner->GetComponent<PlayerMoveScript>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -73,18 +72,18 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 			if (rotationScript)
 			{
-				lastHorizontalSensitivity = rotationScript->GetField<float>("RotationSensitivity")->getter();
+				lastHorizontalSensitivity = rotationScript->GetField<float>("RotationSensitivityHorizontal")->getter();
 				rotationScript->GetField<float>("RotationSensitivityHorizontal")->setter(lastHorizontalSensitivity / 2.0f);
-				lastVerticalSensitivity = rotationScript->GetField<float>("RotationSensitivity")->getter();
+				lastVerticalSensitivity = rotationScript->GetField<float>("RotationSensitivityVertical")->getter();
 				rotationScript->GetField<float>("RotationSensitivityVertical")->setter(lastVerticalSensitivity / 2.0f);
 			}
 
 
-			if (moveScript)
+			/*if (moveScript)
 			{
 				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
 				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
-			}
+			}*/
 
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			rigidBody->SetKpForce(50.0f);
@@ -109,10 +108,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rotationScript->GetField<float>("RotationSensitivityVertical")->setter(lastVerticalSensitivity);
 		}
 
-		if (moveScript)
+		/*if (moveScript)
 		{
 			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed);
-		}
+		}*/
 
 		if (isForceActive)
 		{

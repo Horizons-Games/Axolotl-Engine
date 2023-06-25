@@ -5,6 +5,8 @@
 
 #include "Components/ComponentRigidBody.h"
 
+
+#include "Components/ComponentScript.h"
 #include "PlayerForceUseScript.h"
 
 REGISTERCLASS(PlayerRotationScript);
@@ -23,7 +25,7 @@ void PlayerRotationScript::Start()
 
 void PlayerRotationScript::PreUpdate(float deltaTime)
 {
-	if (owner->GetParent()->GetComponent<PlayerForceUseScript>()->IsForceActive())
+	if (owner->GetComponent<PlayerForceUseScript>()->IsForceActive())
 	{
 		Rotation(deltaTime);
 	}

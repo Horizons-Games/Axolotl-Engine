@@ -43,8 +43,8 @@ private:
 	PlayerRotationScript* rotationScript;
 	PlayerMoveScript* moveScript;
 
-	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
+	ComponentAnimation* componentAnimation;
 };
 
 inline bool PlayerForceUseScript::IsForceActive() const

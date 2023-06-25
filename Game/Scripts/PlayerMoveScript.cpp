@@ -36,7 +36,7 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	if (!owner->GetParent()->GetComponent<PlayerForceUseScript>()->IsForceActive())
+	if (!owner->GetComponent<PlayerForceUseScript>()->IsForceActive())
 	{
 		Move(deltaTime);
 	}
