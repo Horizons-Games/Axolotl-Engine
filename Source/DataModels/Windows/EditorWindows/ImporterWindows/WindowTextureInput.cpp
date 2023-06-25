@@ -79,9 +79,9 @@ void WindowTextureInput::DoThisIfOk()
 				windowComponent->SetSpecular(texture);
 
 			break;
-		case TextureType::EMISSION:
+			case TextureType::EMISSION:
 
-			windowComponent->SetEmission(texture);
+				windowComponent->SetEmission(texture);
 
 			break;
 		}

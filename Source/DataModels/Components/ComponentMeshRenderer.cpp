@@ -302,8 +302,7 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 				break;
 		}
 
-		texture =
-			std::dynamic_pointer_cast<ResourceTexture>(material->GetEmission());
+		texture = material->GetEmission();
 		if (texture)
 		{
 			if (!texture->IsLoaded())
@@ -314,6 +313,10 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 			glActiveTexture(GL_TEXTURE11);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			glUniform1i(10, 1);
+		}
+		else
+		{
+			glUniform1i(10, 0);
 		}
 
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
@@ -551,6 +554,7 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 			{
 				texture->Unload();
 			}
+			break;
 		case TextureType::EMISSION:
 			texture = material->GetEmission();
 			if (texture)

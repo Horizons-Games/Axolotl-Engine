@@ -90,8 +90,7 @@ inline void WindowComponentMeshRenderer::SetSpecular(const std::shared_ptr<Resou
 	this->specularMap = specularMap;
 }
 
-inline void WindowComponentMeshRenderer::SetEmission
-(const std::shared_ptr<ResourceTexture>& emissionMap)
+inline void WindowComponentMeshRenderer::SetEmission(const std::shared_ptr<ResourceTexture>& emissionMap)
 {
 	this->emissionMap = emissionMap;
 }

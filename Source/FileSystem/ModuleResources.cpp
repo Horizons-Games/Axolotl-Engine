@@ -620,11 +620,18 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
 					 : pathTextures.push_back(std::string());
 
-	std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
-	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back(std::string());
-
-	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
-	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back(std::string());
+	if (materialResource->GetShaderType() == 0)
+	{
+		std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
+		textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) 
+			: pathTextures.push_back(std::string());
+	}
+	else
+	{
+		std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
+		textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) 
+			: pathTextures.push_back(std::string());
+	}
 
 	std::shared_ptr<ResourceTexture> textureEmissive = materialResource->GetEmission();
 	textureEmissive ? pathTextures.push_back(textureEmissive->GetAssetsPath()) : pathTextures.push_back(std::string());
