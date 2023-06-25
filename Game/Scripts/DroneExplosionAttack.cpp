@@ -4,9 +4,12 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDroneScript.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(DroneExplosionAttack);
 
@@ -24,6 +27,7 @@ void DroneExplosionAttack::Start()
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentHealthSystem = owner->GetParent()->GetComponent<HealthSystem>();
 	parentEnemyDroneScript = owner->GetParent()->GetComponent<EnemyDroneScript>();
+	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
 	rigidBody->SetKpForce(50);
 }
 
@@ -59,6 +63,7 @@ void DroneExplosionAttack::Update(float deltaTime)
 		parentHealthSystem->TakeDamage(explosionDamage);
 		owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 		attackState = DroneExplosionState::DEAD;
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::EXPLOSION);
 	}
 }
 
@@ -67,6 +72,8 @@ void DroneExplosionAttack::SetExplosionPosition(float3 explosionPos)
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
 	attackState = DroneExplosionState::WAITTINGEXPLOSION;
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
 }
 
 void DroneExplosionAttack::UpdateDroneColor()
