@@ -23,8 +23,8 @@ public:
 	const PowerUpType& GetSavedPowerUpType() const;
 	const PowerUpType& GetActivePowerUpType() const;
 
-	const float GetRadiusSeeking();
-	const bool GetDebugDraw();
+	float GetRadiusSeeking();
+	bool GetDebugDraw();
 
 private:
 	void EliminateCurrentPowerUpEffect();
