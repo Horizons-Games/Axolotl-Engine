@@ -47,12 +47,12 @@ private:
 	PowerUpType savedPowerUp;
 };
 
-inline const float PowerUpsManagerScript::GetRadiusSeeking()
+inline float PowerUpsManagerScript::GetRadiusSeeking()
 {
 	return radiusSeeking;
 }
 
-inline const bool PowerUpsManagerScript::GetDebugDraw()
+inline bool PowerUpsManagerScript::GetDebugDraw()
 {
 	return debugDraw;
 }
