@@ -416,6 +416,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetSpecularColor(colorSpecular);
 				asMeshRenderer->SetDiffuse(diffuseTexture);
 				asMeshRenderer->SetMetallic(metallicMap);
+				asMeshRenderer->SetSpecular(specularMap);
 				asMeshRenderer->SetNormal(normalMap);
 				asMeshRenderer->SetEmissive(emissionMap);
 				asMeshRenderer->SetSmoothness(smoothness);

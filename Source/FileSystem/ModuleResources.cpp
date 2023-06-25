@@ -657,10 +657,16 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 		materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
 	meta["OcclusionAssetPath"] =
 		materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	meta["SpecularAssetPath"] =
-		materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
-	meta["MetallicAssetPath"] =
-		materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
+	if (materialResource->GetShaderType() == 0)
+	{
+		meta["SpecularAssetPath"] =
+			materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
+	}
+	else
+	{
+		meta["SpecularAssetPath"] =
+			materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
+	}
 	meta["EmissiveAssetPath"] =
 		materialResource->GetEmission() ? materialResource->GetEmission()->GetAssetsPath().c_str() : "";
 
