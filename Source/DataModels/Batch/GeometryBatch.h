@@ -61,18 +61,17 @@ private:
 
 	struct MaterialMetallic {
 		float4 diffuse_color = float4::zero; //0 //16
-		int has_diffuse_map = 0;			 //16 //4
+		int has_diffuse_map = 0;			 //16 //4      
 		int has_normal_map = 0;				 //20 //4
 		int has_metallic_map = 0;			 //24 //4
 		int has_emissive_map = 0;			 //28 //4
 		float smoothness = 0;				 //32 //4
 		float metalness = 0;				 //36 //4
 		float normal_strength = 0;			 //40 //4
-		uint64_t diffuse_map;				 //44 //8
-		uint64_t normal_map;				 //52 //8
-		uint64_t metallic_map;				 //60 //8
-		uint64_t emissive_map;				 //68 //8
-		int padding;						 //76 //4 --> 80
+		uint64_t diffuse_map;				 //48 //8
+		uint64_t normal_map;				 //56 //8
+		uint64_t metallic_map;				 //64 //8 
+		uint64_t emissive_map;				 //72 //8 -->80
 	};
 
 	struct MaterialSpecular {
@@ -88,7 +87,7 @@ private:
 		uint64_t normal_map;				  //64 //8
 		uint64_t specular_map;				  //72 //8    
 		uint64_t emissive_map;				  //80 //8    
-		int padding1, padding2;				  //88 //8 --> 96
+		int padding1 = 0, padding2 = 0;		  //88 //8 --> 96
 	};
 
 	struct ResourceInfo
