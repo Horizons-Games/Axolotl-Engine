@@ -47,23 +47,24 @@ void ComponentSlider::CheckSlider()
 			ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
 			bool insideBackground = backgroundTransform->GetWorldAABB().maxPoint.x >= point.x &&
 									backgroundTransform->GetWorldAABB().minPoint.x <= point.x;
-			float3 handlePosition = handleTransform->GetPosition();
-			float motion;
+			float newValue;
 
 			if (insideBackground)
 			{
-				motion = handlePosition.x + (point.x - centerWorldPoint);
+				newValue = point.x;
 			}
 			else
 			{
 				backgroundTransform->GetWorldAABB().minPoint.x > point.x
-					? motion = handlePosition.x + (backgroundTransform->GetWorldAABB().minPoint.x - centerWorldPoint)
-					: motion = handlePosition.x + (backgroundTransform->GetWorldAABB().maxPoint.x - centerWorldPoint);
+					? newValue = backgroundTransform->GetWorldAABB().minPoint.x
+					: newValue = backgroundTransform->GetWorldAABB().maxPoint.x;
 			}
+			
+			float normalizedValue =
+				(newValue - backgroundTransform->GetWorldAABB().minPoint.x) /
+				(backgroundTransform->GetWorldAABB().maxPoint.x - backgroundTransform->GetWorldAABB().minPoint.x);
 
-			handleTransform->SetPosition(float3(motion, handlePosition.y, handlePosition.z));
-			handleTransform->CalculateMatrices();
-			OnHandleDragged();
+			ModifyCurrentValue(normalizedValue * (maxValue - minValue));
 		}
 	}
 }
@@ -128,9 +129,27 @@ void ComponentSlider::ModifyCurrentValue(float currentValue)
 
 void ComponentSlider::OnHandleDragged()
 {
+	float normalizedValue = CalculateNormalizedValue();
+	if (handle != nullptr)
+	{
+		ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
+
+		float newPos = normalizedValue * (backgroundTransform->GetWorldAABB().maxPoint.x -
+										  backgroundTransform->GetWorldAABB().minPoint.x) +
+					   backgroundTransform->GetWorldAABB().minPoint.x;
+
+		float centerWorldPoint =
+			(handleTransform->GetWorldAABB().maxPoint.x + handleTransform->GetWorldAABB().minPoint.x) / 2.0f;
+		float3 handlePosition = handleTransform->GetPosition();
+		newPos = handlePosition.x + newPos - centerWorldPoint;
+		handleTransform->SetPosition(float3(newPos, handlePosition.y, handlePosition.z));
+		handleTransform->CalculateMatrices();
+	}
+	
 	if (fill != nullptr)
 	{
-		fill->GetComponent<ComponentImage>()->SetRenderPercentage(CalculateNormalizedValue());
+		fill->GetComponent<ComponentImage>()->SetRenderPercentage(normalizedValue);
 	}
 }
 
