@@ -75,6 +75,6 @@ void main()
     gEmissive= vec4(0.0);
     if (material.has_emissive_map == 1) 
     {
-        gEmissive.rgb = vec3(texture(material.emissive_map, TexCoord).rbg);
+        gEmissive.rgb = vec3(texture(material.emissive_map, TexCoord).rgb);
     }
 } 
