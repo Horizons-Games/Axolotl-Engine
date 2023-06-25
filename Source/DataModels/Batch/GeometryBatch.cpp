@@ -1,7 +1,11 @@
+#include "StdAfx.h"
+
 #include "GeometryBatch.h"
 
 #include "Application.h"
 #include "ModuleProgram.h"
+
+#include "BatchManager.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -27,13 +31,27 @@ GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0
 	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	if (this->flags & BatchManager::HAS_SPECULAR)
+	if (flags & BatchManager::HAS_SPECULAR)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR);
+		}
 	}
-	else 
+	else if (flags & BatchManager::HAS_METALLIC)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC);
+		}
 	}
 
 	//initialize buffers

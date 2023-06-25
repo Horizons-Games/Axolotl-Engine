@@ -46,16 +46,6 @@ private:
 	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
 };
 
-inline bool ModuleFileSystem::CleanUp()
-{
-#ifdef ENGINE
-	logContext->StopWritingToFile();
-#endif //ENGINE
-	// returns non-zero on success, zero on failure
-	int deinitResult = PHYSFS_deinit();
-	return deinitResult != 0;
-}
-
 inline bool ModuleFileSystem::Exists(const char* filePath) const
 {
 	return PHYSFS_exists(filePath);

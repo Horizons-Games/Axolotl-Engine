@@ -1,11 +1,5 @@
 #pragma once
 
-#include "Globals.h"
-
-#include <memory>
-#include <string>
-#include <vector>
-
 #ifndef ENGINE
 	#define LOG_INFO(...)	 // ignore it
 	#define LOG_VERBOSE(...) // ignore it

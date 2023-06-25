@@ -7,6 +7,7 @@
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "AxoLog.h"
 
 REGISTERCLASS(HealthSystem);
 

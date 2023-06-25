@@ -1,8 +1,12 @@
+#include "StdAfx.h"
+
 #include "AnimationImporter.h"
 
 #include "Application.h"
 
 #include "FileSystem/ModuleFileSystem.h"
+
+#include "Defines/ExtensionDefines.h"
 
 void AnimationImporter::Import(const char* filePath, std::shared_ptr<ResourceAnimation> resource)
 {
