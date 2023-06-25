@@ -260,7 +260,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource)
 			{
 				if (materialResource->GetDiffuse() || materialResource->GetNormal() ||
-					materialResource->GetMetallic() || materialResource->GetSpecular())
+					materialResource->GetMetallic() || materialResource->GetSpecular()
+					|| materialResource->GetEmission())
 				{
 					removeButtonLabel = "Remove Textures";
 				}
@@ -269,12 +270,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
 			{
 				asMeshRenderer->UnloadTextures();
-				materialResource->SetDiffuse(nullptr);
-				materialResource->SetNormal(nullptr);
-				materialResource->SetOcclusion(nullptr);
-				materialResource->SetMetallic(nullptr);
-				materialResource->SetSpecular(nullptr);
-				materialResource->SetChanged(true);
+				diffuseTexture = nullptr;
+				normalMap = nullptr;
+				metallicMap = nullptr;
+				specularMap = nullptr;
+				emissionMap = nullptr;
 				updateMaterials = true;
 			}
 
@@ -342,6 +342,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					{
 						specularMap->Unload();
 						specularMap = nullptr;
+						updateMaterials = true;
 					}
 				}
 				else
@@ -383,6 +384,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				{
 					emissionMap->Unload();
 					emissionMap = nullptr;
+					updateMaterials = true;
 				}
 			}
 			else
