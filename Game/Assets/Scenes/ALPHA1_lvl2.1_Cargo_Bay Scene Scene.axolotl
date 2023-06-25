@@ -2079,7 +2079,7 @@
                 "name": "Cube Vertical Size1",
                 "tag": "",
                 "uid": 11828958849886722787,
-                "parentUID": 9546492037799522986,
+                "parentUID": 11556215529743182864,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2147,7 +2147,7 @@
                 "name": "Cube Vertical Size1",
                 "tag": "",
                 "uid": 10499203836802461351,
-                "parentUID": 9546492037799522986,
+                "parentUID": 11556215529743182864,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2215,7 +2215,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 4708295147252206341,
-                "parentUID": 9546492037799522986,
+                "parentUID": 11556215529743182864,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2227,12 +2227,12 @@
                             "localPos_X": -11.702215194702148,
                             "localPos_Y": 3.249023914337158,
                             "localPos_Z": -69.84969329833984,
-                            "localRot_X": -180.0,
-                            "localRot_Y": 90.0,
-                            "localRot_Z": -180.0,
-                            "localSca_X": 10.000000953674316,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 10.000001907348633,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.0000001192092896
+                            "localSca_Z": 1.000000238418579
                         }
                     },
                     {
@@ -2283,7 +2283,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 13009878538285378059,
-                "parentUID": 9546492037799522986,
+                "parentUID": 11556215529743182864,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2295,9 +2295,9 @@
                             "localPos_X": -13.960784912109375,
                             "localPos_Y": 1.25,
                             "localPos_Z": -78.5614013671875,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -2351,7 +2351,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 7807507613421554612,
-                "parentUID": 9546492037799522986,
+                "parentUID": 11556215529743182864,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2361,7 +2361,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -14.364067077636719,
-                            "localPos_Y": 1.25,
+                            "localPos_Y": 1.2499998807907104,
                             "localPos_Z": -76.38301849365234,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -2407,7 +2407,7 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -14.364067077636719,
-                            "rbPos_Y": 1.25,
+                            "rbPos_Y": 1.2499998807907104,
                             "rbPos_Z": -76.38301849365234
                         }
                     }
@@ -2419,7 +2419,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 5769143123350946189,
-                "parentUID": 9546492037799522986,
+                "parentUID": 11556215529743182864,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2487,7 +2487,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 14103075200541399420,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2499,12 +2499,12 @@
                             "localPos_X": -31.0,
                             "localPos_Y": 3.2490291595458984,
                             "localPos_Z": -50.00095748901367,
-                            "localRot_X": -179.99998474121094,
+                            "localRot_X": -179.99996948242188,
                             "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99996948242188,
+                            "localRot_Z": 179.9999542236328,
                             "localSca_X": 10.000001907348633,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.000000238418579
+                            "localSca_Z": 1.0000001192092896
                         }
                     },
                     {
@@ -2555,7 +2555,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 129651960091488352,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2567,12 +2567,12 @@
                             "localPos_X": -28.0,
                             "localPos_Y": 3.249027967453003,
                             "localPos_Z": -50.000732421875,
-                            "localRot_X": -179.99998474121094,
+                            "localRot_X": -179.99996948242188,
                             "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99996948242188,
+                            "localRot_Z": 179.9999542236328,
                             "localSca_X": 10.000001907348633,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.000000238418579
+                            "localSca_Z": 1.0000001192092896
                         }
                     },
                     {
@@ -2623,7 +2623,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 13684606976318036944,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2635,12 +2635,12 @@
                             "localPos_X": -31.0,
                             "localPos_Y": 3.2490346431732178,
                             "localPos_Z": -27.0,
-                            "localRot_X": -179.99998474121094,
+                            "localRot_X": -179.99996948242188,
                             "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99996948242188,
+                            "localRot_Z": 179.9999542236328,
                             "localSca_X": 10.000001907348633,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.000000238418579
+                            "localSca_Z": 1.0000001192092896
                         }
                     },
                     {
@@ -2691,7 +2691,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 10626874682513020538,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2703,12 +2703,12 @@
                             "localPos_X": -28.0,
                             "localPos_Y": 3.249030828475952,
                             "localPos_Z": -27.0,
-                            "localRot_X": -179.99998474121094,
+                            "localRot_X": -179.99996948242188,
                             "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99996948242188,
+                            "localRot_Z": 179.9999542236328,
                             "localSca_X": 10.000001907348633,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.0000001192092896
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -2759,7 +2759,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 13445154285649783593,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2827,7 +2827,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 6658258377897708109,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2895,7 +2895,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 3425192604698552636,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2963,7 +2963,7 @@
                 "name": "Big Cylinder",
                 "tag": "",
                 "uid": 2048617154489486744,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2975,9 +2975,9 @@
                             "localPos_X": 30.363866806030273,
                             "localPos_Y": 14.25,
                             "localPos_Z": -69.26001739501953,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 8.0,
                             "localSca_Y": 14.0,
                             "localSca_Z": 8.0
@@ -3031,7 +3031,7 @@
                 "name": "Cube Vertical Size2",
                 "tag": "",
                 "uid": 12346724091808019630,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3099,7 +3099,7 @@
                 "name": "Cube Vertical Size2",
                 "tag": "",
                 "uid": 4632928611438649744,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3167,7 +3167,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 9338322094568784567,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3235,7 +3235,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 13922756560392177861,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3303,7 +3303,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 10211016765724370185,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3371,7 +3371,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 12755373956550616063,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3383,9 +3383,9 @@
                             "localPos_X": -1.6528111696243286,
                             "localPos_Y": 1.7519608736038208,
                             "localPos_Z": -50.5,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.5,
                             "localSca_Y": 1.5,
                             "localSca_Z": 1.5
@@ -3439,7 +3439,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 13461401294150265728,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3507,7 +3507,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 6470773638577324128,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3575,7 +3575,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 9338549444598694512,
-                "parentUID": 9546492037799522986,
+                "parentUID": 959829992870751064,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3643,7 +3643,7 @@
                 "name": "Big Cube",
                 "tag": "",
                 "uid": 14815546668748904663,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10649949191737788528,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3655,9 +3655,9 @@
                             "localPos_X": -16.494277954101563,
                             "localPos_Y": 3.11446475982666,
                             "localPos_Z": -17.80931282043457,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 10.0,
                             "localSca_Y": 5.0,
                             "localSca_Z": 10.0
@@ -3711,7 +3711,7 @@
                 "name": "Cube Vertical Size1",
                 "tag": "",
                 "uid": 11433385906214268455,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10649949191737788528,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3779,7 +3779,7 @@
                 "name": "Cube Vertical Size1",
                 "tag": "",
                 "uid": 6147362537932346745,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10649949191737788528,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3847,7 +3847,7 @@
                 "name": "Cube Vertical Size1",
                 "tag": "",
                 "uid": 10572534047189157023,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10649949191737788528,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3915,7 +3915,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 9891935774065515924,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10649949191737788528,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3924,15 +3924,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 38.3173942565918,
+                            "localPos_X": 38.310543060302734,
                             "localPos_Y": 3.2490293979644775,
-                            "localPos_Z": -30.507892608642578,
-                            "localRot_X": -179.99998474121094,
+                            "localPos_Z": -30.507890701293945,
+                            "localRot_X": -179.99996948242188,
                             "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99996948242188,
+                            "localRot_Z": 179.9999542236328,
                             "localSca_X": 10.000001907348633,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.000000238418579
+                            "localSca_Z": 1.0000001192092896
                         }
                     },
                     {
@@ -3970,9 +3970,9 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 38.3173942565918,
+                            "rbPos_X": 38.310543060302734,
                             "rbPos_Y": 3.2490293979644775,
-                            "rbPos_Z": -30.507892608642578
+                            "rbPos_Z": -30.507890701293945
                         }
                     }
                 ]
@@ -3983,7 +3983,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 9037252703404101060,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10649949191737788528,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -3995,12 +3995,12 @@
                             "localPos_X": 38.3173942565918,
                             "localPos_Y": 3.249030113220215,
                             "localPos_Z": -9.336509704589844,
-                            "localRot_X": 179.99998474121094,
-                            "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99998474121094,
+                            "localRot_X": -0.00004462360084289685,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 10.000000953674316,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.0000001192092896
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -4051,7 +4051,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 1988852698554316394,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4063,12 +4063,12 @@
                             "localPos_X": 38.3173942565918,
                             "localPos_Y": 3.2490339279174805,
                             "localPos_Z": 11.786041259765625,
-                            "localRot_X": 179.99998474121094,
-                            "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99998474121094,
+                            "localRot_X": -0.00004462360084289685,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 10.000000953674316,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.0000001192092896
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -4119,7 +4119,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 3943328555347035116,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4131,12 +4131,12 @@
                             "localPos_X": 38.3173942565918,
                             "localPos_Y": 3.2490429878234863,
                             "localPos_Z": 52.933372497558594,
-                            "localRot_X": 179.99998474121094,
-                            "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99998474121094,
+                            "localRot_X": -0.00004462360084289685,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 10.000000953674316,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.0000001192092896
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -4187,7 +4187,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 9525206005268711886,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4199,12 +4199,12 @@
                             "localPos_X": 38.3173942565918,
                             "localPos_Y": 3.2490384578704834,
                             "localPos_Z": 32.276878356933594,
-                            "localRot_X": 179.99998474121094,
-                            "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.99998474121094,
+                            "localRot_X": -0.00004462360084289685,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 10.000000953674316,
                             "localSca_Y": 3.0,
-                            "localSca_Z": 1.0000001192092896
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -4255,7 +4255,7 @@
                 "name": "Big Cube",
                 "tag": "",
                 "uid": 9570296646631982213,
-                "parentUID": 9546492037799522986,
+                "parentUID": 6134262681833601519,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4323,7 +4323,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 3676384590755863521,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4391,7 +4391,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 5876051113968077928,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4459,7 +4459,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 5631213876196832173,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4527,7 +4527,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 1320934230169541252,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4595,7 +4595,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 11813838139661716061,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4663,7 +4663,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 6902066080905858354,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4731,7 +4731,7 @@
                 "name": "Cylinder",
                 "tag": "",
                 "uid": 10182696795335727157,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4799,7 +4799,7 @@
                 "name": "Cube Horizontal",
                 "tag": "",
                 "uid": 9043203206600730141,
-                "parentUID": 9546492037799522986,
+                "parentUID": 10560055255551989617,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4811,9 +4811,9 @@
                             "localPos_X": -8.7245454788208,
                             "localPos_Y": 3.24904465675354,
                             "localPos_Z": 27.68620491027832,
-                            "localRot_X": -179.99996948242188,
+                            "localRot_X": -179.9999542236328,
                             "localRot_Y": 89.98020935058594,
-                            "localRot_Z": 179.9999542236328,
+                            "localRot_Z": 179.99993896484375,
                             "localSca_X": 10.000001907348633,
                             "localSca_Y": 3.0,
                             "localSca_Z": 1.0
@@ -4867,7 +4867,7 @@
                 "name": "Cube Vertical Size2",
                 "tag": "",
                 "uid": 2314705627165828730,
-                "parentUID": 9546492037799522986,
+                "parentUID": 6134262681833601519,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -4935,7 +4935,7 @@
                 "name": "Cube Vertical Size2",
                 "tag": "",
                 "uid": 8943771429629520640,
-                "parentUID": 9546492037799522986,
+                "parentUID": 6134262681833601519,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5003,7 +5003,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 16883167126333309643,
-                "parentUID": 9546492037799522986,
+                "parentUID": 6134262681833601519,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5071,7 +5071,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 10823856122241831093,
-                "parentUID": 9546492037799522986,
+                "parentUID": 6134262681833601519,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5139,7 +5139,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 2474727736318384317,
-                "parentUID": 9546492037799522986,
+                "parentUID": 6134262681833601519,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5207,7 +5207,7 @@
                 "name": "Cube",
                 "tag": "",
                 "uid": 10833458143945429765,
-                "parentUID": 9546492037799522986,
+                "parentUID": 6134262681833601519,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5275,7 +5275,7 @@
                 "name": "Empty Wall",
                 "tag": "",
                 "uid": 14073388994858812337,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4574196832709362694,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5287,9 +5287,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -5332,7 +5332,7 @@
                 "name": "Wall",
                 "tag": "",
                 "uid": 13644604881878320578,
-                "parentUID": 9546492037799522986,
+                "parentUID": 14506488035135615789,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5344,9 +5344,9 @@
                             "localPos_X": -40.5,
                             "localPos_Y": 20.0,
                             "localPos_Z": 4.4208831787109375,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 0.5,
                             "localSca_Y": 20.0,
                             "localSca_Z": 75.4749755859375
@@ -5397,7 +5397,7 @@
         },
         {
             "GameObject": {
-                "name": "Wall",
+                "name": "Wall 3",
                 "tag": "",
                 "uid": 1047400938021412498,
                 "parentUID": 9546492037799522986,
@@ -5468,7 +5468,7 @@
                 "name": "Wall",
                 "tag": "",
                 "uid": 14898620361109720503,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4030680687966116580,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5480,12 +5480,12 @@
                             "localPos_X": -4.3686676025390625,
                             "localPos_Y": 20.0,
                             "localPos_Z": 80.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 90.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.5000001192092896,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 0.5000001788139343,
                             "localSca_Y": 20.0,
-                            "localSca_Z": 37.76540756225586
+                            "localSca_Z": 37.765411376953125
                         }
                     },
                     {
@@ -5533,7 +5533,7 @@
         },
         {
             "GameObject": {
-                "name": "Wall",
+                "name": "Wall 4",
                 "tag": "",
                 "uid": 11979575310793971544,
                 "parentUID": 9546492037799522986,
@@ -5672,7 +5672,7 @@
                 "name": "Wall",
                 "tag": "",
                 "uid": 16149748458915274082,
-                "parentUID": 9546492037799522986,
+                "parentUID": 14506488035135615789,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5740,7 +5740,7 @@
                 "name": "Wall",
                 "tag": "",
                 "uid": 18201695654864711291,
-                "parentUID": 9546492037799522986,
+                "parentUID": 14506488035135615789,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5808,7 +5808,7 @@
                 "name": "Wall",
                 "tag": "",
                 "uid": 5939741834815898688,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4030680687966116580,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5820,10 +5820,10 @@
                             "localPos_X": 38.7279052734375,
                             "localPos_Y": 20.0,
                             "localPos_Z": 80.0,
-                            "localRot_X": -180.0,
+                            "localRot_X": 179.99998474121094,
                             "localRot_Y": 89.98020935058594,
-                            "localRot_Z": -180.0,
-                            "localSca_X": 0.5000001192092896,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 0.5000000596046448,
                             "localSca_Y": 20.0,
                             "localSca_Z": 1.5979301929473877
                         }
@@ -5876,7 +5876,7 @@
                 "name": "Wall",
                 "tag": "",
                 "uid": 7334018974287133324,
-                "parentUID": 9546492037799522986,
+                "parentUID": 4030680687966116580,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -5888,12 +5888,12 @@
                             "localPos_X": 35.237144470214844,
                             "localPos_Y": 23.261091232299805,
                             "localPos_Z": 80.0,
-                            "localRot_X": -180.0,
-                            "localRot_Y": 89.98020935058594,
-                            "localRot_Z": -180.0,
+                            "localRot_X": -0.000010017911336035468,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 0.4999997913837433,
                             "localSca_Y": 16.477766036987305,
-                            "localSca_Z": 2.2227542400360107
+                            "localSca_Z": 2.2227540016174316
                         }
                     },
                     {
@@ -5934,6 +5934,598 @@
                             "rbPos_X": 35.237144470214844,
                             "rbPos_Y": 23.261091232299805,
                             "rbPos_Z": 80.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Entry Room",
+                "tag": "",
+                "uid": 10845947158514332588,
+                "parentUID": 13709335104208681883,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Floor",
+                "tag": "",
+                "uid": 8832337088941163307,
+                "parentUID": 10845947158514332588,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -49.93500518798828,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -60.48164749145508,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 10.0,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 20.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 10.0,
+                            "boxSize_Y": 0.25,
+                            "boxSize_Z": 20.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -49.93500518798828,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": -60.48164749145508
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 657772961665003100,
+                "parentUID": 10845947158514332588,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -50.277496337890625,
+                            "localPos_Y": 7.886046886444092,
+                            "localPos_Z": -79.98271179199219,
+                            "localRot_X": 179.99998474121094,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 7.97151517868042,
+                            "localSca_Z": 9.7562255859375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 7.97151517868042,
+                            "boxSize_Z": 9.7562255859375,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -50.277496337890625,
+                            "rbPos_Y": 7.886046886444092,
+                            "rbPos_Z": -79.98271179199219
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 5441736609180399899,
+                "parentUID": 10845947158514332588,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -50.263675689697266,
+                            "localPos_Y": 7.88604736328125,
+                            "localPos_Z": -40.025936126708984,
+                            "localRot_X": 179.99998474121094,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 7.97151517868042,
+                            "localSca_Z": 9.7562255859375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 7.97151517868042,
+                            "boxSize_Z": 9.7562255859375,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -50.263675689697266,
+                            "rbPos_Y": 7.88604736328125,
+                            "rbPos_Z": -40.025936126708984
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 3638531253807087573,
+                "parentUID": 10845947158514332588,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -60.13483428955078,
+                            "localPos_Y": 7.88604736328125,
+                            "localPos_Z": -60.029296875,
+                            "localRot_X": 179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 7.97151517868042,
+                            "localSca_Z": 20.438997268676758
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 7.97151517868042,
+                            "boxSize_Z": 20.438997268676758,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -60.13483428955078,
+                            "rbPos_Y": 7.88604736328125,
+                            "rbPos_Z": -60.029296875
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Not Floor",
+                "tag": "",
+                "uid": 9401929170513682356,
+                "parentUID": 10845947158514332588,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -50.05624008178711,
+                            "localPos_Y": 15.621481895446777,
+                            "localPos_Z": -60.48164749145508,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 10.0,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 20.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 10.0,
+                            "boxSize_Y": 0.25,
+                            "boxSize_Z": 20.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -50.05624008178711,
+                            "rbPos_Y": 15.621481895446777,
+                            "rbPos_Z": -60.48164749145508
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area 1",
+                "tag": "",
+                "uid": 11556215529743182864,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area 2",
+                "tag": "",
+                "uid": 4574196832709362694,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area 3",
+                "tag": "",
+                "uid": 959829992870751064,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area 4",
+                "tag": "",
+                "uid": 10649949191737788528,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area 5",
+                "tag": "",
+                "uid": 10560055255551989617,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Area 6",
+                "tag": "",
+                "uid": 6134262681833601519,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall 1",
+                "tag": "",
+                "uid": 14506488035135615789,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall 2",
+                "tag": "",
+                "uid": 4030680687966116580,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
