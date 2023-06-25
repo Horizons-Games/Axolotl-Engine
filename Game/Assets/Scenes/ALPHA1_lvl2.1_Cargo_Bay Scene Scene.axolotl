@@ -214,9 +214,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 16.701236724853516,
+                            "localPos_X": -36.974693298339844,
                             "localPos_Y": 1.25,
-                            "localPos_Z": -70.9637451171875,
+                            "localPos_Z": -74.86044311523438,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -400,9 +400,9 @@
                             "radius": 0.5,
                             "factor": 0.5,
                             "height": 1.2000000476837158,
-                            "rbPos_X": 16.701236724853516,
+                            "rbPos_X": -36.974693298339844,
                             "rbPos_Y": 1.509716272354126,
-                            "rbPos_Z": -70.9637451171875
+                            "rbPos_Z": -74.86044311523438
                         }
                     },
                     {
@@ -2979,7 +2979,7 @@
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
                             "localSca_X": 8.0,
-                            "localSca_Y": 13.6243314743042,
+                            "localSca_Y": 14.0,
                             "localSca_Z": 8.0
                         }
                     },
@@ -3013,7 +3013,7 @@
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
                             "boxSize_X": 8.0,
-                            "boxSize_Y": 13.6243314743042,
+                            "boxSize_Y": 14.0,
                             "boxSize_Z": 8.0,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
@@ -3652,7 +3652,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -15.856697082519531,
+                            "localPos_X": -16.494277954101563,
                             "localPos_Y": 3.11446475982666,
                             "localPos_Z": -17.80931282043457,
                             "localRot_X": 0.0,
@@ -3698,7 +3698,7 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -15.856697082519531,
+                            "rbPos_X": -16.494277954101563,
                             "rbPos_Y": 3.11446475982666,
                             "rbPos_Z": -17.80931282043457
                         }
@@ -5265,6 +5265,675 @@
                             "rbPos_X": -17.919891357421875,
                             "rbPos_Y": 1.7519712448120117,
                             "rbPos_Z": 74.03889465332031
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty Wall",
+                "tag": "",
+                "uid": 14073388994858812337,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.25,
+                            "boxSize_Y": 5.0,
+                            "boxSize_Z": 5.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -26.75,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": -23.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 13644604881878320578,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -40.5,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": 4.4208831787109375,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 75.4749755859375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 75.4749755859375,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -40.5,
+                            "rbPos_Y": 20.0,
+                            "rbPos_Z": 4.4208831787109375
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 1047400938021412498,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 40.0,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 80.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 80.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 40.0,
+                            "rbPos_Y": 20.0,
+                            "rbPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 14898620361109720503,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.3686676025390625,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": 80.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5000001192092896,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 37.76540756225586
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5000001192092896,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 37.76540756225586,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -4.3686676025390625,
+                            "rbPos_Y": 20.0,
+                            "rbPos_Z": 80.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 11979575310793971544,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.000020205974578857422,
+                            "localPos_Y": 19.9999942779541,
+                            "localPos_Z": -79.99998474121094,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 0.5000000596046448,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 40.000003814697266
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5000000596046448,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 40.000003814697266,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.000020205974578857422,
+                            "rbPos_Y": 19.9999942779541,
+                            "rbPos_Z": -79.99998474121094
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Not Floor",
+                "tag": "",
+                "uid": 13622316495816323058,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 40.0,
+                            "localPos_Z": -0.00048732757568359375,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 40.0,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 80.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 40.0,
+                            "boxSize_Y": 0.25,
+                            "boxSize_Z": 80.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 40.0,
+                            "rbPos_Z": -0.00048732757568359375
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 16149748458915274082,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -40.5,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": -78.6717300415039,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 0.7867594361305237
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 0.7867594361305237,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -40.5,
+                            "rbPos_Y": 20.0,
+                            "rbPos_Z": -78.6717300415039
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 18201695654864711291,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -40.5,
+                            "localPos_Y": 23.316062927246094,
+                            "localPos_Z": -74.7789535522461,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 16.39037322998047,
+                            "localSca_Z": 3.7886946201324463
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 0.7867594361305237,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -40.5,
+                            "rbPos_Y": 23.316062927246094,
+                            "rbPos_Z": -74.7789535522461
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 5939741834815898688,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 38.7279052734375,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": 80.0,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 0.5000001192092896,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 1.5979301929473877
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5000001192092896,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 37.76540756225586,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 38.7279052734375,
+                            "rbPos_Y": 20.0,
+                            "rbPos_Z": 80.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 7334018974287133324,
+                "parentUID": 9546492037799522986,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 35.237144470214844,
+                            "localPos_Y": 23.261091232299805,
+                            "localPos_Z": 80.0,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 0.4999997913837433,
+                            "localSca_Y": 16.477766036987305,
+                            "localSca_Z": 2.2227542400360107
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.4999997913837433,
+                            "boxSize_Y": 16.477766036987305,
+                            "boxSize_Z": 2.2227542400360107,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 35.237144470214844,
+                            "rbPos_Y": 23.261091232299805,
+                            "rbPos_Z": 80.0
                         }
                     }
                 ]
