@@ -53,8 +53,7 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	}
 
 	ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
-	if (closestSample && 
-		(closestSample->GetPosition() - playerTransform->GetGlobalPosition()).Length() <= closestSample->GetRadius())
+	if (closestSample)
 	{
 		CalculateOffsetVector(closestSample->GetOffset());
 
@@ -98,7 +97,7 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 	for (auto sample : samples)
 	{
 		float distance = (sample->GetPosition() - position).Length();
-		if (distance < minDistance)
+		if (distance < minDistance && distance <= sample->GetRadius())
 		{
 			closestSample = sample;
 			minDistance = distance;

@@ -37,13 +37,13 @@ ComponentCameraSample::~ComponentCameraSample()
 void ComponentCameraSample::Draw() const
 {
 #ifdef ENGINE
-	bool canDrawSample = 
+	/*bool canDrawSample = 
 		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (!canDrawSample)
 	{
 		return;
-	}
+	}*/
 
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
@@ -60,6 +60,7 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["positionOffsetY"] = (float) positionOffset.y;
 	meta["positionOffsetZ"] = (float) positionOffset.z;
 
+	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
 	meta["positionY"] = (float) position.y;
 	meta["positionZ"] = (float) position.z;
