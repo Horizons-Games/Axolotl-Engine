@@ -213,6 +213,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				static_cast<uint64_t>(resourceMaterial->GetNormalStrength())
