@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentPointLight.h"
 #include "ComponentTransform.h"
 
@@ -61,7 +63,7 @@ void ComponentPointLight::Draw() const
 #ifdef ENGINE
 		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
-		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
 #endif // ENGINE
 
 	if (!canDrawLight)

@@ -2,11 +2,6 @@
 
 #include "Resource.h"
 
-#include "Math/Quat.h"
-#include "Math/float3.h"
-
-#include <unordered_map>
-
 class ResourceAnimation : virtual public Resource
 {
 public:

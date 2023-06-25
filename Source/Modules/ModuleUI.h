@@ -12,9 +12,9 @@ public:
 
 	bool Init() override;
 
-	update_status Update() override;
+	UpdateStatus Update() override;
 
-	update_status PostUpdate() override;
+	UpdateStatus PostUpdate() override;
 
 	void RecalculateCanvasSizeAndScreenFactor();
 	void LoadVBO();
