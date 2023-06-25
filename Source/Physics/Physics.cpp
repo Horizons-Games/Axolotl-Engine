@@ -7,9 +7,9 @@
 #include "ModuleEditor.h"
 #include "ModuleScene.h"
 
+#include "Camera/Camera.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
-#include "Camera/Camera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -118,12 +118,12 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* excep
 
 	std::function<bool(const GameObject*)> filter = [&filterObjectDescendants](const GameObject* other)
 	{
-		return std::any_of(std::begin(filterObjectDescendants),
-						   std::end(filterObjectDescendants),
-						   [other](GameObject* descendant)
-						   {
-							   return descendant == other;
-						   });
+		return std::none_of(std::begin(filterObjectDescendants),
+							std::end(filterObjectDescendants),
+							[other](GameObject* descendant)
+							{
+								return descendant == other;
+							});
 	};
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit, filter);
@@ -151,12 +151,12 @@ bool Physics::RaycastToTag(const LineSegment& ray, RaycastHit& hit, GameObject* 
 
 	std::function<bool(const GameObject*)> filter = [&filterObjectDescendants, &tag](const GameObject* other)
 	{
-		return other->GetTag() == tag && std::any_of(std::begin(filterObjectDescendants),
-													 std::end(filterObjectDescendants),
-													 [other](GameObject* descendant)
-													 {
-														 return descendant == other;
-													 });
+		return other->GetTag() == tag && std::none_of(std::begin(filterObjectDescendants),
+													  std::end(filterObjectDescendants),
+													  [other](GameObject* descendant)
+													  {
+														  return descendant == other;
+													  });
 	};
 
 	GetRaycastHitInfo(hitGameObjects, ray, hit, filter);
