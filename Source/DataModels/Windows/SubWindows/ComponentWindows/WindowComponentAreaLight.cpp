@@ -53,6 +53,8 @@ void WindowComponentAreaLight::DrawWindowContents()
 		bool modifiedTube = false;
 		bool modifiedSphere = false;
 
+		bool modifiedType = false;
+
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
 
 		if (ImGui::BeginTable("AreaLightTable", 2))
@@ -72,12 +74,12 @@ void WindowComponentAreaLight::DrawWindowContents()
 						{
 							if (lightTypes[i] == "SPHERE")
 							{
-								modifiedSphere = true;
+								modifiedType = true;
 								asAreaLight->SetAreaType(AreaType::SPHERE);
 							}
 							else if (lightTypes[i] == "TUBE")
 							{
-								modifiedTube = true;
+								modifiedType = true;
 								asAreaLight->SetAreaType(AreaType::TUBE);
 							}
 						}
@@ -185,15 +187,26 @@ void WindowComponentAreaLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			if (modifiedSphere)
+			if (modifiedType)
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSphere(asAreaLight);
-				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSphere(asAreaLight);
+				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSpheres();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSpheres();
+
+				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTubes();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTubes();
 			}
-			if (modifiedTube)
+			else
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTube(asAreaLight);
-				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTube(asAreaLight);
+				if (modifiedSphere)
+				{
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSphere(asAreaLight);
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSphere(asAreaLight);
+				}
+				if (modifiedTube)
+				{
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTube(asAreaLight);
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTube(asAreaLight);
+				}
 			}
 
 			ImGui::EndTable();

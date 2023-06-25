@@ -12,7 +12,10 @@ C* GameObject::GetComponent() const
 	auto firstElement = std::ranges::find_if(components,
 											 [](const std::unique_ptr<Component>& comp)
 											 {
-												 return comp->GetType() == ComponentToEnum<C>::value;
+												if (comp)
+												{
+													return comp->GetType() == ComponentToEnum<C>::value;
+												}
 											 });
 	return firstElement != std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
 }
@@ -24,12 +27,18 @@ std::vector<C*> GameObject::GetComponents() const
 							  std::views::filter(
 								  [](const std::unique_ptr<Component>& comp)
 								  {
-									  return comp->GetType() == ComponentToEnum<C>::value;
+									  if (comp)
+									  {
+										  return comp->GetType() == ComponentToEnum<C>::value;
+									  }
 								  }) |
 							  std::views::transform(
 								  [](const std::unique_ptr<Component>& comp)
 								  {
-									  return static_cast<C*>(comp.get());
+									  if (comp)
+									  {
+										  return static_cast<C*>(comp.get());
+									  }
 								  });
 	return std::vector<C*>(std::begin(filteredComponents), std::end(filteredComponents));
 }
@@ -47,7 +56,10 @@ bool GameObject::RemoveComponents()
 										 std::end(components),
 										 [](const std::unique_ptr<Component>& comp)
 										 {
-											 return comp->GetType() == ComponentToEnum<C>::value;
+											if (comp)
+											{
+												return comp->GetType() == ComponentToEnum<C>::value;
+											}
 										 });
 	components.erase(removeIfResult, std::end(components));
 	return removeIfResult != std::end(components);
@@ -60,7 +72,10 @@ S* GameObject::GetComponent()
 	auto componentWithScript = std::ranges::find_if(componentScripts,
 													[](const ComponentScript* component)
 													{
-														return dynamic_cast<S*>(component->GetScript()) != nullptr;
+														if (component)
+														{
+															return dynamic_cast<S*>(component->GetScript()) != nullptr;
+														}
 													});
 	return componentWithScript != std::end(componentScripts) ? dynamic_cast<S*>((*componentWithScript)->GetScript())
 															 : nullptr;
@@ -74,12 +89,18 @@ std::vector<S*> GameObject::GetComponents()
 						   std::views::transform(
 							   [](ComponentScript* component)
 							   {
-								   return dynamic_cast<S*>(component->GetScript());
+								   if (component)
+								   {
+									   return dynamic_cast<S*>(component->GetScript());
+								   }
 							   }) |
 						   std::views::filter(
 							   [](S* script)
 							   {
-								   return script != nullptr;
+								   if (script)
+								   {
+									   return script != nullptr;
+								   }
 							   });
 	return std::vector<S*>(std::begin(filteredScripts), std::end(filteredScripts));
 }

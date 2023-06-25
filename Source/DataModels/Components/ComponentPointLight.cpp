@@ -9,10 +9,10 @@
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
-#include "Modules/ModuleDebugDraw.h"
-#include "Modules/ModuleEditor.h"
+	#include "Modules/ModuleDebugDraw.h"
+	#include "Modules/ModuleEditor.h"
 
-#include "Windows/WindowDebug.h"
+	#include "Windows/WindowDebug.h"
 #endif // ENGINE
 
 #include "Application.h"
