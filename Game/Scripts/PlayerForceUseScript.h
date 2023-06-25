@@ -38,8 +38,7 @@ private:
 
     std::string tag;
 	
-	PlayerRotationScript* rotationHorizontalScript;
-	CameraControllerScript* rotationVerticalScript;
+	PlayerRotationScript* rotationScript;
 	PlayerMoveScript* moveScript;
 
 	ComponentAnimation* componentAnimation;

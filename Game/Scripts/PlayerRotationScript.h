@@ -17,6 +17,7 @@ public:
 private:
     void Rotation(float deltaTime);
 
-	float rotationSensitivity;
+	float rotationSensitivityHorizontal;
+	float rotationSensitivityVertical;
 };
 

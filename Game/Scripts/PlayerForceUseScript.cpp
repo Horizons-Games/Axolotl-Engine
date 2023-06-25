@@ -20,7 +20,6 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "PlayerRotationScript.h"
-#include "CameraControllerScript.h"
 #include "PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerForceUseScript);
@@ -41,10 +40,8 @@ void PlayerForceUseScript::Start()
 
 	currentTimeForce = maxTimeForce;
 
-	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
+	rotationScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
 	moveScript = owner->GetParent()->GetComponent<PlayerMoveScript>();
-
-	rotationVerticalScript = owner->GetComponent<CameraControllerScript>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -74,17 +71,14 @@ void PlayerForceUseScript::Update(float deltaTime)
 				distancePointGameObjectAttached = minDistanceForce;
 			}
 
-			if (rotationHorizontalScript)
+			if (rotationScript)
 			{
-				lastHorizontalSensitivity = rotationHorizontalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity / 2.0f);
+				lastHorizontalSensitivity = rotationScript->GetField<float>("RotationSensitivity")->getter();
+				rotationScript->GetField<float>("RotationSensitivityHorizontal")->setter(lastHorizontalSensitivity / 2.0f);
+				lastVerticalSensitivity = rotationScript->GetField<float>("RotationSensitivity")->getter();
+				rotationScript->GetField<float>("RotationSensitivityVertical")->setter(lastVerticalSensitivity / 2.0f);
 			}
 
-			if (rotationVerticalScript)
-			{
-				lastVerticalSensitivity = rotationVerticalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 2.0f);
-			}
 
 			if (moveScript)
 			{
@@ -109,14 +103,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 
-		if (rotationHorizontalScript)
+		if (rotationScript)
 		{
-			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
-		}
-
-		if (rotationVerticalScript)
-		{
-			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
+			rotationScript->GetField<float>("RotationSensitivityHorizontal")->setter(lastHorizontalSensitivity);
+			rotationScript->GetField<float>("RotationSensitivityVertical")->setter(lastVerticalSensitivity);
 		}
 
 		if (moveScript)
