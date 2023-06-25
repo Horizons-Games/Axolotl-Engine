@@ -620,11 +620,14 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
 					 : pathTextures.push_back(std::string());
 
-	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
-	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
+	std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
+	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
 	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back(std::string());
+
+	std::shared_ptr<ResourceTexture> textureEmissive = materialResource->GetEmission();
+	textureEmissive ? pathTextures.push_back(textureEmissive->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	char* fileBuffer{};
 	unsigned int size = 0;
@@ -651,6 +654,8 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 		materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
 	meta["MetallicAssetPath"] =
 		materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
+	meta["EmissiveAssetPath"] =
+		materialResource->GetEmission() ? materialResource->GetEmission()->GetAssetsPath().c_str() : "";
 
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
