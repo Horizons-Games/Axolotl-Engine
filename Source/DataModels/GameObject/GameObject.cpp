@@ -5,6 +5,7 @@
 #include "../Components/ComponentAudioSource.h"
 #include "../Components/ComponentBreakable.h"
 #include "../Components/ComponentCamera.h"
+#include "../Components/ComponentCameraSample.h"
 #include "../Components/ComponentCubemap.h"
 #include "../Components/ComponentDirLight.h"
 #include "../Components/ComponentLight.h"
@@ -292,6 +293,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::CAMERASAMPLE:
+		{
+			newComponent = std::make_unique<ComponentCameraSample>(static_cast<ComponentCameraSample&>(*component));
+			break;
+		}
+
 		case ComponentType::LIGHT:
 		{
 			CopyComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
@@ -485,6 +492,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::CAMERA:
 		{
 			newComponent = std::make_unique<ComponentCamera>(true, this);
+			break;
+		}
+
+		case ComponentType::CAMERASAMPLE:
+		{
+			newComponent = std::make_unique<ComponentCameraSample>(true, this);
 			break;
 		}
 
