@@ -2,6 +2,7 @@
 #include "ComponentWindow.h"
 
 class ComponentSlider;
+class GameObject;
 
 class WindowComponentSlider : public ComponentWindow
 {
@@ -11,4 +12,5 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+	bool DrawGameObject(GameObject*& go, const char* label);
 };

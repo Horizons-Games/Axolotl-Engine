@@ -130,7 +130,7 @@ void ComponentSlider::ModifyCurrentValue(float currentValue)
 void ComponentSlider::OnHandleDragged()
 {
 	float normalizedValue = CalculateNormalizedValue();
-	if (handle != nullptr)
+	if (handle != nullptr && background != nullptr)
 	{
 		ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
 		ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();

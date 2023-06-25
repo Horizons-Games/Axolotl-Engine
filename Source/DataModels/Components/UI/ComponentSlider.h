@@ -19,6 +19,9 @@ public:
 	float GetMinValue() const;
 	float GetCurrentValue() const;
 	float CalculateNormalizedValue() const;
+	GameObject* GetBackground() const;
+	GameObject* GetFill() const;
+	GameObject* GetHandle() const;
 
 	void SetMaxValue(float maxValue);
 	void SetMinValue(float minValue);
@@ -28,11 +31,9 @@ public:
 	void SetHandle(GameObject* handle);
 
 	void ModifyCurrentValue(float currentValue);
-
-private:
-
 	void OnHandleDragged();
 
+private:
 	void SaveGameObject(Json& meta, const char* name, GameObject* go);
 	GameObject* LoadGameObject(Json& meta, const char* name);
 	GameObject* background;
@@ -68,6 +69,21 @@ inline float ComponentSlider::CalculateNormalizedValue() const
 		normalizedValue = (currentValue - minValue) / (maxValue - minValue);
 	};
 	return normalizedValue;
+}
+
+inline GameObject* ComponentSlider::GetBackground() const
+{
+	return background;
+}
+
+inline GameObject* ComponentSlider::GetFill() const
+{
+	return fill;
+}
+
+inline GameObject* ComponentSlider::GetHandle() const
+{
+	return handle;
 }
 
 inline void ComponentSlider::SetBackground(GameObject* background)
