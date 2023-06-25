@@ -55,8 +55,7 @@ private:
 								  RaycastHit& hit);
 
 	static void GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
-		const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject);
-	static void GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>& hitGameObjects,
-		const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject, std::string tag);
-
+								  const LineSegment& ray,
+								  RaycastHit& hit,
+								  const std::function<bool(const GameObject*)>& filter);
 };
