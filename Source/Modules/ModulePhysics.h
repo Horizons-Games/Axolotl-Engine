@@ -3,8 +3,6 @@
 #include "Bullet/LinearMath/btIDebugDraw.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Module.h"
-#include <unordered_map>
-#include <unordered_set>
 
 class btRigidBody;
 struct btBroadphasePair;
@@ -54,7 +52,7 @@ public:
 	~ModulePhysics() override;
 
 	bool Init() override;
-	update_status PreUpdate() override;
+	UpdateStatus PreUpdate() override;
 
 	void ManageCollisions();
 

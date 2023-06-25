@@ -1,7 +1,11 @@
+#include "StdAfx.h"
+
 #include "GeometryBatch.h"
 
 #include "Application.h"
 #include "ModuleProgram.h"
+
+#include "BatchManager.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -23,17 +27,31 @@
 
 GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0), numTotalFaces(0), 
 	createBuffers(true), reserveModelSpace(true), flags(flags), fillMaterials(false), frame(0),
-	defaultMaterial(new ResourceMaterial(0, "", "", "")),
+	defaultMaterial(new ResourceMaterial(0, std::string(), std::string(), std::string())),
 	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	if (this->flags & BatchManager::HAS_SPECULAR)
+	if (flags & BatchManager::HAS_SPECULAR)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR);
+		}
 	}
-	else 
+	else if (flags & BatchManager::HAS_METALLIC)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC);
+		}
 	}
 
 	//initialize buffers
@@ -195,7 +213,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
-				resourceMaterial->GetNormalStrength()
+				static_cast<uint64_t>(resourceMaterial->GetNormalStrength())
 			};
 
 			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
@@ -700,8 +718,7 @@ void GeometryBatch::BindBatch(bool selected)
 				unsigned int instanceIndex = objectIndexes[component];
 				unsigned int paletteIndex = paletteIndexes[component];
 
-				transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
-					component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+				transformData[frame][instanceIndex] = component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 				
 				if (component->GetMesh()->GetNumBones() > 0)
 				{
@@ -733,8 +750,8 @@ void GeometryBatch::BindBatch(bool selected)
 			unsigned int instanceIndex = objectIndexes[component];
 			unsigned int paletteIndex = paletteIndexes[component];
 
-			transformData[frame][instanceIndex] = static_cast<ComponentTransform*>(
-				component->GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+			transformData[frame][instanceIndex] =
+				component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 			if (component->GetMesh()->GetNumBones() > 0)
 			{
@@ -815,7 +832,7 @@ int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resource
 		instanceData.push_back(index);
 	}
 	
-	return instanceData.size() - 1;
+	return static_cast<int>(instanceData.size()) - 1;
 }
 
 GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const std::shared_ptr<ResourceMesh> mesh)

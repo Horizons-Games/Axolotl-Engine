@@ -27,8 +27,8 @@ void PlayerRotationScript::Rotation(float deltaTime)
 {
 	if(canRotate)
 	{ 
-		ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
-		btRigidBody* btRb = rigidBody->GetRigidBody();
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+	btRigidBody* btRb = rigidBody->GetRigidBody();
 
 		float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivity;
 		btVector3 angularVelocity(0, 0, 0);

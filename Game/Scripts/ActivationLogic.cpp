@@ -10,6 +10,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentPlayer.h"
 
 #include "GameObject/GameObject.h"
 
@@ -29,10 +30,18 @@ ActivationLogic::~ActivationLogic()
 
 void ActivationLogic::Start()
 {
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentRigidBody = static_cast<ComponentRigidBody*>(owner->GetChildren()[1]->GetComponent(ComponentType::RIGIDBODY));
-	//Until the trigger works 100% of the time better cross a closed door than be closed forever
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentRigidBody = nullptr;
+	for (GameObject* child : owner->GetChildren())
+	{
+		componentRigidBody = child->GetComponent<ComponentRigidBody>();
+		if (componentRigidBody != nullptr)
+		{
+			break;
+		}
+	}
+	assert(componentRigidBody);
 	componentRigidBody->Disable();
 }
 
@@ -43,7 +52,7 @@ void ActivationLogic::Update(float deltaTime)
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
 		componentAnimation->SetParameter("IsActive", true);
 		componentRigidBody->Disable();
@@ -53,7 +62,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
 		componentAnimation->SetParameter("IsActive", false);
 		//Until the trigger works 100% of the time better cross a closed door than be closed forever

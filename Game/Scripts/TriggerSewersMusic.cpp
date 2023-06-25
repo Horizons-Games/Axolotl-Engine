@@ -2,6 +2,7 @@
 
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentPlayer.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -14,13 +15,13 @@ TriggerSewersMusic::TriggerSewersMusic() : Script(), componentAudio(nullptr), is
 
 void TriggerSewersMusic::Start()
 {
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
 
 }
 
 void TriggerSewersMusic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
 		if (!isMusicTriggered)
 		{

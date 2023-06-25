@@ -27,12 +27,16 @@ EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScri
 
 void EnemyDroneScript::Start()
 {
-	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentAudioSource = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	ownerTransform = owner->GetComponent<ComponentTransform>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
+	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	seekScript = owner->GetComponent<SeekBehaviourScript>();
+	attackScript = owner->GetComponent<DroneAttack>();
+	healthScript = owner->GetComponent<HealthSystem>();
+
+	/*std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (int i = 0; i < gameObjectScripts.size(); ++i)
 	{
@@ -55,7 +59,7 @@ void EnemyDroneScript::Start()
 		{
 			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
 		}
-	}
+	}*/
 
 	droneState = DroneBehaviours::IDLE;
 }
@@ -71,8 +75,7 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (seekTarget)
 	{
-		const ComponentTransform* seekTargetTransform =
-			static_cast<ComponentTransform*>(seekTarget->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
 		if (droneState != DroneBehaviours::PATROL)
 		{

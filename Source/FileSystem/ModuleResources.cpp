@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleResources.h"
 
 #include "Application.h"
@@ -11,6 +13,7 @@
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/UIDGenerator.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceAnimation.h"
@@ -58,7 +61,7 @@ bool ModuleResources::CleanUp()
 #ifdef ENGINE
 	monitorResources = false;
 	monitorThread.join();
-#else 
+#else
 	resourcesBin.clear();
 #endif
 	resources.clear();
@@ -67,7 +70,7 @@ bool ModuleResources::CleanUp()
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
 {
-	std::shared_ptr<Resource> importedRes;
+	// std::shared_ptr<Resource> importedRes;
 	std::string assetsPath = CreateAssetsPath(fileName, type);
 	switch (type)
 	{
@@ -97,7 +100,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	if (type == ResourceType::Unknown)
 	{
-		ENGINE_LOG("Extension not supported");
+		LOG_WARNING("Extension not supported");
 	}
 	std::string fileName = fileSystem->GetFileName(originalPath);
 	std::string extension = fileSystem->GetFileExtension(originalPath);
@@ -190,26 +193,58 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	std::get_deleter<CollectionAwareDeleter<Resource>>(res)->AddCollection(resources);
 	return res;
 #else
+	auto customDeleter = [this](Resource* pointer)
+	{
+		std::map<UID, std::weak_ptr<Resource>>& map = resources;
+		for (auto it = std::begin(map); it != std::end(map);)
+		{
+			if (it->second.expired())
+			{
+				it = map.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
+		delete pointer;
+	};
 	switch (type)
 	{
 		case ResourceType::Model:
-			return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceModel>(new ResourceModel(uid, fileName, assetsPath, libraryPath),
+												  customDeleter);
+			break;
 		case ResourceType::Texture:
-			return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceTexture>(new ResourceTexture(uid, fileName, assetsPath, libraryPath),
+													customDeleter);
+			break;
 		case ResourceType::Mesh:
-			return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceMesh>(new ResourceMesh(uid, fileName, assetsPath, libraryPath),
+												 customDeleter);
+			break;
 		case ResourceType::Scene: // TODO
 			return nullptr;
 		case ResourceType::Material:
-			return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceMaterial>(new ResourceMaterial(uid, fileName, assetsPath, libraryPath),
+													 customDeleter);
+			break;
 		case ResourceType::SkyBox:
-			return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceSkyBox>(new ResourceSkyBox(uid, fileName, assetsPath, libraryPath),
+												   customDeleter);
+			break;
 		case ResourceType::Cubemap:
-			return std::make_shared<ResourceCubemap>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceCubemap>(new ResourceCubemap(uid, fileName, assetsPath, libraryPath),
+													customDeleter);
+			break;
 		case ResourceType::Animation:
-			return std::make_shared<ResourceAnimation>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceAnimation>(new ResourceAnimation(uid, fileName, assetsPath, libraryPath),
+													  customDeleter);
+			break;
 		case ResourceType::StateMachine:
-			return std::make_shared<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceStateMachine>(
+				new ResourceStateMachine(uid, fileName, assetsPath, libraryPath), customDeleter);
+			break;
 		default:
 			return nullptr;
 	}
@@ -505,7 +540,7 @@ void ModuleResources::MonitorResources()
 				{
 					std::string libraryPathWithExtension = fileSystem->GetPathWithExtension(resource->GetLibraryPath());
 
-					if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
+					if (libraryPathWithExtension.empty() /*file with that name was not found*/ ||
 						!fileSystem->Exists(libraryPathWithExtension.c_str()) || resource->IsChanged())
 					{
 						toCreateLib.push_back(resource);
@@ -559,8 +594,10 @@ void ModuleResources::MonitorResources()
 				char* saveBuffer = {};
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-				App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+				App->GetModule<ModuleFileSystem>()->Save(
+					(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 				delete saveBuffer;
+				break;
 			}
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
@@ -577,19 +614,20 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	std::vector<std::string> pathTextures;
 
 	std::shared_ptr<ResourceTexture> textureDiffuse = materialResource->GetDiffuse();
-	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
+	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureNormal = materialResource->GetNormal();
-	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
+	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
-	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
+	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
+					 : pathTextures.push_back(std::string());
 
 	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
 	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
 
 	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
-	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
+	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	char* fileBuffer{};
 	unsigned int size = 0;

@@ -1,10 +1,12 @@
+#include "StdAfx.h"
+
 #include "ResourceSkyBox.h"
 
 #include "GL/glew.h"
 
-#include "Application.h"
 #include "DataModels/Resources/ResourceTexture.h"
-#include "FileSystem/ModuleResources.h"
+
+#include "AxoLog.h"
 
 ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 							   const std::string& fileName,
@@ -110,7 +112,7 @@ void ResourceSkyBox::LoadVBO()
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
 
-	ENGINE_LOG("Generated VBO %i.", vbo);
+	LOG_VERBOSE("Generated VBO {}.", vbo);
 }
 
 void ResourceSkyBox::CreateVAO()

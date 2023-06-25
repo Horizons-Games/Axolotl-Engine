@@ -29,13 +29,17 @@ public:
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
+
+private:
+
 	bool isLoseTrigger;
 	bool isWinTrigger;
 	bool isNextSceneTrigger;
 	bool isLoseByDamage;
-
-private:
-
+	bool onTriggerState;
+	float damageTaken;
+	float damageTimer = 0;
+	float timer = 0;
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;

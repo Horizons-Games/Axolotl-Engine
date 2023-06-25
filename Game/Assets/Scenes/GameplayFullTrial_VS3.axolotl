@@ -150,72 +150,6 @@
         },
         {
             "GameObject": {
-                "name": "BixPrefab",
-                "tag": "",
-                "uid": 18428133355382312585,
-                "parentUID": 6361496529160884128,
-                "enabled": true,
-                "active": false,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Cubemap",
-                            "active": true,
-                            "removed": true,
-                            "intensity": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BixPrefab",
-                "tag": "",
-                "uid": 16517552122701842159,
-                "parentUID": 18428133355382312585,
-                "enabled": true,
-                "active": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Bix_v11",
                 "tag": "Player",
                 "uid": 6764586723542947213,
@@ -315,12 +249,12 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 100.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "MaxHealth",
-                                    "value": 100.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -2067,35 +2001,6 @@
         },
         {
             "GameObject": {
-                "name": "Garbage",
-                "tag": "",
-                "uid": 6361496529160884128,
-                "parentUID": 9011007661183311806,
-                "enabled": false,
-                "active": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Basic Camera",
                 "tag": "",
                 "uid": 2439703214949333448,
@@ -2239,72 +2144,6 @@
                             "rbPos_X": 5.567686080932617,
                             "rbPos_Y": 1.5957939624786377,
                             "rbPos_Z": -7.999545097351074
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DronePrefab",
-                "tag": "",
-                "uid": 11904917052989814756,
-                "parentUID": 6361496529160884128,
-                "enabled": true,
-                "active": false,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Cubemap",
-                            "active": true,
-                            "removed": true,
-                            "intensity": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DronePrefab",
-                "tag": "",
-                "uid": 8910819870036856084,
-                "parentUID": 11904917052989814756,
-                "enabled": true,
-                "active": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]
@@ -5312,72 +5151,6 @@
                 "parentUID": 9011007661183311806,
                 "enabled": true,
                 "active": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DronePrefab",
-                "tag": "",
-                "uid": 12465223930151688705,
-                "parentUID": 6361496529160884128,
-                "enabled": true,
-                "active": false,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Cubemap",
-                            "active": true,
-                            "removed": true,
-                            "intensity": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DronePrefab",
-                "tag": "",
-                "uid": 9104124709979769880,
-                "parentUID": 12465223930151688705,
-                "enabled": true,
-                "active": false,
                 "static": false,
                 "Components": [
                     {
@@ -8409,11 +8182,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 8827808863826909032,
+        "skyboxUID": 4377575066284441384,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 13881553922914957835,
+        "cubemapUID": 992078593789236745,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }

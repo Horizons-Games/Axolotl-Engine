@@ -1,6 +1,6 @@
-#include "Json.h"
+#include "StdAfx.h"
 
-#include "EngineLog.h"
+#include "Json.h"
 
 #include "rapidjson/prettywriter.h"
 
@@ -17,7 +17,7 @@ bool Json::fromBuffer(char*& buffer)
 	document.Parse<rapidjson::kParseNanAndInfFlag>(buffer);
 	if (document.HasParseError())
 	{
-		ENGINE_LOG("Error parsing JSON: %s", rapidjson::GetParseErrorFunc(document.GetParseError()));
+		LOG_ERROR("Error parsing JSON: {}", rapidjson::GetParseErrorFunc(document.GetParseError()));
 		return false;
 	}
 	return true;

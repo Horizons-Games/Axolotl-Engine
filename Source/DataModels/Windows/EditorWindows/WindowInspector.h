@@ -2,7 +2,7 @@
 
 #include "EditorWindow.h"
 
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 
 class Model;
 class GameObject;
@@ -10,6 +10,7 @@ class Component;
 class ComponentCamera;
 class Resource;
 enum class LightType;
+enum class AreaType;
 class ComponentWindow;
 
 struct AddComponentAction;
@@ -39,12 +40,11 @@ private:
 	bool WindowRightClick();
 
 	void AddComponentMeshRenderer();
-	void AddComponentLight(LightType type);
+	void AddComponentLight(LightType type, AreaType areaType);
 	void AddComponentPlayer();
 	void AddComponentAnimation();
 
 	void AddComponentRigidBody();
-	void AddComponentMockState();
 	void AddComponentAudioSource();
 	void AddComponentAudioListener();
 	void AddComponentMeshCollider();

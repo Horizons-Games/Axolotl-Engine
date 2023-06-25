@@ -7,6 +7,10 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentScript.h"
+#include "Components/ComponentCamera.h"
+
+#include "AxoLog.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -21,7 +25,7 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), com
 
 void HealthSystem::Start()
 {
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	if (maxHealth < currentHealth)
 	{
@@ -41,7 +45,8 @@ void HealthSystem::Update(float deltaTime)
 #endif // ENGINE
 		if(!componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
 		{
-			ENGINE_LOG("Player is dead");
+			LOG_VERBOSE("Player is dead");
+			PlayerDeath();
 		}
 	}
 
@@ -97,4 +102,35 @@ bool HealthSystem::GetIsImmortal()
 void HealthSystem::SetIsImmortal(bool isImmortal)
 {
 	this->isImmortal = isImmortal;
+}
+
+float HealthSystem::GetCurrentHealth() const
+{
+	return currentHealth;
+}
+void HealthSystem::PlayerDeath()
+{
+	// Once the player is dead, disable its scripts
+	std::vector<ComponentScript*> gameObjectScripts =
+		owner->GetComponents<ComponentScript>();
+
+	for (ComponentScript* script : gameObjectScripts)
+	{
+		script->Disable();
+	}
+
+	GameObject::GameObjectView children = owner->GetChildren();
+
+	for (const GameObject* child : children)
+	{
+		if (child->GetComponent<ComponentCamera>())
+		{
+			std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
+
+			for (ComponentScript* script : cameraScripts)
+			{
+				script->Disable();
+			}
+		}
+	}
 }

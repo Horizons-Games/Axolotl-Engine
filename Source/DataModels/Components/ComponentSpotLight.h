@@ -28,11 +28,11 @@ public:
 
 	void Draw() const override;
 
-	void Enable() override;
-	void Disable() override;
+	void SignalEnable() override;
+	void SignalDisable() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	float GetRadius() const;
 	float GetInnerAngle() const;

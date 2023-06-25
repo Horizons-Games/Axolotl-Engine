@@ -15,6 +15,7 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
+	float GetCurrentHealth() const;
 
 	bool EntityIsAlive() const;
 
@@ -24,6 +25,7 @@ public:
 	bool GetIsImmortal();
 	void SetIsImmortal(bool isImmortal);
 	
+	void PlayerDeath();
 
 private:
 	float currentHealth;

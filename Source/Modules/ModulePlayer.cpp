@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 
 #include "Application.h"
 
@@ -5,21 +6,16 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
-
-#include "Components/ComponentTransform.h"
 
 ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
 
@@ -42,7 +38,7 @@ GameObject* ModulePlayer::GetPlayer()
 void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
 	player = newPlayer;
-	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
+	componentPlayer = player->GetComponent<ComponentPlayer>();
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -59,7 +55,7 @@ void ModulePlayer::LoadNewPlayer()
 	for (ComponentCamera* camera : cameras)
 	{
 		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
-		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
+		if (parentOfOwner->GetComponent<ComponentPlayer>())
 		{
 			SetPlayer(parentOfOwner);
 			cameraPlayer = camera->GetCamera();
@@ -76,7 +72,7 @@ void ModulePlayer::LoadNewPlayer()
 			return;
 		}
 	}
-	ENGINE_LOG("Player is not load");
+	LOG_ERROR("Player is not loaded");
 }
 
 void ModulePlayer::UnloadNewPlayer()

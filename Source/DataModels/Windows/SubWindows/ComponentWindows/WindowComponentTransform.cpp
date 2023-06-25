@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentTransform.h"
 
 #include "Application.h"
@@ -31,8 +33,7 @@ void WindowComponentTransform::DrawWindowContents()
 			asTransform->SetDrawBoundingBoxes(bbdraw);
 			for (GameObject* child : asTransform->GetOwner()->GetChildren())
 			{
-				ComponentTransform* transform =
-					static_cast<ComponentTransform*>(child->GetComponent(ComponentType::TRANSFORM));
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				transform->SetDrawBoundingBoxes(bbdraw);
 			}
 		}
@@ -267,8 +268,7 @@ void WindowComponentTransform::UpdateLights()
 		// Rendering lights if modified
 		if (translationModified || rotationModified)
 		{
-			Component* comp = asTransform->GetOwner()->GetComponent(ComponentType::LIGHT);
-			ComponentLight* lightComp = static_cast<ComponentLight*>(comp);
+			const ComponentLight* lightComp = asTransform->GetOwner()->GetComponent<ComponentLight>();
 
 			if (lightComp)
 			{
