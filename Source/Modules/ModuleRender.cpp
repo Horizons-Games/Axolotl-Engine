@@ -301,7 +301,7 @@ update_status ModuleRender::Update()
 
 	gBuffer->BindTexture();
 
-	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
+	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); // maybe we should move out this
