@@ -249,7 +249,7 @@
                 "tag": "Forceable",
                 "uid": 11432638736219795492,
                 "parentUID": 9011007661183311806,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -3227,7 +3227,7 @@
                 "tag": "",
                 "uid": 16415258083415142231,
                 "parentUID": 9011007661183311806,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -6331,7 +6331,7 @@
                 "tag": "",
                 "uid": 12473639644339742065,
                 "parentUID": 9011007661183311806,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
