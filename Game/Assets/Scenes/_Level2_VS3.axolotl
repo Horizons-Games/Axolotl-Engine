@@ -30,7 +30,7 @@
                             "type": "Component_Cubemap",
                             "active": true,
                             "removed": true,
-                            "intensity": 1.0
+                            "intensity": 0.20000000298023224
                         }
                     }
                 ]
@@ -81,7 +81,7 @@
                 "name": "01_Enginieer",
                 "tag": "",
                 "uid": 2232986308961738854,
-                "parentUID": 67125992557613803,
+                "parentUID": 14045072096342317752,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -93,9 +93,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -242,12 +242,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 52.14598083496094,
+                            "localPos_X": 85.18707275390625,
                             "localPos_Y": -6.799995422363281,
-                            "localPos_Z": 6.473151683807373,
-                            "localRot_X": 179.99996948242188,
-                            "localRot_Y": -90.0,
-                            "localRot_Z": 179.99996948242188,
+                            "localPos_Z": 6.473152160644531,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -89.98020935058594,
+                            "localRot_Z": 180.0,
                             "localSca_X": 0.30000001192092896,
                             "localSca_Y": 0.30000001192092896,
                             "localSca_Z": 0.30000001192092896
@@ -428,9 +428,9 @@
                             "radius": 0.5,
                             "factor": 0.5,
                             "height": 1.0,
-                            "rbPos_X": 52.14598083496094,
+                            "rbPos_X": 85.18707275390625,
                             "rbPos_Y": -6.533663749694824,
-                            "rbPos_Z": 6.473151683807373
+                            "rbPos_Z": 6.473152160644531
                         }
                     },
                     {
@@ -2599,7 +2599,7 @@
                 "name": "02_Crew",
                 "tag": "",
                 "uid": 6774583034641935876,
-                "parentUID": 67125992557613803,
+                "parentUID": 14045072096342317752,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2611,9 +2611,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -2627,7 +2627,7 @@
                 "name": "03_Plaza",
                 "tag": "",
                 "uid": 11931193971487655558,
-                "parentUID": 67125992557613803,
+                "parentUID": 14045072096342317752,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2639,9 +2639,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -10295,7 +10295,7 @@
                 "name": "01_Windows_Corridor",
                 "tag": "",
                 "uid": 16962850349722411107,
-                "parentUID": 67125992557613803,
+                "parentUID": 14045072096342317752,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10307,9 +10307,9 @@
                             "localPos_X": 0.5,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -11715,7 +11715,7 @@
                 "name": "02_Windows_Corridor",
                 "tag": "",
                 "uid": 1034509013179997694,
-                "parentUID": 67125992557613803,
+                "parentUID": 14045072096342317752,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -15134,7 +15134,7 @@
         },
         {
             "GameObject": {
-                "name": "ALPHA1_lvl2.1_Cargo_Bay Scene Scene",
+                "name": "Level 2.1",
                 "tag": "",
                 "uid": 4517524098055202915,
                 "parentUID": 67125992557613803,
@@ -15162,7 +15162,7 @@
                             "type": "Component_Cubemap",
                             "active": true,
                             "removed": true,
-                            "intensity": 1.0
+                            "intensity": 0.20000000298023224
                         }
                     }
                 ]
@@ -19727,6 +19727,34 @@
                 "tag": "",
                 "uid": 10844546983242488773,
                 "parentUID": 146157111939196638,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Level 2.2",
+                "tag": "",
+                "uid": 14045072096342317752,
+                "parentUID": 67125992557613803,
                 "enabled": true,
                 "static": false,
                 "Components": [
