@@ -17,13 +17,8 @@ ComponentButton::~ComponentButton()
 {
 }
 
-void ComponentButton::SaveOptions(Json& meta)
+void ComponentButton::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	meta["colorHovered_x"] = static_cast<float>(colorHovered.x);
 	meta["colorHovered_y"] = static_cast<float>(colorHovered.y);
 	meta["colorHovered_z"] = static_cast<float>(colorHovered.z);
@@ -37,13 +32,8 @@ void ComponentButton::SaveOptions(Json& meta)
 	meta["sceneName"] = sceneName.c_str();
 }
 
-void ComponentButton::LoadOptions(Json& meta)
+void ComponentButton::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	colorHovered.x = static_cast<float>(meta["colorHovered_x"]);
 	colorHovered.y = static_cast<float>(meta["colorHovered_y"]);
 	colorHovered.z = static_cast<float>(meta["colorHovered_z"]);
@@ -57,9 +47,8 @@ void ComponentButton::LoadOptions(Json& meta)
 	sceneName = meta["sceneName"];
 }
 
-void ComponentButton::Disable()
+void ComponentButton::SignalDisable()
 {
-	active = false;
 	clicked = false;
 	hovered = false;
 }

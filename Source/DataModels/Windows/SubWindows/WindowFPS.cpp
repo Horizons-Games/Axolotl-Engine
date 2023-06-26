@@ -31,7 +31,7 @@ void WindowFPS::DrawWindowContents()
 		fpsHist[currentFpsIndex] = std::max(actualValue, 0.0001f);
 		if (actualValue != fpsHist[currentFpsIndex])
 		{
-			ENGINE_LOG("Actual framerate was less than 0.0001");
+			LOG_WARNING("Actual framerate was less than 0.0001");
 		}
 	}
 	{
@@ -39,7 +39,7 @@ void WindowFPS::DrawWindowContents()
 		timeHist[currentTimeIndex] = std::min(actualValue, 1000.f);
 		if (actualValue != timeHist[currentTimeIndex])
 		{
-			ENGINE_LOG("Actual frame time was more than 1000 seconds");
+			LOG_WARNING("Actual frame time was more than 1000 seconds");
 		}
 	}
 

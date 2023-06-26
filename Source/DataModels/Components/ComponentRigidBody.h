@@ -50,16 +50,9 @@ public:
 		return id;
 	}
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
-	void Enable() override;
-	void Disable() override;
-
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
-	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -145,6 +138,13 @@ public:
     void ClearCollisionEnterDelegate();
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
+	void SignalEnable() override;
+	void SignalDisable() override;
+
+private:
 	int GenerateId() const;
 
 	std::unique_ptr<btRigidBody> rigidBody = nullptr;
@@ -163,7 +163,6 @@ private:
     float height;
 
 	bool isKinematic = false;
-	bool isStatic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
 
@@ -192,16 +191,6 @@ inline bool ComponentRigidBody::GetIsKinematic() const
 inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
 {
 	isKinematic = newIsKinematic;
-}
-
-inline bool ComponentRigidBody::IsStatic() const
-{
-	return isStatic;
-}
-
-inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
-{
-	isStatic = newIsStatic;
 }
 
 inline bool ComponentRigidBody::IsTrigger() const

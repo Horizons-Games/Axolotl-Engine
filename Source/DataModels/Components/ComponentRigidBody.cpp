@@ -30,7 +30,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	currentShape = Shape::BOX;
 	motionState = std::make_unique<btDefaultMotionState>(startTransform);
 	shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
-	rigidBody = std::make_unique<btRigidBody>(100, motionState.get(), shape.get());
+	rigidBody = std::make_unique<btRigidBody>(100.f, motionState.get(), shape.get());
 
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
@@ -47,9 +47,8 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 }
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
-	Component(ComponentType::RIGIDBODY, toCopy.active, toCopy.owner, true),
+	Component(ComponentType::RIGIDBODY, toCopy.IsEnabled(), toCopy.GetOwner(), true),
 	isKinematic(toCopy.isKinematic),
-	isStatic(toCopy.isStatic),
 	isTrigger(toCopy.isTrigger),
 	currentShape(toCopy.currentShape),
 	boxSize(toCopy.boxSize),
@@ -96,7 +95,7 @@ void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 {
 	assert(other);
 
-	for (ComponentScript* script : owner->GetComponents<ComponentScript>())
+	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
 		script->OnCollisionEnter(other);
 	}
@@ -112,7 +111,7 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 {
 	assert(other);
 
-	for (ComponentScript* script : owner->GetComponents<ComponentScript>())
+	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
 		script->OnCollisionExit(other);
 	}
@@ -134,7 +133,7 @@ void ComponentRigidBody::Update()
 
 	if (!rigidBody->isStaticOrKinematicObject())
 	{
-		rigidBody->setCcdMotionThreshold(0.1);
+		rigidBody->setCcdMotionThreshold(0.1f);
 		rigidBody->setCcdSweptSphereRadius(0.1f);
 
 		btTransform trans;
@@ -228,9 +227,8 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
 		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
-		isStatic = false;
 	}
-	else if (isStatic)
+	else if (IsStatic())
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -286,14 +284,9 @@ void ComponentRigidBody::SetCollisionShape(Shape newShape)
 	}
 }
 
-void ComponentRigidBody::SaveOptions(Json& meta)
+void ComponentRigidBody::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
 	meta["isKinematic"] = static_cast<bool>(GetIsKinematic());
-	meta["isStatic"] = static_cast<bool>(IsStatic());
 	meta["isTrigger"] = static_cast<bool>(IsTrigger());
 	meta["drawCollider"] = static_cast<bool>(GetDrawCollider());
 	meta["mass"] = static_cast<float>(GetMass());
@@ -317,14 +310,9 @@ void ComponentRigidBody::SaveOptions(Json& meta)
 	meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());
 }
 
-void ComponentRigidBody::LoadOptions(Json& meta)
+void ComponentRigidBody::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
 	SetIsKinematic(static_cast<bool>(meta["isKinematic"]));
-	SetIsStatic(static_cast<bool>(meta["isStatic"]));
 #ifdef ENGINE
 	SetDrawCollider(static_cast<bool>(meta["drawCollider"]), false);
 #endif
@@ -359,16 +347,14 @@ void ComponentRigidBody::LoadOptions(Json& meta)
 	SetGravity({ 0, static_cast<float>(meta["gravity_Y"]), 0 });
 }
 
-void ComponentRigidBody::Enable()
+void ComponentRigidBody::SignalEnable()
 {
-	Component::Enable();
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	rigidBody->setGravity(gravity);
 }
 
-void ComponentRigidBody::Disable()
+void ComponentRigidBody::SignalDisable()
 {
-	Component::Disable();
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
@@ -449,4 +435,9 @@ void ComponentRigidBody::SetDefaultPosition()
 	SetRigidBodyOrigin(transPosBt);
 	UpdateRigidBodyTranslation();
 	UpdateRigidBody();
+}
+
+bool ComponentRigidBody::IsStatic() const
+{
+	return GetOwner()->IsStatic();
 }

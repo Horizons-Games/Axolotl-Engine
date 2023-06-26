@@ -20,25 +20,17 @@ ComponentMeshCollider::~ComponentMeshCollider()
 {
 }
 
-void ComponentMeshCollider::SaveOptions(Json& meta)
+void ComponentMeshCollider::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
 }
 
-void ComponentMeshCollider::LoadOptions(Json& meta)
+void ComponentMeshCollider::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 }
 
 bool ComponentMeshCollider::Move(Direction direction, float size, float stepSize)
 {
-	ComponentTransform* trans = owner->GetComponent<ComponentTransform>();
+	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = trans->GetPosition();
 
 	math::vec points[8];
@@ -64,7 +56,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 {
 	float sectionMove = distance / (float) steps;
 
-	ComponentTransform* trans = owner->GetComponent<ComponentTransform>();
+	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = trans->GetPosition();
 
 	math::vec points[8];
@@ -101,7 +93,7 @@ bool ComponentMeshCollider::IsColliding(std::vector<float3>& startingPoints,
 	{
 		Ray ray(point, direction);
 		LineSegment line(ray, size);
-		bool hasHit = Physics::RaycastFirst(line, owner);
+		bool hasHit = Physics::RaycastFirst(line, GetOwner());
 
 		if (hasHit)
 		{
@@ -190,6 +182,6 @@ float3 ComponentMeshCollider::GetMovementGivenDirection(std::vector<float3>& poi
 		case Direction::DOWN:
 			return -float3::unitY;
 		default:
-			break;
+			return float3::one;
 	}
 }

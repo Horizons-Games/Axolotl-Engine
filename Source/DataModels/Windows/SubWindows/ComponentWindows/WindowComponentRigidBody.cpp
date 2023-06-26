@@ -2,9 +2,10 @@
 
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Components/ComponentRigidBody.h"
+#include "GameObject/GameObject.h"
 
 WindowComponentRigidBody::WindowComponentRigidBody(ComponentRigidBody* component) :
-	ComponentWindow("RIGID BODY", component)
+	ComponentWindow("RIGIDBODY", component)
 {
 }
 
@@ -37,20 +38,6 @@ void WindowComponentRigidBody::DrawWindowContents()
 		ImGui::SameLine();
 		ImGui::Text("Is Kinematic");
 
-		bool isStatic = asRigidBody->IsStatic();
-
-		if (ImGui::Checkbox("##Is Static", &isStatic))
-		{
-			if (isStatic)
-			{
-				asRigidBody->SetIsKinematic(false);
-			}
-			asRigidBody->SetIsStatic(isStatic);
-			asRigidBody->SetUpMobility();
-		}
-		ImGui::SameLine();
-		ImGui::Text("Is Static");
-
 		bool isTrigger = asRigidBody->IsTrigger();
 
 		if (ImGui::Checkbox("##Is a Trigger", &isTrigger))
@@ -61,7 +48,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 		ImGui::Text("Is a Trigger");
 		ImGui::Text("");
 
-		if (!isStatic)
+		if (!asRigidBody->IsStatic())
 		{
 			// Mass
 			float mass = rigidBody->getMass();

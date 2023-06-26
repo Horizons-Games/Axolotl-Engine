@@ -28,7 +28,7 @@ float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 	const WindowScene* windowScene = App->GetModule<ModuleEditor>()->GetScene();
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
-	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
+	if (!ImGuizmo::IsOver() && !windowScene->IsMouseInsideManipulator(mousePosition.x, mousePosition.y))
 	{
 		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x && mousePosition.y > startPosScene.y &&
 			mousePosition.y < endPosScene.y)
@@ -50,7 +50,7 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 	const WindowScene* windowScene = App->GetModule<ModuleEditor>()->GetScene();
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
-	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
+	if (!ImGuizmo::IsOver() && !windowScene->IsMouseInsideManipulator(mousePosition.x, mousePosition.y))
 	{
 		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x && mousePosition.y > startPosScene.y &&
 			mousePosition.y < endPosScene.y)

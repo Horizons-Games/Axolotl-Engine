@@ -8,20 +8,19 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
 
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -39,8 +38,8 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include <stack>
 #include <GL/glew.h>
+#include <stack>
 
 #include "Scripting/IScript.h"
 
@@ -665,7 +664,6 @@ void Scene::RenderPointLights() const
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
 	}
 
-
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -693,7 +691,6 @@ void Scene::RenderAreaLights() const
 	size_t numSphere = sphereLights.size();
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
-	// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSphere);
 
@@ -709,7 +706,6 @@ void Scene::RenderAreaLights() const
 	size_t numTube = tubeLights.size();
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
-	// 64 'cause the whole struct takes 52 bytes, and arrays of structs need to be aligned to 16 in std430
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numTube);
 
@@ -729,22 +725,19 @@ void Scene::UpdateScenePointLights()
 
 	for (GameObject* child : children)
 	{
-		if (child && child->IsEnabled() && child->IsActive())
+		if (child && child->IsActive())
 		{
 			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty())
+			if (!components.empty() && components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
 			{
-				if (components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
-				{
-					ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
-					ComponentTransform* transform = components[0]->GetOwner()->GetComponent<ComponentTransform>();
+				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
+				ComponentTransform* transform = components[0]->GetOwner()->GetComponent<ComponentTransform>();
 
-					PointLight pl;
-					pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
-					pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
-
-					pointLights.push_back(pl);
-				}
+				PointLight pl;
+				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
+				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
+				
+				pointLights.push_back(pl);
 			}
 		}
 	}
@@ -758,13 +751,12 @@ void Scene::UpdateSceneSpotLights()
 
 	for (GameObject* child : children)
 	{
-		if (child && child->IsEnabled() && child->IsActive())
+		if (child && child->IsActive())
 		{
 			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty())
+			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
 			{
-				ComponentSpotLight* spotLightComp =
-					static_cast<ComponentSpotLight*>(components[0]);
+				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 
 				SpotLight sl;
@@ -789,14 +781,12 @@ void Scene::UpdateSceneAreaLights()
 
 	for (GameObject* child : children)
 	{
-		if (child)
+		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components =
-				child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA)
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp =
-					static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp =	static_cast<ComponentAreaLight*>(components[0]);
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -879,7 +869,7 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
-	
+
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
@@ -914,13 +904,16 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
 {
 	sceneGameObjects.push_back(gameObject);
-	if (gameObject->IsStatic())
+	if (gameObject->IsRendereable())
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
-	}
-	else
-	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+		if (gameObject->IsStatic())
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+		}
+		else
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+		}
 	}
 	for (GameObject* children : gameObject->GetChildren())
 	{

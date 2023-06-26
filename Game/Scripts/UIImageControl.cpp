@@ -41,12 +41,12 @@ void UIImageControl::Update(float deltaTime)
 				enableImgObject->Disable();
 				enableImgObject02->Enable();
 			}
-			if (powerupTimer >= 3.75f*2) 
+			else if (powerupTimer >= 3.75f*2) 
 			{
 				enableImgObject02->Disable();
 				enableImgObject03->Enable();
 			}
-			if (powerupTimer >= 3.75f*3) 
+			else if (powerupTimer >= 3.75f*3) 
 			{
 				enableImgObject03->Disable();
 				enableImgObject04->Enable();
@@ -55,7 +55,7 @@ void UIImageControl::Update(float deltaTime)
 		else if (powerupStatus == true && powerupTimer >= 15.0f && check == true)
 		{
 			enableImgObject04->Disable();
-			ENGINE_LOG("Entra con un tiempo de %f", powerupTimer);
+			LOG_VERBOSE("Entra con un tiempo de {}", powerupTimer);
 			powerupTimer = 0.0f;
 			powerupStatus = false;
 		}
@@ -67,13 +67,13 @@ void UIImageControl::Update(float deltaTime)
 			{
 				hudStatus = true;
 				enableImgObject->Enable();
-				ENGINE_LOG("Complete HUD ON");
+				LOG_VERBOSE("Complete HUD ON");
 			}
 			else
 			{
 				hudStatus = false;
 				enableImgObject->Disable();
-				ENGINE_LOG("Complete HUD OFF");
+				LOG_VERBOSE("Complete HUD OFF");
 			}
 		}
 	}

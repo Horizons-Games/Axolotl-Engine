@@ -20,9 +20,6 @@ public:
 	ComponentMeshCollider(bool active, GameObject* owner);
 	~ComponentMeshCollider() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	bool GetIsTrigger() const;
 	void SetIsTrigger(bool newIsKinematic);
 
@@ -31,6 +28,10 @@ public:
 
 	bool IsColliding(std::vector<float3>& startingPoints, float3 direction, float size, float stepSize = 0) const;
 	void GetMinMaxPoints(const std::vector<float3>& startingPoints, std::vector<float3>& points, float stepSize) const;
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	bool isTrigger;
