@@ -15,7 +15,13 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	bool DrawRecursiveHierarchy(GameObject* gameObject);
+	enum class DrawHierarchyResultCode
+	{
+		HierarchyChanged,
+		ObjectNotFiltered,
+		Success
+	};
+	DrawHierarchyResultCode DrawRecursiveHierarchy(GameObject* gameObject);
 	void DrawSearchBar();
 
 	void ProcessInput();

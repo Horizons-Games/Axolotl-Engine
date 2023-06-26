@@ -52,13 +52,13 @@ void WindowHierarchy::DrawWindowContents()
 	lastSelectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 }
 
-bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
+WindowHierarchy::DrawHierarchyResultCode WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
 	assert(gameObject);
 
 	if (!IsFiltered(gameObject))
 	{
-		return true;
+		return DrawHierarchyResultCode::ObjectNotFiltered;
 	}
 
 	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
@@ -177,7 +177,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 			{
 				ImGui::TreePop();
 			}
-			return false;
+			return DrawHierarchyResultCode::HierarchyChanged;
 		}
 
 		ImGui::EndPopup();
@@ -229,7 +229,7 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 				{
 					ImGui::TreePop();
 				}
-				return false;
+				return DrawHierarchyResultCode::HierarchyChanged;
 			}
 		}
 
@@ -240,16 +240,16 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 	{
 		for (GameObject* child : children)
 		{
-			if (!DrawRecursiveHierarchy(child))
+			if (DrawRecursiveHierarchy(child) == DrawHierarchyResultCode::HierarchyChanged)
 			{
 				ImGui::TreePop();
-				return false;
+				return DrawHierarchyResultCode::HierarchyChanged;
 			}
 		}
 		ImGui::TreePop();
 	}
 
-	return true;
+	return DrawHierarchyResultCode::Success;
 }
 
 void WindowHierarchy::DrawSearchBar()
