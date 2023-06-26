@@ -82,33 +82,24 @@ void ComponentPointLight::OnTransformChanged()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	if (currentScene)
-	{
-		currentScene->UpdateScenePointLight(this);
-		currentScene->RenderPointLight(this);
-	}	
+	currentScene->UpdateScenePointLight(this);
+	currentScene->RenderPointLight(this);
 }
 
 void ComponentPointLight::SignalEnable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	if (currentScene)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
+	currentScene->UpdateScenePointLights();
+	currentScene->RenderPointLights();
 }
 
 void ComponentPointLight::SignalDisable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	
-	if (currentScene)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
+	currentScene->UpdateScenePointLights();
+	currentScene->RenderPointLights();
 }
 
 void ComponentPointLight::InternalSave(Json& meta)
