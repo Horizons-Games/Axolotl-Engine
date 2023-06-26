@@ -1,5 +1,7 @@
 {
     "UID": 1979337951593774115,
     "Type": "StateMachine",
-    "ResourcesAssetPaths": null
+    "ResourcesAssetPaths": [
+        "Assets/Animation/TurbineBladesV4.Armature_BladeRotation.anim"
+    ]
 }
