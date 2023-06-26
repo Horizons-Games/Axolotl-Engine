@@ -14,6 +14,7 @@
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentSlider.h"
 #include "GL/glew.h"
 #include "Physics/Physics.h"
 
@@ -157,6 +158,14 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		disabledHierarchy = true;
 	}
 
+	for (ComponentSlider* slider : gameObject->GetComponents<ComponentSlider>())
+	{
+		if (slider->IsEnabled())
+		{
+			slider->CheckSlider();
+		}
+	}
+
 	for (ComponentButton* button : gameObject->GetComponents<ComponentButton>())
 	{
 		if (disabledHierarchy
@@ -185,7 +194,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 			else
 			{
 				button->SetHovered(false);
-				button->SetClicked(false);
+				//button->SetClicked(false);
 			}
 		}
 	}

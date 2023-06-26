@@ -23,6 +23,7 @@
 #include "DataModels/Components/UI/ComponentImage.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
 #include "DataModels/Components/ComponentCameraSample.h"
+#include "DataModels/Components/UI/ComponentSlider.h"
 
 #include "Application.h"
 
@@ -550,6 +551,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentButton>(true, this);
 			break;
 		}
+
+		case ComponentType::SLIDER:
+		{
+			newComponent = std::make_unique<ComponentSlider>(true, this);
+			break;
+		}
+
 
 		case ComponentType::AUDIOSOURCE:
 		{

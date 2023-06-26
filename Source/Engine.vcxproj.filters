@@ -464,6 +464,9 @@
     <ClCompile Include="Modules\ModuleNavigation.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
@@ -491,6 +494,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
       <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -975,6 +981,9 @@
     <ClInclude Include="Modules\ModuleNavigation.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentSlider.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\GBuffer\GBuffer.h">
       <Filter>DataModels\GBuffer</Filter>
     </ClInclude>
@@ -1036,6 +1045,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

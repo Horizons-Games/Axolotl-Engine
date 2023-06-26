@@ -96,6 +96,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Canvas";
 		case ComponentType::TRANSFORM2D:
 			return "Component_Transform2D";
+		case ComponentType::SLIDER:
+			return "Component_Slider";
 		case ComponentType::IMAGE:
 			return "Component_Image";
 		case ComponentType::BUTTON:
@@ -160,6 +162,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Transform2D")
 	{
 		return ComponentType::TRANSFORM2D;
+	}
+
+	if (typeName == "Component_Slider")
+	{
+		return ComponentType::SLIDER;
 	}
 
 	if (typeName == "Component_Image")
