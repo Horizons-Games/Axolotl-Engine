@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentPlayer.h"
 
 #include "Components/ComponentPlayer.h"

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Physics.h"
 
 #include "Application.h"
@@ -7,6 +9,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -18,8 +21,6 @@
 
 #include "Geometry/Frustum.h"
 #include "Geometry/Triangle.h"
-#include "Math/float2.h"
-#include <queue>
 
 float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 {
@@ -365,18 +366,19 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	float3 nearestHitPoint = float3::zero;
 	float3 hitNormal = float3::zero;
 
-	GameObject::GameObjectView children = exceptionGameObject->GetChildren();
+	std::list<GameObject*> children = exceptionGameObject->GetAllDescendants();
 
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
 		const GameObject* actualGameObject = hitGameObject.second;
 
-		bool isInside = false;
-
-		auto it = std::find(children.begin(), children.end(), actualGameObject);
-
-		isInside = it != children.end();
-		if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
+		bool isInside = std::any_of(children.begin(),
+									children.end(),
+									[actualGameObject](GameObject* other)
+									{
+										return other == actualGameObject;
+									});
+		if (actualGameObject && !isInside)
 		{
 			ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
 
@@ -447,11 +449,12 @@ void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>&
 		{
 			const GameObject* actualGameObject = hitGameObject.second;
 
-			bool isInside = false;
-
-			auto it = std::find(children.begin(), children.end(), actualGameObject);
-
-			isInside = it != children.end();
+			bool isInside = std::any_of(children.begin(),
+										children.end(),
+										[actualGameObject](GameObject* other)
+										{
+											return other == actualGameObject;
+										});
 			if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
 			{
 				ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();

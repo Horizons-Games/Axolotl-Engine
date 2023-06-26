@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleNavigation.h"
 
 ModuleNavigation::ModuleNavigation()
@@ -23,17 +25,17 @@ bool ModuleNavigation::CleanUp()
 	return true;
 }
 
-update_status ModuleNavigation::PreUpdate()
+UpdateStatus ModuleNavigation::PreUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleNavigation::Update()
+UpdateStatus ModuleNavigation::Update()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleNavigation::PostUpdate()
+UpdateStatus ModuleNavigation::PostUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }

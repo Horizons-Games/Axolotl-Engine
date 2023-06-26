@@ -1,8 +1,12 @@
+#include "StdAfx.h"
+
 #include "WindowLoadScene.h"
 
 #include "Application.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
 #include "ModuleScene.h"
+
+#include "Defines/ExtensionDefines.h"
 
 WindowLoadScene::WindowLoadScene() : WindowFileBrowser()
 {

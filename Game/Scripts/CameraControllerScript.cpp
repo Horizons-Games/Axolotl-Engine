@@ -1,10 +1,10 @@
 #include "CameraControllerScript.h"
 
-#include "Application.h"
 #include "ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
+
 #include "../Scripts/CameraSample.h"
 
 REGISTERCLASS(CameraControllerScript);

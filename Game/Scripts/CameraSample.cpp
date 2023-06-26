@@ -1,5 +1,5 @@
-#include "Application.h"
 #include "CameraSample.h"
+
 #include "Components/Component.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"

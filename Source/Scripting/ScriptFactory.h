@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ObjectFactorySystem/ObjectFactorySystem.h"
-#include <vector>
 
 class IScript;
 struct IRuntimeObjectSystem;
