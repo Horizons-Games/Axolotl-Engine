@@ -53,17 +53,13 @@ void PlayerMoveScript::Move(float deltaTime)
 	bool shiftPressed = false;
 
 	//run
+	/*
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
-		componentAnimation->SetParameter("IsRunning", true);
 		newSpeed *= 2;
 		shiftPressed = true;
 	}
-
-	else
-	{
-		componentAnimation->SetParameter("IsRunning", false);
-	}
+	*/
 
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
@@ -71,7 +67,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -85,7 +81,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
 		totalDirection += -camera->GetFrustum()->Front().Normalized();
@@ -98,7 +94,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -112,7 +108,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
 
@@ -142,7 +138,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::WALKING)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			componentAnimation->SetParameter("IsWalking", false);
+			componentAnimation->SetParameter("IsRunning", false);
 			playerState = PlayerActions::IDLE;
 		}
 	}
@@ -151,7 +147,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (!isDashing)
 		{
-			componentAnimation->SetParameter("IsRolling", true);
+			componentAnimation->SetParameter("IsDashing", true);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 
