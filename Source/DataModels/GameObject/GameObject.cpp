@@ -636,9 +636,20 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 				scene->UpdateSceneSpotLights();
 				scene->RenderSpotLights();
 				break;
+
 			case LightType::AREA:
-				scene->UpdateSceneAreaLights();
-				scene->RenderAreaLights();
+				switch (areaType)
+				{
+				case AreaType::SPHERE:
+					scene->UpdateSceneAreaSpheres();
+					scene->RenderAreaSpheres();
+					break;
+
+				case AreaType::TUBE:
+					scene->UpdateSceneAreaTubes();
+					scene->RenderAreaTubes();
+					break;
+				}
 				break;
 		}
 
