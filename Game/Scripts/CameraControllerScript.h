@@ -2,6 +2,7 @@
 
 #include "Scripting/Script.h"
 #include "Components/ComponentTransform.h"
+class ComponentCameraSample;
 
 class CameraSample;
 
@@ -17,7 +18,7 @@ public:
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
-	CameraSample* FindClosestSample(float3 position);
+	ComponentCameraSample* FindClosestSample(float3 position);
 
 private: 
 
@@ -27,7 +28,7 @@ private:
 	float defaultOffset;
 
 	GameObject* samplePointsObject;
-	std::vector<CameraSample*> samples;
+	std::vector<ComponentCameraSample*> samples;
 
 	ComponentTransform* transform;
 

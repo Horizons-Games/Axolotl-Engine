@@ -42,6 +42,7 @@ private:
 	void AddComponentMeshRenderer();
 	void AddComponentLight(LightType type, AreaType areaType);
 	void AddComponentPlayer();
+	void AddComponentCameraSample();
 	void AddComponentAnimation();
 
 	void AddComponentRigidBody();

@@ -4,6 +4,7 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentCameraSample.h"
 
 #include "../Scripts/CameraSample.h"
 
@@ -25,7 +26,7 @@ void CameraControllerScript::Start()
 	{
 		for (GameObject* sample : samplePointsObject->GetChildren())
 		{
-			samples.push_back(sample->GetComponent<CameraSample>());
+			samples.push_back(sample->GetComponent<ComponentCameraSample>());
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();
@@ -52,11 +53,10 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 		orientationOffset = transform->GetGlobalRotation();
 	}
 
-	CameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
-	if (closestSample && 
-		(closestSample->position - playerTransform->GetGlobalPosition()).Length() <= closestSample->influenceRadius)
+	ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
+	if (closestSample)
 	{
-		CalculateOffsetVector(closestSample->positionOffset);
+		CalculateOffsetVector(closestSample->GetOffset());
 
 		/*float3 eulerAngles = closestSample->orientationOffset;
 		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));*/
@@ -90,15 +90,15 @@ void CameraControllerScript::CalculateOffsetVector(float3 offset)
 }
 
 
-CameraSample* CameraControllerScript::FindClosestSample(float3 position)
+ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position)
 {
-	CameraSample* closestSample = nullptr;
+	ComponentCameraSample* closestSample = nullptr;
 	float minDistance = std::numeric_limits<float>::max();
 
 	for (auto sample : samples)
 	{
-		float distance = (sample->position - position).Length();
-		if (distance < minDistance)
+		float distance = (sample->GetPosition() - position).Length();
+		if (distance < minDistance && distance <= sample->GetRadius())
 		{
 			closestSample = sample;
 			minDistance = distance;
