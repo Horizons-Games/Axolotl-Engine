@@ -449,6 +449,9 @@
     <ClCompile Include="..\Game\Scripts\DroneBullet.cpp">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
@@ -459,6 +462,9 @@
       <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -921,6 +927,9 @@
     <ClInclude Include="..\Game\Scripts\DroneAttack.h">
       <Filter>UserScripts\EnemyBehaviour\DroneAttack</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentSlider.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\GBuffer\GBuffer.h">
       <Filter>DataModels\GBuffer</Filter>
     </ClInclude>
@@ -967,6 +976,9 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1824,9 +1836,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>FileSystem\Importers</Filter>

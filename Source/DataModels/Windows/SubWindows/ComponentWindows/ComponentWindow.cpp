@@ -25,6 +25,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSlider.h"
 
 #include "Application.h"
 #include "Components/ComponentAnimation.h"
@@ -43,6 +44,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
@@ -80,6 +82,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentAnimation>(static_cast<ComponentAnimation*>(component));
 			case ComponentType::CANVAS:
 				return std::make_unique<WindowComponentCanvas>(static_cast<ComponentCanvas*>(component));
+			case ComponentType::SLIDER:
+				return std::make_unique<WindowComponentSlider>(static_cast<ComponentSlider*>(component));
 			case ComponentType::IMAGE:
 				return std::make_unique<WindowComponentImage>(static_cast<ComponentImage*>(component));
 			case ComponentType::BUTTON:
