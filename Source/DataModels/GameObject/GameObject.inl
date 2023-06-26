@@ -12,7 +12,7 @@ C* GameObject::GetComponent() const
 	auto firstElement = std::ranges::find_if(components,
 											 [](const std::unique_ptr<Component>& comp)
 											 {
-												return comp && comp->GetType() == ComponentToEnum<C>::value;
+												 return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
 											 });
 	return firstElement != std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
 }
@@ -24,15 +24,12 @@ std::vector<C*> GameObject::GetComponents() const
 							  std::views::filter(
 								  [](const std::unique_ptr<Component>& comp)
 								  {
-								      return comp && comp->GetType() == ComponentToEnum<C>::value;
+									  return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
 								  }) |
 							  std::views::transform(
 								  [](const std::unique_ptr<Component>& comp)
 								  {
-									  if (comp)
-									  {
-										  return static_cast<C*>(comp.get());
-									  }
+									  return static_cast<C*>(comp.get());
 								  });
 	return std::vector<C*>(std::begin(filteredComponents), std::end(filteredComponents));
 }
@@ -50,7 +47,7 @@ bool GameObject::RemoveComponents()
 										 std::end(components),
 										 [](const std::unique_ptr<Component>& comp)
 										 {
-										     return comp && comp->GetType() == ComponentToEnum<C>::value;
+											 return comp == nullptr || comp->GetType() == ComponentToEnum<C>::value;
 										 });
 	components.erase(removeIfResult, std::end(components));
 	return removeIfResult != std::end(components);
@@ -59,12 +56,12 @@ bool GameObject::RemoveComponents()
 template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
 S* GameObject::GetComponent()
 {
+	// GetComponents already makes sure the objects returned are not null
 	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
 	auto componentWithScript = std::ranges::find_if(componentScripts,
 													[](const ComponentScript* component)
 													{
-														return component && 
-															   dynamic_cast<S*>(component->GetScript()) != nullptr;
+														return dynamic_cast<S*>(component->GetScript()) != nullptr;
 													});
 	return componentWithScript != std::end(componentScripts) ? dynamic_cast<S*>((*componentWithScript)->GetScript())
 															 : nullptr;
@@ -73,20 +70,18 @@ S* GameObject::GetComponent()
 template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
 std::vector<S*> GameObject::GetComponents()
 {
+	// GetComponents already makes sure the objects returned are not null
 	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
 	auto filteredScripts = componentScripts |
 						   std::views::transform(
 							   [](ComponentScript* component)
 							   {
-								   if (component)
-								   {
-									   return dynamic_cast<S*>(component->GetScript());
-								   }
+								   return dynamic_cast<S*>(component->GetScript());
 							   }) |
 						   std::views::filter(
 							   [](S* script)
 							   {
-								   return script && script != nullptr;
+								   return script != nullptr;
 							   });
 	return std::vector<S*>(std::begin(filteredScripts), std::end(filteredScripts));
 }
