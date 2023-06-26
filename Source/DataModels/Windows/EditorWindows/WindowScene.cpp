@@ -11,7 +11,6 @@
 #include "Modules/ModuleUI.h"
 
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentAreaLight.h"
 
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
