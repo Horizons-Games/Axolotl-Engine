@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentWindows/WindowComponentTransform2D.h"
 #include "Application.h"
 #include "ModuleInput.h"

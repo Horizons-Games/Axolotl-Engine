@@ -19,8 +19,8 @@ public:
 	ComponentTransform(const ComponentTransform& componentTransform);
 	~ComponentTransform() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;

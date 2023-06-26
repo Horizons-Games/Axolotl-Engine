@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleScene.h"
 
 #include "Application.h"
@@ -25,6 +27,7 @@
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/Batch/BatchManager.h"
 #include "DataStructures/Quadtree.h"
 #include "ModulePlayer.h"
 
@@ -76,7 +79,7 @@ bool ModuleScene::Start()
 	return true;
 }
 
-update_status ModuleScene::PreUpdate()
+UpdateStatus ModuleScene::PreUpdate()
 {
 	if (App->GetScriptFactory()->IsCompiled())
 	{
@@ -87,23 +90,9 @@ update_status ModuleScene::PreUpdate()
 			{
 				IScript* script = App->GetScriptFactory()->GetScript(componentScript->GetConstructName().c_str());
 				componentScript->SetScript(script);
-
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Init();
-				}
 			}
 		}
-		for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
-		{
-			for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
-			{
-				if (componentScript->IsEnabled())
-				{
-					componentScript->Start();
-				}
-			}
-		}
+		InitAndStartScriptingComponents();
 	}
 
 	if (!App->GetScriptFactory()->IsCompiling())
@@ -121,10 +110,10 @@ update_status ModuleScene::PreUpdate()
 			}
 		}
 	}
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleScene::Update()
+UpdateStatus ModuleScene::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
@@ -140,10 +129,10 @@ update_status ModuleScene::Update()
 			}
 		}
 	}
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleScene::PostUpdate()
+UpdateStatus ModuleScene::PostUpdate()
 {
 	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
@@ -164,7 +153,7 @@ update_status ModuleScene::PostUpdate()
 
 	loadedScene->ExecutePendingActions();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleScene::CleanUp()
@@ -224,6 +213,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	// First Init
 	for (const GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
+		if (!gameObject->IsActive())
+		{
+			continue;
+		}
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
 			componentScript->Init();
@@ -235,7 +228,10 @@ void ModuleScene::InitAndStartScriptingComponents()
 	{
 		for (ComponentScript* componentScript : gameObject->GetComponents<ComponentScript>())
 		{
-			componentScript->Start();
+			if (componentScript->IsEnabled())
+			{
+				componentScript->Start();
+			}
 		}
 	}
 }
@@ -272,7 +268,7 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-		loadedScene->GetSceneGameObjects()[i]->SaveOptions(jsonGameObject);
+		loadedScene->GetSceneGameObjects()[i]->Save(jsonGameObject);
 	}
 
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
@@ -458,7 +454,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		GameObject* gameObject;
 		UID parentUID;
 		bool enabled;
-		bool active;
 	};
 	std::vector<GameObject*> gameObjects{};
 	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
@@ -470,7 +465,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		UID uid = jsonGameObject["uid"];
 		UID parentUID = jsonGameObject["parentUID"];
 		bool enabled = jsonGameObject["enabled"];
-		bool active = jsonGameObject["active"];
 		GameObject* gameObject;
 
 		if (!mantainCurrentHierarchy)
@@ -485,7 +479,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			uid = newUID;
 		}
 
-		gameObjectMap[uid] = { gameObject, parentUID, enabled, active };
+		gameObjectMap[uid] = { gameObject, parentUID, enabled };
 		gameObjects.push_back(gameObject);
 	}
 
@@ -496,7 +490,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
 
-		gameObjects[i]->LoadOptions(jsonGameObject);
+		gameObjects[i]->Load(jsonGameObject);
 	}
 
 	for (GameObject* gameObject : gameObjects)
@@ -545,14 +539,6 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 		else
 		{
 			gameObject->Disable();
-		}
-		if (value.active)
-		{
-			gameObject->ActivateChildren();
-		}
-		else
-		{
-			gameObject->DeactivateChildren();
 		}
 	}
 

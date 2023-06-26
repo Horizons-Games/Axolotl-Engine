@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Application.h"
 #ifdef DEBUG
 	#include "optick.h"
@@ -69,15 +71,15 @@ int main(int argc, char** argv)
 
 			case main_states::MAIN_UPDATE:
 			{
-				update_status updateReturn = App->Update();
+				UpdateStatus updateReturn = App->Update();
 
-				if (updateReturn == update_status::UPDATE_ERROR)
+				if (updateReturn == UpdateStatus::UPDATE_ERROR)
 				{
 					LOG_ERROR("Application Update exits with error -----");
 					state = main_states::MAIN_EXIT;
 				}
 
-				if (updateReturn == update_status::UPDATE_STOP)
+				if (updateReturn == UpdateStatus::UPDATE_STOP)
 				{
 					state = main_states::MAIN_FINISH;
 				}

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowInspector.h"
 
 #include "Application.h"
@@ -13,7 +15,6 @@
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
-#include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -45,24 +46,28 @@ WindowInspector::WindowInspector() :
 		return gameObjectDoesNotHaveComponent.template operator()<ComponentLight>(gameObject);
 	};
 
-	actions.push_back(AddComponentAction("Create Spot Light Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT, AreaType::NONE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
-	actions.push_back(AddComponentAction("Create Point Light Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT, AreaType::NONE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Spot Light Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT, AreaType::NONE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Point Light Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::POINT, AreaType::NONE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
 
-	actions.push_back(AddComponentAction("Create Area Light Sphere Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::SPHERE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Area Light Sphere Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::SPHERE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
 
-	actions.push_back(AddComponentAction("Create Area Light Tube Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::TUBE),
-		isNotALight,
-		ComponentFunctionality::GRAPHICS));
+	actions.push_back(
+		AddComponentAction("Create Area Light Tube Component",
+						   std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::TUBE),
+						   isNotALight,
+						   ComponentFunctionality::GRAPHICS));
 
 	actions.push_back(AddComponentAction(
 		"Create Player Component",
@@ -81,15 +86,6 @@ WindowInspector::WindowInspector() :
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentRigidBody>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
-
-	actions.push_back(AddComponentAction(
-		"Create MockState Component",
-		std::bind(&WindowInspector::AddComponentMockState, this),
-		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
-		{
-			return gameObjectDoesNotHaveComponent.template operator()<ComponentMockState>(gameObject);
-		},
-		ComponentFunctionality::GAMEPLAY));
 
 	actions.push_back(AddComponentAction("Create AudioSource Component",
 										 std::bind(&WindowInspector::AddComponentAudioSource, this),
@@ -176,7 +172,7 @@ void WindowInspector::InspectSelectedGameObject()
 	if (lastSelectedGameObject)
 	{
 		bool enable = lastSelectedGameObject->IsEnabled();
-		ImGui::Checkbox("Enable", &enable);
+		bool enableStateChanged = ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
 		std::string name = lastSelectedGameObject->GetName();
@@ -215,7 +211,7 @@ void WindowInspector::InspectSelectedGameObject()
 			}
 		}
 
-		if (lastSelectedGameObject != loadedScene->GetRoot() &&
+		if (enableStateChanged && lastSelectedGameObject != loadedScene->GetRoot() &&
 			lastSelectedGameObject != loadedScene->GetDirectionalLight())
 		{
 			(enable) ? lastSelectedGameObject->Enable() : lastSelectedGameObject->Disable();
@@ -341,7 +337,8 @@ void WindowInspector::DrawTextureOptions()
 	if (ImGui::BeginTable("table1", 2))
 	{
 		ImGui::TableNextColumn();
-		ImGui::Image((void*) resourceTexture->GetGlTexture(), ImVec2(100, 100));
+		ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(resourceTexture->GetGlTexture())),
+					 ImVec2(100, 100));
 		ImGui::TableNextColumn();
 		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
 		ImGui::Text("Height %.2f", resourceTexture->GetHeight());
@@ -428,11 +425,6 @@ void WindowInspector::ResetSelectedGameObject()
 void WindowInspector::AddComponentRigidBody()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
-}
-
-void WindowInspector::AddComponentMockState()
-{
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }
 
 void WindowInspector::AddComponentAudioSource()

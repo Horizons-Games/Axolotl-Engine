@@ -1,6 +1,7 @@
+#include "StdAfx.h"
+
 #include "ResourceStateMachine.h"
-#include "AxoLog.h"
-#include <string>
+#include "FileSystem/UIDGenerator.h"
 
 ResourceStateMachine::ResourceStateMachine(UID resourceUID,
 										   const std::string& fileName,

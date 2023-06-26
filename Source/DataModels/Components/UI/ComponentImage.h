@@ -3,7 +3,6 @@
 #include "DataModels/Components/Component.h"
 
 #include "Math/float4.h"
-#include <memory>
 
 class ResourceTexture;
 class ResourceMesh;
@@ -16,9 +15,6 @@ public:
 
 	void Draw() const override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	float4 GetFullColor() const;
 
 	std::shared_ptr<ResourceTexture> GetImage() const;
@@ -29,6 +25,10 @@ public:
 	void SetColor(const float4& color);
 	void SetRenderPercentage(float renderPercentage);
 	void SetDirection(int direction);
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	std::shared_ptr<ResourceTexture> image;

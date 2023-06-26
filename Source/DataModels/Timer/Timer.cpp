@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Timer.h"
 
 Timer::Timer() : startTick(0), stopTick(0), stopped(false)

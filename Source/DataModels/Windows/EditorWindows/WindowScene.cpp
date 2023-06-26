@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowScene.h"
 
 #include "Application.h"
@@ -13,6 +15,8 @@
 #include "Components/UI/ComponentCanvas.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
 
 WindowScene::WindowScene() :
 	EditorWindow("Scene"),
@@ -40,6 +44,7 @@ void WindowScene::DrawWindowContents()
 				 ImGui::GetContentRegionAvail(),
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));
+
 	if (!App->IsOnPlayMode())
 	{
 		DrawGuizmo();

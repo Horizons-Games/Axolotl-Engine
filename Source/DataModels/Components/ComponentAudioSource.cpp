@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentAudioSource.h"
 #include "Auxiliar/Audio/AudioData.h"
 #include "DataModels/Components/ComponentTransform.h"
@@ -26,7 +28,7 @@ ComponentAudioSource::~ComponentAudioSource()
 
 void ComponentAudioSource::OnTransformChanged()
 {
-	if (!IsEnabled())
+	if (!IsEnabled() || transform == nullptr)
 	{
 		return;
 	}
@@ -56,32 +58,20 @@ void ComponentAudioSource::SetSwitch(const wchar_t* switchGroup, const wchar_t* 
 	AK::SoundEngine::SetSwitch(switchGroup, switchSound, sourceID);
 }
 
-void ComponentAudioSource::Enable()
+void ComponentAudioSource::SignalEnable()
 {
-	Component::Enable();
-
 	OnTransformChanged();
 }
 
-void ComponentAudioSource::Disable()
+void ComponentAudioSource::SignalDisable()
 {
-	Component::Disable();
-
 	AK::SoundEngine::StopAll(sourceID);
 }
 
-void ComponentAudioSource::SaveOptions(Json& meta)
+void ComponentAudioSource::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
 }
 
-void ComponentAudioSource::LoadOptions(Json& meta)
+void ComponentAudioSource::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
 }
