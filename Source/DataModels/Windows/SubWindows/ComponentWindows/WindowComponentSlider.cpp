@@ -8,6 +8,12 @@
 #include "Scene/Scene.h"
 #include "Application.h"
 
+namespace
+{
+const char* directionTypes[] = { "LEFT_TO_RIGHT", "RIGHT_TO_LEFT", "DOWN_TO_TOP", "TOP_TO_DOWN",
+								 "CIRCLE_RIGHT",  "CIRCLE_LEFT",   "CIRCLE_TOP",  "CIRCLE_DOWN" };
+}
+
 WindowComponentSlider::WindowComponentSlider(ComponentSlider* component) : ComponentWindow("SLIDER", component)
 {
 }
@@ -45,14 +51,6 @@ void WindowComponentSlider::DrawWindowContents()
 			asSlider->OnHandleDragged();
 		}
 
-		const char* directionTypes[] = { "LEFT_TO_RIGHT",
-										 "RIGHT_TO_LEFT",
-										 "DOWN_TO_TOP",
-										 "TOP_TO_DOWN",
-										 "CIRCLE_RIGHT",
-										 "CIRCLE_LEFT",
-										 "CIRCLE_TOP",
-										 "CIRCLE_DOWN" };
 		DirectionSlider directionSlider = asSlider->GetDirection();
 		int direction = static_cast<int>(directionSlider);
 		if (ImGui::Combo("Direction", &direction, directionTypes, IM_ARRAYSIZE(directionTypes)))
