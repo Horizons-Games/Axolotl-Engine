@@ -3227,7 +3227,7 @@
                 "tag": "",
                 "uid": 16415258083415142231,
                 "parentUID": 9011007661183311806,
-                "enabled": false,
+                "enabled": true,
                 "static": false,
                 "Components": [
                     {
@@ -6592,7 +6592,7 @@
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
-                                    "value": 2.0,
+                                    "value": 0.6000000238418579,
                                     "type": 0
                                 },
                                 {

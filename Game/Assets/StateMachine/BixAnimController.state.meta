@@ -9,6 +9,10 @@
         "Assets/Animation/Bix.Armature_Dash.anim",
         "Assets/Animation/Bix.Armature_Jump.anim",
         "Assets/Animation/Bix.Armature_DobleJump.anim",
-        "Assets/Animation/Bix.Armature_Landing.anim"
+        "Assets/Animation/Bix.Armature_Landing.anim",
+        "Assets/Animation/Bix.Armature_Attack1Idle.anim",
+        "Assets/Animation/Bix.Armature_Attack2Idle.anim",
+        "Assets/Animation/Bix.Armature_Attack3AlterNew.anim",
+        "Assets/Animation/Bix.Armature_AttackComboEnd.anim"
     ]
 }

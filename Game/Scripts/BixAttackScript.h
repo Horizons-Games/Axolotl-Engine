@@ -13,6 +13,14 @@ class ComponentAnimation;
 
 class PlayerManagerScript;
 
+enum class AttackCombo
+{
+	IDLE,
+	FIRST_ATTACK,
+	SECOND_ATTACK,
+	THIRD_ATTACK
+};
+
 class BixAttackScript : public Script
 {
 
@@ -25,7 +33,9 @@ private:
 	void Update(float deltaTime) override;
 
 	void PerformAttack();
-	bool isAttackAvailable();
+	void CheckCombo();
+
+	bool IsAttackAvailable();
 	void CheckCollision();
 
 	float attackCooldown;
@@ -51,4 +61,5 @@ private:
 	//--Provisional
 
 	PlayerManagerScript* playerManager;
+	AttackCombo attackComboPhase;
 };
