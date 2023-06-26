@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "PowerUpsManagerScript.h"
 
+#include "Application.h"
+#include "ModulePlayer.h"
+
 #include "Components/ComponentScript.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
@@ -10,22 +13,23 @@
 
 REGISTERCLASS(PowerUpsManagerScript);
 
-PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), attackIncrease(10.f), defenseIncrease(10.f),
-speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr), activePowerUp(PowerUpType::NONE),
-savedPowerUp(PowerUpType::NONE), setUIManager(nullptr)
+PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), attackIncrease(10.f), defenseIncrease(10.f), 
+	speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr), activePowerUp(PowerUpType::NONE),
+	savedPowerUp(PowerUpType::NONE), radiusSeeking(2.5f), setUIManager(nullptr)
 {
 	REGISTER_FIELD(amountHealed, float);
 	REGISTER_FIELD(attackIncrease, float);
 	REGISTER_FIELD(defenseIncrease, float);
 	REGISTER_FIELD(speedIncrease, float);
 	REGISTER_FIELD(maxPowerUpTimer, float);
-
-	REGISTER_FIELD(player, GameObject*);
+	REGISTER_FIELD(radiusSeeking, float);
+	REGISTER_FIELD(debugDraw, bool);
 	REGISTER_FIELD(setUIManager, GameObject*);
 }
 
 void PowerUpsManagerScript::Start()
 {
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
 }
 

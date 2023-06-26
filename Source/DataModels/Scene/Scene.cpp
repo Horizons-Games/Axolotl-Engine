@@ -17,6 +17,8 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCubemap.h"
+#include "Components/ComponentPlayer.h"
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -1152,6 +1154,21 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 			tubeLights[cachedTubes[i].second] = tl;
 		}
 	}
+}
+
+GameObject* Scene::GetPlayer() const
+{
+	std::vector<GameObject*> gameObjects = GetNonStaticObjects();
+
+	for (GameObject* go : gameObjects)
+	{
+		ComponentPlayer* player = go->GetComponent<ComponentPlayer>();
+		if (player)
+		{
+			return go;
+		}
+	}
+	return nullptr;
 }
 
 void Scene::InitNewEmptyScene()
