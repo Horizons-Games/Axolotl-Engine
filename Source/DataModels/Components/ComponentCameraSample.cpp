@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "ComponentCameraSample.h"
 
 #include "ComponentTransform.h"

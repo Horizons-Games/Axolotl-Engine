@@ -22,6 +22,7 @@
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
+#include "DataModels/Components/ComponentCameraSample.h"
 
 #include "Application.h"
 
