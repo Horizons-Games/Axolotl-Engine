@@ -11,6 +11,8 @@
 #include "../Scripts/MeleeFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(EnemyVenomiteScript);
 
 EnemyVenomiteScript::EnemyVenomiteScript() : Script(), venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
