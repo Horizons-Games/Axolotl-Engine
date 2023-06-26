@@ -1,10 +1,12 @@
+#include "StdAfx.h"
+
 #include "BatchManager.h"
 
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
 
-#include <assert.h>
+#include "GeometryBatch.h"
 
 BatchManager::BatchManager()
 {

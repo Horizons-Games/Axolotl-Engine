@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowTextureInput.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"

@@ -6,6 +6,8 @@
 
 #include "Components/ComponentTransform.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(HelloWorldScript);
 
 HelloWorldScript::HelloWorldScript() : Script(), helloWorld("Hello World"), movingGameObject(nullptr)

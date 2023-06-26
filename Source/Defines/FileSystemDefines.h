@@ -1,0 +1,16 @@
+#pragma once
+
+#define ASSETS_FOLDER "Assets"
+#define LIB_FOLDER "Lib"
+#define ASSETS_PATH "Assets/"
+#define LIB_PATH "Lib/"
+#define MODELS_PATH "Assets/Models/"
+#define TEXTURES_PATH "Assets/Textures/"
+#define MESHES_PATH "Assets/Meshes/"
+#define MESHES_LIB_PATH "Lib/Meshes/"
+#define MATERIAL_PATH "Assets/Materials/"
+#define MATERIAL_LIB_PATH "Lib/Materials/"
+#define ANIMATION_PATH "Assets/Animation/"
+#define ANIMATION_LIB_PATH "Lib/Animation/"
+#define SCENE_PATH "Assets/Scenes/"
+#define GAME_STARTING_CONFIG "Startup.conf"

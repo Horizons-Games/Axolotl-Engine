@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
@@ -8,9 +10,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
-#include "ModuleRender.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "Program/Program.h"
 
@@ -18,9 +19,14 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
+#include "Batch/BatchManager.h"
+#include "Batch/GeometryBatch.h"
+
 #include "GameObject/GameObject.h"
 
-#include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
+#include "Enums/TextureType.h"
 
 #include <GL/glew.h>
 
@@ -88,9 +94,8 @@ void ComponentMeshRenderer::UpdatePalette()
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = 
-						boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
-						bindBones[i].transform;
+					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
+									 bindBones[i].transform;
 				}
 				else
 				{
@@ -404,7 +409,7 @@ void ComponentMeshRenderer::InternalLoad(const Json& meta)
 			SetMaterial(resourceMaterial);
 		}
 	}
-	 path = meta["assetPathMesh"];
+	path = meta["assetPathMesh"];
 	bool meshExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (meshExists)
@@ -427,9 +432,9 @@ void ComponentMeshRenderer::InternalLoad(const Json& meta)
 	{
 		SetMaterial(resourceMaterial);
 	}
-	
+
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = 
+	std::shared_ptr<ResourceMesh> resourceMesh =
 		App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
@@ -449,8 +454,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		transform->Encapsule
-		(mesh->GetVertices().data(), mesh->GetNumVertices());
+		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
 
 		InitBones();
@@ -513,6 +517,7 @@ void ComponentMeshRenderer::UnloadTextures()
 		}
 	}
 }
+
 void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 {
 	if (material)
@@ -644,7 +649,6 @@ const unsigned int& ComponentMeshRenderer::GetShaderType() const
 	return material->GetShaderType();
 }
 
-
 // Common attributes (getters)
 
 const float4& ComponentMeshRenderer::GetDiffuseColor() const
@@ -683,7 +687,8 @@ const bool ComponentMeshRenderer::IsTransparent() const
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
 {
-	return material->GetDiffuse();;
+	return material->GetDiffuse();
+	;
 }
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const

@@ -1,11 +1,9 @@
+#include "StdAfx.h"
+
 #include "ModuleAudio.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
-
-#include <algorithm>
-#include <assert.h>
-#include <iterator>
 
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
@@ -165,22 +163,22 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-update_status ModuleAudio::PreUpdate()
+UpdateStatus ModuleAudio::PreUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::Update()
+UpdateStatus ModuleAudio::Update()
 {
 	// Process bank requests, events, positions, RTPC, etc.
 	AK::SoundEngine::RenderAudio();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::PostUpdate()
+UpdateStatus ModuleAudio::PostUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleAudio::InitializeBanks()

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentLight.h"
 
 ComponentLight::ComponentLight(const bool active, GameObject* owner) :

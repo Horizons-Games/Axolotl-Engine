@@ -1,12 +1,5 @@
 #pragma once
 
-#include "Math/float3.h"
-#include "Math/float2.h"
-
-#include <vector>
-#include <unordered_map>
-#include <memory>
-
 #include "GL/glew.h"
 
 #define DOUBLE_BUFFERS 2
@@ -33,7 +26,7 @@ public:
 
 	void DeleteComponent(ComponentMeshRenderer* componentToDelete);
 	void DeleteMaterial(const ComponentMeshRenderer* componentToDelete);
-	std::vector< ComponentMeshRenderer*> ChangeBatch(const ComponentMeshRenderer* componentToDelete);
+	std::vector<ComponentMeshRenderer*> ChangeBatch(const ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(bool selected);
 	void FillMaterial();
@@ -52,11 +45,11 @@ public:
 private:
 	struct Command
 	{
-		GLuint  count;			// Number of indices in the mesh
-		GLuint  instanceCount;	// Number of instances to render
-		GLuint  firstIndex;		// Index offset in the EBO
-		GLuint  baseVertex;		// Vertex offset in the VBO
-		GLuint  baseInstance;	// Instance Index
+		GLuint count;		  // Number of indices in the mesh
+		GLuint instanceCount; // Number of instances to render
+		GLuint firstIndex;	  // Index offset in the EBO
+		GLuint baseVertex;	  // Vertex offset in the VBO
+		GLuint baseInstance;  // Instance Index
 	};
 
 	struct MaterialMetallic {
@@ -123,15 +116,15 @@ private:
 
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
-	std::unordered_map<const ComponentMeshRenderer*, int>  objectIndexes;
-	std::unordered_map<const ComponentMeshRenderer*, int>  paletteIndexes;
+	std::unordered_map<const ComponentMeshRenderer*, int> objectIndexes;
+	std::unordered_map<const ComponentMeshRenderer*, int> paletteIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<PerInstance> perInstances;
 	std::vector<int> instanceData;
 
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
-	
+
 	unsigned int verticesBuffer = 0;
 	unsigned int textureBuffer = 0;
 	unsigned int normalsBuffer = 0;
