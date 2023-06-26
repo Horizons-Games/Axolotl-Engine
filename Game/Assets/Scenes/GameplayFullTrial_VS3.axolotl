@@ -6564,7 +6564,7 @@
                             "useRotationController": false,
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -9.8100004196167,
+                            "gravity_Y": -75.0,
                             "boxSize_X": 0.30000001192092896,
                             "boxSize_Y": 0.6499999761581421,
                             "boxSize_Z": 0.30000001192092896,
@@ -6592,7 +6592,7 @@
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
-                                    "value": 0.6000000238418579,
+                                    "value": 2.0,
                                     "type": 0
                                 },
                                 {
@@ -6657,7 +6657,7 @@
                             "fields": [
                                 {
                                     "name": "DashForce",
-                                    "value": 10000.0,
+                                    "value": 1000.0,
                                     "type": 0
                                 },
                                 {
@@ -6677,7 +6677,7 @@
                             "fields": [
                                 {
                                     "name": "JumpParameter",
-                                    "value": 1500.0,
+                                    "value": 1250.0,
                                     "type": 0
                                 },
                                 {
@@ -6707,7 +6707,7 @@
                                 },
                                 {
                                     "name": "PlayerSpeed",
-                                    "value": 300.0,
+                                    "value": 500.0,
                                     "type": 0
                                 }
                             ]
