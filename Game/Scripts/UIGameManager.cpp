@@ -11,7 +11,7 @@ REGISTERCLASS(UIGameManager);
 
 UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false), 
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr), 
-speedPwrUpObject(nullptr)
+speedPwrUpObject(nullptr), pwrUpActive(false)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
@@ -58,38 +58,45 @@ void UIGameManager::MenuIsOpen()
 
 void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
 {
-	switch (pwrUp)
+	if (pwrUpActive == false)
 	{
-	case PowerUpType::NONE:
-		break;
-	case PowerUpType::HEAL:
-		healPwrUpObject->Enable();
-		break;
-	case PowerUpType::ATTACK:
-		attackPwrUpObject->Enable();
-		break;
-	case PowerUpType::DEFENSE:
-		defensePwrUpObject->Enable();
-		break;
-	case PowerUpType::SPEED:
-		speedPwrUpObject->Enable();
-		break;
-	default:
-		break;
+		switch (pwrUp)
+		{
+		case PowerUpType::NONE:
+			break;
+		case PowerUpType::HEAL:
+			healPwrUpObject->Enable();
+			break;
+		case PowerUpType::ATTACK:
+			attackPwrUpObject->Enable();
+			break;
+		case PowerUpType::DEFENSE:
+			defensePwrUpObject->Enable();
+			break;
+		case PowerUpType::SPEED:
+			speedPwrUpObject->Enable();
+			break;
+		default:
+			break;
+		}
+		pwrUpActive = true;
+		LOG_INFO("PwrUp img enable");
 	}
-
+	
 	savePwrUp = pwrUp;
-	LOG_INFO("PwrUp Enabled");
+	LOG_INFO("PwrUp saved for UI");
 }
 
 void UIGameManager::ActiveUIPwrUP()
 {
+	activePwrUp = savePwrUp;
+	savePwrUp = PowerUpType::NONE;
 	LOG_INFO("PwrUp UI used");
 }
 
 void UIGameManager::DisableUIPwrUP()
 {
-	switch (savePwrUp)
+	switch (activePwrUp)
 	{
 	case PowerUpType::NONE:
 		break;
@@ -108,5 +115,13 @@ void UIGameManager::DisableUIPwrUP()
 	default:
 		break;
 	}
+
+	pwrUpActive = false;
 	LOG_INFO("PwrUp UI disable");
+
+	if (pwrUpActive == false)
+	{
+		LOG_INFO("go for saved pwr up");
+		EnableUIPwrUp(savePwrUp);
+	}
 }

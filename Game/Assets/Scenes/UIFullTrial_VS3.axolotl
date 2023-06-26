@@ -82,7 +82,7 @@
                 "tag": "",
                 "uid": 15852703674091953933,
                 "parentUID": 9011007661183311806,
-                "enabled": false,
+                "enabled": true,
                 "static": true,
                 "Components": [
                     {
@@ -266,21 +266,6 @@
                                     "name": "CanDash",
                                     "value": true,
                                     "type": 4
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PlayerRotationScript",
-                            "fields": [
-                                {
-                                    "name": "RotationSensitivity",
-                                    "value": 50.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -1982,9 +1967,9 @@
         {
             "GameObject": {
                 "name": "Basic Camera",
-                "tag": "",
+                "tag": "MainCamera",
                 "uid": 2439703214949333448,
-                "parentUID": 6764586723542947213,
+                "parentUID": 9011007661183311806,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1993,15 +1978,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 3.0,
-                            "localPos_Z": -6.5,
-                            "localRot_X": 0.0,
+                            "localPos_X": 0.0001220703125,
+                            "localPos_Y": 1.6866216659545898,
+                            "localPos_Z": -14.913662910461426,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
                         }
                     },
                     {
@@ -2025,11 +2010,31 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerCameraRotationVerticalScript",
+                            "constructName": "CameraControllerScript",
                             "fields": [
                                 {
-                                    "name": "RotationSensitivity",
-                                    "value": 50.0,
+                                    "name": "SamplePointsObject",
+                                    "value": 8240674281971768443,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Player",
+                                    "value": 6764586723542947213,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "XOffset",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "YOffset",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ZOffset",
+                                    "value": -5.0,
                                     "type": 0
                                 }
                             ]
@@ -7994,9 +7999,9 @@
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000003278255463,
+                            "localSca_Z": 0.20000003278255463
                         }
                     },
                     {
@@ -8004,8 +8009,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "meshUID": 17161328820640003293,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -8016,13 +8021,13 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 3,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 5.0,
@@ -8031,7 +8036,7 @@
                             "boxSize_X": 0.9999994039535522,
                             "boxSize_Y": 1.75,
                             "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.5,
+                            "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -7.840948581695557,
@@ -8073,13 +8078,13 @@
                             "removed": false,
                             "localPos_X": -4.359014987945557,
                             "localPos_Y": 3.2121219635009766,
-                            "localPos_Z": -8.762855529785156,
+                            "localPos_Z": -8.701062202453613,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
                         }
                     },
                     {
@@ -8087,8 +8092,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "meshUID": 17161328820640003293,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -8099,13 +8104,13 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 3,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 5.0,
@@ -8114,12 +8119,12 @@
                             "boxSize_X": 0.9999994039535522,
                             "boxSize_Y": 1.75,
                             "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.5,
+                            "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -4.359014987945557,
                             "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.762855529785156
+                            "rbPos_Z": -8.701062202453613
                         }
                     },
                     {
@@ -8226,13 +8231,18 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "Player",
-                                    "value": 6764586723542947213,
-                                    "type": 2
+                                    "name": "RadiusSeeking",
+                                    "value": 2.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DebugDraw",
+                                    "value": false,
+                                    "type": 4
                                 },
                                 {
                                     "name": "SetUIManager",
-                                    "value": 13178323843178918230,
+                                    "value": 7598761661110634426,
                                     "type": 2
                                 }
                             ]
@@ -8330,9 +8340,124 @@
         },
         {
             "GameObject": {
+                "name": "SamplePoints",
+                "tag": "",
+                "uid": 8240674281971768443,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 1007037701341108592,
+                "parentUID": 8240674281971768443,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 62.397525787353516,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CameraSample",
+                            "fields": [
+                                {
+                                    "name": "InfluenceRadius",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PositionOffset",
+                                    "value x": 0.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 16180215869154033536,
+                "parentUID": 6764586723542947213,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "UI Canvas manager",
                 "tag": "",
-                "uid": 13178323843178918230,
+                "uid": 7598761661110634426,
                 "parentUID": 9011007661183311806,
                 "enabled": true,
                 "static": true,
@@ -8357,10 +8482,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 852.5,
-                            "worldAABB_min_y": 521.5,
-                            "worldAABB_max_x": 852.5,
-                            "worldAABB_max_y": 521.5
+                            "worldAABB_min_x": 747.0,
+                            "worldAABB_min_y": 560.5,
+                            "worldAABB_max_x": 747.0,
+                            "worldAABB_max_y": 560.5
                         }
                     },
                     {
@@ -8379,12 +8504,12 @@
                             "fields": [
                                 {
                                     "name": "MainMenuObject",
-                                    "value": 4849569310568533992,
+                                    "value": 15825604479203256308,
                                     "type": 2
                                 },
                                 {
                                     "name": "HudCanvasObject",
-                                    "value": 15974015746566112411,
+                                    "value": 1996858939020346370,
                                     "type": 2
                                 },
                                 {
@@ -8394,22 +8519,22 @@
                                 },
                                 {
                                     "name": "HealPwrUpObject",
-                                    "value": 6262276608201006444,
+                                    "value": 7923753297695160847,
                                     "type": 2
                                 },
                                 {
                                     "name": "AttackPwrUpObject",
-                                    "value": 4559269615734023318,
+                                    "value": 10651972811561280342,
                                     "type": 2
                                 },
                                 {
                                     "name": "DefensePwrUpObject",
-                                    "value": 6571079756254732197,
+                                    "value": 17572700829913991673,
                                     "type": 2
                                 },
                                 {
                                     "name": "SpeedPwrUpObject",
-                                    "value": 17101498976835640949,
+                                    "value": 15411359217890437540,
                                     "type": 2
                                 }
                             ]
@@ -8422,8 +8547,8 @@
             "GameObject": {
                 "name": "In Game Menu",
                 "tag": "",
-                "uid": 4849569310568533992,
-                "parentUID": 13178323843178918230,
+                "uid": 15825604479203256308,
+                "parentUID": 7598761661110634426,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -8447,10 +8572,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -8460,8 +8585,8 @@
             "GameObject": {
                 "name": "HUD",
                 "tag": "",
-                "uid": 15974015746566112411,
-                "parentUID": 13178323843178918230,
+                "uid": 1996858939020346370,
+                "parentUID": 7598761661110634426,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -8485,10 +8610,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -8498,8 +8623,8 @@
             "GameObject": {
                 "name": "TEMPLATE HUD",
                 "tag": "",
-                "uid": 15436879351910635014,
-                "parentUID": 15974015746566112411,
+                "uid": 11295857433529798200,
+                "parentUID": 1996858939020346370,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -8523,10 +8648,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -35.52081298828125,
-                            "worldAABB_min_y": 41.96875,
-                            "worldAABB_max_x": 1740.520751953125,
-                            "worldAABB_max_y": 1001.03125
+                            "worldAABB_min_x": -31.125,
+                            "worldAABB_min_y": 140.3125,
+                            "worldAABB_max_x": 1525.125,
+                            "worldAABB_max_y": 980.6875
                         }
                     },
                     {
@@ -8549,8 +8674,8 @@
             "GameObject": {
                 "name": "Healt Bar Bix",
                 "tag": "",
-                "uid": 6710769552441312293,
-                "parentUID": 14834226772993076333,
+                "uid": 17906404890215405611,
+                "parentUID": 598205900593154205,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -8574,10 +8699,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -13.853057861328125,
-                            "worldAABB_min_y": 51.714805603027344,
-                            "worldAABB_max_x": 378.6521301269531,
-                            "worldAABB_max_y": 159.16531372070313
+                            "worldAABB_min_x": -12.138717651367188,
+                            "worldAABB_min_y": 148.8524169921875,
+                            "worldAABB_max_x": 331.79254150390625,
+                            "worldAABB_max_y": 243.00555419921875
                         }
                     },
                     {
@@ -8600,8 +8725,8 @@
             "GameObject": {
                 "name": "Healt Bar Alura",
                 "tag": "",
-                "uid": 16486559744251946318,
-                "parentUID": 14834226772993076333,
+                "uid": 6330053299357711380,
+                "parentUID": 598205900593154205,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -8625,10 +8750,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -13.68658447265625,
-                            "worldAABB_min_y": 157.2338409423828,
-                            "worldAABB_max_x": 255.84991455078125,
-                            "worldAABB_max_y": 232.27159118652344
+                            "worldAABB_min_x": -11.992843627929688,
+                            "worldAABB_min_y": 241.31312561035156,
+                            "worldAABB_max_x": 224.1875457763672,
+                            "worldAABB_max_y": 307.064697265625
                         }
                     },
                     {
@@ -8651,8 +8776,8 @@
             "GameObject": {
                 "name": "Mission State",
                 "tag": "",
-                "uid": 8988103329323929198,
-                "parentUID": 15974015746566112411,
+                "uid": 18078958859074938088,
+                "parentUID": 1996858939020346370,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -8676,10 +8801,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1256.81591796875,
-                            "worldAABB_min_y": 83.7501449584961,
-                            "worldAABB_max_x": 1739.899169921875,
-                            "worldAABB_max_y": 220.50534057617188
+                            "worldAABB_min_x": 1101.2802734375,
+                            "worldAABB_min_y": 176.92327880859375,
+                            "worldAABB_max_x": 1524.580322265625,
+                            "worldAABB_max_y": 296.7545166015625
                         }
                     },
                     {
@@ -8702,8 +8827,8 @@
             "GameObject": {
                 "name": "Text Box",
                 "tag": "",
-                "uid": 11044024025856209209,
-                "parentUID": 15974015746566112411,
+                "uid": 4114240300432272750,
+                "parentUID": 1996858939020346370,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -8727,10 +8852,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 166.5927734375,
-                            "worldAABB_min_y": 678.3023071289063,
-                            "worldAABB_max_x": 1374.301025390625,
-                            "worldAABB_max_y": 989.1095581054688
+                            "worldAABB_min_x": 145.97625732421875,
+                            "worldAABB_min_y": 697.8974609375,
+                            "worldAABB_max_x": 1204.226318359375,
+                            "worldAABB_max_y": 970.2412109375
                         }
                     },
                     {
@@ -8755,7 +8880,7 @@
                             "fields": [
                                 {
                                     "name": "EnableImgObject",
-                                    "value": 11044024025856209209,
+                                    "value": 4114240300432272750,
                                     "type": 2
                                 },
                                 {
@@ -8793,8 +8918,8 @@
             "GameObject": {
                 "name": "PowerUp Attack",
                 "tag": "",
-                "uid": 4559269615734023318,
-                "parentUID": 3507421530300032471,
+                "uid": 10651972811561280342,
+                "parentUID": 9679912012311736199,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -8818,10 +8943,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1356.0078125,
-                            "worldAABB_min_y": 747.9452514648438,
-                            "worldAABB_max_x": 1578.012939453125,
-                            "worldAABB_max_y": 969.9505004882813
+                            "worldAABB_min_x": 1188.19677734375,
+                            "worldAABB_min_y": 758.921875,
+                            "worldAABB_max_x": 1382.72802734375,
+                            "worldAABB_max_y": 953.453125
                         }
                     },
                     {
@@ -8829,7 +8954,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 1008417858043968252,
+                            "imageUID": 12295703464334453121,
                             "assetPathImage": "Assets/Textures/PwrUp_Attack.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -8844,8 +8969,8 @@
             "GameObject": {
                 "name": "TEMPLATE IN GAME MENU",
                 "tag": "",
-                "uid": 2709260011444632572,
-                "parentUID": 4849569310568533992,
+                "uid": 8253923600922860236,
+                "parentUID": 15825604479203256308,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -8869,10 +8994,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -35.52081298828125,
-                            "worldAABB_min_y": 41.96875,
-                            "worldAABB_max_x": 1740.520751953125,
-                            "worldAABB_max_y": 1001.03125
+                            "worldAABB_min_x": -31.125,
+                            "worldAABB_min_y": 140.3125,
+                            "worldAABB_max_x": 1525.125,
+                            "worldAABB_max_y": 980.6875
                         }
                     },
                     {
@@ -8895,8 +9020,8 @@
             "GameObject": {
                 "name": "Background",
                 "tag": "",
-                "uid": 3996790426587513653,
-                "parentUID": 7533888037592559013,
+                "uid": 2892075057020095142,
+                "parentUID": 4841875024937380379,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -8920,10 +9045,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -35.52081298828125,
-                            "worldAABB_min_y": 41.96875,
-                            "worldAABB_max_x": 1740.520751953125,
-                            "worldAABB_max_y": 1001.03125
+                            "worldAABB_min_x": -31.125,
+                            "worldAABB_min_y": 140.3125,
+                            "worldAABB_max_x": 1525.125,
+                            "worldAABB_max_y": 980.6875
                         }
                     },
                     {
@@ -8946,8 +9071,8 @@
             "GameObject": {
                 "name": "Bacgorund 02",
                 "tag": "",
-                "uid": 1212383439073783724,
-                "parentUID": 7533888037592559013,
+                "uid": 4195917174139888913,
+                "parentUID": 4841875024937380379,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -8971,10 +9096,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -2.22003173828125,
-                            "worldAABB_min_y": 41.96875,
-                            "worldAABB_max_x": 1707.219970703125,
-                            "worldAABB_max_y": 1001.03125
+                            "worldAABB_min_x": -1.9453125,
+                            "worldAABB_min_y": 140.3125,
+                            "worldAABB_max_x": 1495.9453125,
+                            "worldAABB_max_y": 980.6875
                         }
                     },
                     {
@@ -8997,8 +9122,8 @@
             "GameObject": {
                 "name": "Buttons",
                 "tag": "",
-                "uid": 6543117466540085750,
-                "parentUID": 4308165319027936691,
+                "uid": 12154142514035807505,
+                "parentUID": 12872529028421573858,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9022,10 +9147,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -9035,8 +9160,8 @@
             "GameObject": {
                 "name": "Main Menu",
                 "tag": "",
-                "uid": 2821052975337762014,
-                "parentUID": 10282992689990196989,
+                "uid": 11090382285960268944,
+                "parentUID": 16545956362479194339,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9060,10 +9185,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 499.2994689941406,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 543.7005004882813
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 541.046875,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 579.953125
                         }
                     },
                     {
@@ -9130,7 +9255,7 @@
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 14588078459667321914,
+                                    "value": 2324845897203228694,
                                     "type": 2
                                 },
                                 {
@@ -9158,8 +9283,8 @@
             "GameObject": {
                 "name": "Resume Game",
                 "tag": "",
-                "uid": 7861141901627580812,
-                "parentUID": 10282992689990196989,
+                "uid": 1145791755227988214,
+                "parentUID": 16545956362479194339,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9183,10 +9308,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 321.6953125,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 366.09637451171875
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 385.421875,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 424.328125
                         }
                     },
                     {
@@ -9243,22 +9368,22 @@
                             "fields": [
                                 {
                                     "name": "EnableObject",
-                                    "value": 15974015746566112411,
+                                    "value": 1996858939020346370,
                                     "type": 2
                                 },
                                 {
                                     "name": "DisableObject",
-                                    "value": 4849569310568533992,
+                                    "value": 15825604479203256308,
                                     "type": 2
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 6979909652998961282,
+                                    "value": 6470121374414777696,
                                     "type": 2
                                 },
                                 {
                                     "name": "SetUiGameManagerObject",
-                                    "value": 13178323843178918230,
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
@@ -9281,8 +9406,8 @@
             "GameObject": {
                 "name": "Options",
                 "tag": "",
-                "uid": 10387739919902154919,
-                "parentUID": 10282992689990196989,
+                "uid": 2763634648543730844,
+                "parentUID": 16545956362479194339,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9306,10 +9431,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 410.4974060058594,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 454.8984680175781
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 463.234375,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 502.140625
                         }
                     },
                     {
@@ -9366,17 +9491,17 @@
                             "fields": [
                                 {
                                     "name": "EnableObject",
-                                    "value": 9101877218491652559,
+                                    "value": 12737304406980096456,
                                     "type": 2
                                 },
                                 {
                                     "name": "DisableObject",
-                                    "value": 4308165319027936691,
+                                    "value": 12872529028421573858,
                                     "type": 2
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 18014079371279989567,
+                                    "value": 1641296327143946914,
                                     "type": 2
                                 },
                                 {
@@ -9404,8 +9529,8 @@
             "GameObject": {
                 "name": "Exit",
                 "tag": "",
-                "uid": 11080186198351479986,
-                "parentUID": 10282992689990196989,
+                "uid": 10512405212878904465,
+                "parentUID": 16545956362479194339,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9429,10 +9554,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 588.1015625,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 632.5025634765625
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 618.859375,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 657.765625
                         }
                     },
                     {
@@ -9499,7 +9624,7 @@
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 6462773017060890086,
+                                    "value": 9016526514456560512,
                                     "type": 2
                                 },
                                 {
@@ -9527,8 +9652,8 @@
             "GameObject": {
                 "name": "Hovered",
                 "tag": "",
-                "uid": 7930591864469256586,
-                "parentUID": 6543117466540085750,
+                "uid": 12462575308007431339,
+                "parentUID": 12154142514035807505,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9552,10 +9677,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -9565,8 +9690,8 @@
             "GameObject": {
                 "name": "Resume Game H",
                 "tag": "",
-                "uid": 6979909652998961282,
-                "parentUID": 7930591864469256586,
+                "uid": 6470121374414777696,
+                "parentUID": 12462575308007431339,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -9590,10 +9715,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 321.6953125,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 366.09637451171875
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 385.421875,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 424.328125
                         }
                     },
                     {
@@ -9616,8 +9741,8 @@
             "GameObject": {
                 "name": "Normal",
                 "tag": "",
-                "uid": 10282992689990196989,
-                "parentUID": 6543117466540085750,
+                "uid": 16545956362479194339,
+                "parentUID": 12154142514035807505,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9641,10 +9766,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -9654,8 +9779,8 @@
             "GameObject": {
                 "name": "Main Menu H",
                 "tag": "",
-                "uid": 14588078459667321914,
-                "parentUID": 7930591864469256586,
+                "uid": 2324845897203228694,
+                "parentUID": 12462575308007431339,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -9679,10 +9804,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 499.2994689941406,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 543.7005004882813
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 541.046875,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 579.953125
                         }
                     },
                     {
@@ -9705,8 +9830,8 @@
             "GameObject": {
                 "name": "Options H",
                 "tag": "",
-                "uid": 18014079371279989567,
-                "parentUID": 7930591864469256586,
+                "uid": 1641296327143946914,
+                "parentUID": 12462575308007431339,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -9730,10 +9855,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 410.4974060058594,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 454.8984680175781
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 463.234375,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 502.140625
                         }
                     },
                     {
@@ -9756,8 +9881,8 @@
             "GameObject": {
                 "name": "Exit H",
                 "tag": "",
-                "uid": 6462773017060890086,
-                "parentUID": 7930591864469256586,
+                "uid": 9016526514456560512,
+                "parentUID": 12462575308007431339,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -9781,10 +9906,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 708.1966552734375,
-                            "worldAABB_min_y": 588.1015625,
-                            "worldAABB_max_x": 996.8033447265625,
-                            "worldAABB_max_y": 632.5025634765625
+                            "worldAABB_min_x": 620.5546875,
+                            "worldAABB_min_y": 618.859375,
+                            "worldAABB_max_x": 873.4453125,
+                            "worldAABB_max_y": 657.765625
                         }
                     },
                     {
@@ -9807,8 +9932,8 @@
             "GameObject": {
                 "name": "Background",
                 "tag": "",
-                "uid": 7533888037592559013,
-                "parentUID": 4849569310568533992,
+                "uid": 4841875024937380379,
+                "parentUID": 15825604479203256308,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9832,10 +9957,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -9845,8 +9970,8 @@
             "GameObject": {
                 "name": "Options Bar",
                 "tag": "",
-                "uid": 8011067828694576892,
-                "parentUID": 4882770310260857493,
+                "uid": 18191382367771551476,
+                "parentUID": 16587666304581864363,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9870,10 +9995,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -2.22003173828125,
-                            "worldAABB_min_y": 41.96875,
-                            "worldAABB_max_x": 1707.219970703125,
-                            "worldAABB_max_y": 1001.03125
+                            "worldAABB_min_x": -1.9453125,
+                            "worldAABB_min_y": 140.3125,
+                            "worldAABB_max_x": 1495.9453125,
+                            "worldAABB_max_y": 980.6875
                         }
                     },
                     {
@@ -9881,7 +10006,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 3101173156370367423,
+                            "imageUID": 1711192915871693407,
                             "assetPathImage": "Assets/Textures/OptionsMenu_OptionsBar.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -9896,8 +10021,8 @@
             "GameObject": {
                 "name": "Menu",
                 "tag": "",
-                "uid": 4308165319027936691,
-                "parentUID": 4849569310568533992,
+                "uid": 12872529028421573858,
+                "parentUID": 15825604479203256308,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -9921,10 +10046,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -9934,8 +10059,8 @@
             "GameObject": {
                 "name": "Options menu",
                 "tag": "",
-                "uid": 9101877218491652559,
-                "parentUID": 4849569310568533992,
+                "uid": 12737304406980096456,
+                "parentUID": 15825604479203256308,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -9959,10 +10084,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     },
                     {
@@ -9974,62 +10099,62 @@
                             "fields": [
                                 {
                                     "name": "GameOptionButton",
-                                    "value": 2446760233559175834,
+                                    "value": 15491097394622339517,
                                     "type": 2
                                 },
                                 {
                                     "name": "VideoOptionButton",
-                                    "value": 2356617100032554788,
+                                    "value": 13007310579684327934,
                                     "type": 2
                                 },
                                 {
                                     "name": "HudOptionButton",
-                                    "value": 4050777785560813961,
+                                    "value": 1906236072341626196,
                                     "type": 2
                                 },
                                 {
                                     "name": "KeysOptionButton",
-                                    "value": 2647172620381091827,
+                                    "value": 8615467228290346560,
                                     "type": 2
                                 },
                                 {
                                     "name": "GameOptionCanvas",
-                                    "value": 15402113096626362481,
+                                    "value": 10924942639218772631,
                                     "type": 2
                                 },
                                 {
                                     "name": "VideoOptionCanvas",
-                                    "value": 11453817296905206247,
+                                    "value": 5240640532042406738,
                                     "type": 2
                                 },
                                 {
                                     "name": "HudOptionCanvas",
-                                    "value": 7602127863208914145,
+                                    "value": 73156255494623465,
                                     "type": 2
                                 },
                                 {
                                     "name": "KeysOptionCanvas",
-                                    "value": 8018584961172253807,
+                                    "value": 16404930784294799832,
                                     "type": 2
                                 },
                                 {
                                     "name": "GameOptionHover",
-                                    "value": 12576243792011034330,
+                                    "value": 553032735273628736,
                                     "type": 2
                                 },
                                 {
                                     "name": "VideoOptionHover",
-                                    "value": 8305965736403044990,
+                                    "value": 6786197410923730464,
                                     "type": 2
                                 },
                                 {
                                     "name": "HudOptionHover",
-                                    "value": 16245424379671588738,
+                                    "value": 966299387351057839,
                                     "type": 2
                                 },
                                 {
                                     "name": "KeysOptionHover",
-                                    "value": 18069079247156790557,
+                                    "value": 3280176755001367191,
                                     "type": 2
                                 }
                             ]
@@ -10042,8 +10167,8 @@
             "GameObject": {
                 "name": "Selected",
                 "tag": "",
-                "uid": 14048984379988607185,
-                "parentUID": 9101877218491652559,
+                "uid": 5897828169314673944,
+                "parentUID": 12737304406980096456,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10067,10 +10192,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -10080,8 +10205,8 @@
             "GameObject": {
                 "name": "Hover",
                 "tag": "",
-                "uid": 9856912590045659204,
-                "parentUID": 9101877218491652559,
+                "uid": 12100952364960157933,
+                "parentUID": 12737304406980096456,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10105,10 +10230,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -10118,8 +10243,8 @@
             "GameObject": {
                 "name": "IDLE",
                 "tag": "",
-                "uid": 4882770310260857493,
-                "parentUID": 9101877218491652559,
+                "uid": 16587666304581864363,
+                "parentUID": 12737304406980096456,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10143,10 +10268,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -10156,8 +10281,8 @@
             "GameObject": {
                 "name": "Game Button",
                 "tag": "",
-                "uid": 2446760233559175834,
-                "parentUID": 4882770310260857493,
+                "uid": 15491097394622339517,
+                "parentUID": 16587666304581864363,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10181,10 +10306,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 98.92558288574219,
-                            "worldAABB_min_y": 139.6510467529297,
-                            "worldAABB_max_x": 303.17034912109375,
-                            "worldAABB_max_y": 184.0520782470703
+                            "worldAABB_min_x": 86.68316650390625,
+                            "worldAABB_min_y": 225.90625,
+                            "worldAABB_max_x": 265.65191650390625,
+                            "worldAABB_max_y": 264.8125
                         }
                     },
                     {
@@ -10239,8 +10364,8 @@
             "GameObject": {
                 "name": "Video Button",
                 "tag": "",
-                "uid": 2356617100032554788,
-                "parentUID": 4882770310260857493,
+                "uid": 13007310579684327934,
+                "parentUID": 16587666304581864363,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10264,10 +10389,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 533.7005615234375,
-                            "worldAABB_min_y": 139.6510467529297,
-                            "worldAABB_max_x": 737.9453125,
-                            "worldAABB_max_y": 184.0520782470703
+                            "worldAABB_min_x": 467.65313720703125,
+                            "worldAABB_min_y": 225.90625,
+                            "worldAABB_max_x": 646.6218872070313,
+                            "worldAABB_max_y": 264.8125
                         }
                     },
                     {
@@ -10322,8 +10447,8 @@
             "GameObject": {
                 "name": "Hud Button",
                 "tag": "",
-                "uid": 4050777785560813961,
-                "parentUID": 4882770310260857493,
+                "uid": 1906236072341626196,
+                "parentUID": 16587666304581864363,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10347,10 +10472,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 966.2111206054688,
-                            "worldAABB_min_y": 139.6510467529297,
-                            "worldAABB_max_x": 1170.4559326171875,
-                            "worldAABB_max_y": 184.0520782470703
+                            "worldAABB_min_x": 846.638916015625,
+                            "worldAABB_min_y": 225.90625,
+                            "worldAABB_max_x": 1025.607666015625,
+                            "worldAABB_max_y": 264.8125
                         }
                     },
                     {
@@ -10405,8 +10530,8 @@
             "GameObject": {
                 "name": "Keys Button",
                 "tag": "",
-                "uid": 2647172620381091827,
-                "parentUID": 4882770310260857493,
+                "uid": 8615467228290346560,
+                "parentUID": 16587666304581864363,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10430,10 +10555,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1398.7882080078125,
-                            "worldAABB_min_y": 139.6510467529297,
-                            "worldAABB_max_x": 1603.0330810546875,
-                            "worldAABB_max_y": 184.0520782470703
+                            "worldAABB_min_x": 1225.68310546875,
+                            "worldAABB_min_y": 225.90625,
+                            "worldAABB_max_x": 1404.65185546875,
+                            "worldAABB_max_y": 264.8125
                         }
                     },
                     {
@@ -10488,8 +10613,8 @@
             "GameObject": {
                 "name": "Keys_Hover",
                 "tag": "",
-                "uid": 18069079247156790557,
-                "parentUID": 9856912590045659204,
+                "uid": 3280176755001367191,
+                "parentUID": 12100952364960157933,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -10513,10 +10638,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1393.6376953125,
-                            "worldAABB_min_y": 145.86720275878906,
-                            "worldAABB_max_x": 1607.650634765625,
-                            "worldAABB_max_y": 186.71617126464844
+                            "worldAABB_min_x": 1221.169921875,
+                            "worldAABB_min_y": 231.35311889648438,
+                            "worldAABB_max_x": 1408.697998046875,
+                            "worldAABB_max_y": 267.1468811035156
                         }
                     },
                     {
@@ -10524,7 +10649,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 14313015714187520878,
+                            "imageUID": 15564051043285978880,
                             "assetPathImage": "Assets/Textures/OptionsMenu_H_keys.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -10539,8 +10664,8 @@
             "GameObject": {
                 "name": "Hud_Hover",
                 "tag": "",
-                "uid": 16245424379671588738,
-                "parentUID": 9856912590045659204,
+                "uid": 966299387351057839,
+                "parentUID": 12100952364960157933,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -10564,10 +10689,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 958.3076782226563,
-                            "worldAABB_min_y": 145.75621032714844,
-                            "worldAABB_max_x": 1177.6488037109375,
-                            "worldAABB_max_y": 186.82716369628906
+                            "worldAABB_min_x": 839.7135620117188,
+                            "worldAABB_min_y": 231.255859375,
+                            "worldAABB_max_x": 1031.910400390625,
+                            "worldAABB_max_y": 267.244140625
                         }
                     },
                     {
@@ -10575,7 +10700,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 7138499950833950491,
+                            "imageUID": 15287349778883514710,
                             "assetPathImage": "Assets/Textures/OptionsMenu_H_hud.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -10590,8 +10715,8 @@
             "GameObject": {
                 "name": "Video_Hover",
                 "tag": "",
-                "uid": 8305965736403044990,
-                "parentUID": 9856912590045659204,
+                "uid": 6786197410923730464,
+                "parentUID": 12100952364960157933,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -10615,10 +10740,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 526.3743896484375,
-                            "worldAABB_min_y": 146.11138916015625,
-                            "worldAABB_max_x": 743.939453125,
-                            "worldAABB_max_y": 186.07232666015625
+                            "worldAABB_min_x": 461.23358154296875,
+                            "worldAABB_min_y": 231.56710815429688,
+                            "worldAABB_max_x": 651.8742065429688,
+                            "worldAABB_max_y": 266.5827331542969
                         }
                     },
                     {
@@ -10626,7 +10751,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 8544803295576870914,
+                            "imageUID": 12341709376145143897,
                             "assetPathImage": "Assets/Textures/OptionsMenu_H_video.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -10641,8 +10766,8 @@
             "GameObject": {
                 "name": "Game_Hover",
                 "tag": "",
-                "uid": 12576243792011034330,
-                "parentUID": 9856912590045659204,
+                "uid": 553032735273628736,
+                "parentUID": 12100952364960157933,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -10666,10 +10791,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 93.53084564208984,
-                            "worldAABB_min_y": 146.06700134277344,
-                            "worldAABB_max_x": 311.5399475097656,
-                            "worldAABB_max_y": 186.2499542236328
+                            "worldAABB_min_x": 81.95604705810547,
+                            "worldAABB_min_y": 231.52822875976563,
+                            "worldAABB_max_x": 272.9857177734375,
+                            "worldAABB_max_y": 266.7383728027344
                         }
                     },
                     {
@@ -10677,7 +10802,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 3219461655711530733,
+                            "imageUID": 15723000583752808188,
                             "assetPathImage": "Assets/Textures/OptionsMenu_H_game.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -10692,8 +10817,8 @@
             "GameObject": {
                 "name": "Game_Selected",
                 "tag": "",
-                "uid": 3291137093484802964,
-                "parentUID": 15402113096626362481,
+                "uid": 1384115907573353267,
+                "parentUID": 10924942639218772631,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10717,10 +10842,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 93.75285339355469,
-                            "worldAABB_min_y": 146.06700134277344,
-                            "worldAABB_max_x": 311.31793212890625,
-                            "worldAABB_max_y": 186.2499542236328
+                            "worldAABB_min_x": 82.15057373046875,
+                            "worldAABB_min_y": 231.52822875976563,
+                            "worldAABB_max_x": 272.79119873046875,
+                            "worldAABB_max_y": 266.7383728027344
                         }
                     },
                     {
@@ -10728,7 +10853,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 1250115806053011625,
+                            "imageUID": 10025663097283263313,
                             "assetPathImage": "Assets/Textures/OptionsMenu_Selected_game.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -10743,8 +10868,8 @@
             "GameObject": {
                 "name": "Back to menu Button",
                 "tag": "",
-                "uid": 9615555429791321853,
-                "parentUID": 4882770310260857493,
+                "uid": 12020094095148275589,
+                "parentUID": 16587666304581864363,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10768,10 +10893,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1340.9114990234375,
-                            "worldAABB_min_y": 854.5078125,
-                            "worldAABB_max_x": 1562.9166259765625,
-                            "worldAABB_max_y": 898.9088134765625
+                            "worldAABB_min_x": 1174.96875,
+                            "worldAABB_min_y": 852.296875,
+                            "worldAABB_max_x": 1369.5,
+                            "worldAABB_max_y": 891.203125
                         }
                     },
                     {
@@ -10828,12 +10953,12 @@
                             "fields": [
                                 {
                                     "name": "EnableObject",
-                                    "value": 4308165319027936691,
+                                    "value": 12872529028421573858,
                                     "type": 2
                                 },
                                 {
                                     "name": "DisableObject",
-                                    "value": 9101877218491652559,
+                                    "value": 12737304406980096456,
                                     "type": 2
                                 },
                                 {
@@ -10866,8 +10991,8 @@
             "GameObject": {
                 "name": "Video_Selected",
                 "tag": "",
-                "uid": 5472230968092734300,
-                "parentUID": 11453817296905206247,
+                "uid": 16685727903247012003,
+                "parentUID": 5240640532042406738,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10891,10 +11016,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 526.3743896484375,
-                            "worldAABB_min_y": 146.11138916015625,
-                            "worldAABB_max_x": 743.939453125,
-                            "worldAABB_max_y": 186.07232666015625
+                            "worldAABB_min_x": 461.23358154296875,
+                            "worldAABB_min_y": 231.56710815429688,
+                            "worldAABB_max_x": 651.8742065429688,
+                            "worldAABB_max_y": 266.5827331542969
                         }
                     },
                     {
@@ -10902,7 +11027,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 17552866358799591660,
+                            "imageUID": 3095867390970581793,
                             "assetPathImage": "Assets/Textures/OptionsMenu_Selected_video.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -10917,8 +11042,8 @@
             "GameObject": {
                 "name": "Hud_selected",
                 "tag": "",
-                "uid": 4846573800683118541,
-                "parentUID": 7602127863208914145,
+                "uid": 4600579670232138997,
+                "parentUID": 73156255494623465,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10942,10 +11067,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 959.1957397460938,
-                            "worldAABB_min_y": 146.31121826171875,
-                            "worldAABB_max_x": 1176.7608642578125,
-                            "worldAABB_max_y": 186.27215576171875
+                            "worldAABB_min_x": 840.49169921875,
+                            "worldAABB_min_y": 231.7421875,
+                            "worldAABB_max_x": 1031.13232421875,
+                            "worldAABB_max_y": 266.7578125
                         }
                     },
                     {
@@ -10953,7 +11078,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 10447696603595748548,
+                            "imageUID": 14841358933951337846,
                             "assetPathImage": "Assets/Textures/OptionsMenu_Selected_hud.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -10968,8 +11093,8 @@
             "GameObject": {
                 "name": "Keys_selected",
                 "tag": "",
-                "uid": 2932718961382230084,
-                "parentUID": 8018584961172253807,
+                "uid": 17332966321103560938,
+                "parentUID": 16404930784294799832,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -10993,10 +11118,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1391.861572265625,
-                            "worldAABB_min_y": 146.31121826171875,
-                            "worldAABB_max_x": 1609.4267578125,
-                            "worldAABB_max_y": 186.27215576171875
+                            "worldAABB_min_x": 1219.6136474609375,
+                            "worldAABB_min_y": 231.7421875,
+                            "worldAABB_max_x": 1410.2542724609375,
+                            "worldAABB_max_y": 266.7578125
                         }
                     },
                     {
@@ -11004,7 +11129,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 17578445650098935523,
+                            "imageUID": 14312214468317221065,
                             "assetPathImage": "Assets/Textures/OptionsMenu_Selected_keys.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -11019,8 +11144,8 @@
             "GameObject": {
                 "name": "Game Options",
                 "tag": "",
-                "uid": 15402113096626362481,
-                "parentUID": 14048984379988607185,
+                "uid": 10924942639218772631,
+                "parentUID": 5897828169314673944,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -11044,10 +11169,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -11057,8 +11182,8 @@
             "GameObject": {
                 "name": "Video Options",
                 "tag": "",
-                "uid": 11453817296905206247,
-                "parentUID": 14048984379988607185,
+                "uid": 5240640532042406738,
+                "parentUID": 5897828169314673944,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -11082,10 +11207,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -11095,8 +11220,8 @@
             "GameObject": {
                 "name": "Hud Options",
                 "tag": "",
-                "uid": 7602127863208914145,
-                "parentUID": 14048984379988607185,
+                "uid": 73156255494623465,
+                "parentUID": 5897828169314673944,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -11120,10 +11245,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -11133,8 +11258,8 @@
             "GameObject": {
                 "name": "Keys Options",
                 "tag": "",
-                "uid": 8018584961172253807,
-                "parentUID": 14048984379988607185,
+                "uid": 16404930784294799832,
+                "parentUID": 5897828169314673944,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -11158,10 +11283,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -11171,8 +11296,8 @@
             "GameObject": {
                 "name": "Audio Selected",
                 "tag": "",
-                "uid": 10278259624796958674,
-                "parentUID": 14048984379988607185,
+                "uid": 15515590331522610086,
+                "parentUID": 5897828169314673944,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -11196,10 +11321,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -11209,8 +11334,8 @@
             "GameObject": {
                 "name": "Health Bars",
                 "tag": "",
-                "uid": 14834226772993076333,
-                "parentUID": 15974015746566112411,
+                "uid": 598205900593154205,
+                "parentUID": 1996858939020346370,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -11234,10 +11359,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -11247,8 +11372,8 @@
             "GameObject": {
                 "name": "Pwr Ups",
                 "tag": "",
-                "uid": 3507421530300032471,
-                "parentUID": 15974015746566112411,
+                "uid": 9679912012311736199,
+                "parentUID": 1996858939020346370,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -11272,10 +11397,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 763.6979370117188,
-                            "worldAABB_min_y": 432.69793701171875,
-                            "worldAABB_max_x": 941.3020629882813,
-                            "worldAABB_max_y": 610.3020629882813
+                            "worldAABB_min_x": 669.1875,
+                            "worldAABB_min_y": 482.6875,
+                            "worldAABB_max_x": 824.8125,
+                            "worldAABB_max_y": 638.3125
                         }
                     }
                 ]
@@ -11285,8 +11410,8 @@
             "GameObject": {
                 "name": "PwrUp Speed",
                 "tag": "",
-                "uid": 17101498976835640949,
-                "parentUID": 3507421530300032471,
+                "uid": 15411359217890437540,
+                "parentUID": 9679912012311736199,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -11310,10 +11435,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1356.0078125,
-                            "worldAABB_min_y": 747.9452514648438,
-                            "worldAABB_max_x": 1578.012939453125,
-                            "worldAABB_max_y": 969.9505004882813
+                            "worldAABB_min_x": 1188.19677734375,
+                            "worldAABB_min_y": 758.921875,
+                            "worldAABB_max_x": 1382.72802734375,
+                            "worldAABB_max_y": 953.453125
                         }
                     },
                     {
@@ -11321,7 +11446,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 11375448320726934142,
+                            "imageUID": 1309563821089213771,
                             "assetPathImage": "Assets/Textures/PwrUp_Speed.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -11336,8 +11461,8 @@
             "GameObject": {
                 "name": "PwrUp Defense",
                 "tag": "",
-                "uid": 6571079756254732197,
-                "parentUID": 3507421530300032471,
+                "uid": 17572700829913991673,
+                "parentUID": 9679912012311736199,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -11361,10 +11486,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1356.0078125,
-                            "worldAABB_min_y": 747.9452514648438,
-                            "worldAABB_max_x": 1578.012939453125,
-                            "worldAABB_max_y": 969.9505004882813
+                            "worldAABB_min_x": 1188.19677734375,
+                            "worldAABB_min_y": 758.921875,
+                            "worldAABB_max_x": 1382.72802734375,
+                            "worldAABB_max_y": 953.453125
                         }
                     },
                     {
@@ -11372,7 +11497,7 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 10990237320723531020,
+                            "imageUID": 12726709781706545821,
                             "assetPathImage": "Assets/Textures/PwrUp_Defense.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
@@ -11387,8 +11512,8 @@
             "GameObject": {
                 "name": "PwrUp Heal",
                 "tag": "",
-                "uid": 6262276608201006444,
-                "parentUID": 3507421530300032471,
+                "uid": 7923753297695160847,
+                "parentUID": 9679912012311736199,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -11412,10 +11537,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1356.0078125,
-                            "worldAABB_min_y": 747.9452514648438,
-                            "worldAABB_max_x": 1578.012939453125,
-                            "worldAABB_max_y": 969.9505004882813
+                            "worldAABB_min_x": 1188.19677734375,
+                            "worldAABB_min_y": 758.921875,
+                            "worldAABB_max_x": 1382.72802734375,
+                            "worldAABB_max_y": 953.453125
                         }
                     },
                     {
@@ -11423,80 +11548,12 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 16831758819962135629,
+                            "imageUID": 16208843728301661124,
                             "assetPathImage": "Assets/Textures/PwrUp_Heal.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
                             "color_w": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cube",
-                "tag": "",
-                "uid": 2776539422306260443,
-                "parentUID": 9011007661183311806,
-                "enabled": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": -1.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 50.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 50.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 5838496268976162218,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": false,
-                            "isTrigger": false,
-                            "drawCollider": false,
-                            "mass": 100.0,
-                            "linearDamping": 0.10000000149011612,
-                            "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
-                            "currentShape": 1,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 50.0,
-                            "boxSize_Y": 1.0,
-                            "boxSize_Z": 50.0,
-                            "radius": 3.464101552963257,
-                            "factor": 0.5,
-                            "height": 2.0,
-                            "rbPos_X": 0.0,
-                            "rbPos_Y": -1.0,
-                            "rbPos_Z": 0.0
                         }
                     }
                 ]

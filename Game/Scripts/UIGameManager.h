@@ -24,7 +24,9 @@ public:
 
 private:
 	enum class PowerUpType savePwrUp;
+	enum class PowerUpType activePwrUp;
 	bool menuIsOpen;
+	bool pwrUpActive;
 	GameObject* mainMenuObject;
 	GameObject* hudCanvasObject;
 	GameObject* setPlayer;

@@ -30,7 +30,7 @@ PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), a
 void PowerUpsManagerScript::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
-	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
+	uiManagerScript = setUIManager->GetComponent<UIGameManager>();
 }
 
 void PowerUpsManagerScript::Update(float deltaTime)
@@ -55,7 +55,6 @@ bool PowerUpsManagerScript::SavePowerUp(const PowerUpType& type)
 
 	savedPowerUp = type;
 
-	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
 	uiManagerScript->EnableUIPwrUp(savedPowerUp);
 	LOG_INFO("PwrUp saved");
 
@@ -74,7 +73,6 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 	activePowerUp = savedPowerUp;
 	savedPowerUp = PowerUpType::NONE;
 
-	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
 	uiManagerScript->ActiveUIPwrUP();
 
 	if (activePowerUp == PowerUpType::HEAL)
@@ -109,6 +107,8 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 void PowerUpsManagerScript::DropSavedPowerUp()
 {
 	savedPowerUp = PowerUpType::NONE;
+
+	uiManagerScript->DisableUIPwrUP();
 }
 
 const PowerUpType& PowerUpsManagerScript::GetSavedPowerUpType() const
@@ -141,7 +141,6 @@ void PowerUpsManagerScript::EliminateCurrentPowerUpEffect()
 		playerManagerScript->IncreasePlayerSpeed(-speedIncrease);
 	}
 
-	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
 	uiManagerScript->DisableUIPwrUP();
 
 	currentPowerUpTimer = 0.f;
