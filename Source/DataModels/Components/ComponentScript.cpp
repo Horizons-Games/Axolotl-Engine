@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentScript.h"
 
 #include "Application.h"
@@ -8,7 +10,6 @@
 
 #include "FileSystem/Json.h"
 
-#include "Math/float3.h"
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 

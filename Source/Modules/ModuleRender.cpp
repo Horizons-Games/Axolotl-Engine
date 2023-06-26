@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModulePlayer.h"
@@ -12,18 +14,21 @@
 #include "Components/ComponentTransform.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/GBuffer/GBuffer.h"
 
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include "DataStructures/Quadtree.h"
+
 #include "Program/Program.h"
 
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
-#include "DataModels/GBuffer/GBuffer.h"
-
-#include <queue>
+#include "Skybox/Skybox.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -195,7 +200,7 @@ bool ModuleRender::Init()
 	return true;
 }
 
-update_status ModuleRender::PreUpdate()
+UpdateStatus ModuleRender::PreUpdate()
 {
 	int width, height;
 
@@ -211,10 +216,10 @@ update_status ModuleRender::PreUpdate()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer 
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleRender::Update()
+UpdateStatus ModuleRender::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
@@ -368,18 +373,18 @@ update_status ModuleRender::Update()
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
 	{
-		return update_status::UPDATE_CONTINUE;
+		return UpdateStatus::UPDATE_CONTINUE;
 	}
 #endif //ENGINE
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleRender::PostUpdate()
+UpdateStatus ModuleRender::PostUpdate()
 {
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleRender::CleanUp()

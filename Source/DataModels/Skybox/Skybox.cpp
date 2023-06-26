@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Skybox.h"
 
 #include "GL/glew.h"
@@ -10,6 +12,8 @@
 #include "FileSystem/Json.h"
 #include "ModuleCamera.h"
 #include "ModuleProgram.h"
+
+#include "Camera/Camera.h"
 
 Skybox::Skybox() : skyboxRes(nullptr)
 {

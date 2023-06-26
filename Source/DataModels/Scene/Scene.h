@@ -1,10 +1,7 @@
 #pragma once
 
-#include "../FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 #include "Geometry/AABB.h"
-
-#include "Resources/ResourceMesh.h"
-#include "Resources/ResourceModel.h"
 
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
@@ -20,6 +17,8 @@ class Quadtree;
 class Skybox;
 class Cubemap;
 class Updatable;
+
+struct Bone;
 
 enum class Premade3D
 {
@@ -61,10 +60,22 @@ public:
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
 	void RenderAreaLights() const;
+	void RenderAreaSpheres() const;
+	void RenderAreaTubes() const;
+	void RenderPointLight(const ComponentPointLight* compPoint) const;
+	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
+	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
+	void RenderAreaTube(const ComponentAreaLight* compTube) const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
+	void UpdateSceneAreaSpheres();
+	void UpdateSceneAreaTubes();
+	void UpdateScenePointLight(const ComponentPointLight* compPoint);
+	void UpdateSceneSpotLight(const ComponentSpotLight* compSpot);
+	void UpdateSceneAreaSphere(const ComponentAreaLight* compSphere);
+	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
 
 	GameObject* GetRoot() const;
 	GameObject* GetPlayer() const;
@@ -102,13 +113,10 @@ public:
 	void AddUpdatableObject(Updatable* updatable);
 
 	void InitNewEmptyScene();
-
 	void InitLights();
-
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
-
 	void InitCubemap();
 
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 	void ExecutePendingActions();
 
 private:
@@ -135,6 +143,11 @@ private:
 	std::vector<SpotLight> spotLights;
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
+
+	std::vector<std::pair<const ComponentPointLight*, unsigned int>> cachedPoints;
+	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> cachedSpots;
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedSpheres;
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedTubes;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
