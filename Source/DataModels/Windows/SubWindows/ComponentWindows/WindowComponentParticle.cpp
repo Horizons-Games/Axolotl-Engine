@@ -103,7 +103,9 @@ void WindowComponentParticle::DrawWindowContents()
 
 		if (emitterToRemove != -1)
 		{
-			component->RemoveEmitter(emitterToRemove);
+			resource->RemoveEmitter(emitterToRemove);
+			App->GetModule<ModuleScene>()->ParticlesSystemUpdate();
+			return;
 		}
 
 		if (ImGui::Button("Add an Emitter"))

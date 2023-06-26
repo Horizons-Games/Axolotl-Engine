@@ -24,6 +24,7 @@ public:
 	unsigned int GetNumEmitters() const;
 	ParticleEmitter* GetEmitter(unsigned int emitterIndex) const;
 	void AddEmitter(std::unique_ptr<ParticleEmitter> emitter);
+	void RemoveEmitter(int pos);
 	void ClearAllEmitters();
 
 protected:
@@ -56,6 +57,11 @@ inline ParticleEmitter* ResourceParticleSystem::GetEmitter(unsigned int emitterI
 inline void ResourceParticleSystem::AddEmitter(std::unique_ptr<ParticleEmitter> emitter)
 {
 	emitters.push_back(std::move(emitter));
+}
+
+inline void ResourceParticleSystem::RemoveEmitter(int pos)
+{
+	emitters.erase(emitters.begin() + pos);
 }
 
 inline void ResourceParticleSystem::ClearAllEmitters()
