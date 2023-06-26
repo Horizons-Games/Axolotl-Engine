@@ -713,7 +713,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
  void ResourceNavMesh::DrawGizmos(Scene* scene)
 {
 	DebugDrawGL dds;
-	float* viewptr = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix().Transposed().ptr();
+	Camera* camera = App->GetModule<ModuleCamera>()->GetCamera();
 
 	glUseProgram(0);
 	glBindVertexArray(0);
@@ -721,11 +721,11 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glLoadMatrixf(viewptr);
+	glLoadMatrixf(camera->GetProjectionMatrix().Transposed().ptr());
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glLoadMatrixf(viewptr);
+	glLoadMatrixf(camera->GetViewMatrix().Transposed().ptr());
 
 	const float texScale = 1.0f / (cellSize * 10.0f);
 

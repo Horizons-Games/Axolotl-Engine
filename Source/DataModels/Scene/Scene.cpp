@@ -1048,9 +1048,9 @@ std::vector<float> Scene::GetVertices()
 	{
 		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
 		GameObject* go = meshRenderer->GetOwner();
-		ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 		if (mesh != nullptr && go->IsStatic())
 		{
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 			//for (const ResourceMesh::Vertex& vertex : mesh->vertices)
 			//{
 			//	float4 transformedVertex = transform->GetGlobalMatrix() * float4(vertex.position, 1.0f);
@@ -1077,7 +1077,8 @@ std::vector<int> Scene::GetTriangles()
 		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
 		if (mesh != nullptr && meshRenderer->GetOwner()->IsStatic())
 		{
-			triangles += mesh->GetFacesIndices().size() / 3;
+			//triangles += meshFaces.size() / 3;
+			triangles += mesh->GetFacesIndices().size();
 			maxVertMesh.push_back(mesh->GetVertices().size());
 		}
 	}
@@ -1116,9 +1117,9 @@ std::vector<float> Scene::GetNormals()
 	{
 		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
 		GameObject* go = meshRenderer->GetOwner();
-		ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 		if (mesh != nullptr && go->IsStatic())
 		{
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 			for (const float3 normal : mesh->GetNormals())
 			{
 				float4 transformedVertex = transform->GetGlobalMatrix() * float4(normal, 1.0f);
