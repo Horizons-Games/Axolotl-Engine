@@ -68,7 +68,7 @@ void ModuleNavigation::BakeNavMesh()
 {
 	/*MSTimer timer;
 	timer.Start();*/
-	ENGINE_LOG("Loading NavMesh");
+	LOG_DEBUG("Loading NavMesh");
 	bool generated = navMesh->Build(App->GetModule<ModuleScene>()->GetLoadedScene());
 	//unsigned timeMs = timer.Stop();
 	if (generated)
@@ -76,11 +76,11 @@ void ModuleNavigation::BakeNavMesh()
 		navMesh->GetTileCache()->update(App->GetDeltaTime(), navMesh->GetNavMesh());
 		navMesh->GetCrowd()->update(App->GetDeltaTime(), nullptr);
 
-		ENGINE_LOG("NavMesh successfully baked");
+		LOG_DEBUG("NavMesh successfully baked");
 	}
 	else
 	{
-		ENGINE_LOG("NavMesh ERROR. Could not be baked");
+		LOG_ERROR("NavMesh ERROR. Could not be baked");
 	}
 }
 

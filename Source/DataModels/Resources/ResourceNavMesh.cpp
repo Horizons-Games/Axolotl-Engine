@@ -8,7 +8,6 @@
 //#include "Modules/ModuleDebugDraw.h"
 
 #include "Scene/Scene.h"
-#include "EngineLog.h"
 
 #include "DebugUtils/DetourDebugDraw.h"
 #include "DebugUtils/RecastDebugDraw.h"
@@ -260,12 +259,12 @@ static int RasterizeTileLayers(float* verts,
 	rc.solid = rcAllocHeightfield();
 	if (!rc.solid)
 	{
-		ENGINE_LOG("buildNavigation: Out of memory 'solid'.");
+		LOG_ERROR("buildNavigation: Out of memory 'solid'.");
 		return 0;
 	}
 	if (!rcCreateHeightfield(ctx, *rc.solid, tcfg.width, tcfg.height, tcfg.bmin, tcfg.bmax, tcfg.cs, tcfg.ch))
 	{
-		ENGINE_LOG("buildNavigation: Could not create solid heightfield.");
+		LOG_ERROR("buildNavigation: Could not create solid heightfield.");
 		return 0;
 	}
 
@@ -275,7 +274,7 @@ static int RasterizeTileLayers(float* verts,
 	rc.triareas = new unsigned char[nTris];
 	if (!rc.triareas)
 	{
-		ENGINE_LOG("buildNavigation: Out of memory 'm_triareas' (%d).", nTris);
+		LOG_ERROR("buildNavigation: Out of memory 'm_triareas' (%d).", nTris);
 		return 0;
 	}
 
@@ -314,19 +313,19 @@ static int RasterizeTileLayers(float* verts,
 	rc.chf = rcAllocCompactHeightfield();
 	if (!rc.chf)
 	{
-		ENGINE_LOG("buildNavigation: Out of memory 'chf'.");
+		LOG_ERROR("buildNavigation: Out of memory 'chf'.");
 		return 0;
 	}
 	if (!rcBuildCompactHeightfield(ctx, tcfg.walkableHeight, tcfg.walkableClimb, *rc.solid, *rc.chf))
 	{
-		ENGINE_LOG("buildNavigation: Could not build compact data.");
+		LOG_ERROR("buildNavigation: Could not build compact data.");
 		return 0;
 	}
 
 	// Erode the walkable area by agent radius.
 	if (!rcErodeWalkableArea(ctx, tcfg.walkableRadius, *rc.chf))
 	{
-		ENGINE_LOG("buildNavigation: Could not erode.");
+		LOG_ERROR("buildNavigation: Could not erode.");
 		return 0;
 	}
 
@@ -340,12 +339,12 @@ static int RasterizeTileLayers(float* verts,
 	rc.lset = rcAllocHeightfieldLayerSet();
 	if (!rc.lset)
 	{
-		ENGINE_LOG("buildNavigation: Out of memory 'lset'.");
+		LOG_ERROR("buildNavigation: Out of memory 'lset'.");
 		return 0;
 	}
 	if (!rcBuildHeightfieldLayers(ctx, *rc.chf, tcfg.borderSize, tcfg.walkableHeight, *rc.lset))
 	{
-		ENGINE_LOG("buildNavigation: Could not build heighfield layers.");
+		LOG_ERROR("buildNavigation: Could not build heighfield layers.");
 		return 0;
 	}
 
@@ -522,8 +521,8 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	if (verts.size() == 0)
 	{
-		ENGINE_LOG("Building navigation:");
-		ENGINE_LOG("There's no mesh to build");
+		LOG_DEBUG("Building navigation:");
+		LOG_ERROR("There's no mesh to build");
 		return false;
 	}
 
@@ -574,9 +573,9 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	const int tw = (gw + ts - 1) / ts;
 	const int th = (gh + ts - 1) / ts;
 
-	ENGINE_LOG("Building navigation:");
-	ENGINE_LOG(" - %d x %d cells", cfg.width, cfg.height);
-	ENGINE_LOG(" - %.1fK verts, %.1fK tris", verts.size() / 1000.0f, ntris / 1000.0f);
+	LOG_DEBUG("Building navigation:");
+	LOG_DEBUG(" - %d x %d cells", cfg.width, cfg.height);
+	LOG_DEBUG(" - %.1fK verts, %.1fK tris", verts.size() / 1000.0f, ntris / 1000.0f);
 
 	int tileBits = rcMin((int) dtIlog2(dtNextPow2(tw * th * EXPECTED_LAYERS_PER_TILE)), 14);
 	if (tileBits > 14)
@@ -604,13 +603,13 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	tileCache = dtAllocTileCache();
 	if (!tileCache)
 	{
-		ENGINE_LOG("buildTiledNavigation: Could not allocate tile cache.");
+		LOG_ERROR("buildTiledNavigation: Could not allocate tile cache.");
 		return false;
 	}
 	dtStatus status = tileCache->init(&tcparams, talloc, tcomp, tmproc);
 	if (dtStatusFailed(status))
 	{
-		ENGINE_LOG("buildTiledNavigation: Could not init tile cache.");
+		LOG_ERROR("buildTiledNavigation: Could not init tile cache.");
 		return false;
 	}
 
@@ -619,7 +618,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	navMesh = dtAllocNavMesh();
 	if (!navMesh)
 	{
-		ENGINE_LOG("buildTiledNavigation: Could not allocate navmesh.");
+		LOG_ERROR("buildTiledNavigation: Could not allocate navmesh.");
 		return false;
 	}
 
@@ -634,7 +633,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	status = navMesh->init(&params);
 	if (dtStatusFailed(status))
 	{
-		ENGINE_LOG("buildTiledNavigation: Could not init navmesh.");
+		LOG_ERROR("buildTiledNavigation: Could not init navmesh.");
 		return false;
 	}
 
@@ -642,19 +641,19 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	status = navQuery->init(navMesh, 2048);
 	if (dtStatusFailed(status))
 	{
-		ENGINE_LOG("buildTiledNavigation: Could not init Detour navmesh query");
+		LOG_ERROR("buildTiledNavigation: Could not init Detour navmesh query");
 		return false;
 	}
 
 	rcChunkyTriMesh* chunkyMesh = new rcChunkyTriMesh;
 	if (!chunkyMesh)
 	{
-		ENGINE_LOG("buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
+		LOG_ERROR("buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
 		return false;
 	}
 	if (!rcCreateChunkyTriMesh(&verts[0], &tris[0], ntris, 256, chunkyMesh))
 	{
-		ENGINE_LOG("buildTiledNavigation: Failed to build chunky mesh.");
+		LOG_ERROR("buildTiledNavigation: Failed to build chunky mesh.");
 		return false;
 	}
 
@@ -703,7 +702,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	//RELEASE(chunkyMesh);
 
-	ENGINE_LOG("navmeshMemUsage = %.1f kB", navmeshMemUsage / 1024.0f);
+	LOG_DEBUG("navmeshMemUsage = %.1f kB", navmeshMemUsage / 1024.0f);
 
 	InitCrowd();
 

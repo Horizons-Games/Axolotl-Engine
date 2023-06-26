@@ -69,7 +69,7 @@ bool ModuleResources::CleanUp()
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
 {
-	//std::shared_ptr<Resource> importedRes;
+	std::shared_ptr<Resource> importedRes;
 	std::string assetsPath = CreateAssetsPath(fileName, type);
 	switch (type)
 	{
@@ -78,7 +78,7 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 			importedRes = CreateNewResource("DefaultNavMesh", assetsPath, ResourceType::NavMesh);
 			CreateMetaFileOfResource(importedRes);
 			navMeshImporter->Import(assetsPath.c_str(),
-			std::dynamic_pointer_cast<ResourceNavMesh>(importedRes));
+				std::dynamic_pointer_cast<ResourceNavMesh>(importedRes));
 			//TODO when we finish the ResourceNavMesh we need to create a PreMade Default or other form to create the resource
 			break;
 		case ResourceType::Material:
