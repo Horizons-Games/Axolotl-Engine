@@ -4,7 +4,7 @@
             "GameObject": {
                 "name": "navMeshTest",
                 "tag": "",
-                "uid": 2501763046373264795,
+                "uid": 3443481771776544533,
                 "parentUID": 0,
                 "enabled": true,
                 "active": true,
@@ -41,8 +41,8 @@
             "GameObject": {
                 "name": "Directional_Light",
                 "tag": "",
-                "uid": 6876460895156139278,
-                "parentUID": 2501763046373264795,
+                "uid": 17011434338497909168,
+                "parentUID": 3443481771776544533,
                 "enabled": true,
                 "active": true,
                 "static": false,
@@ -80,10 +80,97 @@
         },
         {
             "GameObject": {
+                "name": "dungeoncm2",
+                "tag": "",
+                "uid": 18111394452503238285,
+                "parentUID": 3443481771776544533,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 10279307079065775306,
+                "parentUID": 18111394452503238285,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Cube",
                 "tag": "",
-                "uid": 8539204420324256099,
-                "parentUID": 2501763046373264795,
+                "uid": 495783552144443070,
+                "parentUID": 10279307079065775306,
+                "enabled": true,
+                "active": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "dungeoncm2.Cube.001_0",
+                "tag": "",
+                "uid": 16215393140232259293,
+                "parentUID": 495783552144443070,
                 "enabled": true,
                 "active": true,
                 "static": true,
@@ -94,14 +181,14 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 1.030043363571167,
+                            "localPos_Y": 6.494804694057166e-15,
+                            "localPos_Z": -0.006726738531142473,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 8.162216186523438,
-                            "localSca_Y": 0.5465325117111206,
-                            "localSca_Z": 15.07332706451416
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     },
                     {
@@ -109,10 +196,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5838496268976162218,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                            "meshUID": 11147122395633973318,
+                            "assetPathMesh": "Assets/Meshes/dungeoncm2.Cube.001_0.mesh",
+                            "materialUID": 715003154336740104,
+                            "assetPathMaterial": "Assets/Materials/dungeoncm2Material_0.mat"
                         }
                     }
                 ]
