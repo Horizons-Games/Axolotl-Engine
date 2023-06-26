@@ -9,8 +9,9 @@ namespace NPC
 namespace DRON
 {
 static const wchar_t* SHOT_01 = L"sfx_dron_shot_01";
-static const wchar_t* TIMER = L"Countdown_Timer";
-static const wchar_t* EXPLOSION = L"Soft_Explision_Drone";
+static const wchar_t* TIMER = L"sfx_dron_death_timer";
+static const wchar_t* STOP_TIMER = L"sfx_dron_death_timer_stop";
+static const wchar_t* EXPLOSION = L"sfx_drone_death_explosion";
 static const wchar_t* SHOT_IMPACT_01 = L"sfx_dron_shot_impact_01";
 static const wchar_t* PATROL = L"sfx_dron_patrol";
 static const wchar_t* ALERT = L"sfx_dron_alert";

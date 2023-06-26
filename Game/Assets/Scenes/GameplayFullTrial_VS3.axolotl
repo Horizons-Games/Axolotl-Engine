@@ -1492,7 +1492,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": -4.968023858964443e-8,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
@@ -8511,7 +8511,7 @@
                                 },
                                 {
                                     "name": "ExplosionTime",
-                                    "value": 5.0,
+                                    "value": 2.0,
                                     "type": 0
                                 }
                             ]

@@ -63,6 +63,7 @@ void DroneExplosionAttack::Update(float deltaTime)
 		parentHealthSystem->TakeDamage(explosionDamage);
 		owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 		attackState = DroneExplosionState::DEAD;
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_TIMER);
 		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::EXPLOSION);
 	}
 }
@@ -72,7 +73,6 @@ void DroneExplosionAttack::SetExplosionPosition(float3 explosionPos)
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
 	attackState = DroneExplosionState::WAITTINGEXPLOSION;
-	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
 }
 

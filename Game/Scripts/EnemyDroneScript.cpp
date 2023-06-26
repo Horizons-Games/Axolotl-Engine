@@ -121,6 +121,7 @@ void EnemyDroneScript::Update(float deltaTime)
 			if (healthScript->GetField<float>("CurrentHealth")->getter() <= 10.0f)
 			{
 				droneState = DroneBehaviours::EXPLOSIONATTACK;
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 				seekScript->RotateToTarget();
 			}
 			else
