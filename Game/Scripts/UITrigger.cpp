@@ -63,11 +63,11 @@ void UITrigger::Update(float deltaTime)
 	{
 		if (isWinTrigger)
 		{
-			UIGameManagerClass->WinStateScene(true);
+
 		}
 		else if (isLoseTrigger)
 		{
-			UIGameManagerClass->LoseStateScene(true);
+
 		}
 		else if (isLoseByDamage)
 		{

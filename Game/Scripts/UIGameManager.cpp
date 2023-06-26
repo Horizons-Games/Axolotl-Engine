@@ -1,21 +1,26 @@
 #include "StdAfx.h"
+
 #include "UIGameManager.h"
+
 #include "Components/ComponentPlayer.h"
 #include "ModuleInput.h"
-#include "ModuleScene.h";
 
 
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), loseStateObject(nullptr), winStateObject(nullptr), mainMenuObject(nullptr),
-player(nullptr), menuIsOpen(false), hudCanvasObject(nullptr), WinSceneName("00_WinScene_VS3"), LoseSceneName("00_LoseScene_VS3")
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false), 
+hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr), 
+speedPwrUpObject(nullptr)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
 	REGISTER_FIELD(setPlayer, GameObject*);
-	REGISTER_FIELD(WinSceneName, std::string);
-	REGISTER_FIELD(LoseSceneName, std::string);
+
+	REGISTER_FIELD(healPwrUpObject, GameObject*);
+	REGISTER_FIELD(attackPwrUpObject, GameObject*);
+	REGISTER_FIELD(defensePwrUpObject, GameObject*);
+	REGISTER_FIELD(speedPwrUpObject, GameObject*);
 }
 
 void UIGameManager::Start()
@@ -51,60 +56,57 @@ void UIGameManager::MenuIsOpen()
 	}
 }
 
-void UIGameManager::WinStateScene(bool setState)
-{
-#ifdef ENGINE
-
-	LOG_INFO("Player wins - In game load win scene");
-
-#else // ENGINE
-
-	if (WinSceneName != "")
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + WinSceneName + ".axolotl");
-	}
-
-#endif // GAME
-}
-
-void UIGameManager::LoseStateScene(bool setState)
-{
-#ifdef ENGINE
-
-	LOG_INFO("Player dead - In game load lose scene");
-
-#else // ENGINE
-
-	if (LoseSceneName != "")
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + LoseSceneName + ".axolotl");
-	}
-
-#endif // GAME
-}
-
 void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
 {
 	switch (pwrUp)
 	{
 	case PowerUpType::NONE:
-		return;
+		break;
 	case PowerUpType::HEAL:
-		return;
+		healPwrUpObject->Enable();
+		break;
 	case PowerUpType::ATTACK:
-		return;
+		attackPwrUpObject->Enable();
+		break;
 	case PowerUpType::DEFENSE:
-		return;
+		defensePwrUpObject->Enable();
+		break;
 	case PowerUpType::SPEED:
-		return;
+		speedPwrUpObject->Enable();
+		break;
 	default:
 		break;
 	}
 
 	savePwrUp = pwrUp;
+	LOG_INFO("PwrUp Enabled");
 }
 
 void UIGameManager::ActiveUIPwrUP()
 {
+	LOG_INFO("PwrUp UI used");
+}
 
+void UIGameManager::DisableUIPwrUP()
+{
+	switch (savePwrUp)
+	{
+	case PowerUpType::NONE:
+		break;
+	case PowerUpType::HEAL:
+		healPwrUpObject->Disable();
+		break;
+	case PowerUpType::ATTACK:
+		attackPwrUpObject->Disable();
+		break;
+	case PowerUpType::DEFENSE:
+		defensePwrUpObject->Disable();
+		break;
+	case PowerUpType::SPEED:
+		speedPwrUpObject->Disable();
+		break;
+	default:
+		break;
+	}
+	LOG_INFO("PwrUp UI disable");
 }

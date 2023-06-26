@@ -18,23 +18,22 @@ public:
 	void Update(float deltaTime) override;
 	void SetMenuIsOpen(bool menuState);
 	void MenuIsOpen();
-	bool menuIsOpen;
-	void WinStateScene(bool setState);
-	void LoseStateScene(bool setState);
 	void EnableUIPwrUp(enum class PowerUpType pwrUp);
 	void ActiveUIPwrUP();
+	void DisableUIPwrUP();
 
 private:
 	enum class PowerUpType savePwrUp;
-	GameObject* loseStateObject;
-	GameObject* winStateObject;
+	bool menuIsOpen;
 	GameObject* mainMenuObject;
 	GameObject* hudCanvasObject;
 	GameObject* setPlayer;
+	GameObject* healPwrUpObject;
+	GameObject* attackPwrUpObject;
+	GameObject* defensePwrUpObject;
+	GameObject* speedPwrUpObject;
 	ComponentPlayer* player;
 	ModuleInput* input;
-	std::string WinSceneName;
-	std::string LoseSceneName;
 
 };
 

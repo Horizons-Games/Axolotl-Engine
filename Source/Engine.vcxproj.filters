@@ -465,9 +465,6 @@
     <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
-      <Filter>UserScripts\Gameplay\PowerUps</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClCompile>
@@ -482,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
+      <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1010,7 +1010,7 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
-      <Filter>UserScripts\Gameplay\PowerUps</Filter>
+      <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2006,7 +2006,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>

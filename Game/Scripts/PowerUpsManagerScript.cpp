@@ -6,12 +6,13 @@
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "UIGameManager.h"
 
 REGISTERCLASS(PowerUpsManagerScript);
 
-PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), attackIncrease(10.f), defenseIncrease(10.f), 
-	speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr), activePowerUp(PowerUpType::NONE),
-	savedPowerUp(PowerUpType::NONE)
+PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), attackIncrease(10.f), defenseIncrease(10.f),
+speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr), activePowerUp(PowerUpType::NONE),
+savedPowerUp(PowerUpType::NONE), setUIManager(nullptr)
 {
 	REGISTER_FIELD(amountHealed, float);
 	REGISTER_FIELD(attackIncrease, float);
@@ -20,6 +21,12 @@ PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), a
 	REGISTER_FIELD(maxPowerUpTimer, float);
 
 	REGISTER_FIELD(player, GameObject*);
+	REGISTER_FIELD(setUIManager, GameObject*);
+}
+
+void PowerUpsManagerScript::Start()
+{
+	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
 }
 
 void PowerUpsManagerScript::Update(float deltaTime)
@@ -43,6 +50,11 @@ bool PowerUpsManagerScript::SavePowerUp(const PowerUpType& type)
 	}
 
 	savedPowerUp = type;
+
+	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
+	uiManagerScript->EnableUIPwrUp(savedPowerUp);
+	LOG_INFO("PwrUp saved");
+
 	return true;
 }
 
@@ -51,34 +63,42 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 	// If not powerUp saved or a powerUp is in use, a new powerUp can't be used
 	if (savedPowerUp == PowerUpType::NONE || activePowerUp != PowerUpType::NONE)
 	{
+		LOG_INFO("PwrUp used NONE");
 		return;
 	}
 
 	activePowerUp = savedPowerUp;
 	savedPowerUp = PowerUpType::NONE;
 
+	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
+	uiManagerScript->ActiveUIPwrUP();
+
 	if (activePowerUp == PowerUpType::HEAL)
 	{
 		HealthSystem* healthScript = player->GetComponent<HealthSystem>();
 		healthScript->HealLife(amountHealed);
+		LOG_INFO("PwrUp used HEAL");
 	}
 
 	else if (activePowerUp == PowerUpType::ATTACK)
 	{
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerAttack(attackIncrease);
+		LOG_INFO("PwrUp used ATTACK");
 	}
 
 	else if (activePowerUp == PowerUpType::DEFENSE)
 	{
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerDefense(defenseIncrease);
+		LOG_INFO("PwrUp used DEFENSE");
 	}
 
 	else if (activePowerUp == PowerUpType::SPEED)
 	{
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerSpeed(speedIncrease);
+		LOG_INFO("PwrUp used SPEED");
 	}
 }
 
@@ -116,6 +136,9 @@ void PowerUpsManagerScript::EliminateCurrentPowerUpEffect()
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerSpeed(-speedIncrease);
 	}
+
+	UIGameManager* uiManagerScript = setUIManager->GetComponent<UIGameManager>();
+	uiManagerScript->DisableUIPwrUP();
 
 	currentPowerUpTimer = 0.f;
 	activePowerUp = PowerUpType::NONE;

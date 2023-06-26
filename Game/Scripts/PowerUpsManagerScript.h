@@ -13,6 +13,7 @@ public:
 	PowerUpsManagerScript();
 	~PowerUpsManagerScript() override = default;
 
+	void Start();
 	void Update(float deltaTime) override;
 
 	bool SavePowerUp(const PowerUpType& type);
@@ -34,6 +35,7 @@ private:
 	float currentPowerUpTimer;
 
 	GameObject* player;
+	GameObject* setUIManager;
 
 	// To be changed to Player Manager
 	PowerUpType activePowerUp;
