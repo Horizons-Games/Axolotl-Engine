@@ -3,6 +3,8 @@
 #include "ModuleInput.h"
 #include "Components/UI/ComponentImage.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(UIImageControl);
 
 UIImageControl::UIImageControl() : Script(), disableImgObject(nullptr), enableImgObject(nullptr), imageComponent(nullptr),

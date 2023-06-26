@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentCanvas.h"
 
 #include "Components/UI/ComponentCanvas.h"

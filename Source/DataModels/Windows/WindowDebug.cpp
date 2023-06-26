@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowDebug.h"
 
 #include "ImGui/imgui.h"

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Globals.h"
-
 class Window
 {
 public:
