@@ -9,7 +9,7 @@
 
 #include <random>
 
-EmitterInstance::EmitterInstance(const std::shared_ptr<ParticleEmitter> emitter, ComponentParticleSystem* owner) :
+EmitterInstance::EmitterInstance(ParticleEmitter* emitter, ComponentParticleSystem* owner) :
 	emitter(emitter), owner(owner), aliveParticles(0), lastEmission(0.0f)
 {
 	srand(static_cast <unsigned> (time(nullptr))); //seeding the random generation once

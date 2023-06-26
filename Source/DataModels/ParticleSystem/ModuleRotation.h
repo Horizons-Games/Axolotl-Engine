@@ -15,8 +15,34 @@ public:
 
 	void DrawImGui() override;
 
+	bool IsRandom() const;
+	float2 GetRotation() const;
+
+	void SetRandom(bool random);
+	void SetRotation(float2 rotationOverTime);
+
 private:
 	bool random;
 	float2 rotationOverTime;
 };
+
+inline bool ModuleRotation::IsRandom() const
+{
+	return random;
+}
+
+inline float2 ModuleRotation::GetRotation() const
+{
+	return rotationOverTime;
+}
+
+inline void ModuleRotation::SetRandom(bool random)
+{
+	this->random = random;
+}
+
+inline void ModuleRotation::SetRotation(float2 rotationOverTime)
+{
+	this->rotationOverTime = rotationOverTime;
+}
 

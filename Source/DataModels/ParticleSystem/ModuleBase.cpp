@@ -29,7 +29,7 @@ void ModuleBase::Spawn(EmitterInstance* instance)
 
 void ModuleBase::Update(EmitterInstance* instance)
 {
-	const std::shared_ptr<ParticleEmitter>partEmitter = instance->GetEmitter();
+	const ParticleEmitter* partEmitter = instance->GetEmitter();
 
 	if (partEmitter->GetElapsed() <= emitter->GetDuration() || partEmitter->IsLooping())
 	{

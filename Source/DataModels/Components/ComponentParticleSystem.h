@@ -27,19 +27,25 @@ public:
 	void Draw() const override;
 	void Render();
 
-	void CreateEmitterInstance();
-	void CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter);
-	void AddEmitterInstance(EmitterInstance* emitter);
-	void RemoveEmitter(int pos);
-
 	bool IsEmittersEmpty() const;
 	bool IsPlaying() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
 
+	const std::shared_ptr<ResourceParticleSystem>& GetResource() const;
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
 	void SetEmitters(const std::vector<EmitterInstance*> emitters);
 
+	void CheckEmitterInstances(bool forceRecalculate);
+	void RemoveEmitter(int pos);
+
 private:
+	void CreateEmitterInstance();
+	void CreateEmitterInstance(ParticleEmitter* emitter);
+	void AddEmitterInstance(EmitterInstance* emitter);
+
+	void ClearEmitters();
+	void InitEmitterInstances();
+
 	std::vector<EmitterInstance*> emitters;
 	std::shared_ptr<ResourceParticleSystem> resource;
 
@@ -56,9 +62,9 @@ inline bool ComponentParticleSystem::IsPlaying() const
 	return isPlaying;
 }
 
-inline void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
+inline const std::shared_ptr<ResourceParticleSystem>& ComponentParticleSystem::GetResource() const
 {
-	this->resource = resource;
+	return resource;
 }
 
 inline void ComponentParticleSystem::SetEmitters(const std::vector<EmitterInstance*> emitters)

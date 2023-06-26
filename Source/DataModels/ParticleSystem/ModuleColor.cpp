@@ -5,13 +5,15 @@
 
 #include "ImGui/imgui.h"
 
-ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
+ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::COLOR, emitter),
 	initAlpha(1.0f), endAlpha(0.0f), draggingMark(nullptr), selectedMark(nullptr)
 {
+	gradient = new ImGradient();
 }
 
 ModuleColor::~ModuleColor()
 {
+	delete gradient;
 }
 
 void ModuleColor::Spawn(EmitterInstance* instance)
@@ -23,7 +25,7 @@ void ModuleColor::Update(EmitterInstance* instance)
 	if (enabled)
 	{
 		std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
-		std::list<ImGradientMark*> marks = gradient.getMarks();
+		std::list<ImGradientMark*> marks = gradient->getMarks();
 
 		float4 initColor = float4(marks.front()->color);
 		initColor.w = initAlpha;
@@ -53,7 +55,7 @@ void ModuleColor::DrawImGui()
 
 		ImGui::Text("Color Gradient:");
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
-		ImGui::GradientEditor(&gradient, draggingMark, selectedMark);
+		ImGui::GradientEditor(gradient, draggingMark, selectedMark);
 
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
 		
@@ -61,7 +63,7 @@ void ModuleColor::DrawImGui()
 		if (ImGui::BeginTable("##alphaTable", 4))
 		{			
 			ImGui::TableNextColumn();
-			ImGui::Text("Init value"); 
+			ImGui::Text("Init value");
 			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::DragFloat("##initAlpha", &initAlpha, 0.01, 0.0f, 1.0f, "%.2f");

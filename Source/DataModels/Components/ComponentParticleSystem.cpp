@@ -1,4 +1,6 @@
 #include "ComponentParticleSystem.h"
+#include "FileSystem/UniqueID.h"
+#include "Resources/ResourceParticleSystem.h"
 
 #include "Application.h"
 
@@ -7,6 +9,13 @@
 #include "Program/Program.h"
 
 #include "ParticleSystem/EmitterInstance.h"
+#include "FileSystem/Json.h"
+#include "Application.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
+#include "ParticleSystem/ParticleEmitter.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
 	Component(ComponentType::PARTICLE, active, owner, true), 
@@ -16,20 +25,52 @@ ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* 
 
 ComponentParticleSystem::~ComponentParticleSystem()
 {
-	for (EmitterInstance* instance : emitters)
-	{
-		delete instance;
-	}
-
-	emitters.clear();
+	ClearEmitters();
 }
 
 void ComponentParticleSystem::SaveOptions(Json& meta)
 {
+	// Do not delete these
+	meta["type"] = GetNameByType(type).c_str();
+	meta["active"] = (bool)active;
+	meta["removed"] = (bool)canBeRemoved;
+
+	UID uidParticleSystem = 0;
+	std::string assetPath = "";
+
+	if (resource)
+	{
+		uidParticleSystem = resource->GetUID();
+		assetPath = resource->GetAssetsPath();
+	}
+
+	meta["particleSystemUID"] = (UID)uidParticleSystem;
+	meta["assetPathParticleSystem"] = assetPath.c_str();
 }
 
 void ComponentParticleSystem::LoadOptions(Json& meta)
 {
+	// Do not delete these
+	type = GetTypeByName(meta["type"]);
+	active = (bool)meta["active"];
+	canBeRemoved = (bool)meta["removed"];
+	std::shared_ptr<ResourceParticleSystem> resourceParticleSystem;
+#ifdef ENGINE
+	std::string path = meta["assetPathParticleSystem"];
+	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	if (resourceExists)
+	{
+		resourceParticleSystem = App->GetModule<ModuleResources>()->RequestResource<ResourceParticleSystem>(path);
+	}
+#else
+	UID uidParticleSystem = meta["particleSystemUID"];
+	resourceParticleSystem = App->GetModule<ModuleResources>()->SearchResource<ResourceParticleSystem>(uidParticleSystem);
+
+#endif
+	if (resourceParticleSystem)
+	{
+		SetResource(resourceParticleSystem);
+	}
 }
 
 void ComponentParticleSystem::Play()
@@ -103,7 +144,7 @@ void ComponentParticleSystem::CreateEmitterInstance()
 	emitters.push_back(instance);
 }
 
-void ComponentParticleSystem::CreateEmitterInstance(std::shared_ptr<ParticleEmitter> emitter)
+void ComponentParticleSystem::CreateEmitterInstance(ParticleEmitter* emitter)
 {
 	EmitterInstance* instance = new EmitterInstance(emitter, this);
 	instance->Init();
@@ -113,6 +154,51 @@ void ComponentParticleSystem::CreateEmitterInstance(std::shared_ptr<ParticleEmit
 void ComponentParticleSystem::AddEmitterInstance(EmitterInstance* emitter)
 {
 	emitters.push_back(emitter);
+}
+
+void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticleSystem> resource)
+{
+	this->resource = resource;
+	ClearEmitters();
+
+	if(resource != nullptr)
+	{
+		InitEmitterInstances();
+	}
+}
+
+void ComponentParticleSystem::CheckEmitterInstances(bool forceRecalculate)
+{
+	if (resource == nullptr)
+	{
+		ClearEmitters();
+		return;
+	}
+
+	if (forceRecalculate || emitters.size() != resource->GetNumEmitters())
+	{
+		ClearEmitters();
+		InitEmitterInstances();
+	}
+}
+
+void ComponentParticleSystem::InitEmitterInstances()
+{
+	emitters.reserve(resource->GetNumEmitters());
+	for(int i = 0; i < resource->GetNumEmitters(); ++i)
+	{
+		CreateEmitterInstance(resource->GetEmitter(i));
+	}
+}
+
+void ComponentParticleSystem::ClearEmitters()
+{
+	for (EmitterInstance* instance : emitters)
+	{
+		delete instance;
+	}
+
+	emitters.clear();
 }
 
 void ComponentParticleSystem::RemoveEmitter(int pos)

@@ -42,7 +42,7 @@ public:
 	};
 
 public:
-	EmitterInstance(const std::shared_ptr<ParticleEmitter> emitter, ComponentParticleSystem* owner);
+	EmitterInstance(ParticleEmitter* emitter, ComponentParticleSystem* owner);
 	~EmitterInstance();
 
 	void Init();
@@ -56,8 +56,8 @@ public:
 	void SimulateParticles() const;
 
 	ComponentParticleSystem* GetOwner() const;
+	ParticleEmitter* GetEmitter() const;
 	Program* GetProgram() const;
-	std::shared_ptr<ParticleEmitter> GetEmitter() const;
 	std::vector<Particle>& GetParticles();
 	std::vector<unsigned int> GetSortedPositions() const;
 	const float GetLastEmission() const;
@@ -73,7 +73,7 @@ private:
 
 	std::vector<unsigned int> sortedPositions;
 	std::vector<Particle> particles;
-	std::shared_ptr<ParticleEmitter> emitter;
+	ParticleEmitter* emitter;
 
 	unsigned aliveParticles;
 	unsigned lastParticleUsed;
@@ -114,7 +114,7 @@ inline Program* EmitterInstance::GetProgram() const
 	return program;
 }
 
-inline std::shared_ptr<ParticleEmitter> EmitterInstance::GetEmitter() const
+inline ParticleEmitter* EmitterInstance::GetEmitter() const
 {
 	return emitter;
 }

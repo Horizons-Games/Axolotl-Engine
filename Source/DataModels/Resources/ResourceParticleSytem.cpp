@@ -1,4 +1,6 @@
 #include "ResourceParticleSystem.h"
+#include "ParticleSystem/ParticleEmitter.h"
+
 
 ResourceParticleSystem::ResourceParticleSystem(UID resourceUID, const std::string& fileName, 
 	const std::string& assetsPath, const std::string& libraryPath) : 
@@ -8,9 +10,4 @@ ResourceParticleSystem::ResourceParticleSystem(UID resourceUID, const std::strin
 
 ResourceParticleSystem::~ResourceParticleSystem()
 {
-	for (ParticleEmitter* emitter : emitters)
-	{
-		delete emitter;
-	}
-	emitters.clear();
 }

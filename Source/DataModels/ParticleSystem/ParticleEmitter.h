@@ -64,7 +64,7 @@ public:
 	void SetDuration(float duration);
 	void SetElapsed(float elapsed);
 	void SetLooping(bool isLooping);
-	void SetName(const char* name);
+	void SetName(const std::string &name);
 	void SetLifespanRange(const float2 &lifespan);
 	void SetSpeedRange(const float2 &speed);
 	void SetSizeRange(const float2 &size);
@@ -74,6 +74,7 @@ public:
 	void SetShape(ShapeType shape);
 	void SetAngle(float angle); 
 	void SetRadius(float radius);
+	void SetParticleTexture(const std::shared_ptr<ResourceTexture>& particleTexture);
 	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
 
 	bool IsRandomLife() const;
@@ -87,7 +88,7 @@ public:
 	float GetElapsed() const;
 	float GetAngle() const;
 	float GetRadius() const;
-	const char* GetName() const;
+	const std::string& GetName() const;
 	float2 GetLifespanRange() const;
 	float2 GetSpeedRange() const;
 	float2 GetSizeRange() const;
@@ -96,7 +97,7 @@ public:
 	float4 GetColor() const;
 	ShapeType GetShape() const;
 	std::vector<ParticleModule*> GetModules() const;
-	std::shared_ptr<ResourceTexture> GetTexture() const;
+	const std::shared_ptr<ResourceTexture>& GetParticleTexture() const;
 	ParticleModule* GetModule(const ParticleModule::ModuleType& type) const;
 
 	//ImGui functions
@@ -216,7 +217,7 @@ inline void ParticleEmitter::SetColor(const float4& color)
 	this->color = color;
 }
 
-inline void ParticleEmitter::SetName(const char* name)
+inline void ParticleEmitter::SetName(const std::string &name)
 {
 	this->name = name;
 }
@@ -234,6 +235,11 @@ inline void ParticleEmitter::SetAngle(float angle)
 inline void ParticleEmitter::SetRadius(float radius)
 {
 	this->radius = radius;
+}
+
+inline void ParticleEmitter::SetParticleTexture(const std::shared_ptr<ResourceTexture>& particleTexture)
+{
+	this->particleTexture = particleTexture;
 }
 
 inline void ParticleEmitter::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
@@ -311,9 +317,9 @@ inline float2 ParticleEmitter::GetGravityRange() const
 	return gravity;
 }
 
-inline const char* ParticleEmitter::GetName() const
+inline const std::string& ParticleEmitter::GetName() const
 {
-	return &name[0];
+	return name;
 }
 
 inline float4 ParticleEmitter::GetColor() const
@@ -341,7 +347,7 @@ inline std::vector<ParticleModule*> ParticleEmitter::GetModules() const
 	return modules;
 }
 
-inline std::shared_ptr<ResourceTexture> ParticleEmitter::GetTexture() const
+inline const std::shared_ptr<ResourceTexture>& ParticleEmitter::GetParticleTexture() const
 {
 	return particleTexture;
 }

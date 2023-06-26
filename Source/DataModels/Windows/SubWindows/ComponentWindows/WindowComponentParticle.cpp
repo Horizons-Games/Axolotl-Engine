@@ -1,13 +1,20 @@
 #include "WindowComponentParticle.h"
 
+#include "Windows/EditorWindows/ImporterWindows/WindowParticleSystemInput.h"
+#include "Resources/ResourceParticleSystem.h"
 #include "Components/ComponentParticleSystem.h"
 
 #include "ParticleSystem/EmitterInstance.h"
 #include "ParticleSystem/ParticleEmitter.h"
 #include "ParticleSystem/ParticleModule.h"
 
+#include "Application.h"
+#include "FileSystem/ModuleResources.h"
+#include "ModuleScene.h"
+
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
-	ComponentWindow("Particle System", component)
+	ComponentWindow("Particle System", component), 
+	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
 {
 }
 
@@ -27,78 +34,106 @@ void WindowComponentParticle::DrawWindowContents()
 	ImGui::Text("");
 
 	ComponentParticleSystem* component = static_cast<ComponentParticleSystem*>(this->component);
-	
-	int id = 0;
-	
-	if (component->GetEmitters().size() > 0)
+	std::shared_ptr<ResourceParticleSystem> resource = component->GetResource();
+	if(resource)
 	{
-		ImGui::Separator();
-
-		if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
-		{
-			if (!component->IsPlaying())
-			{
-				component->Play();
-			}
-		}
+		ImGui::Text(resource->GetFileName().c_str());
 		ImGui::SameLine();
-
-		if (ImGui::Button("||"))
+		if (ImGui::Button("x"))
 		{
-			if (component->IsPlaying())
+			component->SetResource(nullptr);
+			return;
+		}
+
+		if (ImGui::Button("Save"))
+		{
+			resource->SetChanged(true);
+			App->GetModule<ModuleResources>()->ReimportResource(resource->GetUID());
+			App->GetModule<ModuleScene>()->ParticlesSystemUpdate(true);
+			return;
+		}
+	
+		int id = 0;
+
+		if (component->GetEmitters().size() > 0)
+		{
+			ImGui::Separator();
+
+			if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
 			{
-				component->Stop();
+				if (!component->IsPlaying())
+				{
+					component->Play();
+				}
 			}
+			ImGui::SameLine();
+
+			if (ImGui::Button("||"))
+			{
+				if (component->IsPlaying())
+				{
+					component->Stop();
+				}
+			}
+
+			ImGui::Separator();
 		}
 
-		ImGui::Separator();
-	}
+		std::vector<EmitterInstance*> emitters = component->GetEmitters();
 
-	std::vector<EmitterInstance*> emitters = component->GetEmitters();
+		int emitterToRemove = -1;
 
-	int emitterToRemove = -1;
-
-	for (int id = 0; id < emitters.size(); ++id)
-	{
-		ImGui::PushID(id);
-
-		DrawEmitter(emitters[id]);
-
-		ImGui::Dummy(ImVec2(0.0f, 10.0f));
-		if (ImGui::Button("Delete Emitter", ImVec2(115.0f, 20.0f)))
+		for (int id = 0; id < emitters.size(); ++id)
 		{
-			emitterToRemove = id;
+			ImGui::PushID(id);
+
+			DrawEmitter(emitters[id]);
+
+			ImGui::Dummy(ImVec2(0.0f, 10.0f));
+			if (ImGui::Button("Delete Emitter", ImVec2(115.0f, 20.0f)))
+			{
+				emitterToRemove = id;
+			}
+			ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+			ImGui::Separator();
+
+			ImGui::PopID();
 		}
-		ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-		ImGui::Separator();
+		if (emitterToRemove != -1)
+		{
+			resource->RemoveEmitter(emitterToRemove);
+			App->GetModule<ModuleScene>()->ParticlesSystemUpdate();
+			return;
+		}
 
-		ImGui::PopID();
+		if (ImGui::Button("Add an Emitter"))
+		{
+			std::unique_ptr<ParticleEmitter> emitter = std::make_unique<ParticleEmitter>();
+			//This is naming is not correct but we will do it like this for the moment
+			std::string name = "DefaultEmitter_" + std::to_string(component->GetEmitters().size());
+
+			emitter->SetName(&name[0]);
+			//You need to update the resource and THEN all the components detect that change and update their instances
+			resource->AddEmitter(std::move(emitter));
+			App->GetModule<ModuleScene>()->ParticlesSystemUpdate();
+		}
 	}
-
-	if (emitterToRemove != -1)
+	else
 	{
-		component->RemoveEmitter(emitterToRemove);
-	}
-
-	if (ImGui::Button("Add an Emitter"))
-	{
-		std::shared_ptr<ParticleEmitter> emitter = std::make_shared<ParticleEmitter>();
-		std::string name = "DefaultEmitter_" + std::to_string(component->GetEmitters().size());
-		
-		emitter->SetName(&name[0]);
-		component->CreateEmitterInstance(emitter);
+		inputParticleSystem->DrawWindowContents();
 	}
 }
 
 void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 {
-	std::shared_ptr<ParticleEmitter> emitter = instance->GetEmitter();
+	ParticleEmitter* emitter = instance->GetEmitter();
 
 	if (emitter)
 	{
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-		ImGui::Text(emitter->GetName());
+		ImGui::Text(emitter->GetName().c_str());
 
 		bool open = emitter->IsVisibleConfig();
 

@@ -254,10 +254,11 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 			break;
 		}
 
-		const std::shared_ptr<ResourceTexture>& texture = emitter->GetTexture();
+		const std::shared_ptr<ResourceTexture>& texture = emitter->GetParticleTexture();
 
 		if (texture)
 		{
+			texture->Load();
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			glUniform1i(3, 1);

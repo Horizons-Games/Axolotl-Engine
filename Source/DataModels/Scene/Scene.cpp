@@ -984,8 +984,12 @@ void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 
 void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 {
-	sceneInteractableComponents.insert(
-		std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+	sceneInteractableComponents.insert(std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
+
+void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
+{
+	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
 }
 
 void Scene::InitCubemap()
