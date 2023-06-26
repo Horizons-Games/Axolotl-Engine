@@ -46,7 +46,6 @@ void DroneExplosionAttack::Update(float deltaTime)
 	if (attackState == DroneExplosionState::WAITTINGEXPLOSION)
 	{
 		explosionTime -= deltaTime;
-		LOG_INFO("{}", explosionTime);
 		UpdateDroneColor();
 		if (explosionTime < 0)
 		{
@@ -55,7 +54,6 @@ void DroneExplosionAttack::Update(float deltaTime)
 	}
 	else if (attackState == DroneExplosionState::EXPLOTING)
 	{
-		LOG_INFO("BOOOM");
 		if (targetPlayer)
 		{
 			targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);

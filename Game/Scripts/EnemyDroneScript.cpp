@@ -198,12 +198,10 @@ void EnemyDroneScript::CalculateNextPosition() const
 	float rotation = -(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.5)) + 1.0);
 
 	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-	LOG_INFO("randon {}", r);
 	if (r > 0.5)
 	{
 		rotation = std::abs(rotation);
 	}
-	LOG_INFO("{}", rotation);
 
 	float x = nextPosition.x;
 	float z = nextPosition.z;
