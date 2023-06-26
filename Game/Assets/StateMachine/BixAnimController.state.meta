@@ -8,6 +8,7 @@
         "Assets/Animation/Bix.Armature_IdleRandom2.anim",
         "Assets/Animation/Bix.Armature_Dash.anim",
         "Assets/Animation/Bix.Armature_Jump.anim",
-        "Assets/Animation/Bix.Armature_DobleJump.anim"
+        "Assets/Animation/Bix.Armature_DobleJump.anim",
+        "Assets/Animation/Bix.Armature_Landing.anim"
     ]
 }
