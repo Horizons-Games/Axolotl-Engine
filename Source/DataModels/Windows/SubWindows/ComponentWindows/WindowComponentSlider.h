@@ -12,5 +12,5 @@ public:
 
 protected:
 	void DrawWindowContents() override;
-	bool DrawGameObject(GameObject*& go, const char* label);
+	bool DrawGameObject(GameObject*& go, std::string label);
 };

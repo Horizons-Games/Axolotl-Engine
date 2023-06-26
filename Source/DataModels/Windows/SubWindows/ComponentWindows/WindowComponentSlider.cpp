@@ -80,7 +80,7 @@ void WindowComponentSlider::DrawWindowContents()
 	}
 }
 
-bool WindowComponentSlider::DrawGameObject(GameObject*& go, const char* label)
+bool WindowComponentSlider::DrawGameObject(GameObject*& go, std::string label)
 {
 	bool setGO = false;
 	std::string gameObjectSlot = "Drag a GameObject here";
@@ -113,14 +113,14 @@ bool WindowComponentSlider::DrawGameObject(GameObject*& go, const char* label)
 
 	if (go != nullptr)
 	{
-		if (ImGui::Button("X"))
+		if (ImGui::Button(("X##" + label).c_str()))
 		{
 			go = nullptr;
 			setGO = true;
 		}
 	}
 	ImGui::SameLine();
-	ImGui::Text(label);
+	ImGui::Text(label.c_str());
 
 	return setGO;
 }
