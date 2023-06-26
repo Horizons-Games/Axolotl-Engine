@@ -275,21 +275,6 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerRotationScript",
-                            "fields": [
-                                {
-                                    "name": "RotationSensitivity",
-                                    "value": 50.0,
-                                    "type": 0
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
                             "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
@@ -1982,9 +1967,9 @@
         {
             "GameObject": {
                 "name": "Basic Camera",
-                "tag": "",
+                "tag": "MainCamera",
                 "uid": 2439703214949333448,
-                "parentUID": 6764586723542947213,
+                "parentUID": 9011007661183311806,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1993,15 +1978,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 3.0,
-                            "localPos_Z": -6.5,
-                            "localRot_X": 0.0,
+                            "localPos_X": 0.0001220703125,
+                            "localPos_Y": 1.6866216659545898,
+                            "localPos_Z": -14.913662910461426,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
                         }
                     },
                     {
@@ -2025,11 +2010,31 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerCameraRotationVerticalScript",
+                            "constructName": "CameraControllerScript",
                             "fields": [
                                 {
-                                    "name": "RotationSensitivity",
-                                    "value": 50.0,
+                                    "name": "SamplePointsObject",
+                                    "value": 8240674281971768443,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Player",
+                                    "value": 6764586723542947213,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "XOffset",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "YOffset",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ZOffset",
+                                    "value": -5.0,
                                     "type": 0
                                 }
                             ]
@@ -7994,9 +7999,9 @@
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000003278255463,
+                            "localSca_Z": 0.20000003278255463
                         }
                     },
                     {
@@ -8004,8 +8009,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "meshUID": 17161328820640003293,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -8016,13 +8021,13 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 3,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 5.0,
@@ -8031,7 +8036,7 @@
                             "boxSize_X": 0.9999994039535522,
                             "boxSize_Y": 1.75,
                             "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.5,
+                            "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -7.840948581695557,
@@ -8073,13 +8078,13 @@
                             "removed": false,
                             "localPos_X": -4.359014987945557,
                             "localPos_Y": 3.2121219635009766,
-                            "localPos_Z": -8.762855529785156,
+                            "localPos_Z": -8.701062202453613,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
                         }
                     },
                     {
@@ -8087,8 +8092,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "meshUID": 17161328820640003293,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -8099,13 +8104,13 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 3,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 5.0,
@@ -8114,12 +8119,12 @@
                             "boxSize_X": 0.9999994039535522,
                             "boxSize_Y": 1.75,
                             "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.5,
+                            "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -4.359014987945557,
                             "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.762855529785156
+                            "rbPos_Z": -8.701062202453613
                         }
                     },
                     {
@@ -8318,6 +8323,121 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SamplePoints",
+                "tag": "",
+                "uid": 8240674281971768443,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 1007037701341108592,
+                "parentUID": 8240674281971768443,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 62.397525787353516,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CameraSample",
+                            "fields": [
+                                {
+                                    "name": "InfluenceRadius",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PositionOffset",
+                                    "value x": 0.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 16180215869154033536,
+                "parentUID": 6764586723542947213,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false
                         }
                     }
                 ]

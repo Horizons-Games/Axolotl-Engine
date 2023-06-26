@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCamera.h"
 
 #include "Application.h"
@@ -14,11 +16,15 @@
 #include "Camera/CameraGameObject.h"
 #include "Camera/CameraGod.h"
 
+#include "Geometry/Frustum.h"
+
 ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 	Component(ComponentType::CAMERA, active, owner, false)
 {
 	camera = std::make_unique<CameraGameObject>();
 	camera->Init();
+	camera->SetKpPosition(5.0f);
+	camera->SetKpRotation(10.0f);
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
 }
@@ -34,12 +40,12 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update()
 {
+	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
-	camera->SetPosition((float3) trans->GetGlobalPosition());
+	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
 
 	Quat rotation = trans->GetGlobalRotation();
-	camera->GetFrustum()->SetFront(rotation.Transform(float3::unitZ));
-	camera->GetFrustum()->SetUp(rotation.Transform(float3::unitY));
+	camera->SetRotationTarget(rotation, deltaTime);
 
 	if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 	{

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Scene.h"
 
 #include "Application.h"
@@ -15,6 +17,8 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCubemap.h"
+#include "Components/ComponentPlayer.h"
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -23,27 +27,29 @@
 
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "DataStructures/Quadtree.h"
+
+#include "FileSystem/ModuleResources.h"
 
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "FileSystem/ModuleResources.h"
-
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
-
-#include <GL/glew.h>
-#include <stack>
+#include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
 
 #include "Scripting/IScript.h"
 
-#include <stack>
+#include "Skybox/Skybox.h"
+
+#include "Defines/QuadtreeDefines.h"
+
+#include <GL/glew.h>
 
 Scene::Scene() :
 	root(nullptr),
@@ -736,7 +742,7 @@ void Scene::UpdateScenePointLights()
 				PointLight pl;
 				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
 				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
-				
+
 				pointLights.push_back(pl);
 			}
 		}
@@ -786,7 +792,7 @@ void Scene::UpdateSceneAreaLights()
 			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
 			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp =	static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -822,6 +828,21 @@ void Scene::UpdateSceneAreaLights()
 			}
 		}
 	}
+}
+
+GameObject* Scene::GetPlayer() const
+{
+	std::vector<GameObject*> gameObjects = GetNonStaticObjects();
+
+	for (GameObject* go : gameObjects)
+	{
+		ComponentPlayer* player = go->GetComponent<ComponentPlayer>();
+		if (player)
+		{
+			return go;
+		}
+	}
+	return nullptr;
 }
 
 void Scene::InitNewEmptyScene()

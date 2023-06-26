@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentTransform2D.h"
 #include "FileSystem/Json.h"
 

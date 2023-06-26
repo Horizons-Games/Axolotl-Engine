@@ -4,6 +4,7 @@
 #include "Timer/Timer.h"
 
 #include "Enums/ModuleType.h"
+#include "Enums/UpdateStatus.h"
 
 class ScriptFactory;
 
@@ -15,7 +16,7 @@ public:
 
 	bool Start();
 	bool Init();
-	update_status Update();
+	UpdateStatus Update();
 	bool CleanUp();
 
 	void OnPlay();
