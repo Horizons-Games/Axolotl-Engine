@@ -6,6 +6,7 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceModel.h"
 
+#include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentAreaLight.h"
@@ -48,14 +49,15 @@ public:
 	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
 	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
-	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type, 
-		AreaType areaType = AreaType::NONE);
+	GameObject* CreateLightGameObject(const std::string& name,
+									  GameObject* parent,
+									  LightType type,
+									  AreaType areaType = AreaType::NONE);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(const GameObject* gameObject);
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
-
 
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
@@ -150,7 +152,7 @@ private:
 	unsigned ssboSpot;
 	unsigned ssboSphere;
 	unsigned ssboTube;
-	
+
 	AABB rootQuadtreeAABB;
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;

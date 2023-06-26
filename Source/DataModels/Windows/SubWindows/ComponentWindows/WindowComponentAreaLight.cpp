@@ -63,7 +63,6 @@ void WindowComponentAreaLight::DrawWindowContents()
 				{
 					bool isSelected = (currentType == lightTypes[i]);
 
-
 					if (ImGui::Selectable(lightTypes[i], isSelected)) // Watch this
 					{
 						if (lightTypes[i] != currentType)

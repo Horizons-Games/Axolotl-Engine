@@ -88,7 +88,20 @@ void WindowBuild::DrawBuildTypeComboBox()
 
 void WindowBuild::DrawGenerateZipCheckbox()
 {
+	bool zipExists = App->GetModule<ModuleFileSystem>()->Exists("Assets.zip");
+	if (!zipExists)
+	{
+		ImGui::BeginDisabled();
+	}
 	ImGui::Checkbox("Generate a new assets zip file", &generateZip);
+	if (!zipExists)
+	{
+		if (ImGui::IsMouseHoveringRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax()))
+		{
+			ImGui::SetTooltip("Zip not found, one must be created");
+		}
+		ImGui::EndDisabled();
+	}
 }
 
 void WindowBuild::DrawBuildButton()

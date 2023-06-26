@@ -9,6 +9,13 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 
+#ifndef ENGINE
+	#include "Modules/ModuleDebugDraw.h"
+	#include "Modules/ModuleEditor.h"
+
+	#include "Windows/WindowDebug.h"
+#endif // ENGINE
+
 #include "debugdraw.h"
 
 ComponentAreaLight::ComponentAreaLight() :
@@ -66,54 +73,78 @@ ComponentAreaLight::~ComponentAreaLight()
 	}
 }
 
-void ComponentAreaLight::Draw() const
+void ComponentAreaLight::SignalEnable()
 {
-#ifndef ENGINE
-
-#else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
 	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
-		float3 position = transform->GetGlobalPosition();
-		if (areaType == AreaType::SPHERE)
-		{
-			dd::sphere(position, dd::colors::White, shapeRadius);
-			dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
-		}
-		else if (areaType == AreaType::TUBE)
-		{
-			Quat matrixRotation = transform->GetGlobalRotation();
-			float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
-			float3 translation = transform->GetGlobalPosition();
-			float3 pointA = float3(0, 0.5f, 0) * height;
-			float3 pointB = float3(0, -0.5f, 0) * height;
-
-			// Apply rotation & translation
-			pointA = (matrixRotation * pointA) + translation;
-			pointB = (matrixRotation * pointB) + translation;
-
-			dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
-			dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
-			dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
-			dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
-		}
-		else if (areaType == AreaType::QUAD)
-		{
-		}
-		else if (areaType == AreaType::DISK)
-		{
-		}
+		currentScene->UpdateSceneAreaLights();
+		currentScene->RenderAreaLights();
 	}
-#endif // ENGINE
 }
 
-void ComponentAreaLight::SaveOptions(Json& meta)
+void ComponentAreaLight::SignalDisable()
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (currentScene)
+	{
+		currentScene->UpdateSceneAreaLights();
+		currentScene->RenderAreaLights();
+	}
+}
 
+void ComponentAreaLight::Draw() const
+{
+	bool canDrawLight =
+#ifdef ENGINE
+		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+#else
+		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawAreaLight();
+#endif // ENGINE
+
+	if (!canDrawLight)
+	{
+		return;
+	}
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+
+	float3 position = transform->GetGlobalPosition();
+	if (areaType == AreaType::SPHERE)
+	{
+		dd::sphere(position, dd::colors::White, shapeRadius);
+
+		// attenuation shape
+		dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
+	}
+	else if (areaType == AreaType::TUBE)
+	{
+		Quat matrixRotation = transform->GetGlobalRotation();
+		float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
+		float3 translation = position;
+		float3 pointA = float3(0, 0.5f, 0) * height;
+		float3 pointB = float3(0, -0.5f, 0) * height;
+
+		// Apply rotation & translation
+		pointA = (matrixRotation * pointA) + translation;
+		pointB = (matrixRotation * pointB) + translation;
+
+		dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
+
+		// attenuation shape
+		dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
+		dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
+		dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
+	}
+	else if (areaType == AreaType::QUAD)
+	{
+	}
+	else if (areaType == AreaType::DISK)
+	{
+	}
+}
+
+void ComponentAreaLight::InternalSave(Json& meta)
+{
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -128,12 +159,8 @@ void ComponentAreaLight::SaveOptions(Json& meta)
 	meta["attRadius"] = (float) attRadius;
 }
 
-void ComponentAreaLight::LoadOptions(Json& meta)
+void ComponentAreaLight::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];

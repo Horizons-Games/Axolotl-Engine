@@ -48,7 +48,7 @@ private:
 
 	void SaveSceneToJson(Json& jsonScene);
 	void LoadSceneFromJson(Json& json, bool mantainActualScene);
-	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy);
+	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy);
 
 	void AddGameObject(GameObject* object);
 	void RemoveGameObject(const GameObject* object);
@@ -80,5 +80,5 @@ inline void ModuleScene::SetSceneToLoad(const std::string& name)
 
 inline void ModuleScene::OnPause()
 {
-	ENGINE_LOG("Pause pressed");
+	LOG_VERBOSE("Pause pressed");
 }

@@ -190,6 +190,7 @@
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.cpp">
@@ -213,6 +214,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="AxoLog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -449,7 +454,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataStructures\Quadtree.cpp" />
-    <ClCompile Include="EngineLog.cpp" />
     <ClCompile Include="FileSystem\Importers\AnimationImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
@@ -462,6 +466,7 @@
     <ClCompile Include="FileSystem\Json.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
+    <ClCompile Include="DataModels\GBuffer\GBuffer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modules\ModuleNavigation.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp" />
@@ -546,6 +551,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />
     <ClInclude Include="Auxiliar\GameBuilder.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -585,6 +591,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
@@ -841,7 +848,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
       </ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="EngineLog.h" />
+    <ClInclude Include="AxoLog.h" />
     <ClInclude Include="Enums\FieldType.h" />
     <ClInclude Include="FileSystem\Importers\AnimationImporter.h" />
     <ClInclude Include="Enums\ModuleType.h" />
@@ -857,6 +864,7 @@
     <ClInclude Include="FileSystem\Json.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="FileSystem\ModuleResources.h" />
+    <ClInclude Include="DataModels\GBuffer\GBuffer.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Modules\ModuleNavigation.h" />
     <ClInclude Include="Modules\Module.h" />

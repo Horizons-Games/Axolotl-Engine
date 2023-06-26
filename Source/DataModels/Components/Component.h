@@ -14,17 +14,17 @@ class Json;
 class Component
 {
 public:
-	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
+	Component(ComponentType type, bool enabled, GameObject* owner, bool canBeRemoved);
 	Component(const Component& component);
 	virtual ~Component();
 
-	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
-	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
+	void Save(Json& meta);
+	void Load(const Json& meta);
 
 	virtual void OnTransformChanged();
 
-	virtual void Enable();
-	virtual void Disable();
+	void Enable();
+	void Disable();
 
 	bool IsEnabled() const;
 	ComponentType GetType() const;
@@ -34,56 +34,27 @@ public:
 
 	virtual void SetOwner(GameObject* owner);
 
-protected:
+private:
+	// Use this to send the necessary signals when the component is enabled
+	virtual void SignalEnable(){};
+	// Use this to send the necessary signals when the component is disabled
+	virtual void SignalDisable(){};
+
+	virtual void InternalSave(Json& meta) = 0;
+	virtual void InternalLoad(const Json& meta) = 0;
+
+private:
 	ComponentType type;
-	bool active;
 	GameObject* owner;
+	bool enabled;
 	bool canBeRemoved;
+
+private:
+	friend GameObject;
 };
-
-inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved) :
-	type(type),
-	active(active),
-	owner(owner),
-	canBeRemoved(canBeRemoved)
-{
-}
-
-inline Component::Component(const Component& component) :
-	type(component.type),
-	active(component.active),
-	owner(nullptr),
-	canBeRemoved(component.canBeRemoved)
-{
-}
-
-inline Component::~Component()
-{
-}
-
-inline void Component::Enable()
-{
-	if (type != ComponentType::TRANSFORM)
-	{
-		active = true;
-	}
-}
-
-inline void Component::Disable()
-{
-	if (type != ComponentType::TRANSFORM)
-	{
-		active = false;
-	}
-}
 
 inline void Component::OnTransformChanged()
 {
-}
-
-inline bool Component::IsEnabled() const
-{
-	return active;
 }
 
 inline ComponentType Component::GetType() const
