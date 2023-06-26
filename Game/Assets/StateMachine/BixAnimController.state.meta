@@ -13,6 +13,13 @@
         "Assets/Animation/Bix.Armature_Attack1Idle.anim",
         "Assets/Animation/Bix.Armature_Attack2Idle.anim",
         "Assets/Animation/Bix.Armature_Attack3AlterNew.anim",
-        "Assets/Animation/Bix.Armature_AttackComboEnd.anim"
+        "Assets/Animation/Bix.Armature_AttackComboEnd.anim",
+        "Assets/Animation/Bix.Armature_ReceiveDamage.anim",
+        "Assets/Animation/Bix.Armature_Death.anim",
+        "Assets/Animation/Bix.Armature_Falling.anim",
+        "Assets/Animation/Bix.Armature_BlasterAttack1.anim",
+        "Assets/Animation/Bix.Armature_UseForceInit.anim",
+        "Assets/Animation/Bix.Armature_UseForceKeeping.anim",
+        "Assets/Animation/Bix.Armature_UseForceFinish.anim"
     ]
 }
