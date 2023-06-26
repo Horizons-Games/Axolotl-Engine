@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentSlider.h"
 #include "ComponentTransform2D.h"
 #include "ComponentButton.h"
@@ -110,13 +112,8 @@ void ComponentSlider::CheckSlider()
 	}
 }
 
-void ComponentSlider::SaveOptions(Json& meta)
+void ComponentSlider::InternalSave(Json& meta)
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	SaveGameObject(meta, "background", background);
 	SaveGameObject(meta, "fill", fill);
 	SaveGameObject(meta, "handle", handle);
@@ -127,13 +124,8 @@ void ComponentSlider::SaveOptions(Json& meta)
 	meta["direction"] = static_cast<int>(direction);
 }
 
-void ComponentSlider::LoadOptions(Json& meta)
+void ComponentSlider::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	background = LoadGameObject(meta, "background");
 	fill = LoadGameObject(meta, "fill");
 	handle = LoadGameObject(meta, "handle");
@@ -247,7 +239,7 @@ void ComponentSlider::SaveGameObject(Json& meta, const char* name, GameObject* g
 	}
 }
 
-GameObject* ComponentSlider::LoadGameObject(Json& meta, const char* name)
+GameObject* ComponentSlider::LoadGameObject(const Json& meta, const char* name)
 {
 	UID uid = meta[name];
 	if (uid != 0)

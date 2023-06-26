@@ -24,9 +24,6 @@ public:
 
 	void CheckSlider();
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	float GetMaxValue() const;
 	float GetMinValue() const;
 	float GetCurrentValue() const;
@@ -47,8 +44,11 @@ public:
 	void OnHandleDragged();
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	void SaveGameObject(Json& meta, const char* name, GameObject* go);
-	GameObject* LoadGameObject(Json& meta, const char* name);
+	GameObject* LoadGameObject(const Json& meta, const char* name);
 	GameObject* background;
 	GameObject* fill;
 	GameObject* handle;

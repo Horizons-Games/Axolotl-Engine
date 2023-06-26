@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentSlider.h"
 
 #include "Components/UI/ComponentSlider.h"
