@@ -852,12 +852,6 @@
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Audio\AudioData.h">
-      <Filter>Auxiliar\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentBreakable.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -967,6 +961,12 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleAudio.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Audio\AudioData.h">
+      <Filter>Auxiliar\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1824,9 +1824,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>FileSystem\Importers</Filter>
