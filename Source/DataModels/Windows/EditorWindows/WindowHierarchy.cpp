@@ -29,6 +29,16 @@ WindowHierarchy::~WindowHierarchy()
 
 void WindowHierarchy::DrawWindowContents()
 {
+	DrawSearchBar();
+
+	// if filteredObjects contains a "null" UID, means no object was found
+	if (filteredObjects.count(0U) != 0)
+	{
+		ImGui::TextUnformatted("No Game Object with that name found in the scene");
+	}
+
+	ImGui::Separator();
+
 	GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
 	assert(root);
 	DrawRecursiveHierarchy(root);
@@ -44,6 +54,11 @@ void WindowHierarchy::DrawWindowContents()
 bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 {
 	assert(gameObject);
+
+	if (!IsFiltered(gameObject))
+	{
+		return true;
+	}
 
 	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
@@ -107,32 +122,32 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 			}
 			Create3DObjectMenu(gameObject);
 
-            //Create Light ShortCut
-            if (ImGui::BeginMenu("Create Light"))
-            {
-                if (ImGui::MenuItem("Spot"))
-                {
-                    loadedScene->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
-                }
-                if (ImGui::MenuItem("Point"))
-                {
-                    loadedScene->CreateLightGameObject("Point", gameObject, LightType::POINT);
-                }
-                if (ImGui::BeginMenu("Area Light"))
-                {
-                    if (ImGui::MenuItem("Sphere"))
-                    {
-                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::SPHERE);
-                    }
-                    if (ImGui::MenuItem("Tube"))
-                    {
-                        loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::TUBE);
-                    }
-                    ImGui::EndMenu();
-                }
-                ImGui::EndMenu();
-            }
-            
+			// Create Light ShortCut
+			if (ImGui::BeginMenu("Create Light"))
+			{
+				if (ImGui::MenuItem("Spot"))
+				{
+					loadedScene->CreateLightGameObject("Spot", gameObject, LightType::SPOT);
+				}
+				if (ImGui::MenuItem("Point"))
+				{
+					loadedScene->CreateLightGameObject("Point", gameObject, LightType::POINT);
+				}
+				if (ImGui::BeginMenu("Area Light"))
+				{
+					if (ImGui::MenuItem("Sphere"))
+					{
+						loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::SPHERE);
+					}
+					if (ImGui::MenuItem("Tube"))
+					{
+						loadedScene->CreateLightGameObject("Area Light", gameObject, LightType::AREA, AreaType::TUBE);
+					}
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenu();
+			}
+
 			if (ImGui::BeginMenu("Audio"))
 			{
 				if (ImGui::MenuItem("Audio Source"))
@@ -234,6 +249,16 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 	return true;
 }
 
+void WindowHierarchy::DrawSearchBar()
+{
+	// use same buffer size as in Inspector
+	static char name[32] = "";
+	if (ImGui::InputTextWithHint("##HierarchySearchBar", "Search for a Game Object...", name, 32))
+	{
+		SetUpFilter(name);
+	}
+}
+
 void WindowHierarchy::ProcessInput()
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
@@ -263,6 +288,47 @@ void WindowHierarchy::ProcessInput()
 	{
 		DeleteGameObject(App->GetModule<ModuleScene>()->GetSelectedGameObject());
 	}
+}
+
+void WindowHierarchy::SetUpFilter(const std::string& nameFilter)
+{
+	filteredObjects.clear();
+	if (nameFilter.empty())
+	{
+		return;
+	}
+	std::list<GameObject*> entireHierarchy =
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetAllDescendants();
+
+	auto objectsWithName = entireHierarchy | std::views::filter(
+												 [&nameFilter](const GameObject* gameObject)
+												 {
+													 return gameObject->GetName().find(nameFilter) != std::string::npos;
+												 });
+	for (const GameObject* gameObject : objectsWithName)
+	{
+		filteredObjects.insert(gameObject->GetUID());
+		const GameObject* ancestor = gameObject->GetParent();
+		while (ancestor != nullptr)
+		{
+			filteredObjects.insert(ancestor->GetUID());
+			ancestor = ancestor->GetParent();
+		}
+	}
+	// Object not found, insert "null" UID to differentiate from no filter case
+	if (filteredObjects.empty())
+	{
+		filteredObjects.insert(0U);
+	}
+}
+
+bool WindowHierarchy::IsFiltered(const GameObject* gameObject) const
+{
+	if (filteredObjects.empty())
+	{
+		return true;
+	}
+	return filteredObjects.count(gameObject->GetUID()) != 0;
 }
 
 void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
@@ -318,10 +384,10 @@ void WindowHierarchy::Create3DObjectMenu(GameObject* gameObject)
 		{
 			loadedScene->Create3DGameObject("Cube", gameObject, Premade3D::CUBE);
 		}
-        if (ImGui::MenuItem("Sphere"))
-        {
-            loadedScene->Create3DGameObject("Sphere", gameObject, Premade3D::SPHERE);
-        }
+		if (ImGui::MenuItem("Sphere"))
+		{
+			loadedScene->Create3DGameObject("Sphere", gameObject, Premade3D::SPHERE);
+		}
 		if (ImGui::MenuItem("Plane"))
 		{
 			loadedScene->Create3DGameObject("Plane", gameObject, Premade3D::PLANE);
