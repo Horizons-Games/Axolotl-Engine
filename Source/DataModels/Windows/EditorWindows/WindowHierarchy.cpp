@@ -75,7 +75,9 @@ bool WindowHierarchy::DrawRecursiveHierarchy(GameObject* gameObject)
 	{
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
 	}
-	else if (children.empty())
+	else if (children.empty() || std::none_of(std::begin(children),
+											  std::end(children),
+											  std::bind(&WindowHierarchy::IsFiltered, this, std::placeholders::_1)))
 	{
 		flags |= ImGuiTreeNodeFlags_Leaf;
 	}
