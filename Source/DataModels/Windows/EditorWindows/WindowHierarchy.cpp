@@ -35,6 +35,7 @@ void WindowHierarchy::DrawWindowContents()
 	if (filteredObjects.count(0U) != 0)
 	{
 		ImGui::TextUnformatted("No Game Object with that name found in the scene");
+		return;
 	}
 
 	ImGui::Separator();
