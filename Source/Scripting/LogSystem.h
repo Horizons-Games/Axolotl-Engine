@@ -7,10 +7,6 @@
 	#include "ICompilerLogger.h"
 
 	#include <stdio.h>
-	#include <string>
-
-	#include <stdio.h>
-	#include <string>
 
 // StdioLogSystem for compiler
 

@@ -20,7 +20,7 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "PlayerRotationScript.h"
-#include "PlayerCameraRotationVerticalScript.h"
+#include "CameraControllerScript.h"
 #include "PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerForceUseScript);
@@ -44,7 +44,7 @@ void PlayerForceUseScript::Start()
 	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
 	moveScript = owner->GetParent()->GetComponent<PlayerMoveScript>();
 
-	rotationVerticalScript = owner->GetComponent<PlayerCameraRotationVerticalScript>();
+	rotationVerticalScript = owner->GetComponent<CameraControllerScript>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -141,7 +141,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 			isForceActive = true;
 		}
 		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-		btRigidBody* hittedbtRb = hittedRigidBody->GetRigidBody();
 		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
 		if (input->IsMouseWheelScrolled())

@@ -14,7 +14,6 @@ enum class ComponentType
 	IMAGE,
 	BUTTON,
 	RIGIDBODY,
-	MOCKSTATE,
 	AUDIOSOURCE,
 	AUDIOLISTENER,
 	MESHCOLLIDER,
@@ -32,7 +31,6 @@ class ComponentCubemap;
 class ComponentLight;
 class ComponentMeshCollider;
 class ComponentMeshRenderer;
-class ComponentMockState;
 class ComponentPlayer;
 class ComponentRigidBody;
 class ComponentScript;
@@ -100,12 +98,6 @@ template<>
 struct ComponentToEnum<ComponentMeshRenderer>
 {
 	const static ComponentType value = ComponentType::MESHRENDERER;
-};
-
-template<>
-struct ComponentToEnum<ComponentMockState>
-{
-	const static ComponentType value = ComponentType::MOCKSTATE;
 };
 
 template<>

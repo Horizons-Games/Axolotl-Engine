@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentImage.h"
 #include "ComponentCanvas.h"
 #include "ComponentTransform2D.h"

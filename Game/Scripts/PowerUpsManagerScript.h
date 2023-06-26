@@ -13,6 +13,7 @@ public:
 	PowerUpsManagerScript();
 	~PowerUpsManagerScript() override = default;
 
+	void Start() override;
 	void Update(float deltaTime) override;
 
 	bool SavePowerUp(const PowerUpType& type);
@@ -21,6 +22,9 @@ public:
 
 	const PowerUpType& GetSavedPowerUpType() const;
 	const PowerUpType& GetActivePowerUpType() const;
+
+	float GetRadiusSeeking();
+	bool GetDebugDraw();
 
 private:
 	void EliminateCurrentPowerUpEffect();
@@ -33,9 +37,22 @@ private:
 	float maxPowerUpTimer;
 	float currentPowerUpTimer;
 
+	float radiusSeeking;
+	bool debugDraw;
+
 	GameObject* player;
 
 	// To be changed to Player Manager
 	PowerUpType activePowerUp;
 	PowerUpType savedPowerUp;
 };
+
+inline float PowerUpsManagerScript::GetRadiusSeeking()
+{
+	return radiusSeeking;
+}
+
+inline bool PowerUpsManagerScript::GetDebugDraw()
+{
+	return debugDraw;
+}

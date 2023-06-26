@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentTransform.h"
 
 #include "Application.h"

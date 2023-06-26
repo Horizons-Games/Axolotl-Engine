@@ -6,8 +6,8 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAudioSource;
-class ComponentAnimation;
 class ComponentTransform;
+class ComponentAnimation;
 
 class PlayerManagerScript;
 
