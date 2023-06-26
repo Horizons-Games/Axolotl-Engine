@@ -321,9 +321,6 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
-      <Filter>UserScripts\Level</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts\Basics</Filter>
     </ClCompile>
@@ -379,9 +376,6 @@
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowLoading.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
-      <Filter>UserScripts\Level</Filter>
-    </ClCompile>
     <ClCompile Include="AxoLog.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp">
       <Filter>Modules</Filter>
@@ -434,9 +428,6 @@
     <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClCompile>
@@ -486,6 +477,12 @@
       <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp">
+      <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
+      <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -801,12 +798,6 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\HelloWorldScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -873,9 +864,6 @@
     <ClInclude Include="Enums\ComponentType.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
-      <Filter>UserScripts\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -929,9 +917,6 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
-      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
       <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
@@ -1024,6 +1009,12 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
+      <Filter>UserScripts\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h">
+      <Filter>UserScripts\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1164,6 +1155,9 @@
     </Filter>
     <Filter Include="Defines">
       <UniqueIdentifier>{6460271c-2e7f-45c7-b8e5-4e3a86769626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Camera">
+      <UniqueIdentifier>{0ccfe616-2a9f-451f-8045-c8d30bc58f1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1890,9 +1884,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentSpotLight.h">
       <Filter>DataModels\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\UniqueID.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\Importers\TextureImporter.h">
       <Filter>FileSystem\Importers</Filter>

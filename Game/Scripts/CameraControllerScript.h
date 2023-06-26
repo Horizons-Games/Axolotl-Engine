@@ -1,8 +1,9 @@
 #pragma once
+
 #include "Scripting/Script.h"
 #include "Components/ComponentTransform.h"
-class CameraSample;
 
+class CameraSample;
 
 class CameraControllerScript :
     public Script
