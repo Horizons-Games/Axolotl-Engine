@@ -1,7 +1,6 @@
-#include "ModuleProgram.h"
+#include "StdAfx.h"
 
-#include "Application.h"
-#include "FileSystem/ModuleFileSystem.h"
+#include "ModuleProgram.h"
 
 #include "Application.h"
 #include "DataModels/Program/Program.h"
@@ -54,7 +53,7 @@ bool ModuleProgram::Start()
 	}
 
 	programs.reserve(static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE));
-	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
+	programs.push_back(CreateProgram("default_vertex.glsl", "metallic_fragment.glsl", "Default"));
 
 	programs.push_back(CreateProgram("default_vertex.glsl", "specular_fragment.glsl", "Specular"));
 
@@ -72,6 +71,13 @@ bool ModuleProgram::Start()
 
 	programs.push_back(
 		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
+	
+	programs.push_back(
+		CreateProgram("render_clip_space_vertex.glsl", "deferred_lighting_fragment.glsl", "Scene Render"));
+	
+	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
+	
+	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
 
 	return true;
 }

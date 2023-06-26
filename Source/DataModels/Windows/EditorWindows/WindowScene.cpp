@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowScene.h"
 
 #include "Application.h"
@@ -9,8 +11,11 @@
 #include "Modules/ModuleUI.h"
 
 #include "Components/ComponentTransform.h"
+
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
 
 WindowScene::WindowScene() :
 	EditorWindow("Scene"),
@@ -38,6 +43,7 @@ void WindowScene::DrawWindowContents()
 				 ImGui::GetContentRegionAvail(),
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));
+
 	if (!App->IsOnPlayMode())
 	{
 		DrawGuizmo();
@@ -197,34 +203,6 @@ void WindowScene::DrawGuizmo()
 						break;
 				}
 				focusedTransform->UpdateTransformMatrices();
-
-				for (Component* component : focusedObject->GetComponents())
-				{
-					if (component->GetType() == ComponentType::LIGHT)
-					{
-						Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
-						const ComponentLight* light = (ComponentLight*) component;
-
-						switch (light->GetLightType())
-						{
-							case LightType::DIRECTIONAL:
-								scene->RenderDirectionalLight();
-								break;
-							case LightType::SPOT:
-								scene->UpdateSceneSpotLights();
-								scene->RenderSpotLights();
-								break;
-							case LightType::POINT:
-								scene->UpdateScenePointLights();
-								scene->RenderPointLights();
-								break;
-							case LightType::AREA:
-								scene->UpdateSceneAreaLights();
-								scene->RenderAreaLights();
-								break;
-						}
-					}
-				}
 			}
 
 			float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;

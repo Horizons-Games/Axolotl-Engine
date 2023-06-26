@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCanvas.h"
 
 #include "Application.h"
@@ -34,8 +36,8 @@ void ComponentCanvas::InternalLoad(const Json& meta)
 
 void ComponentCanvas::RecalculateSizeAndScreenFactor()
 {
-	std::pair<int, int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
-	size = float2(region.first, region.second);
+	std::pair<float, float> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
+	size = float2(floor(region.first), floor(region.second));
 	float2 factor = size.Div(screenReferenceSize);
 	screenFactor = factor.x < factor.y ? factor.x : factor.y;
 }

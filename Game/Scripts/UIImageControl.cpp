@@ -1,5 +1,7 @@
 #include "UIImageControl.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(UIImageControl);
 
 UIImageControl::UIImageControl() : Script(), disableImgObject(nullptr), enableImgObject(nullptr), imageComponent(nullptr),
