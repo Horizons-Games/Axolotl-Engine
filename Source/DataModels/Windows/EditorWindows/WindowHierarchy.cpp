@@ -83,8 +83,10 @@ WindowHierarchy::DrawHierarchyResultCode WindowHierarchy::DrawRecursiveHierarchy
 		flags |= ImGuiTreeNodeFlags_Leaf;
 	}
 
-	if (gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED &&
-		lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
+	bool ancestorOfSelectedObject = gameObject->GetStateOfSelection() == StateOfSelection::CHILD_SELECTED &&
+									lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	bool objectIsFiltered = !filteredObjects.empty();
+	if (ancestorOfSelectedObject || objectIsFiltered)
 	{
 		ImGui::SetNextItemOpen(true);
 	}
