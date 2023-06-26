@@ -40,7 +40,7 @@ private:
 	
 	PlayerRotationScript* rotationHorizontalScript;
 	CameraControllerScript* rotationVerticalScript;
-	PlayerMoveScript* moveScript;
+	PlayerManagerScript* playerManagerScript;
 
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
