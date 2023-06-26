@@ -258,6 +258,7 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 
 		if (texture)
 		{
+			texture->Load();
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
 			glUniform1i(3, 1);
