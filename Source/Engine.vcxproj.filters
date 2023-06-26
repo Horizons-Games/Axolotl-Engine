@@ -473,6 +473,12 @@
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCameraSample.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="FileSystem\UIDGenerator.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -482,6 +488,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
       <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
+      <Filter>UserScripts\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -798,6 +807,9 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -970,6 +982,12 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+    <ClInclude Include="DataModels\Components\ComponentCameraSample.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCameraSample.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="FileSystem\UIDGenerator.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -1015,6 +1033,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\CameraSample.h">
       <Filter>UserScripts\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
