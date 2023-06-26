@@ -4,6 +4,18 @@
 #include "Math/float2.h"
 #include <memory>
 
+enum class DirectionSlider
+{
+	LEFT_TO_RIGHT,
+	RIGHT_TO_LEFT,
+	DOWN_TO_TOP,
+	TOP_TO_DOWN,
+	CIRCLE_RIGHT,
+	CIRCLE_LEFT,
+	CIRCLE_TOP,
+	CIRCLE_DOWN
+};
+
 class ComponentSlider : public Component
 {
 public:
@@ -22,13 +34,14 @@ public:
 	GameObject* GetBackground() const;
 	GameObject* GetFill() const;
 	GameObject* GetHandle() const;
+	DirectionSlider GetDirection() const;
 
 	void SetMaxValue(float maxValue);
 	void SetMinValue(float minValue);
-
 	void SetBackground(GameObject* background);
 	void SetFill(GameObject* fill);
 	void SetHandle(GameObject* handle);
+	void SetDirection(int direction);
 
 	void ModifyCurrentValue(float currentValue);
 	void OnHandleDragged();
@@ -44,6 +57,7 @@ private:
 	float minValue = 0.0f;
 
 	float currentValue = 50.0f;
+	DirectionSlider direction;
 };
 
 inline float ComponentSlider::GetMaxValue() const
@@ -84,6 +98,11 @@ inline GameObject* ComponentSlider::GetFill() const
 inline GameObject* ComponentSlider::GetHandle() const
 {
 	return handle;
+}
+
+inline DirectionSlider ComponentSlider::GetDirection() const
+{
+	return direction;
 }
 
 inline void ComponentSlider::SetBackground(GameObject* background)

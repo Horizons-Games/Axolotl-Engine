@@ -24,7 +24,8 @@
 ComponentImage::ComponentImage(bool active, GameObject* owner) :
 	Component(ComponentType::IMAGE, active, owner, true),
 	color(float4(1.0f, 1.0f, 1.0f, 1.0f)),
-	renderPercentage(1.0f)
+	renderPercentage(1.0f),
+	direction(0)
 {
 }
 
@@ -65,6 +66,8 @@ void ComponentImage::Draw() const
 		glActiveTexture(GL_TEXTURE0);
 		program->BindUniformFloat4("spriteColor", GetFullColor());
 		program->BindUniformFloat("renderPercentage", renderPercentage);
+		program->BindUniformInt("direction", direction);
+
 		if (image)
 		{
 			image->Load();
@@ -111,6 +114,7 @@ void ComponentImage::SaveOptions(Json& meta)
 	meta["color_w"] = static_cast<float>(color.w);
 
 	meta["renderPercentage"] = static_cast<float>(renderPercentage);
+	meta["direction"] = static_cast<int>(direction);
 }
 
 void ComponentImage::LoadOptions(Json& meta)
@@ -148,6 +152,7 @@ void ComponentImage::LoadOptions(Json& meta)
 	color.w = static_cast<float>(meta["color_w"]);
 
 	renderPercentage = static_cast<float>(meta["renderPercentage"]);
+	direction = static_cast<int>(meta["direction"]);
 }
 
 inline float4 ComponentImage::GetFullColor() const

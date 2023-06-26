@@ -28,11 +28,14 @@ public:
 	void SetImage(const std::shared_ptr<ResourceTexture>& image);
 	void SetColor(const float4& color);
 	void SetRenderPercentage(float renderPercentage);
+	void SetDirection(int direction);
 
 private:
 	std::shared_ptr<ResourceTexture> image;
 	float4 color;
+
 	float renderPercentage;
+	int direction;
 };
 
 inline std::shared_ptr<ResourceTexture> ComponentImage::GetImage() const
@@ -63,4 +66,9 @@ inline void ComponentImage::SetColor(const float4& color)
 inline void ComponentImage::SetRenderPercentage(float renderPercentage)
 {
 	this->renderPercentage = renderPercentage;
+}
+
+inline void ComponentImage::SetDirection(int direction)
+{
+	this->direction = direction;
 }

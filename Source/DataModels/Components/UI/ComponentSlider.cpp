@@ -45,24 +45,65 @@ void ComponentSlider::CheckSlider()
 		if (centerWorldPoint != point.x)
 		{
 			ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
-			bool insideBackground = backgroundTransform->GetWorldAABB().maxPoint.x >= point.x &&
-									backgroundTransform->GetWorldAABB().minPoint.x <= point.x;
+			bool insideBackground;
 			float newValue;
-
-			if (insideBackground)
+			if (direction == DirectionSlider::LEFT_TO_RIGHT || direction == DirectionSlider::RIGHT_TO_LEFT)
 			{
-				newValue = point.x;
+				insideBackground = backgroundTransform->GetWorldAABB().maxPoint.x >= point.x &&
+					backgroundTransform->GetWorldAABB().minPoint.x <= point.x;
+
+				if (insideBackground)
+				{
+					newValue = point.x;
+				}
+				else
+				{
+					backgroundTransform->GetWorldAABB().minPoint.x > point.x
+						? newValue = backgroundTransform->GetWorldAABB().minPoint.x
+						: newValue = backgroundTransform->GetWorldAABB().maxPoint.x;
+				}
 			}
 			else
 			{
-				backgroundTransform->GetWorldAABB().minPoint.x > point.x
-					? newValue = backgroundTransform->GetWorldAABB().minPoint.x
-					: newValue = backgroundTransform->GetWorldAABB().maxPoint.x;
+				insideBackground = backgroundTransform->GetWorldAABB().maxPoint.y >= point.y &&
+								   backgroundTransform->GetWorldAABB().minPoint.y <= point.y;
+
+				if (insideBackground)
+				{
+					newValue = point.y;
+				}
+				else
+				{
+					backgroundTransform->GetWorldAABB().minPoint.y > point.y
+						? newValue = backgroundTransform->GetWorldAABB().minPoint.y
+						: newValue = backgroundTransform->GetWorldAABB().maxPoint.y;
+				}
 			}
 			
-			float normalizedValue =
-				(newValue - backgroundTransform->GetWorldAABB().minPoint.x) /
-				(backgroundTransform->GetWorldAABB().maxPoint.x - backgroundTransform->GetWorldAABB().minPoint.x);
+			float normalizedValue = 0.f;
+			switch (direction)
+			{
+				case DirectionSlider::LEFT_TO_RIGHT:
+					normalizedValue = (newValue - backgroundTransform->GetWorldAABB().minPoint.x) /
+					(backgroundTransform->GetWorldAABB().maxPoint.x - backgroundTransform->GetWorldAABB().minPoint.x);
+					break;
+				case DirectionSlider::RIGHT_TO_LEFT:
+					normalizedValue = (newValue - backgroundTransform->GetWorldAABB().maxPoint.x) /
+					(backgroundTransform->GetWorldAABB().minPoint.x - backgroundTransform->GetWorldAABB().maxPoint.x);
+					break;
+				case DirectionSlider::DOWN_TO_TOP:
+					normalizedValue = (newValue - backgroundTransform->GetWorldAABB().minPoint.y) /
+									  (backgroundTransform->GetWorldAABB().maxPoint.y -
+									   backgroundTransform->GetWorldAABB().minPoint.y);
+					break;
+				case DirectionSlider::TOP_TO_DOWN:
+					normalizedValue = (newValue - backgroundTransform->GetWorldAABB().maxPoint.y) /
+									  (backgroundTransform->GetWorldAABB().minPoint.y -
+									   backgroundTransform->GetWorldAABB().maxPoint.y);
+					break;
+				default:
+					break;
+			}
 
 			ModifyCurrentValue(normalizedValue * (maxValue - minValue));
 		}
@@ -80,9 +121,10 @@ void ComponentSlider::SaveOptions(Json& meta)
 	SaveGameObject(meta, "fill", fill);
 	SaveGameObject(meta, "handle", handle);
 
-	meta["minValue"] = minValue;
-	meta["maxValue"] = maxValue;
-	meta["currentValue"] = currentValue;
+	meta["minValue"] = static_cast<float>(minValue);
+	meta["maxValue"] = static_cast<float>(maxValue);
+	meta["currentValue"] = static_cast<float>(currentValue);
+	meta["direction"] = static_cast<int>(direction);
 }
 
 void ComponentSlider::LoadOptions(Json& meta)
@@ -99,6 +141,7 @@ void ComponentSlider::LoadOptions(Json& meta)
 	minValue = static_cast<float>(meta["minValue"]);
 	maxValue = static_cast<float>(meta["maxValue"]);
 	currentValue = static_cast<float>(meta["currentValue"]);
+	direction = static_cast<DirectionSlider>(static_cast<int>(meta["direction"]));
 }
 
 void ComponentSlider::SetMaxValue(float maxValue)
@@ -121,6 +164,16 @@ void ComponentSlider::SetMinValue(float minValue)
 	OnHandleDragged();
 }
 
+void ComponentSlider::SetDirection(int direction)
+{
+	this->direction = static_cast<DirectionSlider>(direction);
+	if (fill != nullptr)
+	{
+		fill->GetComponent<ComponentImage>()->SetDirection(direction);
+	}
+	OnHandleDragged();
+}
+
 void ComponentSlider::ModifyCurrentValue(float currentValue)
 {
 	this->currentValue = currentValue;
@@ -134,16 +187,45 @@ void ComponentSlider::OnHandleDragged()
 	{
 		ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
 		ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
-
-		float newPos = normalizedValue * (backgroundTransform->GetWorldAABB().maxPoint.x -
-										  backgroundTransform->GetWorldAABB().minPoint.x) +
-					   backgroundTransform->GetWorldAABB().minPoint.x;
-
-		float centerWorldPoint =
-			(handleTransform->GetWorldAABB().maxPoint.x + handleTransform->GetWorldAABB().minPoint.x) / 2.0f;
+		
 		float3 handlePosition = handleTransform->GetPosition();
-		newPos = handlePosition.x + newPos - centerWorldPoint;
-		handleTransform->SetPosition(float3(newPos, handlePosition.y, handlePosition.z));
+		float centerWorldPoint;
+
+		switch (direction)
+		{
+			case DirectionSlider::LEFT_TO_RIGHT:
+				handlePosition.x += normalizedValue * (backgroundTransform->GetWorldAABB().maxPoint.x -
+											backgroundTransform->GetWorldAABB().minPoint.x) +
+						 backgroundTransform->GetWorldAABB().minPoint.x;
+				centerWorldPoint = (handleTransform->GetWorldAABB().maxPoint.x + handleTransform->GetWorldAABB().minPoint.x) / 2.0f;
+				handlePosition.x -= centerWorldPoint;
+				break;
+			case DirectionSlider::RIGHT_TO_LEFT:
+				handlePosition.x += normalizedValue * (backgroundTransform->GetWorldAABB().minPoint.x -
+											backgroundTransform->GetWorldAABB().maxPoint.x) +
+						 backgroundTransform->GetWorldAABB().maxPoint.x;
+				centerWorldPoint =
+					(handleTransform->GetWorldAABB().maxPoint.x + handleTransform->GetWorldAABB().minPoint.x) / 2.0f;
+				handlePosition.x -= centerWorldPoint;
+				break;
+			case DirectionSlider::DOWN_TO_TOP:
+				handlePosition.y += normalizedValue * (backgroundTransform->GetWorldAABB().minPoint.y -
+											backgroundTransform->GetWorldAABB().maxPoint.y) +
+						 backgroundTransform->GetWorldAABB().maxPoint.y;
+				centerWorldPoint =
+					(handleTransform->GetWorldAABB().maxPoint.y + handleTransform->GetWorldAABB().minPoint.y) / 2.0f;
+				handlePosition.y -= centerWorldPoint;
+			case DirectionSlider::TOP_TO_DOWN:
+				handlePosition.y += normalizedValue * (backgroundTransform->GetWorldAABB().maxPoint.y -
+											backgroundTransform->GetWorldAABB().minPoint.y) +
+						 backgroundTransform->GetWorldAABB().minPoint.y;
+				centerWorldPoint =
+					(handleTransform->GetWorldAABB().maxPoint.y + handleTransform->GetWorldAABB().minPoint.y) / 2.0f;
+				handlePosition.y -= centerWorldPoint;
+			default:
+				break;
+		}
+		handleTransform->SetPosition(handlePosition);
 		handleTransform->CalculateMatrices();
 	}
 	
