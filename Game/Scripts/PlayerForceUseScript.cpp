@@ -154,11 +154,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 		}
 
 		// Get next rotation of game object
-		ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 		Quat targetRotation =
 			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
-				(parentTransform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
+				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
 
 		// Set position and rotation
 		hittedRigidBody->SetPositionTarget(nextPosition);
