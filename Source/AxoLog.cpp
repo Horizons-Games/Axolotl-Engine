@@ -139,12 +139,11 @@ bool AxoLog::Format(std::string& format, unsigned long long arg) const
 	return Format(format, std::to_string(arg));
 }
 
-bool AxoLog::Format(std::string& format, const std::weak_ptr<Resource>& arg) const
+bool AxoLog::Format(std::string& format, const std::shared_ptr<Resource>& arg) const
 {
-	std::shared_ptr<Resource> lockedRef = arg.lock();
-	if (lockedRef)
+	if (arg)
 	{
-		return Format(format, lockedRef->GetUID());
+		return Format(format, arg->GetUID());
 	}
 	return Format(format, "NULL");
 }
