@@ -725,7 +725,8 @@
                             "active": true,
                             "removed": true,
                             "static": true,
-                            "mouse": false
+                            "mouse": false,
+                            "actualPlayer": true
                         }
                     }
                 ]
@@ -734,7 +735,7 @@
         {
             "GameObject": {
                 "name": "Basic Camera",
-                "tag": "",
+                "tag": "MainCamera",
                 "uid": 2369708689298060271,
                 "parentUID": 8860664824650164869,
                 "enabled": true,

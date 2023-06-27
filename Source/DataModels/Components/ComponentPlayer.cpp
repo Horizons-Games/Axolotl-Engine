@@ -13,18 +13,25 @@ ComponentPlayer::ComponentPlayer(bool active, GameObject* owner) : Component(Com
 
 ComponentPlayer::~ComponentPlayer()
 {
+	ModulePlayer* module = App->GetModule<ModulePlayer>();
+	if (GetOwner() == module->GetPlayer())
+	{
+		App->GetModule<ModulePlayer>()->SetPlayer(nullptr);
+	}
 }
 
 void ComponentPlayer::InternalSave(Json& meta)
 {
-	meta["static"] = (bool) staticPlayer;
-	meta["mouse"] = (bool) mousePlayer;
+	meta["static"] = static_cast<bool>(staticPlayer);
+	meta["mouse"] = static_cast<bool>(mousePlayer);
+	meta["actualPlayer"] = static_cast<bool>(actualPlayer);
 }
 
 void ComponentPlayer::InternalLoad(const Json& meta)
 {
-	staticPlayer = (bool) meta["static"];
-	mousePlayer = (bool) meta["mouse"];
+	staticPlayer = static_cast<bool>(meta["static"]);
+	mousePlayer = static_cast<bool>(meta["mouse"]);
+	SetActualPlayer(static_cast<bool>(meta["actualPlayer"]));
 }
 
 void ComponentPlayer::SetMouse(bool newMouse)
@@ -32,4 +39,17 @@ void ComponentPlayer::SetMouse(bool newMouse)
 	mousePlayer = newMouse;
 	staticPlayer = newMouse;
 	App->GetModule<ModulePlayer>()->CheckIfActivateMouse();
+}
+
+void ComponentPlayer::SetActualPlayer(bool actualPlayer, bool propagate)
+{
+	this->actualPlayer = actualPlayer;
+	if (actualPlayer)
+	{
+		App->GetModule<ModulePlayer>()->SetPlayer(GetOwner());
+	}
+	else if (propagate)
+	{
+		App->GetModule<ModulePlayer>()->SetPlayer(nullptr);
+	}
 }

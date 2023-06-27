@@ -1002,21 +1002,6 @@ void Scene::UpdateSceneAreaLights()
 	}
 }
 
-GameObject* Scene::GetPlayer() const
-{
-	std::vector<GameObject*> gameObjects = GetNonStaticObjects();
-
-	for (GameObject* go : gameObjects)
-	{
-		ComponentPlayer* player = go->GetComponent<ComponentPlayer>();
-		if (player)
-		{
-			return go;
-		}
-	}
-	return nullptr;
-}
-
 void Scene::UpdateSceneAreaSpheres()
 {
 	sphereLights.clear();

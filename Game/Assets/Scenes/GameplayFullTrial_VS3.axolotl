@@ -257,7 +257,8 @@
                             "active": true,
                             "removed": true,
                             "static": false,
-                            "mouse": false
+                            "mouse": false,
+                            "actualPlayer": true
                         }
                     },
                     {
