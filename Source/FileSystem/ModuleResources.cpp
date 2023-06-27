@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleResources.h"
 
 #include "Application.h"
@@ -11,6 +13,7 @@
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/UIDGenerator.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceAnimation.h"
@@ -67,7 +70,7 @@ bool ModuleResources::CleanUp()
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
 {
-	//std::shared_ptr<Resource> importedRes;
+	// std::shared_ptr<Resource> importedRes;
 	std::string assetsPath = CreateAssetsPath(fileName, type);
 	switch (type)
 	{
@@ -620,11 +623,21 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
 					 : pathTextures.push_back(std::string());
 
-	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
-	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
+	if (materialResource->GetShaderType() == 0)
+	{
+		std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
+		textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) 
+			: pathTextures.push_back(std::string());
+	}
+	else
+	{
+		std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
+		textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) 
+			: pathTextures.push_back(std::string());
+	}
 
-	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
-	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back(std::string());
+	std::shared_ptr<ResourceTexture> textureEmissive = materialResource->GetEmission();
+	textureEmissive ? pathTextures.push_back(textureEmissive->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	char* fileBuffer{};
 	unsigned int size = 0;
@@ -647,10 +660,18 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 		materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
 	meta["OcclusionAssetPath"] =
 		materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	meta["SpecularAssetPath"] =
-		materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
-	meta["MetallicAssetPath"] =
-		materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
+	if (materialResource->GetShaderType() == 0)
+	{
+		meta["SpecularAssetPath"] =
+			materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
+	}
+	else
+	{
+		meta["SpecularAssetPath"] =
+			materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
+	}
+	meta["EmissiveAssetPath"] =
+		materialResource->GetEmission() ? materialResource->GetEmission()->GetAssetsPath().c_str() : "";
 
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);

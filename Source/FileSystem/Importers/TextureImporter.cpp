@@ -1,9 +1,13 @@
+#include "StdAfx.h"
+
 #include "TextureImporter.h"
 
 #include "Application.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceTexture.h"
+
+#include "Defines/ExtensionDefines.h"
 
 #include <DirectXTex/DirectXTex.h>
 #include <GL/glew.h>

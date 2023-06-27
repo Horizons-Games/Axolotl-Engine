@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentPlayer.h"
 
 #include "Components/ComponentPlayer.h"
@@ -32,6 +34,15 @@ void WindowComponentPlayer::DrawWindowContents()
 		if (ImGui::Checkbox("Mouse when Player", &haveMouse))
 		{
 			asPlayer->SetMouse(haveMouse);
+		}
+
+		bool actualPlayer = asPlayer->IsActualPlayer();
+		if (ImGui::Checkbox("Actual Player", &actualPlayer))
+		{
+			if (!App->IsOnPlayMode())
+			{
+				asPlayer->SetActualPlayer(actualPlayer, true);
+			}
 		}
 	}
 }

@@ -2,12 +2,12 @@
 #include "DataModels/Resources/ResourceModel.h"
 #include "FileSystem/Importers/Importer.h"
 
-struct aiScene;
-struct aiMesh;
-struct aiMaterial;
-struct aiNode;
-struct aiString;
-struct aiAnimation;
+class aiScene;
+class aiMesh;
+class aiMaterial;
+class aiNode;
+class aiString;
+class aiAnimation;
 
 class ResourceMesh;
 class ResourceMaterial;

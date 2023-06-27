@@ -1,8 +1,9 @@
+#include "StdAfx.h"
+
 #include "EditorWindow.h"
 
-#include "../FileSystem/Json.h"
-#include "../FileSystem/ModuleFileSystem.h"
-#include "../FileSystem/UniqueID.h"
+#include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "Application.h"
 #include "physfs.h"
 

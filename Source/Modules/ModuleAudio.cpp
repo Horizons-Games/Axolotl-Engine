@@ -1,11 +1,9 @@
+#include "StdAfx.h"
+
 #include "ModuleAudio.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
-
-#include <algorithm>
-#include <assert.h>
-#include <iterator>
 
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
@@ -165,22 +163,22 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-update_status ModuleAudio::PreUpdate()
+UpdateStatus ModuleAudio::PreUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::Update()
+UpdateStatus ModuleAudio::Update()
 {
 	// Process bank requests, events, positions, RTPC, etc.
 	AK::SoundEngine::RenderAudio();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleAudio::PostUpdate()
+UpdateStatus ModuleAudio::PostUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleAudio::InitializeBanks()
@@ -192,13 +190,7 @@ bool ModuleAudio::InitializeBanks()
 		const wchar_t* pathAsWChar = AKTEXT("WwiseProject/GeneratedSoundBanks/Windows");
 		lowLevelIO.SetBasePath(pathAsWChar);
 		std::wstring pathAsWString = std::wstring(pathAsWChar);
-		std::transform(std::begin(pathAsWString),
-					   std::end(pathAsWString),
-					   std::back_inserter(soundBanksFolderPath),
-					   [](wchar_t c)
-					   {
-						   return static_cast<char>(c);
-					   });
+		soundBanksFolderPath = std::string(std::begin(pathAsWString), std::end(pathAsWString));
 	}
 
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
@@ -232,5 +224,6 @@ bool ModuleAudio::InitializeBanks()
 			}
 		}
 	}
+	
 	return true;
 }

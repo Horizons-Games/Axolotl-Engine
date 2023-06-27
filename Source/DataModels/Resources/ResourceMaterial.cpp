@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceMaterial.h"
 #include "FileSystem/Json.h"
 
@@ -11,7 +13,8 @@ ResourceMaterial::ResourceMaterial(UID resourceUID,
 	normalStrength(1.0f),
 	smoothness(0.5f),
 	metalness(0.0f),
-	isTransparent(false)
+	isTransparent(false),
+	shaderType(0)
 {
 }
 

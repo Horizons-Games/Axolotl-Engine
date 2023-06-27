@@ -1,14 +1,12 @@
+#include "StdAfx.h"
+
 #include "Auxiliar/GameBuilder.h"
 
 #include "Application.h"
-#include "AxoLog.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 
-#include <assert.h>
-#include <future>
-#include <string>
-#include <windows.h>
+#include "Defines/FileSystemDefines.h"
 
 namespace builder
 {

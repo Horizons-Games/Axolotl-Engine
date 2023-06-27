@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowInspector.h"
 
 #include "Application.h"
@@ -13,8 +15,8 @@
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
-#include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 
@@ -78,6 +80,15 @@ WindowInspector::WindowInspector() :
 		ComponentFunctionality::GAMEPLAY));
 
 	actions.push_back(AddComponentAction(
+		"Create Camera Sample Component",
+		std::bind(&WindowInspector::AddComponentCameraSample, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentCameraSample>(gameObject);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction(
 		"Create RigidBody Component",
 		std::bind(&WindowInspector::AddComponentRigidBody, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
@@ -85,15 +96,6 @@ WindowInspector::WindowInspector() :
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentRigidBody>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
-
-	actions.push_back(AddComponentAction(
-		"Create MockState Component",
-		std::bind(&WindowInspector::AddComponentMockState, this),
-		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
-		{
-			return gameObjectDoesNotHaveComponent.template operator()<ComponentMockState>(gameObject);
-		},
-		ComponentFunctionality::GAMEPLAY));
 
 	actions.push_back(AddComponentAction("Create AudioSource Component",
 										 std::bind(&WindowInspector::AddComponentAudioSource, this),
@@ -345,8 +347,7 @@ void WindowInspector::DrawTextureOptions()
 	if (ImGui::BeginTable("table1", 2))
 	{
 		ImGui::TableNextColumn();
-		ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(resourceTexture->GetGlTexture())),
-					 ImVec2(100, 100));
+		ImGui::Image((void*) resourceTexture->GetGlTexture(), ImVec2(100, 100));
 		ImGui::TableNextColumn();
 		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
 		ImGui::Text("Height %.2f", resourceTexture->GetHeight());
@@ -419,6 +420,11 @@ void WindowInspector::AddComponentPlayer()
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
 
+void WindowInspector::AddComponentCameraSample()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::CAMERASAMPLE);
+}
+
 void WindowInspector::AddComponentAnimation()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
@@ -433,11 +439,6 @@ void WindowInspector::ResetSelectedGameObject()
 void WindowInspector::AddComponentRigidBody()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
-}
-
-void WindowInspector::AddComponentMockState()
-{
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }
 
 void WindowInspector::AddComponentAudioSource()

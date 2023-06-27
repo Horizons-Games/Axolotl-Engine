@@ -1,7 +1,11 @@
+#include "StdAfx.h"
+
 #include "GeometryBatch.h"
 
 #include "Application.h"
 #include "ModuleProgram.h"
+
+#include "BatchManager.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -27,13 +31,27 @@ GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0
 	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	if (this->flags & BatchManager::HAS_SPECULAR)
+	if (flags & BatchManager::HAS_SPECULAR)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR);
+		}
 	}
-	else 
+	else if (flags & BatchManager::HAS_METALLIC)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC);
+		}
 	}
 
 	//initialize buffers
@@ -159,6 +177,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength()
@@ -181,6 +200,11 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.metallic_map = texture->GetHandle();
 			}
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
+			}
 			metallicMaterialData[i] = newMaterial;
 		}
 
@@ -193,9 +217,10 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
-				static_cast<uint64_t>(resourceMaterial->GetNormalStrength())
+				resourceMaterial->GetNormalStrength()
 			};
 
 			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
@@ -214,6 +239,11 @@ void GeometryBatch::FillMaterial()
 			if (texture)
 			{
 				newMaterial.specular_map = texture->GetHandle();
+			}
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
 			}
 			specularMaterialData[i] = newMaterial;
 		}
@@ -814,7 +844,7 @@ int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resource
 		instanceData.push_back(index);
 	}
 	
-	return static_cast<int>(instanceData.size()) - 1;
+	return instanceData.size() - 1;
 }
 
 GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const std::shared_ptr<ResourceMesh> mesh)
