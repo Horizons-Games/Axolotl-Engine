@@ -33,8 +33,7 @@ namespace
 }
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), deathTouchedDamage(10000.0f),
-	transform(nullptr),
+	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), transform(nullptr),
 	//Provisional
 	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
 	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
@@ -43,7 +42,6 @@ BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackT
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
-	REGISTER_FIELD(deathTouchedDamage, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 
 	//Provisional
@@ -151,16 +149,15 @@ void BixAttackScript::CheckCollision()
 					// get component health and do damage
 					HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
 					float damageAttack = playerManager->GetPlayerAttack();
-
 					if (!isDeathTouched)
 					{
 						healthScript->TakeDamage(damageAttack);
 					}
-
 					else
 					{
 						healthScript->TakeDamage(healthScript->GetMaxHealth());
 					}
+					
 				}
 			}
 		}

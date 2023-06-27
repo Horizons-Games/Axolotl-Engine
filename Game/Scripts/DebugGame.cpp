@@ -9,7 +9,7 @@
 #include "PlayerMoveScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerRotationScript.h"
-#include <Components/ComponentScript.h>
+#include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "debugdraw.h"
@@ -20,7 +20,7 @@
 REGISTERCLASS(DebugGame);
 
 
-DebugGame::DebugGame() : Script()
+DebugGame::DebugGame() : Script(), isDebugModeActive(false)
 {
 	REGISTER_FIELD(setPlayer, GameObject*);
 	REGISTER_FIELD(debugPoint1, GameObject*);
@@ -28,7 +28,8 @@ DebugGame::DebugGame() : Script()
 	REGISTER_FIELD(debugPoint3, GameObject*);
 	REGISTER_FIELD(debugPoint4, GameObject*);
 	REGISTER_FIELD(debugPoint5, GameObject*);
-	//REGISTER_FIELD_WITH_ACCESSORS(debugCurrentPos, int);
+	REGISTER_FIELD(isDebugModeActive, bool);
+	
 
 }
 
@@ -37,10 +38,7 @@ void DebugGame::Start()
 	//ImmortalityStart
 	player = setPlayer->GetComponent<ComponentPlayer>();
 
-	//GameManager* manager = GameManager::GetInstance();
-
-	/*std::vector<ComponentScript*> gameObjectScripts =*/
-		/*setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);*/
+	
 
 	playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
 	playerAttackScript = setPlayer->GetComponent<BixAttackScript>();
@@ -48,7 +46,7 @@ void DebugGame::Start()
 	playerJumpScript = setPlayer->GetComponent<PlayerJumpScript>();
 	playerRotationScript = setPlayer->GetComponent<PlayerRotationScript>();
 
-	isDebugModeActive = false;
+	
 
 	//TeleportStart
 
@@ -163,24 +161,44 @@ void DebugGame::GodCamera() {
 
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-	if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump() && playerRotationScript->GetCanRotate()) 
+	//if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump() && playerRotationScript->GetCanRotate()) 
+	//{
+	//	playerMoveScript->SetIsParalized(true);
+	//	playerJumpScript->SetCanJump(false);
+	//	//playerRotationScript->SetCanRotate(false);
+	//	camera->SetSelectedPosition(1);
+	//	camera->SetSelectedCamera(camera->GetSelectedPosition());
+	//	LOG_DEBUG("GOD CAMERA ACTIVATED");
+	//}
+	//else if(playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump() && !playerRotationScript->GetCanRotate())
+	//{
+	//	playerMoveScript->SetIsParalized(false);
+	//	playerJumpScript->SetCanJump(true);
+	//	//playerRotationScript->SetCanRotate(true);
+	//	camera->SetSelectedPosition(0);
+	//	camera->SetSelectedCamera(camera->GetSelectedPosition());
+	//	LOG_DEBUG("GOD CAMERA DEACTIVATED");
+	//}
+
+	if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump())
 	{
 		playerMoveScript->SetIsParalized(true);
 		playerJumpScript->SetCanJump(false);
-		playerRotationScript->SetCanRotate(false);
+		//playerRotationScript->SetCanRotate(false);
 		camera->SetSelectedPosition(1);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
 		LOG_DEBUG("GOD CAMERA ACTIVATED");
 	}
-	else if(playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump() && !playerRotationScript->GetCanRotate())
+	else if (playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump())
 	{
 		playerMoveScript->SetIsParalized(false);
 		playerJumpScript->SetCanJump(true);
-		playerRotationScript->SetCanRotate(true);
+		//playerRotationScript->SetCanRotate(true);
 		camera->SetSelectedPosition(0);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
 		LOG_DEBUG("GOD CAMERA DEACTIVATED");
 	}
+
 	
 
 }

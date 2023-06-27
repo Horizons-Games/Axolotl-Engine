@@ -14,7 +14,7 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), com
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
-	REGISTER_FIELD_WITH_ACCESSORS(isImmortal, bool);
+	REGISTER_FIELD(isImmortal, bool);
 }
 
 void HealthSystem::Start()
@@ -51,7 +51,7 @@ void HealthSystem::Update(float deltaTime)
 		componentAnimation->SetParameter("IsDead", true);
 	}
 
-	else 
+	else if(!isImmortal)
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
 	}
