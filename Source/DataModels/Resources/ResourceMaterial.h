@@ -253,5 +253,12 @@ inline void ResourceMaterial::SetTransparent(const bool isTransparent)
 
 inline void ResourceMaterial::SetShaderType(const unsigned int shaderType)
 {
-	this->shaderType = shaderType;
+	if (shaderType > 1)
+	{
+		this->shaderType = 0;
+	}
+	else
+	{
+		this->shaderType = shaderType;
+	}
 }
