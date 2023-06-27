@@ -5,6 +5,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class Camera;
 class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
