@@ -7,7 +7,6 @@
                 "uid": 9351076666620844235,
                 "parentUID": 0,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -44,7 +43,6 @@
                 "uid": 10153650663129387206,
                 "parentUID": 16561938826019233067,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -67,10 +65,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 383.0,
-                            "worldAABB_min_y": 279.5,
-                            "worldAABB_max_x": 383.0,
-                            "worldAABB_max_y": 279.5
+                            "worldAABB_min_x": 824.5,
+                            "worldAABB_min_y": 560.5,
+                            "worldAABB_max_x": 824.5,
+                            "worldAABB_max_y": 560.5
                         }
                     },
                     {
@@ -98,7 +96,6 @@
                 "uid": 16561938826019233067,
                 "parentUID": 9351076666620844235,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -121,10 +118,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 383.0,
-                            "worldAABB_min_y": 279.5,
-                            "worldAABB_max_x": 383.0,
-                            "worldAABB_max_y": 279.5
+                            "worldAABB_min_x": 824.5,
+                            "worldAABB_min_y": 560.5,
+                            "worldAABB_max_x": 824.5,
+                            "worldAABB_max_y": 560.5
                         }
                     },
                     {
@@ -144,7 +141,6 @@
                 "uid": 3046798869333557582,
                 "parentUID": 9351076666620844235,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -185,7 +181,6 @@
                 "uid": 6673980443584462006,
                 "parentUID": 9351076666620844235,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -223,7 +218,6 @@
                 "uid": 9641674113056028990,
                 "parentUID": 6673980443584462006,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -268,7 +262,6 @@
                 "uid": 9365887114506419914,
                 "parentUID": 16561938826019233067,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -291,10 +284,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 323.15625,
-                            "worldAABB_min_y": 450.254150390625,
-                            "worldAABB_max_x": 442.84375,
-                            "worldAABB_max_y": 475.7874755859375
+                            "worldAABB_min_x": 695.671875,
+                            "worldAABB_min_y": 928.0895385742188,
+                            "worldAABB_max_x": 953.328125,
+                            "worldAABB_max_y": 983.0562133789063
                         }
                     },
                     {
@@ -367,7 +360,7 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "SetGameStateObject",
+                                    "name": "SetUiGameManagerObject",
                                     "value": 0,
                                     "type": 2
                                 },
@@ -394,7 +387,6 @@
                 "uid": 2305804584267627490,
                 "parentUID": 16561938826019233067,
                 "enabled": false,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -417,10 +409,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 323.15625,
-                            "worldAABB_min_y": 450.254150390625,
-                            "worldAABB_max_x": 442.84375,
-                            "worldAABB_max_y": 475.7874755859375
+                            "worldAABB_min_x": 695.671875,
+                            "worldAABB_min_y": 928.0895385742188,
+                            "worldAABB_max_x": 953.328125,
+                            "worldAABB_max_y": 983.0562133789063
                         }
                     },
                     {
