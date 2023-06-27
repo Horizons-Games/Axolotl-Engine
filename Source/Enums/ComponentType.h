@@ -8,6 +8,7 @@ enum class ComponentType
 	TRANSFORM2D,
 	LIGHT,
 	CAMERA,
+	CAMERASAMPLE,
 	PLAYER,
 	ANIMATION,
 	CANVAS,
@@ -28,6 +29,7 @@ class ComponentAudioListener;
 class ComponentAudioSource;
 class ComponentBreakable;
 class ComponentCamera;
+class ComponentCameraSample;
 class ComponentCubemap;
 class ComponentLight;
 class ComponentMeshCollider;
@@ -76,6 +78,12 @@ template<>
 struct ComponentToEnum<ComponentCamera>
 {
 	const static ComponentType value = ComponentType::CAMERA;
+};
+
+template<>
+struct ComponentToEnum<ComponentCameraSample>
+{
+	const static ComponentType value = ComponentType::CAMERASAMPLE;
 };
 
 template<>

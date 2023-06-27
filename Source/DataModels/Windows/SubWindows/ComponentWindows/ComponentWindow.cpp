@@ -11,6 +11,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentBreakable.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentButton.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCameraSample.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
@@ -34,6 +35,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCameraSample.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshCollider.h"
@@ -76,6 +78,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentTransform>(static_cast<ComponentTransform*>(component));
 			case ComponentType::CAMERA:
 				return std::make_unique<WindowComponentCamera>(static_cast<ComponentCamera*>(component));
+			case ComponentType::CAMERASAMPLE:
+				return std::make_unique<WindowComponentCameraSample>(static_cast<ComponentCameraSample*>(component));
 			case ComponentType::PLAYER:
 				return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
 			case ComponentType::ANIMATION:
