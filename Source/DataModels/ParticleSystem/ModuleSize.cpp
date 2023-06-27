@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleSize.h"
 
 #include "EmitterInstance.h"

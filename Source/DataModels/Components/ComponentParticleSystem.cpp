@@ -1,21 +1,28 @@
-#include "ComponentParticleSystem.h"
-#include "FileSystem/UniqueID.h"
-#include "Resources/ResourceParticleSystem.h"
+#include "StdAfx.h"
 
 #include "Application.h"
+#include "ComponentParticleSystem.h"
+#include "ModuleScene.h"
+
+#include "Camera/Camera.h"
+
+#include "FileSystem/UIDGenerator.h"
+#include "FileSystem/Json.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
 
 #include "Modules/ModuleCamera.h"
 #include "Modules/ModuleProgram.h"
-#include "Program/Program.h"
 
 #include "ParticleSystem/EmitterInstance.h"
-#include "FileSystem/Json.h"
-#include "Application.h"
-#include "FileSystem/ModuleFileSystem.h"
-#include "FileSystem/ModuleResources.h"
 #include "ParticleSystem/ParticleEmitter.h"
-#include "ModuleScene.h"
+
+#include "Program/Program.h"
+
+#include "Resources/ResourceParticleSystem.h"
+
 #include "Scene/Scene.h"
+
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
 	Component(ComponentType::PARTICLE, active, owner, true), 
@@ -28,12 +35,12 @@ ComponentParticleSystem::~ComponentParticleSystem()
 	ClearEmitters();
 }
 
-void ComponentParticleSystem::SaveOptions(Json& meta)
+void ComponentParticleSystem::InternalSave(Json& meta)
 {
 	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool)active;
-	meta["removed"] = (bool)canBeRemoved;
+	/*meta["type"] = GetNameByType(GetType()).c_str();
+	meta["active"] = (bool)IsEnabled();
+	meta["removed"] = (bool)CanBeRemoved();*/
 
 	UID uidParticleSystem = 0;
 	std::string assetPath = "";
@@ -48,12 +55,12 @@ void ComponentParticleSystem::SaveOptions(Json& meta)
 	meta["assetPathParticleSystem"] = assetPath.c_str();
 }
 
-void ComponentParticleSystem::LoadOptions(Json& meta)
+void ComponentParticleSystem::InternalLoad(const Json& meta)
 {
 	// Do not delete these
-	type = GetTypeByName(meta["type"]);
+	/*type = GetTypeByName(meta["type"]);
 	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];
+	canBeRemoved = (bool)meta["removed"];*/
 	std::shared_ptr<ResourceParticleSystem> resourceParticleSystem;
 #ifdef ENGINE
 	std::string path = meta["assetPathParticleSystem"];
@@ -90,7 +97,7 @@ void ComponentParticleSystem::Stop()
 
 void ComponentParticleSystem::Update()
 {
-	if (isPlaying)
+	if (IsEnabled() && isPlaying)
 	{
 		for (EmitterInstance* emitter : emitters)
 		{
@@ -115,22 +122,25 @@ void ComponentParticleSystem::Draw() const
 
 void ComponentParticleSystem::Render()
 {
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
-
-	program->Activate();
-
-	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-
-	program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
-	program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
-
-	for (EmitterInstance* instance : emitters)
+	if (IsEnabled())
 	{
-		instance->DrawParticles();
-	}
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
 
-	program->Deactivate();
+		program->Activate();
+
+		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+
+		program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
+		program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
+
+		for (EmitterInstance* instance : emitters)
+		{
+			instance->DrawParticles();
+		}
+
+		program->Deactivate();
+	}
 }
 
 void ComponentParticleSystem::Reset()

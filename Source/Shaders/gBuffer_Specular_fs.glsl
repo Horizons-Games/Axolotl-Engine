@@ -6,17 +6,16 @@
 #include "/Common/Functions/pbr_functions.glsl"
 
 struct Material {
-    vec4 diffuse_color;         //0  //16
-    vec3 specular_color;        //16 //16       
-    int has_diffuse_map;        //32 //4
-    int has_normal_map;         //36 //4
-    int has_specular_map;       //40 //4
-    float smoothness;           //44 //4
-    float normal_strength;      //48 //4
-    sampler2D diffuse_map;      //48 //8
-    sampler2D normal_map;       //56 //8
-    sampler2D specular_map;     //64 //8    
-    vec2 padding;               //72 //8 --> 80
+    vec4 diffuse_color;         // 0  //16
+    vec3 specular_color;        // 16 //16
+    int has_diffuse_map;        // 32 //4
+    int has_normal_map;         // 36 //4
+    int has_specular_map;       // 40 //4
+    float smoothness;           // 44 //4
+    float normal_strength;      // 48 //4
+    sampler2D diffuse_map;      // 56 //8
+    sampler2D normal_map;       // 64 //8
+    sampler2D specular_map;     // 72 //8 --> 80
 };
 
 layout (location = 0) out vec3 gPosition;

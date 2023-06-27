@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ParticleSystemImporter.h"
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"

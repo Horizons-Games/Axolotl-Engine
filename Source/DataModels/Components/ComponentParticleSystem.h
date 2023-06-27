@@ -17,9 +17,6 @@ public:
 	ComponentParticleSystem(const bool active, GameObject* owner);
 	~ComponentParticleSystem() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	void Play();
 	void Stop();
 	void Update();
@@ -39,6 +36,9 @@ public:
 	void RemoveEmitter(int pos);
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	void CreateEmitterInstance();
 	void CreateEmitterInstance(ParticleEmitter* emitter);
 	void AddEmitterInstance(EmitterInstance* emitter);

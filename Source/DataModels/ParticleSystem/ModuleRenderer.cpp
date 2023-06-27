@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleRenderer.h"
 
 #include "Application.h"
@@ -5,8 +7,12 @@
 #include "ParticleEmitter.h"
 #include "ModuleBase.h"
 
+#include "Camera/Camera.h"
+
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
+
+#include "Enums/TextureType.h"
 
 #include "GameObject/GameObject.h"
 

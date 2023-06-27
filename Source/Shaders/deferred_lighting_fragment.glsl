@@ -324,5 +324,4 @@ void main()
     {
         outColor = vec4(specularMat);
     }
-    
 }

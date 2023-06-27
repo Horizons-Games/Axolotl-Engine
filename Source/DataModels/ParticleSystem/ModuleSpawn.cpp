@@ -1,8 +1,11 @@
-#include "ModuleSpawn.h"
+#include "StdAfx.h"
 
 #include "Application.h"
 #include "EmitterInstance.h"
 #include "ParticleEmitter.h"
+#include "ModuleSpawn.h"
+
+#include "Camera/Camera.h"
 
 #include "Modules/ModuleCamera.h"
 

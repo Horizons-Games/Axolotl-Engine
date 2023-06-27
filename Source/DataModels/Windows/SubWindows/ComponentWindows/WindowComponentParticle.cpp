@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentParticle.h"
 
 #include "Windows/EditorWindows/ImporterWindows/WindowParticleSystemInput.h"

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceParticleSystem.h"
 #include "ParticleSystem/ParticleEmitter.h"
 

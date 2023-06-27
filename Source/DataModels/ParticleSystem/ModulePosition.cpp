@@ -1,7 +1,10 @@
-#include "ModulePosition.h"
+#include "StdAfx.h"
 
 #include "Application.h"
 #include "EmitterInstance.h"
+#include "ModulePosition.h"
+
+#include "Camera/Camera.h"
 
 #include "Modules/ModuleCamera.h"
 

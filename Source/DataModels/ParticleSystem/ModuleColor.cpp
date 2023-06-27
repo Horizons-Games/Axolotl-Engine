@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleColor.h"
 
 #include "EmitterInstance.h"

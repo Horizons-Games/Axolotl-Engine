@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowParticleSystemInput.h"
 
 #include "Components/ComponentParticleSystem.h"

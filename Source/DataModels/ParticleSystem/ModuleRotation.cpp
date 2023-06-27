@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleRotation.h"
 
 #include "EmitterInstance.h"

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowParticleTexture.h"
 
 #include "Application.h"

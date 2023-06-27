@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "EmitterInstance.h"
 
 #include "Application.h"

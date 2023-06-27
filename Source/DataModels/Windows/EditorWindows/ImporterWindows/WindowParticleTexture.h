@@ -2,6 +2,8 @@
 
 #include "../WindowFileBrowser.h"
 
+#include "Enums/TextureType.h"
+
 class ModuleRenderer;
 
 class WindowParticleTexture : public WindowFileBrowser

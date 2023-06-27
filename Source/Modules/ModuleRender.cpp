@@ -296,12 +296,6 @@ UpdateStatus ModuleRender::Update()
 		glDisable(GL_STENCIL_TEST);
 	}
 
-	// Draw Particles
-	/*for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
-	{
-		particle->Render();
-	}*/
-
 	// -------- DEFERRED LIGHTING ---------------
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -339,6 +333,12 @@ UpdateStatus ModuleRender::Update()
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	// -------- DEFERRED + FORWARD ---------------
+
+	// Draw Particles
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	{
+		particle->Render();
+	}
 
 	// Draw Transparent objects
 	glEnable(GL_BLEND);
