@@ -100,7 +100,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{673D902A-B07C-8152-C1A9-DD6A4927F6A8}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{EA4234A6-5791-5C14-7852-5D639B73DF4E}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -111,6 +111,10 @@
 				<File Id="99956401" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496612-Theresa-Drunk-Gibber_Talk-5.wav</ShortName>
 					<CachePath>SFX/496612-Theresa-Drunk-Gibber_Talk-5_10C4C929.wem</CachePath>
+				</File>
+				<File Id="107111808" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_death_timer-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_death_timer-001_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="240754137" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496565-Theresa-Cheer-Shout-Happy-3.wav</ShortName>
@@ -135,6 +139,10 @@
 				<File Id="568531453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_shot_impact-001.wav</ShortName>
 					<CachePath>SFX/sfx_drone_shot_impact-001_10C4C929.wem</CachePath>
+				</File>
+				<File Id="715445435" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_drone_death_explosion-001.wav</ShortName>
+					<CachePath>SFX/sfx_drone_death_explosion-001_10C4C929.wem</CachePath>
 				</File>
 				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>laser_01.wav</ShortName>
@@ -176,6 +184,12 @@
 					</MediaRefs>
 				</Event>
 				<Event Id="3518287078" Name="sfx_dron_behaviours_stop"/>
+				<Event Id="3707501265" Name="sfx_dron_death_timer">
+					<MediaRefs>
+						<MediaRef Id="107111808"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1004215860" Name="sfx_dron_death_timer_stop"/>
 				<Event Id="1216637029" Name="sfx_dron_patrol">
 					<MediaRefs>
 						<MediaRef Id="352569210"/>
@@ -191,6 +205,11 @@
 				<Event Id="361939958" Name="sfx_dron_shot_impact_01">
 					<MediaRefs>
 						<MediaRef Id="568531453"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2949978102" Name="sfx_drone_death_explosion">
+					<MediaRefs>
+						<MediaRef Id="715445435"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2814879688" Name="sfx_drunkNPC_sound_random">
@@ -814,5 +833,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{9AC2274C-C1B7-7A80-A797-1BEB8F06BC9E}</FileHash>
+	<FileHash>{33481699-5FD2-5DE7-F42A-16D2091CB38D}</FileHash>
 </SoundBanksInfo>

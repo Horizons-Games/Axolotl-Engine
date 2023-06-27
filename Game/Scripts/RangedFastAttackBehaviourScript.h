@@ -16,13 +16,21 @@ public:
 
 	void Start() override;
 
+	void StartAttack();
 	void PerformAttack();
+	void Reposition(float3 nextPosition);
+
+	bool IsAttackAvailable() const;
+	bool NeedReposition() const;
+	bool MovingToNewReposition();
 
 private:
-	bool IsAttackAvailable();
 
 	float attackCooldown;
 	float lastAttackTime;
+
+	bool needReposition;
+	bool movingToNewReposition;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
@@ -34,4 +42,6 @@ private:
 	float bulletVelocity;
 
 	Scene* loadedScene;
+
+	float3 newReposition;
 };

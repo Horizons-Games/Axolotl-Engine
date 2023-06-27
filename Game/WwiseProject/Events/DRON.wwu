@@ -105,6 +105,42 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="sfx_dron_death_timer" ID="{304EA742-F8D7-4D35-91F1-FF0F5CB9EFDB}">
+					<ChildrenList>
+						<Action Name="" ID="{3BAA0E32-C9C2-4A91-80DC-E412FC5BC654}" ShortID="842117083">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_death_timer-001" ID="{55D474EF-906D-4D59-B86D-241058C023A2}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_drone_death_explosion" ID="{4B8F1C28-C43A-4E68-8AC5-12B6BDBAE315}">
+					<ChildrenList>
+						<Action Name="" ID="{6A89F808-2CAF-4DB9-B334-A56E0CC0E29F}" ShortID="339897071">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_death_explosion-001" ID="{54D46132-0B6B-46DA-ADC9-3B34E0F68B77}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_dron_death_timer_stop" ID="{136E3A16-76DF-4988-A6F6-F7E4F2839DED}">
+					<ChildrenList>
+						<Action Name="" ID="{250453D9-B384-4439-911D-CAE21449B31B}" ShortID="1004088025">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drone_death_timer-001" ID="{55D474EF-906D-4D59-B86D-241058C023A2}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

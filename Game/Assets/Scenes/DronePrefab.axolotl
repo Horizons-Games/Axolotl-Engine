@@ -7,7 +7,6 @@
                 "uid": 5941666348512588090,
                 "parentUID": 0,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -44,7 +43,6 @@
                 "uid": 6261472543220059770,
                 "parentUID": 5941666348512588090,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -81,11 +79,10 @@
         {
             "GameObject": {
                 "name": "DronePrefab",
-                "tag": "",
+                "tag": "Enemy",
                 "uid": 3799328107096056596,
                 "parentUID": 5941666348512588090,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -114,7 +111,6 @@
                 "uid": 5716735143033173282,
                 "parentUID": 3799328107096056596,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -213,33 +209,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "DroneAttack",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 5.5,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "AnimationGO",
-                                    "value": 5716735143033173282,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletOriginGO",
-                                    "value": 2731357607606056282,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletPrefab",
-                                    "value": 13090149177772520264,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletVelocity",
-                                    "value": 0.20000000298023224,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -258,11 +228,6 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "LoseSceneName",
-                                    "value": "00_LoseScene_VS3",
-                                    "type": 1
                                 }
                             ]
                         }
@@ -280,7 +245,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -314,7 +278,6 @@
                 "uid": 497268234319040485,
                 "parentUID": 5716735143033173282,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -343,7 +306,6 @@
                 "uid": 3729480807669407108,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -372,7 +334,6 @@
                 "uid": 7149298552805783983,
                 "parentUID": 3729480807669407108,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -412,7 +373,6 @@
                 "uid": 9262632634846702659,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -441,7 +401,6 @@
                 "uid": 17084918150076015866,
                 "parentUID": 9262632634846702659,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -481,7 +440,6 @@
                 "uid": 373317024276112974,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -510,7 +468,6 @@
                 "uid": 12890640690217803562,
                 "parentUID": 373317024276112974,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -550,7 +507,6 @@
                 "uid": 2071525533134209021,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -579,7 +535,6 @@
                 "uid": 14475457272302001845,
                 "parentUID": 2071525533134209021,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -619,7 +574,6 @@
                 "uid": 18036576984266115398,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -648,7 +602,6 @@
                 "uid": 11507593527127513342,
                 "parentUID": 18036576984266115398,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -688,7 +641,6 @@
                 "uid": 4913721341916768061,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -717,7 +669,6 @@
                 "uid": 8998322008588468903,
                 "parentUID": 4913721341916768061,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -757,7 +708,6 @@
                 "uid": 15309765253502189943,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -786,7 +736,6 @@
                 "uid": 1332788264004737550,
                 "parentUID": 15309765253502189943,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -826,7 +775,6 @@
                 "uid": 8033171315997152768,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -855,7 +803,6 @@
                 "uid": 15569822095565692999,
                 "parentUID": 8033171315997152768,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -895,7 +842,6 @@
                 "uid": 35935722247393554,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -924,7 +870,6 @@
                 "uid": 7381476976147885395,
                 "parentUID": 35935722247393554,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -964,7 +909,6 @@
                 "uid": 825903445036358401,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -993,7 +937,6 @@
                 "uid": 4466416414906378068,
                 "parentUID": 825903445036358401,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1033,7 +976,6 @@
                 "uid": 474403692393967768,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1062,7 +1004,6 @@
                 "uid": 6779159088841918234,
                 "parentUID": 474403692393967768,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1102,7 +1043,6 @@
                 "uid": 6934528808134047578,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1131,7 +1071,6 @@
                 "uid": 9306674313062713513,
                 "parentUID": 6934528808134047578,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1171,7 +1110,6 @@
                 "uid": 15191058002741872153,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1200,7 +1138,6 @@
                 "uid": 18255470899030122702,
                 "parentUID": 15191058002741872153,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1240,7 +1177,6 @@
                 "uid": 4464692190642355218,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1269,7 +1205,6 @@
                 "uid": 3939087829752602668,
                 "parentUID": 4464692190642355218,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1309,7 +1244,6 @@
                 "uid": 7727469336285486543,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1338,7 +1272,6 @@
                 "uid": 11646698424154153524,
                 "parentUID": 7727469336285486543,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1378,7 +1311,6 @@
                 "uid": 403942102198630169,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1407,7 +1339,6 @@
                 "uid": 13769790892319230003,
                 "parentUID": 403942102198630169,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1447,7 +1378,6 @@
                 "uid": 8998123996858244407,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1476,7 +1406,6 @@
                 "uid": 3496156971940649559,
                 "parentUID": 8998123996858244407,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1516,7 +1445,6 @@
                 "uid": 970263035663299463,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1545,7 +1473,6 @@
                 "uid": 1549212524172652184,
                 "parentUID": 970263035663299463,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1585,7 +1512,6 @@
                 "uid": 4567244225329450547,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1614,7 +1540,6 @@
                 "uid": 3067233594913435964,
                 "parentUID": 4567244225329450547,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1654,7 +1579,6 @@
                 "uid": 9423935948896182297,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1683,7 +1607,6 @@
                 "uid": 11409948568831627373,
                 "parentUID": 9423935948896182297,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1723,7 +1646,6 @@
                 "uid": 13780775540954122886,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1752,7 +1674,6 @@
                 "uid": 15498455415088861932,
                 "parentUID": 13780775540954122886,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1792,7 +1713,6 @@
                 "uid": 1237221659067794178,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1821,7 +1741,6 @@
                 "uid": 15027483421178159995,
                 "parentUID": 1237221659067794178,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1861,7 +1780,6 @@
                 "uid": 2821262155125539066,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1890,7 +1808,6 @@
                 "uid": 1361517649005018292,
                 "parentUID": 2821262155125539066,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1930,7 +1847,6 @@
                 "uid": 3177367816499748778,
                 "parentUID": 497268234319040485,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1959,7 +1875,6 @@
                 "uid": 6425640319582586656,
                 "parentUID": 3177367816499748778,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1988,7 +1903,6 @@
                 "uid": 11138340805198659800,
                 "parentUID": 6425640319582586656,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2017,7 +1931,6 @@
                 "uid": 1439162392445177159,
                 "parentUID": 11138340805198659800,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2046,7 +1959,6 @@
                 "uid": 6824450151126755410,
                 "parentUID": 1439162392445177159,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2075,7 +1987,6 @@
                 "uid": 11752012173179160014,
                 "parentUID": 6824450151126755410,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2104,7 +2015,6 @@
                 "uid": 1450770966570105127,
                 "parentUID": 11752012173179160014,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2133,7 +2043,6 @@
                 "uid": 4654095577091350023,
                 "parentUID": 1450770966570105127,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2162,7 +2071,6 @@
                 "uid": 11506240678701508702,
                 "parentUID": 4654095577091350023,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2191,7 +2099,6 @@
                 "uid": 15403374022960078401,
                 "parentUID": 11752012173179160014,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2220,7 +2127,6 @@
                 "uid": 4180614552145653659,
                 "parentUID": 15403374022960078401,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2249,7 +2155,6 @@
                 "uid": 5719063861475445355,
                 "parentUID": 11138340805198659800,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2278,7 +2183,6 @@
                 "uid": 13708713420141483477,
                 "parentUID": 5719063861475445355,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2307,7 +2211,6 @@
                 "uid": 7116353496839322623,
                 "parentUID": 13708713420141483477,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2336,7 +2239,6 @@
                 "uid": 13066259495640230059,
                 "parentUID": 7116353496839322623,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2365,7 +2267,6 @@
                 "uid": 2562242117906459689,
                 "parentUID": 13066259495640230059,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2394,7 +2295,6 @@
                 "uid": 10981996355093784145,
                 "parentUID": 2562242117906459689,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2423,7 +2323,6 @@
                 "uid": 15434651137123723716,
                 "parentUID": 7116353496839322623,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2452,7 +2351,6 @@
                 "uid": 5561055437131179347,
                 "parentUID": 15434651137123723716,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2481,7 +2379,6 @@
                 "uid": 5753406435595871,
                 "parentUID": 6425640319582586656,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2510,7 +2407,6 @@
                 "uid": 6095696865207771946,
                 "parentUID": 5753406435595871,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2539,7 +2435,6 @@
                 "uid": 3692216576917914562,
                 "parentUID": 6095696865207771946,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2568,7 +2463,6 @@
                 "uid": 2078140727951511536,
                 "parentUID": 3692216576917914562,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2597,7 +2491,6 @@
                 "uid": 5810566608812165151,
                 "parentUID": 2078140727951511536,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2626,7 +2519,6 @@
                 "uid": 4819863966728045019,
                 "parentUID": 5810566608812165151,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2655,7 +2547,6 @@
                 "uid": 8183624255338884075,
                 "parentUID": 4819863966728045019,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2684,7 +2575,6 @@
                 "uid": 787000839571155028,
                 "parentUID": 2078140727951511536,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2713,7 +2603,6 @@
                 "uid": 13624862804965932518,
                 "parentUID": 787000839571155028,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2742,7 +2631,6 @@
                 "uid": 2569769983963724793,
                 "parentUID": 5753406435595871,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2771,7 +2659,6 @@
                 "uid": 10797614802432588633,
                 "parentUID": 2569769983963724793,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2800,7 +2687,6 @@
                 "uid": 13522139857101948150,
                 "parentUID": 10797614802432588633,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2829,7 +2715,6 @@
                 "uid": 14032975950181747990,
                 "parentUID": 13522139857101948150,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2858,7 +2743,6 @@
                 "uid": 10329049088076693825,
                 "parentUID": 14032975950181747990,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2887,7 +2771,6 @@
                 "uid": 4481678371489757321,
                 "parentUID": 10329049088076693825,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2916,7 +2799,6 @@
                 "uid": 3658602875849784029,
                 "parentUID": 13522139857101948150,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2945,7 +2827,6 @@
                 "uid": 1078053073490485547,
                 "parentUID": 3658602875849784029,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2974,7 +2855,6 @@
                 "uid": 12078123005813096923,
                 "parentUID": 3799328107096056596,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -3003,7 +2883,6 @@
                 "uid": 10197724959374757767,
                 "parentUID": 3799328107096056596,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -3032,7 +2911,6 @@
                 "uid": 13090149177772520264,
                 "parentUID": 5716735143033173282,
                 "enabled": false,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -3079,7 +2957,6 @@
                 "uid": 2731357607606056282,
                 "parentUID": 5716735143033173282,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {

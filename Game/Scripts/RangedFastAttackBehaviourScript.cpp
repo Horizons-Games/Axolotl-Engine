@@ -24,7 +24,7 @@ REGISTERCLASS(RangedFastAttackBehaviourScript);
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), 
 	audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
-	bulletVelocity(0.2f), bulletPrefab(nullptr)
+	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
@@ -47,39 +47,69 @@ void RangedFastAttackBehaviourScript::Start()
 	}
 }
 
-void RangedFastAttackBehaviourScript::PerformAttack()
+void RangedFastAttackBehaviourScript::StartAttack()
 {
-	if (IsAttackAvailable())
-	{
-		animation->SetParameter("IsAttacking", true);
-
-		// Create a new bullet
-		GameObject* root = loadedScene->GetRoot();
-		GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, root);
-		ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
-
-		// Set the new bullet in the drone, ready for being shooted
-		bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
-		bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-		bulletTransf->SetRotation(transform->GetGlobalRotation());
-		bulletTransf->UpdateTransformMatrices();
-
-		// Attack the DroneFastBullet script to the new bullet to give it its logic
-		ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-		script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
-		script->SetConstuctor("RangedFastAttackBullet");
-		script->GetScript()->SetGameObject(bullet);
-		script->GetScript()->SetApplication(App);
-
-		// Once the engine automatically runs the Start() for newly created objects, delete this line
-		script->Start();
-
-		lastAttackTime = SDL_GetTicks() / 1000.0f;
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
-	}
+	needReposition = false;
+	movingToNewReposition = false;
 }
 
-bool RangedFastAttackBehaviourScript::IsAttackAvailable()
+void RangedFastAttackBehaviourScript::PerformAttack()
+{
+	
+	animation->SetParameter("IsAttacking", true);
+
+	// Create a new bullet
+	GameObject* root = loadedScene->GetRoot();
+	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, root);
+	ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
+
+	// Set the new bullet in the drone, ready for being shooted
+	bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
+	bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
+	bulletTransf->SetRotation(transform->GetGlobalRotation());
+	bulletTransf->UpdateTransformMatrices();
+
+	// Attack the DroneFastBullet script to the new bullet to give it its logic
+	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
+	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
+	script->SetConstuctor("RangedFastAttackBullet");
+	script->GetScript()->SetGameObject(bullet);
+	script->GetScript()->SetApplication(App);
+
+	// Once the engine automatically runs the Start() for newly created objects, delete this line
+	script->Start();
+
+	lastAttackTime = SDL_GetTicks() / 1000.0f;
+	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+
+	//Set reposition
+	needReposition = true;
+}
+
+void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
+{
+	needReposition = false;
+	movingToNewReposition = true;
+	//set new target position
+	owner->GetComponent<ComponentRigidBody>()->SetPositionTarget(nextPosition);
+	owner->GetComponent<ComponentRigidBody>()->SetKpForce(1.0f);
+}
+
+bool RangedFastAttackBehaviourScript::IsAttackAvailable() const
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+}
+
+bool RangedFastAttackBehaviourScript::NeedReposition() const
+{
+	return needReposition;
+}
+
+bool RangedFastAttackBehaviourScript::MovingToNewReposition()
+{
+	if (transform->GetGlobalPosition().Equals(newReposition, 0.3f))
+	{
+		movingToNewReposition = false;
+	}
+	return movingToNewReposition;
 }

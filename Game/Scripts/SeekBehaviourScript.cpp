@@ -30,17 +30,7 @@ void SeekBehaviourScript::Start()
 void SeekBehaviourScript::Seeking() const
 {
 	ownerRigidBody->SetPositionTarget(targetTransform->GetGlobalPosition());
-	Quat errorRotation = 
-		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(), 
-			(targetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
-
-#ifdef DEBUG
-	dd::arrow(ownerTransform->GetGlobalPosition(),
-		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
-	dd::arrow(ownerTransform->GetGlobalPosition(), targetTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
-#endif // DEBUG
-
-	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
+	RotateToTarget();
 }
 
 void SeekBehaviourScript::DisableMovement() const
@@ -56,4 +46,19 @@ void SeekBehaviourScript::DisableRotation() const
 GameObject* SeekBehaviourScript::GetTarget() const
 {
 	return target;
+}
+
+void SeekBehaviourScript::RotateToTarget() const
+{
+	Quat errorRotation =
+		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
+			(targetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
+
+#ifdef DEBUG
+	dd::arrow(ownerTransform->GetGlobalPosition(),
+		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
+	dd::arrow(ownerTransform->GetGlobalPosition(), targetTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
+#endif // DEBUG
+
+	ownerRigidBody->SetRotationTarget(errorRotation);
 }
