@@ -18,9 +18,12 @@ class HealthSystem;
 enum class DroneBehaviours
 {
 	IDLE,
+	FIRSTPATROL,
 	PATROL,
 	SEEK,
-	ATTACK
+	FIRSTATTACK,
+	FASTATTACK,
+	EXPLOSIONATTACK
 };
 
 class EnemyDroneScript : public Script
@@ -32,10 +35,15 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	DroneBehaviours GetDroneBehaviour() const;
+	float3 GetSeekTargetPosition() const;
 	void SetStunnedTime(float newTime);
 
 private:
+	void CalculateNextPosition() const;
+
 	DroneBehaviours droneState;
+	DroneBehaviours lastDroneState;
 
 	float attackDistance;
 	float seekDistance;
@@ -47,7 +55,10 @@ private:
 	DroneFastAttack* attackScript;
 	HealthSystem* healthScript;
 
+	GameObject* seekTarget;
+
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
+	ComponentTransform* seekTargetTransform;
 };

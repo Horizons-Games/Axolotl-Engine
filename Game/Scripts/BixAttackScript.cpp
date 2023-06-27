@@ -148,9 +148,16 @@ void BixAttackScript::CheckCollision()
 					// insertion could take place -> element not hit yet
 					// get component health and do damage
 					HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
-
 					float damageAttack = playerManager->GetPlayerAttack();
-					healthScript->TakeDamage(damageAttack);
+					if (!isDeathTouched)
+					{
+						healthScript->TakeDamage(damageAttack);
+					}
+					else
+					{
+						healthScript->TakeDamage(healthScript->GetMaxHealth());
+					}
+					
 				}
 			}
 		}
@@ -166,4 +173,14 @@ void BixAttackScript::CheckCollision()
 bool BixAttackScript::isAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+}
+
+bool BixAttackScript::GetIsDeathTouched() const
+{
+	return isDeathTouched;
+}
+
+void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
+{
+	this->isDeathTouched = isDeathTouched;
 }

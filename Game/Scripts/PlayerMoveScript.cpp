@@ -21,10 +21,11 @@ REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr)
+	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalized(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
+	REGISTER_FIELD(isParalized, bool)
 }
 
 void PlayerMoveScript::Start()
@@ -32,7 +33,6 @@ void PlayerMoveScript::Start()
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	forceScript = owner->GetComponent<PlayerForceUseScript>();
 
@@ -71,6 +71,12 @@ void PlayerMoveScript::Move(float deltaTime)
 	currentMovements = 0;
 
 	//run
+	if (isParalized)
+	{
+		return;
+	}
+
+	// Run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
 		componentAnimation->SetParameter("IsRunning", true);
@@ -147,7 +153,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		totalDirection.y = 0;
 		totalDirection = totalDirection.Normalized();
-		
+
 		btTransform worldTransform = btRb->getWorldTransform();
 		Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), totalDirection, float3::unitY, float3::unitY);
 		rot = rot * componentTransform->GetGlobalRotation();
@@ -170,7 +176,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::IDLE;
 		}
 	}
-		
+
 	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
 	{
 		if (!isDashing)
@@ -179,7 +185,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 
-			if (!movement.isZero()) 
+			if (!movement.isZero())
 			{
 				if (shiftPressed)
 				{
@@ -197,6 +203,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			nextDash = 3000 + static_cast<float>(SDL_GetTicks());
 		}
 	}
+
 	else
 	{
 		componentAnimation->SetParameter("IsRolling", false);
@@ -210,7 +217,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 		else
 		{
-			if (math::Abs(currentVelocity.getX()) < dashForce/100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+			if (math::Abs(currentVelocity.getX()) < dashForce / 100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
 			{
 				btRb->setLinearVelocity(newVelocity);
 				isDashing = false;
@@ -224,4 +231,14 @@ void PlayerMoveScript::Move(float deltaTime)
 		canDash = true;
 		nextDash = 0;
 	}
+}
+
+bool PlayerMoveScript::GetIsParalized() const
+{
+	return isParalized;
+}
+
+void PlayerMoveScript::SetIsParalized(bool isParalized)
+{
+	this->isParalized = isParalized;
 }

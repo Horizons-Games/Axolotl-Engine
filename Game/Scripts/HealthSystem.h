@@ -22,9 +22,16 @@ public:
 	float GetCurrentHealth() const;
 	bool EntityIsAlive() const;
 
+	float GetMaxHealth() const;
+	void SetMaxHealth(float maxHealth);
+
+	bool GetIsImmortal() const;
+	void SetIsImmortal(bool isImmortal);
+	
 private:
 	float currentHealth;
 	float maxHealth;
+	bool isImmortal;
 
 	ComponentAnimation* componentAnimation;
 };

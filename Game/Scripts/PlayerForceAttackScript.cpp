@@ -59,8 +59,6 @@ void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	if (other->GetOwner()->GetTag() == "Enemy")
 	{
 		enemiesInTheArea.push_back(other->GetOwner());
-		enemiesInTheArea.push_back(other->GetOwner());
-		enemiesInTheArea.push_back(other->GetOwner());
 	}
 }
 

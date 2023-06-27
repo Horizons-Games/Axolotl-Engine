@@ -12,10 +12,11 @@
 REGISTERCLASS(PlayerRotationScript);
 
 PlayerRotationScript::PlayerRotationScript() : Script(), rotationSensitivityHorizontal(1.0f),
-rotationSensitivityVertical(1.0f)
+	rotationSensitivityVertical(1.0f), canRotate(true)
 {
 	REGISTER_FIELD(rotationSensitivityVertical, float);
 	REGISTER_FIELD(rotationSensitivityHorizontal, float);
+	REGISTER_FIELD(canRotate, bool);
 }
 
 void PlayerRotationScript::Start()
@@ -39,6 +40,11 @@ void PlayerRotationScript::PreUpdate(float deltaTime)
 
 void PlayerRotationScript::Rotation(float deltaTime)
 {
+	if (!canRotate)
+	{
+		return;
+	}
+
 	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivityHorizontal;
 	btVector3 angularVelocity(0, 0, 0);
 
@@ -48,4 +54,14 @@ void PlayerRotationScript::Rotation(float deltaTime)
 		angularVelocity = btVector3(0.0f, -horizontalMotion * deltaTime, 0.0f);
 	}
 	btRb->setAngularVelocity(angularVelocity);
+}
+
+bool PlayerRotationScript::GetCanRotate() const
+{
+	return canRotate;
+}
+
+void PlayerRotationScript::SetCanRotate(bool canRotate)
+{
+	this->canRotate = canRotate;
 }

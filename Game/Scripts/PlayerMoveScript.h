@@ -43,11 +43,15 @@ public:
 
     void Move(float deltaTime);
 
+	bool GetIsParalized() const;
+	void SetIsParalized(bool isParalized);
+
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;
     ComponentAnimation* componentAnimation;
     PlayerActions playerState;
+	bool isParalized;
 
     float dashForce;
     float nextDash;
