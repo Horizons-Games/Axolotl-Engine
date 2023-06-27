@@ -25,15 +25,24 @@ public:
 private:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
+
 	bool menuIsOpen;
 	bool pwrUpActive;
+
 	GameObject* mainMenuObject;
 	GameObject* hudCanvasObject;
 	GameObject* setPlayer;
+
 	GameObject* healPwrUpObject;
 	GameObject* attackPwrUpObject;
 	GameObject* defensePwrUpObject;
 	GameObject* speedPwrUpObject;
+
+	GameObject* backgroundHealPwrUpObject;
+	GameObject* backgroundAttackPwrUpObject;
+	GameObject* backgroundDefensePwrUpObject;
+	GameObject* backgroundSpeedPwrUpObject;
+
 	ComponentPlayer* player;
 	ModuleInput* input;
 
@@ -44,9 +53,6 @@ inline void UIGameManager::SetMenuIsOpen(bool menuState)
 	menuIsOpen = menuState;
 	MenuIsOpen();
 }
-
-
-
 
 
 

@@ -2,7 +2,9 @@
 
 #include "UIGameManager.h"
 
+#include "Application.h"
 #include "Components/ComponentPlayer.h"
+#include "ModulePlayer.h"
 #include "ModuleInput.h"
 
 
@@ -11,21 +13,25 @@ REGISTERCLASS(UIGameManager);
 
 UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false), 
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr), 
-speedPwrUpObject(nullptr), pwrUpActive(false)
+speedPwrUpObject(nullptr), pwrUpActive(false), backgroundHealPwrUpObject(nullptr)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
-	REGISTER_FIELD(setPlayer, GameObject*);
 
 	REGISTER_FIELD(healPwrUpObject, GameObject*);
 	REGISTER_FIELD(attackPwrUpObject, GameObject*);
 	REGISTER_FIELD(defensePwrUpObject, GameObject*);
 	REGISTER_FIELD(speedPwrUpObject, GameObject*);
+
+	REGISTER_FIELD(backgroundHealPwrUpObject, GameObject*);
+	REGISTER_FIELD(backgroundAttackPwrUpObject, GameObject*);
+	REGISTER_FIELD(backgroundDefensePwrUpObject, GameObject*);
+	REGISTER_FIELD(backgroundSpeedPwrUpObject, GameObject*);
 }
 
 void UIGameManager::Start()
 {
-	player = setPlayer->GetComponent<ComponentPlayer>();
+	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 }
 
 void UIGameManager::Update(float deltaTime)
