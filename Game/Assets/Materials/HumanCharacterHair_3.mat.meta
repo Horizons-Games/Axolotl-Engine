@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/HumanCharacter_Hair_BaseColor.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }
