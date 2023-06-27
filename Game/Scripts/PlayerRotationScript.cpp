@@ -29,6 +29,16 @@ void PlayerRotationScript::PreUpdate(float deltaTime)
 	{
 		Rotation(deltaTime);
 	}
+	else
+	{
+		ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+		btRigidBody* btRb = rigidBody->GetRigidBody();
+
+		btVector3 angularVelocity(0, 0, 0);
+		//btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+
+		btRb->setAngularVelocity(angularVelocity);
+	}
 }
 
 void PlayerRotationScript::Rotation(float deltaTime)

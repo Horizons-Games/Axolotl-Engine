@@ -161,8 +161,28 @@ void PlayerForceUseScript::Update(float deltaTime)
 				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
 
 		// Set position and rotation
-		hittedRigidBody->SetPositionTarget(nextPosition);
-		hittedRigidBody->SetRotationTarget(targetRotation);
+		//hittedRigidBody->SetPositionTarget(nextPosition);
+		//hittedRigidBody->SetRotationTarget(targetRotation);
+
+		btRigidBody* rigidBody = hittedRigidBody->GetRigidBody();
+
+		float3 x = hittedTransform->GetGlobalPosition();
+		float3 positionError = nextPosition - x;
+		float3 velocityPosition = positionError * 5.0f;
+
+		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
+		rigidBody->setLinearVelocity(velocity);
+
+		float3 axis;
+		float angle;
+		targetRotation.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 angularVelocity = axis * angle * 2.0f;
+		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
+		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
+		rigidBody->setAngularVelocity(bulletAngularVelocity);
+
 
 		currentTimeForce -= deltaTime;
 	}
