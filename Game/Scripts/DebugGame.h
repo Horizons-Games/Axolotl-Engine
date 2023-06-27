@@ -10,6 +10,7 @@ class BixAttackScript;
 class PlayerMoveScript;
 class PlayerJumpScript;
 class PlayerRotationScript;
+class ModuleInput;
 
 class DebugGame : public Script
 {
@@ -19,7 +20,7 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
-	void ActivateDebugMode();
+	void SwitchDebugMode();
 	void GodCamera() const;
 	void FillHealth() const;
 	void BeImmortal() const;
@@ -35,6 +36,7 @@ private:
 	int debugCurrentPosIndex;
 	int debugNextPos;
 	bool playerOnLocation;
+	ModuleInput* input;
 
 
 	

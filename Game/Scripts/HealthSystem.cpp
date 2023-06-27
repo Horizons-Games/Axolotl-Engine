@@ -46,12 +46,12 @@ void HealthSystem::Update(float deltaTime)
 	// 
 	// By setting this here, we make certain that 'IsTakingDamage' remains as true during a couple frames
 	// so the state machine could behave correctly (we could delete this once we have a way to delay any function calls)
-	if (currentHealth <= 0 && !isImmortal)
+	if (currentHealth <= 0)
 	{
 		componentAnimation->SetParameter("IsDead", true);
 	}
 
-	else if(!isImmortal)
+	else 
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
 	}

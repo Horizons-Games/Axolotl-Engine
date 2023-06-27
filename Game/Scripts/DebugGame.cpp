@@ -36,6 +36,8 @@ DebugGame::DebugGame() : Script(), isDebugModeActive(false)
 
 void DebugGame::Start()
 {
+	input = App->GetModule<ModuleInput>();
+
 	//ImmortalityStart
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 
@@ -87,13 +89,13 @@ void DebugGame::Start()
 
 void DebugGame::Update(float deltaTime)
 {
-	ModuleInput* input = App->GetModule<ModuleInput>();
+	
 	
 	//INPUTS
 
 	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN)
 	{
-		ActivateDebugMode();
+		SwitchDebugMode();
 	}
 
 	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN && isDebugModeActive)
@@ -125,7 +127,7 @@ void DebugGame::Update(float deltaTime)
 		
 	}
 
-	//TELEPORTMOV
+	//TELEPORTMOVEMENT
 	if(!playerOnLocation && isDebugModeActive)
 	{
 		for(const ComponentTransform* debugPointTransform : debugPoints)
@@ -144,7 +146,7 @@ void DebugGame::Update(float deltaTime)
 
 }
 
-void DebugGame::ActivateDebugMode()
+void DebugGame::SwitchDebugMode()
 {
 	if (!isDebugModeActive)
 	{
@@ -162,30 +164,12 @@ void DebugGame::GodCamera() const {
 
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-	//if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump() && playerRotationScript->GetCanRotate()) 
-	//{
-	//	playerMoveScript->SetIsParalized(true);
-	//	playerJumpScript->SetCanJump(false);
-	//	//playerRotationScript->SetCanRotate(false);
-	//	camera->SetSelectedPosition(1);
-	//	camera->SetSelectedCamera(camera->GetSelectedPosition());
-	//	LOG_DEBUG("GOD CAMERA ACTIVATED");
-	//}
-	//else if(playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump() && !playerRotationScript->GetCanRotate())
-	//{
-	//	playerMoveScript->SetIsParalized(false);
-	//	playerJumpScript->SetCanJump(true);
-	//	//playerRotationScript->SetCanRotate(true);
-	//	camera->SetSelectedPosition(0);
-	//	camera->SetSelectedCamera(camera->GetSelectedPosition());
-	//	LOG_DEBUG("GOD CAMERA DEACTIVATED");
-	//}
 
 	if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump())
 	{
 		playerMoveScript->SetIsParalized(true);
 		playerJumpScript->SetCanJump(false);
-		//playerRotationScript->SetCanRotate(false);
+		
 		camera->SetSelectedPosition(1);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
 		LOG_DEBUG("GOD CAMERA ACTIVATED");
@@ -194,7 +178,7 @@ void DebugGame::GodCamera() const {
 	{
 		playerMoveScript->SetIsParalized(false);
 		playerJumpScript->SetCanJump(true);
-		//playerRotationScript->SetCanRotate(true);
+		
 		camera->SetSelectedPosition(0);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
 		LOG_DEBUG("GOD CAMERA DEACTIVATED");
