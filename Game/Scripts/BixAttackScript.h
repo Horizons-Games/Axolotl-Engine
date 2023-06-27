@@ -35,8 +35,8 @@ private:
 	void PerformAttack();
 	void CheckCombo();
 
-	bool IsAttackAvailable();
-	void CheckCollision();
+	bool IsAttackAvailable() const;
+	void CheckCollision() const;
 
 	float attackCooldown;
 	float lastAttackTime;

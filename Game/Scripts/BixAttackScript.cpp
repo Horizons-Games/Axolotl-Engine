@@ -117,7 +117,7 @@ void BixAttackScript::PerformAttack()
 	CheckCollision();
 }
 
-void BixAttackScript::CheckCollision()
+void BixAttackScript::CheckCollision() const
 {
 	//Provisional
 	std::set<UID> hitObjects;
@@ -151,7 +151,7 @@ void BixAttackScript::CheckCollision()
 	//--Provisional
 }
 
-bool BixAttackScript::IsAttackAvailable()
+bool BixAttackScript::IsAttackAvailable() const
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }
