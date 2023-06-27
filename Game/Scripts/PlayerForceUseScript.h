@@ -5,9 +5,11 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ModuleInput;
 class CameraControllerScript;
 class PlayerRotationScript;
 class PlayerMoveScript;
+class ComponentTransform;
 class ComponentAnimation;
 class ComponentAudioSource;
 
@@ -45,6 +47,9 @@ private:
 
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;
+	ComponentTransform* transform;
+
+	ModuleInput* input;
 };
 
 inline bool PlayerForceUseScript::IsForceActive() const

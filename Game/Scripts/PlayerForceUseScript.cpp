@@ -41,13 +41,13 @@ void PlayerForceUseScript::Start()
 
 	rotationScript = owner->GetComponent<PlayerRotationScript>();
 	moveScript = owner->GetComponent<PlayerMoveScript>();
+
+	input = App->GetModule<ModuleInput>();
+	transform = owner->GetComponent<ComponentTransform>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
 		//componentAnimation->SetParameter("IsUsingForce", true);
@@ -72,10 +72,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 			if (rotationScript)
 			{
-				lastHorizontalSensitivity = rotationScript->GetField<float>("RotationSensitivityHorizontal")->getter();
-				rotationScript->GetField<float>("RotationSensitivityHorizontal")->setter(lastHorizontalSensitivity / 2.0f);
-				lastVerticalSensitivity = rotationScript->GetField<float>("RotationSensitivityVertical")->getter();
-				rotationScript->GetField<float>("RotationSensitivityVertical")->setter(lastVerticalSensitivity / 2.0f);
+				lastHorizontalSensitivity = rotationScript->GetHorizontalSensitivity();
+				rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
+				lastVerticalSensitivity = rotationScript->GetVerticalSensitivity();
+				rotationScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
 			}
 
 
@@ -98,8 +98,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		if (rotationScript)
 		{
-			rotationScript->GetField<float>("RotationSensitivityHorizontal")->setter(lastHorizontalSensitivity);
-			rotationScript->GetField<float>("RotationSensitivityVertical")->setter(lastVerticalSensitivity);
+			rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
+			rotationScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}
 
 		if (isForceActive)
@@ -146,8 +146,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 		}
 
 		// Get next rotation of game object
-		ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
 		Quat targetRotation =
 			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
 				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());

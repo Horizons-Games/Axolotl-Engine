@@ -20,28 +20,25 @@ rotationSensitivityVertical(1.0f)
 
 void PlayerRotationScript::Start()
 {
-	
+	forceScript = owner->GetComponent<PlayerForceUseScript>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	btRb = rigidBody->GetRigidBody();
 }
 
 void PlayerRotationScript::PreUpdate(float deltaTime)
 {
-	if (owner->GetComponent<PlayerForceUseScript>()->IsForceActive())
+	if (forceScript->IsForceActive())
 	{
 		Rotation(deltaTime);
 	}
 	else
 	{
-		ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
-		btRigidBody* btRb = rigidBody->GetRigidBody();
 		btRb->setAngularVelocity({0.0f,0.0f,0.0f});
 	}
 }
 
 void PlayerRotationScript::Rotation(float deltaTime)
 {
-	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
-	btRigidBody* btRb = rigidBody->GetRigidBody();
-
 	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivityHorizontal;
 	btVector3 angularVelocity(0, 0, 0);
 

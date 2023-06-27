@@ -32,11 +32,18 @@ void PlayerMoveScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
+	forceScript = owner->GetComponent<PlayerForceUseScript>();
+
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	btRb = rigidBody->GetRigidBody();
+
+	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
+	input = App->GetModule<ModuleInput>();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	if (!owner->GetComponent<PlayerForceUseScript>()->IsForceActive())
+	if (!forceScript->IsForceActive())
 	{
 		Move(deltaTime);
 	}
@@ -45,10 +52,6 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	Camera* camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
-	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
