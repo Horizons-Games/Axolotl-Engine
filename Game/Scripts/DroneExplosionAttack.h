@@ -7,7 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 enum class DroneExplosionState
 {
 	NOTDEAD,
-	WAITINGEXPLOSION,
+	WAITING_EXPLOSION,
 	EXPLODING,
 	DEAD
 };
@@ -17,7 +17,6 @@ class ComponentTransform;
 class ComponentAudioSource;
 class HealthSystem;
 class EnemyDroneScript;
-class GameObject;
 
 class DroneExplosionAttack : public Script
 {
