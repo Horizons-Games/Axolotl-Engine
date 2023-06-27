@@ -21,7 +21,7 @@
 REGISTERCLASS(DebugGame);
 
 
-DebugGame::DebugGame() : Script(), isDebugModeActive(false)
+DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true)
 {
 	
 	REGISTER_FIELD(debugPoint1, GameObject*);
@@ -30,6 +30,8 @@ DebugGame::DebugGame() : Script(), isDebugModeActive(false)
 	REGISTER_FIELD(debugPoint4, GameObject*);
 	REGISTER_FIELD(debugPoint5, GameObject*);
 	REGISTER_FIELD(isDebugModeActive, bool);
+	REGISTER_FIELD(playerOnLocation, bool);
+	
 	
 
 }
@@ -84,7 +86,7 @@ void DebugGame::Start()
 	currentdDebugPointTransform = debugPoints.front();
 
 	debugCurrentPosIndex = 0;
-	playerOnLocation = false;
+	
 }
 
 void DebugGame::Update(float deltaTime)
