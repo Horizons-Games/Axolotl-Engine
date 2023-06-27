@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/WallV1v5_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/WallV1v5_DefaultMaterial_MetallicSmoothness.png",
-    "EmissiveAssetPath": ""
+    "EmissiveAssetPath": "Assets/Textures/WallV1v5_DefaultMaterial_Emission.png"
 }
