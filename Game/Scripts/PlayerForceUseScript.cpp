@@ -20,7 +20,6 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "PlayerRotationScript.h"
-#include "CameraControllerScript.h"
 #include "PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerForceUseScript);
@@ -28,7 +27,7 @@ REGISTERCLASS(PlayerForceUseScript);
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
 maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
-currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource (nullptr)
+currentTimeForce(0.0f), breakForce(false), componentAudioSource (nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -36,22 +35,19 @@ currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componen
 
 void PlayerForceUseScript::Start()
 {
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
-
 	currentTimeForce = maxTimeForce;
 
-	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
-	moveScript = owner->GetParent()->GetComponent<PlayerMoveScript>();
+	rotationScript = owner->GetComponent<PlayerRotationScript>();
+	moveScript = owner->GetComponent<PlayerMoveScript>();
 
-	rotationVerticalScript = owner->GetComponent<CameraControllerScript>();
+	input = App->GetModule<ModuleInput>();
+	transform = owner->GetComponent<ComponentTransform>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
 		//componentAnimation->SetParameter("IsUsingForce", true);
@@ -74,23 +70,14 @@ void PlayerForceUseScript::Update(float deltaTime)
 				distancePointGameObjectAttached = minDistanceForce;
 			}
 
-			if (rotationHorizontalScript)
+			if (rotationScript)
 			{
-				lastHorizontalSensitivity = rotationHorizontalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity / 2.0f);
+				lastHorizontalSensitivity = rotationScript->GetHorizontalSensitivity();
+				rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
+				lastVerticalSensitivity = rotationScript->GetVerticalSensitivity();
+				rotationScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
 			}
 
-			if (rotationVerticalScript)
-			{
-				lastVerticalSensitivity = rotationVerticalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 2.0f);
-			}
-
-			if (moveScript)
-			{
-				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
-				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
-			}
 
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			rigidBody->SetKpForce(50.0f);
@@ -109,19 +96,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 
-		if (rotationHorizontalScript)
+		if (rotationScript)
 		{
-			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
-		}
-
-		if (rotationVerticalScript)
-		{
-			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
-		}
-
-		if (moveScript)
-		{
-			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed);
+			rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
+			rotationScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}
 
 		if (isForceActive)
@@ -135,6 +113,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (gameObjectAttached)
 	{
+		
 		if (!isForceActive)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
@@ -150,10 +129,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 		}
 		// Get next position of the gameObject
+		float verticalOffset = 1.0f;
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
+		nextPosition.y += verticalOffset;
 
 		float currentDistance = hittedTransform->GetGlobalPosition().Distance(nextPosition);
 
@@ -165,15 +146,33 @@ void PlayerForceUseScript::Update(float deltaTime)
 		}
 
 		// Get next rotation of game object
-		ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-
 		Quat targetRotation =
 			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
-				(parentTransform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
+				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
 
-		// Set position and rotation
-		hittedRigidBody->SetPositionTarget(nextPosition);
-		hittedRigidBody->SetRotationTarget(targetRotation);
+		
+		btRigidBody* rigidBody = hittedRigidBody->GetRigidBody();
+
+		// Set position
+		float3 x = hittedTransform->GetGlobalPosition();
+		float3 positionError = nextPosition - x;
+		float3 velocityPosition = positionError * hittedRigidBody->GetKpForce();
+
+		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
+		rigidBody->setLinearVelocity(velocity);
+
+
+		// Set rotation
+		float3 axis;
+		float angle;
+		targetRotation.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 angularVelocity = axis * angle * hittedRigidBody->GetKpTorque();
+		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
+		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
+		rigidBody->setAngularVelocity(bulletAngularVelocity);
+
 
 		currentTimeForce -= deltaTime;
 	}
