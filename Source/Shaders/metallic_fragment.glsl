@@ -14,12 +14,14 @@ struct Material {
     int has_diffuse_map;        //16 //4       
     int has_normal_map;         //20 //4
     int has_metallic_map;       //24 //4
-    float smoothness;           //28 //4
-    float metalness;            //32 //4
-    float normal_strength;      //36 //4
-    sampler2D diffuse_map;      //40 //8
-    sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8 --> 64
+    int has_emissive_map;       //28 //4
+    float smoothness;           //32 //4
+    float metalness;            //36 //4
+    float normal_strength;      //40 //4
+    sampler2D diffuse_map;      //48 //8
+    sampler2D normal_map;       //56 //8
+    sampler2D metallic_map;     //64 //8 
+    sampler2D emissive_map;     //72 //8 -->80
 };
 
 layout(std140, binding=1) uniform Directional
@@ -352,7 +354,12 @@ void main()
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, 
         numLevels_IBL) * cubemap_intensity;
     vec3 color = ambient + Lo;
-    //vec3 color = ambient;
+    
+    //Emissive
+    if (material.has_emissive_map == 1) 
+    {
+        color += vec3(texture(material.emissive_map, TexCoord));
+    }
     
 	//hdr rendering
     color = color / (color + vec3(1.0));

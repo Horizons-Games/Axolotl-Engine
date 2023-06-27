@@ -33,8 +33,8 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
-	reset(false),
-	newMaterial(false)
+	inputTextureEmission(std::make_unique<WindowTextureInput>(this, TextureType::EMISSION)),
+	reset(false), newMaterial(false)
 {
 	InitMaterialValues();
 }
@@ -265,7 +265,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource)
 			{
 				if (materialResource->GetDiffuse() || materialResource->GetNormal() ||
-					materialResource->GetMetallic() || materialResource->GetSpecular())
+					materialResource->GetMetallic() || materialResource->GetSpecular()
+					|| materialResource->GetEmission())
 				{
 					removeButtonLabel = "Remove Textures";
 				}
@@ -274,12 +275,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
 			{
 				asMeshRenderer->UnloadTextures();
-				materialResource->SetDiffuse(nullptr);
-				materialResource->SetNormal(nullptr);
-				materialResource->SetOcclusion(nullptr);
-				materialResource->SetMetallic(nullptr);
-				materialResource->SetSpecular(nullptr);
-				materialResource->SetChanged(true);
+				diffuseTexture = nullptr;
+				normalMap = nullptr;
+				metallicMap = nullptr;
+				specularMap = nullptr;
+				emissionMap = nullptr;
 				updateMaterials = true;
 			}
 
@@ -347,6 +347,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					{
 						specularMap->Unload();
 						specularMap = nullptr;
+						updateMaterials = true;
 					}
 				}
 				else
@@ -375,6 +376,27 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			}
 
 			ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
+			ImGui::Separator();
+
+			ImGui::Text("Emission Texture");
+			if (emissionMap)
+			{
+				emissionMap->Load();
+				ImGui::Image((void*)(intptr_t)emissionMap->GetGlTexture(),
+					ImVec2(100, 100));
+
+				if (ImGui::Button("Remove Texture Emission"))
+				{
+					emissionMap->Unload();
+					emissionMap = nullptr;
+					updateMaterials = true;
+				}
+			}
+			else
+			{
+				inputTextureEmission->DrawWindowContents();
+			}
+
 
 			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
@@ -399,7 +421,9 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetSpecularColor(colorSpecular);
 				asMeshRenderer->SetDiffuse(diffuseTexture);
 				asMeshRenderer->SetMetallic(metallicMap);
+				asMeshRenderer->SetSpecular(specularMap);
 				asMeshRenderer->SetNormal(normalMap);
+				asMeshRenderer->SetEmissive(emissionMap);
 				asMeshRenderer->SetSmoothness(smoothness);
 				asMeshRenderer->SetMetalness(metalness);
 				asMeshRenderer->SetNormalStrength(normalStrength);
@@ -463,6 +487,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 			metallicMap = materialResource->GetMetallic();
 			specularMap = materialResource->GetSpecular();
 			normalMap = materialResource->GetNormal();
+			emissionMap = materialResource->GetEmission();
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();

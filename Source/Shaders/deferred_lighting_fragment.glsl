@@ -10,6 +10,7 @@ layout(binding = 0) uniform sampler2D gPosition;
 layout(binding = 1) uniform sampler2D gNormal;
 layout(binding = 2) uniform sampler2D gDiffuse;
 layout(binding = 3) uniform sampler2D gSpecular;
+layout(binding = 4) uniform sampler2D gEmissive;
 
 layout(std140, binding=1) uniform Directional
 {
@@ -259,6 +260,7 @@ void main()
     vec3 norm = texture(gNormal, TexCoord).rgb;
     vec4 textureMat = texture(gDiffuse, TexCoord);
     vec4 specularMat = texture(gSpecular, TexCoord);
+    vec4 emissiveMat = texture(gEmissive, TexCoord);
     float smoothness = specularMat.a;
 
     vec3 viewDir = normalize(viewPos - fragPos);
@@ -298,7 +300,7 @@ void main()
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
         environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
-    vec3 color = ambient + Lo;
+    vec3 color = ambient + Lo + emissiveMat.rgb;
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
@@ -324,4 +326,9 @@ void main()
     {
         outColor = vec4(specularMat);
     }
+    else if (renderMode == 5)
+    {
+        outColor = vec4(emissiveMat);
+    }
+    
 }

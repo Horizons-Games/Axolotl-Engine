@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 enum class PowerUpType;
+class UIGameManager;
 
 class PowerUpsManagerScript : public Script
 {
@@ -40,7 +41,10 @@ private:
 	float radiusSeeking;
 	bool debugDraw;
 
+	UIGameManager* uiManagerScript;
+
 	GameObject* player;
+	GameObject* setUIManager;
 
 	// To be changed to Player Manager
 	PowerUpType activePowerUp;

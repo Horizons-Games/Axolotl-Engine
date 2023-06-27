@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "PlayerManagerScript.h"
 
 #include "Components/ComponentScript.h"
