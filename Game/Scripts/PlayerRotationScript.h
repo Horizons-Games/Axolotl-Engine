@@ -18,6 +18,9 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
+	bool GetCanRotate() const;
+	void SetCanRotate(bool canRotate);
+
 	float GetHorizontalSensitivity() const;
 	float GetVerticalSensitivity() const;
 
@@ -26,6 +29,7 @@ public:
 
 private:
     void Rotation(float deltaTime);
+	bool canRotate;
 
 	float rotationSensitivityHorizontal;
 	float rotationSensitivityVertical;
