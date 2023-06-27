@@ -7,7 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentButton;
 class ComponentScript;
-class UIGameManager;
+class UIGameStates;
 
 class UIButtonControl : public Script
 {
@@ -24,9 +24,9 @@ private:
 	GameObject* disableObject;
 	GameObject* enableObject;
 	GameObject* buttonHover;
-	GameObject* setUiGameManagerObject;
+	GameObject* setGameStateObject;
 	ComponentButton* buttonComponent;
-	UIGameManager* UIGameManagerClass;
+	UIGameStates* uiGameStatesClass;
 };
 
 

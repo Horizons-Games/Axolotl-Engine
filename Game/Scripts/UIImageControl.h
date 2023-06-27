@@ -7,7 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentButton;
 class ComponentImage;
-class ComponentTransform2D;
+class ModuleInput;
 
 class UIImageControl : public Script
 {
@@ -19,18 +19,19 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-
+	float powerupTimer = 0;
 	float time = 0;
-	float positionX = 0;
-	float positionY = 0;
-	float positionZ = 0;
-	float3 startPosition;
-	float3 endPosition;
-	float3 resultPositon;
+	bool powerupStatus = false;
+	bool hudStatus = false; // This is to show the complete HUD just hardcode
+	bool check; // This is to show the complete HUD just hardcode
 
-	GameObject* trigger;
+	GameObject* disableImgObject;
+	GameObject* enableImgObject;
+	GameObject* enableImgObject02; //Hardcode for pwr up
+	GameObject* enableImgObject03; //Hardcode for pwr up
+	GameObject* enableImgObject04; //Hardcode for pwr up
 	ComponentImage* imageComponent;
-	ComponentTransform2D* imageTransform;
+	ModuleInput* input;
 };
 
 

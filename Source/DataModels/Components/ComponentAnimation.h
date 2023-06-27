@@ -9,6 +9,7 @@
 
 #define NON_STATE 9999
 
+class GameObject;
 class AnimationController;
 class ResourceAnimation;
 struct State;

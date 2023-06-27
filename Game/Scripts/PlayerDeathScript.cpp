@@ -1,6 +1,4 @@
-#include "StdAfx.h"
 #include "PlayerDeathScript.h"
-#include "AxoLog.h"
 
 #ifndef ENGINE
 	#include "Application.h"

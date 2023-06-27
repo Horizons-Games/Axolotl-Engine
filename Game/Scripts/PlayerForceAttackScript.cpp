@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "PlayerForceAttackScript.h"
 
 #include "ModuleInput.h"

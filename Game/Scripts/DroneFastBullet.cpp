@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "DroneFastBullet.h"
 
 #include "Application.h"
