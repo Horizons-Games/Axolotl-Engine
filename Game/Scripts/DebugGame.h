@@ -24,7 +24,7 @@ public:
 	void FillHealth() const;
 	void BeImmortal() const;
 	void DeathTouch() const;
-	void Teleport() const;
+	void Teleport();
 
 	
 	

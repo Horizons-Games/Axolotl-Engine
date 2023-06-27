@@ -130,7 +130,7 @@ void DebugGame::Update(float deltaTime)
 	{
 		for(const ComponentTransform* debugPointTransform : debugPoints)
 		{
-			if (playerTransform->GetGlobalPosition().Equals(debugPointTransform->GetGlobalPosition(), 2.0f))
+			if (playerTransform->GetGlobalPosition().Equals(debugPointTransform->GetGlobalPosition(), 1.0f))
 			{
 				playerRigidBody->SetIsTrigger(false);
 				playerRigidBody->DisablePositionController();
