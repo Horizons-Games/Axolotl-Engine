@@ -8388,24 +8388,16 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Script",
+                            "type": "Component_CameraSample",
                             "active": true,
                             "removed": true,
-                            "constructName": "CameraSample",
-                            "fields": [
-                                {
-                                    "name": "InfluenceRadius",
-                                    "value": 1.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "PositionOffset",
-                                    "value x": 0.0,
-                                    "value y": 0.0,
-                                    "value z": 0.0,
-                                    "type": 3
-                                }
-                            ]
+                            "influenceRadius": 1.0,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 0.0,
+                            "positionOffsetZ": 0.0,
+                            "positionX": 0.0,
+                            "positionY": 0.0,
+                            "positionZ": 62.397525787353516
                         }
                     }
                 ]
