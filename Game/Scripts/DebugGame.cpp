@@ -48,8 +48,8 @@ void DebugGame::Start()
 	playerJumpScript = setPlayer->GetComponent<PlayerJumpScript>();
 	playerRotationScript = setPlayer->GetComponent<PlayerRotationScript>();
 
+	isDebugModeActive = false;
 
-	
 	//TeleportStart
 
 	if (debugPoint1)
@@ -92,29 +92,34 @@ void DebugGame::Update(float deltaTime)
 	
 	//INPUTS
 
-	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN)
+	{
+		ActivateDebugMode();
+	}
+
+	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN && isDebugModeActive)
 	{
 		GodCamera();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN && isDebugModeActive)
 	{
 		FillHealth();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN && isDebugModeActive)
 	{
 
 		BeImmortal();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN && isDebugModeActive)
 	{
 		
 		DeathTouch();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN && isDebugModeActive)
 	{
 		Teleport();
 		playerOnLocation = false;
@@ -122,7 +127,7 @@ void DebugGame::Update(float deltaTime)
 	}
 
 	//TELEPORTMOV
-	if(!playerOnLocation)
+	if(!playerOnLocation && isDebugModeActive)
 	{
 		for(const ComponentTransform* debugPointTransform : debugPoints)
 		{
@@ -138,6 +143,20 @@ void DebugGame::Update(float deltaTime)
 	
 
 
+}
+
+void DebugGame::ActivateDebugMode()
+{
+	if (!isDebugModeActive)
+	{
+		isDebugModeActive = true;
+		LOG_DEBUG("DEBUG MODE ACTIVATED");
+	}
+	else
+	{
+		isDebugModeActive = false;
+		LOG_DEBUG("DEBUG MODE DEACTIVATED");
+	}
 }
 
 void DebugGame::GodCamera() {

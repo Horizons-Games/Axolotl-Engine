@@ -191,7 +191,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 }
 
-bool PlayerMoveScript::GetIsParalized()
+bool PlayerMoveScript::GetIsParalized() const
 {
 	return isParalized;
 }

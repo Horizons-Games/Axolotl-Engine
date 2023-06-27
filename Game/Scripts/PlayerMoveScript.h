@@ -24,7 +24,7 @@ public:
 
     void Move(float deltaTime);
 
-	bool GetIsParalized();
+	bool GetIsParalized() const;
 	void SetIsParalized(bool isParalized);
 
 private:

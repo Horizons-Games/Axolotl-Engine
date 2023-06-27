@@ -11,7 +11,7 @@ public:
 
     void PreUpdate(float deltaTime) override;
 
-	bool GetCanRotate();
+	bool GetCanRotate() const;
 	void SetCanRotate(bool canRotate);
 
 private:

@@ -44,7 +44,7 @@ void PlayerRotationScript::Rotation(float deltaTime)
 	}
 }
 
-bool PlayerRotationScript::GetCanRotate()
+bool PlayerRotationScript::GetCanRotate() const
 {
 	return canRotate;
 }

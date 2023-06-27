@@ -150,13 +150,13 @@ void BixAttackScript::CheckCollision()
 						// get component health and do damage
 						HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
 						if (!isDeathTouched)
-							{
+						{
 									healthScript->TakeDamage(damageAttack);
-							}
-								else
-							{
-								    healthScript->TakeDamage(deathTouchedDamage);
-							}
+						}
+						else
+						{
+							healthScript->TakeDamage(healthScript->GetMaxHealth());
+						}
 					}
 				}
 			}
@@ -175,7 +175,7 @@ bool BixAttackScript::isAttackAvailable()
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }
 
-bool BixAttackScript::GetIsDeathTouched()
+bool BixAttackScript::GetIsDeathTouched() const
 {
 	return isDeathTouched;
 }

@@ -19,6 +19,7 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+	void ActivateDebugMode();
 	void GodCamera();
 	void FillHealth();
 	void BeImmortal();
@@ -29,10 +30,12 @@ public:
 	
 
 private:
+	bool isDebugModeActive;
 	bool isDead;
 	int debugCurrentPosIndex;
 	int debugNextPos;
 	bool playerOnLocation;
+
 
 	
 	

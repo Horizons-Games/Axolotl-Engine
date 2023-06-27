@@ -12,7 +12,7 @@ public:
     void Start() override;
     void PreUpdate(float deltaTime) override;
 
-	bool GetCanJump();
+	bool GetCanJump() const;
 	void SetCanJump(bool canJump);
 
 private:

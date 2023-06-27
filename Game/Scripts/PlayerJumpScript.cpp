@@ -83,7 +83,7 @@ void PlayerJumpScript::Jump(float deltatime)
 	}
 }
 
-bool PlayerJumpScript::GetCanJump()
+bool PlayerJumpScript::GetCanJump() const
 {
 	return canJump;
 }
