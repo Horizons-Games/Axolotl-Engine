@@ -51,6 +51,8 @@ private:
 	void AddComponentMeshCollider();
 	void AddComponentScript();
 	void AddComponentBreakable();
+	void AddComponentAgent();
+	void AddComponentObstacle();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;

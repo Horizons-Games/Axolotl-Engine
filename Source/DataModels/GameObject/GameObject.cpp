@@ -17,6 +17,8 @@
 #include "../Components/ComponentScript.h"
 #include "../Components/ComponentSpotLight.h"
 #include "../Components/ComponentTransform.h"
+#include "../Components/ComponentAgent.h"
+#include "../Components/ComponentObstacle.h"
 #include "../Components/UI/ComponentButton.h"
 #include "../Components/UI/ComponentCanvas.h"
 #include "../Components/UI/ComponentImage.h"
@@ -364,6 +366,18 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(static_cast<ComponentAgent&>(*component));
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(static_cast<ComponentObstacle&>(*component));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -567,6 +581,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
+			break;
+		}
+
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(true, this);
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(true, this);
 			break;
 		}
 

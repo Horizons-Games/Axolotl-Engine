@@ -10,7 +10,8 @@ enum class ComponentFunctionality
 	GRAPHICS,
 	PHYSICS,
 	GAMEPLAY,
-	AUDIO
+	AUDIO,
+	NAVIGATION
 };
 
 struct AddComponentAction
