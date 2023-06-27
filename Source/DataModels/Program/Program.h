@@ -1,8 +1,6 @@
 #pragma once
 
 #include "GL/glew.h"
-#include "Math/float3.h"
-#include "Math/float4.h"
 
 class Program
 {

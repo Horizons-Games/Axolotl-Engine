@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
@@ -8,9 +10,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
-#include "ModuleRender.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "Program/Program.h"
 
@@ -18,9 +19,14 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
+#include "Batch/BatchManager.h"
+#include "Batch/GeometryBatch.h"
+
 #include "GameObject/GameObject.h"
 
-#include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
+#include "Enums/TextureType.h"
 
 #include <GL/glew.h>
 
@@ -88,9 +94,8 @@ void ComponentMeshRenderer::UpdatePalette()
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = 
-						boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
-						bindBones[i].transform;
+					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
+									 bindBones[i].transform;
 				}
 				else
 				{
@@ -117,7 +122,7 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
-	ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	if (transform == nullptr)
 	{
 		return;
@@ -347,12 +352,8 @@ void ComponentMeshRenderer::DrawHighlight() const
 	}
 }
 
-void ComponentMeshRenderer::SaveOptions(Json& meta)
+void ComponentMeshRenderer::InternalSave(Json& meta)
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	UID uid = 0;
 	std::string assetPath = "";
 
@@ -375,12 +376,8 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
-void ComponentMeshRenderer::LoadOptions(Json& meta)
+void ComponentMeshRenderer::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 #ifdef ENGINE
 	std::string path = meta["assetPathMaterial"];
 	bool materialExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
@@ -395,7 +392,7 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 			SetMaterial(resourceMaterial);
 		}
 	}
-	 path = meta["assetPathMesh"];
+	path = meta["assetPathMesh"];
 	bool meshExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (meshExists)
@@ -418,9 +415,9 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	{
 		SetMaterial(resourceMaterial);
 	}
-	
+
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = 
+	std::shared_ptr<ResourceMesh> resourceMesh =
 		App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
@@ -440,8 +437,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		transform->Encapsule
-		(mesh->GetVertices().data(), mesh->GetNumVertices());
+		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
 
 		InitBones();
@@ -497,6 +493,7 @@ void ComponentMeshRenderer::UnloadTextures()
 		}
 	}
 }
+
 void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 {
 	if (material)
@@ -504,41 +501,41 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 		std::shared_ptr<ResourceTexture> texture;
 		switch (textureType)
 		{
-		case TextureType::DIFFUSE:
-			texture = material->GetDiffuse();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::NORMAL:
-			texture = material->GetNormal();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::OCCLUSION:
-			texture = material->GetOcclusion();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::SPECULAR:
-			texture = material->GetSpecular();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
-		case TextureType::METALLIC:
-			texture = material->GetMetallic();
-			if (texture)
-			{
-				texture->Unload();
-			}
-			break;
+			case TextureType::DIFFUSE:
+				texture = material->GetDiffuse();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+			case TextureType::NORMAL:
+				texture = material->GetNormal();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+			case TextureType::OCCLUSION:
+				texture = material->GetOcclusion();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+			case TextureType::SPECULAR:
+				texture = material->GetSpecular();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
+			case TextureType::METALLIC:
+				texture = material->GetMetallic();
+				if (texture)
+				{
+					texture->Unload();
+				}
+				break;
 		}
 	}
 }
@@ -616,7 +613,6 @@ const unsigned int& ComponentMeshRenderer::GetShaderType() const
 	return material->GetShaderType();
 }
 
-
 // Common attributes (getters)
 
 const float4& ComponentMeshRenderer::GetDiffuseColor() const
@@ -655,7 +651,8 @@ const bool ComponentMeshRenderer::IsTransparent() const
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
 {
-	return material->GetDiffuse();;
+	return material->GetDiffuse();
+	;
 }
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const

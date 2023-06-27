@@ -1,14 +1,11 @@
 #pragma once
 
-#include "../FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 #include "Geometry/AABB.h"
 
-#include "Resources/ResourceMesh.h"
-#include "Resources/ResourceModel.h"
-
+#include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-#include "Components/ComponentAreaLight.h"
 
 #include <queue>
 
@@ -21,6 +18,8 @@ class Quadtree;
 class Skybox;
 class Cubemap;
 class Updatable;
+
+struct Bone;
 
 enum class Premade3D
 {
@@ -48,25 +47,39 @@ public:
 	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
 	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
-	GameObject* CreateLightGameObject(const std::string& name, GameObject* parent, LightType type, 
-		AreaType areaType = AreaType::NONE);
+	GameObject* CreateLightGameObject(const std::string& name,
+									  GameObject* parent,
+									  LightType type,
+									  AreaType areaType = AreaType::NONE);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(const GameObject* gameObject);
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
 
-
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
 	void RenderSpotLights() const;
 	void RenderAreaLights() const;
+	void RenderAreaSpheres() const;
+	void RenderAreaTubes() const;
+	void RenderPointLight(const ComponentPointLight* compPoint) const;
+	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
+	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
+	void RenderAreaTube(const ComponentAreaLight* compTube) const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
+	void UpdateSceneAreaSpheres();
+	void UpdateSceneAreaTubes();
+	void UpdateScenePointLight(const ComponentPointLight* compPoint);
+	void UpdateSceneSpotLight(const ComponentSpotLight* compSpot);
+	void UpdateSceneAreaSphere(const ComponentAreaLight* compSphere);
+	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
 
 	GameObject* GetRoot() const;
+	GameObject* GetPlayer() const;
 	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
@@ -106,13 +119,10 @@ public:
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 
 	void InitNewEmptyScene();
-
 	void InitLights();
-
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
-
 	void InitCubemap();
 
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 	void ExecutePendingActions();
 
 private:
@@ -143,12 +153,17 @@ private:
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
 
+	std::vector<std::pair<const ComponentPointLight*, unsigned int>> cachedPoints;
+	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> cachedSpots;
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedSpheres;
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedTubes;
+
 	unsigned uboDirectional;
 	unsigned ssboPoint;
 	unsigned ssboSpot;
 	unsigned ssboSphere;
 	unsigned ssboTube;
-	
+
 	AABB rootQuadtreeAABB;
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <assert.h>
-#include <string>
-
 #include "Enums/ComponentType.h"
 
 const static std::string GetNameByType(ComponentType type);
@@ -14,17 +11,17 @@ class Json;
 class Component
 {
 public:
-	Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved);
+	Component(ComponentType type, bool enabled, GameObject* owner, bool canBeRemoved);
 	Component(const Component& component);
 	virtual ~Component();
 
-	virtual void SaveOptions(Json& meta) = 0; // Abstract because each component saves its own values
-	virtual void LoadOptions(Json& meta) = 0; // Abstract because each component loads its own values
+	void Save(Json& meta);
+	void Load(const Json& meta);
 
 	virtual void OnTransformChanged();
 
-	virtual void Enable();
-	virtual void Disable();
+	void Enable();
+	void Disable();
 
 	bool IsEnabled() const;
 	ComponentType GetType() const;
@@ -34,56 +31,27 @@ public:
 
 	virtual void SetOwner(GameObject* owner);
 
-protected:
+private:
+	// Use this to send the necessary signals when the component is enabled
+	virtual void SignalEnable(){};
+	// Use this to send the necessary signals when the component is disabled
+	virtual void SignalDisable(){};
+
+	virtual void InternalSave(Json& meta) = 0;
+	virtual void InternalLoad(const Json& meta) = 0;
+
+private:
 	ComponentType type;
-	bool active;
 	GameObject* owner;
+	bool enabled;
 	bool canBeRemoved;
+
+private:
+	friend GameObject;
 };
-
-inline Component::Component(const ComponentType type, const bool active, GameObject* owner, const bool canBeRemoved) :
-	type(type),
-	active(active),
-	owner(owner),
-	canBeRemoved(canBeRemoved)
-{
-}
-
-inline Component::Component(const Component& component) :
-	type(component.type),
-	active(component.active),
-	owner(nullptr),
-	canBeRemoved(component.canBeRemoved)
-{
-}
-
-inline Component::~Component()
-{
-}
-
-inline void Component::Enable()
-{
-	if (type != ComponentType::TRANSFORM)
-	{
-		active = true;
-	}
-}
-
-inline void Component::Disable()
-{
-	if (type != ComponentType::TRANSFORM)
-	{
-		active = false;
-	}
-}
 
 inline void Component::OnTransformChanged()
 {
-}
-
-inline bool Component::IsEnabled() const
-{
-	return active;
 }
 
 inline ComponentType Component::GetType() const
@@ -118,6 +86,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Light";
 		case ComponentType::CAMERA:
 			return "Component_Camera";
+		case ComponentType::CAMERASAMPLE:
+			return "Component_CameraSample";
 		case ComponentType::PLAYER:
 			return "Component_Player";
 		case ComponentType::ANIMATION:
@@ -126,6 +96,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Canvas";
 		case ComponentType::TRANSFORM2D:
 			return "Component_Transform2D";
+		case ComponentType::SLIDER:
+			return "Component_Slider";
 		case ComponentType::IMAGE:
 			return "Component_Image";
 		case ComponentType::BUTTON:
@@ -134,8 +106,6 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_RigidBody";
 		case ComponentType::BREAKABLE:
 			return "Component_Breakable";
-		case ComponentType::MOCKSTATE:
-			return "Component_MockState";
 		case ComponentType::AUDIOSOURCE:
 			return "Component_AudioSource";
 		case ComponentType::AUDIOLISTENER:
@@ -176,6 +146,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::CAMERA;
 	}
 
+	if (typeName == "Component_CameraSample")
+	{
+		return ComponentType::CAMERASAMPLE;
+	}
+
 	if (typeName == "Component_Player")
 	{
 		return ComponentType::PLAYER;
@@ -189,6 +164,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Transform2D")
 	{
 		return ComponentType::TRANSFORM2D;
+	}
+
+	if (typeName == "Component_Slider")
+	{
+		return ComponentType::SLIDER;
 	}
 
 	if (typeName == "Component_Image")
@@ -208,11 +188,6 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Breakable")
 	{
 		return ComponentType::BREAKABLE;
-	}
-
-	if (typeName == "Component_MockState")
-	{
-		return ComponentType::MOCKSTATE;
 	}
 
 	if (typeName == "Component_AudioSource")

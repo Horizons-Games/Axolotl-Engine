@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentAreaLight.h"
 
 #include "ComponentTransform.h"
@@ -8,6 +10,13 @@
 
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
+
+#ifndef ENGINE
+	#include "Modules/ModuleDebugDraw.h"
+	#include "Modules/ModuleEditor.h"
+
+	#include "Windows/WindowDebug.h"
+#endif // ENGINE
 
 #include "debugdraw.h"
 
@@ -59,61 +68,126 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 ComponentAreaLight::~ComponentAreaLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	
 	if (currentScene)
 	{
-		currentScene->UpdateSceneAreaLights();
-		currentScene->RenderAreaLights();
+		if (areaType == AreaType::SPHERE)
+		{
+			currentScene->UpdateSceneAreaSpheres();
+			currentScene->RenderAreaSpheres();
+		}
+		else
+		{
+			currentScene->UpdateSceneAreaTubes();
+			currentScene->RenderAreaTubes();
+		}
+	}
+}
+
+void ComponentAreaLight::SignalEnable()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	if (areaType == AreaType::SPHERE)
+	{
+		currentScene->UpdateSceneAreaSpheres();
+		currentScene->RenderAreaSpheres();
+	}
+	else
+	{
+		currentScene->UpdateSceneAreaTubes();
+		currentScene->RenderAreaTubes();
+	}
+}
+
+void ComponentAreaLight::SignalDisable()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	if (areaType == AreaType::SPHERE)
+	{
+		currentScene->UpdateSceneAreaSpheres();
+		currentScene->RenderAreaSpheres();
+	}
+	else
+	{
+		currentScene->UpdateSceneAreaTubes();
+		currentScene->RenderAreaTubes();
 	}
 }
 
 void ComponentAreaLight::Draw() const
 {
-#ifndef ENGINE
-
+	bool canDrawLight =
+#ifdef ENGINE
+		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
-	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
-		float3 position = transform->GetGlobalPosition();
-		if (areaType == AreaType::SPHERE)
-		{
-			dd::sphere(position, dd::colors::White, shapeRadius);
-			dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
-		}
-		else if (areaType == AreaType::TUBE)
-		{
-			Quat matrixRotation = transform->GetGlobalRotation();
-			float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
-			float3 translation = transform->GetGlobalPosition();
-			float3 pointA = float3(0, 0.5f, 0) * height;
-			float3 pointB = float3(0, -0.5f, 0) * height;
-
-			// Apply rotation & translation
-			pointA = (matrixRotation * pointA) + translation;
-			pointB = (matrixRotation * pointB) + translation;
-
-			dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
-			dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
-			dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
-			dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
-		}
-		else if (areaType == AreaType::QUAD)
-		{
-		}
-		else if (areaType == AreaType::DISK)
-		{
-		}
-	}
+		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawAreaLight();
 #endif // ENGINE
+
+	if (!canDrawLight)
+	{
+		return;
+	}
+
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	float3 position = transform->GetGlobalPosition();
+
+	switch (areaType)
+	{
+	case AreaType::SPHERE:
+	{
+		dd::sphere(position, dd::colors::White, shapeRadius);
+		// attenuation shape
+		dd::sphere(position, dd::colors::Coral, attRadius + shapeRadius);
+		break;
+	}
+	case AreaType::TUBE:
+	{
+		Quat matrixRotation = transform->GetGlobalRotation();
+		float3 forward = (matrixRotation * float3(0, 1.f, 0)).Normalized();
+		float3 translation = position;
+		float3 pointA = float3(0, 0.5f, 0) * height;
+		float3 pointB = float3(0, -0.5f, 0) * height;
+
+		// Apply rotation & translation
+		pointA = (matrixRotation * pointA) + translation;
+		pointB = (matrixRotation * pointB) + translation;
+
+		dd::cone(pointB, forward * height, dd::colors::White, shapeRadius, shapeRadius);
+
+		// attenuation shape
+		dd::cone(pointB, forward * height, dd::colors::Coral, attRadius + shapeRadius, attRadius + shapeRadius);
+		dd::sphere(pointA, dd::colors::Coral, attRadius + shapeRadius);
+		dd::sphere(pointB, dd::colors::Coral, attRadius + shapeRadius);
+
+		break;
+	}
+	case AreaType::QUAD:
+		break;
+	case AreaType::DISK:
+		break;
+	}
 }
 
-void ComponentAreaLight::SaveOptions(Json& meta)
+void ComponentAreaLight::OnTransformChanged()
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
+	if (areaType == AreaType::SPHERE)
+	{
+		currentScene->UpdateSceneAreaSphere(this);
+		currentScene->RenderAreaSphere(this);
+	}
+	else
+	{
+		currentScene->UpdateSceneAreaTube(this);
+		currentScene->RenderAreaTube(this);
+	}
+}
+
+void ComponentAreaLight::InternalSave(Json& meta)
+{
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -128,12 +202,8 @@ void ComponentAreaLight::SaveOptions(Json& meta)
 	meta["attRadius"] = (float) attRadius;
 }
 
-void ComponentAreaLight::LoadOptions(Json& meta)
+void ComponentAreaLight::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];

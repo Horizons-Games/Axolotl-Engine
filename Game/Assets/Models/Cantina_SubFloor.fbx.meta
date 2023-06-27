@@ -1,0 +1,11 @@
+{
+    "UID": 12760495760806878160,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Cantina_SubFloor.DanceSubFloor_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Cantina_SubFloorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

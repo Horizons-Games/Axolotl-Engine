@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "CameraGod.h"
 
 #include "Application.h"

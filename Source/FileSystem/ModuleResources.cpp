@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleResources.h"
 
 #include "Application.h"
@@ -12,6 +14,7 @@
 #include "FileSystem/Importers/StateMachineImporter.h"
 #include "FileSystem/Importers/ParticleSystemImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/UIDGenerator.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceAnimation.h"
@@ -72,7 +75,7 @@ bool ModuleResources::CleanUp()
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
 {
-	std::shared_ptr<Resource> importedRes;
+	// std::shared_ptr<Resource> importedRes;
 	std::string assetsPath = CreateAssetsPath(fileName, type);
 	switch (type)
 	{
@@ -625,8 +628,9 @@ void ModuleResources::MonitorResources()
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
 				App->GetModule<ModuleFileSystem>()->Save(
-					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+					(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 				delete saveBuffer;
+				break;
 			}
 			else if (resource->GetType() == ResourceType::ParticleSystem)
 				break;

@@ -23,15 +23,18 @@ public:
 
 	void Draw() const override;
 
-	void Enable() override;
-	void Disable() override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	float GetRadius() const;
 
 	void SetRadius(float radius);
+
+	void OnTransformChanged() override;
+
+private:
+	void SignalEnable() override;
+	void SignalDisable() override;
+
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	float radius;
