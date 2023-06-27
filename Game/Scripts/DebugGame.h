@@ -20,7 +20,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 	void ActivateDebugMode();
-	void GodCamera();
+	void GodCamera() const;
 	void FillHealth();
 	void BeImmortal();
 	void DeathTouch();

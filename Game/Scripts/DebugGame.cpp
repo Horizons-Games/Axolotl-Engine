@@ -158,7 +158,7 @@ void DebugGame::ActivateDebugMode()
 	}
 }
 
-void DebugGame::GodCamera() {
+void DebugGame::GodCamera() const {
 
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
@@ -204,13 +204,13 @@ void DebugGame::GodCamera() {
 
 }
 
-void DebugGame::FillHealth()
+void DebugGame::FillHealth() const
 {
 	playerHealthSystem->HealLife(playerHealthSystem->GetMaxHealth());
 	LOG_DEBUG("Full Health");
 }
 
-void DebugGame::BeImmortal()
+void DebugGame::BeImmortal() const
 {
 	if (!playerHealthSystem->GetIsImmortal()) 
 	{
@@ -224,7 +224,7 @@ void DebugGame::BeImmortal()
 	}
 }
 
-void DebugGame::DeathTouch()
+void DebugGame::DeathTouch() const
 {
 
 	if (!playerAttackScript->GetIsDeathTouched())
