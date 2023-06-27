@@ -64,5 +64,6 @@ private:
 	Frustum cameraFrustum;
 	ModuleInput* input;
 
-	int dirtyMovements;
+	int previousMovements;
+	int currentMovements;
 };

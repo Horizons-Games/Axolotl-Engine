@@ -43,6 +43,9 @@ void PlayerMoveScript::Start()
 	input = App->GetModule<ModuleInput>();
 
 	cameraFrustum = *camera->GetFrustum();
+
+	previousMovements = 0;
+	currentMovements = 0;
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
@@ -63,6 +66,9 @@ void PlayerMoveScript::Move(float deltaTime)
 	
 	float newSpeed = playerManager->GetPlayerSpeed();
 	bool shiftPressed = false;
+
+	previousMovements = currentMovements;
+	currentMovements = 0;
 
 	//run
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
@@ -88,7 +94,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		totalDirection += cameraFrustum.Front().Normalized();
-		dirtyMovements |= MovementFlag::W_DOWN;
+		currentMovements |= MovementFlag::W_DOWN;
 	}
 
 	// Back
@@ -101,7 +107,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 		totalDirection += -cameraFrustum.Front().Normalized();
-		dirtyMovements |= MovementFlag::S_DOWN;
+		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
@@ -115,7 +121,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		totalDirection += cameraFrustum.WorldRight().Normalized();
-		dirtyMovements |= MovementFlag::D_DOWN;
+		currentMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
@@ -129,10 +135,13 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		totalDirection += -cameraFrustum.WorldRight().Normalized();
-		dirtyMovements |= MovementFlag::A_DOWN;
+		currentMovements |= MovementFlag::A_DOWN;
 	}
 
-
+	if (previousMovements ^ currentMovements)
+	{
+		cameraFrustum = *camera->GetFrustum();
+	}
 
 	if (!totalDirection.IsZero())
 	{
@@ -160,8 +169,6 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
-
-		cameraFrustum = *camera->GetFrustum();
 	}
 		
 	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
