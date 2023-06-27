@@ -75,12 +75,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 				distancePointGameObjectAttached = minDistanceForce;
 			}
 
-			if (rotationScript)
+			if (rotationHorizontalScript)
 			{
-				lastHorizontalSensitivity = rotationScript->GetHorizontalSensitivity();
-				rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
-				lastVerticalSensitivity = rotationScript->GetVerticalSensitivity();
-				rotationScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
+				lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
+				rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
+				lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
+				rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
 			}
 
 			if (playerManagerScript)
@@ -106,7 +106,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 
-		if (rotationScript)
+		if (rotationHorizontalScript)
 		{
 			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
 		}
@@ -119,8 +119,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 		if (playerManagerScript)
 		{
 			playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed);
-			rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
-			rotationScript->SetVerticalSensitivity(lastVerticalSensitivity);
+			rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
+			rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}
 
 		if (isForceActive)

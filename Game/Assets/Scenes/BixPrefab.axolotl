@@ -116,7 +116,8 @@
                             "active": true,
                             "removed": true,
                             "static": false,
-                            "mouse": false
+                            "mouse": false,
+                            "actualPlayer": true
                         }
                     },
                     {
@@ -311,6 +312,46 @@
                                     "name": "LoseSceneName",
                                     "value": "00_LoseScene_VS3",
                                     "type": 1
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerForceUseScript",
+                            "fields": [
+                                {
+                                    "name": "MaxDistanceForce",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerRotationScript",
+                            "fields": [
+                                {
+                                    "name": "RotationSensitivityVertical",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "RotationSensitivityHorizontal",
+                                    "value": 5.0,
+                                    "type": 0
                                 }
                             ]
                         }
