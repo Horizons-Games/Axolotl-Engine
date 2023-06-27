@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_MetallicSmoothness.png"
+    "EmissiveAssetPath": ""
 }

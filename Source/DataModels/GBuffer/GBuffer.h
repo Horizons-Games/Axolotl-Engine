@@ -28,6 +28,7 @@ private :
 	GLuint gNormal;
 	GLuint gDiffuse;
 	GLuint gSpecular;
+	GLuint gEmissive;
 	GLuint gDepth;
 };
 

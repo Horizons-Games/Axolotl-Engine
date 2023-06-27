@@ -177,6 +177,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength()
@@ -199,6 +200,11 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.metallic_map = texture->GetHandle();
 			}
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
+			}
 			metallicMaterialData[i] = newMaterial;
 		}
 
@@ -211,6 +217,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength()
@@ -232,6 +239,11 @@ void GeometryBatch::FillMaterial()
 			if (texture)
 			{
 				newMaterial.specular_map = texture->GetHandle();
+			}
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
 			}
 			specularMaterialData[i] = newMaterial;
 		}

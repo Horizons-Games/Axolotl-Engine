@@ -443,7 +443,7 @@ std::shared_ptr<ResourceMaterial>
 {
 	aiString file;
 
-	std::vector<std::string> pathTextures(4);
+	std::vector<std::string> pathTextures(5);
 
 	if (material->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 	{
@@ -490,6 +490,18 @@ std::shared_ptr<ResourceMaterial>
 		if (specularPath != "")
 		{
 			pathTextures[3] = specularPath;
+		}
+	}
+
+	if (material->GetTexture(aiTextureType_EMISSIVE, 0, &file) == AI_SUCCESS)
+	{
+		std::string emissivePath = "";
+
+		CheckPathMaterial(filePath, file, emissivePath);
+
+		if (emissivePath != "")
+		{
+			pathTextures[4] = emissivePath;
 		}
 	}
 
