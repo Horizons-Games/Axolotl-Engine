@@ -1,6 +1,8 @@
 #include "PlayerMoveScript.h"
 
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -10,13 +12,14 @@
 
 #include "Auxiliar/Audio/AudioData.h"
 
+#include "../Scripts/PlayerManagerScript.h"
+
 REGISTERCLASS(PlayerMoveScript);
 
-PlayerMoveScript::PlayerMoveScript() : Script(), speed(6.0f), componentTransform(nullptr),
-componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true)
+PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
+	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
+	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr)
 {
-	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
 }
@@ -27,6 +30,8 @@ void PlayerMoveScript::Start()
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	isParalized = false;
+
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
@@ -36,6 +41,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
+	Camera* camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
@@ -44,28 +50,120 @@ void PlayerMoveScript::Move(float deltaTime)
 	btVector3 movement(0, 0, 0);
 	float3 totalDirection = float3::zero;
 	
-	float nspeed = speed;
+	float newSpeed = playerManager->GetPlayerSpeed();
 	bool shiftPressed = false;
 
-	if (!isParalized)
+	if (isParalized)
 	{
-		//run
-		if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+		return;
+	}
+
+	// Run
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
+	{
+		componentAnimation->SetParameter("IsRunning", true);
+		newSpeed *= 2;
+		shiftPressed = true;
+	}
+
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", false);
+	}
+
+	// Forward
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	{
+		if (playerState == PlayerActions::IDLE)
 		{
 			componentAnimation->SetParameter("IsRunning", true);
-			nspeed *= 2;
+			newSpeed *= 2;
 			shiftPressed = true;
 		}
 
-		else
+		totalDirection += camera->GetFrustum()->Front().Normalized();
+
+	}
+
+	// Back
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	{
+		if (playerState == PlayerActions::IDLE)
 		{
-			componentAnimation->SetParameter("IsRunning", false);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
+			playerState = PlayerActions::WALKING;
+		}
+		totalDirection += -camera->GetFrustum()->Front().Normalized();
+
+	}
+
+	// Right
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	{
+		if (playerState == PlayerActions::IDLE)
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
+			playerState = PlayerActions::WALKING;
 		}
 
-		// Forward
-		if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+		totalDirection += camera->GetFrustum()->WorldRight().Normalized();
+
+	}
+
+	// Left
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	{
+		if (playerState == PlayerActions::IDLE)
 		{
-			if (playerState == PlayerActions::IDLE)
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
+			playerState = PlayerActions::WALKING;
+		}
+
+		totalDirection += -camera->GetFrustum()->WorldRight().Normalized();
+	}
+
+	if (!totalDirection.IsZero())
+	{
+		totalDirection.y = 0;
+		totalDirection = totalDirection.Normalized();
+		
+		btTransform worldTransform = btRb->getWorldTransform();
+		Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), totalDirection, float3::unitY, float3::unitY);
+		rot = rot * componentTransform->GetGlobalRotation();
+		worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
+		btRb->setWorldTransform(worldTransform);
+		btRb->getMotionState()->setWorldTransform(worldTransform);
+
+		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
+	}
+
+	// Stop Moving
+	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
+	{
+		if (playerState == PlayerActions::WALKING)
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			componentAnimation->SetParameter("IsWalking", false);
+			playerState = PlayerActions::IDLE;
+		}
+	}
+		
+	// Dash
+	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
+	{
+		if (!isDashing)
+		{
+			componentAnimation->SetParameter("IsRolling", true);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+
+			if (!movement.isZero()) 
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 				componentAnimation->SetParameter("IsWalking", true);
@@ -161,6 +259,7 @@ void PlayerMoveScript::Move(float deltaTime)
 				nextDash = 3000 + static_cast<float>(SDL_GetTicks());
 			}
 		}
+		
 		else
 		{
 			componentAnimation->SetParameter("IsRolling", false);

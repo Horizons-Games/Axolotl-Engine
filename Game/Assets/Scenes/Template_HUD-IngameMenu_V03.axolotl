@@ -7,7 +7,6 @@
                 "uid": 16986399840152337944,
                 "parentUID": 0,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -44,7 +43,6 @@
                 "uid": 11768532019124242966,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -67,10 +65,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 579.5,
-                            "worldAABB_min_y": 365.5,
-                            "worldAABB_max_x": 579.5,
-                            "worldAABB_max_y": 365.5
+                            "worldAABB_min_x": 276.0,
+                            "worldAABB_min_y": 165.0,
+                            "worldAABB_max_x": 276.0,
+                            "worldAABB_max_y": 165.0
                         }
                     },
                     {
@@ -90,7 +88,6 @@
                 "uid": 6751946775892563900,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -131,7 +128,6 @@
                 "uid": 15981248757803877047,
                 "parentUID": 16986399840152337944,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -156,7 +152,8 @@
                             "active": true,
                             "removed": true,
                             "static": true,
-                            "mouse": true
+                            "mouse": true,
+                            "actualPlayer": true
                         }
                     }
                 ]
@@ -165,11 +162,10 @@
         {
             "GameObject": {
                 "name": "Basic Camera",
-                "tag": "",
+                "tag": "MainCamera",
                 "uid": 166302450348542042,
                 "parentUID": 15981248757803877047,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -223,7 +219,6 @@
                 "uid": 12387220515077554983,
                 "parentUID": 513652320529916109,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -246,10 +241,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     }
                 ]
@@ -262,7 +257,6 @@
                 "uid": 513652320529916109,
                 "parentUID": 11768532019124242966,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -285,10 +279,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     },
                     {
@@ -346,7 +340,6 @@
                 "uid": 14886606599652691690,
                 "parentUID": 11768532019124242966,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -369,10 +362,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     }
                 ]
@@ -385,7 +378,6 @@
                 "uid": 4605498543365059219,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -408,10 +400,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -11.5,
+                            "worldAABB_min_y": 9.75,
+                            "worldAABB_max_x": 563.5,
+                            "worldAABB_max_y": 320.25
                         }
                     },
                     {
@@ -424,7 +416,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -437,7 +431,6 @@
                 "uid": 14688717216352521428,
                 "parentUID": 8883378862259977135,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -460,10 +453,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 579.5,
-                            "worldAABB_min_y": 365.5,
-                            "worldAABB_max_x": 579.5,
-                            "worldAABB_max_y": 365.5
+                            "worldAABB_min_x": 276.0,
+                            "worldAABB_min_y": 165.0,
+                            "worldAABB_max_x": 276.0,
+                            "worldAABB_max_y": 165.0
                         }
                     },
                     {
@@ -476,7 +469,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -489,7 +484,6 @@
                 "uid": 13465077221523545772,
                 "parentUID": 8883378862259977135,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -512,10 +506,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 488.953125,
-                            "worldAABB_min_y": 623.8604736328125,
-                            "worldAABB_max_x": 670.046875,
-                            "worldAABB_max_y": 662.4937744140625
+                            "worldAABB_min_x": 232.875,
+                            "worldAABB_min_y": 288.04998779296875,
+                            "worldAABB_max_x": 319.125,
+                            "worldAABB_max_y": 306.45001220703125
                         }
                     },
                     {
@@ -528,7 +522,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -573,7 +569,6 @@
                 "uid": 8883378862259977135,
                 "parentUID": 513652320529916109,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -596,10 +591,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     }
                 ]
@@ -612,7 +607,6 @@
                 "uid": 2647224833030324505,
                 "parentUID": 513652320529916109,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -635,10 +629,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     }
                 ]
@@ -651,7 +645,6 @@
                 "uid": 123636988483932324,
                 "parentUID": 2647224833030324505,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -674,10 +667,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 579.5,
-                            "worldAABB_min_y": 365.5,
-                            "worldAABB_max_x": 579.5,
-                            "worldAABB_max_y": 365.5
+                            "worldAABB_min_x": 276.0,
+                            "worldAABB_min_y": 165.0,
+                            "worldAABB_max_x": 276.0,
+                            "worldAABB_max_y": 165.0
                         }
                     },
                     {
@@ -690,7 +683,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -703,7 +698,6 @@
                 "uid": 15142716652660801965,
                 "parentUID": 2647224833030324505,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -726,10 +720,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 488.953125,
-                            "worldAABB_min_y": 623.8604736328125,
-                            "worldAABB_max_x": 670.046875,
-                            "worldAABB_max_y": 662.4937744140625
+                            "worldAABB_min_x": 232.875,
+                            "worldAABB_min_y": 288.04998779296875,
+                            "worldAABB_max_x": 319.125,
+                            "worldAABB_max_y": 306.45001220703125
                         }
                     },
                     {
@@ -742,7 +736,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -771,7 +767,6 @@
                 "uid": 6201927956827422330,
                 "parentUID": 14886606599652691690,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -794,10 +789,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -9.4168701171875,
-                            "worldAABB_min_y": 46.15624237060547,
-                            "worldAABB_max_x": 257.39459228515625,
-                            "worldAABB_max_y": 119.19739532470703
+                            "worldAABB_min_x": -4.484992980957031,
+                            "worldAABB_min_y": 12.905323028564453,
+                            "worldAABB_max_x": 122.59000396728516,
+                            "worldAABB_max_y": 47.69282150268555
                         }
                     },
                     {
@@ -810,7 +805,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -823,7 +820,6 @@
                 "uid": 15174984080837510951,
                 "parentUID": 14886606599652691690,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -846,10 +842,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -9.303733825683594,
-                            "worldAABB_min_y": 117.88446807861328,
-                            "worldAABB_max_x": 173.91787719726563,
-                            "worldAABB_max_y": 168.89254760742188
+                            "worldAABB_min_x": -4.431095123291016,
+                            "worldAABB_min_y": 47.06749725341797,
+                            "worldAABB_max_x": 82.83233642578125,
+                            "worldAABB_max_y": 71.36124420166016
                         }
                     },
                     {
@@ -862,7 +858,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -875,7 +873,6 @@
                 "uid": 807207372060436822,
                 "parentUID": 14886606599652691690,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -898,10 +895,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 854.3399658203125,
-                            "worldAABB_min_y": 67.93276977539063,
-                            "worldAABB_max_x": 1182.7232666015625,
-                            "worldAABB_max_y": 160.89422607421875
+                            "worldAABB_min_x": 406.89874267578125,
+                            "worldAABB_min_y": 23.27687644958496,
+                            "worldAABB_max_x": 563.2987670898438,
+                            "worldAABB_max_y": 67.55187225341797
                         }
                     },
                     {
@@ -914,7 +911,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -927,7 +926,6 @@
                 "uid": 8283983699282130668,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -950,10 +948,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 113.24395751953125,
-                            "worldAABB_min_y": 472.0887756347656,
-                            "worldAABB_max_x": 934.2023315429688,
-                            "worldAABB_max_y": 683.3648071289063
+                            "worldAABB_min_x": 53.93499755859375,
+                            "worldAABB_min_y": 215.76531982421875,
+                            "worldAABB_max_x": 444.93499755859375,
+                            "worldAABB_max_y": 316.39031982421875
                         }
                     },
                     {
@@ -966,7 +964,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -1019,7 +1019,6 @@
                 "uid": 7665678808526599654,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -1042,10 +1041,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7560424804688,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.66748046875,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 438.53094482421875,
+                            "worldAABB_min_y": 238.08969116210938,
+                            "worldAABB_max_x": 510.40594482421875,
+                            "worldAABB_max_y": 309.9646911621094
                         }
                     },
                     {
@@ -1058,7 +1057,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -1111,7 +1112,6 @@
                 "uid": 17710475867707915243,
                 "parentUID": 12387220515077554983,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1134,10 +1134,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -11.5,
+                            "worldAABB_min_y": 9.75,
+                            "worldAABB_max_x": 563.5,
+                            "worldAABB_max_y": 320.25
                         }
                     },
                     {
@@ -1150,7 +1150,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 0.7843137383460999
+                            "color_w": 0.7843137383460999,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -1163,7 +1165,6 @@
                 "uid": 1171631755761056426,
                 "parentUID": 12387220515077554983,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1186,10 +1187,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -11.5,
+                            "worldAABB_min_y": 9.75,
+                            "worldAABB_max_x": 563.5,
+                            "worldAABB_max_y": 320.25
                         }
                     },
                     {
@@ -1202,7 +1203,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 0.7490196228027344
+                            "color_w": 0.7490196228027344,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -1215,7 +1218,6 @@
                 "uid": 3482351185434479368,
                 "parentUID": 12387220515077554983,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1238,10 +1240,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -24.1458740234375,
-                            "worldAABB_min_y": 39.53125,
-                            "worldAABB_max_x": 1183.1458740234375,
-                            "worldAABB_max_y": 691.46875
+                            "worldAABB_min_x": -11.5,
+                            "worldAABB_min_y": 9.75,
+                            "worldAABB_max_x": 563.5,
+                            "worldAABB_max_y": 320.25
                         }
                     },
                     {
@@ -1254,7 +1256,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -1267,7 +1271,6 @@
                 "uid": 13655197261670099969,
                 "parentUID": 12387220515077554983,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1290,10 +1293,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     }
                 ]
@@ -1306,7 +1309,6 @@
                 "uid": 6987034644540923482,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1329,10 +1331,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 326.26300048828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 356.4453125
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 146.3125,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 160.6875
                         }
                     },
                     {
@@ -1345,7 +1347,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -1430,7 +1434,6 @@
                 "uid": 12355808308610146460,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1453,10 +1456,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 274.0929260253906,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 304.2752380371094
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 121.46531677246094,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 135.84031677246094
                         }
                     },
                     {
@@ -1469,7 +1472,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -1554,7 +1559,6 @@
                 "uid": 8070171967447656135,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1577,10 +1581,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 376.06378173828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 406.24609375
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 170.03125,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 184.40625
                         }
                     },
                     {
@@ -1593,7 +1597,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -1678,7 +1684,6 @@
                 "uid": 15271769425309136725,
                 "parentUID": 9087097676567620906,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1701,10 +1706,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 425.562744140625,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 455.74505615234375
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 193.6062469482422,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 207.9812469482422
                         }
                     },
                     {
@@ -1717,7 +1722,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -1802,7 +1809,6 @@
                 "uid": 9390179494795624199,
                 "parentUID": 13655197261670099969,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1825,10 +1831,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     }
                 ]
@@ -1841,7 +1847,6 @@
                 "uid": 3957986034107420629,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1864,10 +1869,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 276.643310546875,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 306.82562255859375
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 122.67999267578125,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 137.05499267578125
                         }
                     },
                     {
@@ -1880,7 +1885,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -1893,7 +1900,6 @@
                 "uid": 9087097676567620906,
                 "parentUID": 13655197261670099969,
                 "enabled": true,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1916,10 +1922,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 519.1354370117188,
-                            "worldAABB_min_y": 305.1354064941406,
-                            "worldAABB_max_x": 639.8645629882813,
-                            "worldAABB_max_y": 425.8645935058594
+                            "worldAABB_min_x": 247.25,
+                            "worldAABB_min_y": 136.25,
+                            "worldAABB_max_x": 304.75,
+                            "worldAABB_max_y": 193.75
                         }
                     }
                 ]
@@ -1932,7 +1938,6 @@
                 "uid": 12618697974337634863,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -1955,10 +1960,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 326.26300048828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 356.4453125
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 146.3125,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 160.6875
                         }
                     },
                     {
@@ -1971,7 +1976,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -1984,7 +1991,6 @@
                 "uid": 11592286474923486985,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -2007,10 +2013,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 376.06378173828125,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 406.24609375
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 170.03125,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 184.40625
                         }
                     },
                     {
@@ -2023,7 +2029,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -2036,7 +2044,6 @@
                 "uid": 5187515975094820869,
                 "parentUID": 9390179494795624199,
                 "enabled": false,
-                "active": false,
                 "static": true,
                 "Components": [
                     {
@@ -2059,10 +2066,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 481.40753173828125,
-                            "worldAABB_min_y": 425.562744140625,
-                            "worldAABB_max_x": 677.5924682617188,
-                            "worldAABB_max_y": 455.74505615234375
+                            "worldAABB_min_x": 229.28125,
+                            "worldAABB_min_y": 193.6062469482422,
+                            "worldAABB_max_x": 322.71875,
+                            "worldAABB_max_y": 207.9812469482422
                         }
                     },
                     {
@@ -2075,7 +2082,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -2088,7 +2097,6 @@
                 "uid": 13852057165170518423,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -2111,10 +2119,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7862548828125,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.69775390625,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 438.5452880859375,
+                            "worldAABB_min_y": 238.08969116210938,
+                            "worldAABB_max_x": 510.4202880859375,
+                            "worldAABB_max_y": 309.9646911621094
                         }
                     },
                     {
@@ -2127,7 +2135,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -2140,7 +2150,6 @@
                 "uid": 3382941020527924418,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -2163,10 +2172,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7862548828125,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.69775390625,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 438.5452880859375,
+                            "worldAABB_min_y": 238.08969116210938,
+                            "worldAABB_max_x": 510.4202880859375,
+                            "worldAABB_max_y": 309.9646911621094
                         }
                     },
                     {
@@ -2179,7 +2188,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -2192,7 +2203,6 @@
                 "uid": 1939664189683118765,
                 "parentUID": 14886606599652691690,
                 "enabled": false,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -2215,10 +2225,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 920.7862548828125,
-                            "worldAABB_min_y": 518.9618530273438,
-                            "worldAABB_max_x": 1071.69775390625,
-                            "worldAABB_max_y": 669.8733520507813
+                            "worldAABB_min_x": 438.5452880859375,
+                            "worldAABB_min_y": 238.08969116210938,
+                            "worldAABB_max_x": 510.4202880859375,
+                            "worldAABB_max_y": 309.9646911621094
                         }
                     },
                     {
@@ -2231,7 +2241,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 0.0,
+                            "direction": 0
                         }
                     }
                 ]

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
 
@@ -15,8 +18,8 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
+	
 	float GetCurrentHealth() const;
-
 	bool EntityIsAlive() const;
 
 	float GetMaxHealth() const;
@@ -25,18 +28,10 @@ public:
 	bool GetIsImmortal();
 	void SetIsImmortal(bool isImmortal);
 	
-	void PlayerDeath();
-
 private:
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
-	bool dead;
 
 	ComponentAnimation* componentAnimation;
-
-	std::string loseSceneName;
 };
-
-
-

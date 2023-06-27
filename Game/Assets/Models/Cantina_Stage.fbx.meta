@@ -1,0 +1,11 @@
+{
+    "UID": 4779477836510743612,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Cantina_Stage.StageLow_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Cantina_StageDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,13 +1,17 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-#include "Components/ComponentTransform.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
+
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
+
+class PlayerManagerScript;
 
 class BixAttackScript : public Script
 {
@@ -30,7 +34,7 @@ private:
 	float attackCooldown;
 	float lastAttackTime;
 	float rayAttackSize;
-	float damageAttack;
+	
 	float deathTouchedDamage;
 	bool isDeathTouched;
 
@@ -52,4 +56,6 @@ private:
 	ComponentTransform* ray3Transform;
 	ComponentTransform* ray4Transform;
 	//--Provisional
+
+	PlayerManagerScript* playerManager;
 };
