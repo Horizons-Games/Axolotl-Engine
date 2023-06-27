@@ -18,6 +18,9 @@ public:
 	void Seeking() const;
 	void DisableMovement() const;
 	void DisableRotation() const;
+	void RotateToTarget() const;
+
+	GameObject* GetTarget() const;
 
 private:
 	GameObject* target;
@@ -27,3 +30,8 @@ private:
 	GameObject* ownerRigidBodyGO;
 	ComponentTransform* ownerTransform;
 };
+
+inline GameObject* SeekBehaviourScript::GetTarget() const
+{
+	return target;
+}
