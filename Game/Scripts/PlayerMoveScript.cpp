@@ -57,10 +57,11 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		//run
 		if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-		componentAnimation->SetParameter("IsRunning", true);
-		newSpeed *= 2;
-		shiftPressed = true;
-
+		{ 
+			componentAnimation->SetParameter("IsRunning", true);
+			newSpeed *= 2;
+			shiftPressed = true;
+		}
 		else
 		{
 			componentAnimation->SetParameter("IsRunning", false);
@@ -72,7 +73,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			if (playerState == PlayerActions::IDLE)
 			{
 			componentAnimation->SetParameter("IsRunning", true);
-			nspeed *= 2;
+			newSpeed *= 2;
 			shiftPressed = true;
 			}
 
@@ -210,7 +211,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			if (!totalDirection.IsZero())
 			{
 			totalDirection = totalDirection.Normalized();
-			movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * nspeed;
+			movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 			}
 
 			if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&

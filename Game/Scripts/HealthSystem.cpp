@@ -10,13 +10,11 @@
 
 REGISTERCLASS(HealthSystem);
 
-REGISTER_FIELD(loseSceneName, std::string);
-
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), isImmortal(false)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
-	REGISTER_FIELD_WITH_ACCESSORS(IsImmortal, bool);
+	REGISTER_FIELD(isImmortal, bool);
 }
 
 void HealthSystem::Start()
