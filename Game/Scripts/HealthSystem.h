@@ -25,7 +25,7 @@ public:
 	float GetMaxHealth() const;
 	void SetMaxHealth(float maxHealth);
 
-	bool GetIsImmortal();
+	bool GetIsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
 	
 private:

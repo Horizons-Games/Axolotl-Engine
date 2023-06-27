@@ -31,9 +31,6 @@ DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosInde
 	REGISTER_FIELD(debugPoint5, GameObject*);
 	REGISTER_FIELD(isDebugModeActive, bool);
 	REGISTER_FIELD(playerOnLocation, bool);
-	
-	
-
 }
 
 void DebugGame::Start()
@@ -43,15 +40,11 @@ void DebugGame::Start()
 	//ImmortalityStart
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 
-	
-
 	playerHealthSystem = player->GetComponent<HealthSystem>();
 	playerAttackScript = player->GetComponent<BixAttackScript>();
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
 	playerRotationScript = player->GetComponent<PlayerRotationScript>();
-
-	
 
 	//TeleportStart
 
@@ -83,10 +76,7 @@ void DebugGame::Start()
 	playerRigidBody = player->GetComponent<ComponentRigidBody>();
 	playerTransform = player->GetComponent<ComponentTransform>();
 
-	currentdDebugPointTransform = debugPoints.front();
-
-	debugCurrentPosIndex = 0;
-	
+	currentdDebugPointTransform = debugPoints.front();	
 }
 
 void DebugGame::Update(float deltaTime)
