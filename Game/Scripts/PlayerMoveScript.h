@@ -2,6 +2,7 @@
 
 #include "Script.h"
 #include "RuntimeInclude.h"
+#include "Geometry/Frustum.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -20,6 +21,14 @@ enum class PlayerActions
 {
     IDLE,
     WALKING
+};
+
+enum MovementFlag
+{
+	W_DOWN = 0x00000001,
+	A_DOWN = 0x00000002,
+	S_DOWN = 0x00000004,
+	D_DOWN = 0x00000008
 };
 
 class PlayerMoveScript :
@@ -56,5 +65,9 @@ private:
 	btRigidBody* btRb;
 
 	Camera* camera;
+	Frustum cameraFrustum;
 	ModuleInput* input;
+
+	int previousMovements;
+	int currentMovements;
 };

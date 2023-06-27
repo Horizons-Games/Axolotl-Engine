@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "Camera/Camera.h"
+#include "Geometry/Frustum.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -39,6 +40,11 @@ void PlayerMoveScript::Start()
 
 	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 	input = App->GetModule<ModuleInput>();
+
+	cameraFrustum = *camera->GetFrustum();
+
+	previousMovements = 0;
+	currentMovements = 0;
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
@@ -60,6 +66,10 @@ void PlayerMoveScript::Move(float deltaTime)
 	float newSpeed = playerManager->GetPlayerSpeed();
 	bool shiftPressed = false;
 
+	previousMovements = currentMovements;
+	currentMovements = 0;
+
+	//run
 	if (isParalized)
 	{
 		return;
@@ -88,8 +98,8 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += camera->GetFrustum()->Front().Normalized();
-
+		totalDirection += cameraFrustum.Front().Normalized();
+		currentMovements |= MovementFlag::W_DOWN;
 	}
 
 	// Back
@@ -101,8 +111,8 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
-		totalDirection += -camera->GetFrustum()->Front().Normalized();
-
+		totalDirection += -cameraFrustum.Front().Normalized();
+		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
@@ -115,8 +125,8 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += camera->GetFrustum()->WorldRight().Normalized();
-
+		totalDirection += cameraFrustum.WorldRight().Normalized();
+		currentMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
@@ -129,7 +139,13 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += -camera->GetFrustum()->WorldRight().Normalized();
+		totalDirection += -cameraFrustum.WorldRight().Normalized();
+		currentMovements |= MovementFlag::A_DOWN;
+	}
+
+	if (previousMovements ^ currentMovements)
+	{
+		cameraFrustum = *camera->GetFrustum();
 	}
 
 	if (!totalDirection.IsZero())
