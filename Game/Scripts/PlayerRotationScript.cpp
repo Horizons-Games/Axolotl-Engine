@@ -7,14 +7,15 @@
 
 REGISTERCLASS(PlayerRotationScript);
 
-PlayerRotationScript::PlayerRotationScript() : Script(), rotationSensitivity(50.0f)
+PlayerRotationScript::PlayerRotationScript() : Script(), rotationSensitivity(50.0f), canRotate(true)
 {
 	REGISTER_FIELD(rotationSensitivity, float);
+	REGISTER_FIELD(canRotate, bool);
 }
 
 void PlayerRotationScript::Start()
 {
-	canRotate = true;
+	
 	rotationSensitivity /= 50.0f;
 }
 

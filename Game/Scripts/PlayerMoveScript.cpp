@@ -18,10 +18,11 @@ REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr)
+	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalized(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
+	REGISTER_FIELD(isParalized, bool)
 }
 
 void PlayerMoveScript::Start()
@@ -29,7 +30,7 @@ void PlayerMoveScript::Start()
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	isParalized = false;
+	
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 }
@@ -72,9 +73,9 @@ void PlayerMoveScript::Move(float deltaTime)
 		{
 			if (playerState == PlayerActions::IDLE)
 			{
-			componentAnimation->SetParameter("IsRunning", true);
-			newSpeed *= 2;
-			shiftPressed = true;
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsWalking", true);
+			playerState = PlayerActions::WALKING;
 			}
 
 			totalDirection += camera->GetFrustum()->Front().Normalized();

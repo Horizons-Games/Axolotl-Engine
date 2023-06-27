@@ -51,7 +51,7 @@ void HealthSystem::Update(float deltaTime)
 		componentAnimation->SetParameter("IsDead", true);
 	}
 
-	else 
+	else if(!isImmortal)
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
 	}
@@ -62,18 +62,24 @@ void HealthSystem::TakeDamage(float damage)
 	if (!isImmortal)
 	{
 		currentHealth -= damage;
-	if (owner->CompareTag("Player"))
-	{
+	
+		if (owner->CompareTag("Player"))
+	
+		{
 		float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 		float actualDamage = std::max(damage - playerDefense, 0.f);
 
 		currentHealth -= actualDamage;
-	}
 
-	else
-	{
+		}
+
+	
+		else
+	
+		{
 		currentHealth -= damage;
-	}
+	
+		}
 
 		componentAnimation->SetParameter("IsTakingDamage", true);
 	}

@@ -14,16 +14,16 @@
 REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoubleJump(false) , jumpReset(0), 
-	componentAnimation(nullptr), jumps(0), componentAudio(nullptr)
+	componentAnimation(nullptr), jumps(0), componentAudio(nullptr), canJump(true)
 {
 	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(canDoubleJump, bool);
+	REGISTER_FIELD(canJump, bool);
 }
 
 void PlayerJumpScript::Start()
 {
 	canDoubleJump ? jumps = 2 : jumps = 1;
-	canJump = true;
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 }

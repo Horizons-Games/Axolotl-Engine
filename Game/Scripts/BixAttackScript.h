@@ -35,7 +35,6 @@ private:
 	float lastAttackTime;
 	float rayAttackSize;
 	float damageAttack;
-	float deathTouchedDamage;
 	bool isDeathTouched;
 
 
