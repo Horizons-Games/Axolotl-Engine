@@ -79,12 +79,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 			}
 
 
-			/*if (moveScript)
-			{
-				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
-				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
-			}*/
-
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
@@ -107,11 +101,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rotationScript->GetField<float>("RotationSensitivityHorizontal")->setter(lastHorizontalSensitivity);
 			rotationScript->GetField<float>("RotationSensitivityVertical")->setter(lastVerticalSensitivity);
 		}
-
-		/*if (moveScript)
-		{
-			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed);
-		}*/
 
 		if (isForceActive)
 		{
@@ -160,25 +149,25 @@ void PlayerForceUseScript::Update(float deltaTime)
 			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
 				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
 
-		// Set position and rotation
-		//hittedRigidBody->SetPositionTarget(nextPosition);
-		//hittedRigidBody->SetRotationTarget(targetRotation);
-
+		
 		btRigidBody* rigidBody = hittedRigidBody->GetRigidBody();
 
+		// Set position
 		float3 x = hittedTransform->GetGlobalPosition();
 		float3 positionError = nextPosition - x;
-		float3 velocityPosition = positionError * 5.0f;
+		float3 velocityPosition = positionError * hittedRigidBody->GetKpForce();
 
 		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
 		rigidBody->setLinearVelocity(velocity);
 
+
+		// Set rotation
 		float3 axis;
 		float angle;
 		targetRotation.ToAxisAngle(axis, angle);
 		axis.Normalize();
 
-		float3 angularVelocity = axis * angle * 2.0f;
+		float3 angularVelocity = axis * angle * hittedRigidBody->GetKpTorque();
 		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
 		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
 		rigidBody->setAngularVelocity(bulletAngularVelocity);
