@@ -64,7 +64,7 @@ void ComponentPointLight::Draw() const
 #ifdef ENGINE
 		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
-		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight();
 #endif // ENGINE
 
 	if (!canDrawLight)
