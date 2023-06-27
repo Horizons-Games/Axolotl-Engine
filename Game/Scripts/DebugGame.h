@@ -21,10 +21,10 @@ public:
 	void Update(float deltaTime) override;
 	void ActivateDebugMode();
 	void GodCamera() const;
-	void FillHealth();
-	void BeImmortal();
-	void DeathTouch();
-	void Teleport();
+	void FillHealth() const;
+	void BeImmortal() const;
+	void DeathTouch() const;
+	void Teleport() const;
 
 	
 	
