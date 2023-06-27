@@ -18,7 +18,7 @@ public:
 	Camera* GetCameraPlayer();
 	GameObject* GetCameraPlayerObject();
 
-	void LoadNewPlayer();
+	bool LoadNewPlayer();
 	void UnloadNewPlayer();
 
 	bool IsStatic();
