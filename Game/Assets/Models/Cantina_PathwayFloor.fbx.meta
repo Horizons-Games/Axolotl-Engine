@@ -1,0 +1,29 @@
+{
+    "UID": 5972808295505434726,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Cantina_PathwayFloor.Cube.005_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Plane_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Cube.006_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Cube.009_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Cube.017_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Plane.003_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Plane.004_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Plane.005_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Plane.006_0.mesh",
+        "Assets/Meshes/Cantina_PathwayFloor.Cube.053_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat",
+        "Assets/Materials/Cantina_PathwayFloorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

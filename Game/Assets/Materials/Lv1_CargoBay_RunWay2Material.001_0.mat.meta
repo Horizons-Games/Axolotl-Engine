@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/Grid.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "MetallicAssetPath": ""
 }
