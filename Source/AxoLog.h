@@ -50,7 +50,7 @@ private:
 	bool Format(std::string& format, bool arg) const;
 	bool Format(std::string& format, const GameObject* arg) const;
 	bool Format(std::string& format, unsigned long long arg) const;
-	bool Format(std::string& format, const Resource* arg) const;
+	bool Format(std::string& format, const std::weak_ptr<Resource>& arg) const;
 	// for glew logging
 	bool Format(std::string& format, const unsigned char* arg) const;
 
