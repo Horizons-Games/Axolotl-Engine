@@ -39,8 +39,7 @@ private:
 
 	
 	
-	GameObject* setPlayer;
-	ComponentPlayer* player;
+	GameObject* player;
 	HealthSystem* playerHealthSystem;
 	BixAttackScript* playerAttackScript;
 	PlayerMoveScript* playerMoveScript;

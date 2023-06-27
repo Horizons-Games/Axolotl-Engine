@@ -14,6 +14,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "debugdraw.h"
 #include "Application.h"
+#include "ModulePlayer.h"
 
 #include "GameManager.h"
 
@@ -22,7 +23,7 @@ REGISTERCLASS(DebugGame);
 
 DebugGame::DebugGame() : Script(), isDebugModeActive(false)
 {
-	REGISTER_FIELD(setPlayer, GameObject*);
+	
 	REGISTER_FIELD(debugPoint1, GameObject*);
 	REGISTER_FIELD(debugPoint2, GameObject*);
 	REGISTER_FIELD(debugPoint3, GameObject*);
@@ -36,15 +37,15 @@ DebugGame::DebugGame() : Script(), isDebugModeActive(false)
 void DebugGame::Start()
 {
 	//ImmortalityStart
-	player = setPlayer->GetComponent<ComponentPlayer>();
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 
 	
 
-	playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
-	playerAttackScript = setPlayer->GetComponent<BixAttackScript>();
-	playerMoveScript = setPlayer->GetComponent<PlayerMoveScript>();
-	playerJumpScript = setPlayer->GetComponent<PlayerJumpScript>();
-	playerRotationScript = setPlayer->GetComponent<PlayerRotationScript>();
+	playerHealthSystem = player->GetComponent<HealthSystem>();
+	playerAttackScript = player->GetComponent<BixAttackScript>();
+	playerMoveScript = player->GetComponent<PlayerMoveScript>();
+	playerJumpScript = player->GetComponent<PlayerJumpScript>();
+	playerRotationScript = player->GetComponent<PlayerRotationScript>();
 
 	
 
@@ -75,8 +76,8 @@ void DebugGame::Start()
 		debugPoints.push_back(debugPoint5->GetComponent<ComponentTransform>());
 	}
 
-	playerRigidBody = setPlayer->GetComponent<ComponentRigidBody>();
-	playerTransform = setPlayer->GetComponent<ComponentTransform>();
+	playerRigidBody = player->GetComponent<ComponentRigidBody>();
+	playerTransform = player->GetComponent<ComponentTransform>();
 
 	currentdDebugPointTransform = debugPoints.front();
 
