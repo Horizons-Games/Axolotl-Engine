@@ -145,55 +145,63 @@ void ComponentScript::SaveOptions(Json& meta)
 
 			case FieldType::VECTOR:
 			{
+				Json vectorElements = fields[index];
+					
 				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
+				vectorElements["name"] = vectorField.name.c_str();
+				vectorElements["type"] = static_cast<int>(enumAndValue.first);
+				Json vectorElementsWithName = vectorElements["vectorElements"];
+			
 				std::vector<std::any> vectorValue = vectorField.getter();
-
+				
 				for (int i = 0; i < vectorValue.size(); ++i) {
-					ENGINE_LOG("%d", i);
+				
 					switch (vectorField.innerType)
 					{
-					case FieldType::FLOAT:
-						field[i]["name"] = vectorField.name.c_str();
-						field[i]["value"] = std::any_cast<float>(vectorValue[i]);
-						field[i]["type"] = static_cast<int>(enumAndValue.first);
-						break;
+						case FieldType::FLOAT:
+							vectorElementsWithName[i]["name"] = std::string(vectorField.name + std::to_string(i)).c_str();
+							vectorElementsWithName[i]["value"] = std::any_cast<float>(vectorValue[i]);
+							vectorElementsWithName[i]["innerType"] = 0;
+							break;
 
-					case FieldType::STRING:
-						field[i]["name"] = vectorField.name.c_str();
-						field[i]["value"] = std::any_cast<std::string>(vectorValue[i]).c_str();
-						field[i]["type"] = static_cast<int>(enumAndValue.first);
-						break;
+						case FieldType::STRING:
+							vectorElementsWithName[i]["name"] = vectorField.name.c_str();
+							vectorElementsWithName[i]["value"] = std::any_cast<std::string>(vectorValue[i]).c_str();
+							vectorElementsWithName[i]["innerType"] = 1;
+							break;
 
-					case FieldType::BOOLEAN:
-						field[i]["name"] = vectorField.name.c_str();
-						field[i]["value"] = std::any_cast<bool>(vectorValue[i]);
-						field[i]["type"] = static_cast<int>(enumAndValue.first);
-						break;
+						case FieldType::BOOLEAN:
+							vectorElementsWithName[i]["name"] = vectorField.name.c_str();
+							vectorElementsWithName[i]["value"] = std::any_cast<bool>(vectorValue[i]);
+							vectorElementsWithName[i]["innerType"] = 5;
+							break;
 
-					case FieldType::GAMEOBJECT:
-						field[i]["name"] = vectorField.name.c_str();
+						case FieldType::GAMEOBJECT:
+							vectorElementsWithName[i]["name"] = vectorField.name.c_str();
 
-						if (std::any_cast<GameObject*>(vectorValue[i]) != nullptr)
-						{
-							field[i]["value"] = std::any_cast<GameObject*>(vectorValue[i])->GetUID();
-						}
-						else
-						{
-							field[i]["value"] = 0;
-						}
+							if (std::any_cast<GameObject*>(vectorValue[i]) != nullptr)
+							{
+								vectorElementsWithName[i]["value"] = std::any_cast<GameObject*>(vectorValue[i])->GetUID();
+							}
+							else
+							{
+								vectorElementsWithName[i]["value"] = 0;
+							}
 
-						field[i]["type"] = static_cast<int>(enumAndValue.first);						
-						break;
+							vectorElementsWithName[i]["type"] = static_cast<int>(enumAndValue.first);
+							vectorElementsWithName[i]["innerType"] = 2;
+							break;
 
-					case FieldType::FLOAT3:
-						field[i]["name"] = vectorField.name.c_str();
-						field[i]["value x"] = std::any_cast<float3>(vectorValue[i])[0];
-						field[i]["value y"] = std::any_cast<float3>(vectorValue[i])[1];
-						field[i]["value z"] = std::any_cast<float3>(vectorValue[i])[2];
-						field[i]["type"] = static_cast<int>(enumAndValue.first);
-						break;
+						case FieldType::FLOAT3:
+							vectorElementsWithName[i]["name"] = vectorField.name.c_str();
+							vectorElementsWithName[i]["value x"] = std::any_cast<float3>(vectorValue[i])[0];
+							vectorElementsWithName[i]["value y"] = std::any_cast<float3>(vectorValue[i])[1];
+							vectorElementsWithName[i]["value z"] = std::any_cast<float3>(vectorValue[i])[2];
+							vectorElementsWithName[i]["innerType"] = 3;
+							break;
 					}
 				}
+
 				break;
 			}
 
@@ -225,6 +233,8 @@ void ComponentScript::LoadOptions(Json& meta)
 	{
 		Json field = fields[i];
 		FieldType fieldType = static_cast<FieldType>(static_cast<int>(field["type"]));
+		ENGINE_LOG("%d", static_cast<int>(field["type"]));
+		ENGINE_LOG("%d", fieldType);
 		switch (fieldType)
 		{
 			case FieldType::FLOAT:
@@ -237,22 +247,22 @@ void ComponentScript::LoadOptions(Json& meta)
 				}
 				break;
 			}
-			case FieldType::FLOAT3:
-			{
-				std::string valueName = field["name"];
-				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
-				if (optField)
-				{
-					float3 vec3(field["value x"], field["value y"], field["value z"]);
-					optField.value().setter(vec3);
-				}
-				break;
-			}
 
 			case FieldType::STRING:
 			{
 				std::string valueName = field["name"];
 				std::optional<Field<std::string>> optField = script->GetField<std::string>(valueName);
+				if (optField)
+				{
+					optField.value().setter(field["value"]);
+				}
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -288,14 +298,63 @@ void ComponentScript::LoadOptions(Json& meta)
 				break;
 			}
 
-			case FieldType::BOOLEAN:
+			case FieldType::FLOAT3:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
+				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
 				if (optField)
 				{
-					optField.value().setter(field["value"]);
+					float3 vec3(field["value x"], field["value y"], field["value z"]);
+					optField.value().setter(vec3);
 				}
+				break;
+			}
+
+			case FieldType::VECTOR:
+			{
+				std::string valueName = field["name"];
+				//std::optional<Field<VectorField>> vectorField = script->GetField<VectorField>(valueName);
+				FieldType innerFieldType = static_cast<FieldType>(static_cast<int>(field["innerType"]));
+				/*if (vectorField)
+				{*/
+					switch (innerFieldType) {
+						case FieldType::FLOAT:
+							
+							ENGINE_LOG("float case");
+							
+							break;
+
+						case FieldType::STRING:
+
+							ENGINE_LOG("string case");
+
+							break;
+
+						case FieldType::BOOLEAN:
+							
+							ENGINE_LOG("bool case");
+
+							break;
+
+						case FieldType::GAMEOBJECT:
+							
+							ENGINE_LOG("GO case");
+
+							break;
+
+						case FieldType::FLOAT3:
+							
+							ENGINE_LOG("Float3 case");
+
+							break;
+					}
+				/*	for (int i = 0; i < vectorValue.size(); ++i) {
+						ENGINE_LOG("%d", i);
+						
+					}*/
+				//}
+
+				
 				break;
 			}
 
