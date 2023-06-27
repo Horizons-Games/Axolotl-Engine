@@ -27,6 +27,8 @@ public:
 
 	void SetRadius(float radius);
 
+	void OnTransformChanged() override;
+
 private:
 	void SignalEnable() override;
 	void SignalDisable() override;

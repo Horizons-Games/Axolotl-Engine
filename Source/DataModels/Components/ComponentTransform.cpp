@@ -143,7 +143,6 @@ void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 		}
 	}
 	
-
 	if (GetOwner()->GetChildren().empty())
 		return;
 
@@ -188,6 +187,7 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 				loadedScene->RenderSpotLights();
 			}
 			break;
+
 		case LightType::AREA:
 			if (translationModified || rotationModified)
 			{
