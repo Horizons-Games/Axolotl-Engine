@@ -156,8 +156,10 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 
+	// Dash
 	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
 	{
+		/*
 		if (!isDashing)
 		{
 			componentAnimation->SetParameter("IsDashing", true);
@@ -181,6 +183,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			canDash = false;
 			nextDash = 3000 + static_cast<float>(SDL_GetTicks());
 		}
+		*/
 	}
 
 	else

@@ -25,6 +25,8 @@
 
 #include <set>
 
+#include "AxoLog.h"
+
 REGISTERCLASS(BixAttackScript);
 
 namespace
@@ -168,6 +170,8 @@ void BixAttackScript::CheckCombo()
 	// Attack, starting the combo
 	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN && IsAttackAvailable())
 	{
+		//LOG_VERBOSE("Pressing left mouse button");
+
 		if (animation && attackComboPhase == AttackCombo::IDLE)
 		{
 			attackComboPhase = AttackCombo::FIRST_ATTACK;
@@ -180,6 +184,8 @@ void BixAttackScript::CheckCombo()
 	// Attack, continue the combo
 	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::REPEAT && IsAttackAvailable())
 	{
+		//LOG_VERBOSE("KEEP Pressing left mouse button");
+
 		if (animation && attackComboPhase == AttackCombo::FIRST_ATTACK)
 		{
 			attackComboPhase = AttackCombo::SECOND_ATTACK;
@@ -208,6 +214,8 @@ void BixAttackScript::CheckCombo()
 	// If attack could be performed but no button pressed, lose the combo streak
 	else if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE && IsAttackAvailable())
 	{
+		//LOG_VERBOSE("NOT pressing left mouse button");
+
 		attackComboPhase = AttackCombo::IDLE;
 		animation->SetParameter("IsAttacking", false);
 		animation->SetParameter("IsAttacking_2", false);

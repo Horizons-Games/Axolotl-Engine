@@ -195,7 +195,7 @@ void EnemyDroneScript::CalculateNextPosition() const
 	float distanceOS = nextPosition.Length();
 	nextPosition.Normalize();
 
-	float rotation = -(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.5)) + 1.0);
+	float rotation = -(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.5f)) + 1.0f);
 
 	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 	if (r > 0.5)
