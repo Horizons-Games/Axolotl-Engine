@@ -246,6 +246,11 @@
                                     "name": "MaxHealth",
                                     "value": 50.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsImmortal",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -266,6 +271,11 @@
                                     "name": "CanDash",
                                     "value": true,
                                     "type": 4
+                                },
+                                {
+                                    "name": "IsParalized",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -284,6 +294,11 @@
                                 },
                                 {
                                     "name": "CanDoubleJump",
+                                    "value": true,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "CanJump",
                                     "value": true,
                                     "type": 4
                                 }
@@ -307,7 +322,7 @@
                             "useRotationController": false,
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -100.0,
+                            "gravity_Y": -10.0,
                             "boxSize_X": 0.6000000238418579,
                             "boxSize_Y": 0.6499999761581421,
                             "boxSize_Z": 0.30000001192092896,
@@ -2277,6 +2292,11 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsImmortal",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -5215,6 +5235,11 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsImmortal",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
