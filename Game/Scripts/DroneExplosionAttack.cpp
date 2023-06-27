@@ -76,6 +76,7 @@ void DroneExplosionAttack::SetExplosionPosition(float3 explosionPos)
 
 void DroneExplosionAttack::UpdateDroneColor()
 {
+	//When we have tint the color of the drone will change.
 }
 
 DroneExplosionState DroneExplosionAttack::IsExploted() const
