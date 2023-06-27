@@ -153,14 +153,16 @@ void Application::OnPlay()
 	onPlayTimer.Start();
 	isOnPlayMode = true;
 	ModulePlayer* player = GetModule<ModulePlayer>();
-	player->LoadNewPlayer();
-	if (!player->GetPlayer())
+	if (!player->LoadNewPlayer())
 	{
 		isOnPlayMode = false;
+		onPlayTimer.Stop();
 	}
-
-	// Active Scripts
-	GetModule<ModuleScene>()->OnPlay();
+	else
+	{
+		// Active Scripts
+		GetModule<ModuleScene>()->OnPlay();
+	}
 }
 
 void Application::OnStop()
