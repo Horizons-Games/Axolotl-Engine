@@ -29,6 +29,10 @@ void HealthSystem::Start()
 
 void HealthSystem::Update(float deltaTime)
 {
+	if (owner->CompareTag("Enemy"))
+	{
+		TakeDamage(20.0f * deltaTime);
+	}
 	if (!EntityIsAlive() && owner->CompareTag("Player"))
 	{
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
@@ -50,7 +54,7 @@ void HealthSystem::Update(float deltaTime)
 		componentAnimation->SetParameter("IsDead", true);
 	}
 
-	else 
+	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
 	}
