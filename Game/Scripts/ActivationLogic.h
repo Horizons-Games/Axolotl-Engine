@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
 
 // This script handles the activation of the doors
 

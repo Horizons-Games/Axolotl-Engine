@@ -1,5 +1,8 @@
 #include "UIImageControl.h"
 
+#include "ModuleInput.h"
+#include "Components/UI/ComponentImage.h"
+
 #include "AxoLog.h"
 
 REGISTERCLASS(UIImageControl);

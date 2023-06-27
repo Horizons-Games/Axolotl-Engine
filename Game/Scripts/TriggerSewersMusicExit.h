@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-// This script is just to play the music of the cantina
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAudioSource;
 class TriggerSewersMusic;
