@@ -21,14 +21,14 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 	fileSystem->Load(filePath, bufferPaths);
 
-	unsigned int header[4];
+	unsigned int header[5];
 	memcpy(header, bufferPaths, sizeof(header));
 
 	bufferPaths += sizeof(header);
 
 	std::vector<std::shared_ptr<ResourceTexture>> resourceTexture;
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		char* pathPointer = new char[header[i]];
 		memcpy(pathPointer, bufferPaths, header[i]);
@@ -80,6 +80,11 @@ void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMate
 
 				break;
 		}
+	}
+
+	if (resourceTexture[4] != 0)
+	{
+		resource->SetEmission(resourceTexture[4]);
 	}
 
 	char* buffer{};
@@ -161,6 +166,15 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 			break;
 	}
 
+	if (resource->GetEmission())
+	{
+		meta["EmissiveAssetPath"] = resource->GetEmission()->GetAssetsPath().c_str();
+	}
+	else
+	{
+		meta["EmissiveAssetPath"] = "";
+	}
+
 	rapidjson::StringBuffer buffer;
 
 	meta.toBuffer(buffer);
@@ -198,10 +212,11 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 			break;
 	}
 
-	UID texturesUIDs[4] = { resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
+	UID texturesUIDs[5] = { resource->GetDiffuse() ? resource->GetDiffuse()->GetUID() : 0,
 							resource->GetNormal() ? resource->GetNormal()->GetUID() : 0,
 							resource->GetOcclusion() ? resource->GetOcclusion()->GetUID() : 0,
-							specularUID };
+							specularUID,
+							resource->GetEmission() ? resource->GetEmission()->GetUID() : 0};
 
 	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
 	float3 specularColor[1] = { resource->GetSpecularColor() };
@@ -254,7 +269,7 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
 {
-	UID texturesUIDs[4];
+	UID texturesUIDs[5];
 	memcpy(texturesUIDs, fileBuffer, sizeof(texturesUIDs));
 
 	fileBuffer += sizeof(texturesUIDs);
@@ -339,6 +354,17 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 		}
 	}
 
+	assetPath = meta["EmissiveAssetPath"];
+
+	if (assetPath != "")
+	{
+		bool materialExists = assetPath != "" && fileSystem->Exists(assetPath.c_str());
+		if (materialExists)
+		{
+			resource->SetEmission(resources->RequestResource<ResourceTexture>(assetPath));
+		}
+	}
+
 #else
 
 	if (texturesUIDs[0] != 0)
@@ -374,6 +400,11 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 				break;
 		}
+	}
+
+	if (texturesUIDs[4] != 0)
+	{
+		resource->SetEmission(App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(texturesUIDs[4]));
 	}
 
 #endif

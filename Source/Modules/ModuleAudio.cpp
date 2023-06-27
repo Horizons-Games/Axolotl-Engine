@@ -190,13 +190,7 @@ bool ModuleAudio::InitializeBanks()
 		const wchar_t* pathAsWChar = AKTEXT("WwiseProject/GeneratedSoundBanks/Windows");
 		lowLevelIO.SetBasePath(pathAsWChar);
 		std::wstring pathAsWString = std::wstring(pathAsWChar);
-		std::transform(std::begin(pathAsWString),
-					   std::end(pathAsWString),
-					   std::back_inserter(soundBanksFolderPath),
-					   [](wchar_t c)
-					   {
-						   return static_cast<char>(c);
-					   });
+		soundBanksFolderPath = std::string(std::begin(pathAsWString), std::end(pathAsWString));
 	}
 
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
@@ -230,5 +224,6 @@ bool ModuleAudio::InitializeBanks()
 			}
 		}
 	}
+	
 	return true;
 }

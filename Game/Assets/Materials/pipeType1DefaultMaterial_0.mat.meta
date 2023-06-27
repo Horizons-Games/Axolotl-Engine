@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_MetallicSmoothness.png"
+    "EmissiveAssetPath": ""
 }

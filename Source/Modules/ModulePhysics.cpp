@@ -154,7 +154,7 @@ void ModulePhysics::ManageCollisions()
 						if (collisions.find(key) == collisions.end())
 						{
 							rb->OnCollisionEnter(other);
-							other->OnCollisionEnter(rb);
+							//other->OnCollisionEnter(rb);
 						}
 						else
 						{

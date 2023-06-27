@@ -14,5 +14,5 @@
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
+    "EmissiveAssetPath": "Assets/Textures/EmissionGeneric.png"
 }
