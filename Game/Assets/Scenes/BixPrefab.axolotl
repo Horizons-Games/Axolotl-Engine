@@ -7,7 +7,6 @@
                 "uid": 5036951502967097875,
                 "parentUID": 0,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -44,7 +43,6 @@
                 "uid": 9635135054461825292,
                 "parentUID": 5036951502967097875,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -85,7 +83,6 @@
                 "uid": 16716536710352535958,
                 "parentUID": 5036951502967097875,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -114,7 +111,6 @@
                 "uid": 12888537664377867136,
                 "parentUID": 16716536710352535958,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -157,11 +153,6 @@
                                 {
                                     "name": "RayAttackSize",
                                     "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "DamageAttack",
-                                    "value": 20.0,
                                     "type": 0
                                 },
                                 {
@@ -215,11 +206,6 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "LoseSceneName",
-                                    "value": "00_LoseScene_VS3",
-                                    "type": 1
                                 }
                             ]
                         }
@@ -231,11 +217,6 @@
                             "removed": true,
                             "constructName": "PlayerMoveScript",
                             "fields": [
-                                {
-                                    "name": "Speed",
-                                    "value": 300.0,
-                                    "type": 0
-                                },
                                 {
                                     "name": "DashForce",
                                     "value": 10000.0,
@@ -257,7 +238,12 @@
                             "constructName": "PlayerRotationScript",
                             "fields": [
                                 {
-                                    "name": "RotationSensitivity",
+                                    "name": "RotationSensitivityVertical",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "RotationSensitivityHorizontal",
                                     "value": 50.0,
                                     "type": 0
                                 }
@@ -290,7 +276,6 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isStatic": false,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -322,6 +307,26 @@
                             "static": false,
                             "mouse": false
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerForceUseScript",
+                            "fields": [
+                                {
+                                    "name": "MaxDistanceForce",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeForce",
+                                    "value": 15.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -333,7 +338,6 @@
                 "uid": 5205513556005723927,
                 "parentUID": 12888537664377867136,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -362,7 +366,6 @@
                 "uid": 9876900893557611038,
                 "parentUID": 5205513556005723927,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -391,7 +394,6 @@
                 "uid": 2912459842764375223,
                 "parentUID": 9876900893557611038,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -420,7 +422,6 @@
                 "uid": 13721769065452743299,
                 "parentUID": 2912459842764375223,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -449,7 +450,6 @@
                 "uid": 8431282202317579999,
                 "parentUID": 13721769065452743299,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -478,7 +478,6 @@
                 "uid": 17815589075839269309,
                 "parentUID": 8431282202317579999,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -507,7 +506,6 @@
                 "uid": 9318742620142395365,
                 "parentUID": 17815589075839269309,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -536,7 +534,6 @@
                 "uid": 11740158041447862367,
                 "parentUID": 9318742620142395365,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -565,7 +562,6 @@
                 "uid": 9226774221185484831,
                 "parentUID": 11740158041447862367,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -594,7 +590,6 @@
                 "uid": 3064166319083993991,
                 "parentUID": 13721769065452743299,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -623,7 +618,6 @@
                 "uid": 4786030525530205382,
                 "parentUID": 3064166319083993991,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -652,7 +646,6 @@
                 "uid": 4112982919387608253,
                 "parentUID": 4786030525530205382,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -681,7 +674,6 @@
                 "uid": 17728959755350319071,
                 "parentUID": 4112982919387608253,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -710,7 +702,6 @@
                 "uid": 3481034197626119255,
                 "parentUID": 17728959755350319071,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -739,7 +730,6 @@
                 "uid": 14634621895563431134,
                 "parentUID": 2912459842764375223,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -768,7 +758,6 @@
                 "uid": 8305205383652390055,
                 "parentUID": 14634621895563431134,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -797,7 +786,6 @@
                 "uid": 6340165984705771674,
                 "parentUID": 8305205383652390055,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -826,7 +814,6 @@
                 "uid": 10545012934377414702,
                 "parentUID": 6340165984705771674,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -855,7 +842,6 @@
                 "uid": 17161642323805843668,
                 "parentUID": 8305205383652390055,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -884,7 +870,6 @@
                 "uid": 8286554636800047164,
                 "parentUID": 17161642323805843668,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -913,7 +898,6 @@
                 "uid": 18429632266542700080,
                 "parentUID": 8286554636800047164,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -942,7 +926,6 @@
                 "uid": 143290843167134204,
                 "parentUID": 18429632266542700080,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -971,7 +954,6 @@
                 "uid": 15630550504161261152,
                 "parentUID": 8305205383652390055,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1000,7 +982,6 @@
                 "uid": 14644990666566251630,
                 "parentUID": 15630550504161261152,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1029,7 +1010,6 @@
                 "uid": 3796153241400788296,
                 "parentUID": 14644990666566251630,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1058,7 +1038,6 @@
                 "uid": 61213692961379958,
                 "parentUID": 3796153241400788296,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1087,7 +1066,6 @@
                 "uid": 50840292538710644,
                 "parentUID": 9876900893557611038,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1116,7 +1094,6 @@
                 "uid": 16413620089365828955,
                 "parentUID": 50840292538710644,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1145,7 +1122,6 @@
                 "uid": 1438897395507449665,
                 "parentUID": 16413620089365828955,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1174,7 +1150,6 @@
                 "uid": 10042933618872109570,
                 "parentUID": 1438897395507449665,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1203,7 +1178,6 @@
                 "uid": 16753882448354859455,
                 "parentUID": 10042933618872109570,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1232,7 +1206,6 @@
                 "uid": 18286653038568644142,
                 "parentUID": 16753882448354859455,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1261,7 +1234,6 @@
                 "uid": 8865596511252662391,
                 "parentUID": 9876900893557611038,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1290,7 +1262,6 @@
                 "uid": 3208963778176088136,
                 "parentUID": 8865596511252662391,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1319,7 +1290,6 @@
                 "uid": 17560546462847868627,
                 "parentUID": 3208963778176088136,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1348,7 +1318,6 @@
                 "uid": 9841523767892624535,
                 "parentUID": 17560546462847868627,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1377,7 +1346,6 @@
                 "uid": 7757683276381659953,
                 "parentUID": 9841523767892624535,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1406,7 +1374,6 @@
                 "uid": 2651365574805214218,
                 "parentUID": 7757683276381659953,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1435,7 +1402,6 @@
                 "uid": 2151848030958512070,
                 "parentUID": 5205513556005723927,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1464,7 +1430,6 @@
                 "uid": 3964323002214984537,
                 "parentUID": 2151848030958512070,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1504,7 +1469,6 @@
                 "uid": 11228826900732671983,
                 "parentUID": 5205513556005723927,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1533,7 +1497,6 @@
                 "uid": 7014025880772638967,
                 "parentUID": 11228826900732671983,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1573,7 +1536,6 @@
                 "uid": 5746171695404360107,
                 "parentUID": 11228826900732671983,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1613,7 +1575,6 @@
                 "uid": 7642321017627877483,
                 "parentUID": 5205513556005723927,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1642,7 +1603,6 @@
                 "uid": 14650616301671368640,
                 "parentUID": 7642321017627877483,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1682,7 +1642,6 @@
                 "uid": 427984813752993456,
                 "parentUID": 5205513556005723927,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1711,7 +1670,6 @@
                 "uid": 6201711486142401570,
                 "parentUID": 427984813752993456,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1751,7 +1709,6 @@
                 "uid": 16835237178716600653,
                 "parentUID": 5205513556005723927,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1780,7 +1737,6 @@
                 "uid": 18409190022741333166,
                 "parentUID": 16835237178716600653,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1820,7 +1776,6 @@
                 "uid": 16187382472204337351,
                 "parentUID": 12888537664377867136,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1849,7 +1804,6 @@
                 "uid": 1136860512333585120,
                 "parentUID": 16187382472204337351,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1878,7 +1832,6 @@
                 "uid": 8195814660979920463,
                 "parentUID": 16187382472204337351,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1907,7 +1860,6 @@
                 "uid": 12626459989137518266,
                 "parentUID": 16187382472204337351,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1936,7 +1888,6 @@
                 "uid": 8952071589930640660,
                 "parentUID": 16187382472204337351,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -1965,7 +1916,6 @@
                 "uid": 2733845528994797796,
                 "parentUID": 12888537664377867136,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -2006,13 +1956,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerCameraRotationVerticalScript",
-                            "fields": [
-                                {
-                                    "name": "RotationSensitivity",
-                                    "value": 50.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {

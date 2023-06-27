@@ -5,11 +5,16 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class Camera;
+class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
 
 class PlayerManagerScript;
+class PlayerForceUseScript;
+class ComponentRigidBody;
+class btRigidBody;
 
 enum class PlayerActions
 {
@@ -41,4 +46,11 @@ private:
     bool canDash;
 
 	PlayerManagerScript* playerManager;
+	PlayerForceUseScript* forceScript;
+
+	ComponentRigidBody* rigidBody;
+	btRigidBody* btRb;
+
+	Camera* camera;
+	ModuleInput* input;
 };
