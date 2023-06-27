@@ -1,9 +1,9 @@
 {
     "UID": 3477591964355817557,
     "Type": "Materials",
-    "diffuseColor_x": 0.029411792755126953,
+    "diffuseColor_x": 0.0,
     "diffuseColor_y": 1.0,
-    "diffuseColor_z": 0.0,
+    "diffuseColor_z": 0.058823585510253906,
     "specularColor_x": 0.5,
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
@@ -14,5 +14,5 @@
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
+    "EmissiveAssetPath": "Assets/Textures/Emission.png"
 }

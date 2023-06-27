@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/final_rodian_Body_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/final_rodian_Body_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/final_rodian_Body_MetallicSmoothness.png"
+    "EmissiveAssetPath": ""
 }
