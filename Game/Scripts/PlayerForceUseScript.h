@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ModuleInput;
 class CameraControllerScript;
 class PlayerRotationScript;
+class PlayerManagerScript;
 class PlayerMoveScript;
 class ComponentTransform;
 class ComponentAnimation;
@@ -42,7 +43,9 @@ private:
 
     std::string tag;
 	
-	PlayerRotationScript* rotationScript;
+	PlayerRotationScript* rotationHorizontalScript;
+	CameraControllerScript* rotationVerticalScript;
+	PlayerManagerScript* playerManagerScript;
 	PlayerMoveScript* moveScript;
 
 	ComponentAudioSource* componentAudioSource;

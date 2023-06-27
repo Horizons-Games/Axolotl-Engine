@@ -19,15 +19,19 @@
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "PlayerRotationScript.h"
-#include "PlayerMoveScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/CameraControllerScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
-maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
-currentTimeForce(0.0f), breakForce(false), componentAudioSource (nullptr)
+	gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
+	maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
+	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
+	playerManagerScript(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
@@ -39,7 +43,8 @@ void PlayerForceUseScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	currentTimeForce = maxTimeForce;
 
-	rotationScript = owner->GetComponent<PlayerRotationScript>();
+	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
+	playerManagerScript = owner->GetParent()->GetComponent<PlayerManagerScript>();
 	moveScript = owner->GetComponent<PlayerMoveScript>();
 
 	input = App->GetModule<ModuleInput>();
@@ -50,7 +55,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 {
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
-		//componentAnimation->SetParameter("IsUsingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", true);
+		componentAnimation->SetParameter("IsStoppingForce", false);
 		RaycastHit hit;
 		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 		LineSegment line(ray, 300);
@@ -65,41 +71,60 @@ void PlayerForceUseScript::Update(float deltaTime)
 				gameObjectAttached = nullptr;
 				return;
 			}
+
 			else if (distancePointGameObjectAttached < minDistanceForce)
 			{
 				distancePointGameObjectAttached = minDistanceForce;
 			}
 
-			if (rotationScript)
+			if (rotationHorizontalScript)
 			{
-				lastHorizontalSensitivity = rotationScript->GetHorizontalSensitivity();
-				rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
-				lastVerticalSensitivity = rotationScript->GetVerticalSensitivity();
-				rotationScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
+				lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
+				rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
+				lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
+				rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
 			}
 
+			if (playerManagerScript)
+			{
+				lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
+				playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
+			}
 
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
 		}
 	}
+
 	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE
 		&& gameObjectAttached)
 		|| currentTimeForce < 0.0f
 		|| breakForce)
 	{
-		//componentAnimation->SetParameter("IsUsingForce", false);
+		componentAnimation->SetParameter("IsStoppingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", false);
 
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 
-		if (rotationScript)
+		if (rotationHorizontalScript)
 		{
-			rotationScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
-			rotationScript->SetVerticalSensitivity(lastVerticalSensitivity);
+			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
+		}
+
+		if (rotationVerticalScript)
+		{
+			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
+		}
+
+		if (playerManagerScript)
+		{
+			playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed);
+			rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
+			rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}
 
 		if (isForceActive)
