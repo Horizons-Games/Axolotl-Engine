@@ -20,6 +20,9 @@
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentPlayer.h"
 
+#include "Components/UI/ComponentSlider.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
@@ -206,6 +209,33 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
+		case ComponentType::SLIDER:
+		{
+			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
+
+			GameObject* background = CreateUIGameObject("Background", gameObject, ComponentType::IMAGE);
+			ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
+			backgroundTransform->SetSize(float2(400, 50));
+			backgroundTransform->CalculateMatrices();
+			background->GetComponent<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
+			slider->SetBackground(background);
+
+			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
+			ComponentTransform2D* fillTransform = fill->GetComponent<ComponentTransform2D>();
+			fillTransform->SetSize(float2(400, 50));
+			fillTransform->CalculateMatrices();
+			ComponentImage* imageFill = fill->GetComponent<ComponentImage>();
+			imageFill->SetColor(float4(0.0f, 1.0f, 0.0f, 1.0f));
+			imageFill->SetRenderPercentage(slider->CalculateNormalizedValue());
+			slider->SetFill(fill);
+
+			GameObject* handle = CreateUIGameObject("Handle", gameObject, ComponentType::BUTTON);
+			ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
+			handleTransform->SetSize(float2(25, 60));
+			handleTransform->CalculateMatrices();
+			slider->SetHandle(handle);
+			break;
+		}
 		default:
 			break;
 	}
@@ -972,6 +1002,21 @@ void Scene::UpdateSceneAreaLights()
 	}
 }
 
+GameObject* Scene::GetPlayer() const
+{
+	std::vector<GameObject*> gameObjects = GetNonStaticObjects();
+
+	for (GameObject* go : gameObjects)
+	{
+		ComponentPlayer* player = go->GetComponent<ComponentPlayer>();
+		if (player)
+		{
+			return go;
+		}
+	}
+	return nullptr;
+}
+
 void Scene::UpdateSceneAreaSpheres()
 {
 	sphereLights.clear();
@@ -1154,21 +1199,6 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 			tubeLights[cachedTubes[i].second] = tl;
 		}
 	}
-}
-
-GameObject* Scene::GetPlayer() const
-{
-	std::vector<GameObject*> gameObjects = GetNonStaticObjects();
-
-	for (GameObject* go : gameObjects)
-	{
-		ComponentPlayer* player = go->GetComponent<ComponentPlayer>();
-		if (player)
-		{
-			return go;
-		}
-	}
-	return nullptr;
 }
 
 void Scene::InitNewEmptyScene()

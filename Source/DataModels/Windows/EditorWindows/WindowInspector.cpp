@@ -16,6 +16,7 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 
@@ -75,6 +76,15 @@ WindowInspector::WindowInspector() :
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayer>(gameObject);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction(
+		"Create Camera Sample Component",
+		std::bind(&WindowInspector::AddComponentCameraSample, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentCameraSample>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
@@ -408,6 +418,11 @@ void WindowInspector::AddComponentLight(LightType type, AreaType areaType)
 void WindowInspector::AddComponentPlayer()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
+}
+
+void WindowInspector::AddComponentCameraSample()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::CAMERASAMPLE);
 }
 
 void WindowInspector::AddComponentAnimation()

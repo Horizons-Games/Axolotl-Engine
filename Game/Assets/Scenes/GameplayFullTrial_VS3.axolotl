@@ -8009,7 +8009,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 17161328820640003293,
+                            "meshUID": 6159512386276426707,
                             "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
@@ -8092,7 +8092,7 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 17161328820640003293,
+                            "meshUID": 6159512386276426707,
                             "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
@@ -8231,9 +8231,14 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "Player",
-                                    "value": 6764586723542947213,
-                                    "type": 2
+                                    "name": "RadiusSeeking",
+                                    "value": 2.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DebugDraw",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -8383,24 +8388,16 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Script",
+                            "type": "Component_CameraSample",
                             "active": true,
                             "removed": true,
-                            "constructName": "CameraSample",
-                            "fields": [
-                                {
-                                    "name": "InfluenceRadius",
-                                    "value": 1.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "PositionOffset",
-                                    "value x": 0.0,
-                                    "value y": 0.0,
-                                    "value z": 0.0,
-                                    "type": 3
-                                }
-                            ]
+                            "influenceRadius": 1.0,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 0.0,
+                            "positionOffsetZ": 0.0,
+                            "positionX": 0.0,
+                            "positionY": 0.0,
+                            "positionZ": 62.397525787353516
                         }
                     }
                 ]

@@ -24,7 +24,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 	camera = std::make_unique<CameraGameObject>();
 	camera->Init();
 	camera->SetKpPosition(5.0f);
-	camera->SetKpRotation(10.0f);
+	camera->SetKpRotation(5.0f);
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
 }
