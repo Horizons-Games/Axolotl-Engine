@@ -501,6 +501,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DebugGame.cpp">
+      <Filter>UserScripts\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -927,6 +930,9 @@
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\GameManager.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClInclude>
@@ -1054,6 +1060,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DebugGame.h">
+      <Filter>UserScripts\Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1197,6 +1206,9 @@
     </Filter>
     <Filter Include="UserScripts\Camera">
       <UniqueIdentifier>{0ccfe616-2a9f-451f-8045-c8d30bc58f1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Debug">
+      <UniqueIdentifier>{56f590e5-1567-45af-9af6-e647c25086f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
