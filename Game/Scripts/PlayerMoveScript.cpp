@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "Camera/Camera.h"
+#include "Geometry/Frustum.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -14,6 +15,7 @@
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "PlayerForceUseScript.h"
+#include <AxoLog.h>
 
 REGISTERCLASS(PlayerMoveScript);
 
@@ -39,6 +41,8 @@ void PlayerMoveScript::Start()
 
 	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 	input = App->GetModule<ModuleInput>();
+
+	cameraFrustum = *camera->GetFrustum();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
@@ -83,8 +87,8 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += camera->GetFrustum()->Front().Normalized();
-
+		totalDirection += cameraFrustum.Front().Normalized();
+		dirtyMovements |= MovementFlag::W_DOWN;
 	}
 
 	// Back
@@ -96,8 +100,8 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", true);
 			playerState = PlayerActions::WALKING;
 		}
-		totalDirection += -camera->GetFrustum()->Front().Normalized();
-
+		totalDirection += -cameraFrustum.Front().Normalized();
+		dirtyMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
@@ -110,8 +114,8 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += camera->GetFrustum()->WorldRight().Normalized();
-
+		totalDirection += cameraFrustum.WorldRight().Normalized();
+		dirtyMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
@@ -124,8 +128,11 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += -camera->GetFrustum()->WorldRight().Normalized();
+		totalDirection += -cameraFrustum.WorldRight().Normalized();
+		dirtyMovements |= MovementFlag::A_DOWN;
 	}
+
+
 
 	if (!totalDirection.IsZero())
 	{
@@ -153,6 +160,8 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsWalking", false);
 			playerState = PlayerActions::IDLE;
 		}
+
+		cameraFrustum = *camera->GetFrustum();
 	}
 		
 	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
