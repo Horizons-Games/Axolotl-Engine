@@ -25,8 +25,11 @@ void UIImageControl::Start()
 
 void UIImageControl::Update(float deltaTime)
 {
-	resultPositon.Normalize();
-	imageTransform->SetPosition(imageTransform->GetPosition() + resultPositon);
-	imageTransform->CalculateMatrices();
+	if (imageTransform->GetPosition().Distance(endPosition) >= 1.0f)
+	{
+		resultPositon.Normalize();
+		imageTransform->SetPosition(imageTransform->GetPosition() + resultPositon);
+		imageTransform->CalculateMatrices();
+	}
 
 }
