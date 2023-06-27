@@ -15,7 +15,6 @@
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "PlayerForceUseScript.h"
-#include <AxoLog.h>
 
 REGISTERCLASS(PlayerMoveScript);
 
