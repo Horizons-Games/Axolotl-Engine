@@ -41,8 +41,12 @@ GameObject* ModulePlayer::GetPlayer()
 
 void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
+	if (player)
+	{
+		componentPlayer->SetActualPlayer(false);
+	}
 	player = newPlayer;
-	componentPlayer = player->GetComponent<ComponentPlayer>();
+	if (player) componentPlayer = player->GetComponent<ComponentPlayer>();
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -55,18 +59,15 @@ GameObject* ModulePlayer::GetCameraPlayerObject()
 	return cameraPlayerObject;
 }
 
-void ModulePlayer::LoadNewPlayer()
+bool ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
 
-	GameObject* player = loadedScene->GetPlayer();
 	if (player)
 	{
-		SetPlayer(player);
-
 		for (ComponentCamera* camera : cameras)
 		{
 			GameObject* ownerGO = camera->GetOwner();
@@ -84,17 +85,19 @@ void ModulePlayer::LoadNewPlayer()
 
 				CheckIfActivateMouse();
 
-				return;
+				return true;
 			}
 		}
+		LOG_ERROR("Not found Camera with MainCamera tag");
+		return false;
 	}
-	LOG_ERROR("Player is not loaded");
+	LOG_ERROR("Active Player not found");
+	return false;
 }
 
 void ModulePlayer::UnloadNewPlayer()
 {
 	App->GetModule<ModuleCamera>()->SetSelectedCamera(-1);
-	player = nullptr;
 }
 
 bool ModulePlayer::IsStatic()
