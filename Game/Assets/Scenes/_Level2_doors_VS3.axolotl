@@ -175,13 +175,13 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 5.0,
-                            "localPos_Y": 12.0,
+                            "localPos_Y": 10.483290672302246,
                             "localPos_Z": -14.5,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
                             "localSca_X": 0.5,
-                            "localSca_Y": 4.0,
+                            "localSca_Y": 5.109763145446777,
                             "localSca_Z": 5.5
                         }
                     },
@@ -221,7 +221,7 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 5.0,
-                            "rbPos_Y": 12.0,
+                            "rbPos_Y": 10.483290672302246,
                             "rbPos_Z": -14.5
                         }
                     }
@@ -242,9 +242,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 85.18707275390625,
-                            "localPos_Y": -6.799995422363281,
-                            "localPos_Z": 6.473152160644531,
+                            "localPos_X": 1.963374137878418,
+                            "localPos_Y": 0.9046297669410706,
+                            "localPos_Z": 6.9640727043151855,
                             "localRot_X": 179.99996948242188,
                             "localRot_Y": -90.0,
                             "localRot_Z": 179.99996948242188,
@@ -428,9 +428,9 @@
                             "radius": 0.5,
                             "factor": 0.5,
                             "height": 1.0,
-                            "rbPos_X": 85.18707275390625,
-                            "rbPos_Y": -6.533663749694824,
-                            "rbPos_Z": 6.473152160644531
+                            "rbPos_X": 1.963374137878418,
+                            "rbPos_Y": 1.1709613800048828,
+                            "rbPos_Z": 6.9640727043151855
                         }
                     },
                     {
@@ -14377,13 +14377,13 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -95.99998474121094,
-                            "localPos_Y": 6.0,
-                            "localPos_Z": -8.499998092651367,
+                            "localPos_Y": 6.2883148193359375,
+                            "localPos_Z": -8.499996185302734,
                             "localRot_X": 0.0,
                             "localRot_Y": -6.513775521570231e-13,
                             "localRot_Z": 0.0,
                             "localSca_X": 0.5,
-                            "localSca_Y": 6.0,
+                            "localSca_Y": 8.83681583404541,
                             "localSca_Z": 5.0
                         }
                     },
@@ -14423,7 +14423,7 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 30.00000762939453,
-                            "rbPos_Y": 30.25,
+                            "rbPos_Y": 30.538314819335938,
                             "rbPos_Z": -153.0
                         }
                     }
@@ -14445,13 +14445,13 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -16.999996185302734,
-                            "localPos_Y": 5.49017333984375,
+                            "localPos_Y": 5.678010940551758,
                             "localPos_Z": -8.499998092651367,
                             "localRot_X": 0.0,
                             "localRot_Y": -1.0584884748213175e-12,
                             "localRot_Z": 0.0,
                             "localSca_X": 0.5,
-                            "localSca_Y": 6.5,
+                            "localSca_Y": 8.434395790100098,
                             "localSca_Z": 5.0
                         }
                     },
@@ -14491,7 +14491,7 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 30.0,
-                            "rbPos_Y": 29.74017333984375,
+                            "rbPos_Y": 29.928010940551758,
                             "rbPos_Z": -74.0
                         }
                     }
@@ -19035,15 +19035,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 38.7279052734375,
-                            "localPos_Y": 20.0,
-                            "localPos_Z": 80.0,
+                            "localPos_X": 39.3388671875,
+                            "localPos_Y": 18.485942840576172,
+                            "localPos_Z": 81.0205078125,
                             "localRot_X": 179.99998474121094,
                             "localRot_Y": 89.98020935058594,
                             "localRot_Z": 179.99998474121094,
-                            "localSca_X": 0.5000000596046448,
+                            "localSca_X": 1.3315383195877075,
                             "localSca_Y": 20.0,
-                            "localSca_Z": 1.5979301929473877
+                            "localSca_Z": 1.1279892921447754
                         }
                     },
                     {
@@ -19081,9 +19081,9 @@
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 55.11231994628906,
-                            "rbPos_Y": 11.991891860961914,
-                            "rbPos_Z": 11.877466201782227
+                            "rbPos_X": 54.09181213378906,
+                            "rbPos_Y": 10.477834701538086,
+                            "rbPos_Z": 12.488428115844727
                         }
                     }
                 ]
@@ -19751,10 +19751,10 @@
         },
         {
             "GameObject": {
-                "name": "Sewers_Door",
+                "name": "Door 1",
                 "tag": "",
                 "uid": 14275067103244546270,
-                "parentUID": 67125992557613803,
+                "parentUID": 2309371992562111911,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -19763,15 +19763,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 53.72238540649414,
-                            "localPos_Y": -7.76123046875,
-                            "localPos_Z": 6.358407020568848,
-                            "localRot_X": -0.00002953393413918093,
-                            "localRot_Y": -90.0,
-                            "localRot_Z": -0.000025031262339325622,
-                            "localSca_X": 1.0000001192092896,
+                            "localPos_X": 209.5347137451172,
+                            "localPos_Y": -7.761234283447266,
+                            "localPos_Z": -67.66332244873047,
+                            "localRot_X": 179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 1.000000238418579,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0000001192092896
+                            "localSca_Z": 1.000000238418579
                         }
                     },
                     {
@@ -19798,9 +19798,9 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 53.72238540649414,
-                            "rbPos_Y": -7.76123046875,
-                            "rbPos_Z": 6.358407020568848
+                            "rbPos_X": 209.5347137451172,
+                            "rbPos_Y": -7.761234283447266,
+                            "rbPos_Z": -67.66332244873047
                         }
                     },
                     {
@@ -20249,9 +20249,9 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 53.72238540649414,
-                            "rbPos_Y": -4.961230278015137,
-                            "rbPos_Z": 6.358407020568848
+                            "rbPos_X": 209.5347137451172,
+                            "rbPos_Y": -4.961234092712402,
+                            "rbPos_Z": -67.66332244873047
                         }
                     }
                 ]
@@ -20280,6 +20280,3626 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 7830415816724639704,
+                "parentUID": 10844546983242488773,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 38.727901458740234,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": 80.00000762939453,
+                            "localRot_X": 179.99996948242188,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 1.5979301929473877
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5000000596046448,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 1.5979301929473877,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 55.11231231689453,
+                            "rbPos_Y": 11.991891860961914,
+                            "rbPos_Z": 11.877462387084961
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 10264677880295380225,
+                "parentUID": 10844546983242488773,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 27.373586654663086,
+                            "localPos_Y": 18.485942840576172,
+                            "localPos_Z": 80.8388442993164,
+                            "localRot_X": 179.99996948242188,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 1.5055874586105347,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 1.1279892921447754
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5000000596046448,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 1.5979301929473877,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 54.27348327636719,
+                            "rbPos_Y": 10.477834701538086,
+                            "rbPos_Z": 0.5231494903564453
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Doors",
+                "tag": "",
+                "uid": 2309371992562111911,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door 2",
+                "tag": "",
+                "uid": 13581187271780805998,
+                "parentUID": 2309371992562111911,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 53.72238540649414,
+                            "localPos_Y": -7.76123046875,
+                            "localPos_Z": 6.358407020568848,
+                            "localRot_X": 179.99998474121094,
+                            "localRot_Y": -89.98020935058594,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0000001192092896
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 7.0,
+                            "boxSize_Y": 7.0,
+                            "boxSize_Z": 10.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 53.72238540649414,
+                            "rbPos_Y": -7.76123046875,
+                            "rbPos_Z": 6.358407020568848
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 15968547123337228130,
+                            "assetPathState": "Assets/StateMachine/DoorState.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 6134278286031033896,
+                "parentUID": 13581187271780805998,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature.001",
+                "tag": "",
+                "uid": 12083159815620943382,
+                "parentUID": 6134278286031033896,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03651418164372444,
+                            "localPos_Y": 2.651883602142334,
+                            "localPos_Z": -0.2312466949224472,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.6859999895095825,
+                            "localSca_Y": 0.6859999895095825,
+                            "localSca_Z": 0.6859999895095825
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 4829490390284157148,
+                "parentUID": 12083159815620943382,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01694955863058567,
+                            "localPos_Y": -1.5254691479646545e-16,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.00000853773599374108,
+                            "localRot_Z": 89.99999237060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 7318893844637543757,
+                "parentUID": 4829490390284157148,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.1119699478149414,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001",
+                "tag": "",
+                "uid": 497930909682855057,
+                "parentUID": 12083159815620943382,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.000024133018087013625,
+                            "localRot_Y": -0.3951369524002075,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001_end",
+                "tag": "",
+                "uid": 15144014714835608629,
+                "parentUID": 497930909682855057,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.163662910461426,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFrameLow",
+                "tag": "",
+                "uid": 1067497661545483130,
+                "parentUID": 6134278286031033896,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.005_0",
+                "tag": "",
+                "uid": 12233506352440513074,
+                "parentUID": 1067497661545483130,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.13431024551391602,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 273990002451909912,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+                            "materialUID": 1254595067635176042,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace1Low",
+                "tag": "",
+                "uid": 11393999071332794980,
+                "parentUID": 6134278286031033896,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.013_0",
+                "tag": "",
+                "uid": 13489900733886536108,
+                "parentUID": 11393999071332794980,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8095936708231646096,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace2Low",
+                "tag": "",
+                "uid": 17498800649173166141,
+                "parentUID": 6134278286031033896,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.018_0",
+                "tag": "",
+                "uid": 12846738908108653321,
+                "parentUID": 17498800649173166141,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5444897470412059444,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 2601075144351204132,
+                "parentUID": 13581187271780805998,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.799999952316284,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 0.75,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 53.72238540649414,
+                            "rbPos_Y": -4.961230278015137,
+                            "rbPos_Z": 6.358407020568848
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 437943872954678284,
+                "parentUID": 12966168922813020550,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -40.350425720214844,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": -78.6669921875,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 2.587264441317877e-13,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 0.7867594361305237
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 0.7867594361305237,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 213.7793426513672,
+                            "rbPos_Y": 11.991891860961914,
+                            "rbPos_Z": -67.20085144042969
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 10343476050867494262,
+                "parentUID": 12966168922813020550,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -40.350425720214844,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": -69.15476989746094,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 7.210083767007769e-13,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 1.8262969255447388
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 0.7867594361305237,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 204.26712036132813,
+                            "rbPos_Y": 11.991891860961914,
+                            "rbPos_Z": -67.20085144042969
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 18072609601602975312,
+                "parentUID": 12966168922813020550,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -41.283790588378906,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": -78.66143798828125,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 7.210083767007769e-13,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 0.7867594361305237
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 0.7867594361305237,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 213.77378845214844,
+                            "rbPos_Y": 11.991891860961914,
+                            "rbPos_Z": -68.13421630859375
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 9050690280483282639,
+                "parentUID": 12966168922813020550,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -41.27464294433594,
+                            "localPos_Y": 20.0,
+                            "localPos_Z": -55.21302795410156,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 8.529432043470619e-13,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 20.0,
+                            "localSca_Z": 15.888476371765137
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 20.0,
+                            "boxSize_Z": 0.7867594361305237,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 190.32537841796875,
+                            "rbPos_Y": 11.991891860961914,
+                            "rbPos_Z": -68.12506866455078
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door 3",
+                "tag": "",
+                "uid": 7930853368401319436,
+                "parentUID": 2309371992562111911,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.7704803943634033,
+                            "localPos_Y": -0.14002631604671478,
+                            "localPos_Z": -14.746028900146484,
+                            "localRot_X": -0.000044624855945585296,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 1.3089405115351838e-9,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 7.0,
+                            "boxSize_Y": 7.0,
+                            "boxSize_Z": 3.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -3.7704803943634033,
+                            "rbPos_Y": -0.14002631604671478,
+                            "rbPos_Z": -14.746028900146484
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 15968547123337228130,
+                            "assetPathState": "Assets/StateMachine/DoorState.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 519793229717511747,
+                "parentUID": 7930853368401319436,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature.001",
+                "tag": "",
+                "uid": 17147870916684954309,
+                "parentUID": 519793229717511747,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03651418164372444,
+                            "localPos_Y": 2.651883602142334,
+                            "localPos_Z": -0.2312466949224472,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.6859999895095825,
+                            "localSca_Y": 0.6859999895095825,
+                            "localSca_Z": 0.6859999895095825
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 14646817855768005352,
+                "parentUID": 17147870916684954309,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01694955863058567,
+                            "localPos_Y": -1.5254691479646545e-16,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.00000853773599374108,
+                            "localRot_Z": 89.99999237060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 12346435480021010672,
+                "parentUID": 14646817855768005352,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.1119699478149414,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001",
+                "tag": "",
+                "uid": 5406445410895661443,
+                "parentUID": 17147870916684954309,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.000024133018087013625,
+                            "localRot_Y": -0.3951369524002075,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001_end",
+                "tag": "",
+                "uid": 9156927641209020312,
+                "parentUID": 5406445410895661443,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.163662910461426,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFrameLow",
+                "tag": "",
+                "uid": 6888222382589611660,
+                "parentUID": 519793229717511747,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.005_0",
+                "tag": "",
+                "uid": 5510080159551981965,
+                "parentUID": 6888222382589611660,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.13431024551391602,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 273990002451909912,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+                            "materialUID": 1254595067635176042,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace1Low",
+                "tag": "",
+                "uid": 10998164236782297841,
+                "parentUID": 519793229717511747,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.013_0",
+                "tag": "",
+                "uid": 17940176856717167885,
+                "parentUID": 10998164236782297841,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8095936708231646096,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace2Low",
+                "tag": "",
+                "uid": 3067791468933602736,
+                "parentUID": 519793229717511747,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.018_0",
+                "tag": "",
+                "uid": 7131630825528132109,
+                "parentUID": 3067791468933602736,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5444897470412059444,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 11170812709582203175,
+                "parentUID": 7930853368401319436,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.799999952316284,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 0.75,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -3.7704803943634033,
+                            "rbPos_Y": 2.659973621368408,
+                            "rbPos_Z": -14.746030807495117
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door 4",
+                "tag": "",
+                "uid": 394591876090612672,
+                "parentUID": 2309371992562111911,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.690929412841797,
+                            "localPos_Y": 0.01471071969717741,
+                            "localPos_Z": -14.698676109313965,
+                            "localRot_X": -0.00004462361175683327,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 7.0,
+                            "boxSize_Y": 7.0,
+                            "boxSize_Z": 3.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 4.690929412841797,
+                            "rbPos_Y": 0.01471071969717741,
+                            "rbPos_Z": -14.698676109313965
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 15968547123337228130,
+                            "assetPathState": "Assets/StateMachine/DoorState.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 12061559297449163322,
+                "parentUID": 394591876090612672,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature.001",
+                "tag": "",
+                "uid": 12053567150546964493,
+                "parentUID": 12061559297449163322,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03651418164372444,
+                            "localPos_Y": 2.651883602142334,
+                            "localPos_Z": -0.2312466949224472,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.6859999895095825,
+                            "localSca_Y": 0.6859999895095825,
+                            "localSca_Z": 0.6859999895095825
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 14600432641933154169,
+                "parentUID": 12053567150546964493,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01694955863058567,
+                            "localPos_Y": -1.5254691479646545e-16,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.00000853773599374108,
+                            "localRot_Z": 89.99999237060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 9438930145772713724,
+                "parentUID": 14600432641933154169,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.1119699478149414,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001",
+                "tag": "",
+                "uid": 9674637511529979294,
+                "parentUID": 12053567150546964493,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.000024133018087013625,
+                            "localRot_Y": -0.3951369524002075,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001_end",
+                "tag": "",
+                "uid": 13407368706012398566,
+                "parentUID": 9674637511529979294,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.163662910461426,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFrameLow",
+                "tag": "",
+                "uid": 3764344255397325581,
+                "parentUID": 12061559297449163322,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.33348751068115234,
+                            "localPos_Y": 2.384185791015625e-7,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.005_0",
+                "tag": "",
+                "uid": 949958602354404666,
+                "parentUID": 3764344255397325581,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.13431024551391602,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 273990002451909912,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+                            "materialUID": 1254595067635176042,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace1Low",
+                "tag": "",
+                "uid": 14314246503800920127,
+                "parentUID": 12061559297449163322,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.013_0",
+                "tag": "",
+                "uid": 10539313071032538787,
+                "parentUID": 14314246503800920127,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8095936708231646096,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace2Low",
+                "tag": "",
+                "uid": 980670768904982513,
+                "parentUID": 12061559297449163322,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.018_0",
+                "tag": "",
+                "uid": 2621277208501459564,
+                "parentUID": 980670768904982513,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5444897470412059444,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 5151694339031671076,
+                "parentUID": 394591876090612672,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.799999952316284,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 0.75,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 4.690929412841797,
+                            "rbPos_Y": 2.8147106170654297,
+                            "rbPos_Z": -14.698678016662598
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door 6",
+                "tag": "",
+                "uid": 9851454165622628653,
+                "parentUID": 2309371992562111911,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 29.815948486328125,
+                            "localPos_Y": 8.067227363586426,
+                            "localPos_Z": -19.219514846801758,
+                            "localRot_X": -0.00004462411015992984,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 3.885991806118483e-10,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 7.0,
+                            "boxSize_Y": 7.0,
+                            "boxSize_Z": 3.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 29.815948486328125,
+                            "rbPos_Y": 8.067227363586426,
+                            "rbPos_Z": -19.219514846801758
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 15968547123337228130,
+                            "assetPathState": "Assets/StateMachine/DoorState.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8767444861981729322,
+                "parentUID": 9851454165622628653,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature.001",
+                "tag": "",
+                "uid": 4953763637487461876,
+                "parentUID": 8767444861981729322,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03651418164372444,
+                            "localPos_Y": 2.651883602142334,
+                            "localPos_Z": -0.2312466949224472,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.6859999895095825,
+                            "localSca_Y": 0.6859999895095825,
+                            "localSca_Z": 0.6859999895095825
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 5315519629190754389,
+                "parentUID": 4953763637487461876,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01694955863058567,
+                            "localPos_Y": -1.5254691479646545e-16,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.00000853773599374108,
+                            "localRot_Z": 89.99999237060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 7202301028392738013,
+                "parentUID": 5315519629190754389,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.1119699478149414,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001",
+                "tag": "",
+                "uid": 16769622685739721698,
+                "parentUID": 4953763637487461876,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.000024133018087013625,
+                            "localRot_Y": -0.3951369524002075,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001_end",
+                "tag": "",
+                "uid": 16022023301643137361,
+                "parentUID": 16769622685739721698,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.163662910461426,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFrameLow",
+                "tag": "",
+                "uid": 7876264473232816769,
+                "parentUID": 8767444861981729322,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.005_0",
+                "tag": "",
+                "uid": 11226403454568670565,
+                "parentUID": 7876264473232816769,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.13431024551391602,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 273990002451909912,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+                            "materialUID": 1254595067635176042,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace1Low",
+                "tag": "",
+                "uid": 1437556515688013094,
+                "parentUID": 8767444861981729322,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.013_0",
+                "tag": "",
+                "uid": 2375651862492268050,
+                "parentUID": 1437556515688013094,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8095936708231646096,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace2Low",
+                "tag": "",
+                "uid": 8350155366848169930,
+                "parentUID": 8767444861981729322,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.018_0",
+                "tag": "",
+                "uid": 6774211362448216562,
+                "parentUID": 8350155366848169930,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5444897470412059444,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 8390090768149367346,
+                "parentUID": 9851454165622628653,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.799999952316284,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 0.75,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 29.815948486328125,
+                            "rbPos_Y": 10.867227554321289,
+                            "rbPos_Z": -19.21951675415039
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door 8",
+                "tag": "",
+                "uid": 3937577636963674108,
+                "parentUID": 2309371992562111911,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 30.026018142700195,
+                            "localPos_Y": 16.326087951660156,
+                            "localPos_Z": -153.12367248535156,
+                            "localRot_X": -0.00004462411015992984,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 3.8859915285627267e-10,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 7.0,
+                            "boxSize_Y": 7.0,
+                            "boxSize_Z": 10.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 30.026018142700195,
+                            "rbPos_Y": 16.326087951660156,
+                            "rbPos_Z": -153.12367248535156
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 15968547123337228130,
+                            "assetPathState": "Assets/StateMachine/DoorState.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 12854602482693386213,
+                "parentUID": 3937577636963674108,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature.001",
+                "tag": "",
+                "uid": 8368746631925264785,
+                "parentUID": 12854602482693386213,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03651418164372444,
+                            "localPos_Y": 2.651883602142334,
+                            "localPos_Z": -0.2312466949224472,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.6859999895095825,
+                            "localSca_Y": 0.6859999895095825,
+                            "localSca_Z": 0.6859999895095825
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 4866083659197236947,
+                "parentUID": 8368746631925264785,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01694955863058567,
+                            "localPos_Y": -1.5254691479646545e-16,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.00000853773599374108,
+                            "localRot_Z": 89.99999237060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 14261931305437125275,
+                "parentUID": 4866083659197236947,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.1119699478149414,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001",
+                "tag": "",
+                "uid": 7953727000971946046,
+                "parentUID": 8368746631925264785,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.000024133018087013625,
+                            "localRot_Y": -0.3951369524002075,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001_end",
+                "tag": "",
+                "uid": 14072556114840954648,
+                "parentUID": 7953727000971946046,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.163662910461426,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFrameLow",
+                "tag": "",
+                "uid": 9589719508864056050,
+                "parentUID": 12854602482693386213,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.005_0",
+                "tag": "",
+                "uid": 8753444873705222694,
+                "parentUID": 9589719508864056050,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.1343097686767578,
+                            "localPos_Y": -0.1944599151611328,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 273990002451909912,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+                            "materialUID": 1254595067635176042,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace1Low",
+                "tag": "",
+                "uid": 15194658338163605831,
+                "parentUID": 12854602482693386213,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.013_0",
+                "tag": "",
+                "uid": 3523688606470368889,
+                "parentUID": 15194658338163605831,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8095936708231646096,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace2Low",
+                "tag": "",
+                "uid": 8380263918477890694,
+                "parentUID": 12854602482693386213,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.018_0",
+                "tag": "",
+                "uid": 1567309996707884851,
+                "parentUID": 8380263918477890694,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5444897470412059444,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 1666379119966603795,
+                "parentUID": 3937577636963674108,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.799999952316284,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 0.75,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 30.026018142700195,
+                            "rbPos_Y": 19.126087188720703,
+                            "rbPos_Z": -153.12367248535156
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door 7",
+                "tag": "",
+                "uid": 14081495535086157894,
+                "parentUID": 2309371992562111911,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 29.988664627075195,
+                            "localPos_Y": 16.199569702148438,
+                            "localPos_Z": -73.8509750366211,
+                            "localRot_X": -0.00004462411015992984,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 3.8859915285627267e-10,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 7.0,
+                            "boxSize_Y": 7.0,
+                            "boxSize_Z": 10.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 29.988664627075195,
+                            "rbPos_Y": 16.199569702148438,
+                            "rbPos_Z": -73.8509750366211
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 15968547123337228130,
+                            "assetPathState": "Assets/StateMachine/DoorState.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 13401668916208436523,
+                "parentUID": 14081495535086157894,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature.001",
+                "tag": "",
+                "uid": 928963882380694696,
+                "parentUID": 13401668916208436523,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03651418164372444,
+                            "localPos_Y": 2.651883602142334,
+                            "localPos_Z": -0.2312466949224472,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.6859999895095825,
+                            "localSca_Y": 0.6859999895095825,
+                            "localSca_Z": 0.6859999895095825
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 1555669891308719780,
+                "parentUID": 928963882380694696,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01694955863058567,
+                            "localPos_Y": -1.5254691479646545e-16,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.00000853773599374108,
+                            "localRot_Z": 89.99999237060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 10335966387060353183,
+                "parentUID": 1555669891308719780,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.1119699478149414,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001",
+                "tag": "",
+                "uid": 1702202832251498280,
+                "parentUID": 928963882380694696,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.000024133018087013625,
+                            "localRot_Y": -0.3951369524002075,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001_end",
+                "tag": "",
+                "uid": 6236045556930550055,
+                "parentUID": 1702202832251498280,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.163662910461426,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFrameLow",
+                "tag": "",
+                "uid": 13055567829428324008,
+                "parentUID": 13401668916208436523,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.005_0",
+                "tag": "",
+                "uid": 9512277543376274240,
+                "parentUID": 13055567829428324008,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.13431024551391602,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 273990002451909912,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+                            "materialUID": 1254595067635176042,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace1Low",
+                "tag": "",
+                "uid": 16121436873942938116,
+                "parentUID": 13401668916208436523,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.013_0",
+                "tag": "",
+                "uid": 11173560308374030227,
+                "parentUID": 16121436873942938116,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8095936708231646096,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace2Low",
+                "tag": "",
+                "uid": 9996244836619007515,
+                "parentUID": 13401668916208436523,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.018_0",
+                "tag": "",
+                "uid": 15082579600255539560,
+                "parentUID": 9996244836619007515,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5444897470412059444,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 1222196601861651664,
+                "parentUID": 14081495535086157894,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.799999952316284,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 0.75,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 29.988664627075195,
+                            "rbPos_Y": 18.999568939208984,
+                            "rbPos_Z": -73.8509750366211
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall_Back_Left 2",
+                "tag": "",
+                "uid": 13799938719521107624,
+                "parentUID": 3863405294941404941,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.0,
+                            "localPos_Y": 6.649694919586182,
+                            "localPos_Z": -12.033462524414063,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 1.3993688821792603,
+                            "localSca_Z": 9.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 9.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -4.0,
+                            "rbPos_Y": 6.649694919586182,
+                            "rbPos_Z": -12.033462524414063
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall_TOP 2",
+                "tag": "",
+                "uid": 8399910783501036246,
+                "parentUID": 9617131891578503458,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.6525459289550781,
+                            "localPos_Y": 7.348217964172363,
+                            "localPos_Z": -14.501653671264648,
+                            "localRot_X": 179.99998474121094,
+                            "localRot_Y": 0.000005008955213270383,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 1.510457158088684,
+                            "localSca_Z": 4.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 4.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 29.99834442138672,
+                            "rbPos_Y": 14.848217964172363,
+                            "rbPos_Z": -19.34745216369629
                         }
                     }
                 ]
