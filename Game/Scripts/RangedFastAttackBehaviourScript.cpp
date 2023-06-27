@@ -51,7 +51,7 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 {
 	if (IsAttackAvailable())
 	{
-		animation->SetParameter("attack", true);
+		animation->SetParameter("IsAttacking", true);
 
 		// Create a new bullet
 		GameObject* root = loadedScene->GetRoot();

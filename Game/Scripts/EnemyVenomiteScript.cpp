@@ -38,9 +38,6 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
-	(healthScript->GetCurrentHealth() > 10) ? healthScript->TakeDamage(10.0f * deltaTime) : healthScript->TakeDamage(0.0f);
-	LOG_VERBOSE("Entity Life: {}", healthScript->GetCurrentHealth());
-
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;

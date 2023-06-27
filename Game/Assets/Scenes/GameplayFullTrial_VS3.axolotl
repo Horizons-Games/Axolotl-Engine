@@ -8436,9 +8436,223 @@
         },
         {
             "GameObject": {
-                "name": "Venomite 1",
+                "name": "RaycastsAttack",
+                "tag": "",
+                "uid": 6376922295938442414,
+                "parentUID": 7491992698886474043,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray1",
+                "tag": "",
+                "uid": 2275379217660310395,
+                "parentUID": 6376922295938442414,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.0,
+                            "localPos_Y": 3.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray2",
+                "tag": "",
+                "uid": 2487525073234548670,
+                "parentUID": 6376922295938442414,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.0,
+                            "localPos_Y": 3.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray3",
+                "tag": "",
+                "uid": 3171566398470022829,
+                "parentUID": 6376922295938442414,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ray4",
+                "tag": "",
+                "uid": 13441653100282989933,
+                "parentUID": 6376922295938442414,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bullet",
+                "tag": "",
+                "uid": 11707857848185230262,
+                "parentUID": 7491992698886474043,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.3042919628533127e-7,
+                            "localPos_Y": -1.0,
+                            "localPos_Z": 3.952947054131073e-7,
+                            "localRot_X": -90.00001525878906,
+                            "localRot_Y": -0.00002231179314549081,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BulletOriginL",
+                "tag": "",
+                "uid": 6413338314891963906,
+                "parentUID": 7491992698886474043,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.637825071811676,
+                            "localPos_Y": 2.4103293418884277,
+                            "localPos_Z": 3.109311580657959,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier",
                 "tag": "Enemy",
-                "uid": 17532862287404774008,
+                "uid": 7491992698886474043,
                 "parentUID": 4810850753283727253,
                 "enabled": true,
                 "static": false,
@@ -8449,8 +8663,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -10.0,
-                            "localPos_Y": 1.0,
-                            "localPos_Z": 6.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -8493,15 +8707,15 @@
                             "KpForce": 0.5,
                             "KpTorque": 10.0,
                             "gravity_Y": -100.0,
-                            "boxSize_X": 0.6000000238418579,
-                            "boxSize_Y": 0.6499999761581421,
+                            "boxSize_X": 0.30000001192092896,
+                            "boxSize_Y": 0.6000000238418579,
                             "boxSize_Z": 0.30000001192092896,
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -10.0,
-                            "rbPos_Y": 1.0,
-                            "rbPos_Z": 6.0
+                            "rbPos_Y": 0.6000000238418579,
+                            "rbPos_Z": 0.0
                         }
                     },
                     {
@@ -8533,12 +8747,12 @@
                             "fields": [
                                 {
                                     "name": "WayPointOne",
-                                    "value": 3711537511531170711,
+                                    "value": 980108798514021812,
                                     "type": 2
                                 },
                                 {
                                     "name": "WayPointTwo",
-                                    "value": 7888631640596656246,
+                                    "value": 13860678891281297010,
                                     "type": 2
                                 }
                             ]
@@ -8573,42 +8787,12 @@
                                 },
                                 {
                                     "name": "BulletOriginGO",
-                                    "value": 4337956497191065576,
+                                    "value": 6413338314891963906,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletPrefab",
-                                    "value": 10877708987601115507,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletVelocity",
-                                    "value": 0.20000000298023224,
-                                    "type": 0
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "RangedFastAttackBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 5.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "BulletOriginGO",
-                                    "value": 17648466877992158887,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletPrefab",
-                                    "value": 10877708987601115507,
+                                    "value": 11707857848185230262,
                                     "type": 2
                                 },
                                 {
@@ -8658,22 +8842,22 @@
                                 },
                                 {
                                     "name": "Ray1GO",
-                                    "value": 7039679553550529278,
+                                    "value": 2275379217660310395,
                                     "type": 2
                                 },
                                 {
                                     "name": "Ray2GO",
-                                    "value": 735154567004242819,
+                                    "value": 2487525073234548670,
                                     "type": 2
                                 },
                                 {
                                     "name": "Ray3GO",
-                                    "value": 16158781665526965505,
+                                    "value": 3171566398470022829,
                                     "type": 2
                                 },
                                 {
                                     "name": "Ray4GO",
-                                    "value": 8457283536152012595,
+                                    "value": 13441653100282989933,
                                     "type": 2
                                 },
                                 {
@@ -8691,8 +8875,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 3112148074904027195,
-                "parentUID": 17532862287404774008,
+                "uid": 9743628373419848223,
+                "parentUID": 7491992698886474043,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -8717,10 +8901,278 @@
         },
         {
             "GameObject": {
+                "name": "Torso",
+                "tag": "",
+                "uid": 6721919016379442167,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.Torso_0",
+                "tag": "",
+                "uid": 3105607550655413316,
+                "parentUID": 6721919016379442167,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 9500018589880877853,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Torso_0.mesh",
+                            "materialUID": 1519239028450570977,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm.L",
+                "tag": "",
+                "uid": 4364043926223653815,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.ArmL_0",
+                "tag": "",
+                "uid": 12371043081893593073,
+                "parentUID": 4364043926223653815,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1299422808838266145,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.ArmL_0.mesh",
+                            "materialUID": 1519239028450570977,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Belt",
+                "tag": "",
+                "uid": 11800562555858709547,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.Belt_0",
+                "tag": "",
+                "uid": 17266939684190931800,
+                "parentUID": 11800562555858709547,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7259711538475916935,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Belt_0.mesh",
+                            "materialUID": 1519239028450570977,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Pierna.L",
+                "tag": "",
+                "uid": 7211133146939471058,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.LegL_0",
+                "tag": "",
+                "uid": 4235222088654007990,
+                "parentUID": 7211133146939471058,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14548512982764382557,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.LegL_0.mesh",
+                            "materialUID": 1519239028450570977,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Armature",
                 "tag": "",
-                "uid": 3339387498471407671,
-                "parentUID": 3112148074904027195,
+                "uid": 5365252088218859133,
+                "parentUID": 9743628373419848223,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -8735,9 +9187,9 @@
                             "localRot_X": -90.00000762939453,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0
+                            "localSca_X": 0.10000000149011612,
+                            "localSca_Y": 0.10000000149011612,
+                            "localSca_Z": 0.10000000149011612
                         }
                     }
                 ]
@@ -8745,10 +9197,10 @@
         },
         {
             "GameObject": {
-                "name": "Root",
+                "name": "Master Bone",
                 "tag": "",
-                "uid": 7077267046617043667,
-                "parentUID": 3339387498471407671,
+                "uid": 139255564857564603,
+                "parentUID": 5365252088218859133,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -8760,9 +9212,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": 90.00000762939453,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -8773,150 +9225,10 @@
         },
         {
             "GameObject": {
-                "name": "BottomSpine",
+                "name": "Master Bone_end",
                 "tag": "",
-                "uid": 3437364747074952413,
-                "parentUID": 7077267046617043667,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.00028809194918721914,
-                            "localPos_Y": 0.0023842286318540573,
-                            "localPos_Z": 0.00020391099678818136,
-                            "localRot_X": 179.99996948242188,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.TopLeg",
-                "tag": "",
-                "uid": 641132608131252568,
-                "parentUID": 3437364747074952413,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.007847387343645096,
-                            "localPos_Y": 0.002297992119565606,
-                            "localPos_Z": 0.0002911986375693232,
-                            "localRot_X": 0.24545849859714508,
-                            "localRot_Y": 0.4855716824531555,
-                            "localRot_Z": -13.484174728393555,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.BottomLeg",
-                "tag": "",
-                "uid": 10313860713776394689,
-                "parentUID": 641132608131252568,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -7.444998573191697e-8,
-                            "localPos_Y": 0.015080762095749378,
-                            "localPos_Z": -6.550399120897055e-7,
-                            "localRot_X": 44.705684661865234,
-                            "localRot_Y": 6.903678894042969,
-                            "localRot_Z": 5.580969333648682,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.FootFar",
-                "tag": "",
-                "uid": 12244858692139609847,
-                "parentUID": 10313860713776394689,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.147135091945529e-7,
-                            "localPos_Y": 0.0066627562046051025,
-                            "localPos_Z": 9.170034900307655e-7,
-                            "localRot_X": 135.66493225097656,
-                            "localRot_Y": -72.05461883544922,
-                            "localRot_Z": -96.43930053710938,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.FootNear",
-                "tag": "",
-                "uid": 15828114397192402592,
-                "parentUID": 12244858692139609847,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.1245796233415604e-9,
-                            "localPos_Y": 0.0032695522531867027,
-                            "localPos_Z": -4.0745362639427185e-10,
-                            "localRot_X": -0.05263609066605568,
-                            "localRot_Y": 0.01255135890096426,
-                            "localRot_Z": -2.413125991821289,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.FootNear_end",
-                "tag": "",
-                "uid": 10360958054007834226,
-                "parentUID": 15828114397192402592,
+                "uid": 12387124906675357675,
+                "parentUID": 139255564857564603,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -8926,7 +9238,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.003651571925729513,
+                            "localPos_Y": 9.03740119934082,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -8941,122 +9253,10 @@
         },
         {
             "GameObject": {
-                "name": "R.TopLeg",
+                "name": "Center of Mass 2",
                 "tag": "",
-                "uid": 17599658587129457857,
-                "parentUID": 3437364747074952413,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.0069202762097120285,
-                            "localPos_Y": 0.0025364207103848457,
-                            "localPos_Z": 0.0002912007621489465,
-                            "localRot_X": 5.889095306396484,
-                            "localRot_Y": -4.054234027862549,
-                            "localRot_Z": 12.202227592468262,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.BottomLeg",
-                "tag": "",
-                "uid": 3956206747882107153,
-                "parentUID": 17599658587129457857,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 4.220055416226387e-10,
-                            "localPos_Y": 0.014842270873486996,
-                            "localPos_Z": 2.9103830456733704e-10,
-                            "localRot_X": 26.524200439453125,
-                            "localRot_Y": -3.263455867767334,
-                            "localRot_Z": -1.284660816192627,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.FootFar",
-                "tag": "",
-                "uid": 7724080800427025810,
-                "parentUID": 3956206747882107153,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.1076917871832848e-7,
-                            "localPos_Y": 0.005491930525749922,
-                            "localPos_Z": -1.2377859093248844e-7,
-                            "localRot_X": 138.1669158935547,
-                            "localRot_Y": 69.04939270019531,
-                            "localRot_Z": 113.8467788696289,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.FootNear",
-                "tag": "",
-                "uid": 973536608086135048,
-                "parentUID": 7724080800427025810,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -5.529727786779404e-10,
-                            "localPos_Y": 0.0032875314354896545,
-                            "localPos_Z": 4.0745362639427185e-10,
-                            "localRot_X": -0.7176856994628906,
-                            "localRot_Y": 0.03412695601582527,
-                            "localRot_Z": -8.406610488891602,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.FootNear_end",
-                "tag": "",
-                "uid": 6211121758462559203,
-                "parentUID": 973536608086135048,
+                "uid": 4073629467568161618,
+                "parentUID": 5365252088218859133,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -9066,7 +9266,35 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0035662101581692696,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 19.90164566040039,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Center of Mass",
+                "tag": "",
+                "uid": 2198754797739345376,
+                "parentUID": 4073629467568161618,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -9081,10 +9309,10 @@
         },
         {
             "GameObject": {
-                "name": "Spine",
+                "name": "Torso.IK",
                 "tag": "",
-                "uid": 17416001292887293996,
-                "parentUID": 7077267046617043667,
+                "uid": 399726487782286838,
+                "parentUID": 2198754797739345376,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -9093,14 +9321,42 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.00028799838037230074,
-                            "localPos_Y": 0.00238422560505569,
-                            "localPos_Z": 0.00020400052017066628,
-                            "localRot_X": 2.93861722946167,
-                            "localRot_Y": 0.08221594989299774,
-                            "localRot_Z": -0.44157910346984863,
+                            "localPos_X": -0.04803355038166046,
+                            "localPos_Y": 1.2868049144744873,
+                            "localPos_Z": -8.884177207946777,
+                            "localRot_X": -100.49906158447266,
+                            "localRot_Y": 0.000009783530003915075,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Leg Top.L",
+                "tag": "",
+                "uid": 14962041315531069542,
+                "parentUID": 399726487782286838,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.026546955108643,
+                            "localPos_Y": -0.000001084033328879741,
+                            "localPos_Z": -4.4337906501823454e-7,
+                            "localRot_X": 72.36347198486328,
+                            "localRot_Y": -0.9673561453819275,
+                            "localRot_Z": 0.9928774237632751,
                             "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Y": 1.0,
                             "localSca_Z": 0.9999999403953552
                         }
                     }
@@ -9109,10 +9365,10 @@
         },
         {
             "GameObject": {
-                "name": "Chest",
+                "name": "Leg Bottom.L",
                 "tag": "",
-                "uid": 8821185086145818694,
-                "parentUID": 17416001292887293996,
+                "uid": 2970905529784817098,
+                "parentUID": 14962041315531069542,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -9121,12 +9377,320 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 1.4097167877480388e-11,
-                            "localPos_Y": 0.014066319912672043,
-                            "localPos_Z": -1.574562702444382e-11,
-                            "localRot_X": 5.879885673522949,
-                            "localRot_Y": 0.0021502573508769274,
-                            "localRot_Z": -0.06697610765695572,
+                            "localPos_X": -1.6391277313232422e-7,
+                            "localPos_Y": 5.481442451477051,
+                            "localPos_Z": -7.003545761108398e-7,
+                            "localRot_X": 67.37107849121094,
+                            "localRot_Y": -0.000005368223355617374,
+                            "localRot_Z": -0.000011753648323065136,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot.L",
+                "tag": "",
+                "uid": 5330715929436781099,
+                "parentUID": 2970905529784817098,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.1175870895385742e-7,
+                            "localPos_Y": 4.108556747436523,
+                            "localPos_Z": 2.7567148208618164e-7,
+                            "localRot_X": 66.88737487792969,
+                            "localRot_Y": -1.386171817779541,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.L",
+                "tag": "",
+                "uid": 10235206220466832642,
+                "parentUID": 5330715929436781099,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.199024392752108e-8,
+                            "localPos_Y": 1.999999761581421,
+                            "localPos_Z": -3.2648927117406856e-8,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.L_end",
+                "tag": "",
+                "uid": 4973788051059032476,
+                "parentUID": 10235206220466832642,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.2907233238220215,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Leg Top.R",
+                "tag": "",
+                "uid": 6061952488572490298,
+                "parentUID": 399726487782286838,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.026546001434326,
+                            "localPos_Y": -0.0000013121544952809927,
+                            "localPos_Z": 5.521346224668378e-7,
+                            "localRot_X": -125.08699798583984,
+                            "localRot_Y": -0.16934475302696228,
+                            "localRot_Z": 0.49591684341430664,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Leg Bottom.R",
+                "tag": "",
+                "uid": 9928109142852885302,
+                "parentUID": 6061952488572490298,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.4808028936386108e-7,
+                            "localPos_Y": 5.481442451477051,
+                            "localPos_Z": -5.261972546577454e-7,
+                            "localRot_X": 0.25896891951560974,
+                            "localRot_Y": 0.000002531410927986144,
+                            "localRot_Z": -1.144170269640199e-8,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot.R",
+                "tag": "",
+                "uid": 2208393649976897988,
+                "parentUID": 9928109142852885302,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.810281097888947e-7,
+                            "localPos_Y": 4.108555316925049,
+                            "localPos_Z": -2.1047890186309814e-7,
+                            "localRot_X": 108.59513854980469,
+                            "localRot_Y": -0.5240290760993958,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.R",
+                "tag": "",
+                "uid": 6682380722124965057,
+                "parentUID": 2208393649976897988,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.561926978865813e-7,
+                            "localPos_Y": 1.9999990463256836,
+                            "localPos_Z": -6.393543117155787e-8,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.R_end",
+                "tag": "",
+                "uid": 16406901776087034473,
+                "parentUID": 6682380722124965057,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.2907233238220215,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Torso.B",
+                "tag": "",
+                "uid": 11760130497811748246,
+                "parentUID": 399726487782286838,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.357504627070739e-7,
+                            "localPos_Y": 4.807665824890137,
+                            "localPos_Z": 1.1398248744853845e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Torso.T",
+                "tag": "",
+                "uid": 6783500486640281441,
+                "parentUID": 11760130497811748246,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.346745186012413e-9,
+                            "localPos_Y": 6.040900230407715,
+                            "localPos_Z": -2.2474004879313725e-9,
+                            "localRot_X": -5.153313636779785,
+                            "localRot_Y": 5.000000953674316,
+                            "localRot_Z": 0.000004660126705857692,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Neck",
+                "tag": "",
+                "uid": 7324383558787903696,
+                "parentUID": 6783500486640281441,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.470348358154297e-8,
+                            "localPos_Y": 6.731428623199463,
+                            "localPos_Z": 3.343448042869568e-7,
+                            "localRot_X": 4.980931294085167e-7,
+                            "localRot_Y": -5.000001907348633,
+                            "localRot_Z": -0.0000020389134078868665,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -9139,8 +9703,8 @@
             "GameObject": {
                 "name": "Head",
                 "tag": "",
-                "uid": 5903145094329490600,
-                "parentUID": 8821185086145818694,
+                "uid": 9069025684783129981,
+                "parentUID": 7324383558787903696,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -9149,12 +9713,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 1.6370904631912708e-11,
-                            "localPos_Y": 0.006923233158886433,
-                            "localPos_Z": -1.5265442243617144e-8,
-                            "localRot_X": -3.5889952182769775,
-                            "localRot_Y": -0.000002682688091226737,
-                            "localRot_Z": 4.371472641651053e-7,
+                            "localPos_X": 3.725844521795807e-9,
+                            "localPos_Y": 1.1117677688598633,
+                            "localPos_Z": -1.6940706615287127e-9,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -9165,10 +9729,38 @@
         },
         {
             "GameObject": {
-                "name": "Head_end",
+                "name": "Hair",
                 "tag": "",
-                "uid": 17044140201704657237,
-                "parentUID": 5903145094329490600,
+                "uid": 15081157013866442932,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.7483793019200675e-11,
+                            "localPos_Y": 10.272719383239746,
+                            "localPos_Z": -4.785312057720148e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hair_end",
+                "tag": "",
+                "uid": 7245344899407459763,
+                "parentUID": 15081157013866442932,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -9178,7 +9770,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.017887240275740623,
+                            "localPos_Y": 4.696098327636719,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -9193,10 +9785,10 @@
         },
         {
             "GameObject": {
-                "name": "L.TopArm",
+                "name": "Eye Target",
                 "tag": "",
-                "uid": 6819754607732272792,
-                "parentUID": 8821185086145818694,
+                "uid": 14815985407409324674,
+                "parentUID": 9069025684783129981,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -9205,93 +9797,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.011730862781405449,
-                            "localPos_Y": 0.003651413368061185,
-                            "localPos_Z": 0.0005734802107326686,
-                            "localRot_X": -86.69450378417969,
-                            "localRot_Y": 73.57676696777344,
-                            "localRot_Z": -83.75515747070313,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.BottomArm",
-                "tag": "",
-                "uid": 3862629302202790329,
-                "parentUID": 6819754607732272792,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 3.3326796256005764e-7,
-                            "localPos_Y": 0.00596278440207243,
-                            "localPos_Z": 0.0000042216997826471925,
-                            "localRot_X": -10.194415092468262,
-                            "localRot_Y": -3.3689332008361816,
-                            "localRot_Z": -45.07864761352539,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Hand",
-                "tag": "",
-                "uid": 3831197573985201208,
-                "parentUID": 3862629302202790329,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.255546860396862e-10,
-                            "localPos_Y": 0.008288346230983734,
-                            "localPos_Z": 1.3096723705530167e-10,
-                            "localRot_X": 103.64998626708984,
-                            "localRot_Y": -85.4749755859375,
-                            "localRot_Z": 104.97315216064453,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Hand_end",
-                "tag": "",
-                "uid": 4812410664519572856,
-                "parentUID": 3831197573985201208,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.009160785935819149,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274880409240723,
+                            "localPos_Z": 0.3283335268497467,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -9305,94 +9813,10 @@
         },
         {
             "GameObject": {
-                "name": "R.TopArm",
+                "name": "Eye Target_end",
                 "tag": "",
-                "uid": 5407056586572856006,
-                "parentUID": 8821185086145818694,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.011126434430480003,
-                            "localPos_Y": 0.0032275354024022818,
-                            "localPos_Z": -0.001095644198358059,
-                            "localRot_X": -170.13394165039063,
-                            "localRot_Y": 6.842040061950684,
-                            "localRot_Z": 17.625429153442383,
-                            "localSca_X": 0.9999999403953552,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.BottomArm",
-                "tag": "",
-                "uid": 6812206378095012414,
-                "parentUID": 5407056586572856006,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -7.539711077697575e-10,
-                            "localPos_Y": 0.005773194599896669,
-                            "localPos_Z": -5.820766091346741e-10,
-                            "localRot_X": -43.10867691040039,
-                            "localRot_Y": 5.8335723876953125,
-                            "localRot_Z": -7.852830410003662,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Hand",
-                "tag": "",
-                "uid": 12209970552876788146,
-                "parentUID": 6812206378095012414,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.5279510989785194e-10,
-                            "localPos_Y": 0.0062094684690237045,
-                            "localPos_Z": -2.3283064365386963e-10,
-                            "localRot_X": 46.29010009765625,
-                            "localRot_Y": -83.04085540771484,
-                            "localRot_Z": 31.453495025634766,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Hand_end",
-                "tag": "",
-                "uid": 4412763040109241530,
-                "parentUID": 12209970552876788146,
+                "uid": 8540769535918982509,
+                "parentUID": 14815985407409324674,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -9402,833 +9826,11 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.010460867546498775,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.1",
-                "tag": "",
-                "uid": 2089796342696986530,
-                "parentUID": 3339387498471407671,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.005419091321527958,
-                            "localPos_Y": 0.008893711492419243,
-                            "localPos_Z": 0.034405872225761414,
-                            "localRot_X": -90.00223541259766,
-                            "localRot_Y": -0.23013506829738617,
-                            "localRot_Z": 0.20941287279129028,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.2",
-                "tag": "",
-                "uid": 18194232060821970543,
-                "parentUID": 2089796342696986530,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -3.2741809263825417e-11,
-                            "localPos_Y": 0.00711421761661768,
-                            "localPos_Z": -5.699121174984612e-10,
-                            "localRot_X": -0.024826133623719215,
-                            "localRot_Y": -0.0002851949830073863,
-                            "localRot_Z": 1.3349134922027588,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.3",
-                "tag": "",
-                "uid": 9611976123666296904,
-                "parentUID": 18194232060821970543,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.709850039333105e-10,
-                            "localPos_Y": 0.007114214822649956,
-                            "localPos_Z": 2.8194335754960775e-11,
-                            "localRot_X": -0.10764148086309433,
-                            "localRot_Y": -0.004056774545460939,
-                            "localRot_Z": 4.316513538360596,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 0.9999999403953552
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.4",
-                "tag": "",
-                "uid": 5776050467756289549,
-                "parentUID": 9611976123666296904,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 3.7834979593753815e-10,
-                            "localPos_Y": 0.007114219479262829,
-                            "localPos_Z": 1.877197064459324e-9,
-                            "localRot_X": -0.30257707834243774,
-                            "localRot_Y": -0.023954857140779495,
-                            "localRot_Z": 9.054030418395996,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.5",
-                "tag": "",
-                "uid": 17195024102459582231,
-                "parentUID": 5776050467756289549,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -5.347828846424818e-10,
-                            "localPos_Y": 0.007114218547940254,
-                            "localPos_Z": -1.6443664208054543e-9,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "R.Lekku.5_end",
-                "tag": "",
-                "uid": 15253694259144572146,
-                "parentUID": 17195024102459582231,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.007783820852637291,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.1",
-                "tag": "",
-                "uid": 7304245323519592786,
-                "parentUID": 3339387498471407671,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.004810824990272522,
-                            "localPos_Y": 0.008893711492419243,
-                            "localPos_Z": 0.034405872225761414,
-                            "localRot_X": -90.00196838378906,
-                            "localRot_Y": 0.00001906983379740268,
-                            "localRot_Z": 0.17239020764827728,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.2",
-                "tag": "",
-                "uid": 9015873935722886676,
-                "parentUID": 7304245323519592786,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.4528156455639873e-10,
-                            "localPos_Y": 0.007114222273230553,
-                            "localPos_Z": -9.685080515353661e-10,
-                            "localRot_X": -0.028403589501976967,
-                            "localRot_Y": -0.0002823205722961575,
-                            "localRot_Z": 1.1405431032180786,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.3",
-                "tag": "",
-                "uid": 16942204399704676302,
-                "parentUID": 9015873935722886676,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.3496759265763103e-10,
-                            "localPos_Y": 0.007114219479262829,
-                            "localPos_Z": 5.738947095323965e-10,
-                            "localRot_X": -0.13425025343894958,
-                            "localRot_Y": -0.00453708553686738,
-                            "localRot_Z": 3.870450735092163,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.4",
-                "tag": "",
-                "uid": 7925745694561772311,
-                "parentUID": 16942204399704676302,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -2.355591277591884e-10,
-                            "localPos_Y": 0.0071142204105854034,
-                            "localPos_Z": -4.163780431554187e-10,
-                            "localRot_X": -0.3880206048488617,
-                            "localRot_Y": -0.029310351237654686,
-                            "localRot_Z": 8.638704299926758,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.5",
-                "tag": "",
-                "uid": 11019272871417686605,
-                "parentUID": 7925745694561772311,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.1550582712516189e-10,
-                            "localPos_Y": 0.007114219479262829,
-                            "localPos_Z": -1.2141754268668592e-10,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "L.Lekku.5_end",
-                "tag": "",
-                "uid": 17951628841303823642,
-                "parentUID": 11019272871417686605,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.007783820852637291,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Body",
-                "tag": "",
-                "uid": 7711464778326830622,
-                "parentUID": 3112148074904027195,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bix_v11.Mesh.002_0",
-                "tag": "",
-                "uid": 1856736570994573647,
-                "parentUID": 7711464778326830622,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3002860991863241694,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.002_0.mesh",
-                            "materialUID": 2749553136936361894,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11Body_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaberOn",
-                "tag": "",
-                "uid": 11708123982528220795,
-                "parentUID": 3112148074904027195,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bix_v11.Mesh.003_0",
-                "tag": "",
-                "uid": 14434348491645389125,
-                "parentUID": 11708123982528220795,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 4476346454261811282,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.003_0.mesh",
-                            "materialUID": 15249782332464096787,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11LightSaber.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bix_v11.Mesh.003_1",
-                "tag": "",
-                "uid": 13429943156484225611,
-                "parentUID": 11708123982528220795,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 13261937219867480932,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.003_1.mesh",
-                            "materialUID": 17059671714718766083,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11LightSaberEmission_1.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Glasses",
-                "tag": "",
-                "uid": 10546531696357472172,
-                "parentUID": 3112148074904027195,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bix_v11.Mesh_0",
-                "tag": "",
-                "uid": 401859395788610570,
-                "parentUID": 10546531696357472172,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 4788477468492727314,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh_0.mesh",
-                            "materialUID": 10619630491359373370,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11Glasses_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Face",
-                "tag": "",
-                "uid": 9725901018113327405,
-                "parentUID": 3112148074904027195,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bix_v11.Mesh.001_0",
-                "tag": "",
-                "uid": 9563726049195885254,
-                "parentUID": 9725901018113327405,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8787826764275846323,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.001_0.mesh",
-                            "materialUID": 11878475840100758784,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11Face_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaberOff",
-                "tag": "",
-                "uid": 17787915081166446541,
-                "parentUID": 3112148074904027195,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bix_v11.Mesh.004_0",
-                "tag": "",
-                "uid": 12764712932440278335,
-                "parentUID": 17787915081166446541,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 9882723572417516684,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.004_0.mesh",
-                            "materialUID": 15249782332464096787,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11LightSaber.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "RaycastsAttack",
-                "tag": "",
-                "uid": 767589261851042705,
-                "parentUID": 17532862287404774008,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": -2.040283679962158,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Ray1",
-                "tag": "",
-                "uid": 7039679553550529278,
-                "parentUID": 767589261851042705,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.0,
-                            "localPos_Y": 3.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Ray2",
-                "tag": "",
-                "uid": 735154567004242819,
-                "parentUID": 767589261851042705,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.0,
-                            "localPos_Y": 3.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Ray3",
-                "tag": "",
-                "uid": 16158781665526965505,
-                "parentUID": 767589261851042705,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.0,
                             "localPos_Y": 1.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -10239,10 +9841,10 @@
         },
         {
             "GameObject": {
-                "name": "Ray4",
+                "name": "Eye base",
                 "tag": "",
-                "uid": 8457283536152012595,
-                "parentUID": 767589261851042705,
+                "uid": 13187035518386217512,
+                "parentUID": 9069025684783129981,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -10251,10 +9853,1516 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.0,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274880409240723,
+                            "localPos_Z": 0.3283335268497467,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye base_end",
+                "tag": "",
+                "uid": 13196803028784673442,
+                "parentUID": 13187035518386217512,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.8099937438964844,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth Target",
+                "tag": "",
+                "uid": 4195576274440094166,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 3.946261405944824,
+                            "localPos_Z": 0.3283328115940094,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth Target_end",
+                "tag": "",
+                "uid": 15398072371687717249,
+                "parentUID": 4195576274440094166,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
                             "localPos_Y": 1.0,
                             "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth base",
+                "tag": "",
+                "uid": 7913603127288141464,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.600000381469727,
+                            "localPos_Y": 3.9282562732696533,
+                            "localPos_Z": 0.299999862909317,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth base_end",
+                "tag": "",
+                "uid": 15290452186319601764,
+                "parentUID": 7913603127288141464,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.8099937438964844,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye Target.001",
+                "tag": "",
+                "uid": 5060763970611491667,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274880409240723,
+                            "localPos_Z": 0.3283335268497467,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye Target.001_end",
+                "tag": "",
+                "uid": 14108034492766196033,
+                "parentUID": 5060763970611491667,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1374473571777344,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye disp;ay",
+                "tag": "",
+                "uid": 1247789888552291247,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274880409240723,
+                            "localPos_Z": 0.3283335268497467,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye disp;ay_end",
+                "tag": "",
+                "uid": 14522941737385506571,
+                "parentUID": 1247789888552291247,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1374473571777344,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth display",
+                "tag": "",
+                "uid": 15318180303647008440,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.600000381469727,
+                            "localPos_Y": 3.9282562732696533,
+                            "localPos_Z": 0.299999862909317,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth display_end",
+                "tag": "",
+                "uid": 9866311241642047882,
+                "parentUID": 15318180303647008440,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1374473571777344,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.2",
+                "tag": "",
+                "uid": 3469041479323000521,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.6661972999572754,
+                            "localPos_Y": 5.322818279266357,
+                            "localPos_Z": 5.274548053741455,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.1",
+                "tag": "",
+                "uid": 13928082188049094781,
+                "parentUID": 3469041479323000521,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.3469246625900269,
+                            "localPos_Y": -6.640783567490871e-7,
+                            "localPos_Z": -1.2954412653698455e-8,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.1_end",
+                "tag": "",
+                "uid": 15162744593424066272,
+                "parentUID": 13928082188049094781,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.3",
+                "tag": "",
+                "uid": 13589071277136287328,
+                "parentUID": 3469041479323000521,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.3469246625900269,
+                            "localPos_Y": -7.258843766067002e-7,
+                            "localPos_Z": -1.0796315308425619e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.3_end",
+                "tag": "",
+                "uid": 14448331784274162896,
+                "parentUID": 13589071277136287328,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.2",
+                "tag": "",
+                "uid": 11281673651515074474,
+                "parentUID": 9069025684783129981,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.6661972999572754,
+                            "localPos_Y": 5.322818279266357,
+                            "localPos_Z": 5.274547576904297,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.1",
+                "tag": "",
+                "uid": 12722913506844762930,
+                "parentUID": 11281673651515074474,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.3469245433807373,
+                            "localPos_Y": -7.090325766512251e-7,
+                            "localPos_Z": 9.566292646923102e-9,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.1_end",
+                "tag": "",
+                "uid": 12526091392319025764,
+                "parentUID": 12722913506844762930,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.3",
+                "tag": "",
+                "uid": 13217618939722383809,
+                "parentUID": 11281673651515074474,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.3469250202178955,
+                            "localPos_Y": -6.472264999501931e-7,
+                            "localPos_Z": 1.0457504373562188e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.3_end",
+                "tag": "",
+                "uid": 5088897646775796106,
+                "parentUID": 13217618939722383809,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.L",
+                "tag": "",
+                "uid": 6358141847251454013,
+                "parentUID": 6783500486640281441,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.470348358154297e-8,
+                            "localPos_Y": 6.731428623199463,
+                            "localPos_Z": 3.343448042869568e-7,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.L_end",
+                "tag": "",
+                "uid": 1887844901236092960,
+                "parentUID": 6358141847251454013,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.5,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Top.L",
+                "tag": "",
+                "uid": 14586260614118088530,
+                "parentUID": 6783500486640281441,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.220897674560547,
+                            "localPos_Y": 3.7057414054870605,
+                            "localPos_Z": -0.01209348440170288,
+                            "localRot_X": -89.6376953125,
+                            "localRot_Y": 43.42610168457031,
+                            "localRot_Z": -46.65156173706055,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Bottom.L",
+                "tag": "",
+                "uid": 7669076882135746187,
+                "parentUID": 14586260614118088530,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.002685368061065674,
+                            "localPos_Y": 4.535379886627197,
+                            "localPos_Z": -0.0009602261707186699,
+                            "localRot_X": 179.4689178466797,
+                            "localRot_Y": 0.5324604511260986,
+                            "localRot_Z": -108.1293716430664,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wrist.L",
+                "tag": "",
+                "uid": 5171928271613107865,
+                "parentUID": 7669076882135746187,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.00267791748046875,
+                            "localPos_Y": 5.279507637023926,
+                            "localPos_Z": 0.0009864543098956347,
+                            "localRot_X": 179.76560974121094,
+                            "localRot_Y": -0.2339090257883072,
+                            "localRot_Z": 179.88096618652344,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hand.L",
+                "tag": "",
+                "uid": 2642857219165046965,
+                "parentUID": 5171928271613107865,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.5762786865234375e-7,
+                            "localPos_Y": 1.1204242706298828,
+                            "localPos_Z": 4.775356501340866e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 1.L",
+                "tag": "",
+                "uid": 93253572928594849,
+                "parentUID": 2642857219165046965,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 55.05118942260742,
+                            "localRot_Y": -0.000003416753315832466,
+                            "localRot_Z": -5.264014362182934e-7,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.L",
+                "tag": "",
+                "uid": 5126653641159681291,
+                "parentUID": 93253572928594849,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.384185791015625e-7,
+                            "localPos_Y": 2.3536055088043213,
+                            "localPos_Z": -5.960464477539063e-7,
+                            "localRot_X": 104.4736099243164,
+                            "localRot_Y": 0.000008134095878631342,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.L_end",
+                "tag": "",
+                "uid": 17167968789486058087,
+                "parentUID": 5126653641159681291,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.0519156455993652,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 1.L",
+                "tag": "",
+                "uid": 5522336706734653565,
+                "parentUID": 2642857219165046965,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 126.30681610107422,
+                            "localRot_Y": 0.000027281206712359563,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.L",
+                "tag": "",
+                "uid": 903776261143857673,
+                "parentUID": 5522336706734653565,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.384185791015625e-7,
+                            "localPos_Y": 2.2770237922668457,
+                            "localPos_Z": -4.172325134277344e-7,
+                            "localRot_X": 105.52994537353516,
+                            "localRot_Y": -0.00001877257091109641,
+                            "localRot_Z": 179.9999542236328,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.L_end",
+                "tag": "",
+                "uid": 1550692069066706926,
+                "parentUID": 903776261143857673,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.055990219116211,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.R",
+                "tag": "",
+                "uid": 10103207822244092600,
+                "parentUID": 6783500486640281441,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.470348358154297e-8,
+                            "localPos_Y": 6.731428623199463,
+                            "localPos_Z": 3.343448042869568e-7,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.R_end",
+                "tag": "",
+                "uid": 5051438278422898052,
+                "parentUID": 10103207822244092600,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.5,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Top.R",
+                "tag": "",
+                "uid": 9340901175518423795,
+                "parentUID": 6783500486640281441,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.220897674560547,
+                            "localPos_Y": 3.706716775894165,
+                            "localPos_Z": -0.01477581262588501,
+                            "localRot_X": -94.80589294433594,
+                            "localRot_Y": -40.08762741088867,
+                            "localRot_Z": 103.48827362060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Bottom.R",
+                "tag": "",
+                "uid": 12679770385579240117,
+                "parentUID": 9340901175518423795,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 4.535381317138672,
+                            "localPos_Z": 0.000001341104507446289,
+                            "localRot_X": -0.5061841607093811,
+                            "localRot_Y": 0.5084150433540344,
+                            "localRot_Z": 71.22159576416016,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wrist.R",
+                "tag": "",
+                "uid": 9213251441097285532,
+                "parentUID": 12679770385579240117,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.002678096294403076,
+                            "localPos_Y": 5.279506206512451,
+                            "localPos_Z": -0.0009844303131103516,
+                            "localRot_X": 0.18556129932403564,
+                            "localRot_Y": 22.104047775268555,
+                            "localRot_Z": 0.12845304608345032,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hand.R",
+                "tag": "",
+                "uid": 1381276743806486360,
+                "parentUID": 9213251441097285532,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.172325134277344e-7,
+                            "localPos_Y": 1.120424747467041,
+                            "localPos_Z": -2.086162567138672e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Baton",
+                "tag": "",
+                "uid": 511397782408028544,
+                "parentUID": 1381276743806486360,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0000019073486328125,
+                            "localPos_Y": 3.913917064666748,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 10.0,
+                            "localSca_Y": 10.0,
+                            "localSca_Z": 10.000000953674316
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.Cylinder.001_0",
+                "tag": "",
+                "uid": 963659531515744270,
+                "parentUID": 511397782408028544,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15766070314786165339,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Cylinder.001_0.mesh",
+                            "materialUID": 7085448161917561595,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 1.R",
+                "tag": "",
+                "uid": 10163757581205861492,
+                "parentUID": 1381276743806486360,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -124.94878387451172,
+                            "localRot_Y": 0.000018387856471235864,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "blaster1",
+                "tag": "",
+                "uid": 1928186858888257809,
+                "parentUID": 10163757581205861492,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00036144256591796875,
+                            "localPos_Y": 2.6328837871551514,
+                            "localPos_Z": 0.37666988372802734,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": -0.0000025613210254959995,
+                            "localRot_Z": -8.537730877833383e-7,
+                            "localSca_X": 10.0,
+                            "localSca_Y": 9.999999046325684,
+                            "localSca_Z": 10.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.blaster1_0",
+                "tag": "",
+                "uid": 8150447289812444276,
+                "parentUID": 1928186858888257809,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0000019073486328125,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15418682639358923153,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.blaster1_0.mesh",
+                            "materialUID": 10167347009347036053,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierNone_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.R",
+                "tag": "",
+                "uid": 16180183979780936343,
+                "parentUID": 10163757581205861492,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.000003159046173095703,
+                            "localPos_Y": 2.3536057472229004,
+                            "localPos_Z": 0.0000011920928955078125,
+                            "localRot_X": -104.47358703613281,
+                            "localRot_Y": 0.000016341411537723616,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.R_end",
+                "tag": "",
+                "uid": 12418856246325682634,
+                "parentUID": 16180183979780936343,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.0519156455993652,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 1.R",
+                "tag": "",
+                "uid": 9512331595860103780,
+                "parentUID": 1381276743806486360,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -53.69321823120117,
+                            "localRot_Y": -0.000019493847503326833,
+                            "localRot_Z": -2.479200134075654e-7,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.R",
+                "tag": "",
+                "uid": 4854651580345868888,
+                "parentUID": 9512331595860103780,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.940696716308594e-7,
+                            "localPos_Y": 2.2770233154296875,
+                            "localPos_Z": -0.0000016689300537109375,
+                            "localRot_X": -105.5299072265625,
+                            "localRot_Y": -0.00001533715294499416,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.R_end",
+                "tag": "",
+                "uid": 472827230348514718,
+                "parentUID": 4854651580345868888,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.055990219116211,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot IK.L",
+                "tag": "",
+                "uid": 10589004184641644153,
+                "parentUID": 2198754797739345376,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.8882055282592773,
+                            "localPos_Y": 8.763862609863281,
+                            "localPos_Z": -11.766984939575195,
+                            "localRot_X": 52.887393951416016,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Knee IK.L",
+                "tag": "",
+                "uid": 5201378532562173095,
+                "parentUID": 10589004184641644153,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.384185791015625e-7,
+                            "localPos_Y": 10.61819076538086,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -2.38594388961792,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": 2.38594388961792,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Knee IK.L_end",
+                "tag": "",
+                "uid": 10492222292698981844,
+                "parentUID": 5201378532562173095,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.6659812927246094,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot IK.R",
+                "tag": "",
+                "uid": 7388275581897556322,
+                "parentUID": 2198754797739345376,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.070306777954102,
+                            "localPos_Y": -8.359048843383789,
+                            "localPos_Z": -13.275105476379395,
+                            "localRot_X": -84.26544952392578,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
@@ -10267,9 +11375,719 @@
         },
         {
             "GameObject": {
-                "name": "Waypoint 1_1",
+                "name": "Knee IK.R",
                 "tag": "",
-                "uid": 3711537511531170711,
+                "uid": 2096674912376864818,
+                "parentUID": 7388275581897556322,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.76837158203125e-7,
+                            "localPos_Y": 10.618189811706543,
+                            "localPos_Z": -2.086162567138672e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Knee IK.R_end",
+                "tag": "",
+                "uid": 10813254703147561944,
+                "parentUID": 2096674912376864818,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.6659812927246094,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.L",
+                "tag": "",
+                "uid": 13841593746489386626,
+                "parentUID": 2198754797739345376,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -9.734857559204102,
+                            "localPos_Y": -5.237709045410156,
+                            "localPos_Z": 5.635295867919922,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.L_end",
+                "tag": "",
+                "uid": 11911876295363405236,
+                "parentUID": 13841593746489386626,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.6994400024414063,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.L",
+                "tag": "",
+                "uid": 3218015951441244890,
+                "parentUID": 2198754797739345376,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -16.035667419433594,
+                            "localPos_Y": -0.012093544006347656,
+                            "localPos_Z": 5.667854309082031,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.L_end",
+                "tag": "",
+                "uid": 17913212874675256431,
+                "parentUID": 3218015951441244890,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.415584564208984,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.R",
+                "tag": "",
+                "uid": 1540367701634076932,
+                "parentUID": 2198754797739345376,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.422557830810547,
+                            "localPos_Y": -4.248201370239258,
+                            "localPos_Z": 5.59730339050293,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.R_end",
+                "tag": "",
+                "uid": 7890092115719149720,
+                "parentUID": 1540367701634076932,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.6994400024414063,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.R",
+                "tag": "",
+                "uid": 13677966516027150291,
+                "parentUID": 2198754797739345376,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 16.035667419433594,
+                            "localPos_Y": -0.012093544006347656,
+                            "localPos_Z": 5.667854309082031,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -90.00000762939453,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.R_end",
+                "tag": "",
+                "uid": 17657099236515245240,
+                "parentUID": 13677966516027150291,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.415584564208984,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm.R",
+                "tag": "",
+                "uid": 10354805079745440267,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.ArmR_0",
+                "tag": "",
+                "uid": 4251503895042506103,
+                "parentUID": 10354805079745440267,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6204844419281911138,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.ArmR_0.mesh",
+                            "materialUID": 1519239028450570977,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Pierna.R",
+                "tag": "",
+                "uid": 16540866114656085601,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.LegR_0",
+                "tag": "",
+                "uid": 12323165253259966168,
+                "parentUID": 16540866114656085601,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3445309127132563374,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.LegR_0.mesh",
+                            "materialUID": 1519239028450570977,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "eyes",
+                "tag": "",
+                "uid": 4869842235133375248,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.eyes_0",
+                "tag": "",
+                "uid": 9539732019119033807,
+                "parentUID": 4869842235133375248,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10800118001822011875,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.eyes_0.mesh",
+                            "materialUID": 4493929517883837357,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierEyes_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ninjago mouths final",
+                "tag": "",
+                "uid": 10148632985764990580,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.ninjago mouths final_0",
+                "tag": "",
+                "uid": 16933201747471398183,
+                "parentUID": 10148632985764990580,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8790731251619615686,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.ninjago mouths final_0.mesh",
+                            "materialUID": 17084646819758870282,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierMouth_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder",
+                "tag": "",
+                "uid": 13660869539962821089,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.28069376945495605,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0715583562850952,
+                            "localSca_Y": 1.0715583562850952,
+                            "localSca_Z": 1.0715583562850952
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.Cylinder_0",
+                "tag": "",
+                "uid": 16219642755414149090,
+                "parentUID": 13660869539962821089,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7421261444845104200,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Cylinder_0.mesh",
+                            "materialUID": 17970079159910051221,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierMask_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hat",
+                "tag": "",
+                "uid": 16539437909001390769,
+                "parentUID": 9743628373419848223,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.10731500387191772,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Venomite_Soldier.Sphere.002_0",
+                "tag": "",
+                "uid": 15318930367671900209,
+                "parentUID": 16539437909001390769,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 27067240541701546,
+                            "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Sphere.002_0.mesh",
+                            "materialUID": 1519239028450570977,
+                            "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BulletOriginR",
+                "tag": "",
+                "uid": 2686890700626883590,
+                "parentUID": 7491992698886474043,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.6380000114440918,
+                            "localPos_Y": 2.4103293418884277,
+                            "localPos_Z": 3.109311580657959,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 1",
+                "tag": "",
+                "uid": 980108798514021812,
                 "parentUID": 4810850753283727253,
                 "enabled": true,
                 "static": false,
@@ -10280,8 +12098,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -10.0,
-                            "localPos_Y": 1.0,
-                            "localPos_Z": -3.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 3.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -10295,9 +12113,9 @@
         },
         {
             "GameObject": {
-                "name": "Waypoint 1_2",
+                "name": "Waypoint 2",
                 "tag": "",
-                "uid": 7888631640596656246,
+                "uid": 13860678891281297010,
                 "parentUID": 4810850753283727253,
                 "enabled": true,
                 "static": false,
@@ -10309,115 +12127,13 @@
                             "removed": false,
                             "localPos_X": -10.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 6.0,
+                            "localPos_Z": -3.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bullet",
-                "tag": "",
-                "uid": 10877708987601115507,
-                "parentUID": 17532862287404774008,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": -3.753843307495117,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": -0.000022311796783469617,
-                            "localRot_Z": 180.0,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.2500000298023224,
-                            "localSca_Z": 0.2500000298023224
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_AudioSource",
-                            "active": true,
-                            "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginR",
-                "tag": "",
-                "uid": 4337956497191065576,
-                "parentUID": 17532862287404774008,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.6088752746582031,
-                            "localPos_Y": 0.5172722339630127,
-                            "localPos_Z": 1.9774169921875,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginL",
-                "tag": "",
-                "uid": 17648466877992158887,
-                "parentUID": 17532862287404774008,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1.2428359985351563,
-                            "localPos_Y": 0.5172722339630127,
-                            "localPos_Z": 1.9774169921875,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
                         }
                     }
                 ]
