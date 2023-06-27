@@ -473,6 +473,9 @@
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneExplosionAttack.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
@@ -971,6 +974,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneExplosionAttack.h">
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
