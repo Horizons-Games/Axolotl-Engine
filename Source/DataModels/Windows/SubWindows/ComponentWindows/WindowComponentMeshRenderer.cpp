@@ -377,6 +377,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
 
 			ImGui::Text("");
+
+			ImGui::InputFloat2("Tiling", &tiling[0], "%.1f");
+			ImGui::InputFloat2("Offset", &offset[0], "%.1f");
+			
+			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
 
 			if (ImGui::Button("Reset"))
@@ -404,6 +409,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetMetalness(metalness);
 				asMeshRenderer->SetNormalStrength(normalStrength);
 				asMeshRenderer->SetTransparent(isTransparent);
+				asMeshRenderer->SetTiling(tiling);
+				asMeshRenderer->SetOffset(offset);
 				materialResource->SetChanged(true);
 
 				App->GetModule<ModuleResources>()->ReimportResource(materialResource->GetUID());

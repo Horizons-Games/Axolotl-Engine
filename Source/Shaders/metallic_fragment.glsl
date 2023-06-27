@@ -19,7 +19,9 @@ struct Material {
     float normal_strength;      //36 //4
     sampler2D diffuse_map;      //40 //8
     sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8 --> 64
+    sampler2D metallic_map;     //56 //8
+    vec2 tiling;                //64 //8
+    vec2 offset;                //72 //8 --> 80
 };
 
 layout(std140, binding=1) uniform Directional
@@ -274,6 +276,8 @@ void main()
 {
     Material material = materials[InstanceIndex];
 
+    vec2 newTexCoord =  TexCoord*material.tiling+material.offset;
+
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
@@ -284,7 +288,7 @@ void main()
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1)
     {
-        textureMat = texture(material.diffuse_map, TexCoord);
+        textureMat = texture(material.diffuse_map, newTexCoord);
     }
     textureMat = pow(textureMat, gammaCorrection); // sRGB textures to linear space
     
@@ -301,7 +305,7 @@ void main()
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(material.normal_map, TexCoord).rgb;
+        norm = texture(material.normal_map, newTexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -310,7 +314,7 @@ void main()
     norm = normalize(norm);
   
     // Metallic
-    vec4 colorMetallic = texture(material.metallic_map, TexCoord);
+    vec4 colorMetallic = texture(material.metallic_map, newTexCoord);
     float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * 
         material.metalness;
 

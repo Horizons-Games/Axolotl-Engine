@@ -36,6 +36,8 @@ public:
 	const float& GetMetalness() const;
 	const bool& IsTransparent() const;
 	const unsigned int& GetShaderType() const;
+	const float2& GetTiling() const;
+	const float2& GetOffset() const;
 
 	bool HasDiffuse();
 	bool HasNormal();
@@ -57,6 +59,8 @@ public:
 	void SetMetalness(const float metalness);
 	void SetTransparent(const bool isTransparent);
 	void SetShaderType(const unsigned int shaderType);
+	void SetTiing(const float2& tiling);
+	void SetOffset(const float2& offset);
 
 protected:
 	void InternalLoad() override{};
@@ -77,6 +81,9 @@ private:
 	float metalness;
 	bool isTransparent;
 	unsigned int shaderType;
+
+	float2 tiling;
+	float2 offset;
 
 	LoadOptionsMaterial loadOptions;
 };
@@ -144,6 +151,16 @@ inline const bool& ResourceMaterial::IsTransparent() const
 inline const unsigned int& ResourceMaterial::GetShaderType() const
 {
 	return shaderType;
+}
+
+inline const float2& ResourceMaterial::GetTiling() const
+{
+	return tiling;
+}
+
+inline const float2& ResourceMaterial::GetOffset() const
+{
+	return offset;
 }
 
 inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
@@ -234,4 +251,14 @@ inline void ResourceMaterial::SetTransparent(const bool isTransparent)
 inline void ResourceMaterial::SetShaderType(const unsigned int shaderType)
 {
 	this->shaderType = shaderType;
+}
+
+inline void ResourceMaterial::SetTiing(const float2& tiling)
+{
+	this->tiling = tiling;
+}
+
+inline void ResourceMaterial::SetOffset(const float2& offset)
+{
+	this->offset = offset;
 }

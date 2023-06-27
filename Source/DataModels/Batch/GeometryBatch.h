@@ -63,7 +63,9 @@ private:
 		float normal_strength = 0;			 // 16 //4
 		uint64_t diffuse_map;				 // 40 //8
 		uint64_t normal_map;				 // 48 //8
-		uint64_t metallic_map;				 // 56 //8 -->64
+		uint64_t metallic_map;				 // 56 //8
+		float2 tiling = float2(1.0f);		 // 64 //8 
+		float2 offset = float2(0.0f);		 // 72 //8 --> 80
 	};
 
 	struct MaterialSpecular
@@ -77,8 +79,10 @@ private:
 		float normal_strength = 0;			  // 48 //4
 		uint64_t diffuse_map;				  // 48 //8
 		uint64_t normal_map;				  // 56 //8
-		uint64_t specular_map;				  // 64 //8
-		float2 padding = float2::zero;		  // 72 //8 --> 80
+		uint64_t specular_map;				  // 64 //8				  // 64 //8
+		float2 tiling = float2(1.0f);		  // 72 //8 
+		float2 offset = float2(0.0f);		  // 80 //8
+		float2 padding = float2::zero;		  // 88 //8 --> 96
 	};
 
 	struct ResourceInfo

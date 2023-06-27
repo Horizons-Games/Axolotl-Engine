@@ -15,8 +15,10 @@ struct Material {
     float normal_strength;      //48 //4
     sampler2D diffuse_map;      //48 //8
     sampler2D normal_map;       //56 //8
-    sampler2D specular_map;     //64 //8    
-    vec2 padding;               //72 //8 --> 80
+    sampler2D specular_map;     //64 //8
+    vec2 tiling;                //72 //8
+    vec2 offset;                //80 //8
+    vec2 padding;               //88 //8 --> 96
 };
 
 layout (location = 0) out vec3 gPosition;
@@ -41,6 +43,8 @@ void main()
 
     Material material = materials[InstanceIndex];
 
+    vec2 newTexCoord =  TexCoord*material.tiling+material.offset;
+
     gPosition = FragPos;
     gNormal = Normal;
 
@@ -48,14 +52,14 @@ void main()
     gDiffuse = material.diffuse_color;
     if (material.has_diffuse_map == 1)
     {
-        gDiffuse = texture(material.diffuse_map, TexCoord);
+        gDiffuse = texture(material.diffuse_map, newTexCoord);
     }
 
     //Normals
     if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(gNormal, FragTangent);
-        gNormal = texture(material.normal_map, TexCoord).rgb;
+        gNormal = texture(material.normal_map, newTexCoord).rgb;
         gNormal = gNormal * 2.0 - 1.0;
         gNormal.xy *= material.normal_strength;
         gNormal = normalize(gNormal);
@@ -65,6 +69,6 @@ void main()
     //Specular + smoothness
     gSpecular = vec4(material.specular_color, material.smoothness);
     if (material.has_specular_map == 1) {
-        gSpecular = vec4(texture(material.specular_map, TexCoord));
+        gSpecular = vec4(texture(material.specular_map, newTexCoord));
     }
 } 

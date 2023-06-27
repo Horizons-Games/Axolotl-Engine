@@ -199,6 +199,10 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.metallic_map = texture->GetHandle();
 			}
+
+			newMaterial.tiling = resourceMaterial->GetTiling();
+			newMaterial.offset = resourceMaterial->GetOffset();
+
 			metallicMaterialData[i] = newMaterial;
 		}
 
@@ -233,6 +237,10 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.specular_map = texture->GetHandle();
 			}
+
+			newMaterial.tiling = resourceMaterial->GetTiling();
+			newMaterial.offset = resourceMaterial->GetOffset();
+
 			specularMaterialData[i] = newMaterial;
 		}
 	}

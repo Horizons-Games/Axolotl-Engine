@@ -32,6 +32,8 @@ private:
 
 	float4 colorDiffuse;
 	float3 colorSpecular;
+	float2 tiling;
+	float2 offset;
 	std::shared_ptr<ResourceMaterial> material;
 	std::shared_ptr<ResourceTexture> diffuseTexture;
 	std::shared_ptr<ResourceTexture> normalMap;

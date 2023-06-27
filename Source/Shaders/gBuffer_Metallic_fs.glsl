@@ -15,7 +15,9 @@ struct Material {
     float normal_strength;      //36 //4
     sampler2D diffuse_map;      //40 //8
     sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8 --> 64
+    sampler2D metallic_map;     //56 //8
+    vec2 tiling;                //64 //8
+    vec2 offset;                //72 //8 --> 80
 };
 
 layout (location = 0) out vec3 gPosition;
@@ -39,11 +41,13 @@ void main()
 {    
     Material material = materials[InstanceIndex];
 
+    vec2 newTexCoord =  TexCoord*material.tiling+material.offset;
+
     gPosition = FragPos;
     gNormal = Normal;
 
-    vec4 metallicColor = texture(material.metallic_map,TexCoord);
-    vec4 diffuseColor = texture(material.diffuse_map, TexCoord);
+    vec4 metallicColor = texture(material.metallic_map, newTexCoord);
+    vec4 diffuseColor = texture(material.diffuse_map, newTexCoord);
 
     float metalnessMask = material.has_metallic_map * metallicColor.r + (1 - material.has_metallic_map) * 
      material.metalness;
@@ -52,7 +56,7 @@ void main()
     if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(gNormal, FragTangent);
-        gNormal = texture(material.normal_map, TexCoord).rgb;
+        gNormal = texture(material.normal_map, newTexCoord).rgb;
         gNormal = gNormal * 2.0 - 1.0;
         gNormal.xy *= material.normal_strength;
         gNormal = normalize(gNormal);
