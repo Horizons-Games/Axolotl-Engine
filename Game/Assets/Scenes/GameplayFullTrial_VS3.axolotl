@@ -3139,7 +3139,7 @@
                 "tag": "",
                 "uid": 16415258083415142231,
                 "parentUID": 9011007661183311806,
-                "enabled": false,
+                "enabled": true,
                 "static": false,
                 "Components": [
                     {
@@ -6243,7 +6243,7 @@
                 "tag": "",
                 "uid": 12473639644339742065,
                 "parentUID": 9011007661183311806,
-                "enabled": false,
+                "enabled": true,
                 "static": false,
                 "Components": [
                     {
@@ -6537,7 +6537,7 @@
                             "useRotationController": false,
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -75.0,
+                            "gravity_Y": -9.8100004196167,
                             "boxSize_X": 0.30000001192092896,
                             "boxSize_Y": 0.6499999761581421,
                             "boxSize_Z": 0.30000001192092896,
@@ -6650,7 +6650,7 @@
                             "fields": [
                                 {
                                     "name": "JumpParameter",
-                                    "value": 1250.0,
+                                    "value": 500.0,
                                     "type": 0
                                 },
                                 {

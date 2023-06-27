@@ -55,7 +55,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 {
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
-		//componentAnimation->SetParameter("IsUsingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", true);
+		componentAnimation->SetParameter("IsStoppingForce", false);
 		RaycastHit hit;
 		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
 		LineSegment line(ray, 300);
@@ -70,6 +71,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 				gameObjectAttached = nullptr;
 				return;
 			}
+
 			else if (distancePointGameObjectAttached < minDistanceForce)
 			{
 				distancePointGameObjectAttached = minDistanceForce;
@@ -94,12 +96,14 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rigidBody->SetKpTorque(50.0f);
 		}
 	}
+
 	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE
 		&& gameObjectAttached)
 		|| currentTimeForce < 0.0f
 		|| breakForce)
 	{
-		//componentAnimation->SetParameter("IsUsingForce", false);
+		componentAnimation->SetParameter("IsStoppingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", false);
 
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		gameObjectAttached = nullptr;
