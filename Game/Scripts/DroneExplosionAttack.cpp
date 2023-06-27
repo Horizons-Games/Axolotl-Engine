@@ -35,7 +35,7 @@ void DroneExplosionAttack::Update(float deltaTime)
 {
 
 
-	if (parentHealthSystem->GetField<float>("CurrentHealth")->getter() <= 10.0f 
+	if (parentHealthSystem->GetCurrentHealth() <= 10.0f
 		&& parentEnemyDroneScript->GetDroneBehaviour() == DroneBehaviours::EXPLOSIONATTACK
 		&& attackState == DroneExplosionState::NOTDEAD)
 	{
@@ -43,16 +43,16 @@ void DroneExplosionAttack::Update(float deltaTime)
 	}
 
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
-	if (attackState == DroneExplosionState::WAITTINGEXPLOSION)
+	if (attackState == DroneExplosionState::WAITINGEXPLOSION)
 	{
 		explosionTime -= deltaTime;
 		UpdateDroneColor();
 		if (explosionTime < 0)
 		{
-			attackState = DroneExplosionState::EXPLOTING;
+			attackState = DroneExplosionState::EXPLODING;
 		}
 	}
-	else if (attackState == DroneExplosionState::EXPLOTING)
+	else if (attackState == DroneExplosionState::EXPLODING)
 	{
 		if (targetPlayer)
 		{
@@ -70,7 +70,7 @@ void DroneExplosionAttack::SetExplosionPosition(float3 explosionPos)
 {
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
-	attackState = DroneExplosionState::WAITTINGEXPLOSION;
+	attackState = DroneExplosionState::WAITINGEXPLOSION;
 	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
 }
 

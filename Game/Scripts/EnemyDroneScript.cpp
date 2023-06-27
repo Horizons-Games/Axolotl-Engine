@@ -42,7 +42,7 @@ void EnemyDroneScript::Start()
 	attackScript = owner->GetComponent<DroneFastAttack>();
 	healthScript = owner->GetComponent<HealthSystem>();
 
-	seekTarget = seekScript->GetField<GameObject*>("Target")->getter();
+	seekTarget = seekScript->GetTarget();
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
 	droneState = DroneBehaviours::IDLE;
@@ -118,7 +118,7 @@ void EnemyDroneScript::Update(float deltaTime)
 				attackScript->StartAttack();
 			}
 
-			if (healthScript->GetField<float>("CurrentHealth")->getter() <= 10.0f)
+			if (healthScript->GetCurrentHealth() <= 10.0f)
 			{
 				droneState = DroneBehaviours::EXPLOSIONATTACK;
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
