@@ -8019,9 +8019,9 @@
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000003278255463,
+                            "localSca_Z": 0.20000003278255463
                         }
                     },
                     {
@@ -8029,8 +8029,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -8041,13 +8041,13 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 3,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 5.0,
@@ -8056,7 +8056,7 @@
                             "boxSize_X": 0.9999994039535522,
                             "boxSize_Y": 1.75,
                             "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.5,
+                            "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -7.840948581695557,
@@ -8098,13 +8098,13 @@
                             "removed": false,
                             "localPos_X": -4.359014987945557,
                             "localPos_Y": 3.2121219635009766,
-                            "localPos_Z": -8.762855529785156,
+                            "localPos_Z": -8.701062202453613,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
                         }
                     },
                     {
@@ -8112,8 +8112,8 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -8124,13 +8124,13 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 3,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 5.0,
@@ -8139,12 +8139,12 @@
                             "boxSize_X": 0.9999994039535522,
                             "boxSize_Y": 1.75,
                             "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.5,
+                            "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -4.359014987945557,
                             "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.762855529785156
+                            "rbPos_Z": -8.701062202453613
                         }
                     },
                     {
@@ -8251,9 +8251,14 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "Player",
-                                    "value": 6764586723542947213,
-                                    "type": 2
+                                    "name": "RadiusSeeking",
+                                    "value": 2.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DebugDraw",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -8403,24 +8408,16 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Script",
+                            "type": "Component_CameraSample",
                             "active": true,
                             "removed": true,
-                            "constructName": "CameraSample",
-                            "fields": [
-                                {
-                                    "name": "InfluenceRadius",
-                                    "value": 1.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "PositionOffset",
-                                    "value x": 0.0,
-                                    "value y": 0.0,
-                                    "value z": 0.0,
-                                    "type": 3
-                                }
-                            ]
+                            "influenceRadius": 1.0,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 0.0,
+                            "positionOffsetZ": 0.0,
+                            "positionX": 0.0,
+                            "positionY": 0.0,
+                            "positionZ": 62.397525787353516
                         }
                     }
                 ]

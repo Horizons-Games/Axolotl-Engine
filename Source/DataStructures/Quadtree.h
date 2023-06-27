@@ -1,11 +1,9 @@
 #pragma once
 #include <MathGeoLib/Include/Geometry/AABB.h>
-#include <list>
-#include <map>
-#include <set>
 
 #include "Geometry/LineSegment.h"
-#include "Globals.h"
+
+#include <set>
 
 class GameObject;
 class Json;

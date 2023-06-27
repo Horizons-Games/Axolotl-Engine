@@ -1,8 +1,12 @@
+#include "StdAfx.h"
+
 #include "MeshImporter.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceMesh.h"
+
+#include "Defines/ExtensionDefines.h"
 
 MeshImporter::MeshImporter()
 {

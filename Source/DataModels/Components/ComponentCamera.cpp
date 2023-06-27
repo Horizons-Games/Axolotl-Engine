@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCamera.h"
 
 #include "Application.h"
@@ -14,13 +16,15 @@
 #include "Camera/CameraGameObject.h"
 #include "Camera/CameraGod.h"
 
+#include "Geometry/Frustum.h"
+
 ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 	Component(ComponentType::CAMERA, active, owner, false)
 {
 	camera = std::make_unique<CameraGameObject>();
 	camera->Init();
 	camera->SetKpPosition(5.0f);
-	camera->SetKpRotation(10.0f);
+	camera->SetKpRotation(5.0f);
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
 }

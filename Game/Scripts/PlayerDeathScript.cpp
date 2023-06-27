@@ -9,6 +9,8 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAnimation.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(PlayerDeathScript);
 
 PlayerDeathScript::PlayerDeathScript() : Script(), loseSceneName("00_LoseScene_VS3"), componentAnimation(nullptr)
