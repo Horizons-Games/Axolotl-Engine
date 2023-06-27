@@ -113,6 +113,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (gameObjectAttached)
 	{
+		
 		if (!isForceActive)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
@@ -128,10 +129,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 		}
 		// Get next position of the gameObject
+		float verticalOffset = 1.0f;
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
+		nextPosition.y += verticalOffset;
 
 		float currentDistance = hittedTransform->GetGlobalPosition().Distance(nextPosition);
 

@@ -50,6 +50,5 @@ void PlayerRotationScript::Rotation(float deltaTime)
 		btRb->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
 		angularVelocity = btVector3(0.0f, -horizontalMotion * deltaTime, 0.0f);
 	}
-
 	btRb->setAngularVelocity(angularVelocity);
 }
