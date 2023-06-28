@@ -33,7 +33,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 {
 	const ParticleEmitter* partEmitter = instance->GetEmitter();
 
-	if (partEmitter->GetElapsed() <= emitter->GetDuration() || partEmitter->IsLooping())
+	if (instance->GetElapsedTime() <= emitter->GetDuration() || partEmitter->IsLooping())
 	{
 		const GameObject* go = instance->GetOwner()->GetOwner();
 		ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());

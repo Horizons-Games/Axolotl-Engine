@@ -64,10 +64,12 @@ public:
 	const float GetLastEmission() const;
 	const unsigned GetAliveParticles() const;
 	const unsigned GetLastParticleUsed() const;
+	float GetElapsedTime() const;
 
 	void SetAliveParticles(unsigned aliveParts);
 	void SetLastEmission(float emission);
 	void SetSortedPositions(const std::vector<unsigned int>& sorted);
+	void SetElapsedTime(float elapsedTime);
 
 private:
 	ComponentParticleSystem* owner;
@@ -75,6 +77,8 @@ private:
 	std::vector<unsigned int> sortedPositions;
 	std::vector<Particle> particles;
 	ParticleEmitter* emitter;
+
+	float elapsedTime;
 
 	unsigned aliveParticles;
 	unsigned lastParticleUsed;
@@ -145,6 +149,11 @@ inline const unsigned EmitterInstance::GetLastParticleUsed() const
 	return lastParticleUsed;
 }
 
+inline float EmitterInstance::GetElapsedTime() const
+{
+	return elapsedTime;
+}
+
 inline void EmitterInstance::SetAliveParticles(unsigned aliveParts)
 {
 	aliveParticles = aliveParts;
@@ -158,6 +167,11 @@ inline void EmitterInstance::SetLastEmission(float emission)
 inline void EmitterInstance::SetSortedPositions(const std::vector<unsigned int>& sorted)
 {
 	sortedPositions = sorted;
+}
+
+inline void EmitterInstance::SetElapsedTime(float elapsedTime)
+{
+	this->elapsedTime = elapsedTime;
 }
 
 inline void EmitterInstance::SimulateParticles() const

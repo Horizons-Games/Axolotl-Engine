@@ -305,7 +305,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::TableNextColumn();
 			ImGui::Text("Elapsed time");
 			ImGui::TableNextColumn();
-			ImGui::Text("%f seconds", emitter->GetElapsed());
+			ImGui::Text("%f seconds", instance->GetElapsedTime());
 
 			ImGui::Dummy(ImVec2(0.0f, 5.0f));
 

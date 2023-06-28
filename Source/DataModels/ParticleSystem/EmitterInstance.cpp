@@ -12,7 +12,11 @@
 #include <random>
 
 EmitterInstance::EmitterInstance(ParticleEmitter* emitter, ComponentParticleSystem* owner) :
-	emitter(emitter), owner(owner), aliveParticles(0), lastEmission(0.0f)
+	emitter(emitter),
+	owner(owner),
+	aliveParticles(0),
+	lastEmission(0.0f),
+	elapsedTime(0.0f)
 {
 	srand(static_cast <unsigned> (time(nullptr))); //seeding the random generation once
 	program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
@@ -29,7 +33,11 @@ void EmitterInstance::Init()
 {
 	particles.resize(emitter->GetMaxParticles());
 	sortedPositions.resize(emitter->GetMaxParticles());
-	emitter->SetElapsed(0.0f);
+	elapsedTime = 0.0f;
+	aliveParticles = 0;
+	lastEmission = 0.0f;
+}
+
 void EmitterInstance::Stop()
 {
 	elapsedTime = 0.0f;

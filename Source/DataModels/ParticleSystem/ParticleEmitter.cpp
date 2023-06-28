@@ -38,7 +38,6 @@ ParticleEmitter::ParticleEmitter() : name(""), shape(ShapeType::CONE), particleT
 	angle = DEFAULT_ANGLE;
 	radius = DEFAULT_RADIUS;
 
-	elapsedTime = 0.0f;
 	maxParticles = DEFAULT_MAX_PARTICLES;
 	duration = DEFAULT_DURATION;
 	lifespan.x = DEFAULT_LIFESPAN_X;

@@ -93,9 +93,9 @@ void ModuleSpawn::Update(EmitterInstance* instance)
 
 	ParticleEmitter* partEmitter = instance->GetEmitter();
 
-	float elapsed = partEmitter->GetElapsed();
+	float elapsed = instance->GetElapsedTime();
 	elapsed += dt;
-	partEmitter->SetElapsed(elapsed);
+	instance->SetElapsedTime(elapsed);
 	
 	if ((elapsed <= partEmitter->GetDuration() || partEmitter->IsLooping()) && spawnRate > 0)
 	{

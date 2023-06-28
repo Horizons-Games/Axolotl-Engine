@@ -113,7 +113,6 @@ private:
 	bool isLooping;
 	int maxParticles;
 	float duration;
-	float elapsedTime;
 	float2 lifespan;
 	float2 speed;
 	float2 size;
@@ -175,11 +174,6 @@ inline void ParticleEmitter::SetMaxParticles(const int maxParticles)
 inline void ParticleEmitter::SetDuration(float duration)
 {
 	this->duration = duration;
-}
-
-inline void ParticleEmitter::SetElapsed(float elapsed)
-{
-	elapsedTime = elapsed;
 }
 
 inline void ParticleEmitter::SetLooping(bool isLooping)
@@ -285,11 +279,6 @@ inline int ParticleEmitter::GetMaxParticles() const
 inline float ParticleEmitter::GetDuration() const
 {
 	return duration;
-}
-
-inline float ParticleEmitter::GetElapsed() const
-{
-	return elapsedTime;
 }
 
 inline float ParticleEmitter::GetAngle() const
