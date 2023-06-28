@@ -10,7 +10,7 @@ class WindowParticleTexture;
 class ModuleRenderer : public ParticleModule
 {
 public:
-	enum class Alignment { SCREEN, WORLD, AXIAL };
+	enum class Alignment { SCREEN, WORLD, AXIAL_Y, AXIAL_X, AXIAL_Z, LOCAL};
 	enum class BlendingMode { ALPHA, ADDITIVE };
 
 public:

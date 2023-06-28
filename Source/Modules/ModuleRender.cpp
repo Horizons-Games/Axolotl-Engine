@@ -173,8 +173,8 @@ bool ModuleRender::Init()
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
 	glEnable(GL_DEPTH_TEST); // Enable depth test
-	glDisable(GL_CULL_FACE); // Enable cull backward faces
-	glFrontFace(GL_CCW);	 // Front faces will be counter clockwise
+	glEnable(GL_CULL_FACE); // Enable cull backward faces
+	glFrontFace(GL_CW);	 // Front faces will be counter clockwise
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -362,11 +362,17 @@ UpdateStatus ModuleRender::Update()
 		glDisable(GL_STENCIL_TEST);
 	}
 
+	glDisable(GL_CULL_FACE);
+	glCullFace(GL_FRONT_AND_BACK);
+
 	// Draw Particles
 	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
 		particle->Render();
 	}
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 
 	glDisable(GL_BLEND);
 
