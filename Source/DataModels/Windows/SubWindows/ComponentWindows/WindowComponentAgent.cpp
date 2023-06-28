@@ -20,5 +20,23 @@ void WindowComponentAgent::DrawWindowContents()
 
 	if (asAgent)
 	{
+		float maxSpeed = asAgent->GetMaxSpeed();
+		float maxAcceleration = asAgent->GetMaxAcceleration();
+		bool avoidingObstacle = asAgent->IsAvoidingObstacle();
+
+		if (ImGui::DragFloat("Agent max speed", &maxSpeed, 0.1f, 0.0f, FLT_MAX))
+		{
+			asAgent->SetMaxSpeed(maxSpeed);
+		}
+
+		if (ImGui::DragFloat("Agent max acceleration", &maxAcceleration, 0.1f, 0.0f, FLT_MAX))
+		{
+			asAgent->SetMaxAcceleration(maxAcceleration);
+		}
+
+		if (ImGui::Checkbox("Obstacle Avoidance", &avoidingObstacle))
+		{
+			asAgent->SetAgentObstacleAvoidance(avoidingObstacle);
+		}
 	}
 }

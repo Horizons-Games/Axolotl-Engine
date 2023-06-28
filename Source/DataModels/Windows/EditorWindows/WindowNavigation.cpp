@@ -31,6 +31,7 @@ void WindowNavigation::DrawWindowContents()
 	int detailSampleMaxError = navMesh->GetDetailSampleMaxError();
 	bool keepInterResults = navMesh->GetKeepInterResults();
 	int tileSize = navMesh->GetTileSize();
+	bool drawNavMesh = moduleNavigation->GetDrawNavMesh();
 
 	ImGui::Text("Rasterization");
 	if (ImGui::DragFloat("Cell Size", &cellSize, 0.05f, 0.10f, 1.0f))
@@ -131,10 +132,17 @@ void WindowNavigation::DrawWindowContents()
 		moduleNavigation->BakeNavMesh();
 	}
 
-	ImGui::SameLine();
+	//ImGui::SameLine();
 
 	/*if (ImGui::Button("Save"))
 	{
 		App->editor->modalToOpen = Modal::CREATE_NAVMESH;
 	}*/
+
+	ImGui::Text("");
+	ImGui::Text("Debug");
+	if (ImGui::Checkbox("Draw NavMesh", &drawNavMesh))
+	{
+		moduleNavigation->SetDrawNavMesh(drawNavMesh);
+	}
 }

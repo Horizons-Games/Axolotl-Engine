@@ -7,7 +7,6 @@
                 "uid": 3443481771776544533,
                 "parentUID": 0,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -44,7 +43,6 @@
                 "uid": 17011434338497909168,
                 "parentUID": 3443481771776544533,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -85,7 +83,6 @@
                 "uid": 18111394452503238285,
                 "parentUID": 3443481771776544533,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -114,7 +111,6 @@
                 "uid": 10279307079065775306,
                 "parentUID": 18111394452503238285,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -143,7 +139,6 @@
                 "uid": 495783552144443070,
                 "parentUID": 10279307079065775306,
                 "enabled": true,
-                "active": true,
                 "static": false,
                 "Components": [
                     {
@@ -172,7 +167,6 @@
                 "uid": 16215393140232259293,
                 "parentUID": 495783552144443070,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -204,18 +198,141 @@
                     }
                 ]
             }
+        },
+        {
+            "GameObject": {
+                "name": "Player",
+                "tag": "",
+                "uid": 10436158917176386117,
+                "parentUID": 3443481771776544533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 9.384241104125977,
+                            "localPos_Z": -22.870994567871094,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 2.0,
+                            "localSca_Z": 2.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Agent",
+                            "active": true,
+                            "removed": true,
+                            "maxSpeed": 6.0,
+                            "maxAcceleration": 6.0,
+                            "avoidingObstacle": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": false,
+                            "mouse": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Character",
+                "tag": "",
+                "uid": 12640930940250494050,
+                "parentUID": 10436158917176386117,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17111265744902053557,
+                            "assetPathMesh": "Assets/Meshes/David.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "",
+                "uid": 4212076721386611426,
+                "parentUID": 10436158917176386117,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1860847473144531,
+                            "localPos_Z": -2.1082210540771484,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 0.5,
+                            "localSca_Z": 0.5
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true
+                        }
+                    }
+                ]
+            }
         }
     ],
     "Quadtree": {
         "BoundingBox": {
             "MinPoint": {
-                "x": -25.0,
+                "x": -75.0,
                 "y": -10.0,
-                "z": -25.0
+                "z": -175.0
             },
             "MaxPoint": {
-                "x": 25.0,
-                "y": 10.0,
+                "x": 125.0,
+                "y": 69.00785827636719,
                 "z": 25.0
             }
         }

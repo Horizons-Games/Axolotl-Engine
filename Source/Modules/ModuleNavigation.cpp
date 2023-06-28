@@ -5,6 +5,7 @@
 #include "DetourTileCache/DetourTileCache.h"
 #include "DetourCrowd/DetourCrowd.h"
 #include "Detour/DetourCommon.h"
+#include "Scene/Scene.h"
 
 ModuleNavigation::ModuleNavigation()
 {
@@ -30,11 +31,31 @@ bool ModuleNavigation::Start()
 
 bool ModuleNavigation::CleanUp()
 {
+	// WIP: This should be done when playMode is stopped
+	/*Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	for (ComponentAgent* agent : currentScene->GetAgentComponents())
+	{
+		agent->RemoveAgentFromCrowd();
+	}*/
+
 	return true;
 }
 
 update_status ModuleNavigation::PreUpdate()
 {
+	// WIP: This should be done when playMode starts
+	if (App->IsOnPlayMode() && !agentsAdded)
+	{
+		Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+		currentScene->UpdateSceneAgentComponents();
+
+		for (ComponentAgent* agent : currentScene->GetAgentComponents())
+		{
+			agent->AddAgentToCrowd();
+		}
+		agentsAdded = true;
+	}
+
 	return update_status::UPDATE_CONTINUE;
 }
 

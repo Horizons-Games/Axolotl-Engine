@@ -5,6 +5,7 @@
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
+#include "ModuleNavigation.h"
 
 #include "Cubemap/Cubemap.h"
 
@@ -225,6 +226,7 @@ update_status ModuleRender::Update()
 	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
+	ModuleNavigation* navigation = App->GetModule<ModuleNavigation>();
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
@@ -268,6 +270,11 @@ update_status ModuleRender::Update()
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(loadedScene->GetRootQuadtree());
+	}
+
+	if (navigation->GetDrawNavMesh())
+	{
+		navigation->DrawGizmos();
 	}
 
 	int w, h;

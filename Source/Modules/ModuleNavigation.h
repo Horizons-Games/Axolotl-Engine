@@ -31,9 +31,24 @@ public:
 
 	bool CleanUp() override;
 
+	bool GetDrawNavMesh() const;
+	void SetDrawNavMesh(bool newDrawNavMesh);
+
 public:
 	UID navMeshId = 0;
 
 private:
 	std::shared_ptr<ResourceNavMesh> navMesh;
+	bool agentsAdded;
+	bool drawNavMesh;
 };
+
+inline bool ModuleNavigation::GetDrawNavMesh() const
+{
+	return drawNavMesh;
+}
+
+inline void ModuleNavigation::SetDrawNavMesh(bool newDrawNavMesh)
+{
+	drawNavMesh = newDrawNavMesh;
+}
