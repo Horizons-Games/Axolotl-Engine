@@ -3,6 +3,7 @@
     "Type": "ParticleSystem",
     "TexturesAssetPaths": null,
     "ConfigEmitters": [
+        true,
         true
     ]
 }
