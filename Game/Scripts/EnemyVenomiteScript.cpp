@@ -99,6 +99,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		patrolScript->Patrolling();
 
 		componentAnimation->SetParameter("IsRunning", true);
+		componentAnimation->SetParameter("IsRangedAttacking", false);
 	}
 
 	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
@@ -118,7 +119,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 			else
 			{
-				componentAnimation->SetParameter("IsRangedAttacking", false);
+				//componentAnimation->SetParameter("IsRangedAttacking", false);
 			}
 		}
 
