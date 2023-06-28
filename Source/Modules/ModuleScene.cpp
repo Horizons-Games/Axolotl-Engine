@@ -257,8 +257,6 @@ void ModuleScene::InitAndStartScriptingComponents()
 
 void ModuleScene::InitParticlesComponents()
 {
-	//If for any reason you need/want to have into account any disabled gameObject on the hierarchy
-	//and not only the owner tell me and I change this function -Sara
 	for (ComponentParticleSystem* componentParticle : loadedScene->GetSceneParticleSystems())
 	{
 		if (componentParticle->GetOwner()->IsActive() && componentParticle->GetPlayAtStart())
