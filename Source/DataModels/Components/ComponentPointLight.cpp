@@ -50,6 +50,7 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 ComponentPointLight::~ComponentPointLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateScenePointLights();
@@ -64,7 +65,7 @@ void ComponentPointLight::Draw() const
 		IsEnabled() && App->GetPlayState() != Application::PlayState::RUNNING &&
 		GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
-		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
 #endif // ENGINE
 
 	if (!canDrawLight)
@@ -78,24 +79,28 @@ void ComponentPointLight::Draw() const
 	dd::sphere(position, dd::colors::White, radius);
 }
 
+void ComponentPointLight::OnTransformChanged()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->UpdateScenePointLight(this);
+	currentScene->RenderPointLight(this);
+}
+
 void ComponentPointLight::SignalEnable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
+
+	currentScene->UpdateScenePointLights();
+	currentScene->RenderPointLights();
 }
 
 void ComponentPointLight::SignalDisable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
+	
+	currentScene->UpdateScenePointLights();
+	currentScene->RenderPointLights();
 }
 
 void ComponentPointLight::InternalSave(Json& meta)

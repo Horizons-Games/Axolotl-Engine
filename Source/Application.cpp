@@ -17,6 +17,7 @@
 #include "ModuleScene.h"
 #include "ModuleUI.h"
 #include "ModuleWindow.h"
+#include "ModuleNavigation.h"
 #include "ScriptFactory.h"
 
 #include "Defines/FramerateDefines.h"
@@ -39,6 +40,7 @@ Application::Application() :
 	modules[static_cast<int>(ModuleToEnum<ModuleAudio>::value)] = std::make_unique<ModuleAudio>();
 	modules[static_cast<int>(ModuleToEnum<ModuleScene>::value)] = std::make_unique<ModuleScene>();
 	modules[static_cast<int>(ModuleToEnum<ModulePhysics>::value)] = std::make_unique<ModulePhysics>();
+	modules[static_cast<int>(ModuleToEnum<ModuleNavigation>::value)] = std::make_unique<ModuleNavigation>();
 	modules[static_cast<int>(ModuleToEnum<ModulePlayer>::value)] = std::make_unique<ModulePlayer>();
 	modules[static_cast<int>(ModuleToEnum<ModuleRender>::value)] = std::make_unique<ModuleRender>();
 	modules[static_cast<int>(ModuleToEnum<ModuleUI>::value)] = std::make_unique<ModuleUI>();
@@ -154,6 +156,7 @@ void Application::OnPlay()
 		editorPlayState = PlayState::STOPPED;
 		LOG_WARNING("Player could not be loaded, game not starting");
 		return;
+		onPlayTimer.Stop();
 	}
 
 	onPlayTimer.Start();

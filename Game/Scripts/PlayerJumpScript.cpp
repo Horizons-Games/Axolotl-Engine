@@ -23,7 +23,6 @@ PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoub
 void PlayerJumpScript::Start()
 {
 	canDoubleJump ? jumps = 2 : jumps = 1;
-
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 }

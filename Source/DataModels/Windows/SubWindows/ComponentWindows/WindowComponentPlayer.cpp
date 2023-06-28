@@ -35,5 +35,14 @@ void WindowComponentPlayer::DrawWindowContents()
 		{
 			asPlayer->SetMouse(haveMouse);
 		}
+
+		bool actualPlayer = asPlayer->IsActualPlayer();
+		if (ImGui::Checkbox("Actual Player", &actualPlayer))
+		{
+			if (App->GetPlayState() != Application::PlayState::STOPPED)
+			{
+				asPlayer->SetActualPlayer(actualPlayer, true);
+			}
+		}
 	}
 }

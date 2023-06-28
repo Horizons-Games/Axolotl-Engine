@@ -27,7 +27,7 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (!initialized && GetOwner()->IsActive() && ScriptCanBeCalled())
+	if (!initialized && GetOwner()->IsActive() && ScripCanBeCalled())
 	{
 		script->Init();
 		initialized = true;
@@ -36,7 +36,7 @@ void ComponentScript::Init()
 
 void ComponentScript::Start()
 {
-	if (!started && IsEnabled() && ScriptCanBeCalled())
+	if (!started && IsEnabled() && ScripCanBeCalled())
 	{
 		script->Start();
 		started = true;
@@ -45,7 +45,7 @@ void ComponentScript::Start()
 
 void ComponentScript::PreUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->PreUpdate(App->GetDeltaTime());
 	}
@@ -53,7 +53,7 @@ void ComponentScript::PreUpdate()
 
 void ComponentScript::Update()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->Update(App->GetDeltaTime());
 	}
@@ -61,7 +61,7 @@ void ComponentScript::Update()
 
 void ComponentScript::PostUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->PostUpdate(App->GetDeltaTime());
 	}
@@ -69,14 +69,14 @@ void ComponentScript::PostUpdate()
 
 void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->OnCollisionEnter(other);
 	}
 }
 void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
+	if (IsEnabled() && ScripCanBeCalled())
 	{
 		script->OnCollisionExit(other);
 	}
@@ -93,7 +93,7 @@ void ComponentScript::CleanUp()
 	initialized = false;
 }
 
-bool ComponentScript::ScriptCanBeCalled() const
+bool ComponentScript::ScripCanBeCalled() const
 {
 	return script && App->GetPlayState() != Application::PlayState::STOPPED && !App->GetScriptFactory()->IsCompiling();
 }

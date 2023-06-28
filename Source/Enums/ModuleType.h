@@ -15,6 +15,7 @@ class ModulePlayer;
 class ModuleEditor;
 class ModuleCommand;
 class ModulePhysics;
+class ModuleNavigation;
 
 // Order matters: they will Init/start/update in this order
 enum class ModuleType
@@ -27,6 +28,7 @@ enum class ModuleType
 	PROGRAM,
 	CAMERA,
 	PHYSICS,
+	NAVIGATION,
 	AUDIO,
 	SCENE,
 	PLAYER,
@@ -94,6 +96,12 @@ template<>
 struct ModuleToEnum<ModulePhysics>
 {
 	const static ModuleType value = ModuleType::PHYSICS;
+};
+
+template<>
+struct ModuleToEnum<ModuleNavigation>
+{
+	const static ModuleType value = ModuleType::NAVIGATION;
 };
 
 template<>

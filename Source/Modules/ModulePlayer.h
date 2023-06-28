@@ -18,6 +18,7 @@ public:
 	GameObject* GetPlayer();
 	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
+	GameObject* GetCameraPlayerObject();
 
 	bool LoadNewPlayer();
 	void UnloadNewPlayer();
@@ -28,9 +29,6 @@ public:
 private:
 	GameObject* player;
 	Camera* cameraPlayer;
+	GameObject* cameraPlayerObject;
 	ComponentPlayer* componentPlayer;
-
-	float speed;
-
-	bool bootsOnGround = false;
 };
