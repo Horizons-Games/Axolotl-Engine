@@ -31,50 +31,39 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		ImGui::SliderFloat("Influence Radius", &influenceRadius, 0.0f, 30.f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
-		if (ImGui::BeginTable("TransformTable", 2))
-		{
-			ImGui::TableNextColumn();
-			ImGui::Text("Position Offset");
-			ImGui::SameLine();
+		ImGui::Text("");
+		ImGui::Text("Position Offset");
+		ImGui::Text("X:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::DragFloat("##XOffset",
+						 &positionOffset.x,
+						 0.025f,
+						 std::numeric_limits<float>::min(),
+						 std::numeric_limits<float>::min());
 
-			ImGui::TableNextColumn();
-			ImGui::Text("x:");
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##XOffset",
-							 &positionOffset.x,
-							 0.025f,
-							 std::numeric_limits<float>::min(),
-							 std::numeric_limits<float>::min());
-			
-			ImGui::PopStyleVar();
-			ImGui::SameLine();
+		ImGui::SameLine();
+		ImGui::Text("Y:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::DragFloat("##YOffset",
+						 &positionOffset.y,
+						 0.025f,
+						 std::numeric_limits<float>::min(),
+						 std::numeric_limits<float>::min());
 
-			ImGui::Text("y:");
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##YOffset",
-							 &positionOffset.y,
-							 0.025f,
-							 std::numeric_limits<float>::min(),
-							 std::numeric_limits<float>::min());
-			ImGui::PopStyleVar();
-			ImGui::SameLine();
+		ImGui::SameLine();
+		ImGui::Text("Z:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(80.0f);
+		ImGui::DragFloat("##ZOffset",
+						 &positionOffset.z,
+						 0.025f,
+						 std::numeric_limits<float>::min(),
+						 std::numeric_limits<float>::min());
 
-			ImGui::Text("z:");
-			ImGui::SameLine();
-			ImGui::SetNextItemWidth(80.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			ImGui::DragFloat("##ZOffset",
-							 &positionOffset.z,
-							 0.025f,
-							 std::numeric_limits<float>::min(),
-							 std::numeric_limits<float>::min());
-			ImGui::PopStyleVar();
-			ImGui::EndTable();
-		}
+		
+		ImGui::Text("");
 
 		if (ImGui::Checkbox("##Focus Offset Enabled", &isSampleFocusEnabled))
 		{
@@ -86,39 +75,28 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		if (isSampleFocusEnabled)
 		{
-			if (ImGui::BeginTable("TransformTable", 2))
-			{
-				ImGui::TableNextColumn();
-				ImGui::Text("Focus Offset");
-				ImGui::SameLine();
 
-				ImGui::TableNextColumn();
-				ImGui::Text("Horizontal:");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-				ImGui::DragFloat("##XFocusOffset",
-								 &focusOffset.x,
-								 0.025f,
-								 std::numeric_limits<float>::min(),
-								 std::numeric_limits<float>::min());
+			ImGui::Text("Focus Offset");
+			ImGui::Text("");
+			ImGui::Text("Horizontal:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::DragFloat("##XFocusOffset",
+							 &focusOffset.x,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
 
-				ImGui::PopStyleVar();
-				ImGui::SameLine();
+			ImGui::SameLine();
+			ImGui::Text("Vertical:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::DragFloat("##YFocusOffset",
+							 &focusOffset.y,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
 
-				ImGui::Text("Vertical:");
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-				ImGui::DragFloat("##YFocusOffset",
-								 &focusOffset.y,
-								 0.025f,
-								 std::numeric_limits<float>::min(),
-								 std::numeric_limits<float>::min());
-				ImGui::PopStyleVar();
-
-				ImGui::EndTable();
-			}
 
 			asCameraSample->SetFocusOffset(focusOffset);
 		}
