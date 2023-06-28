@@ -93,6 +93,12 @@ void ComponentParticleSystem::Play()
 void ComponentParticleSystem::Stop()
 {
 	isPlaying = false;
+	pause = false;
+
+	for (EmitterInstance* emitter : emitters)
+	{
+		emitter->Stop();
+	}
 }
 
 void ComponentParticleSystem::Update()

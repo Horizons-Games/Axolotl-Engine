@@ -46,6 +46,7 @@ public:
 	~EmitterInstance();
 
 	void Init();
+	void Stop();
 	void UpdateModules();
 	void DrawParticles();
 	void DrawDD();

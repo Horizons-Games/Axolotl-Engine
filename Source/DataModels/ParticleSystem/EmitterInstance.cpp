@@ -30,6 +30,9 @@ void EmitterInstance::Init()
 	particles.resize(emitter->GetMaxParticles());
 	sortedPositions.resize(emitter->GetMaxParticles());
 	emitter->SetElapsed(0.0f);
+void EmitterInstance::Stop()
+{
+	elapsedTime = 0.0f;
 	aliveParticles = 0;
 	lastEmission = 0.0f;
 }
