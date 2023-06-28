@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ValidationCache Version="1" SchemaVersion="110">
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\WwiseProject.wproj" DateLow="1682428637" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\WwiseProject.oriol.wsettings" DateLow="1686228861" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\WwiseProject.oriol.wsettings" DateLow="1687957280" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Virtual Acoustics\Factory Acoustic Textures.wwu" DateLow="1682428637" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Virtual Acoustics\Default Work Unit.wwu" DateLow="1682428637" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Triggers\Default Work Unit.wwu" DateLow="1682428637" DateHigh="0"/>
@@ -22,7 +22,7 @@
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Modulators\Default Work Unit.wwu" DateLow="1682428633" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Mixing Sessions\Default Work Unit.wwu" DateLow="1682428633" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Metadata\Default Work Unit.wwu" DateLow="1682428633" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1685520636" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1687957251" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Interactive Music Hierarchy\Music.wwu" DateLow="1685520636" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="1682428633" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Game Parameters\Default Work Unit.wwu" DateLow="1685351483" DateHigh="0"/>
@@ -32,7 +32,7 @@
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Events\NPCsCantina.wwu" DateLow="1685520635" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Events\NPC.wwu" DateLow="1685520635" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Events\Music.wwu" DateLow="1682428632" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Events\DRON.wwu" DateLow="1685520635" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Events\DRON.wwu" DateLow="1687957251" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Events\Default Work Unit.wwu" DateLow="1682428632" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Events\Ambient.wwu" DateLow="1685520635" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Effects\Factory Mastering Suite.wwu" DateLow="1682428632" DateHigh="0"/>
@@ -44,11 +44,11 @@
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Control Surface Sessions\Default Work Unit.wwu" DateLow="1682428632" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Audio Devices\Default Work Unit.wwu" DateLow="1682428632" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Attenuations\Default Work Unit.wwu" DateLow="1685520635" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\UI.wwu" DateLow="1682428632" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\UI.wwu" DateLow="1687957251" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\SFX.wwu" DateLow="1682428632" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Player.wwu" DateLow="1686229171" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPCsCantina.wwu" DateLow="1686229171" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPC.wwu" DateLow="1685520635" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Player.wwu" DateLow="1687957251" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPCsCantina.wwu" DateLow="1687957251" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPC.wwu" DateLow="1687957251" DateHigh="0"/>
 	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1682428632" DateHigh="0"/>
-	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Ambient.wwu" DateLow="1686229171" DateHigh="0"/>
+	<ValidationCacheItem File="D:\ORIOL\Axolotl-Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Ambient.wwu" DateLow="1687957251" DateHigh="0"/>
 </ValidationCache>
