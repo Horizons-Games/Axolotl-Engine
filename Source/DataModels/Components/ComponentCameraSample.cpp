@@ -20,13 +20,15 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	influenceRadius = 1.0f;
 	positionOffset = float3::zero;
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	isSampleFocusEnabled = false;
 }
 
 ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& componentCameraSample):
 	Component(ComponentType::CAMERASAMPLE, componentCameraSample.IsEnabled(), componentCameraSample.GetOwner(), true),
 	influenceRadius(componentCameraSample.influenceRadius),
 	positionOffset(componentCameraSample.positionOffset),
-	position(componentCameraSample.position)
+	position(componentCameraSample.position),
+	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled)
 {
 }
 
@@ -64,6 +66,8 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["focusOffsetX"] = (float) focusOffset.x;
 	meta["focusOffsetY"] = (float) focusOffset.y;
 
+	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
+
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
 	meta["positionY"] = (float) position.y;
@@ -81,6 +85,8 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 
 	focusOffset.x = meta["focusOffsetX"];
 	focusOffset.y = meta["focusOffsetY"];
+
+	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
 
 	position.x = meta["positionX"];
 	position.y = meta["positionY"];

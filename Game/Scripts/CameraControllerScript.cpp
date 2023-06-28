@@ -48,7 +48,15 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	if (closestSample)
 	{
 		CalculateOffsetVector(closestSample->GetOffset());
-		CalculateFocusOffsetVector(closestSample->GetFocusOffset());
+		if (closestSample->GetFocusOffsetEnabled())
+		{
+			CalculateFocusOffsetVector(closestSample->GetFocusOffset());
+		}
+		else
+		{
+			CalculateFocusOffsetVector();
+		}
+		
 	}
 	else
 	{
