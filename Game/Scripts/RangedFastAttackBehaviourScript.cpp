@@ -1,5 +1,4 @@
-#include "StdAfx.h"
-#include "DroneFastAttack.h"
+#include "RangedFastAttackBehaviourScript.h"
 
 #include "Application.h"
 
@@ -16,13 +15,14 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 
-#include "../Scripts/DroneFastBullet.h"
+#include "../Scripts/RangedFastAttackBullet.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
-REGISTERCLASS(DroneFastAttack);
+REGISTERCLASS(RangedFastAttackBehaviourScript);
 
-DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTime(0.f), audioSource(nullptr),
+RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), 
+	audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
 {
@@ -33,7 +33,7 @@ DroneFastAttack::DroneFastAttack() : Script(), attackCooldown(5.f), lastAttackTi
 	REGISTER_FIELD(bulletVelocity, float);
 }
 
-void DroneFastAttack::Start()
+void RangedFastAttackBehaviourScript::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
@@ -47,16 +47,16 @@ void DroneFastAttack::Start()
 	}
 }
 
-void DroneFastAttack::StartAttack()
+void RangedFastAttackBehaviourScript::StartAttack()
 {
 	needReposition = false;
 	movingToNewReposition = false;
 }
 
-void DroneFastAttack::PerformAttack()
+void RangedFastAttackBehaviourScript::PerformAttack()
 {
 	
-	animation->SetParameter("attack", true);
+	animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
 	GameObject* root = loadedScene->GetRoot();
@@ -71,8 +71,8 @@ void DroneFastAttack::PerformAttack()
 
 	// Attack the DroneFastBullet script to the new bullet to give it its logic
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-	script->SetScript(App->GetScriptFactory()->ConstructScript("DroneFastBullet"));
-	script->SetConstuctor("DroneFastBullet");
+	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
+	script->SetConstuctor("RangedFastAttackBullet");
 	script->GetScript()->SetGameObject(bullet);
 	script->GetScript()->SetApplication(App);
 
@@ -86,7 +86,7 @@ void DroneFastAttack::PerformAttack()
 	needReposition = true;
 }
 
-void DroneFastAttack::Reposition(float3 nextPosition)
+void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
 {
 	needReposition = false;
 	movingToNewReposition = true;
@@ -95,17 +95,17 @@ void DroneFastAttack::Reposition(float3 nextPosition)
 	owner->GetComponent<ComponentRigidBody>()->SetKpForce(1.0f);
 }
 
-bool DroneFastAttack::IsAttackAvailable() const
+bool RangedFastAttackBehaviourScript::IsAttackAvailable() const
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }
 
-bool DroneFastAttack::NeedReposition() const
+bool RangedFastAttackBehaviourScript::NeedReposition() const
 {
 	return needReposition;
 }
 
-bool DroneFastAttack::MovingToNewReposition()
+bool RangedFastAttackBehaviourScript::MovingToNewReposition()
 {
 	if (transform->GetGlobalPosition().Equals(newReposition, 0.3f))
 	{

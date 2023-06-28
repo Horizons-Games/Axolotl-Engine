@@ -11,10 +11,9 @@
 REGISTERCLASS(SeekBehaviourScript);
 
 SeekBehaviourScript::SeekBehaviourScript() : Script(), target(nullptr), 
-	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), targetTransform(nullptr), ownerTransform(nullptr)
+	ownerRigidBody(nullptr), targetTransform(nullptr), ownerTransform(nullptr)
 {
 	REGISTER_FIELD(target, GameObject*);
-	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void SeekBehaviourScript::Start()
@@ -42,6 +41,11 @@ void SeekBehaviourScript::DisableMovement() const
 void SeekBehaviourScript::DisableRotation() const
 {
 	ownerRigidBody->DisableRotationController();
+}
+
+GameObject* SeekBehaviourScript::GetTarget() const
+{
+	return target;
 }
 
 void SeekBehaviourScript::RotateToTarget() const

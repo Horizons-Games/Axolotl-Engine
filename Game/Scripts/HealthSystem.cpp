@@ -90,11 +90,6 @@ float HealthSystem::GetMaxHealth() const
 	return maxHealth;
 }
 
-void HealthSystem::SetMaxHealth(float maxHealth)
-{
-	this->maxHealth = maxHealth;
-}
-
 bool HealthSystem::GetIsImmortal() const
 {
 	return isImmortal;

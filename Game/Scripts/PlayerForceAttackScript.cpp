@@ -8,8 +8,9 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 
-#include "EnemyDroneScript.h"
-#include "HealthSystem.h"
+#include "../Scripts/EnemyDroneScript.h"
+#include "../Scripts/EnemyVenomiteScript.h"
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(PlayerForceAttackScript);
 
@@ -106,8 +107,17 @@ void PlayerForceAttackScript::PushEnemies()
 
 		EnemyDroneScript* enemyDroneScript =
 			(*it)->GetComponent<EnemyDroneScript>();
+		if (enemyDroneScript)
+		{
+			enemyDroneScript->SetStunnedTime(stunTime);
+		}
 
-		enemyDroneScript->SetStunnedTime(stunTime);
+		EnemyVenomiteScript* enemyVenomiteScript =
+			(*it)->GetComponent<EnemyVenomiteScript>();
+		if (enemyVenomiteScript)
+		{
+			enemyVenomiteScript->SetStunnedTime(stunTime);
+		}
 
 		HealthSystem* enemyHealthScript =
 			(*it)->GetComponent<HealthSystem>();

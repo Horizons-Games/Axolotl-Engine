@@ -2,9 +2,9 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "DronePrefab",
+                "name": "NewDronePrefab",
                 "tag": "",
-                "uid": 5941666348512588090,
+                "uid": 16694937423398287723,
                 "parentUID": 0,
                 "enabled": true,
                 "static": false,
@@ -40,8 +40,8 @@
             "GameObject": {
                 "name": "Directional_Light",
                 "tag": "",
-                "uid": 6261472543220059770,
-                "parentUID": 5941666348512588090,
+                "uid": 6327788171852456287,
+                "parentUID": 16694937423398287723,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -78,10 +78,10 @@
         },
         {
             "GameObject": {
-                "name": "DronePrefab",
+                "name": "Drone",
                 "tag": "Enemy",
-                "uid": 3799328107096056596,
-                "parentUID": 5941666348512588090,
+                "uid": 48875548050334293,
+                "parentUID": 16694937423398287723,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -90,40 +90,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DRONE",
-                "tag": "Enemy",
-                "uid": 5716735143033173282,
-                "parentUID": 3799328107096056596,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_X": -1.634626585200749e-7,
+                            "localPos_Y": 1.5,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 180.0,
+                            "localRot_Z": -179.99996948242188,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -149,11 +121,6 @@
                                     "name": "Target",
                                     "value": 0,
                                     "type": 2
-                                },
-                                {
-                                    "name": "OwnerRigidBodyGO",
-                                    "value": 5716735143033173282,
-                                    "type": 2
                                 }
                             ]
                         }
@@ -167,17 +134,12 @@
                             "fields": [
                                 {
                                     "name": "WayPointOne",
-                                    "value": 10197724959374757767,
+                                    "value": 7264287042668602667,
                                     "type": 2
                                 },
                                 {
                                     "name": "WayPointTwo",
-                                    "value": 12078123005813096923,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "OwnerRigidBodyGO",
-                                    "value": 5716735143033173282,
+                                    "value": 4307171577817583179,
                                     "type": 2
                                 }
                             ]
@@ -192,12 +154,12 @@
                             "fields": [
                                 {
                                     "name": "AttackDistance",
-                                    "value": 5.0,
+                                    "value": 7.699999809265137,
                                     "type": 0
                                 },
                                 {
                                     "name": "SeekDistance",
-                                    "value": 8.0,
+                                    "value": 14.050000190734863,
                                     "type": 0
                                 }
                             ]
@@ -208,8 +170,29 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "DroneAttack",
-                            "fields": null
+                            "constructName": "RangedFastAttackBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "AttackCooldown",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "BulletOriginGO",
+                                    "value": 2605361363187490962,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletPrefab",
+                                    "value": 14049940314831996807,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 0.20000000298023224,
+                                    "type": 0
+                                }
+                            ]
                         }
                     },
                     {
@@ -221,13 +204,18 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 100.0,
+                                    "value": 25.799999237060547,
                                     "type": 0
                                 },
                                 {
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsImmortal",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -252,10 +240,10 @@
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806,
+                            "usePositionController": true,
+                            "useRotationController": true,
+                            "KpForce": 0.5,
+                            "KpTorque": 10.0,
                             "gravity_Y": -9.8100004196167,
                             "boxSize_X": 1.0,
                             "boxSize_Y": 1.0,
@@ -263,9 +251,24 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 0.0,
-                            "rbPos_Y": 0.0,
+                            "rbPos_X": -1.634626585200749e-7,
+                            "rbPos_Y": 1.5,
                             "rbPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyDeathScript",
+                            "fields": [
+                                {
+                                    "name": "ActivePowerUp",
+                                    "value": 0,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -275,8 +278,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 497268234319040485,
-                "parentUID": 5716735143033173282,
+                "uid": 14816924472140586736,
+                "parentUID": 48875548050334293,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -303,8 +306,8 @@
             "GameObject": {
                 "name": "WingRC",
                 "tag": "",
-                "uid": 3729480807669407108,
-                "parentUID": 497268234319040485,
+                "uid": 3035110069981802230,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -331,8 +334,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.004_0",
                 "tag": "",
-                "uid": 7149298552805783983,
-                "parentUID": 3729480807669407108,
+                "uid": 17804620562500368795,
+                "parentUID": 3035110069981802230,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -370,8 +373,8 @@
             "GameObject": {
                 "name": "WingRT",
                 "tag": "",
-                "uid": 9262632634846702659,
-                "parentUID": 497268234319040485,
+                "uid": 10620993112623960724,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -398,8 +401,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.001_0",
                 "tag": "",
-                "uid": 17084918150076015866,
-                "parentUID": 9262632634846702659,
+                "uid": 574286387375783812,
+                "parentUID": 10620993112623960724,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -437,8 +440,8 @@
             "GameObject": {
                 "name": "WingRB",
                 "tag": "",
-                "uid": 373317024276112974,
-                "parentUID": 497268234319040485,
+                "uid": 6382760096069985451,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -465,8 +468,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.006_0",
                 "tag": "",
-                "uid": 12890640690217803562,
-                "parentUID": 373317024276112974,
+                "uid": 14413295678823273938,
+                "parentUID": 6382760096069985451,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -504,8 +507,8 @@
             "GameObject": {
                 "name": "CannonRT",
                 "tag": "",
-                "uid": 2071525533134209021,
-                "parentUID": 497268234319040485,
+                "uid": 4026135384776517880,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -532,8 +535,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.035_0",
                 "tag": "",
-                "uid": 14475457272302001845,
-                "parentUID": 2071525533134209021,
+                "uid": 9627933751330432287,
+                "parentUID": 4026135384776517880,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -571,8 +574,8 @@
             "GameObject": {
                 "name": "Cannon2RT",
                 "tag": "",
-                "uid": 18036576984266115398,
-                "parentUID": 497268234319040485,
+                "uid": 17156558498716240834,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -599,8 +602,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.036_0",
                 "tag": "",
-                "uid": 11507593527127513342,
-                "parentUID": 18036576984266115398,
+                "uid": 16482327235951962351,
+                "parentUID": 17156558498716240834,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -638,8 +641,8 @@
             "GameObject": {
                 "name": "Cannon4RT",
                 "tag": "",
-                "uid": 4913721341916768061,
-                "parentUID": 497268234319040485,
+                "uid": 3421190998899069789,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -666,8 +669,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.037_0",
                 "tag": "",
-                "uid": 8998322008588468903,
-                "parentUID": 4913721341916768061,
+                "uid": 5028970662942401145,
+                "parentUID": 3421190998899069789,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -705,8 +708,8 @@
             "GameObject": {
                 "name": "Cannon1RT",
                 "tag": "",
-                "uid": 15309765253502189943,
-                "parentUID": 497268234319040485,
+                "uid": 16361290281557634776,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -733,8 +736,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.038_0",
                 "tag": "",
-                "uid": 1332788264004737550,
-                "parentUID": 15309765253502189943,
+                "uid": 15617079649950683049,
+                "parentUID": 16361290281557634776,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -772,8 +775,8 @@
             "GameObject": {
                 "name": "DroneMain",
                 "tag": "",
-                "uid": 8033171315997152768,
-                "parentUID": 497268234319040485,
+                "uid": 5210405283717590598,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -800,8 +803,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.055_0",
                 "tag": "",
-                "uid": 15569822095565692999,
-                "parentUID": 8033171315997152768,
+                "uid": 15860175327428585095,
+                "parentUID": 5210405283717590598,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -839,8 +842,8 @@
             "GameObject": {
                 "name": "WingLB",
                 "tag": "",
-                "uid": 35935722247393554,
-                "parentUID": 497268234319040485,
+                "uid": 4803125480532708109,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -867,8 +870,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.080_0",
                 "tag": "",
-                "uid": 7381476976147885395,
-                "parentUID": 35935722247393554,
+                "uid": 8255666530325152629,
+                "parentUID": 4803125480532708109,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -906,8 +909,8 @@
             "GameObject": {
                 "name": "WingLC",
                 "tag": "",
-                "uid": 825903445036358401,
-                "parentUID": 497268234319040485,
+                "uid": 4492394249216696936,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -934,8 +937,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.090_0",
                 "tag": "",
-                "uid": 4466416414906378068,
-                "parentUID": 825903445036358401,
+                "uid": 6881718000805549707,
+                "parentUID": 4492394249216696936,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -973,8 +976,8 @@
             "GameObject": {
                 "name": "WingLT",
                 "tag": "",
-                "uid": 474403692393967768,
-                "parentUID": 497268234319040485,
+                "uid": 1320918363408259630,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1001,8 +1004,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.091_0",
                 "tag": "",
-                "uid": 6779159088841918234,
-                "parentUID": 474403692393967768,
+                "uid": 14801878456083761568,
+                "parentUID": 1320918363408259630,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1040,8 +1043,8 @@
             "GameObject": {
                 "name": "CannonRB",
                 "tag": "",
-                "uid": 6934528808134047578,
-                "parentUID": 497268234319040485,
+                "uid": 15240526364386277926,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1068,8 +1071,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.002_0",
                 "tag": "",
-                "uid": 9306674313062713513,
-                "parentUID": 6934528808134047578,
+                "uid": 15368779540972096565,
+                "parentUID": 15240526364386277926,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1107,8 +1110,8 @@
             "GameObject": {
                 "name": "Cannon2RT.001",
                 "tag": "",
-                "uid": 15191058002741872153,
-                "parentUID": 497268234319040485,
+                "uid": 14666289777930290852,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1135,8 +1138,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.003_0",
                 "tag": "",
-                "uid": 18255470899030122702,
-                "parentUID": 15191058002741872153,
+                "uid": 6498544868227164761,
+                "parentUID": 14666289777930290852,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1174,8 +1177,8 @@
             "GameObject": {
                 "name": "Cannon4RT.001",
                 "tag": "",
-                "uid": 4464692190642355218,
-                "parentUID": 497268234319040485,
+                "uid": 11022529516959647761,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1202,8 +1205,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.005_0",
                 "tag": "",
-                "uid": 3939087829752602668,
-                "parentUID": 4464692190642355218,
+                "uid": 3617768586515442084,
+                "parentUID": 11022529516959647761,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1241,8 +1244,8 @@
             "GameObject": {
                 "name": "Cannon1RT.001",
                 "tag": "",
-                "uid": 7727469336285486543,
-                "parentUID": 497268234319040485,
+                "uid": 10220479106576027855,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1269,8 +1272,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.008_0",
                 "tag": "",
-                "uid": 11646698424154153524,
-                "parentUID": 7727469336285486543,
+                "uid": 14141602578522501754,
+                "parentUID": 10220479106576027855,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1308,8 +1311,8 @@
             "GameObject": {
                 "name": "CannonLT",
                 "tag": "",
-                "uid": 403942102198630169,
-                "parentUID": 497268234319040485,
+                "uid": 4051510607356228819,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1336,8 +1339,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.009_0",
                 "tag": "",
-                "uid": 13769790892319230003,
-                "parentUID": 403942102198630169,
+                "uid": 142736942433853007,
+                "parentUID": 4051510607356228819,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1375,8 +1378,8 @@
             "GameObject": {
                 "name": "Cannon2RT.002",
                 "tag": "",
-                "uid": 8998123996858244407,
-                "parentUID": 497268234319040485,
+                "uid": 14604515513740185492,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1403,8 +1406,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.010_0",
                 "tag": "",
-                "uid": 3496156971940649559,
-                "parentUID": 8998123996858244407,
+                "uid": 3148357661062644319,
+                "parentUID": 14604515513740185492,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1442,8 +1445,8 @@
             "GameObject": {
                 "name": "Cannon4RT.002",
                 "tag": "",
-                "uid": 970263035663299463,
-                "parentUID": 497268234319040485,
+                "uid": 1752024647106261268,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1470,8 +1473,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.011_0",
                 "tag": "",
-                "uid": 1549212524172652184,
-                "parentUID": 970263035663299463,
+                "uid": 8447346169715130980,
+                "parentUID": 1752024647106261268,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1509,8 +1512,8 @@
             "GameObject": {
                 "name": "Cannon1RT.002",
                 "tag": "",
-                "uid": 4567244225329450547,
-                "parentUID": 497268234319040485,
+                "uid": 13812279052026712499,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1537,8 +1540,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.012_0",
                 "tag": "",
-                "uid": 3067233594913435964,
-                "parentUID": 4567244225329450547,
+                "uid": 14715692095556186778,
+                "parentUID": 13812279052026712499,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1576,8 +1579,8 @@
             "GameObject": {
                 "name": "CannonLB",
                 "tag": "",
-                "uid": 9423935948896182297,
-                "parentUID": 497268234319040485,
+                "uid": 8975346483477391470,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1604,8 +1607,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.013_0",
                 "tag": "",
-                "uid": 11409948568831627373,
-                "parentUID": 9423935948896182297,
+                "uid": 2833553914292051289,
+                "parentUID": 8975346483477391470,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1643,8 +1646,8 @@
             "GameObject": {
                 "name": "Cannon2RT.003",
                 "tag": "",
-                "uid": 13780775540954122886,
-                "parentUID": 497268234319040485,
+                "uid": 17038517162530892379,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1671,8 +1674,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.014_0",
                 "tag": "",
-                "uid": 15498455415088861932,
-                "parentUID": 13780775540954122886,
+                "uid": 8999459220315178152,
+                "parentUID": 17038517162530892379,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1710,8 +1713,8 @@
             "GameObject": {
                 "name": "Cannon4RT.003",
                 "tag": "",
-                "uid": 1237221659067794178,
-                "parentUID": 497268234319040485,
+                "uid": 14878263389698259120,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1738,8 +1741,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.015_0",
                 "tag": "",
-                "uid": 15027483421178159995,
-                "parentUID": 1237221659067794178,
+                "uid": 14147141716865489507,
+                "parentUID": 14878263389698259120,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1777,8 +1780,8 @@
             "GameObject": {
                 "name": "Cannon1RT.003",
                 "tag": "",
-                "uid": 2821262155125539066,
-                "parentUID": 497268234319040485,
+                "uid": 1584650960928631462,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1805,8 +1808,8 @@
             "GameObject": {
                 "name": "DRONE.wingRight.016_0",
                 "tag": "",
-                "uid": 1361517649005018292,
-                "parentUID": 2821262155125539066,
+                "uid": 6896808811869594315,
+                "parentUID": 1584650960928631462,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1844,8 +1847,8 @@
             "GameObject": {
                 "name": "Armature",
                 "tag": "",
-                "uid": 3177367816499748778,
-                "parentUID": 497268234319040485,
+                "uid": 10760797281007198434,
+                "parentUID": 14816924472140586736,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1872,8 +1875,8 @@
             "GameObject": {
                 "name": "DroneBody",
                 "tag": "",
-                "uid": 6425640319582586656,
-                "parentUID": 3177367816499748778,
+                "uid": 8695936330037719861,
+                "parentUID": 10760797281007198434,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1900,8 +1903,8 @@
             "GameObject": {
                 "name": "Wing.l",
                 "tag": "",
-                "uid": 11138340805198659800,
-                "parentUID": 6425640319582586656,
+                "uid": 15615281255339077026,
+                "parentUID": 8695936330037719861,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1928,8 +1931,8 @@
             "GameObject": {
                 "name": "Upwing.l",
                 "tag": "",
-                "uid": 1439162392445177159,
-                "parentUID": 11138340805198659800,
+                "uid": 9199143083174033928,
+                "parentUID": 15615281255339077026,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1956,8 +1959,8 @@
             "GameObject": {
                 "name": "Upwing.l.001",
                 "tag": "",
-                "uid": 6824450151126755410,
-                "parentUID": 1439162392445177159,
+                "uid": 8829524839264063214,
+                "parentUID": 9199143083174033928,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1984,8 +1987,8 @@
             "GameObject": {
                 "name": "CannonTopMain.l",
                 "tag": "",
-                "uid": 11752012173179160014,
-                "parentUID": 6824450151126755410,
+                "uid": 4433967913219664273,
+                "parentUID": 8829524839264063214,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2012,8 +2015,8 @@
             "GameObject": {
                 "name": "CannonTop2.l",
                 "tag": "",
-                "uid": 1450770966570105127,
-                "parentUID": 11752012173179160014,
+                "uid": 339891024456965993,
+                "parentUID": 4433967913219664273,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2040,8 +2043,8 @@
             "GameObject": {
                 "name": "CannonTop3.l",
                 "tag": "",
-                "uid": 4654095577091350023,
-                "parentUID": 1450770966570105127,
+                "uid": 5693611688283086894,
+                "parentUID": 339891024456965993,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2068,8 +2071,8 @@
             "GameObject": {
                 "name": "CannonTop3.l_end",
                 "tag": "",
-                "uid": 11506240678701508702,
-                "parentUID": 4654095577091350023,
+                "uid": 14618506478121898551,
+                "parentUID": 5693611688283086894,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2096,8 +2099,8 @@
             "GameObject": {
                 "name": "CannonTopBack.l",
                 "tag": "",
-                "uid": 15403374022960078401,
-                "parentUID": 11752012173179160014,
+                "uid": 18264214008546355787,
+                "parentUID": 4433967913219664273,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2124,8 +2127,8 @@
             "GameObject": {
                 "name": "CannonTopBack.l_end",
                 "tag": "",
-                "uid": 4180614552145653659,
-                "parentUID": 15403374022960078401,
+                "uid": 8501633447248848373,
+                "parentUID": 18264214008546355787,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2152,8 +2155,8 @@
             "GameObject": {
                 "name": "Downwing.l",
                 "tag": "",
-                "uid": 5719063861475445355,
-                "parentUID": 11138340805198659800,
+                "uid": 14258741002998275893,
+                "parentUID": 15615281255339077026,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2180,8 +2183,8 @@
             "GameObject": {
                 "name": "Downwing.l.001",
                 "tag": "",
-                "uid": 13708713420141483477,
-                "parentUID": 5719063861475445355,
+                "uid": 6227122867026534706,
+                "parentUID": 14258741002998275893,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2208,8 +2211,8 @@
             "GameObject": {
                 "name": "CannonBottomMain.l",
                 "tag": "",
-                "uid": 7116353496839322623,
-                "parentUID": 13708713420141483477,
+                "uid": 10873386575405439714,
+                "parentUID": 6227122867026534706,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2236,8 +2239,8 @@
             "GameObject": {
                 "name": "CannonBottom2.l",
                 "tag": "",
-                "uid": 13066259495640230059,
-                "parentUID": 7116353496839322623,
+                "uid": 12060682034580490179,
+                "parentUID": 10873386575405439714,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2264,8 +2267,8 @@
             "GameObject": {
                 "name": "CannonBottom3.l",
                 "tag": "",
-                "uid": 2562242117906459689,
-                "parentUID": 13066259495640230059,
+                "uid": 16851953060355072536,
+                "parentUID": 12060682034580490179,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2292,8 +2295,8 @@
             "GameObject": {
                 "name": "CannonBottom3.l_end",
                 "tag": "",
-                "uid": 10981996355093784145,
-                "parentUID": 2562242117906459689,
+                "uid": 6757152987500506035,
+                "parentUID": 16851953060355072536,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2320,8 +2323,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.l",
                 "tag": "",
-                "uid": 15434651137123723716,
-                "parentUID": 7116353496839322623,
+                "uid": 479383931305795443,
+                "parentUID": 10873386575405439714,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2348,8 +2351,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.l_end",
                 "tag": "",
-                "uid": 5561055437131179347,
-                "parentUID": 15434651137123723716,
+                "uid": 16061533631623290765,
+                "parentUID": 479383931305795443,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2376,8 +2379,8 @@
             "GameObject": {
                 "name": "Wing.r",
                 "tag": "",
-                "uid": 5753406435595871,
-                "parentUID": 6425640319582586656,
+                "uid": 14336391815455765967,
+                "parentUID": 8695936330037719861,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2404,8 +2407,8 @@
             "GameObject": {
                 "name": "Upwing.r",
                 "tag": "",
-                "uid": 6095696865207771946,
-                "parentUID": 5753406435595871,
+                "uid": 8173143249770660514,
+                "parentUID": 14336391815455765967,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2432,8 +2435,8 @@
             "GameObject": {
                 "name": "Upwing.r.001",
                 "tag": "",
-                "uid": 3692216576917914562,
-                "parentUID": 6095696865207771946,
+                "uid": 10489300142325277601,
+                "parentUID": 8173143249770660514,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2460,8 +2463,8 @@
             "GameObject": {
                 "name": "CannonTopMain.r",
                 "tag": "",
-                "uid": 2078140727951511536,
-                "parentUID": 3692216576917914562,
+                "uid": 15085779081675137525,
+                "parentUID": 10489300142325277601,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2488,8 +2491,8 @@
             "GameObject": {
                 "name": "CannonTop2.r",
                 "tag": "",
-                "uid": 5810566608812165151,
-                "parentUID": 2078140727951511536,
+                "uid": 11040368150662072725,
+                "parentUID": 15085779081675137525,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2516,8 +2519,8 @@
             "GameObject": {
                 "name": "CannonTop3.r",
                 "tag": "",
-                "uid": 4819863966728045019,
-                "parentUID": 5810566608812165151,
+                "uid": 14754392403995199795,
+                "parentUID": 11040368150662072725,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2544,8 +2547,8 @@
             "GameObject": {
                 "name": "CannonTop3.r_end",
                 "tag": "",
-                "uid": 8183624255338884075,
-                "parentUID": 4819863966728045019,
+                "uid": 1281893922263017542,
+                "parentUID": 14754392403995199795,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2572,8 +2575,8 @@
             "GameObject": {
                 "name": "CannonTopBack.r",
                 "tag": "",
-                "uid": 787000839571155028,
-                "parentUID": 2078140727951511536,
+                "uid": 11720395622212585135,
+                "parentUID": 15085779081675137525,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2600,8 +2603,8 @@
             "GameObject": {
                 "name": "CannonTopBack.r_end",
                 "tag": "",
-                "uid": 13624862804965932518,
-                "parentUID": 787000839571155028,
+                "uid": 2690423973024093463,
+                "parentUID": 11720395622212585135,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2628,8 +2631,8 @@
             "GameObject": {
                 "name": "Downwing.r",
                 "tag": "",
-                "uid": 2569769983963724793,
-                "parentUID": 5753406435595871,
+                "uid": 14423417670647241867,
+                "parentUID": 14336391815455765967,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2656,8 +2659,8 @@
             "GameObject": {
                 "name": "Downwing.r.001",
                 "tag": "",
-                "uid": 10797614802432588633,
-                "parentUID": 2569769983963724793,
+                "uid": 9438514811104973287,
+                "parentUID": 14423417670647241867,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2684,8 +2687,8 @@
             "GameObject": {
                 "name": "CannonBottomMain.r",
                 "tag": "",
-                "uid": 13522139857101948150,
-                "parentUID": 10797614802432588633,
+                "uid": 5688538348473516895,
+                "parentUID": 9438514811104973287,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2712,8 +2715,8 @@
             "GameObject": {
                 "name": "CannonBottom2.r",
                 "tag": "",
-                "uid": 14032975950181747990,
-                "parentUID": 13522139857101948150,
+                "uid": 5557308009525504474,
+                "parentUID": 5688538348473516895,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2740,8 +2743,8 @@
             "GameObject": {
                 "name": "CannonBottom3.r",
                 "tag": "",
-                "uid": 10329049088076693825,
-                "parentUID": 14032975950181747990,
+                "uid": 2735436685016981747,
+                "parentUID": 5557308009525504474,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2768,8 +2771,8 @@
             "GameObject": {
                 "name": "CannonBottom3.r_end",
                 "tag": "",
-                "uid": 4481678371489757321,
-                "parentUID": 10329049088076693825,
+                "uid": 8977295171554942163,
+                "parentUID": 2735436685016981747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2796,8 +2799,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.r",
                 "tag": "",
-                "uid": 3658602875849784029,
-                "parentUID": 13522139857101948150,
+                "uid": 14063203056856707284,
+                "parentUID": 5688538348473516895,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2824,8 +2827,8 @@
             "GameObject": {
                 "name": "CannonBottomBack.r_end",
                 "tag": "",
-                "uid": 1078053073490485547,
-                "parentUID": 3658602875849784029,
+                "uid": 4775588334946886468,
+                "parentUID": 14063203056856707284,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2850,38 +2853,10 @@
         },
         {
             "GameObject": {
-                "name": "Waypoint 2",
-                "tag": "",
-                "uid": 12078123005813096923,
-                "parentUID": 3799328107096056596,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 5.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Waypoint 1",
                 "tag": "",
-                "uid": 10197724959374757767,
-                "parentUID": 3799328107096056596,
+                "uid": 4307171577817583179,
+                "parentUID": 16694937423398287723,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2890,12 +2865,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": -5.0,
-                            "localRot_X": 0.0,
+                            "localPos_X": 10.0,
+                            "localPos_Y": 1.5,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -2906,10 +2881,38 @@
         },
         {
             "GameObject": {
-                "name": "Capsule",
+                "name": "Waypoint 2",
                 "tag": "",
-                "uid": 13090149177772520264,
-                "parentUID": 5716735143033173282,
+                "uid": 7264287042668602667,
+                "parentUID": 16694937423398287723,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.0,
+                            "localPos_Y": 1.5,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bullet",
+                "tag": "",
+                "uid": 14049940314831996807,
+                "parentUID": 48875548050334293,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -2954,8 +2957,8 @@
             "GameObject": {
                 "name": "BulletOrigin",
                 "tag": "",
-                "uid": 2731357607606056282,
-                "parentUID": 5716735143033173282,
+                "uid": 2605361363187490962,
+                "parentUID": 48875548050334293,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2977,19 +2980,96 @@
                     }
                 ]
             }
+        },
+        {
+            "GameObject": {
+                "name": "ExplosionArea",
+                "tag": "",
+                "uid": 11812119009022448789,
+                "parentUID": 48875548050334293,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 4.0,
+                            "factor": 1.0,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "MeleeHeavyAttackBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "ExplosionDamage",
+                                    "value": 30.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ExplosionTime",
+                                    "value": 2.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
         }
     ],
     "Quadtree": {
         "BoundingBox": {
             "MinPoint": {
-                "x": -25.0,
+                "x": -125.0,
                 "y": -10.0,
-                "z": -25.0
+                "z": -125.0
             },
             "MaxPoint": {
-                "x": 25.0,
+                "x": 75.0,
                 "y": 10.0,
-                "z": 25.0
+                "z": 75.0
             }
         }
     },

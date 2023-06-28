@@ -9,7 +9,7 @@
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
-#include "../Scripts/DroneFastAttack.h"
+#include "../Scripts/RangedFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -18,7 +18,7 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0), stunned(false),
+	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0.0f), stunned(false),
 	lastDroneState(DroneBehaviours::IDLE)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
@@ -39,7 +39,7 @@ void EnemyDroneScript::Start()
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
-	attackScript = owner->GetComponent<DroneFastAttack>();
+	attackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
 
 	seekTarget = seekScript->GetTarget();
@@ -68,6 +68,8 @@ void EnemyDroneScript::Update(float deltaTime)
 	{
 		return;
 	}
+
+	GameObject* seekTarget = seekScript->GetTarget();
 
 	if (seekTarget && lastDroneState != DroneBehaviours::EXPLOSIONATTACK)
 	{

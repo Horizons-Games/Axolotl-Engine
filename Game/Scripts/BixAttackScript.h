@@ -43,7 +43,6 @@ private:
 
 	float attackCooldown;
 	float lastAttackTime;
-	float rayAttackSize;
 
 	bool isDeathTouched;
 
@@ -56,14 +55,19 @@ private:
 	ModuleInput* input;
 
 	//Provisional
+	std::vector<Ray> rays;
+
 	GameObject* ray1GO;
 	GameObject* ray2GO;
 	GameObject* ray3GO;
 	GameObject* ray4GO;
+
 	ComponentTransform* ray1Transform;
 	ComponentTransform* ray2Transform;
 	ComponentTransform* ray3Transform;
 	ComponentTransform* ray4Transform;
+
+	float rayAttackSize;
 	//--Provisional
 
 	PlayerManagerScript* playerManager;

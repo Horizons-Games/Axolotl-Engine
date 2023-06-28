@@ -27,7 +27,6 @@ private:
 	ComponentTransform* currentWayPointTransform;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;
-	GameObject* ownerRigidBodyGO;
 
 	void SetProportionalController() const;
 };
