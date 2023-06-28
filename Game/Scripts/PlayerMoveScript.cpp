@@ -216,7 +216,6 @@ void PlayerMoveScript::Move(float deltaTime)
 			playerState = PlayerActions::IDLE;
 		}
 
-		btRb->setAngularVelocity(btVector3(0.0f, 0.0f, 0.0f));
 	}
 
 	// Dash
