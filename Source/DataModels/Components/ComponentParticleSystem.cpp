@@ -61,7 +61,7 @@ void ComponentParticleSystem::InternalSave(Json& meta)
 
 	meta["particleSystemUID"] = (UID)uidParticleSystem;
 	meta["assetPathParticleSystem"] = assetPath.c_str();
-	meta["PlayAtStart"] = playAtStart;
+	meta["playAtStart"] = playAtStart;
 }
 
 void ComponentParticleSystem::InternalLoad(const Json& meta)
@@ -84,7 +84,7 @@ void ComponentParticleSystem::InternalLoad(const Json& meta)
 		SetResource(resourceParticleSystem);
 	}
 
-	playAtStart = meta["PlayAtStart"];
+	playAtStart = meta["playAtStart"];
 }
 
 void ComponentParticleSystem::Play()
