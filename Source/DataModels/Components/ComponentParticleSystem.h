@@ -29,10 +29,12 @@ public:
 	bool IsEmittersEmpty() const;
 	bool IsPlaying() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
+	bool GetPlayAtStart() const;
 
 	const std::shared_ptr<ResourceParticleSystem>& GetResource() const;
 	void SetResource(const std::shared_ptr<ResourceParticleSystem> resource);
 	void SetEmitters(const std::vector<EmitterInstance*> emitters);
+	void SetPlayAtStart(bool playAtStart);
 
 	void CheckEmitterInstances(bool forceRecalculate);
 	void RemoveEmitter(int pos);
@@ -50,6 +52,8 @@ private:
 
 	std::vector<EmitterInstance*> emitters;
 	std::shared_ptr<ResourceParticleSystem> resource;
+
+	bool playAtStart;
 
 	bool isPlaying;
 	bool pause;
@@ -75,7 +79,17 @@ inline void ComponentParticleSystem::SetEmitters(const std::vector<EmitterInstan
 	this->emitters = emitters;
 }
 
+inline void ComponentParticleSystem::SetPlayAtStart(bool playAtStart)
+{
+	this->playAtStart = playAtStart;
+}
+
 inline std::vector<EmitterInstance*> ComponentParticleSystem::GetEmitters() const
 {
 	return emitters;
+}
+
+inline bool ComponentParticleSystem::GetPlayAtStart() const
+{
+	return playAtStart;
 }

@@ -28,14 +28,16 @@ ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* 
 	Component(ComponentType::PARTICLE, active, owner, true), 
 	resource(nullptr),
 	isPlaying(false),
-	pause(false)
+	pause(false),
+	playAtStart(false)
 {
 }
 
 ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& toCopy):
 	Component(ComponentType::PARTICLE, toCopy.IsEnabled(), toCopy.GetOwner(), true),
 	isPlaying(false),
-	pause(false)
+	pause(false),
+	playAtStart(toCopy.playAtStart)
 { 
 	SetResource(toCopy.GetResource());
 }
@@ -47,10 +49,6 @@ ComponentParticleSystem::~ComponentParticleSystem()
 
 void ComponentParticleSystem::InternalSave(Json& meta)
 {
-	// Do not delete these
-	/*meta["type"] = GetNameByType(GetType()).c_str();
-	meta["active"] = (bool)IsEnabled();
-	meta["removed"] = (bool)CanBeRemoved();*/
 
 	UID uidParticleSystem = 0;
 	std::string assetPath = "";
@@ -63,14 +61,11 @@ void ComponentParticleSystem::InternalSave(Json& meta)
 
 	meta["particleSystemUID"] = (UID)uidParticleSystem;
 	meta["assetPathParticleSystem"] = assetPath.c_str();
+	meta["PlayAtStart"] = playAtStart;
 }
 
 void ComponentParticleSystem::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	/*type = GetTypeByName(meta["type"]);
-	active = (bool)meta["active"];
-	canBeRemoved = (bool)meta["removed"];*/
 	std::shared_ptr<ResourceParticleSystem> resourceParticleSystem;
 #ifdef ENGINE
 	std::string path = meta["assetPathParticleSystem"];
@@ -88,6 +83,8 @@ void ComponentParticleSystem::InternalLoad(const Json& meta)
 	{
 		SetResource(resourceParticleSystem);
 	}
+
+	playAtStart = meta["PlayAtStart"];
 }
 
 void ComponentParticleSystem::Play()

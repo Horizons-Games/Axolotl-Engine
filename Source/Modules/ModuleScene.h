@@ -39,6 +39,7 @@ public:
 	void OnStop();
 
 	void InitAndStartScriptingComponents();
+	void InitParticlesComponents();
 
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(const GameObject* object);

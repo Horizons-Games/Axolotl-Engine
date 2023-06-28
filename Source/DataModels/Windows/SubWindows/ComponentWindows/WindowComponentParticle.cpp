@@ -47,6 +47,12 @@ void WindowComponentParticle::DrawWindowContents()
 			return;
 		}
 
+		bool playAtStart = component->GetPlayAtStart();
+		if (ImGui::Checkbox("Play a start", &playAtStart))
+		{
+			component->SetPlayAtStart(playAtStart);
+		}
+		ImGui::SameLine;
 		if (ImGui::Button("Save"))
 		{
 			resource->SetChanged(true);
