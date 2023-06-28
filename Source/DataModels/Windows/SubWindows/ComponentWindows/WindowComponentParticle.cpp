@@ -257,7 +257,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				ImGui::SameLine();
 				ImGui::Text("Angle:"); ImGui::SameLine();
 				ImGui::SetNextItemWidth(60.0f);
-				if (ImGui::SliderFloat("##angle", &angle, 0.0f, 89.99f, "%.2f"))
+				if (ImGui::DragFloat("##angle", &angle, 0.1f, 0.0f, 89.99f, "%.2f"))
 				{
 					emitter->SetAngle(angle);
 				}
@@ -321,7 +321,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomLife)
 			{
-				if (ImGui::SliderFloat2("##sliderlife", &lifespanRange[0], 0.0f, MAX_DURATION, "%.2f"))
+				if (ImGui::DragFloat2("##sliderlife", &lifespanRange[0], 0.1f, 0.0f, MAX_DURATION, "%.2f"))
 				{
 					if (lifespanRange.x > lifespanRange.y)
 					{
@@ -373,7 +373,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomSpeed)
 			{
-				if (ImGui::SliderFloat2("##sliderSpeed", &speedRange[0], 0.0f, MAX_SPEED, "%.2f"))
+				if (ImGui::DragFloat2("##sliderSpeed", &speedRange[0], 1.0f, 0.0f, MAX_SPEED, "%.2f"))
 				{
 					if (speedRange.x > speedRange.y)
 					{
@@ -425,7 +425,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomSize)
 			{
-				if (ImGui::SliderFloat2("##sliderSize", &sizeRange[0], 0.0f, MAX_SIZE, "%.2f"))
+				if (ImGui::DragFloat2("##sliderSize", &sizeRange[0], 1.0f, 0.0f, MAX_SIZE, "%.2f"))
 				{
 					if (sizeRange.x > sizeRange.y)
 					{
@@ -478,7 +478,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomRot)
 			{
-				if (ImGui::SliderFloat2("##sliderRot", &rotRange[0], 0.0f, MAX_ROTATION, "%.2f"))
+				if (ImGui::DragFloat2("##sliderRot", &rotRange[0], 1.0f, 0.0f, MAX_ROTATION, "%.2f"))
 				{
 					if (rotRange.x > rotRange.y)
 					{
@@ -531,7 +531,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomGrav)
 			{
-				if (ImGui::SliderFloat2("##sliderGrav", &gravRange[0], 0.0f, MAX_GRAVITY, "%.2f"))
+				if (ImGui::DragFloat2("##sliderGrav", &gravRange[0], 1.0f, 0.0f, MAX_GRAVITY, "%.2f"))
 				{
 					if (gravRange.x > gravRange.y)
 					{

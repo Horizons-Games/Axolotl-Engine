@@ -56,7 +56,7 @@ void ModuleSize::DrawImGui()
 		ImGui::SetNextItemWidth(165.0f);
 		if (random)
 		{
-			if (ImGui::SliderFloat2("##sliderSizeOverTime", &sizeOverTime[0], 0.0f, MAX_SIZE, "%.3f"))
+			if (ImGui::DragFloat2("##sliderSizeOverTime", &sizeOverTime[0], 1.0f, 0.0f, MAX_SIZE, "%.3f"))
 			{
 				if (sizeOverTime.x > sizeOverTime.y)
 				{

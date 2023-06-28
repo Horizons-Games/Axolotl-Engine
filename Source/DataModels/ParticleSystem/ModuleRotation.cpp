@@ -56,7 +56,7 @@ void ModuleRotation::DrawImGui()
 		ImGui::SetNextItemWidth(165.0f);
 		if (random)
 		{
-			if (ImGui::SliderFloat2("##sliderRotOverTime", &rotationOverTime[0], -25.0f, 25.0f, "%.2f"))
+			if (ImGui::DragFloat2("##sliderRotOverTime", &rotationOverTime[0], 1.0f, -25.0f, 25.0f, "%.2f"))
 			{
 				if (rotationOverTime.x > rotationOverTime.y)
 				{
