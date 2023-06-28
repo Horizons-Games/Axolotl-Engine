@@ -320,8 +320,8 @@
                             "type": "Component_Animation",
                             "active": true,
                             "removed": true,
-                            "stateUID": 0,
-                            "assetPathState": ""
+                            "stateUID": 6969169460292802766,
+                            "assetPathState": "Assets/StateMachine/VenomiteAnimController.state"
                         }
                     },
                     {
@@ -376,6 +376,16 @@
                                     "name": "MeleeAttackDistance",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "BatonGameObject",
+                                    "value": 11275290255961232505,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BlasterGameObject",
+                                    "value": 1254259082220004074,
+                                    "type": 2
                                 }
                             ]
                         }

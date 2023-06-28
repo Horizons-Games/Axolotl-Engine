@@ -48,4 +48,7 @@ private:
 
 	float rangedAttackDistance;
 	float meleeAttackDistance;
+
+	GameObject* batonGameObject;
+	GameObject* blasterGameObject;
 };

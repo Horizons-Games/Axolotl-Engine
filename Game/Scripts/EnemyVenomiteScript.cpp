@@ -17,10 +17,14 @@ REGISTERCLASS(EnemyVenomiteScript);
 
 EnemyVenomiteScript::EnemyVenomiteScript() : Script(), venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
 	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(2.0f), meleeAttackScript(nullptr),
-	healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), componentAudioSource(nullptr)
+	healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), componentAudioSource(nullptr),
+	batonGameObject(nullptr), blasterGameObject(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
+
+	REGISTER_FIELD(batonGameObject, GameObject*);
+	REGISTER_FIELD(blasterGameObject, GameObject*);
 }
 
 void EnemyVenomiteScript::Start()
@@ -75,14 +79,18 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 	if (patrolScript && venomiteState == VenomiteBehaviours::PATROL)
 	{
+		batonGameObject->Disable();
+		blasterGameObject->Disable();
+
 		patrolScript->Patrolling();
 
-		componentAnimation->SetParameter("IsAttacking", false);
-		componentAnimation->SetParameter("IsWalking", true);
+		componentAnimation->SetParameter("IsRunning", true);
 	}
 
 	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
 	{
+		blasterGameObject->Enable();
+
 		seekScript->Seeking();
 		seekScript->DisableMovement();
 
@@ -90,35 +98,49 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		{
 			if (rangedAttackScript->IsAttackAvailable())
 			{
+				componentAnimation->SetParameter("IsRangedAttacking", true);
 				rangedAttackScript->PerformAttack();
+			}
+
+			else
+			{
+				componentAnimation->SetParameter("IsRangedAttacking", false);
 			}
 		}
 
-		componentAnimation->SetParameter("IsAttacking", true);
+		componentAnimation->SetParameter("IsRunning", false);
 	}
 
 	if (seekScript && venomiteState == VenomiteBehaviours::SEEK)
 	{
+		batonGameObject->Enable();
+		blasterGameObject->Disable();
+
 		seekScript->Seeking();
 
-		componentAnimation->SetParameter("IsAttacking", false);
-		componentAnimation->SetParameter("IsWalking", true);
+		componentAnimation->SetParameter("IsRunning", true);
+		componentAnimation->SetParameter("IsRangedAttacking", false);
+		componentAnimation->SetParameter("IsMeleeAttacking", false);
 	}
 
 	if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
 	{
+		batonGameObject->Enable();
+
 		seekScript->Seeking();
 		seekScript->DisableMovement();
 
 		if (meleeAttackScript->IsAttackAvailable())
 		{
+			componentAnimation->SetParameter("IsMeleeAttacking", true);
 			meleeAttackScript->PerformAttack();
-			componentAnimation->SetParameter("IsAttacking", true);
 		}
 
 		else
 		{
-			componentAnimation->SetParameter("IsAttacking", false);
+			componentAnimation->SetParameter("IsMeleeAttacking", false);
 		}
+
+		componentAnimation->SetParameter("IsRunning", true);
 	}
 }
