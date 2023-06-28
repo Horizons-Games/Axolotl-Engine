@@ -312,17 +312,8 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
-      <Filter>UserScripts\Basics</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
@@ -430,6 +421,9 @@
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
+      <Filter>UserScripts\Gameplay\Player</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
@@ -473,6 +467,15 @@
     <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp">
+      <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyVenomiteScript.cpp">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleNavigation.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
@@ -488,8 +491,29 @@
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
+      <Filter>UserScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp">
       <Filter>DataModels\Components</Filter>
@@ -512,6 +536,12 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DebugGame.cpp">
+      <Filter>UserScripts\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -819,12 +849,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentMeshCollider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
@@ -963,6 +987,9 @@
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
+      <Filter>UserScripts\Gameplay\Player</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\DroneFastBullet.h">
       <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
@@ -984,8 +1011,15 @@
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
@@ -1006,6 +1040,21 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+    <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCameraSample.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1072,6 +1121,15 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DebugGame.h">
+      <Filter>UserScripts\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\GameManager.h">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1144,9 +1202,6 @@
     <Filter Include="Auxiliar\Utils">
       <UniqueIdentifier>{a0f5ab71-ba43-46bf-af2a-002a9cdc20a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Basics">
-      <UniqueIdentifier>{2efe8905-6d7a-43f9-8bd7-35f513304159}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Audio">
       <UniqueIdentifier>{75f93bcb-0c0c-4112-ac8f-2662242bbcc4}</UniqueIdentifier>
     </Filter>
@@ -1198,14 +1253,20 @@
     <Filter Include="UserScripts\Gameplay\Behaviours">
       <UniqueIdentifier>{5bdab4b3-f7b5-49c8-bc42-4b8a1cd3511d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\DroneAttackBehaviour">
-      <UniqueIdentifier>{97086dbf-e048-4f7e-8e26-9440522d533c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Gameplay\PowerUps">
       <UniqueIdentifier>{3c0319b6-bb2b-47a7-81ae-d8e78fa1ba74}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts\Gameplay\Health System\DeathActions">
       <UniqueIdentifier>{b68e19c9-8630-4623-a368-b6677dab8c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours">
+      <UniqueIdentifier>{7524808f-fb05-4b80-9a04-3dbdfa2c3fdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Movement Behaviours">
+      <UniqueIdentifier>{911bcf4f-181f-48db-8333-dfa64145ceda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour">
+      <UniqueIdentifier>{79d0b2cb-fa14-4daf-82af-09f2727e8fc2}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\GBuffer">
       <UniqueIdentifier>{c1f9434a-5fe1-40ba-ab44-e447bf58d6ca}</UniqueIdentifier>
@@ -1215,6 +1276,9 @@
     </Filter>
     <Filter Include="UserScripts\Camera">
       <UniqueIdentifier>{0ccfe616-2a9f-451f-8045-c8d30bc58f1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Debug">
+      <UniqueIdentifier>{56f590e5-1567-45af-9af6-e647c25086f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

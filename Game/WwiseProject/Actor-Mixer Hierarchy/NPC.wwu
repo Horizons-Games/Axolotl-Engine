@@ -279,6 +279,63 @@
 					</ActiveSourceList>
 				</Sound>
 				<WorkUnit Name="NPCsCantina" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" PersistMode="Reference"/>
+				<Sound Name="sfx_drone_death_explosion-001" ID="{54D46132-0B6B-46DA-ADC9-3B34E0F68B77}" ShortID="457378143">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="sfx_drone_death_explosion-001" ID="{ED11D7F8-CABF-487E-B4A9-BECFE833AEE1}">
+							<Language>SFX</Language>
+							<AudioFile>sfx_drone_death_explosion-001.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="715445435"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="sfx_drone_death_explosion-001" ID="{ED11D7F8-CABF-487E-B4A9-BECFE833AEE1}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="sfx_drone_death_timer-001" ID="{55D474EF-906D-4D59-B86D-241058C023A2}" ShortID="603368102">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>200</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-21</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="sfx_drone_death_timer-001" ID="{46D72119-AEAF-4244-A125-0692A1661B01}">
+							<Language>SFX</Language>
+							<AudioFile>sfx_drone_death_timer-001.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="107111808"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="sfx_drone_death_timer-001" ID="{46D72119-AEAF-4244-A125-0692A1661B01}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>
