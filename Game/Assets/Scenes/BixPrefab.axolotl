@@ -162,43 +162,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "BixAttackScript",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 2.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "RayAttackSize",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "AnimationGO",
-                                    "value": 2679327220281646738,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray1GO",
-                                    "value": 7198516895422590896,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray2GO",
-                                    "value": 2806612859024517211,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 8288960593199762620,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 14392774705331209892,
-                                    "type": 2
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -207,23 +171,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "HealthSystem",
-                            "fields": [
-                                {
-                                    "name": "CurrentHealth",
-                                    "value": 100.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "MaxHealth",
-                                    "value": 100.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "IsImmortal",
-                                    "value": false,
-                                    "type": 4
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -232,23 +180,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerMoveScript",
-                            "fields": [
-                                {
-                                    "name": "DashForce",
-                                    "value": 1000.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CanDash",
-                                    "value": true,
-                                    "type": 4
-                                },
-                                {
-                                    "name": "IsParalized",
-                                    "value": false,
-                                    "type": 4
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -257,23 +189,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerJumpScript",
-                            "fields": [
-                                {
-                                    "name": "JumpParameter",
-                                    "value": 500.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CanDoubleJump",
-                                    "value": true,
-                                    "type": 4
-                                },
-                                {
-                                    "name": "CanJump",
-                                    "value": true,
-                                    "type": 4
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -282,23 +198,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerManagerScript",
-                            "fields": [
-                                {
-                                    "name": "PlayerAttack",
-                                    "value": 20.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "PlayerDefense",
-                                    "value": 0.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "PlayerSpeed",
-                                    "value": 300.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -307,13 +207,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "InteractWithPowerUpScript",
-                            "fields": [
-                                {
-                                    "name": "PowerUpsManager",
-                                    "value": 0,
-                                    "type": 2
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -322,13 +216,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerDeathScript",
-                            "fields": [
-                                {
-                                    "name": "LoseSceneName",
-                                    "value": "00_LoseScene_VS3",
-                                    "type": 1
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -337,18 +225,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceUseScript",
-                            "fields": [
-                                {
-                                    "name": "MaxDistanceForce",
-                                    "value": 20.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "MaxTimeForce",
-                                    "value": 15.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     },
                     {
@@ -357,23 +234,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerRotationScript",
-                            "fields": [
-                                {
-                                    "name": "RotationSensitivityVertical",
-                                    "value": 1.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "RotationSensitivityHorizontal",
-                                    "value": 5.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CanRotate",
-                                    "value": true,
-                                    "type": 4
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]
@@ -1587,7 +1448,7 @@
                             "removed": true,
                             "meshUID": 13733491790628228334,
                             "assetPathMesh": "Assets/Meshes/Bix.Torso_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -1654,7 +1515,7 @@
                             "removed": true,
                             "meshUID": 8653617879147473154,
                             "assetPathMesh": "Assets/Meshes/Bix.ArmL_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -1721,7 +1582,7 @@
                             "removed": true,
                             "meshUID": 11729760199490684393,
                             "assetPathMesh": "Assets/Meshes/Bix.Belt_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -1788,7 +1649,7 @@
                             "removed": true,
                             "meshUID": 7323339642871555922,
                             "assetPathMesh": "Assets/Meshes/Bix.LegL_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -4403,7 +4264,7 @@
                             "removed": true,
                             "meshUID": 8464268324595326213,
                             "assetPathMesh": "Assets/Meshes/Bix.Mesh.003_0.mesh",
-                            "materialUID": 3198700997700644741,
+                            "materialUID": 4346299667973786321,
                             "assetPathMaterial": "Assets/Materials/BixLightSaber.001_0.mat"
                         }
                     }
@@ -4424,9 +4285,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 7.152557373046875e-7,
+                            "localPos_Y": -1.1920928955078125e-7,
+                            "localPos_Z": 8.344650268554688e-7,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -4442,7 +4303,7 @@
                             "removed": true,
                             "meshUID": 16350504922002355826,
                             "assetPathMesh": "Assets/Meshes/Bix.Mesh.003_1.mesh",
-                            "materialUID": 11103135357649344423,
+                            "materialUID": 3223208909001752798,
                             "assetPathMaterial": "Assets/Materials/BixLightSaberEmission_1.mat"
                         }
                     }
@@ -4509,8 +4370,8 @@
                             "removed": true,
                             "meshUID": 12251219273909532079,
                             "assetPathMesh": "Assets/Meshes/Bix.blaster1_0.mesh",
-                            "materialUID": 5803071880610674429,
-                            "assetPathMaterial": "Assets/Materials/BixNone_0.mat"
+                            "materialUID": 12251219273909532079,
+                            "assetPathMaterial": "Assets/Meshes/Bix.blaster1_0.mesh"
                         }
                     }
                 ]
@@ -5108,7 +4969,7 @@
                             "removed": true,
                             "meshUID": 4605353292882625321,
                             "assetPathMesh": "Assets/Meshes/Bix.ArmR_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -5175,7 +5036,7 @@
                             "removed": true,
                             "meshUID": 9010580052883419477,
                             "assetPathMesh": "Assets/Meshes/Bix.LegR_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -5226,7 +5087,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": 0.8114498853683472,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -5238,11 +5099,11 @@
                     {
                         "Component": {
                             "type": "Component_MeshRenderer",
-                            "active": true,
+                            "active": false,
                             "removed": true,
                             "meshUID": 2307508796363413710,
                             "assetPathMesh": "Assets/Meshes/Bix.eyes_0.mesh",
-                            "materialUID": 498853683867197132,
+                            "materialUID": 5745953144802157223,
                             "assetPathMaterial": "Assets/Materials/BixEyes_0.mat"
                         }
                     }
@@ -5305,11 +5166,11 @@
                     {
                         "Component": {
                             "type": "Component_MeshRenderer",
-                            "active": true,
+                            "active": false,
                             "removed": true,
                             "meshUID": 2273221037244554632,
                             "assetPathMesh": "Assets/Meshes/Bix.ninjago mouths final_0.mesh",
-                            "materialUID": 13238220192419959346,
+                            "materialUID": 4453066648271568543,
                             "assetPathMaterial": "Assets/Materials/BixMouth_0.mat"
                         }
                     }
@@ -5376,7 +5237,7 @@
                             "removed": true,
                             "meshUID": 18184050331415442805,
                             "assetPathMesh": "Assets/Meshes/Bix.Eye_brow_Face_Rig.002_0.mesh",
-                            "materialUID": 1794112320865214676,
+                            "materialUID": 5968443183293677328,
                             "assetPathMaterial": "Assets/Materials/BixEye_brow_Face_Rig_0.mat"
                         }
                     }
@@ -5443,7 +5304,7 @@
                             "removed": true,
                             "meshUID": 5948034724956779695,
                             "assetPathMesh": "Assets/Meshes/Bix.Eye_brow_Face_Rig.003_0.mesh",
-                            "materialUID": 1794112320865214676,
+                            "materialUID": 5968443183293677328,
                             "assetPathMaterial": "Assets/Materials/BixEye_brow_Face_Rig_0.mat"
                         }
                     }
@@ -5510,7 +5371,7 @@
                             "removed": true,
                             "meshUID": 3764089235905032221,
                             "assetPathMesh": "Assets/Meshes/Bix.Hat_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -5577,7 +5438,7 @@
                             "removed": true,
                             "meshUID": 17103296613248215036,
                             "assetPathMesh": "Assets/Meshes/Bix.Glasses_0.mesh",
-                            "materialUID": 5250914669973269110,
+                            "materialUID": 7980240138753669245,
                             "assetPathMaterial": "Assets/Materials/BixBody_0.mat"
                         }
                     }
@@ -5644,7 +5505,7 @@
                             "removed": true,
                             "meshUID": 5908296182007970495,
                             "assetPathMesh": "Assets/Meshes/Bix.Head.001_0.mesh",
-                            "materialUID": 8218609473072018306,
+                            "materialUID": 14135507422877358594,
                             "assetPathMaterial": "Assets/Materials/BixFace2_0.mat"
                         }
                     }
@@ -5711,8 +5572,8 @@
                             "removed": true,
                             "meshUID": 13032505683019145276,
                             "assetPathMesh": "Assets/Meshes/Bix.Mesh.004_0.mesh",
-                            "materialUID": 3198700997700644741,
-                            "assetPathMaterial": "Assets/Materials/BixLightSaber.001_0.mat"
+                            "materialUID": 13032505683019145276,
+                            "assetPathMaterial": "Assets/Meshes/Bix.Mesh.004_0.mesh"
                         }
                     }
                 ]
@@ -5778,8 +5639,8 @@
                             "removed": true,
                             "meshUID": 3083478906006374450,
                             "assetPathMesh": "Assets/Meshes/Bix.Plane_0.mesh",
-                            "materialUID": 13453178566804839627,
-                            "assetPathMaterial": "Assets/Materials/BixDefaultMaterial_0.mat"
+                            "materialUID": 3083478906006374450,
+                            "assetPathMaterial": "Assets/Meshes/Bix.Plane_0.mesh"
                         }
                     }
                 ]
@@ -5985,28 +5846,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceAttackScript",
-                            "fields": [
-                                {
-                                    "name": "Force",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "StunTime",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CoolDown",
-                                    "value": 6.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ForceDamage",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]

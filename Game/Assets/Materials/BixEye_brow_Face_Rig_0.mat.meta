@@ -1,5 +1,5 @@
 {
-    "UID": 6285578725188221075,
+    "UID": 5968443183293677328,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -10,8 +10,9 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "",
+    "DiffuseAssetPath": "Assets/Textures/Eye_brow_Face_Rig.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }

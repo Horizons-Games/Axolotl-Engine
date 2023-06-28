@@ -1,5 +1,5 @@
 {
-    "UID": 8218609473072018306,
+    "UID": 14135507422877358594,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/BixController7_Face2_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/BixController7_Face2_Metallic.png",
-    "MetallicAssetPath": "Assets/Textures/BixController7_Face2_Metallic.png"
+    "EmissiveAssetPath": ""
 }
