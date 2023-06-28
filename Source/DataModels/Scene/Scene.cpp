@@ -861,6 +861,23 @@ void Scene::UpdateSceneBoundingBoxes()
 	}
 }
 
+void Scene::UpdateSceneAgentComponents()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentAgent* componentAgent = go->GetComponent<ComponentAgent>();
+
+			if (componentAgent)
+			{
+				agentComponents.push_back(componentAgent);
+			}
+		}
+	}
+}
+
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();

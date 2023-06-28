@@ -9,7 +9,7 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-#include "Components/ComponentAreaLight.h"
+#include "Components/ComponentAgent.h"
 #include "Components/ComponentMeshRenderer.h"
 
 #include <queue>
@@ -69,6 +69,7 @@ public:
 	void UpdateSceneAreaLights();
 	void UpdateSceneMeshRenderers();
 	void UpdateSceneBoundingBoxes();
+	void UpdateSceneAgentComponents();
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -84,6 +85,7 @@ public:
 	Cubemap* GetCubemap() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
+	std::vector<ComponentAgent*> GetAgentComponents() const;
 
 	std::vector<float> GetVertices();
 	std::vector<int> GetTriangles();
@@ -146,6 +148,7 @@ private:
 	std::vector<AreaLightTube> tubeLights;
 	std::vector<ComponentMeshRenderer*> meshRenderers;
 	std::vector<AABB> boundingBoxes;
+	std::vector<ComponentAgent*> agentComponents;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
@@ -241,6 +244,11 @@ inline Cubemap* Scene::GetCubemap() const
 inline std::vector<ComponentMeshRenderer*> Scene::GetMeshRenderers() const
 {
 	return meshRenderers;
+}
+
+inline std::vector<ComponentAgent*> Scene::GetAgentComponents() const
+{
+	return agentComponents;
 }
 
 inline std::vector<AABB> Scene::GetBoundingBoxes() const
