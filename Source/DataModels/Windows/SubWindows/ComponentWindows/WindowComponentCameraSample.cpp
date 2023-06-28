@@ -76,8 +76,6 @@ void WindowComponentCameraSample::DrawWindowContents()
 		if (isSampleFocusEnabled)
 		{
 
-			ImGui::Text("Focus Offset");
-			ImGui::Text("");
 			ImGui::Text("Horizontal:");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
