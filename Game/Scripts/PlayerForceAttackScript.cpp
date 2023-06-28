@@ -105,8 +105,10 @@ void PlayerForceAttackScript::PushEnemies()
 
 		EnemyDroneScript* enemyDroneScript =
 			(*it)->GetComponent<EnemyDroneScript>();
-
-		enemyDroneScript->SetStunnedTime(stunTime);
+		if (enemyDroneScript)
+		{
+			enemyDroneScript->SetStunnedTime(stunTime);
+		}
 
 		HealthSystem* enemyHealthScript =
 			(*it)->GetComponent<HealthSystem>();
