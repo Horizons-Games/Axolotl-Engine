@@ -24835,6 +24835,178 @@
                     }
                 ]
             }
+        },
+        {
+            "GameObject": {
+                "name": "WinLoseTriggers",
+                "tag": "",
+                "uid": 6536922412157379543,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ExitLvl",
+                "tag": "",
+                "uid": 9009461700262162696,
+                "parentUID": 6536922412157379543,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 30.003908157348633,
+                            "localPos_Y": 20.37531089782715,
+                            "localPos_Z": -158.84860229492188,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 5.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 5.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 30.003908157348633,
+                            "rbPos_Y": 20.37531089782715,
+                            "rbPos_Z": -158.84860229492188
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UITrigger",
+                            "fields": [
+                                {
+                                    "name": "IsWinTrigger",
+                                    "value": true,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsLoseTrigger",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsNextSceneTrigger",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsLoseByDamage",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetPlayer",
+                                    "value": 7379510807351786474,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DamageTaken",
+                                    "value": 1.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "End",
+                "tag": "",
+                "uid": 9147474100345458523,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 26.364181518554688,
+                            "localPos_Y": 14.43890380859375,
+                            "localPos_Z": -160.40167236328125,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 30.0,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 2.0,
+                            "positionOffsetZ": 4.0,
+                            "positionX": 26.364181518554688,
+                            "positionY": 14.43890380859375,
+                            "positionZ": -160.40167236328125
+                        }
+                    }
+                ]
+            }
         }
     ],
     "Quadtree": {
