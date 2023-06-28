@@ -76,7 +76,11 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	transform->SetGlobalPosition(finalTargetPosition);
 	transform->SetGlobalRotation(finalTargetOrientation);
 	transform->RecalculateLocalMatrix();
-	transform->UpdateTransformMatrices();
+
+	for (Component* components : owner->GetComponents())
+	{
+		components->OnTransformChanged();
+	}
 }
 
 void CameraControllerScript::CalculateOffsetVector()
