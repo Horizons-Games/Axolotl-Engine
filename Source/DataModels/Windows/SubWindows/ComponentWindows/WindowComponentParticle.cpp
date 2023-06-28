@@ -47,12 +47,6 @@ void WindowComponentParticle::DrawWindowContents()
 			return;
 		}
 
-		bool playAtStart = component->GetPlayAtStart();
-		if (ImGui::Checkbox("Play a start", &playAtStart))
-		{
-			component->SetPlayAtStart(playAtStart);
-		}
-		ImGui::SameLine;
 		if (ImGui::Button("Save"))
 		{
 			resource->SetChanged(true);
@@ -60,7 +54,13 @@ void WindowComponentParticle::DrawWindowContents()
 			App->GetModule<ModuleScene>()->ParticlesSystemUpdate(true);
 			return;
 		}
-	
+		ImGui::SameLine();
+		bool playAtStart = component->GetPlayAtStart();
+		if (ImGui::Checkbox("Play a start", &playAtStart))
+		{
+			component->SetPlayAtStart(playAtStart);
+		}
+
 		int id = 0;
 
 		if (component->GetEmitters().size() > 0)

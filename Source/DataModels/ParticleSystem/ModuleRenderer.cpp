@@ -435,12 +435,25 @@ void ModuleRenderer::DrawImGui()
 				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
 				ImGui::Text("x:"); ImGui::SameLine();
 				ImGui::SetNextItemWidth(80.0f);
-				ImGui::InputInt("##xTile", &tiles[0]);
+				int tileX = tiles[0];
+				if(ImGui::InputInt("##xTile", &tileX))
+				{
+					if (tileX > 0)
+					{
+						tiles[0] = tileX;
+					}
+				}
 				ImGui::SameLine();
 				ImGui::Text("y:"); ImGui::SameLine();
 				ImGui::SetNextItemWidth(80.0f);
-				ImGui::InputInt("##yTile", &tiles[1]);
-
+				int tileY = tiles[1];
+				if (ImGui::InputInt("##yTile", &tileY))
+				{
+					if (tileY > 0)
+					{
+						tiles[1] = tileY;
+					}
+				}
 				ImGui::TableNextColumn();
 				ImGui::Text("Random frame");
 				ImGui::TableNextColumn();
