@@ -18,7 +18,7 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
-	
+
 	float GetCurrentHealth() const;
 	float GetMaxHealth() const;
 

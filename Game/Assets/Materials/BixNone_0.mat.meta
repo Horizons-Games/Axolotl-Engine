@@ -1,5 +1,5 @@
 {
-    "UID": 5803071880610674429,
+    "UID": 3248480759557802049,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -10,9 +10,9 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/Blaster_D-15_None_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/Blaster_D-15_None_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/Blaster_D-15_None_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Blaster_D-15_None_MetallicSmoothness.png"
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }

@@ -1,5 +1,5 @@
 {
-    "UID": 13238220192419959346,
+    "UID": 4453066648271568543,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/Mouth_Face_Rig.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }

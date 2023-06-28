@@ -389,9 +389,6 @@
     <ClCompile Include="..\Game\Scripts\UIImageControl.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp">
-      <Filter>UserScripts\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -406,9 +403,6 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PowerUpLogicScript.cpp">
-      <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
       <Filter>DataModels\Windows\PopUpWindows</Filter>
@@ -431,6 +425,43 @@
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
+      <Filter>DataModels\GBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\Component.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\Component.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\UIDGenerator.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIGameManager.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PowerUpLogicScript.cpp">
+      <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp">
+      <Filter>UserScripts\Gameplay\PowerUps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DroneFastBullet.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClCompile>
@@ -445,6 +476,9 @@
     </ClCompile>
     <ClCompile Include="Modules\ModuleNavigation.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
+      <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleNavigation.cpp">
       <Filter>Modules</Filter>
@@ -912,7 +946,7 @@
     <ClInclude Include="..\Game\Scripts\UIImageControl.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\UIGameStates.h">
+    <ClInclude Include="..\Game\Scripts\UIGameManager.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UITrigger.h">
@@ -954,6 +988,15 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneFastBullet.h">
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DroneFastAttack.h">
+      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
@@ -979,8 +1022,8 @@
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleNavigation.h">
-      <Filter>Modules</Filter>
+    <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleNavigation.h">
       <Filter>Modules</Filter>
@@ -1055,6 +1098,9 @@
     </ClInclude>
     <ClInclude Include="Modules\ModuleAudio.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
+      <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
@@ -1757,7 +1803,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -2081,7 +2126,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>

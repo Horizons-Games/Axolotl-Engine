@@ -149,12 +149,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		totalDirection.y = 0;
 		totalDirection = totalDirection.Normalized();
 
-		btTransform worldTransform = btRb->getWorldTransform();
-		Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), totalDirection, float3::unitY, float3::unitY);
-		rot = rot * componentTransform->GetGlobalRotation();
-		worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
-		btRb->setWorldTransform(worldTransform);
-		btRb->getMotionState()->setWorldTransform(worldTransform);
+		MoveRotate(totalDirection, deltaTime);
 
 		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 	}
@@ -170,6 +165,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsRunning", false);
 			playerState = PlayerActions::IDLE;
 		}
+
 	}
 
 	// Dash
@@ -229,6 +225,60 @@ void PlayerMoveScript::Move(float deltaTime)
 		canDash = true;
 		nextDash = 0;
 	}
+}
+
+void PlayerMoveScript::MoveRotate(const float3& targetDirection, float deltaTime)
+{
+	btTransform worldTransform = btRb->getWorldTransform();
+	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), targetDirection, float3::unitY, float3::unitY);
+	Quat rotation = componentTransform->GetGlobalRotation();
+	Quat targetRotation = rot * componentTransform->GetGlobalRotation();
+
+	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
+	rotationError.Normalize();
+
+	if (!rotationError.Equals(Quat::identity, 0.05f))
+	{
+		float3 axis;
+		float angle;
+		rotationError.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 velocityRotation = axis * angle * playerManager->GetPlayerRotationSpeed();
+		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+		Quat wq_0 = angularVelocityQuat * rotation;
+
+		float deltaValue = 0.5f * deltaTime;
+		Quat deltaRotation = Quat(deltaValue * wq_0.x,
+			deltaValue * wq_0.y,
+			deltaValue * wq_0.z,
+			deltaValue * wq_0.w);
+
+		if (deltaRotation.Length() > rotationError.Length())
+		{
+			worldTransform.setRotation({ targetRotation.x,
+				targetRotation.y,
+				targetRotation.z,
+				targetRotation.w });
+		}
+
+		else
+		{
+			Quat nextRotation(rotation.x + deltaRotation.x,
+				rotation.y + deltaRotation.y,
+				rotation.z + deltaRotation.z,
+				rotation.w + deltaRotation.w);
+			nextRotation.Normalize();
+
+			worldTransform.setRotation({ nextRotation.x,
+				nextRotation.y,
+				nextRotation.z,
+				nextRotation.w });
+		}
+	}
+
+	btRb->setWorldTransform(worldTransform);
+	btRb->getMotionState()->setWorldTransform(worldTransform);
 }
 
 bool PlayerMoveScript::GetIsParalized() const

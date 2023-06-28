@@ -1,5 +1,5 @@
 {
-    "UID": 1794112320865214676,
+    "UID": 5968443183293677328,
     "Type": "Materials",
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
@@ -14,5 +14,5 @@
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "",
-    "MetallicAssetPath": ""
+    "EmissiveAssetPath": ""
 }

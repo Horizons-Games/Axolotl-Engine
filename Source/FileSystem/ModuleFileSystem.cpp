@@ -119,7 +119,7 @@ unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) 
 
 unsigned int ModuleFileSystem::Save(const std::string& filePath,
 									const void* buffer,
-									size_t size,
+									unsigned int size,
 									bool append /*= false*/) const
 {
 	PHYSFS_File* file = append ? PHYSFS_openAppend(filePath.c_str()) : PHYSFS_openWrite(filePath.c_str());
@@ -129,7 +129,7 @@ unsigned int ModuleFileSystem::Save(const std::string& filePath,
 		PHYSFS_close(file);
 		return 1;
 	}
-	if (PHYSFS_writeBytes(file, buffer, size) < static_cast<PHYSFS_sint64>(size))
+	if (PHYSFS_writeBytes(file, buffer, size) < size)
 	{
 		LOG_ERROR("Physfs has error {{}} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
@@ -261,13 +261,14 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 										char*& fileBuffer,
 										unsigned int& size)
 {
-	unsigned int header[4] = { (unsigned int) pathTextures[0].size(),
+	unsigned int header[5] = { (unsigned int) pathTextures[0].size(),
 							   (unsigned int) pathTextures[1].size(),
 							   (unsigned int) pathTextures[2].size(),
-							   (unsigned int) pathTextures[3].size() };
+							   (unsigned int) pathTextures[3].size(),
+							   (unsigned int) pathTextures[4].size()};
 
 	size = (unsigned int) (sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + pathTextures[2].size() +
-						   pathTextures[3].size());
+						   pathTextures[3].size() + pathTextures[4].size());
 
 	char* cursor = new char[size]{};
 
@@ -295,6 +296,11 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 
 	bytes = (unsigned int) pathTextures[3].size();
 	memcpy(cursor, pathTextures[3].c_str(), bytes);
+
+	cursor += bytes;
+
+	bytes = (unsigned int) pathTextures[4].size();
+	memcpy(cursor, pathTextures[4].c_str(), bytes);
 }
 
 void ModuleFileSystem::ZipFolder(zip_t* zip, const char* path) const
@@ -333,7 +339,7 @@ void ModuleFileSystem::ZipLibFolder() const
 void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath,
 										 const std::string& newFileName,
 										 const void* buffer,
-										 size_t size,
+										 unsigned int size,
 										 bool overwriteIfExists) const
 {
 	if (overwriteIfExists)
