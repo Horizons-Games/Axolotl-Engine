@@ -11,8 +11,14 @@ public:
 
 	void Update() override;
 
+	void SetMoveTarget(float3 newTargetPosition, bool usePathfinding);
+	void SetMaxSpeed(float newSpeed);
+	void SetMaxAcceleration(float newAcceleration);
+	void SetAgentObstacleAvoidance(bool avoidanceActive);
+	void AddAgentToCrowd();
 	void RemoveAgentFromCrowd();
 
+	float3 GetVelocity() const;
 	float GetMaxSpeed() const;
 	float GetMaxAcceleration() const;
 	float3 GetTargetPosition() const;
