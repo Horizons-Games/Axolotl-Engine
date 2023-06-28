@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/g_DoorLow_Material_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/g_DoorLow_Material_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/g_DoorLow_Material_MetallicSmoothness.png"
+    "EmissiveAssetPath": ""
 }
