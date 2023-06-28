@@ -198,10 +198,33 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 				yAxis = zAxis.Cross(xAxis).Normalized();
 				break;
 
-			case Alignment::AXIAL:
+			case Alignment::AXIAL_Y:
 				yAxis = float3::unitY;
 				xAxis = yAxis.Cross(cameraPos - translation).Normalized();
 				zAxis = yAxis.Cross(xAxis).Normalized();
+				break;
+
+			case Alignment::AXIAL_X:
+				yAxis = float3::unitX;
+				xAxis = yAxis.Cross(cameraPos - translation).Normalized();
+				zAxis = yAxis.Cross(xAxis).Normalized();
+				break;
+
+			case Alignment::AXIAL_Z:
+				yAxis = float3::unitZ;
+				xAxis = yAxis.Cross(cameraPos - translation).Normalized();
+				zAxis = yAxis.Cross(xAxis).Normalized();
+				break;
+
+			case Alignment::LOCAL:
+				ComponentTransform* objectTransform = 
+					instance->GetOwner()->GetOwner()->GetComponent<ComponentTransform>();
+				float4x4 originTransform = 
+					static_cast<ModuleBase*>(emitter->GetModule(ModuleType::BASE))->GetOriginTranform();
+				float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
+				zAxis = globalTransform.WorldZ();
+				xAxis = globalTransform.WorldX();
+				yAxis = globalTransform.WorldY();
 				break;
 			}
 
@@ -300,7 +323,7 @@ void ModuleRenderer::DrawImGui()
 
 			ModuleRenderer::Alignment alignment = GetAlignment();
 
-			const char* alignmentItems[] = { "SCREEN", "WORLD", "AXIAL" };
+			const char* alignmentItems[] = { "SCREEN", "WORLD", "AXIAL_Y", "AXIAL_X", "AXIAL_Z", "LOCAL"};
 
 			static const char* currentItem;
 			switch (alignment)
@@ -311,8 +334,17 @@ void ModuleRenderer::DrawImGui()
 			case ModuleRenderer::Alignment::WORLD:
 				currentItem = alignmentItems[1];
 				break;
-			case ModuleRenderer::Alignment::AXIAL:
+			case ModuleRenderer::Alignment::AXIAL_Y:
 				currentItem = alignmentItems[2];
+				break;
+			case ModuleRenderer::Alignment::AXIAL_X:
+				currentItem = alignmentItems[3];
+				break;
+			case ModuleRenderer::Alignment::AXIAL_Z:
+				currentItem = alignmentItems[4];
+				break;
+			case ModuleRenderer::Alignment::LOCAL:
+				currentItem = alignmentItems[5];
 				break;
 			}
 
@@ -343,7 +375,19 @@ void ModuleRenderer::DrawImGui()
 				}
 				else if (currentItem == alignmentItems[2])
 				{
-					alignment = ModuleRenderer::Alignment::AXIAL;
+					alignment = ModuleRenderer::Alignment::AXIAL_Y;
+				}
+				else if (currentItem == alignmentItems[3])
+				{
+					alignment = ModuleRenderer::Alignment::AXIAL_X;
+				}
+				else if (currentItem == alignmentItems[4])
+				{
+					alignment = ModuleRenderer::Alignment::AXIAL_Z;
+				}
+				else if (currentItem == alignmentItems[5])
+				{
+					alignment = ModuleRenderer::Alignment::LOCAL;
 				}
 
 				SetAlignment(alignment);

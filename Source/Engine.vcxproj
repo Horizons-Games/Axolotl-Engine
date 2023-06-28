@@ -354,12 +354,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
-    <ClCompile Include="..\Game\Scripts\UIImageControl.cpp">
+    <ClCompile Include="..\Game\Scripts\UIImageDisplacementControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIMissionTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp" />
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -772,7 +773,8 @@
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
-    <ClInclude Include="..\Game\Scripts\UIImageControl.h" />
+    <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
+    <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h" />
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
