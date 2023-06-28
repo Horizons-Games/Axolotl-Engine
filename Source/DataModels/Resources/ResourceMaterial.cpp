@@ -34,6 +34,7 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["normalStrength"] = (float) normalStrength;
 	meta["smoothness"] = (float) smoothness;
 	meta["metalness"] = (float) metalness;
+	meta["isTransparent"] = (bool) isTransparent;
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -47,4 +48,5 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	normalStrength = (float) meta["normalStrength"];
 	smoothness = (float) meta["smoothness"];
 	metalness = (float) meta["metalness"];
+	isTransparent = (bool) meta["isTransparent"];
 }
