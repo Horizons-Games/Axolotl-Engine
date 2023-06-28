@@ -4,8 +4,6 @@
 #include "Components/ComponentTransform.h"
 class ComponentCameraSample;
 
-class CameraSample;
-
 class CameraControllerScript :
     public Script
 {
@@ -18,14 +16,18 @@ public:
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
+
+	void CalculateFocusOffsetVector();
+	void CalculateFocusOffsetVector(float3 offset);
 	ComponentCameraSample* FindClosestSample(float3 position);
 
 private: 
 
 	float3 finalTargetPosition;
 	Quat finalTargetOrientation;
+
 	float3 defaultOffsetVector;
-	float defaultOffset;
+	float3 defaultFocusOffsetVector;
 
 	GameObject* samplePointsObject;
 	std::vector<ComponentCameraSample*> samples;
@@ -39,6 +41,8 @@ private:
 	float yOffset;
 	float zOffset;
 
-	float focusPointOffset;
+	float xFocusOffset;
+	float yFocusOffset;
+	float zFocusOffset;
 };
 
