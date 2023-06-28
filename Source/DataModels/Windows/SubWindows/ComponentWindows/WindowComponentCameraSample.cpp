@@ -25,6 +25,7 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		float influenceRadius = asCameraSample->GetRadius();
 		float3 positionOffset = asCameraSample->GetOffset();
+		float3 focusOffset = asCameraSample->GetFocusOffset();
 
 		ImGui::SliderFloat("Influence Radius", &influenceRadius, 0.0f, 30.f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
@@ -70,10 +71,53 @@ void WindowComponentCameraSample::DrawWindowContents()
 							 std::numeric_limits<float>::min(),
 							 std::numeric_limits<float>::min());
 			ImGui::PopStyleVar();
+
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Focus Offset");
+			ImGui::SameLine();
+
+			ImGui::TableNextColumn();
+			ImGui::Text("x:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##XFocusOffset",
+							 &focusOffset.x,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
+
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("y:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##YFocusOffset",
+							 &focusOffset.y,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("z:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			ImGui::DragFloat("##ZFocusOffset",
+							 &focusOffset.z,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
+			ImGui::PopStyleVar();
 			ImGui::EndTable();
 		}
 
 		asCameraSample->SetRadius(influenceRadius);
 		asCameraSample->SetOffset(positionOffset);
+		asCameraSample->SetOffset(focusOffset);
 	}
 }
