@@ -118,6 +118,6 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		asCameraSample->SetRadius(influenceRadius);
 		asCameraSample->SetOffset(positionOffset);
-		asCameraSample->SetOffset(focusOffset);
+		asCameraSample->SetFocusOffset(focusOffset);
 	}
 }

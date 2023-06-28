@@ -59,7 +59,7 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 
 	float3 sourceDirection = transform->GetGlobalForward().Normalized();
 	float3 targetDirection = (playerTransform->GetGlobalPosition()
-		+ float3(xFocusOffset, yFocusOffset, zFocusOffset)
+		+ defaultFocusOffsetVector
 		- transform->GetGlobalPosition()).Normalized();
 
 	Quat orientationOffset = Quat::identity;
