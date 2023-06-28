@@ -793,22 +793,22 @@
                             "fields": [
                                 {
                                     "name": "EnableObject",
-                                    "value": 0,
+                                    "value": 14886606599652691690,
                                     "type": 2
                                 },
                                 {
                                     "name": "DisableObject",
-                                    "value": 0,
+                                    "value": 11066425268734494476,
                                     "type": 2
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 0,
+                                    "value": 5830227730363227367,
                                     "type": 2
                                 },
                                 {
                                     "name": "SetUiGameManagerObject",
-                                    "value": 0,
+                                    "value": 11768532019124242966,
                                     "type": 2
                                 },
                                 {
@@ -818,7 +818,7 @@
                                 },
                                 {
                                     "name": "IsGameResume",
-                                    "value": false,
+                                    "value": true,
                                     "type": 4
                                 }
                             ]
@@ -918,17 +918,17 @@
                             "fields": [
                                 {
                                     "name": "EnableObject",
-                                    "value": 0,
+                                    "value": 11580530061803437761,
                                     "type": 2
                                 },
                                 {
                                     "name": "DisableObject",
-                                    "value": 0,
+                                    "value": 5146720080302587582,
                                     "type": 2
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 0,
+                                    "value": 10091108126440617277,
                                     "type": 2
                                 },
                                 {
@@ -1129,7 +1129,7 @@
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 0,
+                                    "value": 15866193747972503658,
                                     "type": 2
                                 },
                                 {
@@ -1254,7 +1254,7 @@
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 0,
+                                    "value": 12286245553779367630,
                                     "type": 2
                                 },
                                 {
@@ -1264,7 +1264,7 @@
                                 },
                                 {
                                     "name": "IsGameExit",
-                                    "value": false,
+                                    "value": true,
                                     "type": 4
                                 },
                                 {
