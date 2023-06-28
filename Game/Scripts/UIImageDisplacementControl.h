@@ -5,31 +5,27 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class ComponentButton;
-class ComponentImage;
 class ComponentTransform2D;
 
-class UIImageControl : public Script
+class UIImageDisplacementControl : public Script
 {
 public:
-	UIImageControl();
-	~UIImageControl() override = default;
+	UIImageDisplacementControl();
+	~UIImageDisplacementControl() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
 
-private:
+	void MoveImageToEndPosition();
+	void MoveImageToStarPosition();
 
-	float time = 0;
-	float positionX = 0;
-	float positionY = 0;
-	float positionZ = 0;
+private:
+	bool enableIMG = false;
+
 	float3 startPosition;
 	float3 endPosition;
 	float3 resultPositon;
 
-	GameObject* trigger;
-	ComponentImage* imageComponent;
 	ComponentTransform2D* imageTransform;
 };
 

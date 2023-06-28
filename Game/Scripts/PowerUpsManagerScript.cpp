@@ -31,6 +31,7 @@ void PowerUpsManagerScript::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	uiManagerScript = setUIManager->GetComponent<UIGameManager>();
+	uiManagerScript->SetMaxPowerUpTime(maxPowerUpTimer);
 }
 
 void PowerUpsManagerScript::Update(float deltaTime)
@@ -56,7 +57,6 @@ bool PowerUpsManagerScript::SavePowerUp(const PowerUpType& type)
 	savedPowerUp = type;
 
 	uiManagerScript->EnableUIPwrUp(savedPowerUp);
-	LOG_INFO("PwrUp saved");
 
 	return true;
 }
@@ -66,41 +66,36 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 	// If not powerUp saved or a powerUp is in use, a new powerUp can't be used
 	if (savedPowerUp == PowerUpType::NONE || activePowerUp != PowerUpType::NONE)
 	{
-		LOG_INFO("PwrUp used NONE");
 		return;
 	}
 
 	activePowerUp = savedPowerUp;
 	savedPowerUp = PowerUpType::NONE;
 
-	uiManagerScript->ActiveUIPwrUP();
+	uiManagerScript->ActiveUIPwrUP(maxPowerUpTimer);
 
 	if (activePowerUp == PowerUpType::HEAL)
 	{
 		HealthSystem* healthScript = player->GetComponent<HealthSystem>();
 		healthScript->HealLife(amountHealed);
-		LOG_INFO("PwrUp used HEAL");
 	}
 
 	else if (activePowerUp == PowerUpType::ATTACK)
 	{
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerAttack(attackIncrease);
-		LOG_INFO("PwrUp used ATTACK");
 	}
 
 	else if (activePowerUp == PowerUpType::DEFENSE)
 	{
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerDefense(defenseIncrease);
-		LOG_INFO("PwrUp used DEFENSE");
 	}
 
 	else if (activePowerUp == PowerUpType::SPEED)
 	{
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerSpeed(speedIncrease);
-		LOG_INFO("PwrUp used SPEED");
 	}
 }
 
