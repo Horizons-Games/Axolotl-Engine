@@ -63,7 +63,6 @@ void ComponentCameraSample::InternalSave(Json& meta)
 
 	meta["focusOffsetX"] = (float) focusOffset.x;
 	meta["focusOffsetY"] = (float) focusOffset.y;
-	meta["focusOffsetZ"] = (float) focusOffset.z;
 
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
@@ -82,7 +81,6 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 
 	focusOffset.x = meta["focusOffsetX"];
 	focusOffset.y = meta["focusOffsetY"];
-	focusOffset.z = meta["focusOffsetZ"];
 
 	position.x = meta["positionX"];
 	position.y = meta["positionY"];

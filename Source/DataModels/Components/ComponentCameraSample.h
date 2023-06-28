@@ -23,8 +23,8 @@ public:
 	float3 GetOffset() const;
 	void SetOffset(float3 offset);
 
-	float3 GetFocusOffset() const;
-	void SetFocusOffset(float3 offset);
+	float2 GetFocusOffset() const;
+	void SetFocusOffset(float2 offset);
 
 	float3 GetPosition() const;
 
@@ -36,7 +36,7 @@ private:
 	float3 position;
 	float influenceRadius;
 	float3 positionOffset;
-	float3 focusOffset;
+	float2 focusOffset;
 };
 
 inline float ComponentCameraSample::GetRadius() const
@@ -59,12 +59,12 @@ inline void ComponentCameraSample::SetOffset(float3 offset)
 	positionOffset = offset;
 }
 
-inline float3 ComponentCameraSample::GetFocusOffset() const
+inline float2 ComponentCameraSample::GetFocusOffset() const
 {
 	return focusOffset;
 }
 
-inline void ComponentCameraSample::SetFocusOffset(float3 offset)
+inline void ComponentCameraSample::SetFocusOffset(float2 offset)
 {
 	focusOffset = offset;
 }

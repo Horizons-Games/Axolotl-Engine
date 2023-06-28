@@ -18,7 +18,7 @@ private:
 	void CalculateOffsetVector(float3 offset);
 
 	void CalculateFocusOffsetVector();
-	void CalculateFocusOffsetVector(float3 offset);
+	void CalculateFocusOffsetVector(float2 offset);
 	ComponentCameraSample* FindClosestSample(float3 position);
 
 private: 
@@ -43,6 +43,5 @@ private:
 
 	float xFocusOffset;
 	float yFocusOffset;
-	float zFocusOffset;
 };
 

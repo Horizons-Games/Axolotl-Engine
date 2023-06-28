@@ -20,7 +20,6 @@ CameraControllerScript::CameraControllerScript() : Script(),
 	REGISTER_FIELD(zOffset, float);
 	REGISTER_FIELD(xFocusOffset, float);
 	REGISTER_FIELD(yFocusOffset, float);
-	REGISTER_FIELD(zFocusOffset, float);
 }
 
 void CameraControllerScript::Start()
@@ -98,13 +97,13 @@ void CameraControllerScript::CalculateFocusOffsetVector()
 {
 	defaultFocusOffsetVector = float3::unitX * xFocusOffset
 		+ float3::unitY * yFocusOffset
-		+ float3::unitZ * zFocusOffset;
+		+ float3::unitZ * 0.0f;
 }
 
-void CameraControllerScript::CalculateFocusOffsetVector(float3 offset)
+void CameraControllerScript::CalculateFocusOffsetVector(float2 offset)
 {
 
-	defaultFocusOffsetVector = offset;
+	defaultFocusOffsetVector = float3(offset, 0.0f);
 }
 
 
