@@ -29,7 +29,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	currentShape = Shape::BOX;
 	motionState = std::make_unique<btDefaultMotionState>(startTransform);
 	shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
-	rigidBody = std::make_unique<btRigidBody>(100, motionState.get(), shape.get());
+	rigidBody = std::make_unique<btRigidBody>(100.f, motionState.get(), shape.get());
 
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
@@ -132,7 +132,7 @@ void ComponentRigidBody::Update()
 
 	if (!rigidBody->isStaticOrKinematicObject())
 	{
-		rigidBody->setCcdMotionThreshold(0.1);
+		rigidBody->setCcdMotionThreshold(0.1f);
 		rigidBody->setCcdSweptSphereRadius(0.1f);
 
 		btTransform trans;
