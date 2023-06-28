@@ -19,9 +19,12 @@ struct Material {
     float normal_strength;      //36 //4
     sampler2D diffuse_map;      //40 //8
     sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8
-    vec2 tiling;                //64 //8
-    vec2 offset;                //72 //8 --> 80
+    sampler2D metallic_map;     //56 //8 --> 64
+};
+
+struct Tiling {
+    vec2 tiling;                //0  //8
+    vec2 offset;                //8  //8 --> 16
 };
 
 layout(std140, binding=1) uniform Directional
@@ -56,6 +59,10 @@ readonly layout(std430, binding=5) buffer AreaLightsTube
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 12) buffer Tilings {
+    Tiling tilings[];
 };
 
 // IBL
@@ -275,8 +282,9 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 void main()
 {
     Material material = materials[InstanceIndex];
+    Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*material.tiling+material.offset;
+    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
 
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;

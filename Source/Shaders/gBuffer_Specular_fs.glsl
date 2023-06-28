@@ -16,9 +16,12 @@ struct Material {
     sampler2D diffuse_map;      //48 //8
     sampler2D normal_map;       //56 //8
     sampler2D specular_map;     //64 //8
-    vec2 tiling;                //72 //8
-    vec2 offset;                //80 //8
-    vec2 padding;               //88 //8 --> 96
+    vec2 padding;               //72 //8 --> 80
+};
+
+struct Tiling {
+    vec2 tiling;                //0  //8
+    vec2 offset;                //8  //8 --> 16
 };
 
 layout (location = 0) out vec3 gPosition;
@@ -28,6 +31,10 @@ layout (location = 3) out vec4 gSpecular;
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 12) buffer Tilings {
+    Tiling tilings[];
 };
 
 in vec3 FragTangent;
@@ -42,8 +49,9 @@ void main()
 {    
 
     Material material = materials[InstanceIndex];
+    Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*material.tiling+material.offset;
+    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
 
     gPosition = FragPos;
     gNormal = Normal;

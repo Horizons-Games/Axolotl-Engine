@@ -380,8 +380,38 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Text("");
 
-			ImGui::InputFloat2("Tiling", &tiling[0], "%.1f");
-			ImGui::InputFloat2("Offset", &offset[0], "%.3f");
+			if (ImGui::InputFloat2("Tiling", &tiling[0], "%.1f"))
+			{
+				if (tiling[0] < 0.0f)
+				{
+					tiling[0] = 0.0f;
+				}
+
+				if (tiling[1] < 0.0f)
+				{
+					tiling[1] = 0.0f;
+				}
+			};
+			if (ImGui::InputFloat2("Offset", &offset[0], "%.3f"))
+			{
+				if (offset[0] < 0.0f)
+				{
+					offset[0] = 0.0f;
+				}
+				else if (offset[0] > 1.0f)
+				{
+					offset[0] = 1.0f;
+				}
+
+				if (offset[1] < 0.0f)
+				{
+					offset[1] = 0.0f;
+				}
+				else if (offset[1] > 1.0f)
+				{
+					offset[1] = 1.0f;
+				}
+			}
 			
 			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
