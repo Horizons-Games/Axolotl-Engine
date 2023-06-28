@@ -469,6 +469,10 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	// this will have been set directly during deserialization, so check which method to call
 	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
 	{
+		if (gameObject->GetParent() == nullptr)
+		{
+			continue;
+		}
 		if (gameObject->IsEnabled())
 		{
 			gameObject->Enable();
