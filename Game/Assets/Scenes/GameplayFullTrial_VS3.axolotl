@@ -13048,9 +13048,9 @@
                             "currentShape": 1,
                             "usePositionController": true,
                             "useRotationController": true,
-                            "KpForce": 1.4900000095367432,
+                            "KpForce": 0.5,
                             "KpTorque": 10.0,
-                            "gravity_Y": -100.0,
+                            "gravity_Y": -9.800000190734863,
                             "boxSize_X": 0.30000001192092896,
                             "boxSize_Y": 0.6000000238418579,
                             "boxSize_Z": 0.30000001192092896,
@@ -13091,12 +13091,12 @@
                             "fields": [
                                 {
                                     "name": "WayPointOne",
-                                    "value": 0,
+                                    "value": 163255488154481866,
                                     "type": 2
                                 },
                                 {
                                     "name": "WayPointTwo",
-                                    "value": 0,
+                                    "value": 767822704280692246,
                                     "type": 2
                                 }
                             ]
@@ -16773,9 +16773,9 @@
                             "currentShape": 1,
                             "usePositionController": true,
                             "useRotationController": true,
-                            "KpForce": 1.4900000095367432,
+                            "KpForce": 0.5,
                             "KpTorque": 10.0,
-                            "gravity_Y": -100.0,
+                            "gravity_Y": -9.800000190734863,
                             "boxSize_X": 0.30000001192092896,
                             "boxSize_Y": 0.6000000238418579,
                             "boxSize_Z": 0.30000001192092896,
