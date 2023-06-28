@@ -6871,6 +6871,11 @@
                                     "name": "PlayerSpeed",
                                     "value": 300.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "PlayerRotationSpeed",
+                                    "value": 10.0,
+                                    "type": 0
                                 }
                             ]
                         }

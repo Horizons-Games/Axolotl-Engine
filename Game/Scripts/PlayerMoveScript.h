@@ -42,6 +42,7 @@ public:
     void PreUpdate(float deltaTime) override;
 
     void Move(float deltaTime);
+	void MoveRotate(const float3& targetDirection, float deltaTime);
 
 	bool GetIsParalized() const;
 	void SetIsParalized(bool isParalized);
