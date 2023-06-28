@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/mask_DefaultMaterial_BaseColor.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": "Assets/Textures/mask_DefaultMaterial_Emissive.png"
 }

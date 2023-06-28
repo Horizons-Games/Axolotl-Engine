@@ -13,6 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/Blaster_D-15_None_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/Blaster_D-15_None_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/Blaster_D-15_None_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Blaster_D-15_None_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/BittMusician_Head_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/Blaster_D-15_None_Emission.png"
 }

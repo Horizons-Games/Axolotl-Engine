@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/NewEnemy_Body_BaseColor.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }
