@@ -688,7 +688,6 @@ const bool ComponentMeshRenderer::IsTransparent() const
 std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetDiffuse() const
 {
 	return material->GetDiffuse();
-	;
 }
 
 std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetNormal() const
