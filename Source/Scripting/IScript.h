@@ -79,6 +79,23 @@ inline std::optional<Field<T>> IScript::GetField(const std::string& name) const
 	return std::nullopt;
 }
 
+template<>
+inline std::optional<Field<std::vector<std::any>>> IScript::GetField(const std::string& name) const
+{
+	for (const TypeFieldPair& enumAndType : members)
+	{
+		if (FieldType::VECTOR== enumAndType.first)
+		{
+			VectorField field = std::get<VectorField>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
+		}
+	}
+	return std::nullopt;
+}
+
 inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 {
 	SERIALIZE(owner);
