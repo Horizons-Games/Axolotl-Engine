@@ -22061,8 +22061,8 @@
                             "type": "Component_Animation",
                             "active": true,
                             "removed": true,
-                            "stateUID": 13450203144240708209,
-                            "assetPathState": "Assets/StateMachine/BixAnimationController.state"
+                            "stateUID": 0,
+                            "assetPathState": ""
                         }
                     },
                     {
@@ -22133,6 +22133,11 @@
                                     "name": "MaxHealth",
                                     "value": 100.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsImmortal",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -22153,6 +22158,11 @@
                                     "name": "CanDash",
                                     "value": true,
                                     "type": 4
+                                },
+                                {
+                                    "name": "IsParalized",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -22171,6 +22181,11 @@
                                 },
                                 {
                                     "name": "CanDoubleJump",
+                                    "value": true,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "CanJump",
                                     "value": true,
                                     "type": 4
                                 }
@@ -22236,6 +22251,11 @@
                                 {
                                     "name": "PlayerSpeed",
                                     "value": 300.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PlayerRotationSpeed",
+                                    "value": 0.0,
                                     "type": 0
                                 }
                             ]
@@ -23366,10 +23386,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3002860991863241694,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.002_0.mesh",
-                            "materialUID": 2749553136936361894,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11Body_0.mat"
+                            "meshUID": 0,
+                            "assetPathMesh": "",
+                            "materialUID": 0,
+                            "assetPathMaterial": ""
                         }
                     }
                 ]
@@ -23433,10 +23453,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 4476346454261811282,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.003_0.mesh",
-                            "materialUID": 15249782332464096787,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11LightSaber.001_0.mat"
+                            "meshUID": 0,
+                            "assetPathMesh": "",
+                            "materialUID": 0,
+                            "assetPathMaterial": ""
                         }
                     }
                 ]
@@ -23472,10 +23492,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 13261937219867480932,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.003_1.mesh",
-                            "materialUID": 17059671714718766083,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11LightSaberEmission_1.mat"
+                            "meshUID": 0,
+                            "assetPathMesh": "",
+                            "materialUID": 0,
+                            "assetPathMaterial": ""
                         }
                     }
                 ]
@@ -23539,10 +23559,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 4788477468492727314,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh_0.mesh",
-                            "materialUID": 10619630491359373370,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11Glasses_0.mat"
+                            "meshUID": 0,
+                            "assetPathMesh": "",
+                            "materialUID": 0,
+                            "assetPathMaterial": ""
                         }
                     }
                 ]
@@ -23606,10 +23626,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 8787826764275846323,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.001_0.mesh",
-                            "materialUID": 11878475840100758784,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11Face_0.mat"
+                            "meshUID": 0,
+                            "assetPathMesh": "",
+                            "materialUID": 0,
+                            "assetPathMaterial": ""
                         }
                     }
                 ]
@@ -23673,10 +23693,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 9882723572417516684,
-                            "assetPathMesh": "Assets/Meshes/Bix_v11.Mesh.004_0.mesh",
-                            "materialUID": 15249782332464096787,
-                            "assetPathMaterial": "Assets/Materials/Bix_v11LightSaber.001_0.mat"
+                            "meshUID": 0,
+                            "assetPathMesh": "",
+                            "materialUID": 0,
+                            "assetPathMaterial": ""
                         }
                     }
                 ]
