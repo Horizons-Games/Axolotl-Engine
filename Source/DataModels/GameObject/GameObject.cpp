@@ -12,6 +12,7 @@
 #include "DataModels/Components/ComponentLight.h"
 #include "DataModels/Components/ComponentMeshCollider.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
+#include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
@@ -375,6 +376,14 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
+				static_cast<ComponentParticleSystem*>(newComponent.get()));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -582,6 +591,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentScript>(true, this);
 			break;
 		}
+
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(true, this);
+			break;
+		}
+		
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
@@ -601,6 +617,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 		if (updatable)
 		{
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+		else
+		{
+			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
 		}
 
 		components.push_back(std::move(newComponent));
@@ -684,7 +708,15 @@ bool GameObject::RemoveComponent(const Component* component)
 	{
 		return false;
 	}
+
+	if (component->GetType() == ComponentType::PARTICLE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
+			static_cast<const ComponentParticleSystem*>(component));
+	}
+
 	components.erase(removeIfResult, std::end(components));
+
 	return true;
 }
 

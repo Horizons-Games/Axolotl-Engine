@@ -39,9 +39,12 @@ public:
 	void OnStop();
 
 	void InitAndStartScriptingComponents();
+	void InitParticlesComponents();
 
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(const GameObject* object);
+
+	void ParticlesSystemUpdate(bool forceRecalculate = false);
 
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;

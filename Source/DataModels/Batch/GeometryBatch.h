@@ -52,7 +52,8 @@ private:
 		GLuint baseInstance;  // Instance Index
 	};
 
-	struct MaterialMetallic {
+	struct MaterialMetallic 
+	{
 		float4 diffuse_color = float4::zero; //0 //16
 		int has_diffuse_map = 0;			 //16 //4      
 		int has_normal_map = 0;				 //20 //4
@@ -67,7 +68,8 @@ private:
 		uint64_t emissive_map;				 //72 //8 -->80
 	};
 
-	struct MaterialSpecular {
+	struct MaterialSpecular 
+	{
 		float4 diffuse_color = float4::zero;  //0  //16
 		float3 specular_color = float3::zero; //16 //16       
 		int has_diffuse_map = 0;              //32 //4

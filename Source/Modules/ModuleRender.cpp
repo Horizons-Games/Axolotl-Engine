@@ -11,6 +11,7 @@
 #include "Cubemap/Cubemap.h"
 
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
@@ -359,6 +360,12 @@ UpdateStatus ModuleRender::Update()
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
+	}
+
+	// Draw Particles
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	{
+		particle->Render();
 	}
 
 	glDisable(GL_BLEND);
