@@ -13,6 +13,7 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
 	REGISTER_FIELD(playerSpeed, float);
+	REGISTER_FIELD(playerRotationSpeed, float);
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
@@ -28,6 +29,11 @@ float PlayerManagerScript::GetPlayerDefense() const
 float PlayerManagerScript::GetPlayerSpeed() const
 {
 	return playerSpeed;
+}
+
+float PlayerManagerScript::GetPlayerRotationSpeed() const
+{
+	return playerRotationSpeed;
 }
 
 void PlayerManagerScript::IncreasePlayerAttack(float attackIncrease)
