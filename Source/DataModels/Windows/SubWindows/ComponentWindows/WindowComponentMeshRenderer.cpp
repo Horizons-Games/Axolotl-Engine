@@ -34,7 +34,9 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
 	reset(false),
-	newMaterial(false)
+	newMaterial(false),
+	tiling(float2(1.0f)),
+	offset(float2(0.0f))
 {
 	InitMaterialValues();
 }
@@ -379,7 +381,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			ImGui::Text("");
 
 			ImGui::InputFloat2("Tiling", &tiling[0], "%.1f");
-			ImGui::InputFloat2("Offset", &offset[0], "%.1f");
+			ImGui::InputFloat2("Offset", &offset[0], "%.3f");
 			
 			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);

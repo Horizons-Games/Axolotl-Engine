@@ -41,7 +41,7 @@ void main()
 {    
     Material material = materials[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*material.tiling+material.offset;
+    vec2 newTexCoord = TexCoord*material.tiling+material.offset;
 
     gPosition = FragPos;
     gNormal = Normal;
