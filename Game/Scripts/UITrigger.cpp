@@ -63,6 +63,7 @@ void UITrigger::Update(float deltaTime)
 	{
 		if (isWinTrigger)
 		{
+			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_WinScene_VS3.axolotl");
 
 		}
 		else if (isLoseTrigger)
@@ -78,6 +79,10 @@ void UITrigger::Update(float deltaTime)
 				playerHealthSystem->TakeDamage(damageTaken);
 			}
 			//UIGameManagerClass->LoseStateScene(true);
+		}
+		else if (isNextSceneTrigger)
+		{
+			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_Level2_VS3.axolotl");
 		}
 	}
 }
