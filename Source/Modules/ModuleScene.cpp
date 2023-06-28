@@ -465,6 +465,19 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	loadedScene->InitLights();
 	loadedScene->InitCubemap();
+
+	// this will have been set directly during deserialization, so check which method to call
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		if (gameObject->IsEnabled())
+		{
+			gameObject->Enable();
+		}
+		else
+		{
+			gameObject->Disable();
+		}
+	}
 }
 
 void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
@@ -570,14 +583,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			continue;
 		}
 
-		if (value.enabled)
-		{
-			gameObject->Enable();
-		}
-		else
-		{
-			gameObject->Disable();
-		}
+		gameObject->enabled = value.enabled;
 	}
 
 	uidMap.clear();
