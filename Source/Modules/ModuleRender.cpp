@@ -334,12 +334,6 @@ UpdateStatus ModuleRender::Update()
 
 	// -------- DEFERRED + FORWARD ---------------
 
-	// Draw Particles
-	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
-	{
-		particle->Render();
-	}
-
 	// Draw Transparent objects
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -366,6 +360,12 @@ UpdateStatus ModuleRender::Update()
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
+	}
+
+	// Draw Particles
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	{
+		particle->Render();
 	}
 
 	glDisable(GL_BLEND);

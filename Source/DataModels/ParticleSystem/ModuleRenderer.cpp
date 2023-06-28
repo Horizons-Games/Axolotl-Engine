@@ -246,7 +246,6 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 		// Identity 'cause the particles are already in global space
 		program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&float4x4::identity), true);
 
-		glEnable(GL_BLEND);
 		glBlendEquation(GL_FUNC_ADD);
 
 		switch (blendingMode)
@@ -280,8 +279,6 @@ void ModuleRenderer::DrawParticles(EmitterInstance* instance)
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, instance->GetAliveParticles());
-
-		glDisable(GL_BLEND);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
