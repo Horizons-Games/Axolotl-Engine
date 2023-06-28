@@ -38,5 +38,7 @@ private:
 	float xOffset;
 	float yOffset;
 	float zOffset;
+
+	float focusPointOffset;
 };
 

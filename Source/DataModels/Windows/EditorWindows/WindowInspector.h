@@ -50,6 +50,7 @@ private:
 	void AddComponentAudioListener();
 	void AddComponentMeshCollider();
 	void AddComponentScript();
+	void AddComponentParticle();
 	void AddComponentBreakable();
 
 	GameObject* lastSelectedGameObject;

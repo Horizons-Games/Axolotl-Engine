@@ -11,7 +11,7 @@ class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentRigidBody;
 class ComponentScript;
-class UIGameStates;
+class UIGameManager;
 class HealthSystem;
 
 // Little fix until we could check if an audio is being reproduced
@@ -47,7 +47,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
-	UIGameStates* uiGameStatesClass;
+	UIGameManager* UIGameManagerClass;
 	HealthSystem* playerHealthSystem;
 	GameObject* setGameStateObject;
 	GameObject* setPlayer;

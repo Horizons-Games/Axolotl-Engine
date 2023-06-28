@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_BaseMap.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_MaskMap.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_VipZoneLow2_Material_MaskMap.png",
+    "EmissiveAssetPath": ""
 }

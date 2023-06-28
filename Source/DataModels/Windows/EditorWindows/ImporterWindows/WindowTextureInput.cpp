@@ -16,23 +16,26 @@ WindowTextureInput::WindowTextureInput(WindowComponentMeshRenderer* material, Te
 
 	switch (textureType)
 	{
-		case TextureType::DIFFUSE:
-			title = "Load Diffuse";
-			break;
-		case TextureType::NORMAL:
-			title = "Load Normal";
-			break;
-		case TextureType::OCCLUSION:
-			title = "Load Occlusion";
-			break;
-		case TextureType::METALLIC:
-			title = "Load Metallic";
-			break;
-		case TextureType::SPECULAR:
-			title = "Load Specular";
-			break;
-		default:
-			break;
+	case TextureType::DIFFUSE:
+		title = "Load Diffuse";
+		break;
+	case TextureType::NORMAL:
+		title = "Load Normal";
+		break;
+	case TextureType::OCCLUSION:
+		title = "Load Occlusion";
+		break;
+	case TextureType::METALLIC:
+		title = "Load Metallic";
+		break;
+	case TextureType::SPECULAR:
+		title = "Load Specular";
+		break;
+	case TextureType::EMISSION:
+		title = "Load Emission";
+		break;
+	default:
+		break;
 	}
 	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
 	startPath = "Assets/Textures";
@@ -76,6 +79,11 @@ void WindowTextureInput::DoThisIfOk()
 			case TextureType::SPECULAR:
 
 				windowComponent->SetSpecular(texture);
+
+				break;
+			case TextureType::EMISSION:
+
+				windowComponent->SetEmission(texture);
 
 				break;
 		}

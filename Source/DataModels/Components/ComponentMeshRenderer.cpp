@@ -307,6 +307,23 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 				break;
 		}
 
+		texture = material->GetEmission();
+		if (texture)
+		{
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glActiveTexture(GL_TEXTURE11);
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(10, 1);
+		}
+		else
+		{
+			glUniform1i(10, 0);
+		}
+
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
 	}
@@ -481,12 +498,19 @@ void ComponentMeshRenderer::UnloadTextures()
 			texture->Unload();
 		}
 
-		/*texture = material->GetSpecular();
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			texture->Unload();
-		}*/
+		}
+
 		texture = material->GetMetallic();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetEmission();
 		if (texture)
 		{
 			texture->Unload();
@@ -501,41 +525,48 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 		std::shared_ptr<ResourceTexture> texture;
 		switch (textureType)
 		{
-			case TextureType::DIFFUSE:
-				texture = material->GetDiffuse();
-				if (texture)
-				{
-					texture->Unload();
-				}
-				break;
-			case TextureType::NORMAL:
-				texture = material->GetNormal();
-				if (texture)
-				{
-					texture->Unload();
-				}
-				break;
-			case TextureType::OCCLUSION:
-				texture = material->GetOcclusion();
-				if (texture)
-				{
-					texture->Unload();
-				}
-				break;
-			case TextureType::SPECULAR:
-				texture = material->GetSpecular();
-				if (texture)
-				{
-					texture->Unload();
-				}
-				break;
-			case TextureType::METALLIC:
-				texture = material->GetMetallic();
-				if (texture)
-				{
-					texture->Unload();
-				}
-				break;
+		case TextureType::DIFFUSE:
+			texture = material->GetDiffuse();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::NORMAL:
+			texture = material->GetNormal();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::OCCLUSION:
+			texture = material->GetOcclusion();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::SPECULAR:
+			texture = material->GetSpecular();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::METALLIC:
+			texture = material->GetMetallic();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
+		case TextureType::EMISSION:
+			texture = material->GetEmission();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
 		}
 	}
 }
@@ -564,6 +595,11 @@ void ComponentMeshRenderer::SetMetallic(const std::shared_ptr<ResourceTexture>& 
 void ComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specular)
 {
 	this->material->SetSpecular(specular);
+}
+
+void ComponentMeshRenderer::SetEmissive(const std::shared_ptr<ResourceTexture>& emissive)
+{
+	this->material->SetEmission(emissive);
 }
 
 void ComponentMeshRenderer::SetShaderType(unsigned int shaderType)

@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "PowerUpLogicScript.h"
 
 #include "Application.h"

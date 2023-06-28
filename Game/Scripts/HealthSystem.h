@@ -18,13 +18,19 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
-	
+
 	float GetCurrentHealth() const;
+	float GetMaxHealth() const;
+
 	bool EntityIsAlive() const;
 
+	bool GetIsImmortal() const;
+	void SetIsImmortal(bool isImmortal);
+	
 private:
 	float currentHealth;
 	float maxHealth;
+	bool isImmortal;
 
 	ComponentAnimation* componentAnimation;
 };

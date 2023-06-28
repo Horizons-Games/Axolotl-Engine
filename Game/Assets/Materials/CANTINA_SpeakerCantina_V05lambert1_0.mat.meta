@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_SpeakerCantina_V04_SpeakerCantinaV04_MetallicSmoothness.png",
+    "EmissiveAssetPath": ""
 }
