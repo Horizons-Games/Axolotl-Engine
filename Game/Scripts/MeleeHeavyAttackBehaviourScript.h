@@ -4,7 +4,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-enum class DroneExplosionState
+enum class ExplosionState
 {
 	NOTDEAD,
 	WAITING_EXPLOSION,
@@ -18,11 +18,11 @@ class ComponentAudioSource;
 class HealthSystem;
 class EnemyDroneScript;
 
-class DroneExplosionAttack : public Script
+class MeleeHeavyAttackBehaviourScript : public Script
 {
 public:
-	DroneExplosionAttack();
-	~DroneExplosionAttack() override = default;
+	MeleeHeavyAttackBehaviourScript();
+	~MeleeHeavyAttackBehaviourScript() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -30,13 +30,13 @@ public:
 	void SetExplosionPosition(float3 explosionPos);
 	void UpdateDroneColor();
 
-	DroneExplosionState IsExploted() const;
+	ExplosionState IsExploted() const;
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
 
-	DroneExplosionState attackState;
+	ExplosionState attackState;
 
 	GameObject* targetPlayer;
 

@@ -88,7 +88,10 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
 		{
-			rangedAttackScript->PerformAttack();
+			if (rangedAttackScript->IsAttackAvailable())
+			{
+				rangedAttackScript->PerformAttack();
+			}
 		}
 
 		componentAnimation->SetParameter("IsAttacking", true);

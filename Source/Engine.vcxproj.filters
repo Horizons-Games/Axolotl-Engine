@@ -464,9 +464,6 @@
     <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneExplosionAttack.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
@@ -509,6 +506,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DebugGame.cpp">
       <Filter>UserScripts\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -930,9 +930,6 @@
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
       <Filter>UserScripts\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\GameManager.h">
-      <Filter>UserScripts</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClInclude>
@@ -978,9 +975,6 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DroneExplosionAttack.h">
-      <Filter>UserScripts\Gameplay\Behaviours\DroneAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
@@ -1076,6 +1070,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DebugGame.h">
       <Filter>UserScripts\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\GameManager.h">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

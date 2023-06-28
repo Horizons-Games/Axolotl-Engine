@@ -293,7 +293,7 @@
         {
             "GameObject": {
                 "name": "Venomite_Soldier",
-                "tag": "",
+                "tag": "Enemy",
                 "uid": 4430577212557804531,
                 "parentUID": 7537515798826444849,
                 "enabled": true,
@@ -320,8 +320,8 @@
                             "type": "Component_Animation",
                             "active": true,
                             "removed": true,
-                            "stateUID": 13450203144240708209,
-                            "assetPathState": "Assets/StateMachine/BixAnimationController.state"
+                            "stateUID": 0,
+                            "assetPathState": ""
                         }
                     },
                     {
@@ -454,13 +454,18 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 100.0,
+                                    "value": 60.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "MaxHealth",
-                                    "value": 100.0,
+                                    "value": 60.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsImmortal",
+                                    "value": false,
+                                    "type": 4
                                 }
                             ]
                         }
@@ -506,6 +511,21 @@
                                     "name": "RayAttackSize",
                                     "value": 10.0,
                                     "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EnemyDeathScript",
+                            "fields": [
+                                {
+                                    "name": "ActivePowerUp",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -2738,7 +2758,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": -4.76837158203125e-7,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
