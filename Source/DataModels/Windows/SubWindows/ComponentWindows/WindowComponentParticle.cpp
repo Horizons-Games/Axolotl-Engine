@@ -67,6 +67,10 @@ void WindowComponentParticle::DrawWindowContents()
 				{
 					component->Play();
 				}
+				else
+				{
+					component->Stop();
+				}
 			}
 			ImGui::SameLine();
 
@@ -74,7 +78,7 @@ void WindowComponentParticle::DrawWindowContents()
 			{
 				if (component->IsPlaying())
 				{
-					component->Stop();
+					component->Pause();
 				}
 			}
 

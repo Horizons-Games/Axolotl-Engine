@@ -100,6 +100,11 @@ void ComponentParticleSystem::Play()
 	}
 }
 
+void ComponentParticleSystem::Pause()
+{
+	pause = !pause;
+}
+
 void ComponentParticleSystem::Stop()
 {
 	isPlaying = false;
@@ -113,7 +118,7 @@ void ComponentParticleSystem::Stop()
 
 void ComponentParticleSystem::Update()
 {
-	if (IsEnabled() && isPlaying)
+	if (IsEnabled() && isPlaying && !pause)
 	{
 		for (EmitterInstance* emitter : emitters)
 		{

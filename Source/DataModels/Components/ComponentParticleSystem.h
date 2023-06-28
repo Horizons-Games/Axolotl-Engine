@@ -19,6 +19,7 @@ public:
 	~ComponentParticleSystem() override;
 
 	void Play();
+	void Pause();
 	void Stop();
 	void Update();
 	void Reset();
@@ -51,6 +52,7 @@ private:
 	std::shared_ptr<ResourceParticleSystem> resource;
 
 	bool isPlaying;
+	bool pause;
 };
 
 inline bool ComponentParticleSystem::IsEmittersEmpty() const
