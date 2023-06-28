@@ -78,7 +78,7 @@ UpdateStatus ModuleCamera::Update()
 			selectedPosition++;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		/*else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
 		{
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
@@ -87,7 +87,7 @@ UpdateStatus ModuleCamera::Update()
 		{
 			selectedPosition = 1;
 			SetSelectedCamera(selectedPosition);
-		}
+		}*/
 	}
 
 	selectedCamera->Update();
@@ -177,6 +177,6 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 
 void ModuleCamera::RecalculateOrthoProjectionMatrix()
 {
-	std::pair<int, int> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
-	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, region.first, region.second);
+	std::pair<float, float> region = App->GetModule<ModuleEditor>()->GetAvailableRegion();
+	orthoProjectionMatrix = float4x4::D3DOrthoProjLH(-1, 1, floor(region.first), floor(region.second));
 }

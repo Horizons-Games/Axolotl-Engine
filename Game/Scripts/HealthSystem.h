@@ -20,12 +20,17 @@ public:
 	void HealLife(float amountHealed);
 
 	float GetCurrentHealth() const;
-	float GetCurrentMaxHealth() const;
+	float GetMaxHealth() const;
+
 	bool EntityIsAlive() const;
 
+	bool GetIsImmortal() const;
+	void SetIsImmortal(bool isImmortal);
+	
 private:
 	float currentHealth;
 	float maxHealth;
+	bool isImmortal;
 
 	ComponentAnimation* componentAnimation;
 };

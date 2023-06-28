@@ -10,10 +10,11 @@
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), isImmortal(false)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
+	REGISTER_FIELD(isImmortal, bool);
 }
 
 void HealthSystem::Start()
@@ -58,7 +59,7 @@ void HealthSystem::Update(float deltaTime)
 
 void HealthSystem::TakeDamage(float damage)
 {
-	if (owner->CompareTag("Player"))
+	if (owner->CompareTag("Player") && !isImmortal)
 	{
 		float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 		float actualDamage = std::max(damage - playerDefense, 0.f);
@@ -82,6 +83,21 @@ void HealthSystem::HealLife(float amountHealed)
 bool HealthSystem::EntityIsAlive() const
 {
 	return currentHealth > 0;
+}
+
+float HealthSystem::GetMaxHealth() const
+{
+	return maxHealth;
+}
+
+bool HealthSystem::GetIsImmortal() const
+{
+	return isImmortal;
+}
+
+void HealthSystem::SetIsImmortal(bool isImmortal)
+{
+	this->isImmortal = isImmortal;
 }
 
 float HealthSystem::GetCurrentHealth() const
