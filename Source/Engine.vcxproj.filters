@@ -348,7 +348,6 @@
     <ClCompile Include="DataModels\Batch\GeometryBatch.cpp">
       <Filter>DataModels\Batch</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ModuleAudio.cpp" />
     <ClCompile Include="Auxiliar\GameBuilder.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
@@ -2182,8 +2181,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowStateMachineEditor.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ModuleAudio.h" />
-    <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowResourceInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
