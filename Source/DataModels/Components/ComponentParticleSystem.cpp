@@ -26,8 +26,18 @@
 
 ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* owner) :
 	Component(ComponentType::PARTICLE, active, owner, true), 
-	resource(nullptr), isPlaying(true)
+	resource(nullptr),
+	isPlaying(false),
+	pause(false)
 {
+}
+
+ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& toCopy):
+	Component(ComponentType::PARTICLE, toCopy.IsEnabled(), toCopy.GetOwner(), true),
+	isPlaying(false),
+	pause(false)
+{ 
+	SetResource(toCopy.GetResource());
 }
 
 ComponentParticleSystem::~ComponentParticleSystem()

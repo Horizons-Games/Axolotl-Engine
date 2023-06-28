@@ -15,6 +15,7 @@ class ComponentParticleSystem : public Component, public Drawable
 {
 public:
 	ComponentParticleSystem(const bool active, GameObject* owner);
+	ComponentParticleSystem(const ComponentParticleSystem& toCopy);
 	~ComponentParticleSystem() override;
 
 	void Play();

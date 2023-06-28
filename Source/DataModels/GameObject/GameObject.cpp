@@ -376,6 +376,14 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
+				static_cast<ComponentParticleSystem*>(newComponent.get()));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
