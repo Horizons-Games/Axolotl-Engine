@@ -1,10 +1,13 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentButton;
 class ComponentScript;
-class UIGameStates;
+class UIGameManager;
 
 class UIButtonControl : public Script
 {
@@ -21,9 +24,9 @@ private:
 	GameObject* disableObject;
 	GameObject* enableObject;
 	GameObject* buttonHover;
-	GameObject* setGameStateObject;
+	GameObject* setUiGameManagerObject;
 	ComponentButton* buttonComponent;
-	UIGameStates* uiGameStatesClass;
+	UIGameManager* UIGameManagerClass;
 };
 
 

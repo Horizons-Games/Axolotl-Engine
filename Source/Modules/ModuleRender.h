@@ -62,6 +62,7 @@ private:
 		NORMAL = 2,
 		DIFFUSE = 3,
 		SPECULAR = 4,
+		EMISSIVE = 5,
 		LENGTH
 	};
 

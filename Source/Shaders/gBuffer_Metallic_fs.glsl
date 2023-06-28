@@ -10,18 +10,21 @@ struct Material {
     int has_diffuse_map;        //16 //4       
     int has_normal_map;         //20 //4
     int has_metallic_map;       //24 //4
-    float smoothness;           //28 //4
-    float metalness;            //32 //4
-    float normal_strength;      //36 //4
-    sampler2D diffuse_map;      //40 //8
-    sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8 --> 64
+    int has_emissive_map;       //28 //4
+    float smoothness;           //32 //4
+    float metalness;            //36 //4
+    float normal_strength;      //40 //4
+    sampler2D diffuse_map;      //48 //8
+    sampler2D normal_map;       //56 //8
+    sampler2D metallic_map;     //64 //8 
+    sampler2D emissive_map;     //72 //8 -->80
 };
 
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gDiffuse;
 layout (location = 3) out vec4 gSpecular;
+layout (location = 4) out vec4 gEmissive;
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
@@ -76,4 +79,11 @@ void main()
     }
 
     gDiffuse.rgb = vec3(gDiffuse*(1-metalnessMask));
+
+    //Emissive
+    gEmissive= vec4(0.0);
+    if (material.has_emissive_map == 1) 
+    {
+        gEmissive.rgb = vec3(texture(material.emissive_map, TexCoord).rgb);
+    }
 }
