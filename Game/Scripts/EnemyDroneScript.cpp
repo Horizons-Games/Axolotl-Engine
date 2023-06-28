@@ -18,7 +18,7 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0), stunned(false),
+	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0.0f), stunned(false),
 	lastDroneState(DroneBehaviours::IDLE)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks

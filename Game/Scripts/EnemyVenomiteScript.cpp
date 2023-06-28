@@ -18,7 +18,7 @@ REGISTERCLASS(EnemyVenomiteScript);
 EnemyVenomiteScript::EnemyVenomiteScript() : Script(), venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
 	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(2.0f), meleeAttackScript(nullptr),
 	healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), componentAudioSource(nullptr),
-	batonGameObject(nullptr), blasterGameObject(nullptr)
+	batonGameObject(nullptr), blasterGameObject(nullptr), stunned(false), timeStunned(0.0f)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
@@ -42,6 +42,20 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	if (stunned)
+	{
+		if (timeStunned < 0)
+		{
+			timeStunned = 0;
+			stunned = false;
+		}
+		else
+		{
+			timeStunned -= deltaTime;
+			return;
+		}
+	}
+
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
@@ -143,4 +157,10 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		componentAnimation->SetParameter("IsRunning", true);
 	}
+}
+
+void EnemyVenomiteScript::SetStunnedTime(float newTime)
+{
+	stunned = true;
+	timeStunned = newTime;
 }

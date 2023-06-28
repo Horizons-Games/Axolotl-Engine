@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "VenomitePrefab",
+                "name": "NewVenomitePrefab",
                 "tag": "",
                 "uid": 7537515798826444849,
                 "parentUID": 0,
@@ -348,7 +348,7 @@
                             "useRotationController": true,
                             "KpForce": 0.5,
                             "KpTorque": 10.0,
-                            "gravity_Y": -100.0,
+                            "gravity_Y": -9.8100004196167,
                             "boxSize_X": 0.30000001192092896,
                             "boxSize_Y": 0.6000000238418579,
                             "boxSize_Z": 0.30000001192092896,
