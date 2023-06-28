@@ -51,7 +51,7 @@ void HealthSystem::Update(float deltaTime)
 		componentAnimation->SetParameter("IsDead", true);
 	}
 
-	else 
+	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
 	}
