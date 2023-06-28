@@ -229,11 +229,14 @@ void ComponentScript::LoadOptions(Json& meta)
 	script->SetApplication(App.get());
 	script->SetGameObject(owner);
 	Json fields = meta["fields"];
+	/*Json vectorElements = fields;
+	Json vectorElementsWithName = vectorElements["vectorElements"];*/
+
 	for (unsigned int i = 0; i < fields.Size(); ++i)
 	{
 		Json field = fields[i];
 		FieldType fieldType = static_cast<FieldType>(static_cast<int>(field["type"]));
-		ENGINE_LOG("%d", static_cast<int>(field["type"]));
+		//ENGINE_LOG("%d", static_cast<int>(field["type"]));
 		ENGINE_LOG("%d", fieldType);
 		switch (fieldType)
 		{
@@ -313,15 +316,19 @@ void ComponentScript::LoadOptions(Json& meta)
 			case FieldType::VECTOR:
 			{
 				std::string valueName = field["name"];
-				//std::optional<Field<VectorField>> vectorField = script->GetField<VectorField>(valueName);
-				FieldType innerFieldType = static_cast<FieldType>(static_cast<int>(field["innerType"]));
-				/*if (vectorField)
-				{*/
+				Json vectorElements = field["vectorElements"];
+				ENGINE_LOG("%d", vectorElements.Size());
+				for (unsigned int j = 0; j < vectorElements.Size(); ++j)
+				{
+					//std::optional<Field<std::vector<std::any>>> vectorField = script->GetField<std::vector<std::any>>(valueName);
+					
+					FieldType innerFieldType = static_cast<FieldType>(static_cast<int>(vectorElements[j]["innerType"]));
+
 					switch (innerFieldType) {
 						case FieldType::FLOAT:
-							
+
 							ENGINE_LOG("float case");
-							
+
 							break;
 
 						case FieldType::STRING:
@@ -331,30 +338,51 @@ void ComponentScript::LoadOptions(Json& meta)
 							break;
 
 						case FieldType::BOOLEAN:
-							
+
 							ENGINE_LOG("bool case");
 
 							break;
 
 						case FieldType::GAMEOBJECT:
-							
+
 							ENGINE_LOG("GO case");
+
+							UID fieldUID = vectorElements[j]["value"];
+							if (fieldUID != 0)
+							{
+								UID newFieldUID;
+								if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+								{
+									//optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
+								}
+								else
+								{
+									//optField.value().setter(App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
+								}
+							}
+
+							else
+							{
+								//optField.value().setter(nullptr);
+							}
 
 							break;
 
 						case FieldType::FLOAT3:
-							
+							//std::optional<Field<float3>> vectorFieldCase = vectorField->GetField<float3>(valueName);
 							ENGINE_LOG("Float3 case");
+							float3 vec3(vectorElements[j]["value x"], vectorElements[j]["value y"], vectorElements[j]["value z"]);
+							//vectorField.emplace(vec3);
 
 							break;
 					}
-				/*	for (int i = 0; i < vectorValue.size(); ++i) {
-						ENGINE_LOG("%d", i);
-						
-					}*/
-				//}
+					/*	for (int i = 0; i < vectorValue.size(); ++i) {
+							ENGINE_LOG("%d", i);
 
-				
+						}*/
+						//}
+
+				}
 				break;
 			}
 
