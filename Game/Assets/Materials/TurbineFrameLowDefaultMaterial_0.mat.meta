@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/TurbineFrameLow_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/TurbineFrameLow_DefaultMaterial_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/TurbineFrameLow_DefaultMaterial_MetallicSmoothness.png"
+    "EmissiveAssetPath": ""
 }

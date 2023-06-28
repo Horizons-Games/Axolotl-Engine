@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/BittMusician_Head_BaseColor.png",
     "NormalAssetPath": "Assets/Textures/BittMusician_Head_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }

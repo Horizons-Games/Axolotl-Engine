@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/Cable_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/Cable_DefaultMaterial_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Cable_DefaultMaterial_MetallicSmoothness.png"
+    "EmissiveAssetPath": ""
 }

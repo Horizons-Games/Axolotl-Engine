@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "",
     "NormalAssetPath": "Assets/Textures/Vix_Face_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }
