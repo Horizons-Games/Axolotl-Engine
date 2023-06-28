@@ -272,11 +272,6 @@ update_status ModuleRender::Update()
 		DrawQuadtree(loadedScene->GetRootQuadtree());
 	}
 
-	if (navigation->GetDrawNavMesh())
-	{
-		navigation->DrawGizmos();
-	}
-
 	int w, h;
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
@@ -370,6 +365,11 @@ update_status ModuleRender::Update()
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{
 		go->Draw();
+	}
+
+	if (navigation->GetDrawNavMesh())
+	{
+		navigation->DrawGizmos();
 	}
 
 #ifndef ENGINE
