@@ -1,37 +1,36 @@
 #include "StdAfx.h"
-#include "UIMissionTrigger.h"
+#include "UITextTrigger.h"
 
-#include "Application.h"
-#include "ModuleScene.h"
 #include "ModulePlayer.h"
+#include "Application.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
 
-REGISTERCLASS(UIMissionTrigger);
+REGISTERCLASS(UITextTrigger);
 
-UIMissionTrigger::UIMissionTrigger() : Script(), textBox(nullptr)
+UITextTrigger::UITextTrigger() : Script(), textBox(nullptr)
 {
 	REGISTER_FIELD(textBox, GameObject*);
-}
+} 
 
-UIMissionTrigger::~UIMissionTrigger()
+UITextTrigger::~UITextTrigger()
 {
 
 }
 
-void UIMissionTrigger::Start()
+void UITextTrigger::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 }
 
-void UIMissionTrigger::Update(float deltaTime)
+void UITextTrigger::Update(float deltaTime)
 {
 
 }
 
-void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
+void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
@@ -46,7 +45,7 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 	}
 }
 
-void UIMissionTrigger::OnCollisionExit(ComponentRigidBody* other)
+void UITextTrigger::OnCollisionExit(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
