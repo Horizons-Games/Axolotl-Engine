@@ -370,7 +370,7 @@ void main()
     //Emissive
     if (material.has_emissive_map == 1) 
     {
-        color += vec3(texture(material.emissive_map, TexCoord));
+        color += vec3(texture(material.emissive_map, newTexCoord));
     }
     
 	//hdr rendering
