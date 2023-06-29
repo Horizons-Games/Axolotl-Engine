@@ -15,7 +15,7 @@ void AnimatedTexture::Start()
 {
 	mesh = owner->GetComponent<ComponentMeshRenderer>();
 	offset = 0.f;
-	movement = 0.0035f;
+	movement = 0.004f;
 }
 
 void AnimatedTexture::Update(float deltaTime)
