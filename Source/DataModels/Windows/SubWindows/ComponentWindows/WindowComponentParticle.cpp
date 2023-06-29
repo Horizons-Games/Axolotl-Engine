@@ -246,9 +246,9 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				{
 					radius = MAX_RADIUS;
 				}
-				else if (radius < 0.01)
+				else if (radius < 0.01f)
 				{
-					radius = 0.01;
+					radius = 0.01f;
 				}
 				emitter->SetRadius(radius);
 			}
