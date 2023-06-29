@@ -9,18 +9,18 @@ REGISTERCLASS(AnimatedTexture);
 
 AnimatedTexture::AnimatedTexture() : Script()
 {
-	REGISTER_FIELD(object, GameObject*);
 }
 
 void AnimatedTexture::Start()
 {
 	mesh = owner->GetComponent<ComponentMeshRenderer>();
 	offset = 0.f;
+	movement = 0.0035f;
 }
 
 void AnimatedTexture::Update(float deltaTime)
 {
-	offset += 1.f;
-	if (offset > 512.f) offset = 0.f;
+	offset += movement;
+	if (offset > 1.f) offset = 0.f;
 	mesh->SetOffset(float2(0.f, offset));
 }

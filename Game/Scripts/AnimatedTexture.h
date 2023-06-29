@@ -17,6 +17,7 @@ public:
 private:
 	ComponentMeshRenderer* mesh;
 	float offset;
+	float movement;
 };
 
 
