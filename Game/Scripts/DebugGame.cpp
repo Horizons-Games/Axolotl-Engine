@@ -15,13 +15,14 @@
 #include "debugdraw.h"
 #include "Application.h"
 #include "ModulePlayer.h"
+#include "../Scripts/PowerUpLogicScript.h"
 
 #include "GameManager.h"
 
 REGISTERCLASS(DebugGame);
 
 
-DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true)
+DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true), DebugPowerUp(nullptr)
 {
 	
 	REGISTER_FIELD(debugPoint1, GameObject*);
@@ -31,6 +32,7 @@ DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosInde
 	REGISTER_FIELD(debugPoint5, GameObject*);
 	REGISTER_FIELD(isDebugModeActive, bool);
 	REGISTER_FIELD(playerOnLocation, bool);
+	REGISTER_FIELD(DebugPowerUp, GameObject*)
 }
 
 void DebugGame::Start()
@@ -93,6 +95,11 @@ void DebugGame::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN && isDebugModeActive)
 	{
 		GodCamera();
+	}
+
+	if (input->GetKey(SDL_SCANCODE_5) == KeyState::DOWN && isDebugModeActive)
+	{
+		PowerUpDrop();
 	}
 
 	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN && isDebugModeActive)
@@ -177,6 +184,20 @@ void DebugGame::GodCamera() const {
 	}
 
 	
+
+}
+
+void DebugGame::PowerUpDrop() const
+{
+
+	if (DebugPowerUp != nullptr)
+	{
+		PowerUpLogicScript* newPowerUpLogic = DebugPowerUp->GetComponent<PowerUpLogicScript>();
+		ComponentTransform* ownerTransform = player->GetComponent<ComponentTransform>();
+
+		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetPosition());
+	}
+
 
 }
 
