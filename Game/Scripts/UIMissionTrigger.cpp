@@ -14,7 +14,7 @@
 REGISTERCLASS(UIMissionTrigger);
 
 UIMissionTrigger::UIMissionTrigger() : Script(), missionLevel(nullptr), lastMissionLevel(nullptr),
-textBox(nullptr), maxTimeTextImageOn(10.0f)
+textBox(nullptr), maxTimeTextImageOn(5.0f)
 {
 	REGISTER_FIELD(missionLevel, GameObject*);
 	REGISTER_FIELD(lastMissionLevel, GameObject*);
@@ -32,7 +32,11 @@ void UIMissionTrigger::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
-	missionImageDisplacement = missionLevel->GetComponent<UIImageDisplacementControl>();
+	
+	if (missionLevel != nullptr)
+	{
+		missionImageDisplacement = missionLevel->GetComponent<UIImageDisplacementControl>();
+	}
 	if (lastMissionLevel != nullptr)
 	{
 		missionImageDisplacementExit = lastMissionLevel->GetComponent<UIImageDisplacementControl>();
@@ -41,11 +45,14 @@ void UIMissionTrigger::Start()
 
 void UIMissionTrigger::Update(float deltaTime)
 {
-	currentTime += deltaTime;
-
-	if (textBox != nullptr && textBox->IsEnabled() && currentTime <= maxTimeTextImageOn)
+	if (missionImageDisplacementExit != nullptr && !missionImageDisplacementExit->GetIsMoving() && wasInside)
 	{
-		textBox->Disable();
+		missionImageDisplacement->SetMovingToEnd(true);
+		missionImageDisplacement->MoveImageToEndPosition();
+	}
+	if (textBox != nullptr && textBox->IsEnabled())
+	{
+		DisableTextBox(deltaTime);
 	}
 }
 
@@ -60,9 +67,12 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 				missionImageDisplacementExit->SetMovingToEnd(false);
 				missionImageDisplacementExit->MoveImageToStarPosition();
 			}
-			missionImageDisplacement->SetMovingToEnd(true);
-			missionImageDisplacement->MoveImageToEndPosition();
-			
+			else if (missionLevel != nullptr)
+			{
+				missionImageDisplacement->SetMovingToEnd(true);
+				missionImageDisplacement->MoveImageToEndPosition();
+			}
+
 			if (textBox != nullptr)
 			{
 				textBox->Enable();
@@ -77,4 +87,14 @@ void UIMissionTrigger::OnCollisionExit(ComponentRigidBody* other)
 	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
 	}
+}
+
+void UIMissionTrigger::DisableTextBox(float time)
+{
+	currentTime += time;
+	if (currentTime >= maxTimeTextImageOn)
+	{
+		textBox->Disable();
+	}
+	
 }
