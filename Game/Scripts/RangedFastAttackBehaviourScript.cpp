@@ -14,6 +14,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/RangedFastAttackBullet.h"
 
@@ -21,7 +22,7 @@
 
 REGISTERCLASS(RangedFastAttackBehaviourScript);
 
-RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), 
+RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), LaserParticleSystem(nullptr),
 	audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
@@ -31,6 +32,7 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	REGISTER_FIELD(bulletOriginGO, GameObject*);
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
+	REGISTER_FIELD(LaserParticleSystem, GameObject*)
 }
 
 void RangedFastAttackBehaviourScript::Start()
@@ -38,6 +40,7 @@ void RangedFastAttackBehaviourScript::Start()
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
 	animation = owner->GetComponent<ComponentAnimation>();
+	particleSystem = LaserParticleSystem->GetComponent<ComponentParticleSystem>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
@@ -55,7 +58,7 @@ void RangedFastAttackBehaviourScript::StartAttack()
 
 void RangedFastAttackBehaviourScript::PerformAttack()
 {
-	
+	particleSystem->Play();
 	animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
