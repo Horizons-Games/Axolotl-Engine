@@ -358,7 +358,7 @@ UpdateStatus ModuleRender::Update()
 		// Draw Highliht for selected objects
 		DrawHighlight(goSelected);
 
-		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
