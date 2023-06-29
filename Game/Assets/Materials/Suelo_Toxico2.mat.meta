@@ -12,13 +12,13 @@
     "smoothness": 0.5,
     "metalness": 0.0,
     "isTransparent": false,
-    "tilingx": 5.0,
-    "tilingy": 5.0,
+    "tilingx": 4.0,
+    "tilingy": 4.0,
     "offsetx": 0.0,
     "offsety": 0.0,
     "DiffuseAssetPath": "Assets/Textures/Original.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "",
-    "EmissiveAssetPath": "Assets/Textures/3.png"
+    "EmissiveAssetPath": "Assets/Textures/Toxic_water_emission.png"
 }
