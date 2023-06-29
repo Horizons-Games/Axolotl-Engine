@@ -62,7 +62,7 @@ public:
 	void SetMetalness(const float metalness);
 	void SetTransparent(const bool isTransparent);
 	void SetShaderType(const unsigned int shaderType);
-	void SetTiing(const float2& tiling);
+	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
 
 protected:
@@ -280,7 +280,7 @@ inline void ResourceMaterial::SetShaderType(const unsigned int shaderType)
 	}
 }
 
-inline void ResourceMaterial::SetTiing(const float2& tiling)
+inline void ResourceMaterial::SetTiling(const float2& tiling)
 {
 	this->tiling = tiling;
 }

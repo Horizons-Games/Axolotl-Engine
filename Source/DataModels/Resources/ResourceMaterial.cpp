@@ -37,6 +37,10 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["smoothness"] = (float) smoothness;
 	meta["metalness"] = (float) metalness;
 	meta["isTransparent"] = (bool) isTransparent;
+	meta["tilingx"] = (float) tiling.x;
+	meta["tilingy"] = (float) tiling.y;
+	meta["offsetx"] = (float) offset.x;
+	meta["offsety"] = (float) offset.y;
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -51,4 +55,13 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	smoothness = (float) meta["smoothness"];
 	metalness = (float) meta["metalness"];
 	isTransparent = (bool) meta["isTransparent"];
+	tiling.x = (float) meta["tilingx"];
+	tiling.y = (float) meta["tilingy"];
+	if (tiling.x == 0.f && tiling.y == 0.f)
+	{
+		tiling.x = 1.f;
+		tiling.y = 1.f;
+	}
+	offset.x = (float) meta["offsetx"];
+	offset.y = (float) meta["offsety"];
 }

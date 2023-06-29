@@ -619,7 +619,7 @@ void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 
 void ComponentMeshRenderer::SetTiling(const float2& tiling)
 {
-	this->material->SetTiing(tiling);
+	this->material->SetTiling(tiling);
 }
 
 void ComponentMeshRenderer::SetOffset(const float2& offset)
