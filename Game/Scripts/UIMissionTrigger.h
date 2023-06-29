@@ -25,6 +25,8 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
 
+	void DisableTextBox(float time);
+
 private:
 
 	float maxTimeTextImageOn;
