@@ -81,7 +81,11 @@ void HealthSystem::TakeDamage(float damage)
 		}
 
 		componentAnimation->SetParameter("IsTakingDamage", true);
-		componentParticleSystem->Play();
+
+		if (componentParticleSystem)
+		{
+			componentParticleSystem->Play();
+		}
 		//componentParticleSystem->Pause();
 	}
 }

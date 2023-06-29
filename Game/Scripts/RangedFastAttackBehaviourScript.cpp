@@ -40,13 +40,17 @@ void RangedFastAttackBehaviourScript::Start()
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
 	animation = owner->GetComponent<ComponentAnimation>();
-	particleSystem = LaserParticleSystem->GetComponent<ComponentParticleSystem>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (bulletOriginGO)
 	{
 		bulletOrigin = bulletOriginGO->GetComponent<ComponentTransform>();
+	}
+
+	if (LaserParticleSystem)
+	{
+		particleSystem = LaserParticleSystem->GetComponent<ComponentParticleSystem>();
 	}
 }
 
@@ -58,7 +62,11 @@ void RangedFastAttackBehaviourScript::StartAttack()
 
 void RangedFastAttackBehaviourScript::PerformAttack()
 {
-	particleSystem->Play();
+	if (particleSystem)
+	{
+		particleSystem->Play();
+	}
+
 	animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
