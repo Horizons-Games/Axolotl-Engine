@@ -19,14 +19,16 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	ComponentButton* buttonComponent;
+	UIGameManager* UIGameManagerClass;
+
 	bool isGameExit;
 	bool isGameResume;
+
 	GameObject* disableObject;
 	GameObject* enableObject;
 	GameObject* buttonHover;
 	GameObject* setUiGameManagerObject;
-	ComponentButton* buttonComponent;
-	UIGameManager* UIGameManagerClass;
 };
 
 

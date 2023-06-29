@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentParticleSystem;
 
 class HealthSystem : public Script
 {
@@ -31,6 +32,8 @@ private:
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
+	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
+	ComponentParticleSystem* componentParticleSystem;
 };

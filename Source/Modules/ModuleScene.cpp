@@ -356,6 +356,23 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	InitAndStartScriptingComponents();
 	InitParticlesComponents();
 #endif // !ENGINE
+
+	// this will have been set directly during deserialization, so check which method to call
+	for (GameObject* gameObject : loadedScene->GetSceneGameObjects())
+	{
+		if (gameObject->GetParent() == nullptr)
+		{
+			continue;
+		}
+		if (gameObject->IsEnabled())
+		{
+			gameObject->Enable();
+		}
+		else
+		{
+			gameObject->Disable();
+		}
+	}
 }
 
 void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
@@ -570,14 +587,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 			continue;
 		}
 
-		if (value.enabled)
-		{
-			gameObject->Enable();
-		}
-		else
-		{
-			gameObject->Disable();
-		}
+		gameObject->enabled = value.enabled;
 	}
 
 	uidMap.clear();

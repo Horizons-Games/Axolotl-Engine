@@ -49,6 +49,7 @@ void PlayerForceUseScript::Start()
 
 	input = App->GetModule<ModuleInput>();
 	transform = owner->GetComponent<ComponentTransform>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -58,8 +59,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsStartingForce", true);
 		componentAnimation->SetParameter("IsStoppingForce", false);
 		RaycastHit hit;
-		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
+		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
+		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
+		Ray ray(origin, transform->GetGlobalForward());
 		LineSegment line(ray, 300);
+
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
@@ -102,9 +106,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 		|| currentTimeForce < 0.0f
 		|| breakForce)
 	{
-		componentAnimation->SetParameter("IsStoppingForce", true);
-		componentAnimation->SetParameter("IsStartingForce", false);
-
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
@@ -134,6 +135,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 		}
 
 		breakForce = false;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
+	{
+		componentAnimation->SetParameter("IsStoppingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", false);
 	}
 
 	if (gameObjectAttached)
