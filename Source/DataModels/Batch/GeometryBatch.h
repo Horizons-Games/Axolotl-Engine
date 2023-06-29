@@ -99,6 +99,12 @@ private:
 		unsigned int padding0, padding1;
 	};
 
+	struct Tiling
+	{
+		float2 tiling;
+		float2 offset;
+	};
+
 	struct uint4
 	{
 		unsigned int x, y, z, w;
@@ -120,6 +126,7 @@ private:
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::unordered_map<const ComponentMeshRenderer*, int> objectIndexes;
 	std::unordered_map<const ComponentMeshRenderer*, int> paletteIndexes;
+	std::unordered_map<const ComponentMeshRenderer*, int> tilingIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<PerInstance> perInstances;
 	std::vector<int> instanceData;
@@ -138,6 +145,7 @@ private:
 	unsigned int perInstancesBuffer = 0;
 	unsigned int transforms[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int palettes[DOUBLE_BUFFERS] = { 0, 0 };
+	unsigned int tilingBuffer = 0;
 
 	bool createBuffers;
 	bool reserveModelSpace;
@@ -154,12 +162,14 @@ private:
 	const GLuint bindingPointPerInstance = 6;
 	const GLuint bindingPointModel = 10;
 	const GLuint bindingPointMaterial = 11;
+	const GLuint bindingPointTiling = 12;
 
 	GLbitfield mapFlags;
 	GLbitfield createFlags;
 
 	float4x4* transformData[DOUBLE_BUFFERS];
 	float4x4* paletteData[DOUBLE_BUFFERS];
+	Tiling* tilingData;
 	MaterialMetallic* metallicMaterialData;
 	MaterialSpecular* specularMaterialData;
 
