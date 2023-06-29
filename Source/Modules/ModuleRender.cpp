@@ -353,7 +353,7 @@ UpdateStatus ModuleRender::Update()
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 		glLineWidth(25);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_BACK, GL_LINE);
 
 		// Draw Highliht for selected objects
 		DrawHighlight(goSelected);
