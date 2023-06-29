@@ -299,9 +299,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -8.295989036560059,
-                            "localPos_Y": 9.372270584106445,
-                            "localPos_Z": 5.680636405944824,
+                            "localPos_X": -7.85365104675293,
+                            "localPos_Y": 9.372271537780762,
+                            "localPos_Z": 0.9606904983520508,
                             "localRot_X": 85.22003173828125,
                             "localRot_Y": 41.64317321777344,
                             "localRot_Z": -82.82732391357422,
@@ -317,6 +317,330 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "box",
+                "tag": "",
+                "uid": 13817350769299438843,
+                "parentUID": 3443481771776544533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 14.388525009155273,
+                            "localPos_Y": 9.430572509765625,
+                            "localPos_Z": -2.1809074878692627,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Obstacle",
+                            "active": true,
+                            "removed": true,
+                            "boxSize_X": 4.0,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": 4.0,
+                            "radius": 1.0,
+                            "height": 2.0,
+                            "obstacleType": 1,
+                            "mustBeDrawnGizmo": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 6247451805148705537,
+                "parentUID": 13817350769299438843,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.17159932851791382,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.22274494171142578,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.975000023841858,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 2.0999999046325684
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "box",
+                "tag": "",
+                "uid": 3551173142700675717,
+                "parentUID": 3443481771776544533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.8840315937995911,
+                            "localPos_Y": 9.430572509765625,
+                            "localPos_Z": -12.58675765991211,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Obstacle",
+                            "active": true,
+                            "removed": true,
+                            "boxSize_X": 4.0,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": 4.0,
+                            "radius": 1.0,
+                            "height": 2.0,
+                            "obstacleType": 1,
+                            "mustBeDrawnGizmo": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 17519625238642676105,
+                "parentUID": 3551173142700675717,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.17159932851791382,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.22274494171142578,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.975000023841858,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 2.0999999046325684
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "box",
+                "tag": "",
+                "uid": 17800965847485461008,
+                "parentUID": 3443481771776544533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 20.66468048095703,
+                            "localPos_Y": 9.430572509765625,
+                            "localPos_Z": 1.80353581905365,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Obstacle",
+                            "active": true,
+                            "removed": true,
+                            "boxSize_X": 4.0,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": 4.0,
+                            "radius": 1.0,
+                            "height": 2.0,
+                            "obstacleType": 1,
+                            "mustBeDrawnGizmo": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 14437469454947388742,
+                "parentUID": 17800965847485461008,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.17159932851791382,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.22274494171142578,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.975000023841858,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 2.0999999046325684
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "box",
+                "tag": "",
+                "uid": 1124983330310269124,
+                "parentUID": 3443481771776544533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 27.106794357299805,
+                            "localPos_Y": 9.430572509765625,
+                            "localPos_Z": -2.261432647705078,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Obstacle",
+                            "active": true,
+                            "removed": true,
+                            "boxSize_X": 4.0,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": 4.0,
+                            "radius": 1.0,
+                            "height": 2.0,
+                            "obstacleType": 1,
+                            "mustBeDrawnGizmo": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 13716979608455228421,
+                "parentUID": 1124983330310269124,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.1715984344482422,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.08238887786865234,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.975000023841858,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 2.0999999046325684
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
