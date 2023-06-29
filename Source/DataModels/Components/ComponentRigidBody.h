@@ -3,11 +3,7 @@
 #include "Bullet/LinearMath/btVector3.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Component.h"
-#include "ComponentTransform.h"
 #include "Math/Quat.h"
-#include <functional>
-#include <memory>
-#include <vector>
 
 class btRigidBody;
 struct btDefaultMotionState;
@@ -50,16 +46,9 @@ public:
 		return id;
 	}
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
-	void Enable() override;
-	void Disable() override;
-
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
-	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -145,6 +134,13 @@ public:
     void ClearCollisionEnterDelegate();
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
+	void SignalEnable() override;
+	void SignalDisable() override;
+
+private:
 	int GenerateId() const;
 
 	std::unique_ptr<btRigidBody> rigidBody = nullptr;
@@ -163,7 +159,6 @@ private:
     float height;
 
 	bool isKinematic = false;
-	bool isStatic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
 
@@ -175,8 +170,6 @@ private:
 	bool useRotationController = false;
 	float KpForce = 5.0f;
 	float KpTorque = 0.05f;
-
-	bool isFromSceneLoad = true;
 
 	ComponentTransform* transform;
 
@@ -194,16 +187,6 @@ inline bool ComponentRigidBody::GetIsKinematic() const
 inline void ComponentRigidBody::SetIsKinematic(bool newIsKinematic)
 {
 	isKinematic = newIsKinematic;
-}
-
-inline bool ComponentRigidBody::IsStatic() const
-{
-	return isStatic;
-}
-
-inline void ComponentRigidBody::SetIsStatic(bool newIsStatic)
-{
-	isStatic = newIsStatic;
 }
 
 inline bool ComponentRigidBody::IsTrigger() const

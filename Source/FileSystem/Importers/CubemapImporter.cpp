@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "CubemapImporter.h"
 
 #include "Application.h"

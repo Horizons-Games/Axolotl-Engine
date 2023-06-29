@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleDebugDraw.h"
 
 #define DEBUG_DRAW_IMPLEMENTATION
@@ -169,8 +171,8 @@ public:
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, pixels);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
@@ -605,18 +607,13 @@ bool ModuleDebugDraw::CleanUp()
 	return true;
 }
 
-update_status ModuleDebugDraw::Update()
+UpdateStatus ModuleDebugDraw::Update()
 {
-	GameObject* selectedGameObject = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	ComponentTransform* selectedTransform =
-		static_cast<ComponentTransform*>(selectedGameObject->GetComponent(ComponentType::TRANSFORM));
-
-	// DrawTransform(selectedTransform);
 #ifdef ENGINE
 	dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 #endif // ENGINE
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned width, unsigned height)

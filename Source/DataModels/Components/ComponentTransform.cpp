@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 
@@ -6,12 +8,6 @@
 
 #include "Modules/ModuleDebugDraw.h"
 #include "Modules/ModuleScene.h"
-#ifndef ENGINE
-	#include "Modules/ModuleEditor.h"
-	#include "Windows/WindowDebug.h"
-#endif // ENGINE
-
-#include "Math/float3x3.h"
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
 	Component(ComponentType::TRANSFORM, active, owner, false),
@@ -52,26 +48,8 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Draw() const
+void ComponentTransform::InternalSave(Json& meta)
 {
-#ifndef ENGINE
-	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
-#endif // ENGINE
-	if (drawBoundingBoxes)
-	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(objectOBB);
-	}
-}
-
-void ComponentTransform::SaveOptions(Json& meta)
-{
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	meta["localPos_X"] = static_cast<float>(pos.x);
 	meta["localPos_Y"] = static_cast<float>(pos.y);
 	meta["localPos_Z"] = static_cast<float>(pos.z);
@@ -85,12 +63,8 @@ void ComponentTransform::SaveOptions(Json& meta)
 	meta["localSca_Z"] = static_cast<float>(sca.z);
 }
 
-void ComponentTransform::LoadOptions(Json& meta)
+void ComponentTransform::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	pos.x = static_cast<float>(meta["localPos_X"]);
 	pos.y = static_cast<float>(meta["localPos_Y"]);
 	pos.z = static_cast<float>(meta["localPos_Z"]);
@@ -116,7 +90,7 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*) (parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
@@ -132,8 +106,7 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::RecalculateLocalMatrix()
 {
 	globalMatrix = float4x4::FromTRS(globalPos, globalRot, globalSca);
-	ComponentTransform* parentTransform =
-		(ComponentTransform*) (GetOwner()->GetParent()->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponent<ComponentTransform>();
 	localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 	localMatrix.Decompose(pos, rot, sca);
 	rotXYZ = RadToDeg(rot.ToEulerXYZ());
@@ -148,7 +121,7 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 
 	if (parent != root)
 	{
-		ComponentTransform* parentTransform = (ComponentTransform*) (parent->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 		return parentTransform->CalculatePaletteGlobalMatrix().Mul(localMatrix);
 	}
@@ -158,35 +131,39 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 	}
 }
 
-void ComponentTransform::UpdateTransformMatrices()
+void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 {
 	CalculateMatrices();
-	for (Component* components : GetOwner()->GetComponents())
-	{
-		components->OnTransformChanged();
-	}
 
+	if (notifyChanges)
+	{
+		for (Component* components : GetOwner()->GetComponents())
+		{
+			components->OnTransformChanged();
+		}
+	}
+	
 	if (GetOwner()->GetChildren().empty())
 		return;
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform* childTransform = static_cast<ComponentTransform*>
-			(child->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform = 
+			child->GetComponent<ComponentTransform>();
 
 		if(childTransform)
 		{
-			childTransform->UpdateTransformMatrices();
+			childTransform->UpdateTransformMatrices(notifyChanges);
 		}
 	}
 }
+
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified,
 												   bool rotationModified)
 {
-	ModuleScene* scene = App->GetModule<ModuleScene>();
-	Scene* loadedScene = scene->GetLoadedScene();
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	switch (lightComponent->GetLightType())
 	{
@@ -208,6 +185,14 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 			{
 				loadedScene->UpdateSceneSpotLights();
 				loadedScene->RenderSpotLights();
+			}
+			break;
+
+		case LightType::AREA:
+			if (translationModified || rotationModified)
+			{
+				loadedScene->UpdateSceneAreaLights();
+				loadedScene->RenderAreaLights();
 			}
 			break;
 	}

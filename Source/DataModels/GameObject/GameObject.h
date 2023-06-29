@@ -1,21 +1,21 @@
 #pragma once
 
-#include <functional>
-#include <list>
-#include <memory>
-#include <ranges>
-
-#include "../../FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 #include "MathGeoLib/Include/Math/vec2d.h"
+
+#include <ranges>
 
 class Component;
 class ComponentMeshRenderer;
 class ComponentCanvas;
+class ComponentScript;
 class Json;
 class ResourceModel;
+class IScript;
 
 enum class ComponentType;
 enum class LightType;
+enum class AreaType;
 
 enum class StateOfSelection
 {
@@ -40,8 +40,8 @@ public:
 	GameObject(const GameObject& gameObject);
 	~GameObject();
 
-	void SaveOptions(Json& json);
-	void LoadOptions(Json& meta);
+	void Save(Json& json);
+	void Load(const Json& meta);
 
 	void Draw() const;
 
@@ -57,7 +57,10 @@ public:
 	GameObject* GetRootGO() const;
 
 	StateOfSelection GetStateOfSelection() const;
+	void SetStateOfSelection(StateOfSelection stateOfSelection);
+
 	GameObjectView GetChildren() const;
+	std::list<GameObject*> GetAllDescendants();
 	void SetChildren(std::vector<std::unique_ptr<GameObject>>& children);
 
 	ComponentView GetComponents() const;
@@ -65,38 +68,47 @@ public:
 	void CopyComponent(Component* component);
 	void CopyComponentLight(LightType type, Component* component);
 
-	template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
-	const std::vector<T*> GetComponentsByType(ComponentType type) const;
-	void SetStateOfSelection(StateOfSelection stateOfSelection);
+	template<typename C>
+	C* CreateComponent();
+	template<typename C>
+	C* GetComponent() const;
+	template<typename C>
+	std::vector<C*> GetComponents() const;
+	template<typename C>
+	bool RemoveComponent();
+	template<typename C>
+	bool RemoveComponents();
+	bool RemoveComponent(const Component* component);
 
-	bool IsEnabled() const; // If the check for the GameObject is enabled in the Inspector
+	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
+	S* GetComponent();
+	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
+	std::vector<S*> GetComponents();
+
+	Component* CreateComponentLight(LightType lightType, AreaType areaType);
+
+	// This method returns true if and only if the GameObject is currently enabled
+	bool IsEnabled() const;
 	void Enable();
 	void Disable();
+
+	// This method returns true if IsEnabled returns true for this GameObject and for all its "ancestors" in the hierarchy
+	bool IsActive() const;
 
 	void SetName(const std::string& newName);
 	void SetTag(const std::string& newTag);
 	void SetParent(GameObject* newParent);
 	void SetRootGO(GameObject* newRootGO);
 
-	bool IsActive() const; // If it is active in the hierarchy (related to its parent/s)
-	void DeactivateChildren();
-	void ActivateChildren();
-
 	bool IsStatic() const;
 	void SetStatic(bool newStatic);
 	void SpreadStatic();
-
-	Component* CreateComponent(ComponentType type);
-	Component* CreateComponentLight(LightType lightType);
-	bool RemoveComponent(const Component* component);
-	Component* GetComponent(ComponentType type) const;
-
-	std::list<GameObject*> GetGameObjectsInside();
 
 	void MoveUpChild(const GameObject* childToMove);
 	void MoveDownChild(const GameObject* childToMove);
 
 	bool IsADescendant(const GameObject* descendant);
+	bool IsRendereable();
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -109,8 +121,15 @@ private:
 			   bool enabled,
 			   bool active,
 			   StateOfSelection selection,
-			   bool staticObject);
+			   bool staticObject,
+			   const std::string& tag = std::string());
 
+	Component* CreateComponent(ComponentType type);
+
+	friend class ModuleScene;
+
+	void Activate();
+	void Deactivate();
 	bool IsAChild(const GameObject* child);
 
 	enum class HierarchyDirection
@@ -152,13 +171,13 @@ inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 	}
 	switch (stateOfSelection)
 	{
-	case StateOfSelection::NO_SELECTED:
-		parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
-		break;
-	case StateOfSelection::SELECTED:
-	case StateOfSelection::CHILD_SELECTED:
-		parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
-		break;
+		case StateOfSelection::NO_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+			break;
+		case StateOfSelection::SELECTED:
+		case StateOfSelection::CHILD_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::CHILD_SELECTED);
+			break;
 	}
 }
 
@@ -209,7 +228,7 @@ inline void GameObject::SetTag(const std::string& newTag)
 
 inline bool GameObject::IsActive() const
 {
-	return active;
+	return active && enabled;
 }
 
 inline GameObject::GameObjectView GameObject::GetChildren() const
@@ -241,22 +260,6 @@ inline GameObject::ComponentView GameObject::GetComponents() const
 	return std::ranges::transform_view(components, lambda);
 }
 
-template<typename T, std::enable_if_t<std::is_base_of<Component, T>::value, bool>>
-inline const std::vector<T*> GameObject::GetComponentsByType(ComponentType type) const
-{
-	std::vector<T*> components;
-
-	for (const std::unique_ptr<Component>& component : this->components)
-	{
-		if (component && component->GetType() == type)
-		{
-			components.push_back(dynamic_cast<T*>(component.get()));
-		}
-	}
-
-	return components;
-}
-
 inline bool GameObject::CompareTag(const std::string& commingTag) const
 {
 	return tag == commingTag;
@@ -267,7 +270,5 @@ inline bool GameObject::IsStatic() const
 	return staticObject;
 }
 
-inline void GameObject::SetStatic(bool newStatic)
-{
-	staticObject = newStatic;
-}
+
+#include "DataModels/GameObject/GameObject.inl"

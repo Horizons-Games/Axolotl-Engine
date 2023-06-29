@@ -5,33 +5,24 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Structs/lights.glsl"
+
+#include "/Common/Uniforms/lights_uniform.glsl"
+
 struct Material {
     vec4 diffuse_color;         //0  //16
     vec3 specular_color;        //16 //16       
     int has_diffuse_map;        //32 //4
     int has_normal_map;         //36 //4
     int has_specular_map;       //40 //4
-    float smoothness;           //44 //4
-    float normal_strength;      //48 //4
-    sampler2D diffuse_map;      //48 //8
-    sampler2D normal_map;       //56 //8
-    sampler2D specular_map;     //64 //8    
-    vec2 padding;               //72 //8 --> 80
-};
-
-struct PointLight
-{
-	vec4 position;  	//16 //16	// xyz position+w radius
-	vec4 color; 		//16 //16   // rgb colour+alpha intensity
-};
-
-struct SpotLight
-{
-	vec4 position;  	//16 //0	// xyz position+w radius
-	vec4 color; 		//16 //16	// rgb colour+alpha intensity
-	vec3 aim;			//12 //32
-	float innerAngle;	//4  //44
-	float outerAngle;	//4  //48   --> 52 
+    int has_emissive_map;       //44 //4
+    float smoothness;           //48 //4
+    float normal_strength;      //52 //4
+    sampler2D diffuse_map;      //56 //8
+    sampler2D normal_map;       //64 //8
+    sampler2D specular_map;     //72 //8    
+    sampler2D emissive_map;     //80 //8
+    int padding1,padding2;      //88 //8 --> 96
 };
 
 layout(std140, binding=1) uniform Directional
@@ -52,9 +43,16 @@ readonly layout(std430, binding=3) buffer SpotLights
 	SpotLight spots[];
 };
 
-struct Light {
-    vec3 position;
-    vec3 color;
+readonly layout(std430, binding=4) buffer AreaLightsSphere
+{
+	uint num_spheres;
+	AreaLightSphere areaSphere[];
+};
+
+readonly layout(std430, binding=5) buffer AreaLightsTube
+{
+	uint num_tubes;
+	AreaLightTube areaTube[];
 };
 
 readonly layout(std430, binding = 11) buffer Materials {
@@ -67,8 +65,7 @@ layout(binding = 9) uniform samplerCube prefiltered_IBL;
 layout(binding = 10) uniform sampler2D environmentBRDF;
 
 uniform int numLevels_IBL;
-uniform float cubeMap_intensity;
-uniform Light light;
+uniform float cubemap_intensity;
 
 in vec3 FragTangent;
 in vec3 Normal;
@@ -176,6 +173,106 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 
     return Lo;
 }
+
+vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_spheres; ++i)
+    {
+        vec3 sP = areaSphere[i].position.xyz;
+        vec3 color = areaSphere[i].color.rgb;
+        float sR = areaSphere[i].position.w;
+        float intensity = areaSphere[i].color.a;
+        float lightRadius = areaSphere[i].lightRadius;
+
+        vec3 R = normalize(reflect(-V, N));
+        
+        // Attenuation from the closest point view
+        float closeDistance = max(length(FragPos-sP)-sR, 0.0);
+        float maxValue = pow(max(1-pow(closeDistance/lightRadius,4), 0),2);
+        float attenuation = maxValue/(pow(closeDistance,2) + 1);
+
+        // calculate closest point light specular
+        vec3 closest = ClosestRayToSphere(sR, sP - FragPos, R);
+
+        vec3 L = normalize(closest);
+        vec3 H = normalize(L + V);
+        float specularDotNL = max(dot(N,L), EPSILON);
+        
+        float alpha = max(roughness * roughness, EPSILON);
+        float alphaPrime = clamp(sR/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
+        float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
+        vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
+        
+        // calculate closest point light diffuse
+        closest = sP;
+
+        L = normalize(closest-FragPos);
+        float diffuseDotNL = max(dot(N,L), EPSILON);
+
+        vec3 Li = color * intensity * attenuation;
+        vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
+        vec3 LoDiffuse = (Cd) * Li * diffuseDotNL;
+        Lo += LoDiffuse + LoSpecular;
+    }
+
+    return Lo;
+}
+
+vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
+{
+    vec3 Lo = vec3(0.0);
+
+    for (int i = 0; i < num_tubes; ++i)
+    {
+vec3 posA = areaTube[i].positionA.xyz;
+        vec3 posB = areaTube[i].positionB.xyz;
+        float tubeRadius = areaTube[i].positionA.w;
+        vec3 color = areaTube[i].color.rgb;
+        float intensity = areaTube[i].color.a;
+        float lightRadius = areaTube[i].lightRadius;
+
+        // Attenuation from the closest point view
+        vec3 pointAtt = ClosestPointToLine(FragPos, posA, posB, tubeRadius);
+        float closeDistance = length(pointAtt - FragPos);
+        float maxValue = pow(max(1-pow(closeDistance/lightRadius,4), 0),2);
+        float attenuation = maxValue/(pow(closeDistance,2) + 1);
+
+        vec3 R = normalize(reflect(-V, N));
+        
+        // calculate closest point light specular
+        vec3 closest = ClosestRayToLine(FragPos, posA, posB, R);
+   	    closest = ClosestRayToSphere(tubeRadius, closest, R);
+
+        vec3 L = normalize(closest);
+        vec3 H = normalize(L + V);
+        float specularDotNL = max(dot(N,L), EPSILON);
+
+        float alpha = max(roughness * roughness, EPSILON);
+        float alphaPrime = clamp(tubeRadius/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
+        float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
+        vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+        float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
+
+        // calculate closest point light diffuse
+        float a = length(posA-FragPos);
+        float b = length(posB-FragPos);
+        float x = (a)/(b + a);
+        closest = BisectionIntersection(FragPos, posA, posB);
+
+        L = normalize(closest-FragPos);
+        float diffuseDotNL = max(dot(N,L), EPSILON);
+
+        vec3 Li = color * intensity * attenuation;
+        vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
+        vec3 LoDiffuse = (Cd) * Li * diffuseDotNL;
+        Lo += LoDiffuse + LoSpecular;
+    }
+
+    return Lo;
+}
   
 void main()
 {
@@ -194,8 +291,11 @@ void main()
         //textureMat = pow(textureMat, vec3(2.2));
     }
     textureMat = pow(textureMat, gammaCorrection);
-    textureMat.a = material.diffuse_color.a; //Transparency
     
+    //Transparency
+    textureMat.a = material.has_diffuse_map * textureMat.a + 
+        (1.0f-material.has_diffuse_map) * material.diffuse_color.a;
+
     // Normals
 	if (material.has_normal_map == 1)
 	{
@@ -204,8 +304,9 @@ void main()
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
-        norm = normalize(space * norm);
+        norm = space * norm;
 	}
+    norm = normalize(norm);
 
     // Specular
     vec4 specularMat = vec4(material.specular_color, 1.0);
@@ -220,6 +321,11 @@ void main()
     float roughness = pow(1-material.smoothness,2) + EPSILON;
     
     // Lights
+    vec3 R = reflect(-viewDir, norm);
+    float NdotV = max(dot(norm, viewDir), EPSILON);
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
+        environmentBRDF, numLevels_IBL) * cubemap_intensity;
+
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 
     if (num_point > 0)
@@ -232,16 +338,27 @@ void main()
         Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness);
     }
 
-    vec3 R = reflect(-viewDir, norm);
-    float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL) * cubeMap_intensity;
+    if (num_spheres > 0)
+    {
+        Lo += calculateAreaLightSpheres(norm, viewDir, textureMat.rgb, f0, roughness);
+    }
+
+    if (num_tubes > 0)
+    {
+        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness);
+    }
 
     vec3 color = ambient + Lo;
+
+    //Emissive
+    if (material.has_emissive_map == 1) 
+    {
+        color += vec3(texture(material.emissive_map, TexCoord));
+    }
     
 	//hdr rendering
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
-    outColor = vec4(color, material.diffuse_color.a);
+    outColor = vec4(color, textureMat.a);
 }

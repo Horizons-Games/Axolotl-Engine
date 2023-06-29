@@ -4,14 +4,22 @@
 
 #include "GameObject/GameObject.h"
 
-#include "Math/float3.h"
+enum class LightType 
+{ 
+	UNKNOWN, 
+	DIRECTIONAL, 
+	POINT, 
+	SPOT,
+	AREA
+};
 
-enum class LightType
+enum class AreaType
 {
-	UNKNOWN,
-	DIRECTIONAL,
-	POINT,
-	SPOT
+	SPHERE,
+	TUBE,
+	QUAD,
+	DISK,
+	NONE
 };
 
 const static std::string GetNameByLightType(LightType type);
@@ -33,12 +41,10 @@ public:
 
 	virtual void Draw() const override{};
 
-	virtual void Enable() override{}
-	
-	virtual void Disable() override{}
+	virtual void InternalSave(Json& meta) override{};
+	virtual void InternalLoad(const Json& meta) override{};
 
-	virtual void SaveOptions(Json& meta) override{};
-	virtual void LoadOptions(Json& meta) override{};
+	virtual void OnTransformChanged() override{};
 
 	const float3& GetColor() const;
 	float GetIntensity() const;
@@ -89,9 +95,11 @@ inline const std::string GetNameByLightType(LightType type)
 			return "LightType_Point";
 		case LightType::SPOT:
 			return "LightType_Spot";
+		case LightType::AREA:
+			return "LightType_Area";
 		default:
 			assert(false && "Wrong light type introduced");
-			return "";
+			return std::string();
 	}
 }
 
@@ -110,6 +118,11 @@ inline const LightType GetLightTypeByName(const std::string& typeName)
 	if (typeName == "LightType_Spot")
 	{
 		return LightType::SPOT;
+	}
+
+	if (typeName == "LightType_Area")
+	{
+		return LightType::AREA;
 	}
 	return LightType::UNKNOWN;
 }

@@ -18,12 +18,14 @@ public:
 	void Seeking() const;
 	void DisableMovement() const;
 	void DisableRotation() const;
+	void RotateToTarget() const;
+
+	GameObject* GetTarget() const;
 
 private:
 	GameObject* target;
 
 	ComponentTransform* targetTransform;
 	ComponentRigidBody* ownerRigidBody;
-	GameObject* ownerRigidBodyGO;
 	ComponentTransform* ownerTransform;
 };

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentTransform2D.h"
 #include "FileSystem/Json.h"
 
@@ -36,12 +38,8 @@ void ComponentTransform2D::Update()
 	CalculateWorldBoundingBox();
 }
 
-void ComponentTransform2D::SaveOptions(Json& meta)
+void ComponentTransform2D::InternalSave(Json& meta)
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	meta["localPositionX"] = static_cast<float>(pos.x);
 	meta["localPositionY"] = static_cast<float>(pos.y);
 	meta["localPositionZ"] = static_cast<float>(pos.z);
@@ -69,12 +67,8 @@ void ComponentTransform2D::SaveOptions(Json& meta)
 	meta["worldAABB_max_y"] = static_cast<float>(worldAABB.maxPoint.y);
 }
 
-void ComponentTransform2D::LoadOptions(Json& meta)
+void ComponentTransform2D::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 	pos.x = static_cast<float>(meta["localPositionX"]);
 	pos.y = static_cast<float>(meta["localPositionY"]);
 	pos.z = static_cast<float>(meta["localPositionZ"]);
@@ -114,8 +108,7 @@ void ComponentTransform2D::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform2D* parentTransform =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* parentTransform = parent->GetComponent<ComponentTransform2D>();
 		if (parentTransform)
 		{
 			// Set global matrix
@@ -137,8 +130,7 @@ void ComponentTransform2D::CalculateMatrices()
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform2D* childTransform =
-			static_cast<ComponentTransform2D*>(child->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* childTransform = child->GetComponent<ComponentTransform2D>();
 		childTransform->CalculateMatrices();
 	}
 
@@ -152,9 +144,8 @@ float3 ComponentTransform2D::GetPositionRelativeToParent()
 	GameObject* parent = GetOwner()->GetParent();
 	if (parent != nullptr)
 	{
-		ComponentCanvas* parentCanvas = static_cast<ComponentCanvas*>(parent->GetComponent(ComponentType::CANVAS));
-		ComponentTransform2D* parentTransform2D =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentCanvas* parentCanvas = parent->GetComponent<ComponentCanvas>();
+		ComponentTransform2D* parentTransform2D = parent->GetComponent<ComponentTransform2D>();
 		if (parentTransform2D != nullptr)
 		{
 			if (parentCanvas != nullptr)
@@ -181,8 +172,7 @@ float3 ComponentTransform2D::GetScreenPosition()
 	GameObject* parent = GetOwner()->GetParent();
 	while (parent != nullptr)
 	{
-		ComponentTransform2D* parentTransform2D =
-			static_cast<ComponentTransform2D*>(parent->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* parentTransform2D = parent->GetComponent<ComponentTransform2D>();
 		if (parentTransform2D == nullptr)
 			break;
 		screenPosition += parentTransform2D->GetPositionRelativeToParent();
@@ -230,7 +220,7 @@ ComponentCanvas* ComponentTransform2D::RecursiveWhichCanvasContainsMe(const Game
 {
 	if (object != nullptr)
 	{
-		ComponentCanvas* canvas = static_cast<ComponentCanvas*>(object->GetComponent(ComponentType::CANVAS));
+		ComponentCanvas* canvas = object->GetComponent<ComponentCanvas>();
 		return canvas ? canvas : RecursiveWhichCanvasContainsMe(object->GetParent());
 	}
 	return nullptr;

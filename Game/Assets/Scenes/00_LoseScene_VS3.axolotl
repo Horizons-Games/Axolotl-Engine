@@ -7,7 +7,6 @@
                 "uid": 9351076666620844235,
                 "parentUID": 0,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -44,7 +43,6 @@
                 "uid": 10153650663129387206,
                 "parentUID": 16561938826019233067,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -67,10 +65,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 300.0,
-                            "worldAABB_min_y": 302.0,
-                            "worldAABB_max_x": 300.0,
-                            "worldAABB_max_y": 302.0
+                            "worldAABB_min_x": 645.0,
+                            "worldAABB_min_y": 567.5,
+                            "worldAABB_max_x": 645.0,
+                            "worldAABB_max_y": 567.5
                         }
                     },
                     {
@@ -83,7 +81,9 @@
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -96,7 +96,6 @@
                 "uid": 16561938826019233067,
                 "parentUID": 9351076666620844235,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -119,10 +118,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 323.0,
-                            "worldAABB_min_y": 302.0,
-                            "worldAABB_max_x": 323.0,
-                            "worldAABB_max_y": 302.0
+                            "worldAABB_min_x": 645.0,
+                            "worldAABB_min_y": 567.5,
+                            "worldAABB_max_x": 645.0,
+                            "worldAABB_max_y": 567.5
                         }
                     },
                     {
@@ -142,7 +141,6 @@
                 "uid": 3046798869333557582,
                 "parentUID": 9351076666620844235,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -183,7 +181,6 @@
                 "uid": 6673980443584462006,
                 "parentUID": 9351076666620844235,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -208,7 +205,8 @@
                             "active": true,
                             "removed": true,
                             "static": true,
-                            "mouse": true
+                            "mouse": true,
+                            "actualPlayer": true
                         }
                     }
                 ]
@@ -217,11 +215,10 @@
         {
             "GameObject": {
                 "name": "Basic Camera",
-                "tag": "",
+                "tag": "MainCamera",
                 "uid": 9641674113056028990,
                 "parentUID": 6673980443584462006,
                 "enabled": true,
-                "active": true,
                 "static": true,
                 "Components": [
                     {
@@ -261,12 +258,87 @@
         },
         {
             "GameObject": {
-                "name": "Try Again",
+                "name": "Hovers",
                 "tag": "",
-                "uid": 9365887114506419914,
+                "uid": 16786566224037734698,
                 "parentUID": 16561938826019233067,
                 "enabled": true,
-                "active": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 577.8125,
+                            "worldAABB_min_y": 500.3125,
+                            "worldAABB_max_x": 712.1875,
+                            "worldAABB_max_y": 634.6875
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Buttons",
+                "tag": "",
+                "uid": 2625869112691092369,
+                "parentUID": 16561938826019233067,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 577.8125,
+                            "worldAABB_min_y": 500.3125,
+                            "worldAABB_max_x": 712.1875,
+                            "worldAABB_max_y": 634.6875
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Main Menu Button",
+                "tag": "",
+                "uid": 8405574815793682858,
+                "parentUID": 2625869112691092369,
+                "enabled": true,
                 "static": true,
                 "Components": [
                     {
@@ -282,17 +354,17 @@
                             "localRot_Z": 0.0,
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
-                            "localScaleZ": 1.0,
-                            "sizeX": 600.0,
-                            "sizeY": 128.0,
+                            "localScaleZ": 0.5,
+                            "sizeX": 533.0,
+                            "sizeY": 161.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 253.125,
-                            "worldAABB_min_y": 435.75,
-                            "worldAABB_max_x": 346.875,
-                            "worldAABB_max_y": 455.75
+                            "worldAABB_min_x": 555.47265625,
+                            "worldAABB_min_y": 849.51953125,
+                            "worldAABB_max_x": 734.52734375,
+                            "worldAABB_max_y": 903.60546875
                         }
                     },
                     {
@@ -300,12 +372,14 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 10912192500090225034,
-                            "assetPathImage": "Assets/Textures/MainMenu_Button_TryAgain.png",
+                            "imageUID": 4367585418895319616,
+                            "assetPathImage": "Assets/Textures/UI_InGameMenu_MainMenu.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
                         }
                     },
                     {
@@ -359,11 +433,11 @@
                                 },
                                 {
                                     "name": "ButtonHover",
-                                    "value": 11063179424227655713,
+                                    "value": 1627936725841017443,
                                     "type": 2
                                 },
                                 {
-                                    "name": "SetGameStateObject",
+                                    "name": "SetUiGameManagerObject",
                                     "value": 0,
                                     "type": 2
                                 },
@@ -385,12 +459,11 @@
         },
         {
             "GameObject": {
-                "name": "TryAgain H",
+                "name": "Main Menu Hover",
                 "tag": "",
-                "uid": 11063179424227655713,
-                "parentUID": 16561938826019233067,
-                "enabled": false,
-                "active": false,
+                "uid": 1627936725841017443,
+                "parentUID": 16786566224037734698,
+                "enabled": true,
                 "static": true,
                 "Components": [
                     {
@@ -406,17 +479,17 @@
                             "localRot_Z": 0.0,
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
-                            "localScaleZ": 1.0,
-                            "sizeX": 600.0,
-                            "sizeY": 128.0,
+                            "localScaleZ": 0.5,
+                            "sizeX": 533.0,
+                            "sizeY": 161.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 272.53125,
-                            "worldAABB_min_y": 446.004150390625,
-                            "worldAABB_max_x": 373.46875,
-                            "worldAABB_max_y": 467.5374755859375
+                            "worldAABB_min_x": 555.47265625,
+                            "worldAABB_min_y": 849.51953125,
+                            "worldAABB_max_x": 734.52734375,
+                            "worldAABB_max_y": 903.60546875
                         }
                     },
                     {
@@ -424,12 +497,14 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 3713573795334787133,
-                            "assetPathImage": "Assets/Textures/MainMenu_Button_TryAgain_H.png",
+                            "imageUID": 14407906761473213580,
+                            "assetPathImage": "Assets/Textures/UI_InGameMenu_MainMenu_Hover.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
-                            "color_w": 1.0
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
                         }
                     }
                 ]
@@ -451,11 +526,11 @@
         }
     },
     "Skybox": {
-        "skyboxUID": 8827808863826909032,
+        "skyboxUID": 4377575066284441384,
         "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
-        "cubemapUID": 13881553922914957835,
+        "cubemapUID": 992078593789236745,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
     }
 }

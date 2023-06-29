@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Scene.h"
 
 #include "Application.h"
@@ -8,41 +10,49 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCubemap.h"
+#include "Components/ComponentPlayer.h"
 
+#include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "DataStructures/Quadtree.h"
+
+#include "Defines/QuadtreeDefines.h"
+
+#include "FileSystem/ModuleResources.h"
 
 #include "Modules/ModuleProgram.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "FileSystem/ModuleResources.h"
-
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceMesh.h"
+#include "Resources/ResourceModel.h"
 #include "Resources/ResourceSkyBox.h"
-
-#include <stack>
-#include <GL/glew.h>
 
 #include "Scripting/IScript.h"
 
+#include "Skybox/Skybox.h"
+
+#include <GL/glew.h>
 #include <stack>
 
 Scene::Scene() :
@@ -61,6 +71,16 @@ Scene::~Scene()
 {
 	sceneGameObjects.clear();
 	sceneCameras.clear();
+
+	pointLights.clear();
+	spotLights.clear();
+	sphereLights.clear();
+	tubeLights.clear();
+
+	cachedPoints.clear();
+	cachedSpots.clear();
+	cachedSpheres.clear();
+	cachedTubes.clear();
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
@@ -103,8 +123,7 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 	if (is3D)
 	{
 		// Update the transform respect its parent when created
-		ComponentTransform* childTransform =
-			static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* childTransform = gameObject->GetComponent<ComponentTransform>();
 		childTransform->UpdateTransformMatrices();
 
 		// Quadtree treatment
@@ -120,8 +139,7 @@ GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent,
 	else
 	{
 		// Update the transform respect its parent when created
-		ComponentTransform2D* childTransform =
-			static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* childTransform = gameObject->GetComponent<ComponentTransform2D>();
 		childTransform->CalculateMatrices();
 	}
 
@@ -137,16 +155,14 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 	gameObject->SetParent(parent);
 
 	// Update the transform respect its parent when created
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(gameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
 	if (transform)
 	{
 		transform->UpdateTransformMatrices();
 	}
 	else
 	{
-		ComponentTransform2D* transform2D =
-			static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+		ComponentTransform2D* transform2D = gameObject->GetComponent<ComponentTransform2D>();
 		if (transform2D)
 		{
 			transform2D->CalculateMatrices();
@@ -155,23 +171,14 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
 
-	if (newObject->IsStatic())
-	{
-		loadedScene->AddStaticObject(gameObject);
-	}
-	else
-	{
-		loadedScene->AddNonStaticObject(gameObject);
-	}
-
 	return gameObject;
 }
 
 GameObject* Scene::CreateCameraGameObject(const std::string& name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	Component* component = gameObject->CreateComponent(ComponentType::CAMERA);
-	sceneCameras.push_back(static_cast<ComponentCamera*>(component));
+	ComponentCamera* component = gameObject->CreateComponent<ComponentCamera>();
+	sceneCameras.push_back(component);
 
 	return gameObject;
 }
@@ -181,12 +188,11 @@ GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* p
 	assert(!name.empty() && parent != nullptr);
 
 	GameObject* gameObject = CreateGameObject(name, parent, false);
-	ComponentTransform2D* trans =
-		static_cast<ComponentTransform2D*>(gameObject->GetComponent(ComponentType::TRANSFORM2D));
+	ComponentTransform2D* trans = gameObject->GetComponent<ComponentTransform2D>();
 	trans->SetPosition(float3(0, 0, -2));
 	trans->CalculateMatrices();
-	Component* canvas = gameObject->CreateComponent(ComponentType::CANVAS);
-	sceneCanvas.push_back(static_cast<ComponentCanvas*>(canvas));
+	ComponentCanvas* canvas = gameObject->CreateComponent<ComponentCanvas>();
+	sceneCanvas.push_back(canvas);
 
 	return gameObject;
 }
@@ -197,12 +203,39 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 	switch (type)
 	{
 		case ComponentType::IMAGE:
-			gameObject->CreateComponent(ComponentType::IMAGE);
+			gameObject->CreateComponent<ComponentImage>();
 			break;
 		case ComponentType::BUTTON:
-			gameObject->CreateComponent(ComponentType::IMAGE);
-			sceneInteractableComponents.push_back(gameObject->CreateComponent(ComponentType::BUTTON));
+			gameObject->CreateComponent<ComponentImage>();
+			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
+		case ComponentType::SLIDER:
+		{
+			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
+
+			GameObject* background = CreateUIGameObject("Background", gameObject, ComponentType::IMAGE);
+			ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
+			backgroundTransform->SetSize(float2(400, 50));
+			backgroundTransform->CalculateMatrices();
+			background->GetComponent<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
+			slider->SetBackground(background);
+
+			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
+			ComponentTransform2D* fillTransform = fill->GetComponent<ComponentTransform2D>();
+			fillTransform->SetSize(float2(400, 50));
+			fillTransform->CalculateMatrices();
+			ComponentImage* imageFill = fill->GetComponent<ComponentImage>();
+			imageFill->SetColor(float4(0.0f, 1.0f, 0.0f, 1.0f));
+			imageFill->SetRenderPercentage(slider->CalculateNormalizedValue());
+			slider->SetFill(fill);
+
+			GameObject* handle = CreateUIGameObject("Handle", gameObject, ComponentType::BUTTON);
+			ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
+			handleTransform->SetSize(float2(25, 60));
+			handleTransform->CalculateMatrices();
+			slider->SetHandle(handle);
+			break;
+		}
 		default:
 			break;
 	}
@@ -214,8 +247,7 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	GameObject* gameObject = CreateGameObject(name, parent);
 	ModuleResources* resources = App->GetModule<ModuleResources>();
 
-	ComponentMeshRenderer* meshComponent =
-		static_cast<ComponentMeshRenderer*>(gameObject->CreateComponent(ComponentType::MESHRENDERER));
+	ComponentMeshRenderer* meshComponent = gameObject->CreateComponent<ComponentMeshRenderer>();
 	meshComponent->SetMaterial(resources->RequestResource<ResourceMaterial>("Source/PreMades/Default.mat"));
 	std::shared_ptr<ResourceMesh> mesh;
 
@@ -223,6 +255,9 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	{
 		case Premade3D::CUBE:
 			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+			break;
+		case Premade3D::SPHERE:
+			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/sphere.sphere_0.mesh");
 			break;
 		case Premade3D::PLANE:
 			mesh = resources->RequestResource<ResourceMesh>("Source/PreMades/Plane.mesh");
@@ -244,17 +279,17 @@ GameObject* Scene::Create3DGameObject(const std::string& name, GameObject* paren
 	return gameObject;
 }
 
-GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* parent, LightType type)
+GameObject* Scene::CreateLightGameObject(const std::string& name, GameObject* parent, LightType type, AreaType areaType)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponentLight(type);
+	gameObject->CreateComponentLight(type, areaType);
 	return gameObject;
 }
 
 GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* parent)
 {
 	GameObject* gameObject = CreateGameObject(name, parent);
-	gameObject->CreateComponent(ComponentType::AUDIOSOURCE);
+	gameObject->CreateComponent<ComponentAudioSource>();
 
 	return gameObject;
 }
@@ -307,8 +342,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		GameObject* gameObjectNode = CreateGameObject(&node->name[0], parentsStack.top().second);
 
-		ComponentTransform* transformNode =
-			static_cast<ComponentTransform*>(gameObjectNode->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* transformNode = gameObjectNode->GetComponent<ComponentTransform>();
 		gameObjectNodes.push_back(gameObjectNode);
 
 		float3 pos;
@@ -339,8 +373,7 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 			GameObject* gameObjectModelMesh = CreateGameObject(meshName.c_str(), gameObjectNode);
 
-			ComponentMeshRenderer* meshRenderer =
-				static_cast<ComponentMeshRenderer*>(gameObjectModelMesh->CreateComponent(ComponentType::MESHRENDERER));
+			ComponentMeshRenderer* meshRenderer = gameObjectModelMesh->CreateComponent<ComponentMeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material);
 
@@ -348,10 +381,9 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 		}
 	}
 
-	static_cast<ComponentTransform*>(gameObjectModel->GetComponent(ComponentType::TRANSFORM))
-		->UpdateTransformMatrices();
+	gameObjectModel->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
 
-	for (GameObject* child : gameObjectModel->GetGameObjectsInside())
+	for (GameObject* child : gameObjectModel->GetAllDescendants())
 	{
 		child->SetRootGO(gameObjectNodes[0]);
 
@@ -601,7 +633,7 @@ void Scene::GenerateLights()
 
 	glGenBuffers(1, &ssboPoint);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pointLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * numPoint, nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingPoint = 2;
 
@@ -614,19 +646,44 @@ void Scene::GenerateLights()
 
 	glGenBuffers(1, &ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * spotLights.size(), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * numSpot, nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingSpot = 3;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSpot, ssboSpot);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Sphere
+
+	size_t numSphere = sphereLights.size();
+
+	glGenBuffers(1, &ssboSphere);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingSphere = 4;
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingSphere, ssboSphere);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Tube
+
+	size_t numTube = tubeLights.size();
+
+	glGenBuffers(1, &ssboTube);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingTube = 5;
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingTube, ssboTube);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderDirectionalLight() const
 {
-	ComponentTransform* dirTransform =
-		static_cast<ComponentTransform*>(directionalLight->GetComponent(ComponentType::TRANSFORM));
-	ComponentLight* dirComp = static_cast<ComponentLight*>(directionalLight->GetComponent(ComponentType::LIGHT));
+	ComponentTransform* dirTransform = directionalLight->GetComponent<ComponentTransform>();
+	ComponentLight* dirComp = directionalLight->GetComponent<ComponentLight>();
 
 	float3 directionalDir = dirTransform->GetGlobalForward();
 	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
@@ -654,7 +711,6 @@ void Scene::RenderPointLights() const
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PointLight) * pointLights.size(), nullptr);
 	}
 
-
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -675,31 +731,178 @@ void Scene::RenderSpotLights() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
+void Scene::RenderAreaLights() const
+{
+	// Area Sphere
+
+	size_t numSphere = sphereLights.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSphere);
+
+	if (numSphere > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(AreaLightSphere) * numSphere, &sphereLights[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Area Tube
+
+	size_t numTube = tubeLights.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numTube);
+
+	if (numTube > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(AreaLightTube) * numTube, &tubeLights[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderAreaSpheres() const
+{
+	// Area Sphere
+	size_t numSphere = sphereLights.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numSphere);
+
+	if (numSphere > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(AreaLightSphere) * numSphere, &sphereLights[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderAreaTubes() const
+{
+	// Area Tube
+	size_t numTube = tubeLights.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numTube);
+
+	if (numTube > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(AreaLightTube) * numTube, &tubeLights[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderPointLight(const ComponentPointLight* compPoint) const
+{
+	bool found = false;
+	
+	for (int i = 0; !found && i < cachedPoints.size(); ++i)
+	{
+		if (cachedPoints[i].first == compPoint)
+		{
+			found = true;
+
+			unsigned int pos = cachedPoints[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pos, sizeof(PointLight),
+							&pointLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
+void Scene::RenderSpotLight(const ComponentSpotLight* compSpot) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedSpots.size(); ++i)
+	{
+		if (cachedSpots[i].first == compSpot)
+		{
+			found = true;
+
+			unsigned int pos = cachedSpots[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * pos, sizeof(SpotLight),
+							&spotLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
+void Scene::RenderAreaSphere(const ComponentAreaLight* compSphere) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedSpheres.size(); ++i)
+	{
+		if (cachedSpheres[i].first == compSphere)
+		{
+			found = true;
+
+			unsigned int pos = cachedSpheres[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere)*pos, sizeof(AreaLightSphere), 
+							&sphereLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
+void Scene::RenderAreaTube(const ComponentAreaLight* compTube) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedTubes.size(); ++i)
+	{
+		if (cachedTubes[i].first == compTube)
+		{
+			found = true;
+
+			unsigned int pos = cachedTubes[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * pos, sizeof(AreaLightTube),
+							&tubeLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
 void Scene::UpdateScenePointLights()
 {
 	pointLights.clear();
+	cachedPoints.clear();
 
-	std::vector<GameObject*> children = GetSceneGameObjects();
+	unsigned int pos = 0;
 
-	for (GameObject* child : children)
+	for (GameObject* child : sceneGameObjects)
 	{
-		if (child && child->IsEnabled() && child->IsActive())
+		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (!components.empty())
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
 			{
-				if (components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
-				{
-					ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
-					ComponentTransform* transform = static_cast<ComponentTransform*>(
-						components[0]->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
+				ComponentTransform* transform = components[0]->GetOwner()->GetComponent<ComponentTransform>();
 
-					PointLight pl;
-					pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
-					pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
+				PointLight pl;
+				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
+				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
-					pointLights.push_back(pl);
-				}
+				pointLights.push_back(pl);
+				cachedPoints.push_back(std::make_pair(pointLightComp, pos));
+
+				++pos;
 			}
 		}
 	}
@@ -708,32 +911,277 @@ void Scene::UpdateScenePointLights()
 void Scene::UpdateSceneSpotLights()
 {
 	spotLights.clear();
+	cachedSpots.clear();
 
-	std::vector<GameObject*> children = GetSceneGameObjects();
+	unsigned int pos = 0;
 
-	for (GameObject* child : children)
+	for (GameObject* child : sceneGameObjects)
 	{
-		if (child && child->IsEnabled() && child->IsActive())
+		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponentsByType<ComponentLight>(ComponentType::LIGHT);
-			if (!components.empty())
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
 			{
-				if (components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
+				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+
+				SpotLight sl;
+				sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
+				sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
+				sl.aim = transform->GetGlobalForward().Normalized();
+				sl.innerAngle = spotLightComp->GetInnerAngle();
+				sl.outAngle = spotLightComp->GetOuterAngle();
+
+				spotLights.push_back(sl);
+				cachedSpots.push_back(std::make_pair(spotLightComp, pos));
+
+				++pos;
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaLights()
+{
+	sphereLights.clear();
+	tubeLights.clear();
+	cachedSpheres.clear();
+	cachedTubes.clear();
+
+	unsigned int posSpheres = 0;
+	unsigned int posTubes = 0;
+
+	for (GameObject* child : sceneGameObjects)
+	{
+		if (child && child->IsActive())
+		{
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			{
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
-					ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
-					ComponentTransform* transform = static_cast<ComponentTransform*>(
-						components[0]->GetOwner()->GetComponent(ComponentType::TRANSFORM));
+					float3 center = transform->GetGlobalPosition();
+					float radius = areaLightComp->GetShapeRadius();
 
-					SpotLight sl;
-					sl.position = float4(transform->GetGlobalPosition(), spotLightComp->GetRadius());
-					sl.color = float4(spotLightComp->GetColor(), spotLightComp->GetIntensity());
-					sl.aim = transform->GetGlobalForward().Normalized();
-					sl.innerAngle = spotLightComp->GetInnerAngle();
-					sl.outAngle = spotLightComp->GetOuterAngle();
+					AreaLightSphere sl;
+					sl.position = float4(center, radius);
+					sl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					sl.attRadius = areaLightComp->GetAttRadius();
 
-					spotLights.push_back(sl);
+					sphereLights.push_back(sl);
+					cachedSpheres.push_back(std::make_pair(areaLightComp, posSpheres));
+
+					++posSpheres;
+				}
+				else if (areaLightComp->GetAreaType() == AreaType::TUBE)
+				{
+					Quat matrixRotation = transform->GetGlobalRotation();
+					float3 translation = transform->GetGlobalPosition();
+					float3 pointA = float3(0, 0.5f, 0) * areaLightComp->GetHeight();
+					float3 pointB = float3(0, -0.5f, 0) * areaLightComp->GetHeight();
+
+					// Apply rotation & translation
+					pointA = (matrixRotation * pointA) + translation;
+					pointB = (matrixRotation * pointB) + translation;
+
+					AreaLightTube tl;
+					tl.positionA = float4(pointA, areaLightComp->GetShapeRadius());
+					tl.positionB = float4(pointB, areaLightComp->GetShapeRadius());
+					tl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					tl.attRadius = areaLightComp->GetAttRadius();
+
+					tubeLights.push_back(tl);
+					cachedTubes.push_back(std::make_pair(areaLightComp, posTubes));
+
+					++posTubes;
 				}
 			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaSpheres()
+{
+	sphereLights.clear();
+	cachedSpheres.clear();
+
+	unsigned int pos = 0;
+
+	for (GameObject* child : sceneGameObjects)
+	{
+		if (child && child->IsActive())
+		{
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			{
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
+				{
+					float3 center = transform->GetGlobalPosition();
+					float radius = areaLightComp->GetShapeRadius();
+
+					AreaLightSphere sl;
+					sl.position = float4(center, radius);
+					sl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					sl.attRadius = areaLightComp->GetAttRadius();
+
+					sphereLights.push_back(sl);
+					cachedSpheres.push_back(std::make_pair(areaLightComp, pos));
+
+					++pos;
+				}
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaTubes()
+{
+	tubeLights.clear();
+	cachedTubes.clear();
+
+	unsigned int pos = 0;
+
+	for (GameObject* child : sceneGameObjects)
+	{
+		if (child && child->IsActive())
+		{
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			{
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+				if (areaLightComp->GetAreaType() == AreaType::TUBE)
+				{
+					Quat matrixRotation = transform->GetGlobalRotation();
+					float3 translation = transform->GetGlobalPosition();
+					float3 pointA = float3(0, 0.5f, 0) * areaLightComp->GetHeight();
+					float3 pointB = float3(0, -0.5f, 0) * areaLightComp->GetHeight();
+
+					// Apply rotation & translation
+					pointA = (matrixRotation * pointA) + translation;
+					pointB = (matrixRotation * pointB) + translation;
+
+					AreaLightTube tl;
+					tl.positionA = float4(pointA, areaLightComp->GetShapeRadius());
+					tl.positionB = float4(pointB, areaLightComp->GetShapeRadius());
+					tl.color = float4(areaLightComp->GetColor(), areaLightComp->GetIntensity());
+					tl.attRadius = areaLightComp->GetAttRadius();
+
+					tubeLights.push_back(tl);
+					cachedTubes.push_back(std::make_pair(areaLightComp, pos));
+
+					++pos;
+				}
+			}
+		}
+	}
+}
+
+void Scene::UpdateScenePointLight(const ComponentPointLight* compPoint)
+{
+	bool found = false;
+	const GameObject* go = compPoint->GetOwner();
+
+	for (int i = 0; !found && i < cachedPoints.size(); ++i)
+	{
+		if (cachedPoints[i].first == compPoint)
+		{
+			found = true;
+
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			
+			PointLight pl;
+			pl.position = float4(transform->GetGlobalPosition(), compPoint->GetRadius());
+			pl.color = float4(compPoint->GetColor(), compPoint->GetIntensity());
+
+			pointLights[cachedPoints[i].second] = pl;
+		}
+	}
+}
+
+void Scene::UpdateSceneSpotLight(const ComponentSpotLight* compSpot)
+{
+	bool found = false;
+	const GameObject* go = compSpot->GetOwner();
+
+	for (int i = 0; !found && i < cachedSpots.size(); ++i)
+	{
+		if (cachedSpots[i].first == compSpot)
+		{
+			found = true;
+
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+
+			SpotLight sl;
+			sl.position = float4(transform->GetGlobalPosition(), compSpot->GetRadius());
+			sl.color = float4(compSpot->GetColor(), compSpot->GetIntensity());
+			sl.aim = transform->GetGlobalForward().Normalized();
+			sl.innerAngle = compSpot->GetInnerAngle();
+			sl.outAngle = compSpot->GetOuterAngle();
+
+			spotLights[cachedSpots[i].second] = sl;
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaSphere(const ComponentAreaLight* compSphere)
+{
+	bool found = false;
+	const GameObject* go = compSphere->GetOwner();
+	
+	for (int i = 0; !found && i < cachedSpheres.size(); ++i)
+	{
+		if (cachedSpheres[i].first == compSphere)
+		{
+			found = true;
+
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			float3 center = transform->GetGlobalPosition();
+			float radius = compSphere->GetShapeRadius();
+
+			AreaLightSphere sl;
+			sl.position = float4(center, radius);
+			sl.color = float4(compSphere->GetColor(), compSphere->GetIntensity());
+			sl.attRadius = compSphere->GetAttRadius();
+
+			sphereLights[cachedSpheres[i].second] = sl;
+		}
+	}
+}
+
+void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
+{
+	bool found = false;
+	const GameObject* go = compTube->GetOwner();
+
+	for (int i = 0; !found && i < cachedTubes.size(); ++i)
+	{
+		if (cachedTubes[i].first == compTube)
+		{
+			found = true;
+
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+
+			Quat matrixRotation = transform->GetGlobalRotation();
+			float3 translation = transform->GetGlobalPosition();
+			float3 pointA = float3(0, 0.5f, 0) * compTube->GetHeight();
+			float3 pointB = float3(0, -0.5f, 0) * compTube->GetHeight();
+
+			// Apply rotation & translation
+			pointA = (matrixRotation * pointA) + translation;
+			pointB = (matrixRotation * pointB) + translation;
+
+			AreaLightTube tl;
+			tl.positionA = float4(pointA, compTube->GetShapeRadius());
+			tl.positionB = float4(pointB, compTube->GetShapeRadius());
+			tl.color = float4(compTube->GetColor(), compTube->GetIntensity());
+			tl.attRadius = compTube->GetAttRadius();
+
+			tubeLights[cachedTubes[i].second] = tl;
 		}
 	}
 }
@@ -750,7 +1198,7 @@ void Scene::InitNewEmptyScene()
 	rootQuadtree = std::make_unique<Quadtree>(rootQuadtreeAABB);
 
 	directionalLight = CreateGameObject("Directional_Light", root.get());
-	directionalLight->CreateComponentLight(LightType::DIRECTIONAL);
+	directionalLight->CreateComponentLight(LightType::DIRECTIONAL, AreaType::NONE);
 
 	std::shared_ptr<ResourceSkyBox> resourceSkybox =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
@@ -763,9 +1211,9 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
-	if (root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
+	if (root->GetComponent<ComponentCubemap>() == nullptr)
 	{
-		root.get()->CreateComponent(ComponentType::CUBEMAP);
+		root->CreateComponent<ComponentCubemap>();
 	}
 
 	if (resourceCubemap)
@@ -782,10 +1230,12 @@ void Scene::InitLights()
 
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
+	UpdateSceneAreaLights();
 
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
+	RenderAreaLights();
 }
 
 void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
@@ -816,6 +1266,17 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
 {
 	sceneGameObjects.push_back(gameObject);
+	if (gameObject->IsRendereable())
+	{
+		if (gameObject->IsStatic())
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddStaticObject(gameObject);
+		}
+		else
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
+		}
+	}
 	for (GameObject* children : gameObject->GetChildren())
 	{
 		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
@@ -875,15 +1336,19 @@ void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 
 void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 {
-	sceneInteractableComponents.insert(
-		std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+	sceneInteractableComponents.insert(std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
+
+void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
+{
+	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
 }
 
 void Scene::InitCubemap()
 {
-	if (root.get()->GetComponent(ComponentType::CUBEMAP) == nullptr)
+	if (root->GetComponent<ComponentCubemap>() == nullptr)
 	{
-		root.get()->CreateComponent(ComponentType::CUBEMAP);
+		root->CreateComponent<ComponentCubemap>();
 	}
 }
 

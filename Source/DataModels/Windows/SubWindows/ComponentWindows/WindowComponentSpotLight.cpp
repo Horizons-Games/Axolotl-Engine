@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentSpotLight.h"
 
 #include "Application.h"
@@ -54,8 +56,9 @@ void WindowComponentSpotLight::DrawWindowContents()
 					{
 						if (lightTypes[i] == "Point")
 						{
-							ComponentPointLight* newPoint = static_cast<ComponentPointLight*>(
-								asSpotLight->GetOwner()->CreateComponentLight(LightType::POINT));
+							ComponentPointLight* newPoint =
+								static_cast<ComponentPointLight*>(asSpotLight->GetOwner()
+									->CreateComponentLight(LightType::POINT, AreaType::NONE));
 
 							newPoint->SetColor(asSpotLight->GetColor());
 							newPoint->SetIntensity(asSpotLight->GetIntensity());
@@ -165,8 +168,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 			if (modified)
 			{
-				loadedScene->UpdateSceneSpotLights();
-				loadedScene->RenderSpotLights();
+				loadedScene->UpdateSceneSpotLight(asSpotLight);
+				loadedScene->RenderSpotLight(asSpotLight);
 			}
 
 			ImGui::EndTable();

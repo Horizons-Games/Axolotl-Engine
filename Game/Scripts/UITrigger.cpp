@@ -10,21 +10,22 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentPlayer.h"
 
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "UIGameStates.h"
+#include "UIGameManager.h"
 #include "HealthSystem.h"
-#include <Components/ComponentScript.h>
+#include "Components/ComponentScript.h"
 
 REGISTERCLASS(UITrigger);
 
 UITrigger::UITrigger() : Script(),componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setGameStateObject(nullptr),
-uiGameStatesClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false),
-playerHealthSystem(nullptr), setPlayer(nullptr)
+UIGameManagerClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
+playerHealthSystem(nullptr), setPlayer(nullptr), onTriggerState(false), damageTaken(1)
 {
 	REGISTER_FIELD(isWinTrigger, bool);
 	REGISTER_FIELD(isLoseTrigger, bool);
@@ -32,6 +33,7 @@ playerHealthSystem(nullptr), setPlayer(nullptr)
 	REGISTER_FIELD(isLoseByDamage, bool);
 	REGISTER_FIELD(setGameStateObject, GameObject*);
 	REGISTER_FIELD(setPlayer, GameObject*);
+	REGISTER_FIELD(damageTaken, float);
 }
 
 UITrigger::~UITrigger()
@@ -42,64 +44,61 @@ void UITrigger::Start()
 {
 	//componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	//componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentRigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 
 	if (setGameStateObject != nullptr)
 	{
-		std::vector<ComponentScript*> gameObjectScripts =
-			setGameStateObject->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "UIGameStates")
-			{
-				uiGameStatesClass = static_cast<UIGameStates*>(gameObjectScripts[i]->GetScript());
-				break;
-			}
-		}
+		UIGameManagerClass = setGameStateObject->GetComponent<UIGameManager>();
 	}
 
-	if (isLoseByDamage != false)
+	if (isLoseByDamage)
 	{
-		std::vector<ComponentScript*> gameObjectScripts =
-			setPlayer->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-			{
-				playerHealthSystem = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-				break;
-			}
-		}
+		playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
 	}
 }
 
 void UITrigger::Update(float deltaTime)
 {
+	if(onTriggerState)
+	{
+		if (isWinTrigger)
+		{
+			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_WinScene_VS3.axolotl");
 
+		}
+		else if (isLoseTrigger)
+		{
+
+		}
+		else if (isLoseByDamage)
+		{
+			damageTimer += deltaTime;
+			if (damageTimer >= timer)
+			{
+				timer++;
+				playerHealthSystem->TakeDamage(damageTaken);
+			}
+			//UIGameManagerClass->LoseStateScene(true);
+		}
+		else if (isNextSceneTrigger)
+		{
+			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_Level2_VS3.axolotl");
+		}
+	}
 }
 
 void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent(ComponentType::PLAYER))
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
-		if (isWinTrigger == true)
-		{
-			uiGameStatesClass->WinStateScene(true);
-		}
-		
-		if (isLoseTrigger == true)
-		{
-			uiGameStatesClass->LoseStateScene(true);
-		}
-		if (isLoseByDamage == true)
-		{
-			playerHealthSystem->TakeDamage(100);
-			//uiGameStatesClass->LoseStateScene(true);
-		}
+		onTriggerState = true;
 	}
 }
 
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	{
+		onTriggerState = false;
+	}
 }

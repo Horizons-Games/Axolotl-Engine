@@ -1,5 +1,6 @@
+#include "StdAfx.h"
+
 #include "LogSystem.h"
-#include "EngineLog.h"
 #include <stdarg.h>
 
 void LogSystem::LogError(const char* format, ...)
@@ -28,5 +29,5 @@ void LogSystem::LogInternal(const char* format, va_list args)
 	// Make sure there's a limit to the amount of rubbish we can output
 	m_buff[LOGSYSTEM_MAX_BUFFER - 1] = '\0';
 
-	ENGINE_LOG(m_buff);
+	LOG_VERBOSE(m_buff);
 }

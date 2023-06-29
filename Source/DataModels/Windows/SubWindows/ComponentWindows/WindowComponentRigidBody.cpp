@@ -1,10 +1,13 @@
+#include "StdAfx.h"
+
 #include "WindowComponentRigidBody.h"
 
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Components/ComponentRigidBody.h"
+#include "GameObject/GameObject.h"
 
 WindowComponentRigidBody::WindowComponentRigidBody(ComponentRigidBody* component) :
-	ComponentWindow("RIGID BODY", component)
+	ComponentWindow("RIGIDBODY", component)
 {
 }
 
@@ -37,20 +40,6 @@ void WindowComponentRigidBody::DrawWindowContents()
 		ImGui::SameLine();
 		ImGui::Text("Is Kinematic");
 
-		bool isStatic = asRigidBody->IsStatic();
-
-		if (ImGui::Checkbox("##Is Static", &isStatic))
-		{
-			if (isStatic)
-			{
-				asRigidBody->SetIsKinematic(false);
-			}
-			asRigidBody->SetIsStatic(isStatic);
-			asRigidBody->SetUpMobility();
-		}
-		ImGui::SameLine();
-		ImGui::Text("Is Static");
-
 		bool isTrigger = asRigidBody->IsTrigger();
 
 		if (ImGui::Checkbox("##Is a Trigger", &isTrigger))
@@ -61,7 +50,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 		ImGui::Text("Is a Trigger");
 		ImGui::Text("");
 
-		if (!isStatic)
+		if (!asRigidBody->IsStatic())
 		{
 			// Mass
 			float mass = rigidBody->getMass();
@@ -125,8 +114,8 @@ void WindowComponentRigidBody::DrawWindowContents()
 
 		ImGui::Text("");
 
-		// Translate RigidBody  -> WORK IN PROGRESS
-        /*if (currentShape > 0)
+		// Translate RigidBody
+        if (currentShape > 0)
         {
             btVector3 btPosition = asRigidBody->GetRigidBodyOrigin();
             float xValue = btPosition.getX();
@@ -174,7 +163,7 @@ void WindowComponentRigidBody::DrawWindowContents()
 		if (ImGui::Button("Reset RigidBody position"))
 		{
 			asRigidBody->SetDefaultPosition();
-		}*/
+		}
 		ImGui::Text("");
 		// Resize RigidBody
 		bool dirty = false;

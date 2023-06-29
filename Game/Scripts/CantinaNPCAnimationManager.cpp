@@ -13,9 +13,9 @@ CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), audio(nullp
 
 void CantinaNPCAnimationManager::Start()
 {
-	audio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	audio = owner->GetComponent<ComponentAudioSource>();
 
-	animation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
+	animation = owner->GetComponent<ComponentAnimation>();
 }
 
 void CantinaNPCAnimationManager::Update(float deltaTime)
