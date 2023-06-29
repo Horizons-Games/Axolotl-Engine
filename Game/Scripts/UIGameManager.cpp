@@ -16,11 +16,10 @@
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false), 
-hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr), 
-speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), mission01(nullptr), mission02(nullptr),
-mission03(nullptr), mission04(nullptr), text01(nullptr), text02(nullptr), text03(nullptr), text04(nullptr),
-sliderHudHealthBixFront(nullptr), sliderHudHealthBixBack(nullptr)
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false),
+hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
+speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
+sliderHudHealthBixBack(nullptr)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
@@ -31,17 +30,6 @@ sliderHudHealthBixFront(nullptr), sliderHudHealthBixBack(nullptr)
 	REGISTER_FIELD(attackPwrUpObject, GameObject*);
 	REGISTER_FIELD(defensePwrUpObject, GameObject*);
 	REGISTER_FIELD(speedPwrUpObject, GameObject*);
-	/*
-	REGISTER_FIELD(mission01, GameObject*);
-	REGISTER_FIELD(mission02, GameObject*);
-	REGISTER_FIELD(mission03, GameObject*);
-	REGISTER_FIELD(mission04, GameObject*);
-
-	REGISTER_FIELD(text01, GameObject*);
-	REGISTER_FIELD(text02, GameObject*);
-	REGISTER_FIELD(text03, GameObject*);
-	REGISTER_FIELD(text04, GameObject*);
-	*/
 }
 
 void UIGameManager::Start()
@@ -54,6 +42,8 @@ void UIGameManager::Start()
 	componentSliderBixBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
 	componentSliderBixFront->SetMaxValue(healthSystemClass->GetMaxHealth());
 	componentSliderBixBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+
+
 }
 
 void UIGameManager::Update(float deltaTime)
@@ -190,11 +180,6 @@ void UIGameManager::DisableUIPwrUP()
 	}
 	pwrUpActive = false;
 	EnableUIPwrUp(savePwrUp);
-}
-
-void UIGameManager::ActivateMissionImage()
-{
-
 }
 
 void UIGameManager::ModifySliderHealthValue()
