@@ -40,6 +40,15 @@ void ComponentAgent::Update()
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	transform->SetGlobalPosition(float3(ag->npos));
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
+
+	//Testing purpose
+	if (test)
+	{
+		SetMoveTarget(float3(38.7f, 9.1f, 1.7f));
+		test = false;
+	}
 }
 
 void ComponentAgent::SetMoveTarget(float3 newTargetPosition, bool usePathfinding)

@@ -11,7 +11,7 @@ public:
 
 	void Update() override;
 
-	void SetMoveTarget(float3 newTargetPosition, bool usePathfinding);
+	void SetMoveTarget(float3 newTargetPosition, bool usePathfinding = true);
 	void SetMaxSpeed(float newSpeed);
 	void SetMaxAcceleration(float newAcceleration);
 	void SetAgentObstacleAvoidance(bool avoidanceActive);
@@ -36,6 +36,8 @@ private:
 	float maxAcceleration = 8.0f;
 	bool avoidingObstacle = true;
 	bool shouldAddAgentToCrowd = true;
+	// Testing purpose
+	bool test = true;
 
 };
 
