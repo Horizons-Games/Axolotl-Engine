@@ -88,7 +88,9 @@ void Cubemap::DebugNSight()
 
 void Cubemap::GenerateMaps()
 {
-	glDisable(GL_CULL_FACE); // Enable cull backward faces
+	glCullFace(GL_BACK); // Show back faces	 
+	glFrontFace(GL_CCW); // Front faces will be counter clockwise
+
 	assert(cubemapRes);
 
 	cubemapRes->Load();
@@ -241,7 +243,8 @@ void Cubemap::GenerateMaps()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE); // Enable cull backward faces
+	glCullFace(GL_FRONT); // Show front faces
+	glFrontFace(GL_CW); // Clockwise
 }
 
 void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)

@@ -173,8 +173,9 @@ bool ModuleRender::Init()
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
 	glEnable(GL_DEPTH_TEST); // Enable depth test
-	glEnable(GL_CULL_FACE); // Enable cull backward faces
-	glFrontFace(GL_CW);	 // Front faces will be counter clockwise
+	glEnable(GL_CULL_FACE); // Enable face culling
+	glFrontFace(GL_CW);	 // Front faces will be clockwise
+	glCullFace(GL_FRONT);
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -352,7 +353,7 @@ UpdateStatus ModuleRender::Update()
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 		glLineWidth(25);
-		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 		// Draw Highliht for selected objects
 		DrawHighlight(goSelected);
@@ -363,7 +364,6 @@ UpdateStatus ModuleRender::Update()
 	}
 
 	glDisable(GL_CULL_FACE);
-	glCullFace(GL_FRONT_AND_BACK);
 
 	// Draw Particles
 	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
@@ -371,7 +371,7 @@ UpdateStatus ModuleRender::Update()
 		particle->Render();
 	}
 
-	glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE); // Enable face culling
 	glCullFace(GL_FRONT);
 
 	glDisable(GL_BLEND);

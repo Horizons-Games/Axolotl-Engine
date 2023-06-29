@@ -755,9 +755,12 @@ void GeometryBatch::BindBatch(bool selected)
 						&component->GetPalette()[0],
 						perInstances[paletteIndex].numBones * sizeof(float4x4));
 				}
-
-				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
-				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
+				
+				if (component->GetMaterial())
+				{
+					Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
+				}
 
 				//do a for for all the instaces existing
 				Command newCommand {
