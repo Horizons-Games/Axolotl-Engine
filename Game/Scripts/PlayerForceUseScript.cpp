@@ -49,6 +49,7 @@ void PlayerForceUseScript::Start()
 
 	input = App->GetModule<ModuleInput>();
 	transform = owner->GetComponent<ComponentTransform>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -58,8 +59,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsStartingForce", true);
 		componentAnimation->SetParameter("IsStoppingForce", false);
 		RaycastHit hit;
-		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
+		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
+		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
+		Ray ray(origin, transform->GetGlobalForward());
 		LineSegment line(ray, 300);
+
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
