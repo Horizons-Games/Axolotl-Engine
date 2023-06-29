@@ -126,8 +126,6 @@ private:
 
 	Component* CreateComponent(ComponentType type);
 
-	friend class ModuleScene;
-
 	void Activate();
 	void Deactivate();
 	bool IsAChild(const GameObject* child);
