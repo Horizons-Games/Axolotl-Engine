@@ -7,17 +7,13 @@
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/UIDGenerator.h"
+#include "Modules/ModuleInput.h"
 #include "Modules/ModuleScene.h"
 
 #include "Components/ComponentScript.h"
 
 #include "IScript.h"
 #include "ScriptFactory.h"
-
-namespace
-{
-const float doubleClickTimeFrameInS = .5f;
-}
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component),
@@ -222,16 +218,13 @@ void WindowComponentScript::DrawWindowContents()
 	headerMinPos.x = ImGui::GetWindowPos().x;
 	headerMaxPos.x = ImGui::GetWindowPos().x + ImGui::GetWindowWidth();
 
-	secondsSinceLastClick += App->GetDeltaTime();
-
 	if (ImGui::IsMouseHoveringRect(headerMinPos, headerMaxPos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
-		if (IsDoubleClicked())
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LALT) == KeyState::DOWN)
 		{
 			std::string scriptPath = "Scripts\\" + script->GetConstructName() + ".cpp";
 			ShellExecuteA(0, 0, scriptPath.c_str(), 0, 0, SW_SHOW);
 		}
-		secondsSinceLastClick = 0;
 	}
 }
 
@@ -317,9 +310,4 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 		stringToReplace.replace(startPos, from.length(), to);
 		startPos += to.length();
 	}
-}
-
-bool WindowComponentScript::IsDoubleClicked()
-{
-	return secondsSinceLastClick <= doubleClickTimeFrameInS;
 }
