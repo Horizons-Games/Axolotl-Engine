@@ -600,6 +600,9 @@
     <ClCompile Include="..\Game\Scripts\UITextTrigger.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1092,9 +1095,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
@@ -1237,6 +1237,10 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\UITextTrigger.h">
       <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
+      <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1389,6 +1393,9 @@
     </Filter>
     <Filter Include="UserScripts\Debug">
       <UniqueIdentifier>{56f590e5-1567-45af-9af6-e647c25086f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Graphics">
+      <UniqueIdentifier>{fca70cf2-3a20-410d-9019-42e680fad56c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
