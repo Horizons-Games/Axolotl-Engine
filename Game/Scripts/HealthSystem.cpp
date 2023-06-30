@@ -3,23 +3,28 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 
+
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), isImmortal(false)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), isImmortal(false), enemyParticleSystem(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
 	REGISTER_FIELD(isImmortal, bool);
+	REGISTER_FIELD(enemyParticleSystem, GameObject*);
 }
 
 void HealthSystem::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	//componentParticleSystem = enemyParticleSystem->GetComponent<ComponentParticleSystem>();
+	componentParticleSystem = owner->GetComponent<ComponentParticleSystem>();
 
 	// Check that the currentHealth is always less or equal to maxHealth
 	if (maxHealth < currentHealth)
@@ -54,25 +59,35 @@ void HealthSystem::Update(float deltaTime)
 	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
+
 	}
 }
 
 void HealthSystem::TakeDamage(float damage)
 {
-	if (owner->CompareTag("Player") && !isImmortal)
+	if (!isImmortal) 
 	{
-		float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
-		float actualDamage = std::max(damage - playerDefense, 0.f);
+		if (owner->CompareTag("Player"))
+		{
+			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
+			float actualDamage = std::max(damage - playerDefense, 0.f);
 
-		currentHealth -= actualDamage;
+			currentHealth -= actualDamage;
+		}
+
+		else
+		{
+			currentHealth -= damage;
+		}
+
+		componentAnimation->SetParameter("IsTakingDamage", true);
+
+		if (componentParticleSystem)
+		{
+			componentParticleSystem->Play();
+		}
+		//componentParticleSystem->Pause();
 	}
-
-	else
-	{
-		currentHealth -= damage;
-	}
-
-	componentAnimation->SetParameter("IsTakingDamage", true);
 }
 
 void HealthSystem::HealLife(float amountHealed)

@@ -617,6 +617,16 @@ void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 	this->material->SetNormalStrength(normalStrength);
 }
 
+void ComponentMeshRenderer::SetTiling(const float2& tiling)
+{
+	this->material->SetTiling(tiling);
+}
+
+void ComponentMeshRenderer::SetOffset(const float2& offset)
+{
+	this->material->SetOffset(offset);
+}
+
 // Default shader attributes (setters)
 void ComponentMeshRenderer::SetMetalness(float metalness)
 {

@@ -3,12 +3,14 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 
+#include "UIImageDisplacementControl.h"
+
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentPlayer;
 class ComponentRigidBody;
 class ComponentScript;
-class UIGameManager;
+class UIImageDisplacementControl;
 
 class UIMissionTrigger : public Script
 {
@@ -23,13 +25,19 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
 
+	void DisableTextBox(float time);
+
 private:
 
-	bool onTriggerState;
+	float maxTimeTextImageOn;
+	float currentTime;
+	bool wasInside = false;
 
 	ComponentPlayer* player;
 	ComponentRigidBody* componentRigidBody;
-	UIGameManager* UIGameManagerClass;
-	GameObject* setUIManagerObject;
-	GameObject* setPlayer;
+	GameObject* missionLevel;
+	GameObject* lastMissionLevel;
+	GameObject* textBox;
+	UIImageDisplacementControl* missionImageDisplacement;
+	UIImageDisplacementControl* missionImageDisplacementExit;
 };

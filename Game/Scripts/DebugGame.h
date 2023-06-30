@@ -22,6 +22,7 @@ public:
 	void Update(float deltaTime) override;
 	void SwitchDebugMode();
 	void GodCamera() const;
+	void PowerUpDrop() const;
 	void FillHealth() const;
 	void BeImmortal() const;
 	void DeathTouch() const;
@@ -42,6 +43,7 @@ private:
 	
 	
 	GameObject* player;
+	GameObject* DebugPowerUp;
 	HealthSystem* playerHealthSystem;
 	BixAttackScript* playerAttackScript;
 	PlayerMoveScript* playerMoveScript;

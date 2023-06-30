@@ -11,6 +11,7 @@ class PlayerRotationScript;
 class PlayerManagerScript;
 class PlayerMoveScript;
 class ComponentTransform;
+class ComponentRigidBody;
 class ComponentAnimation;
 class ComponentAudioSource;
 
@@ -51,6 +52,7 @@ private:
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;
 	ComponentTransform* transform;
+	ComponentRigidBody* rigidBody;
 
 	ModuleInput* input;
 };
