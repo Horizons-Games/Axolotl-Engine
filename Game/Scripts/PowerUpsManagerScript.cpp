@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "PowerUpsManagerScript.h"
 
 #include "Application.h"
@@ -8,12 +9,13 @@
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "UIGameManager.h"
 
 REGISTERCLASS(PowerUpsManagerScript);
 
 PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), attackIncrease(10.f), defenseIncrease(10.f), 
 	speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr), activePowerUp(PowerUpType::NONE),
-	savedPowerUp(PowerUpType::NONE), radiusSeeking(2.5f)
+	savedPowerUp(PowerUpType::NONE), radiusSeeking(2.5f), setUIManager(nullptr)
 {
 	REGISTER_FIELD(amountHealed, float);
 	REGISTER_FIELD(attackIncrease, float);
@@ -22,11 +24,14 @@ PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), a
 	REGISTER_FIELD(maxPowerUpTimer, float);
 	REGISTER_FIELD(radiusSeeking, float);
 	REGISTER_FIELD(debugDraw, bool);
+	REGISTER_FIELD(setUIManager, GameObject*);
 }
 
 void PowerUpsManagerScript::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
+	uiManagerScript = setUIManager->GetComponent<UIGameManager>();
+	uiManagerScript->SetMaxPowerUpTime(maxPowerUpTimer);
 }
 
 void PowerUpsManagerScript::Update(float deltaTime)
@@ -50,6 +55,9 @@ bool PowerUpsManagerScript::SavePowerUp(const PowerUpType& type)
 	}
 
 	savedPowerUp = type;
+
+	uiManagerScript->EnableUIPwrUp(savedPowerUp);
+
 	return true;
 }
 
@@ -63,6 +71,8 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 
 	activePowerUp = savedPowerUp;
 	savedPowerUp = PowerUpType::NONE;
+
+	uiManagerScript->ActiveUIPwrUP(maxPowerUpTimer);
 
 	if (activePowerUp == PowerUpType::HEAL)
 	{
@@ -92,6 +102,8 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 void PowerUpsManagerScript::DropSavedPowerUp()
 {
 	savedPowerUp = PowerUpType::NONE;
+
+	uiManagerScript->DisableUIPwrUP();
 }
 
 const PowerUpType& PowerUpsManagerScript::GetSavedPowerUpType() const
@@ -123,6 +135,8 @@ void PowerUpsManagerScript::EliminateCurrentPowerUpEffect()
 		PlayerManagerScript* playerManagerScript = player->GetComponent<PlayerManagerScript>();
 		playerManagerScript->IncreasePlayerSpeed(-speedIncrease);
 	}
+
+	uiManagerScript->DisableUIPwrUP();
 
 	currentPowerUpTimer = 0.f;
 	activePowerUp = PowerUpType::NONE;

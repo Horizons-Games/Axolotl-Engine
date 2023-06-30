@@ -16,6 +16,7 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -41,9 +42,6 @@ WindowInspector::WindowInspector() :
 
 	auto isNotALight = [gameObjectDoesNotHaveComponent](GameObject* gameObject)
 	{
-		// C++ is a great language with perfectly readable syntax
-		// because of course you shouldn't be able to just do gameObjectDoesNotHaveComponent<ComponentLight>
-		// that'd be too easy
 		return gameObjectDoesNotHaveComponent.template operator()<ComponentLight>(gameObject);
 	};
 
@@ -69,6 +67,14 @@ WindowInspector::WindowInspector() :
 						   std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::TUBE),
 						   isNotALight,
 						   ComponentFunctionality::GRAPHICS));
+
+	actions.push_back(AddComponentAction("Create Particle Component",
+		std::bind(&WindowInspector::AddComponentParticle, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentParticleSystem>(gameObject);
+		},
+		ComponentFunctionality::GRAPHICS));
 
 	actions.push_back(AddComponentAction(
 		"Create Player Component",
@@ -460,6 +466,11 @@ void WindowInspector::AddComponentMeshCollider()
 void WindowInspector::AddComponentScript()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
+}
+
+void WindowInspector::AddComponentParticle()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PARTICLE);
 }
 
 void WindowInspector::AddComponentBreakable()

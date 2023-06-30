@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }

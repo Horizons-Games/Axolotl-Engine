@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 enum class PowerUpType;
+class UIGameManager;
 
 class PowerUpsManagerScript : public Script
 {
@@ -23,8 +24,8 @@ public:
 	const PowerUpType& GetSavedPowerUpType() const;
 	const PowerUpType& GetActivePowerUpType() const;
 
-	float GetRadiusSeeking();
-	bool GetDebugDraw();
+	float GetRadiusSeeking() const;
+	bool GetDebugDraw() const;
 
 private:
 	void EliminateCurrentPowerUpEffect();
@@ -40,19 +41,23 @@ private:
 	float radiusSeeking;
 	bool debugDraw;
 
+	UIGameManager* uiManagerScript;
+
 	GameObject* player;
+	GameObject* setUIManager;
 
 	// To be changed to Player Manager
 	PowerUpType activePowerUp;
 	PowerUpType savedPowerUp;
 };
 
-inline float PowerUpsManagerScript::GetRadiusSeeking()
+inline float PowerUpsManagerScript::GetRadiusSeeking() const
 {
 	return radiusSeeking;
 }
 
-inline bool PowerUpsManagerScript::GetDebugDraw()
+inline bool PowerUpsManagerScript::GetDebugDraw() const
 {
 	return debugDraw;
 }
+

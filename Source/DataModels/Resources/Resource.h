@@ -15,7 +15,8 @@ enum class ResourceType
 	SkyBox,
 	Cubemap,
 	Animation,
-	StateMachine
+	StateMachine,
+	ParticleSystem
 };
 
 class Resource

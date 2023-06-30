@@ -18,6 +18,7 @@ CameraControllerScript::CameraControllerScript() : Script(),
 	REGISTER_FIELD(xOffset, float);
 	REGISTER_FIELD(yOffset, float);
 	REGISTER_FIELD(zOffset, float);
+	REGISTER_FIELD(focusPointOffset, float);
 }
 
 void CameraControllerScript::Start()
@@ -40,7 +41,9 @@ void CameraControllerScript::Start()
 void CameraControllerScript::PreUpdate(float deltaTime)
 {
 	float3 sourceDirection = transform->GetGlobalForward().Normalized();
-	float3 targetDirection = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+	float3 targetDirection = (playerTransform->GetGlobalPosition() 
+		+ float3(0.0f,focusPointOffset,0.0f) 
+		- transform->GetGlobalPosition()).Normalized();
 	Quat orientationOffset = Quat::identity;
 
 	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01))
@@ -73,6 +76,11 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	transform->SetGlobalPosition(finalTargetPosition);
 	transform->SetGlobalRotation(finalTargetOrientation);
 	transform->RecalculateLocalMatrix();
+
+	for (Component* components : owner->GetComponents())
+	{
+		components->OnTransformChanged();
+	}
 }
 
 void CameraControllerScript::CalculateOffsetVector()

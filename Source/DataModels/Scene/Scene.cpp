@@ -1002,21 +1002,6 @@ void Scene::UpdateSceneAreaLights()
 	}
 }
 
-GameObject* Scene::GetPlayer() const
-{
-	std::vector<GameObject*> gameObjects = GetNonStaticObjects();
-
-	for (GameObject* go : gameObjects)
-	{
-		ComponentPlayer* player = go->GetComponent<ComponentPlayer>();
-		if (player)
-		{
-			return go;
-		}
-	}
-	return nullptr;
-}
-
 void Scene::UpdateSceneAreaSpheres()
 {
 	sphereLights.clear();
@@ -1351,8 +1336,12 @@ void Scene::AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas)
 
 void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 {
-	sceneInteractableComponents.insert(
-		std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+	sceneInteractableComponents.insert(std::end(sceneInteractableComponents), std::begin(interactable), std::end(interactable));
+}
+
+void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
+{
+	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
 }
 
 void Scene::InitCubemap()

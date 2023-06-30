@@ -13,7 +13,8 @@ ResourceMaterial::ResourceMaterial(UID resourceUID,
 	normalStrength(1.0f),
 	smoothness(0.5f),
 	metalness(0.0f),
-	isTransparent(false)
+	isTransparent(false),
+	shaderType(0)
 {
 }
 
@@ -33,6 +34,7 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["normalStrength"] = (float) normalStrength;
 	meta["smoothness"] = (float) smoothness;
 	meta["metalness"] = (float) metalness;
+	meta["isTransparent"] = (bool) isTransparent;
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -46,4 +48,5 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	normalStrength = (float) meta["normalStrength"];
 	smoothness = (float) meta["smoothness"];
 	metalness = (float) meta["metalness"];
+	isTransparent = (bool) meta["isTransparent"];
 }

@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "PlayerForceAttackScript.h"
 
 #include "ModuleInput.h"
@@ -7,8 +8,9 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 
-#include "EnemyDroneScript.h"
-#include "HealthSystem.h"
+#include "../Scripts/EnemyDroneScript.h"
+#include "../Scripts/EnemyVenomiteScript.h"
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(PlayerForceAttackScript);
 
@@ -59,8 +61,6 @@ void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	if (other->GetOwner()->GetTag() == "Enemy")
 	{
 		enemiesInTheArea.push_back(other->GetOwner());
-		enemiesInTheArea.push_back(other->GetOwner());
-		enemiesInTheArea.push_back(other->GetOwner());
 	}
 }
 
@@ -107,8 +107,17 @@ void PlayerForceAttackScript::PushEnemies()
 
 		EnemyDroneScript* enemyDroneScript =
 			(*it)->GetComponent<EnemyDroneScript>();
+		if (enemyDroneScript)
+		{
+			enemyDroneScript->SetStunnedTime(stunTime);
+		}
 
-		enemyDroneScript->SetStunnedTime(stunTime);
+		EnemyVenomiteScript* enemyVenomiteScript =
+			(*it)->GetComponent<EnemyVenomiteScript>();
+		if (enemyVenomiteScript)
+		{
+			enemyVenomiteScript->SetStunnedTime(stunTime);
+		}
 
 		HealthSystem* enemyHealthScript =
 			(*it)->GetComponent<HealthSystem>();
