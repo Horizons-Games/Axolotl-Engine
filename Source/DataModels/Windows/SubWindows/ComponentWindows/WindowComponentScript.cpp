@@ -7,7 +7,6 @@
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/UIDGenerator.h"
-#include "Modules/ModuleInput.h"
 #include "Modules/ModuleScene.h"
 
 #include "Components/ComponentScript.h"
@@ -27,9 +26,6 @@ WindowComponentScript::~WindowComponentScript()
 
 void WindowComponentScript::DrawWindowContents()
 {
-	// Store the starting position of the collapsing header
-	ImVec2 headerMinPos = ImGui::GetItemRectMin();
-
 	DrawEnableAndDeleteComponent();
 
 	ImGui::Text("");
@@ -99,6 +95,26 @@ void WindowComponentScript::DrawWindowContents()
 
 		script->SetScript(nullptr);			  // This deletes the script itself
 		script->SetConstuctor(std::string()); // And this makes it so it's also deleted from the serialization
+	}
+
+	ImGui::NewLine();
+
+	if (ImGui::GetWindowWidth() > static_cast<float>(scriptName.size()) * 13.0f)
+	{
+		ImGui::SameLine(ImGui::GetWindowWidth() - 120.0f);
+	}
+
+	else
+	{
+		ImGui::SameLine();
+	}
+
+	label = "Open Script##";
+	finalLabel = label + thisID;
+	if (ImGui::Button(finalLabel.c_str()))
+	{
+		std::string scriptPath = "Scripts\\" + script->GetConstructName() + ".cpp";
+		ShellExecuteA(0, 0, scriptPath.c_str(), 0, 0, SW_SHOW);
 	}
 
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
@@ -208,22 +224,6 @@ void WindowComponentScript::DrawWindowContents()
 
 			default:
 				break;
-		}
-	}
-
-	// Store the ending position of the collapsing header
-	ImVec2 headerMaxPos = ImGui::GetItemRectMax();
-
-	// Adjust headerMin and headerMax for the full width of the header
-	headerMinPos.x = ImGui::GetWindowPos().x;
-	headerMaxPos.x = ImGui::GetWindowPos().x + ImGui::GetWindowWidth();
-
-	if (ImGui::IsMouseHoveringRect(headerMinPos, headerMaxPos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-	{
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LALT) == KeyState::DOWN)
-		{
-			std::string scriptPath = "Scripts\\" + script->GetConstructName() + ".cpp";
-			ShellExecuteA(0, 0, scriptPath.c_str(), 0, 0, SW_SHOW);
 		}
 	}
 }
