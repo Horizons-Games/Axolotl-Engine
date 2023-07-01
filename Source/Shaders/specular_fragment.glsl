@@ -7,8 +7,6 @@
 
 #include "/Common/Structs/lights.glsl"
 
-#include "/Common/Uniforms/lights_uniform.glsl"
-
 struct Material {
     vec4 diffuse_color;         //0  //16
     vec3 specular_color;        //16 //16       
@@ -281,7 +279,6 @@ void main()
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
-	vec3 lightDir = normalize(light.position - FragPos);
     vec4 gammaCorrection = vec4(2.2);
 
     // Diffuse
