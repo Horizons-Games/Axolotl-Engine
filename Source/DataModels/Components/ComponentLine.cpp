@@ -67,9 +67,10 @@ void ComponentLine::Draw() const
 					 float4(zAxis, 0.0),
 					 GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix().Col(3));
 
-		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
-		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
-		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&model);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&view);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*)&proj);
+
 		glFrontFace(GL_CW);
 		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
 		glEnableVertexAttribArray(0);
