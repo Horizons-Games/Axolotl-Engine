@@ -104,7 +104,7 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 
 inline void ModuleRender::ChangeRenderMode()
 {
-		modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
+	modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
 }
 
 inline float4 ModuleRender::GetBackgroundColor() const
