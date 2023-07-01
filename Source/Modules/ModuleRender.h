@@ -54,6 +54,8 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
+	void RenderShadowMap(const GameObject* light);
+
 private:
 
 	enum class ModeRender {

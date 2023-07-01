@@ -280,6 +280,9 @@ UpdateStatus ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
+	// -------- SHADOW MAP --------
+	RenderShadowMap(loadedScene->GetDirectionalLight());
+
 	// -------- DEFERRED GEOMETRY -----------
 
 	// Draw opaque objects
@@ -560,6 +563,49 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 		DrawQuadtree(quadtree->GetFrontRightNode());
 	}
 #endif // ENGINE
+}
+
+void ModuleRender::RenderShadowMap(const GameObject* light)
+{
+	// Get light position
+	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
+	const float3& lightPos = lightTransform->GetGlobalPosition();
+
+	// Compute camera frustrum bounding sphere
+	const math::Frustum* cameraFrustum = App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()
+		;
+	math::vec* corners;
+	cameraFrustum->GetCornerPoints(corners);
+
+	float3 sumCorners(0.0f);
+
+	for (unsigned int i = 0; i < 8; ++i)
+	{
+		sumCorners += corners[i];
+	}
+
+	const float3 sphereCenter = sumCorners.Div(8.0f);
+	float sphereRadius = 0.0f;
+
+	for (unsigned int i = 0; i < 8; ++i)
+	{
+		float distance = sphereCenter.Distance(corners[i]);
+		if (distance > sphereRadius)
+		{
+			sphereRadius = distance;
+		}
+	}
+
+	// Compute bounding box
+	math::Frustum frustum;
+
+	frustum.SetPos(sphereCenter - lightTransform->GetGlobalForward() * sphereRadius);
+	frustum.SetFront(lightTransform->GetGlobalForward());
+	frustum.SetUp(lightTransform->GetGlobalUp());
+	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
+	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
+	
+	//TODO: Frustum culling with the created light frustum to obtain the meshes of the scene to take into account
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)
