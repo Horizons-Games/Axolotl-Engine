@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleResources.h"
 
 #include "Application.h"
@@ -10,10 +12,14 @@
 #include "FileSystem/Importers/ModelImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
+#include "FileSystem/Importers/ParticleSystemImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/UIDGenerator.h"
 
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceAnimation.h"
+#include "Resources/ResourceParticleSystem.h"
+#include "ParticleSystem/ParticleEmitter.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
@@ -45,6 +51,8 @@ bool ModuleResources::Init()
 	cubemapImporter = std::make_unique<CubemapImporter>();
 	animationImporter = std::make_unique<AnimationImporter>();
 	stateMachineImporter = std::make_unique<StateMachineImporter>();
+	particleSystemImporter = std::make_unique<ParticleSystemImporter>();
+	CreateAssetAndLibFolders();
 
 #ifdef ENGINE
 	CreateAssetAndLibFolders();
@@ -58,6 +66,8 @@ bool ModuleResources::CleanUp()
 #ifdef ENGINE
 	monitorResources = false;
 	monitorThread.join();
+#else
+	resourcesBin.clear();
 #endif
 	resources.clear();
 	return true;
@@ -65,26 +75,31 @@ bool ModuleResources::CleanUp()
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
 {
-	std::shared_ptr<Resource> importedRes;
+	// std::shared_ptr<Resource> importedRes;
 	std::string assetsPath = CreateAssetsPath(fileName, type);
 	switch (type)
 	{
-		case ResourceType::Material:
-			assetsPath += MATERIAL_EXTENSION;
-			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
-			ImportResource(assetsPath);
-			break;
-		case ResourceType::StateMachine:
-			assetsPath += STATEMACHINE_EXTENSION;
-			/*importedRes = CreateNewResource("DefaultStateMachine", assetsPath, ResourceType::StateMachine);
-			stateMachineImporter->Import(assetsPath.c_str(),
-			std::dynamic_pointer_cast<ResourceStateMachine>(importedRes));*/
-			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/StateMachineDefault.state",
-																 assetsPath);
-			ImportResource(assetsPath);
-			break;
-		default:
-			break;
+	case ResourceType::Material:
+		assetsPath += MATERIAL_EXTENSION;
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/Default.mat", assetsPath);
+		ImportResource(assetsPath);
+		break;
+	case ResourceType::StateMachine:
+		assetsPath += STATEMACHINE_EXTENSION;
+		/*importedRes = CreateNewResource("DefaultStateMachine", assetsPath, ResourceType::StateMachine);
+		stateMachineImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(importedRes));*/
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/StateMachineDefault.state", assetsPath);
+		ImportResource(assetsPath);
+		break;
+	case ResourceType::ParticleSystem:
+		assetsPath += PARTICLESYSTEM_EXTENSION;
+		/*importedRes = CreateNewResource("DefaultParticleSystem", assetsPath, ResourceType::ParticleSystem);
+		particleSystemImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(importedRes));*/
+		App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/ParticleSystemDefault.particle", assetsPath);
+		ImportResource(assetsPath);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -95,7 +110,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	if (type == ResourceType::Unknown)
 	{
-		ENGINE_LOG("Extension not supported");
+		LOG_WARNING("Extension not supported");
 	}
 	std::string fileName = fileSystem->GetFileName(originalPath);
 	std::string extension = fileSystem->GetFileExtension(originalPath);
@@ -181,6 +196,11 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 				new EditorResource<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath),
 				CollectionAwareDeleter<Resource>());
 			break;
+		case ResourceType::ParticleSystem:
+			res = std::shared_ptr<EditorResource<ResourceParticleSystem>>(
+				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), 
+				CollectionAwareDeleter<Resource>());
+			break;
 		default:
 			return nullptr;
 	}
@@ -188,26 +208,62 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 	std::get_deleter<CollectionAwareDeleter<Resource>>(res)->AddCollection(resources);
 	return res;
 #else
+	auto customDeleter = [this](Resource* pointer)
+	{
+		std::map<UID, std::weak_ptr<Resource>>& map = resources;
+		for (auto it = std::begin(map); it != std::end(map);)
+		{
+			if (it->second.expired())
+			{
+				it = map.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
+		delete pointer;
+	};
 	switch (type)
 	{
 		case ResourceType::Model:
-			return std::make_shared<ResourceModel>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceModel>(new ResourceModel(uid, fileName, assetsPath, libraryPath),
+												  customDeleter);
+			break;
 		case ResourceType::Texture:
-			return std::make_shared<ResourceTexture>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceTexture>(new ResourceTexture(uid, fileName, assetsPath, libraryPath),
+													customDeleter);
+			break;
 		case ResourceType::Mesh:
-			return std::make_shared<ResourceMesh>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceMesh>(new ResourceMesh(uid, fileName, assetsPath, libraryPath),
+												 customDeleter);
+			break;
 		case ResourceType::Scene: // TODO
 			return nullptr;
 		case ResourceType::Material:
-			return std::make_shared<ResourceMaterial>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceMaterial>(new ResourceMaterial(uid, fileName, assetsPath, libraryPath),
+													 customDeleter);
+			break;
 		case ResourceType::SkyBox:
-			return std::make_shared<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceSkyBox>(new ResourceSkyBox(uid, fileName, assetsPath, libraryPath),
+												   customDeleter);
+			break;
 		case ResourceType::Cubemap:
-			return std::make_shared<ResourceCubemap>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceCubemap>(new ResourceCubemap(uid, fileName, assetsPath, libraryPath),
+													customDeleter);
+			break;
 		case ResourceType::Animation:
-			return std::make_shared<ResourceAnimation>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceAnimation>(new ResourceAnimation(uid, fileName, assetsPath, libraryPath),
+													  customDeleter);
+			break;
 		case ResourceType::StateMachine:
-			return std::make_shared<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath);
+			return std::shared_ptr<ResourceStateMachine>(
+				new ResourceStateMachine(uid, fileName, assetsPath, libraryPath), customDeleter);
+			break;
+		case ResourceType::ParticleSystem:
+			return std::shared_ptr<ResourceParticleSystem>(
+				new ResourceParticleSystem(uid, fileName, assetsPath, libraryPath), customDeleter);
+			break;
 		default:
 			return nullptr;
 	}
@@ -302,35 +358,38 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 
 			switch (resource->GetType())
 			{
-				case ResourceType::Model:
-					modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
-					break;
-				case ResourceType::Texture:
-					textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
-					break;
-				case ResourceType::Mesh:
-					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
-					break;
-				case ResourceType::Scene:
-					break;
-				case ResourceType::Material:
-					materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
-					break;
-				case ResourceType::SkyBox:
-					skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
-					break;
-				case ResourceType::Cubemap:
-					cubemapImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceCubemap>(resource));
-					break;
-				case ResourceType::Animation:
-					animationImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceAnimation>(resource));
-					break;
-				case ResourceType::StateMachine:
-					stateMachineImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceStateMachine>(resource));
-					break;
-				default:
-					break;
+			case ResourceType::Model:
+				modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
+				break;
+			case ResourceType::Texture:
+				textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
+				break;
+			case ResourceType::Mesh:
+				meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
+				break;
+			case ResourceType::Scene:
+				break;
+			case ResourceType::Material:
+				materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
+				break;
+			case ResourceType::SkyBox:
+				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+				break;
+			case ResourceType::Cubemap:
+				cubemapImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceCubemap>(resource));
+				break;
+			case ResourceType::Animation:
+				animationImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceAnimation>(resource));
+				break;
+			case ResourceType::StateMachine:
+				stateMachineImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceStateMachine>(resource));
+				break;
+			case ResourceType::ParticleSystem:
+				particleSystemImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
+			default:
+				break;
 			}
+			delete binaryBuffer;
 			return;
 		}
 	}
@@ -355,7 +414,25 @@ void ModuleResources::ReimportResource(UID resourceUID)
 		App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
 		delete saveBuffer;
 	}
+	if (resource->GetType() == ResourceType::ParticleSystem)
+	{
+		std::shared_ptr<ResourceParticleSystem> particleResource =
+			std::dynamic_pointer_cast<ResourceParticleSystem>(resource);
+		char* saveBuffer = {};
+		unsigned int size = 0;
+		particleSystemImporter->Save(particleResource, saveBuffer, size);
+
+		App->GetModule<ModuleFileSystem>()->Save(particleResource->GetAssetsPath().c_str(), saveBuffer, size);
+		delete saveBuffer;
+	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+}
+
+void ModuleResources::FillResourceBin(std::shared_ptr<Resource> sharedResource)
+{
+#ifndef ENGINE
+	resourcesBin.push_back(sharedResource);
+#endif // !ENGINE
 }
 
 void ModuleResources::CreateMetaFileOfResource(std::shared_ptr<Resource>& resource)
@@ -421,9 +498,10 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 			animationImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceAnimation>(resource));
 			break;
 		case ResourceType::StateMachine:
-			stateMachineImporter->Import(originalPath.c_str(),
-										 std::dynamic_pointer_cast<ResourceStateMachine>(resource));
+			stateMachineImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 			break;
+		case ResourceType::ParticleSystem:
+			particleSystemImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
 		default:
 			break;
 	}
@@ -450,7 +528,7 @@ void ModuleResources::CreateAssetAndLibFolders()
 												   ResourceType::Model,		  ResourceType::Scene,
 												   ResourceType::Texture,	  ResourceType::SkyBox,
 												   ResourceType::Cubemap,	  ResourceType::Animation,
-												   ResourceType::StateMachine };
+												   ResourceType::StateMachine,ResourceType::ParticleSystem };
 
 	for (ResourceType type : allResourceTypes)
 	{
@@ -482,10 +560,9 @@ void ModuleResources::MonitorResources()
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
-		std::map<UID, std::weak_ptr<Resource>>::iterator it;
-		for (it = resources.begin(); it != resources.end(); ++it)
+		for (auto resourceit = resources.begin(); resourceit != resources.end();)
 		{
-			const std::shared_ptr<Resource>& resource = it->second.lock();
+			const std::shared_ptr<Resource>& resource = resourceit->second.lock();
 			if (resource)
 			{
 				if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))
@@ -496,7 +573,7 @@ void ModuleResources::MonitorResources()
 				{
 					std::string libraryPathWithExtension = fileSystem->GetPathWithExtension(resource->GetLibraryPath());
 
-					if (libraryPathWithExtension == "" /*file with that name was not found*/ ||
+					if (libraryPathWithExtension.empty() /*file with that name was not found*/ ||
 						!fileSystem->Exists(libraryPathWithExtension.c_str()) || resource->IsChanged())
 					{
 						toCreateLib.push_back(resource);
@@ -518,6 +595,11 @@ void ModuleResources::MonitorResources()
 						}
 					}
 				}
+			}
+
+			if (resourceit != resources.end())
+			{
+				++resourceit;
 			}
 		}
 		// Remove resources
@@ -546,8 +628,12 @@ void ModuleResources::MonitorResources()
 				unsigned int size = 0;
 				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
 				App->GetModule<ModuleFileSystem>()->Save(
-					stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+					(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
+				delete saveBuffer;
+				break;
 			}
+			else if (resource->GetType() == ResourceType::ParticleSystem)
+				break;
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
 		for (std::shared_ptr<Resource>& resource : toCreateMeta)
@@ -563,19 +649,30 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	std::vector<std::string> pathTextures;
 
 	std::shared_ptr<ResourceTexture> textureDiffuse = materialResource->GetDiffuse();
-	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back("");
+	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureNormal = materialResource->GetNormal();
-	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back("");
+	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
-	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath()) : pathTextures.push_back("");
+	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
+					 : pathTextures.push_back(std::string());
 
-	/*std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
-	textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) : pathTextures.push_back("");*/
+	if (materialResource->GetShaderType() == 0)
+	{
+		std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
+		textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) 
+			: pathTextures.push_back(std::string());
+	}
+	else
+	{
+		std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
+		textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) 
+			: pathTextures.push_back(std::string());
+	}
 
-	std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
-	textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) : pathTextures.push_back("");
+	std::shared_ptr<ResourceTexture> textureEmissive = materialResource->GetEmission();
+	textureEmissive ? pathTextures.push_back(textureEmissive->GetAssetsPath()) : pathTextures.push_back(std::string());
 
 	char* fileBuffer{};
 	unsigned int size = 0;
@@ -598,10 +695,18 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 		materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
 	meta["OcclusionAssetPath"] =
 		materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	meta["SpecularAssetPath"] =
-		materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
-	meta["MetallicAssetPath"] =
-		materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
+	if (materialResource->GetShaderType() == 0)
+	{
+		meta["SpecularAssetPath"] =
+			materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
+	}
+	else
+	{
+		meta["SpecularAssetPath"] =
+			materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
+	}
+	meta["EmissiveAssetPath"] =
+		materialResource->GetEmission() ? materialResource->GetEmission()->GetAssetsPath().c_str() : "";
 
 	rapidjson::StringBuffer buffer;
 	meta.toBuffer(buffer);
@@ -688,6 +793,10 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::StateMachine;
 	}
+	else if (normalizedExtension == PARTICLESYSTEM_EXTENSION)
+	{
+		return ResourceType::ParticleSystem;
+	}
 
 	return ResourceType::Unknown;
 }
@@ -714,6 +823,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 			return "Animation";
 		case ResourceType::StateMachine:
 			return "StateMachine";
+		case ResourceType::ParticleSystem:
+			return "ParticleSystem";
 		case ResourceType::Unknown:
 		default:
 			return "Unknown";
@@ -757,6 +868,10 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 	if (typeName == "StateMachine")
 	{
 		return ResourceType::StateMachine;
+	}
+	if (typeName == "ParticleSystem")
+	{
+		return ResourceType::ParticleSystem;
 	}
 	return ResourceType::Unknown;
 }

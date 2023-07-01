@@ -1,15 +1,14 @@
 #pragma once
 #include "Module.h"
 
-#include <future>
-#include <map>
-#include <thread>
-
 #include "DataModels/Resources/Resource.h"
 
 #include "Application.h"
 #include "Json.h"
 #include "ModuleFileSystem.h"
+
+#include "Defines/ExtensionDefines.h"
+#include "Defines/FileSystemDefines.h"
 
 class ModelImporter;
 class TextureImporter;
@@ -19,6 +18,7 @@ class SkyBoxImporter;
 class CubemapImporter;
 class AnimationImporter;
 class StateMachineImporter;
+class ParticleSystemImporter;
 
 class ResourceMaterial;
 class EditorResourceInterface;
@@ -50,6 +50,9 @@ public:
 	const std::shared_ptr<R> SearchResource(UID uid);
 
 	void ReimportResource(UID resourceUID);
+
+	void FillResourceBin(std::shared_ptr<Resource> sharedResource);
+	void CleanResourceBin();
 
 private:
 	// resource creation and deletition
@@ -102,9 +105,12 @@ private:
 	std::unique_ptr<CubemapImporter> cubemapImporter;
 	std::unique_ptr<AnimationImporter> animationImporter;
 	std::unique_ptr<StateMachineImporter> stateMachineImporter;
+	std::unique_ptr<ParticleSystemImporter> particleSystemImporter;
 
 	std::thread monitorThread;
 	bool monitorResources;
+
+	std::vector<std::shared_ptr<Resource>> resourcesBin;
 
 	friend class WindowResources;
 };
@@ -115,7 +121,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 	ResourceType type = FindTypeByExtension(path);
 	if (type == ResourceType::Unknown)
 	{
-		ENGINE_LOG("Extension not supported");
+		LOG_WARNING("Extension not supported");
 	}
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	std::string fileName = fileSystem->GetFileName(path);
@@ -206,6 +212,13 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		}
 	}
 	return nullptr;
+}
+
+inline void ModuleResources::CleanResourceBin()
+{
+#ifndef ENGINE
+	resourcesBin.clear();
+#endif //! ENGINE
 }
 
 template<class R>

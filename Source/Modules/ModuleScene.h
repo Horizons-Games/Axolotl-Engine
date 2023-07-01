@@ -3,7 +3,8 @@
 #include "Module.h"
 
 #include "FileSystem/Json.h"
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
+
 #include <map>
 
 class GameObject;
@@ -18,9 +19,9 @@ public:
 
 	bool Init() override;
 	bool Start() override;
-	update_status PreUpdate() override;
-	update_status Update() override;
-	update_status PostUpdate() override;
+	UpdateStatus PreUpdate() override;
+	UpdateStatus Update() override;
+	UpdateStatus PostUpdate() override;
 	bool CleanUp() override;
 
 	Scene* GetLoadedScene() const;
@@ -35,23 +36,27 @@ public:
 	void LoadScene(const std::string& name, bool mantainActualScene = false);
 
 	void OnPlay();
-	void OnPause();
 	void OnStop();
 
 	void InitAndStartScriptingComponents();
+	void InitParticlesComponents();
 
 	void AddGameObjectAndChildren(GameObject* object);
-	void RemoveGameObjectAndChildren(GameObject* object);
+	void RemoveGameObjectAndChildren(const GameObject* object);
+
+	void ParticlesSystemUpdate(bool forceRecalculate = false);
+
+	bool IsLoading() const;
 
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SaveSceneToJson(Json& jsonScene);
 	void LoadSceneFromJson(Json& json, bool mantainActualScene);
-	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainActualHierarchy);
+	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy);
 
 	void AddGameObject(GameObject* object);
-	void RemoveGameObject(GameObject* object);
+	void RemoveGameObject(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;
@@ -61,6 +66,8 @@ private:
 	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
 	std::map<UID, UID> uidMap;
+
+	bool loading;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const
@@ -78,7 +85,7 @@ inline void ModuleScene::SetSceneToLoad(const std::string& name)
 	sceneToLoad = name;
 }
 
-inline void ModuleScene::OnPause()
+inline bool ModuleScene::IsLoading() const
 {
-	ENGINE_LOG("Pause pressed");
+	return loading;
 }

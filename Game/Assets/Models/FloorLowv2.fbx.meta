@@ -1,0 +1,15 @@
+{
+    "UID": 3322444219132187885,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/FloorLowv2.Plane.008_0.mesh",
+        "Assets/Meshes/FloorLowv2.Cube.002_0.mesh",
+        "Assets/Meshes/FloorLowv2.Cube.003_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/FloorLowv2DefaultMaterial_0.mat",
+        "Assets/Materials/FloorLowv2DefaultMaterial_0.mat",
+        "Assets/Materials/FloorLowv2DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

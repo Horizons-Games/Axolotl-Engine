@@ -1,30 +1,37 @@
 #pragma once
-#include "GL/glew.h"
-#include "Math/float4.h"
+
 #include "Module.h"
 
-#include <map>
-#include <set>
+#include "GL/glew.h"
+#include "Math/float4.h"
+
+#include "FileSystem/UID.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-class Cubemap;
 class Quadtree;
+class Program;
+class Cubemap;
 class GameObject;
+class GeometryBatch;
+class BatchManager;
+class ComponentMeshRenderer;
+class GBuffer;
 
 class ModuleRender : public Module
 {
 public:
+
 	ModuleRender();
 	~ModuleRender() override;
 
 	bool Init() override;
 
-	update_status PreUpdate() override;
-	update_status Update() override;
-	update_status PostUpdate() override;
+	UpdateStatus PreUpdate() override;
+	UpdateStatus Update() override;
+	UpdateStatus PostUpdate() override;
 
 	bool CleanUp() override;
 
@@ -32,46 +39,59 @@ public:
 	void UpdateBuffers(unsigned width, unsigned height);
 
 	void SetBackgroundColor(float4 color);
+	void ChangeRenderMode();
 	float4 GetBackgroundColor() const;
 
-	unsigned int GetRenderedTexture() const;
-	const std::string& GetVertexShader() const;
-	const std::string& GetFragmentShader() const;
+	GLuint GetRenderedTexture() const;
+	float GetObjectDistance(const GameObject* gameObject);
+
+	BatchManager* GetBatchManager() const;
 
 	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(GameObject* gameObject);
-	void InsertToRenderList(GameObject* gameObject);
+	void AddToRenderList(const GameObject* gameObject);
 
-	bool IsSupportedPath(const std::string& modelPath);
+	bool IsObjectInsideFrustrum(const GameObject* gameObject);
+
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	// const std::vector<const GameObject*> GetGameObjectsToDraw() const;
-
 private:
-	void UpdateProgram();
+
+	enum class ModeRender {
+		DEFAULT = 0,
+		POSITION = 1,
+		NORMAL = 2,
+		DIFFUSE = 3,
+		SPECULAR = 4,
+		EMISSIVE = 5,
+		LENGTH
+	};
+
 	bool CheckIfTransparent(const GameObject* gameObject);
-	void DrawGameObject(const GameObject* gameObject);
-	void DrawSelectedHighlightGameObject(GameObject* gameObject);
-	void DrawSelectedAndChildren(GameObject* gameObject);
+
 	void DrawHighlight(GameObject* gameObject);
 
+	void BindCameraToProgram(Program* program);
+	void BindCubemapToProgram(Program* program);
+
 	void* context;
+
 	float4 backgroundColor;
 
+	BatchManager* batchManager;
+	GBuffer* gBuffer;
+
+	unsigned uboCamera;
 	unsigned vbo;
 
-	std::set<const GameObject*> opaqueGOToDraw;
-	std::map<float, const GameObject*> transparentGOToDraw;
-	// to avoid gameobjects being drawn twice
-	std::vector<unsigned long long> drawnGameObjects;
-	const std::vector<std::string> modelTypes;
+	unsigned modeRender;
+	
+	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
+	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
-	GLuint depthStencilRenderbuffer;
-
-	std::string vertexShader;
-	std::string fragmentShader;
+	
+	GLuint depthStencilRenderBuffer;
 
 	friend class ModuleEditor;
 };
@@ -81,22 +101,32 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 	backgroundColor = color;
 }
 
+inline void ModuleRender::ChangeRenderMode()
+{
+		modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
+}
+
 inline float4 ModuleRender::GetBackgroundColor() const
 {
 	return backgroundColor;
 }
 
-inline unsigned int ModuleRender::GetRenderedTexture() const
+inline GLuint ModuleRender::GetRenderedTexture() const
 {
 	return renderedTexture;
 }
 
-inline const std::string& ModuleRender::GetVertexShader() const
+inline BatchManager* ModuleRender::GetBatchManager() const
 {
-	return vertexShader;
+	return batchManager;
 }
 
-inline const std::string& ModuleRender::GetFragmentShader() const
+inline bool ModuleRender::IsObjectInsideFrustrum(const GameObject* gameObject)
 {
-	return fragmentShader;
+	return gameObjectsInFrustrum.find(gameObject) != gameObjectsInFrustrum.end();
+}
+
+inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
+{
+	return objectsInFrustrumDistances[gameObject];
 }

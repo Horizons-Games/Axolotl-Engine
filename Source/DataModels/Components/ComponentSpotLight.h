@@ -28,8 +28,11 @@ public:
 
 	void Draw() const override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void SignalEnable() override;
+	void SignalDisable() override;
+
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	float GetRadius() const;
 	float GetInnerAngle() const;
@@ -38,6 +41,8 @@ public:
 	void SetRadius(float radius);
 	void SetInnerAngle(float angle);
 	void SetOuterAngle(float angle);
+
+	void OnTransformChanged() override;
 
 private:
 	float radius;

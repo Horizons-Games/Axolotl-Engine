@@ -16,18 +16,17 @@ public:
 	GameObject* GetPlayer();
 	void SetPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
+	GameObject* GetCameraPlayerObject();
 
-	void LoadNewPlayer();
+	bool LoadNewPlayer();
 	void UnloadNewPlayer();
 
 	bool IsStatic();
+	void CheckIfActivateMouse();
 
 private:
 	GameObject* player;
 	Camera* cameraPlayer;
+	GameObject* cameraPlayerObject;
 	ComponentPlayer* componentPlayer;
-
-	float speed;
-
-	bool bootsOnGround = false;
 };

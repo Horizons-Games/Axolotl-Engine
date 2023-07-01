@@ -24,6 +24,7 @@ public:
 	static float2 ScreenToScenePosition(const float2& mousePosition);
 	static bool Raycast(const LineSegment& ray, RaycastHit& hit);
 	static bool Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject);
+	static bool RaycastToTag(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject, std::string tag);
 	static bool RaycastFirst(const LineSegment& ray);
 	static bool RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObject);
 	static bool HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance);
@@ -54,7 +55,8 @@ private:
 								  RaycastHit& hit);
 
 	static void GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGameObjects,
-								  const LineSegment& ray,
-								  RaycastHit& hit,
-								  GameObject* exceptionGameObject);
+		const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject);
+	static void GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>& hitGameObjects,
+		const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject, std::string tag);
+
 };

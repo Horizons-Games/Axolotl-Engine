@@ -1,4 +1,8 @@
+#include "StdAfx.h"
+
 #include "ModuleEditor.h"
+
+#include "Defines/GlslDefines.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -85,10 +89,11 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
+	
+	char* buffer = StateWindows();
 
-	std::string buffer = StateWindows();
-	if (buffer.empty())
-	{
+	if(buffer == nullptr)
+	{		
 		rapidjson::StringBuffer newBuffer;
 		for (const std::unique_ptr<EditorWindow>& window : windows)
 		{
@@ -98,8 +103,7 @@ bool ModuleEditor::Init()
 	}
 	else
 	{
-		char* bufferPointer = buffer.data();
-		json.fromBuffer(bufferPointer);
+		json.fromBuffer(buffer);
 
 		auto windowNameNotInJson = [&json](const std::string& windowName)
 		{
@@ -121,6 +125,8 @@ bool ModuleEditor::Init()
 		}
 	}
 
+	delete buffer;
+	
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
 	buildGameLoading = std::make_unique<WindowLoading>();
@@ -164,7 +170,7 @@ bool ModuleEditor::CleanUp()
 	return true;
 }
 
-update_status ModuleEditor::PreUpdate()
+UpdateStatus ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->GetModule<ModuleWindow>()->GetWindow());
@@ -175,10 +181,10 @@ update_status ModuleEditor::PreUpdate()
 	ImGuizmo::Enable(true);
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::Update()
+UpdateStatus ModuleEditor::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
@@ -247,7 +253,7 @@ update_status ModuleEditor::Update()
 	debugOptions->Draw();
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::DrawLoadingBuild()
@@ -272,7 +278,7 @@ void ModuleEditor::DrawLoadingBuild()
 #endif
 }
 
-update_status ModuleEditor::PostUpdate()
+UpdateStatus ModuleEditor::PostUpdate()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -289,7 +295,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)
@@ -339,7 +345,8 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	return App->GetModule<ModuleWindow>()->GetWindowSize();
 #endif
 }
-std::string ModuleEditor::StateWindows()
+
+char* ModuleEditor::StateWindows()
 {
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	if (fileSystem->Exists(settingsFolder.c_str()))
@@ -348,10 +355,10 @@ std::string ModuleEditor::StateWindows()
 		{
 			char* binaryBuffer = {};
 			fileSystem->Load(set.c_str(), binaryBuffer);
-			return std::string(binaryBuffer);
+			return binaryBuffer;
 		}
 	}
-	return std::string();
+	return nullptr;
 }
 
 void ModuleEditor::CreateFolderSettings()

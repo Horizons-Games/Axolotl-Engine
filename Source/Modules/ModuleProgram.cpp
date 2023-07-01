@@ -1,7 +1,6 @@
-#include "ModuleProgram.h"
+#include "StdAfx.h"
 
-#include "Application.h"
-#include "FileSystem/ModuleFileSystem.h"
+#include "ModuleProgram.h"
 
 #include "Application.h"
 #include "DataModels/Program/Program.h"
@@ -54,7 +53,7 @@ bool ModuleProgram::Start()
 	}
 
 	programs.reserve(static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE));
-	programs.push_back(CreateProgram("default_vertex.glsl", "default_fragment.glsl", "Default"));
+	programs.push_back(CreateProgram("default_vertex.glsl", "metallic_fragment.glsl", "Default"));
 
 	programs.push_back(CreateProgram("default_vertex.glsl", "specular_fragment.glsl", "Specular"));
 
@@ -73,6 +72,16 @@ bool ModuleProgram::Start()
 	programs.push_back(
 		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
+	programs.push_back
+		(CreateProgram("particle_vertex.glsl", "particle_fragment.glsl", "Particles"));
+
+	programs.push_back(
+		CreateProgram("render_clip_space_vertex.glsl", "deferred_lighting_fragment.glsl", "DeferredLight"));
+	
+	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
+	
+	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
+	
 	programs.push_back(CreateProgram("component_line_vertex.glsl", "component_line_fragment.glsl", "ComponentLine"));
 
 	return true;
@@ -95,10 +104,15 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShad
 													  const std::string& frgShaderFileName,
 													  const std::string& programName)
 {
-	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, LoadShaderSource((rootPath + vtxShaderFileName).c_str()));
+	char* vertexBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + vtxShaderFileName).c_str(), vertexBuffer);
+	unsigned vertexShader = CompileShader (GL_VERTEX_SHADER, vertexBuffer);
+	delete vertexBuffer;
 
-	unsigned fragmentShader =
-		CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource((rootPath + frgShaderFileName).c_str()));
+	char* fragmentBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + frgShaderFileName).c_str(), fragmentBuffer);
+	unsigned fragmentShader = CompileShader (GL_FRAGMENT_SHADER,fragmentBuffer);
+	delete fragmentBuffer;
 
 	if (vertexShader == 0 || fragmentShader == 0)
 	{
@@ -152,7 +166,7 @@ unsigned ModuleProgram::CompileShader(unsigned type, const std::string& source)
 			char* info = (char*) malloc(len);
 
 			glGetShaderInfoLog(shaderID, len, &written, info);
-			ENGINE_LOG("Log Info: %s", info);
+			LOG_INFO("Log Info: {}", info);
 
 			free(info);
 		}

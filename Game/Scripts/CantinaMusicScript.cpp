@@ -13,7 +13,7 @@ CantinaMusicScript::CantinaMusicScript() : Script(), cantinaAudio(nullptr)
 
 void CantinaMusicScript::Start()
 {
-	cantinaAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
+	cantinaAudio = owner->GetComponent<ComponentAudioSource>();
 
 	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::CANTINA);
 	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);

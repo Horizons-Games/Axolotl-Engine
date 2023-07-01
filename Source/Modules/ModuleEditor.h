@@ -22,9 +22,9 @@ public:
 	bool Start() override;
 	bool CleanUp() override;
 
-	update_status PreUpdate() override;
-	update_status Update() override;
-	update_status PostUpdate() override;
+	UpdateStatus PreUpdate() override;
+	UpdateStatus Update() override;
+	UpdateStatus PostUpdate() override;
 
 	void Resized();
 
@@ -51,7 +51,7 @@ private:
 	WindowScene* scene;
 	bool windowResized;
 
-	std::string StateWindows();
+	char* StateWindows();
 	void CreateFolderSettings();
 	static const std::string settingsFolder;
 	static const std::string set;

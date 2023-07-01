@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceTexture.h"
 
 #include "FileSystem/Json.h"
@@ -14,13 +16,15 @@ ResourceTexture::ResourceTexture(UID resourceUID,
 	format(0),
 	internalFormat(0),
 	imageType(0),
-	pixelsSize(0)
+	pixelsSize(0),
+	handle(0)
 {
 }
 
 ResourceTexture::~ResourceTexture()
 {
-	this->Unload();
+	glMakeTextureHandleNonResidentARB(handle);
+	Unload();
 }
 
 void ResourceTexture::InternalUnload()
@@ -77,11 +81,11 @@ void ResourceTexture::CreateTexture()
 
 	glTexParameteri(GL_TEXTURE_2D,
 					GL_TEXTURE_WRAP_S,
-					format == GL_RGBA || format == GL_RGB ? GL_CLAMP_TO_EDGE
+					format == GL_RGBA || format == GL_RGB ? GL_REPEAT
 														  : GetWrapFilterEquivalence(loadOptions.wrapS));
 	glTexParameteri(GL_TEXTURE_2D,
 					GL_TEXTURE_WRAP_T,
-					format == GL_RGBA || format == GL_RGB ? GL_CLAMP_TO_EDGE
+					format == GL_RGBA || format == GL_RGB ? GL_REPEAT
 														  : GetWrapFilterEquivalence(loadOptions.wrapT));
 }
 
@@ -136,4 +140,19 @@ int ResourceTexture::GetWrapFilterEquivalence(TextureWrap filter)
 		default:
 			return GL_REPEAT;
 	}
+}
+
+const uint64_t& ResourceTexture::GetHandle()
+{
+	if (!IsLoaded())
+	{
+		Load();
+	}
+
+	if (handle == 0)
+	{
+		handle = glGetTextureHandleARB(glTexture);
+		glMakeTextureHandleResidentARB(handle);
+	}
+	return handle;
 }

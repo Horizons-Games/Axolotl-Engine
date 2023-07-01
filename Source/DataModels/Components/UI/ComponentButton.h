@@ -8,11 +8,6 @@ public:
 	ComponentButton(bool active, GameObject* owner);
 	~ComponentButton() override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
-	void Disable() override;
-
 	void OnClicked();
 
 	bool IsClicked() const;
@@ -27,6 +22,12 @@ public:
 	float4 GetColorHovered() const;
 
 	const char* GetSceneName() const;
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
+	void SignalDisable() override;
 
 private:
 	bool clicked;

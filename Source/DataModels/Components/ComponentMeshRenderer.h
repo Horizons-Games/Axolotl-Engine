@@ -1,33 +1,26 @@
 #pragma once
 
 #include "Component.h"
-#include "Globals.h"
-#include "ModuleProgram.h"
+
+#include "FileSystem/UID.h"
 
 #include "Auxiliar/Generics/Drawable.h"
-#include "Auxiliar/Generics/Updatable.h"
 
-#include "Components/Component.h"
-
-#include "FileSystem/UniqueID.h"
-
-#include "Math/float3.h"
-#include "Math/float4.h"
 #include "Math/float4x4.h"
-
-#include "Program/Program.h"
-
-#include <memory>
 
 class ResourceMesh;
 class ResourceMaterial;
 class ResourceTexture;
+class GeometryBatch;
+class Program;
 class Json;
 class WindowMeshInput;
 class WindowMaterialInput;
 class WindowTextureInput;
 
-class ComponentMeshRenderer : public Component, public Drawable, public Updatable
+enum class TextureType;
+
+class ComponentMeshRenderer : public Component, public Drawable
 {
 public:
 	ComponentMeshRenderer(const bool active, GameObject* owner);
@@ -36,17 +29,12 @@ public:
 
 	void InitBones();
 
-	void Update() override;
+	void UpdatePalette();
 
 	void Draw() const override;
 	void DrawMeshes(Program* program) const;
 	void DrawMaterial(Program* program) const;
 	void DrawHighlight() const;
-
-	void SaveOptions(Json& meta) override;
-	/*void SaveUIDOfResourceToMeta
-		(Json& meta, const char* field, const ResourceTexture* texturePtr);*/
-	void LoadOptions(Json& meta) override;
 
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
@@ -54,8 +42,16 @@ public:
 
 	// Common attributes (setters)
 	void SetDiffuseColor(float4& diffuseColor);
+	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
+	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
+	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
+	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetEmissive(const std::shared_ptr<ResourceTexture>& emissive);
+	void SetShaderType(unsigned int shaderType);
 	void SetSmoothness(float smoothness);
-	void SetNormalStrenght(float normalStrength);
+	void SetNormalStrength(float normalStrength);
+	void SetTiling(const float2& tiling);
+	void SetOffset(const float2& offset);
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
@@ -63,11 +59,20 @@ public:
 	// Specular shader attributes (setters)
 	void SetSpecularColor(float3& specularColor);
 
+	void SetTransparent(bool isTransparent);
+
+	void RemoveFromBatch();
+
+	std::vector<ComponentMeshRenderer*> ChangeOfBatch();
+
 	std::shared_ptr<ResourceMesh> GetMesh() const;
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
-	const unsigned int GetShaderType() const;
+
+	GeometryBatch* GetBatch() const;
+	void SetBatch(GeometryBatch* geometryBatch);
 
 	// Common attributes (getters)
+	const unsigned int& GetShaderType() const;
 	const float4& GetDiffuseColor() const;
 	const float GetSmoothness() const;
 	const float GetNormalStrenght() const;
@@ -78,15 +83,30 @@ public:
 	// Specular shader attributes (getters)
 	const float3& GetSpecularColor() const;
 
+	const bool IsTransparent() const;
+
+	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
+
+	const std::shared_ptr<ResourceTexture>& GetNormal() const;
+
+	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
+
+	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
+
+	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+
+	const std::vector<float4x4>& GetPalette() const;
+
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	bool IsMeshLoaded() const;
 	bool IsMaterialLoaded() const;
 
-	// declared "mutable" so Draw can be const
-	// as said in Draw, this should be modified in a separate class, so the idea is for this change to be temporal
 	mutable std::shared_ptr<ResourceMesh> mesh;
 	mutable std::shared_ptr<ResourceMaterial> material;
 
@@ -94,6 +114,9 @@ private:
 	std::vector<float4x4> skinPalette;
 
 	WindowMeshInput* inputMesh;
+	WindowMaterialInput* inputMaterial;
+
+	GeometryBatch* batch;
 };
 
 inline void ComponentMeshRenderer::SetBones(const std::vector<GameObject*>& bones)
@@ -109,6 +132,21 @@ inline std::shared_ptr<ResourceMesh> ComponentMeshRenderer::GetMesh() const
 inline std::shared_ptr<ResourceMaterial> ComponentMeshRenderer::GetMaterial() const
 {
 	return material;
+}
+
+inline GeometryBatch* ComponentMeshRenderer::GetBatch() const
+{
+	return batch;
+}
+
+inline const std::vector<float4x4>& ComponentMeshRenderer::GetPalette() const
+{
+	return skinPalette;
+}
+
+inline void ComponentMeshRenderer::SetBatch(GeometryBatch* geometryBatch)
+{
+	batch = geometryBatch;
 }
 
 inline bool ComponentMeshRenderer::IsMeshLoaded() const

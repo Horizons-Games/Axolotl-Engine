@@ -4,6 +4,7 @@
 #include "Timer/Timer.h"
 
 #include "Enums/ModuleType.h"
+#include "Enums/UpdateStatus.h"
 
 class ScriptFactory;
 
@@ -15,7 +16,7 @@ public:
 
 	bool Start();
 	bool Init();
-	update_status Update();
+	UpdateStatus Update();
 	bool CleanUp();
 
 	void OnPlay();
@@ -33,6 +34,7 @@ public:
 	void SwitchDebuggingGame();
 
 	ScriptFactory* GetScriptFactory() const;
+	void SetCloseGame(bool closeGameStatus);
 	template<typename M>
 	M* GetModule();
 
@@ -47,6 +49,7 @@ private:
 	float deltaTime = 0.f;
 	bool debuggingGame;
 	bool isOnPlayMode;
+	bool closeGame;
 };
 
 extern std::unique_ptr<Application> App;
@@ -102,4 +105,9 @@ M* Application::GetModule()
 {
 	int index = static_cast<int>(ModuleToEnum<M>::value);
 	return static_cast<M*>(modules[index].get());
+}
+
+inline void Application::SetCloseGame(bool closeGameStatus)
+{
+	closeGame = closeGameStatus;
 }

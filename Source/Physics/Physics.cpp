@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Physics.h"
 
 #include "Application.h"
@@ -7,6 +9,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentTransform.h"
@@ -18,8 +21,6 @@
 
 #include "Geometry/Frustum.h"
 #include "Geometry/Triangle.h"
-#include "Math/float2.h"
-#include <queue>
 
 float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 {
@@ -28,7 +29,7 @@ float2 Physics::ScreenToScenePosition(const float2& mousePosition)
 	const WindowScene* windowScene = App->GetModule<ModuleEditor>()->GetScene();
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
-	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
+	if (!ImGuizmo::IsOver() && !windowScene->IsMouseInsideManipulator(mousePosition.x, mousePosition.y))
 	{
 		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x && mousePosition.y > startPosScene.y &&
 			mousePosition.y < endPosScene.y)
@@ -50,7 +51,7 @@ bool Physics::ScreenPointToRay(const float2& mousePosition, LineSegment& ray)
 	const WindowScene* windowScene = App->GetModule<ModuleEditor>()->GetScene();
 	ImVec2 startPosScene = windowScene->GetStartPos();
 	ImVec2 endPosScene = windowScene->GetEndPos();
-	if (!ImGuizmo::IsOver() && !windowScene->isMouseInsideManipulator(mousePosition.x, mousePosition.y))
+	if (!ImGuizmo::IsOver() && !windowScene->IsMouseInsideManipulator(mousePosition.x, mousePosition.y))
 	{
 		if (mousePosition.x > startPosScene.x && mousePosition.x < endPosScene.x && mousePosition.y > startPosScene.y &&
 			mousePosition.y < endPosScene.y)
@@ -123,6 +124,27 @@ bool Physics::Raycast(const LineSegment& ray, RaycastHit& hit, GameObject* excep
 	return false;
 }
 
+bool Physics::RaycastToTag(const LineSegment& ray, RaycastHit& hit, GameObject* exceptionGameObject, std::string tag)
+{
+	std::map<float, const GameObject*> hitGameObjects;
+
+#ifdef ENGINE
+	AddIntersectionGameObject(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetSelectedGameObject());
+#endif
+	AddIntersectionQuadtree(hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	AddIntersectionDynamicObjects(
+		hitGameObjects, ray, App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects());
+
+	GetRaycastHitInfoWithTag(hitGameObjects, ray, hit, exceptionGameObject, tag);
+
+	if (hit.gameObject != nullptr)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool Physics::RaycastFirst(const LineSegment& ray)
 {
 	std::map<float, const GameObject*> hitGameObjects;
@@ -184,7 +206,7 @@ bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObje
 
 bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
 {
-	ComponentTransform* transform = static_cast<ComponentTransform*>(go->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 	if (transform)
 	{
 		bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
@@ -283,8 +305,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 		const GameObject* actualGameObject = hitGameObject.second;
 		if (actualGameObject)
 		{
-			ComponentMeshRenderer* componentMeshRenderer =
-				static_cast<ComponentMeshRenderer*>(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+			ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
 
 			if (!componentMeshRenderer)
 			{
@@ -298,8 +319,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 			}
 
 			const float4x4& gameObjectModelMatrix =
-				static_cast<ComponentTransform*>(actualGameObject->GetComponent(ComponentType::TRANSFORM))
-					->GetGlobalMatrix();
+				actualGameObject->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 
@@ -346,21 +366,21 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	float3 nearestHitPoint = float3::zero;
 	float3 hitNormal = float3::zero;
 
-	GameObject::GameObjectView children = exceptionGameObject->GetChildren();
+	std::list<GameObject*> children = exceptionGameObject->GetAllDescendants();
 
 	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
 	{
 		const GameObject* actualGameObject = hitGameObject.second;
 
-		bool isInside = false;
-
-		auto it = std::find(children.begin(), children.end(), actualGameObject);
-
-		isInside = it != children.end();
-		if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
+		bool isInside = std::any_of(children.begin(),
+									children.end(),
+									[actualGameObject](GameObject* other)
+									{
+										return other == actualGameObject;
+									});
+		if (actualGameObject && !isInside)
 		{
-			ComponentMeshRenderer* componentMeshRenderer =
-				static_cast<ComponentMeshRenderer*>(actualGameObject->GetComponent(ComponentType::MESHRENDERER));
+			ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
 
 			if (!componentMeshRenderer)
 			{
@@ -374,8 +394,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 			}
 
 			const float4x4& gameObjectModelMatrix =
-				static_cast<ComponentTransform*>(actualGameObject->GetComponent(ComponentType::TRANSFORM))
-					->GetGlobalMatrix();
+				actualGameObject->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 			const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 
@@ -399,6 +418,89 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 		else
 		{
 			float chapuza = 0.0f;
+		}
+	}
+
+	hit.gameObject = newSelectedGameObject;
+	hit.distance = minCurrentDistance;
+	hit.hitPoint = nearestHitPoint;
+	hit.normal = hitNormal;
+}
+
+void Physics::GetRaycastHitInfoWithTag(const std::map<float, const GameObject*>& hitGameObjects,
+									   const LineSegment& ray,
+									   RaycastHit& hit,
+									   GameObject* exceptionGameObject,
+									   std::string tag)
+{
+	GameObject* newSelectedGameObject = nullptr;
+
+	float thisDistance = 0.0f;
+	float minCurrentDistance = inf;
+	float3 exactHitPoint = float3::zero;
+	float3 nearestHitPoint = float3::zero;
+	float3 hitNormal = float3::zero;
+
+	std::list<GameObject*> children = exceptionGameObject->GetAllDescendants();
+
+	for (const std::pair<float, const GameObject*>& hitGameObject : hitGameObjects)
+	{
+		if (hitGameObject.second->GetTag() == tag)
+		{
+			const GameObject* actualGameObject = hitGameObject.second;
+
+			bool isInside = std::any_of(children.begin(),
+										children.end(),
+										[actualGameObject](GameObject* other)
+										{
+											return other == actualGameObject;
+										});
+			if (actualGameObject && actualGameObject != exceptionGameObject && !isInside)
+			{
+				ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
+
+				if (!componentMeshRenderer)
+				{
+					continue;
+				}
+				std::shared_ptr<ResourceMesh> goMeshAsShared = componentMeshRenderer->GetMesh();
+
+				if (!goMeshAsShared)
+				{
+					continue;
+				}
+
+				const float4x4& gameObjectModelMatrix =
+					actualGameObject->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+
+				const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
+
+				for (const Triangle& triangle : meshTriangles)
+				{
+					bool hit = ray.Intersects(triangle, &thisDistance, &exactHitPoint);
+
+					if (!hit)
+					{
+						continue;
+					}
+
+					if (thisDistance >= minCurrentDistance)
+					{
+						continue;
+					}
+
+					// Only save a gameObject when any of its triangles is hit
+					// and it is the nearest triangle to the frustum
+					newSelectedGameObject = const_cast<GameObject*>(actualGameObject);
+					minCurrentDistance = thisDistance;
+					hitNormal = triangle.NormalCCW();
+					nearestHitPoint = exactHitPoint;
+				}
+			}
+			else
+			{
+				float chapuza = 0.0f;
+			}
 		}
 	}
 

@@ -1,0 +1,8 @@
+{
+    "UID": 1212710685053285524,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/HumanCharacter.Talking.anim",
+        "Assets/Animation/HumanCharacter.Talking.anim"
+    ]
+}

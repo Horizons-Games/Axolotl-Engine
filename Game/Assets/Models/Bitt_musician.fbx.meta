@@ -1,0 +1,18 @@
+{
+    "UID": 6663228837482241809,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Bitt_musician.Cylinder_0.mesh",
+        "Assets/Meshes/Bitt_musician.Cylinder_1.mesh",
+        "Assets/Meshes/Bitt_musician.Cylinder_2.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Bitt_musicianTrumpet_0.mat",
+        "Assets/Materials/Bitt_musicianBody_1.mat",
+        "Assets/Materials/Bitt_musicianHead_2.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/Bitt_musician.Playing.anim",
+        "Assets/Animation/Bitt_musician.Armature_Playing.anim"
+    ]
+}

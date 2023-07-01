@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowScene.h"
 
 #include "Application.h"
@@ -9,8 +11,12 @@
 #include "Modules/ModuleUI.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentCanvas.h"
 #include "GameObject/GameObject.h"
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
 
 WindowScene::WindowScene() :
 	EditorWindow("Scene"),
@@ -34,10 +40,11 @@ void WindowScene::DrawWindowContents()
 {
 	ManageResize();
 
-	ImGui::Image((void*) App->GetModule<ModuleRender>()->GetRenderedTexture(),
+	ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(App->GetModule<ModuleRender>()->GetRenderedTexture())),
 				 ImGui::GetContentRegionAvail(),
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));
+
 	if (!App->IsOnPlayMode())
 	{
 		DrawGuizmo();
@@ -136,25 +143,25 @@ void WindowScene::DrawGuizmo()
 	if (focusedObject != nullptr && focusedObject->GetParent() != nullptr)
 	{
 		ImVec2 windowPos = ImGui::GetWindowPos();
-		float windowWidth = (float) ImGui::GetWindowWidth();
-		float windowheight = (float) ImGui::GetWindowHeight();
+		float windowWidth = static_cast<float>(ImGui::GetWindowWidth());
+		float windowheight = static_cast<float>(ImGui::GetWindowHeight());
 
 		ImGuizmo::SetDrawlist();
 		ImGuizmo::SetRect(windowPos.x, windowPos.y, windowWidth, windowheight);
-		ImGuizmo::SetOrthographic(false);
 
 		ModuleCamera* camera = App->GetModule<ModuleCamera>();
 		ModuleInput* input = App->GetModule<ModuleInput>();
 
-		float4x4 viewMat = camera->GetCamera()->GetViewMatrix().Transposed();
-		float4x4 projMat = camera->GetCamera()->GetProjectionMatrix().Transposed();
+		float4x4 viewMat = float4x4::identity;
 
-		ComponentTransform* focusedTransform =
-			static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM));
+		ComponentTransform* focusedTransform = focusedObject->GetComponent<ComponentTransform>();
 
 		// Guizmo 3D
-		if (static_cast<ComponentTransform*>(focusedObject->GetComponent(ComponentType::TRANSFORM)) != nullptr)
+		if (focusedTransform != nullptr)
 		{
+			ImGuizmo::SetOrthographic(false);
+			viewMat = camera->GetCamera()->GetViewMatrix().Transposed();
+			float4x4 projMat = camera->GetCamera()->GetProjectionMatrix().Transposed();
 			float4x4 modelMatrix = focusedTransform->GetGlobalMatrix().Transposed();
 
 			ImGuizmo::Manipulate(viewMat.ptr(),
@@ -163,11 +170,13 @@ void WindowScene::DrawGuizmo()
 								 (ImGuizmo::MODE) gizmoCurrentMode,
 								 modelMatrix.ptr(),
 								 NULL,
-								 useSnap ? &snap[0] : NULL);
+								 useSnap ? &snap[0] : nullptr);
+
+			ImGuizmo::Enable(IsFocused());
 
 			if (ImGuizmo::IsUsing())
 			{
-				GameObject* parent = focusedObject->GetParent();
+				const GameObject* parent = focusedObject->GetParent();
 				float3 position, scale;
 				Quat rotation;
 				float4x4 inverseParentMatrix = float4x4::identity; // Needs to be identity in case the parent is nulltpr
@@ -175,8 +184,7 @@ void WindowScene::DrawGuizmo()
 
 				if (parent != nullptr)
 				{
-					const ComponentTransform* parentTransform =
-						static_cast<ComponentTransform*>(parent->GetComponent(ComponentType::TRANSFORM));
+					const ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
 
 					inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
 				}
@@ -197,30 +205,6 @@ void WindowScene::DrawGuizmo()
 						break;
 				}
 				focusedTransform->UpdateTransformMatrices();
-
-				for (Component* component : focusedObject->GetComponents())
-				{
-					if (component->GetType() == ComponentType::LIGHT)
-					{
-						Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
-						const ComponentLight* light = (ComponentLight*) component;
-
-						switch (light->GetLightType())
-						{
-							case LightType::DIRECTIONAL:
-								scene->RenderDirectionalLight();
-								break;
-							case LightType::SPOT:
-								scene->UpdateSceneSpotLights();
-								scene->RenderSpotLights();
-								break;
-							case LightType::POINT:
-								scene->UpdateScenePointLights();
-								scene->RenderPointLights();
-								break;
-						}
-					}
-				}
 			}
 
 			float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
@@ -234,7 +218,49 @@ void WindowScene::DrawGuizmo()
 				ImVec2(VIEW_MANIPULATE_SIZE, VIEW_MANIPULATE_SIZE),
 				0x10101010);
 		}
-		if (ImGui::IsWindowFocused())
+		//Guizmo 2D
+		else
+		{
+			ComponentTransform2D* focusedTransform2D = focusedObject->GetComponent<ComponentTransform2D>();
+			ImGuizmo::SetOrthographic(true);
+			float4x4 projMat = camera->GetOrthoProjectionMatrix().Transposed();
+			float4x4 modelMatrix = focusedTransform2D->GetGlobalMatrix().Transposed();
+
+			ComponentCanvas* canvas = focusedTransform2D->WhichCanvasContainsMe();
+			if (canvas)
+			{
+				canvas->RecalculateSizeAndScreenFactor();
+				float factor = canvas->GetScreenFactor();
+				viewMat = viewMat * float4x4::Scale(factor, factor, factor);
+			}
+
+			ImGuizmo::Manipulate(viewMat.ptr(), projMat.ptr(), ImGuizmo::OPERATION::TRANSLATE,
+				ImGuizmo::MODE::WORLD, modelMatrix.ptr(), NULL, useSnap ? &snap[0] : NULL);
+
+			if (ImGuizmo::IsUsing())
+			{
+				GameObject* parent = focusedObject->GetParent();
+				float3 position, scale;
+				Quat rotation;
+				
+				modelMatrix.Transposed().Decompose(position, rotation, scale);
+
+				switch (gizmoCurrentOperation)
+				{
+				case ImGuizmo::OPERATION::TRANSLATE:
+					position.z = focusedTransform2D->GetLocalMatrix().z;
+					focusedTransform2D->SetPosition(position);
+					break;
+				case ImGuizmo::OPERATION::SCALE:
+					focusedTransform2D->SetScale(scale);
+					break;
+				}
+
+				focusedTransform2D->CalculateMatrices();
+			}
+		}
+
+		if (IsFocused())
 		{
 			if (input->GetKey(SDL_SCANCODE_Q) == KeyState::DOWN &&
 				input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::IDLE)
@@ -259,10 +285,9 @@ void WindowScene::DrawGuizmo()
 			}
 			else
 			{
-				if (isMouseInsideManipulator(io.MousePos.x, io.MousePos.y))
+				if (IsMouseInsideManipulator(io.MousePos.x, io.MousePos.y))
 				{
 					manipulatedViewMatrix = viewMat.InverseTransposed();
-					;
 
 					camera->GetCamera()->GetFrustum()->SetFrame(manipulatedViewMatrix.Col(3).xyz(),	 // position
 																-manipulatedViewMatrix.Col(2).xyz(), // rotation
@@ -290,7 +315,7 @@ void WindowScene::DrawGuizmo()
 
 void WindowScene::ManageResize()
 {
-	auto viewportOffset = ImGui::GetCursorPos(); // include tab bar
+	ImVec2 viewportOffset = ImGui::GetCursorPos(); // include tab bar
 
 	availableRegion = ImGui::GetContentRegionAvail();
 	bool widthChanged = currentWidth != availableRegion.x;
@@ -306,7 +331,7 @@ void WindowScene::ManageResize()
 		App->GetModule<ModuleUI>()->RecalculateCanvasSizeAndScreenFactor();
 	}
 
-	auto windowSize = ImGui::GetWindowSize();
+	ImVec2 windowSize = ImGui::GetWindowSize();
 
 	ImVec2 minBounds = ImGui::GetWindowPos();
 	minBounds.x += viewportOffset.x;

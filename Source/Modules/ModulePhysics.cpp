@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModulePhysics.h"
 
 #include "Application.h"
@@ -7,6 +9,11 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
+
+#ifndef ENGINE
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
+#endif
 
 ModulePhysics::ModulePhysics()
 {
@@ -66,7 +73,7 @@ void ModulePhysics::Reset()
 	Init();
 }
 
-update_status ModulePhysics::PreUpdate()
+UpdateStatus ModulePhysics::PreUpdate()
 {
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
@@ -83,9 +90,14 @@ update_status ModulePhysics::PreUpdate()
 #else
     dynamicsWorld->stepSimulation(App->GetDeltaTime());
     ManageCollisions();
+
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPhysics())
+	{
+		dynamicsWorld->debugDrawWorld();
+	}
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModulePhysics::ManageCollisions()
@@ -93,9 +105,9 @@ void ModulePhysics::ManageCollisions()
 	struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
 	{
 		bool collisionDetected;
-		const btCollisionObject* otherRigidBody;
+		std::vector<const btCollisionObject*> othersRigidBody;
 
-		ContactResultCallback() : collisionDetected(false), otherRigidBody(nullptr)
+		ContactResultCallback() : collisionDetected(false)
 		{
 		}
 
@@ -108,7 +120,7 @@ void ModulePhysics::ManageCollisions()
 										 int index1)
 		{
 			collisionDetected = true;
-			otherRigidBody = colObj1Wrap->getCollisionObject();
+			othersRigidBody.push_back(colObj1Wrap->getCollisionObject());
 			return 0;
 		}
 	};
@@ -128,25 +140,28 @@ void ModulePhysics::ManageCollisions()
 				ComponentRigidBody* rb = static_cast<ComponentRigidBody*>(obj->getUserPointer());
 				if (rb != nullptr)
 				{
-					ComponentRigidBody* other =
-						static_cast<ComponentRigidBody*>(result.otherRigidBody->getUserPointer());
-					assert(rb && other);
-					uint64_t i1 = rb->GetID();
-					i1 = i1 << 32;
-					uint64_t i2 = other->GetID();
-					// key is the combination of the two indexes in the high 32 bits store the first index and in the
-					// low 32 bits store the second index
-					uint64_t key = i1 | i2;
-					if (collisions.find(key) == collisions.end())
+					for (int j = 0; j < result.othersRigidBody.size(); j++)
 					{
-						rb->OnCollisionEnter(other);
-						other->OnCollisionEnter(rb);
+						ComponentRigidBody* other =
+							static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
+						assert(rb && other);
+						uint64_t i1 = rb->GetID();
+						i1 = i1 << 32;
+						uint64_t i2 = other->GetID();
+						// key is the combination of the two indexes in the high 32 bits store the first index and in
+						// the low 32 bits store the second index
+						uint64_t key = i1 | i2;
+						if (collisions.find(key) == collisions.end())
+						{
+							rb->OnCollisionEnter(other);
+							//other->OnCollisionEnter(rb);
+						}
+						else
+						{
+							rb->OnCollisionStay(other);
+						}
+						collisions.insert(key);
 					}
-					else
-					{
-						rb->OnCollisionStay(other);
-					}
-					collisions.insert(key);
 				}
 			}
 		}
@@ -183,6 +198,11 @@ void ModulePhysics::ManageCollisions()
 
 void ModulePhysics::AddRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 {
+	if (rigidBodyComponents[rb->GetID()] != nullptr)
+	{
+		LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
+		return;
+	}
 	dynamicsWorld->addRigidBody(body);
 	rigidBodyComponents[rb->GetID()] = rb;
 }
@@ -224,7 +244,7 @@ void GLDebugDrawer::drawSphere(const btVector3& p, btScalar radius, const btVect
 void GLDebugDrawer::drawTriangle(
 	const btVector3& a, const btVector3& b, const btVector3& c, const btVector3& color, btScalar alpha)
 {
-	ENGINE_LOG("drawTriangle not implemented");
+	LOG_WARNING("drawTriangle not implemented");
 }
 
 void GLDebugDrawer::drawContactPoint(
@@ -240,7 +260,7 @@ void GLDebugDrawer::drawAabb(const btVector3& from, const btVector3& to, const b
 
 void GLDebugDrawer::reportErrorWarning(const char* warningString)
 {
-	ENGINE_LOG(warningString);
+	LOG_WARNING(warningString);
 }
 
 void GLDebugDrawer::draw3dText(const btVector3& location, const char* textString)

@@ -5,20 +5,15 @@
 
 #include "Components/Component.h"
 
-#include "Math/float4x4.h"
 #include "Resources/ResourceStateMachine.h"
-#include <memory>
-#include <unordered_map>
-#include <vector>
 
 #define NON_STATE 9999
 
+class GameObject;
 class AnimationController;
 class ResourceAnimation;
-class ResourceStateMachine;
-class State;
-class Transition;
-class GameObject;
+struct State;
+struct Transition;
 
 class ComponentAnimation : public Component, public Drawable, public Updatable
 {
@@ -36,16 +31,19 @@ public:
 
 	void DrawBones(GameObject* parent) const;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
-
 	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
 	void ActivateDrawBones(bool drawBones);
 
 	bool IsDrawBonesActivated() const;
 
+	bool isPlaying() const;
+	std::string& GetActualStateName() const;
+
 private:
-	bool CheckTransitions(State* state, Transition& transition);
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
+	bool CheckTransitions(const State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
@@ -74,4 +72,9 @@ inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
 inline bool ComponentAnimation::IsDrawBonesActivated() const
 {
 	return drawBones;
+}
+
+inline std::string& ComponentAnimation::GetActualStateName() const
+{
+	return stateMachine->GetState(actualState)->name;
 }

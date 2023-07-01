@@ -2,6 +2,8 @@
 #include "Module.h"
 #include "physfs.h"
 
+struct zip_t;
+
 class ModuleFileSystem : public Module
 {
 public:
@@ -13,10 +15,10 @@ public:
 
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	unsigned int Load(const std::string& filePath, char*& buffer) const;
-	unsigned int Save(const std::string& filePath, const void* buffer, unsigned int size, bool append = false) const;
+	unsigned int Save(const std::string& filePath, const void* buffer, size_t size, bool append = false) const;
 	bool Copy(const std::string& sourceFilePath, const std::string& destinationFilePath) const;
 	bool CopyFromOutside(const std::string& sourceFilePath, const std::string& destinationFilePath) const;
-	bool Delete(const char* filePath);
+	bool Delete(const char* filePath) const;
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
 	bool CreateDirectory(const char* directoryPath) const;
@@ -30,16 +32,19 @@ public:
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
 
 	void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
-	void ZipFolder(struct zip_t* zip, const char* path) const;
+	void ZipFolder(zip_t* zip, const char* path) const;
 	void ZipLibFolder() const;
-};
 
-inline bool ModuleFileSystem::CleanUp()
-{
-	// returns non-zero on success, zero on failure
-	int deinitResult = PHYSFS_deinit();
-	return deinitResult != 0;
-}
+	void AppendToZipFolder(const std::string& zipPath,
+						   const std::string& newFileName,
+						   const void* buffer,
+						   size_t size,
+						   bool overwriteIfExists) const;
+	void AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const;
+
+private:
+	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
+};
 
 inline bool ModuleFileSystem::Exists(const char* filePath) const
 {
