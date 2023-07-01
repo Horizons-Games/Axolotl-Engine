@@ -35,8 +35,7 @@ void ComponentLine::LoadVBO()
 	float vertices[] = { 0.0f, 0.0f, 0.0f,
 						 0.0f, 1.0f, 0.0f, 
 						 1.0f, 0.0f, 0.0f, 
-						 1.0f, 1.0f, 0.0f	
-	};
+						 1.0f, 1.0f, 0.0f };
 	glGenBuffers(1, &quadVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -44,14 +43,31 @@ void ComponentLine::LoadVBO()
 
 void ComponentLine::Draw() const
 {
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::HIGHLIGHT);
-	if (program)
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
+	if (program != nullptr && childGameObject!=nullptr)
 	{
 		program->Activate();
 		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-		const float4x4& model =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+		
+		float3 globalPosition =
+			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalPosition();
+		float3 childGlobalPosition =
+			static_cast<ComponentTransform*>(childGameObject->GetComponent(ComponentType::TRANSFORM))
+				->GetGlobalPosition();
+
+		float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
+		float3 centerCamera= (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
+		float3 xAxis = childGlobalPosition - globalPosition;
+		float3 normalized = (childGlobalPosition - globalPosition).Normalized();
+		float3 yAxis = centerCamera.Cross(normalized);
+		float3 zAxis = normalized.Cross(yAxis);
+
+		const float4x4& model = float4x4(
+			float4(xAxis, 0.0),
+						 float4(yAxis, 0.0),
+						 float4(zAxis, 0.0),
+						 static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix().Col(3));
 
 		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
@@ -87,20 +103,17 @@ void ComponentLine::RecalculateVertices()
 	const ComponentTransform* childTransform =
 		static_cast<ComponentTransform*>(childGameObject->GetComponent(ComponentType::TRANSFORM));
 
-	const ComponentTransform* transform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	const ComponentTransform* transform =
+		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	float stepsX = (childTransform->GetGlobalPosition().x - transform->GetGlobalPosition().x) / numTiles;
 	float stepsY = (childTransform->GetGlobalPosition().y - transform->GetGlobalPosition().y) / numTiles;
 	float stepsZ = (childTransform->GetGlobalPosition().z - transform->GetGlobalPosition().z) / numTiles;
 
-	float vertices[] = { 0.0f, 0.0f, 0.0f,
-						 0.0f, 1.0f, 0.0f, 
-						 stepsX, stepsY, stepsZ, 
-						 stepsX, stepsY + 1, stepsZ 
-						};
+	float vertices[] = { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, stepsX, stepsY, stepsZ, stepsX, stepsY + 1, stepsZ };
 
 	std::vector<float> newVertices = std::vector<float>();
 	newVertices.insert(newVertices.end(), &vertices[0], &vertices[sizeof(vertices) / sizeof(int)]);
-	for (int i = 1 ; i < numTiles ; i++)
+	for (int i = 1; i < numTiles; i++)
 	{
 		float newPos = i + 1;
 		newVertices.push_back(newPos * stepsX);
@@ -109,16 +122,12 @@ void ComponentLine::RecalculateVertices()
 		newVertices.push_back(newPos * stepsX);
 		newVertices.push_back((newPos * stepsY) + 1);
 		newVertices.push_back(newPos * stepsZ);
-
 	}
 
-	glGenBuffers(1, &quadVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-	glBufferData(GL_ARRAY_BUFFER,  newVertices.size() * sizeof(float), &newVertices[0], GL_STATIC_DRAW);
-
+	glBufferData(GL_ARRAY_BUFFER, newVertices.size() * sizeof(float), &newVertices[0], GL_STATIC_DRAW);
 }
 
 void ComponentLine::FaceCamera()
 {
-
 }

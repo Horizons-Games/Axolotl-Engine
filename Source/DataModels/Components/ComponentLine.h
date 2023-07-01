@@ -22,7 +22,7 @@ public:
 	void FaceCamera();
 
 	int GetNumTiles();
-	void SetNumTiles(int numTiles); 
+	void SetNumTiles(int numTiles);
 
 private:
 	void LoadVBO();
