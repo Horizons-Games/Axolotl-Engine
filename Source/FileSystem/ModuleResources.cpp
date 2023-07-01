@@ -681,36 +681,6 @@ void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMateri
 	fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
 	std::string materialPath = materialResource->GetAssetsPath();
 
-	std::string metaPath = materialResource->GetAssetsPath() + META_EXTENSION;
-	char* metaBuffer = {};
-	fileSystem->Load(metaPath.c_str(), metaBuffer);
-	rapidjson::Document doc;
-	Json meta(doc, doc);
-	meta.fromBuffer(metaBuffer);
-	delete metaBuffer;
-
-	meta["DiffuseAssetPath"] =
-		materialResource->GetDiffuse() ? materialResource->GetDiffuse()->GetAssetsPath().c_str() : "";
-	meta["NormalAssetPath"] =
-		materialResource->GetNormal() ? materialResource->GetNormal()->GetAssetsPath().c_str() : "";
-	meta["OcclusionAssetPath"] =
-		materialResource->GetOcclusion() ? materialResource->GetOcclusion()->GetAssetsPath().c_str() : "";
-	if (materialResource->GetShaderType() == 0)
-	{
-		meta["SpecularAssetPath"] =
-			materialResource->GetMetallic() ? materialResource->GetMetallic()->GetAssetsPath().c_str() : "";
-	}
-	else
-	{
-		meta["SpecularAssetPath"] =
-			materialResource->GetSpecular() ? materialResource->GetSpecular()->GetAssetsPath().c_str() : "";
-	}
-	meta["EmissiveAssetPath"] =
-		materialResource->GetEmission() ? materialResource->GetEmission()->GetAssetsPath().c_str() : "";
-
-	rapidjson::StringBuffer buffer;
-	meta.toBuffer(buffer);
-	fileSystem->Save(metaPath.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
 	fileSystem->Save(materialPath.c_str(), fileBuffer, size);
 	delete fileBuffer;
 }

@@ -164,6 +164,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
+			resource->LoadLoadOptions(meta);
 			ImportResourceFromLibrary(resource);
 
 			if (resource)
@@ -203,6 +204,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
+			resource->LoadLoadOptions(meta);
 			ImportResourceFromLibrary(resource);
 			if (resource)
 			{
