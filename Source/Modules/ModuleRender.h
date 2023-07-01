@@ -7,6 +7,8 @@
 
 #include "FileSystem/UID.h"
 
+#define BLOOM_BLUR_PING_PONG 2
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -91,6 +93,9 @@ private:
 	GLuint frameBuffer;
 	GLuint renderedTexture;
 	GLuint bloomTexture;
+
+	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG]; // Ping-pong buffers to blur bloom
+	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
 	
 	GLuint depthStencilRenderBuffer;
 

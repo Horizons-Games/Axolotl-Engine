@@ -81,6 +81,8 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
+	
+	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "gaussian_blur_fragment.glsl", "GaussianBlur"));
 
 	return true;
 }
