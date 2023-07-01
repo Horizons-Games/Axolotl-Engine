@@ -20,6 +20,7 @@
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLine.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
@@ -151,7 +152,7 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentLine, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent(gameObject, ComponentType::LINE);
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentLine>(gameObject);
 		},
 		ComponentFunctionality::GRAPHICS));
 

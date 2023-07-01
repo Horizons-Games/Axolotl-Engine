@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "ComponentLine.h"
 #include "Application.h"
 #include "Components/ComponentTransform.h"
@@ -5,6 +6,7 @@
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
 #include "ModuleCamera.h"
+#include "Camera/Camera.h"
 #include "ModuleProgram.h"
 #include <GL/glew.h>
 
@@ -12,8 +14,7 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 {
 	childGameObject = new GameObject("Line End", owner);
 	childGameObject->InitNewEmptyGameObject(true);
-	ComponentTransform* transform =
-		static_cast<ComponentTransform*>(childGameObject->GetComponent(ComponentType::TRANSFORM));
+	ComponentTransform* transform = childGameObject->GetComponent<ComponentTransform>();
 	transform->SetPosition(
 		float3(transform->GetPosition().x + 1.0, transform->GetPosition().y, transform->GetPosition().z));
 	transform->UpdateTransformMatrices();
@@ -44,30 +45,27 @@ void ComponentLine::LoadVBO()
 void ComponentLine::Draw() const
 {
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
-	if (program != nullptr && childGameObject!=nullptr)
+	if (program != nullptr && childGameObject != nullptr)
 	{
 		program->Activate();
 		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-		
-		float3 globalPosition =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalPosition();
-		float3 childGlobalPosition =
-			static_cast<ComponentTransform*>(childGameObject->GetComponent(ComponentType::TRANSFORM))
-				->GetGlobalPosition();
+
+		float3 globalPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 		float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
-		float3 centerCamera= (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
+		float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
 		float3 xAxis = childGlobalPosition - globalPosition;
 		float3 normalized = (childGlobalPosition - globalPosition).Normalized();
 		float3 yAxis = centerCamera.Cross(normalized);
 		float3 zAxis = normalized.Cross(yAxis);
 
-		const float4x4& model = float4x4(
-			float4(xAxis, 0.0),
-						 float4(yAxis, 0.0),
-						 float4(zAxis, 0.0),
-						 static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix().Col(3));
+		const float4x4& model =
+			float4x4(float4(xAxis, 0.0),
+					 float4(yAxis, 0.0),
+					 float4(zAxis, 0.0),
+					 GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix().Col(3));
 
 		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
 		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
@@ -82,29 +80,11 @@ void ComponentLine::Draw() const
 	}
 }
 
-void ComponentLine::SaveOptions(Json& meta)
-{
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
-}
-
-void ComponentLine::LoadOptions(Json& meta)
-{
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-}
-
 void ComponentLine::RecalculateVertices()
 {
-	const ComponentTransform* childTransform =
-		static_cast<ComponentTransform*>(childGameObject->GetComponent(ComponentType::TRANSFORM));
+	const ComponentTransform* childTransform = childGameObject->GetComponent<ComponentTransform>();
+	const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-	const ComponentTransform* transform =
-		static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	float stepsX = (childTransform->GetGlobalPosition().x - transform->GetGlobalPosition().x) / numTiles;
 	float stepsY = (childTransform->GetGlobalPosition().y - transform->GetGlobalPosition().y) / numTiles;
 	float stepsZ = (childTransform->GetGlobalPosition().z - transform->GetGlobalPosition().z) / numTiles;

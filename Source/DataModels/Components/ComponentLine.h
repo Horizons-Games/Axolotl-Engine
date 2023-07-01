@@ -15,8 +15,8 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void InternalSave(Json& meta) override{};
+	void InternalLoad(const Json& meta) override{};
 
 	void RecalculateVertices();
 	void FaceCamera();

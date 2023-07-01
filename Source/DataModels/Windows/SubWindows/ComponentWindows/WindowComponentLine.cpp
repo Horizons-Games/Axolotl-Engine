@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentLine.h"
 #include "Components/ComponentLine.h"
 
