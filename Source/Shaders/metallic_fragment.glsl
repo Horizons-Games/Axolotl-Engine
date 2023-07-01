@@ -81,7 +81,8 @@ in vec2 TexCoord;
 
 in flat int InstanceIndex;
 
-out vec4 outColor;
+layout (location = 0) out vec4 outColor;
+layout (location = 1) out vec4 brightColor;
 
 vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 {
@@ -370,6 +371,17 @@ void main()
         color += vec3(texture(material.emissive_map, newTexCoord));
     }
     
+    // Generate bloomTexture
+    float brightness = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
+    if(brightness > 1.0)
+    {
+        brightColor = vec4(color.rgb, 1.0);
+    }
+    else
+    {
+        brightColor = vec4(0.0, 0.0, 0.0, 1.0);
+    }
+
 	//hdr rendering
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/gammaCorrection));

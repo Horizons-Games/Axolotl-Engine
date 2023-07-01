@@ -90,6 +90,7 @@ private:
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
+	GLuint bloomTexture;
 	
 	GLuint depthStencilRenderBuffer;
 

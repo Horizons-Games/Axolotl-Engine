@@ -124,6 +124,7 @@ ModuleRender::ModuleRender() :
 	context(nullptr),
 	frameBuffer(0),
 	renderedTexture(0),
+	bloomTexture(0),
 	depthStencilRenderBuffer(0)
 {
 }
@@ -184,6 +185,7 @@ bool ModuleRender::Init()
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
 #endif // ENGINE
+	glGenTextures(1, &bloomTexture);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
@@ -414,6 +416,7 @@ bool ModuleRender::CleanUp()
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
 #endif // ENGINE
+	glDeleteTextures(1, &bloomTexture);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 	return true;
 }
@@ -439,13 +442,26 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 	glBindTexture(GL_TEXTURE_2D, renderedTexture);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL); // probably change this to a RGBA16F
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+
+	glBindTexture(GL_TEXTURE_2D, bloomTexture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, bloomTexture, 0);
+
+	unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+	glDrawBuffers(2, attachments);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
@@ -602,6 +618,9 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	glActiveTexture(GL_TEXTURE15);
+	glBindTexture(GL_TEXTURE_2D, bloomTexture);
 
 	program->BindUniformFloat3("viewPos", viewPos);
 
