@@ -42,6 +42,7 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["tilingy"] = (float) tiling.y;
 	meta["offsetx"] = (float) offset.x;
 	meta["offsety"] = (float) offset.y;
+	meta["shaderType"] = static_cast<int>(loadOptions.shaderType);
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -51,6 +52,7 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	diffuseColor.z = (float) meta["diffuseColor_z"];
 	diffuseColor.w = (float) meta["diffuseColor_w"];
 	if (diffuseColor.w == 0.f)
+	loadOptions.shaderType = static_cast<int>(meta["shaderType"]);
 	{
 		diffuseColor.w = 1.0f;
 	} 
