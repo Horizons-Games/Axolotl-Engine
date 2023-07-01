@@ -8,6 +8,8 @@
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 
+#include "Camera/CameraGameObject.h"
+
 #include "Cubemap/Cubemap.h"
 
 #include "Components/ComponentMeshRenderer.h"
@@ -18,6 +20,8 @@
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/GBuffer/GBuffer.h"
+
+#include "debugdraw.h"
 
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -212,6 +216,7 @@ UpdateStatus ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 	
 	gameObjectsInFrustrum.clear();
+	objectsInFrustrumDistances.clear();
 
 	gBuffer->BindFrameBuffer();
 
@@ -572,9 +577,8 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	const float3& lightPos = lightTransform->GetGlobalPosition();
 
 	// Compute camera frustrum bounding sphere
-	const math::Frustum* cameraFrustum = App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum()
-		;
-	math::vec* corners;
+	const math::Frustum* cameraFrustum = App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum();
+	math::vec corners[8];
 	cameraFrustum->GetCornerPoints(corners);
 
 	float3 sumCorners(0.0f);
@@ -599,13 +603,16 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	// Compute bounding box
 	math::Frustum frustum;
 
-	frustum.SetPos(sphereCenter - lightTransform->GetGlobalForward() * sphereRadius);
-	frustum.SetFront(lightTransform->GetGlobalForward());
+	float3 lightDir = lightTransform->GetGlobalForward();
+	frustum.SetPos(sphereCenter - lightDir * sphereRadius);
+	frustum.SetFront(lightDir);
 	frustum.SetUp(lightTransform->GetGlobalUp());
 	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
 	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
-	
+
 	//TODO: Frustum culling with the created light frustum to obtain the meshes of the scene to take into account
+	std::vector<const GameObject*> objectsInFrustum =
+		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)

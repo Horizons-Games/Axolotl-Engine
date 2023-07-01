@@ -112,6 +112,87 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
+std::vector<const GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum)
+{
+	std::vector<const GameObject*> objectsInFrustum;
+
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+
+	return objectsInFrustum;
+}
+
+void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
+									  std::vector<const GameObject*>& gos)
+{
+	if (frustumInQuadTree(frustum, quad))
+	{
+		const std::set<GameObject*>& gameObjectsToRender = quad->GetGameObjects();
+
+		if (quad->IsLeaf())
+		{
+			for (const GameObject* gameObject : gameObjectsToRender)
+			{
+				if (gameObject->IsActive() && gameObject->IsEnabled())
+				{
+					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+
+					gos.push_back(gameObject);
+				}
+			}
+		}
+		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		{
+			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			{
+				if (gameObject->IsActive() && gameObject->IsEnabled())
+				{
+					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+
+					gos.push_back(gameObject);
+				}
+			}
+
+			CalculateObjectsInFrustum(frustum, quad->GetFrontRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetFrontLeftNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackLeftNode(), gos);
+		}
+		else
+		{
+			CalculateObjectsInFrustum(frustum, quad->GetFrontRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetFrontLeftNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackLeftNode(), gos);
+		}
+	}
+}
+
+bool Scene::frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad)
+{
+	math::Plane planes[6];
+	frustum->GetPlanes(planes);
+
+	math::vec corners[8];
+	quad->GetBoundingBox().GetCornerPoints(corners);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!planes[itPlanes].IsOnPositiveSide(corners[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+			return false;
+	}
+
+	return true;
+}
+
 GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {
 	assert(!name.empty() && parent != nullptr);
