@@ -507,19 +507,20 @@ std::shared_ptr<ResourceMaterial>
 		}
 	}
 
-	char* fileBuffer{};
-	unsigned int size = 0;
+	rapidjson::Document doc;
+	Json mat(doc, doc);
+	std::shared_ptr<ResourceMaterial> resourceMaterial;
+	resourceMaterial->SavePaths(mat, pathTextures);
 
-	App->GetModule<ModuleFileSystem>()->SaveInfoMaterial(pathTextures, fileBuffer, size);
 	std::string name = material->GetName().C_Str();
 	std::string materialPath = MATERIAL_PATH + App->GetModule<ModuleFileSystem>()->GetFileName(filePath) + name + "_" +
 							   std::to_string(iteration) + MATERIAL_EXTENSION;
+	rapidjson::StringBuffer buffer;
+	mat.toBuffer(buffer);
 
-	App->GetModule<ModuleFileSystem>()->Save(materialPath.c_str(), fileBuffer, size);
-	std::shared_ptr<ResourceMaterial> resourceMaterial =
+	App->GetModule<ModuleFileSystem>()->Save(materialPath.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+	resourceMaterial =
 		std::dynamic_pointer_cast<ResourceMaterial>(App->GetModule<ModuleResources>()->ImportResource(materialPath));
-
-	delete fileBuffer;
 
 	return resourceMaterial;
 }

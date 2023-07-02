@@ -49,7 +49,8 @@ public:
 
 	// Resources with child resources like this, their children are part of the load options
 	// because their path is a load option provided by the asset and editable in the engine
-	void SavePaths(Json& meta);
+	void SavePaths(Json& meta, const std::vector<std::string>& pathTextures = std::vector<std::string>());
+	void LoadPaths(Json& meta);
 
 	std::shared_ptr<ResourceTexture> GetDiffuse() const;
 	std::shared_ptr<ResourceTexture> GetNormal() const;
@@ -97,8 +98,6 @@ protected:
 	void InternalUnload() override{};
 
 private:
-	
-	void LoadPaths(Json& meta);
 	bool CheckAssetPath(std::string& assetPath);
 	
 	std::shared_ptr<ResourceTexture> diffuse;

@@ -80,7 +80,6 @@ private:
 	// folder and file management
 	void CreateAssetAndLibFolders();
 	void MonitorResources();
-	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 
 	ResourceType FindTypeByFolder(const std::string& path);

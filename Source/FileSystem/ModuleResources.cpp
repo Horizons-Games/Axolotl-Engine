@@ -399,10 +399,17 @@ void ModuleResources::ReimportResource(UID resourceUID)
 {
 	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
 	CreateMetaFileOfResource(resource);
+	resource->SetChanged(false);
 	if (resource->GetType() == ResourceType::Material)
 	{
 		std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
-		ReImportMaterialAsset(materialResource);
+		rapidjson::Document doc;
+		Json mat(doc, doc);
+		materialResource->SavePaths(mat);
+		rapidjson::StringBuffer buffer;
+		mat.toBuffer(buffer);
+		App->GetModule<ModuleFileSystem>()->Save(
+			materialResource->GetAssetsPath().c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
 	}
 	if (resource->GetType() == ResourceType::StateMachine)
 	{
@@ -574,10 +581,9 @@ void ModuleResources::MonitorResources()
 					std::string libraryPathWithExtension = fileSystem->GetPathWithExtension(resource->GetLibraryPath());
 
 					if (libraryPathWithExtension.empty() /*file with that name was not found*/ ||
-						!fileSystem->Exists(libraryPathWithExtension.c_str()) || resource->IsChanged())
+						!fileSystem->Exists(libraryPathWithExtension.c_str()))
 					{
 						toCreateLib.push_back(resource);
-						resource->SetChanged(false);
 					}
 					if (!fileSystem->Exists((resource->GetAssetsPath() + META_EXTENSION).c_str()))
 					{
@@ -614,26 +620,6 @@ void ModuleResources::MonitorResources()
 		}
 		for (std::shared_ptr<Resource>& resource : toCreateLib)
 		{
-			if (resource->GetType() == ResourceType::Material)
-			{
-				std::shared_ptr<ResourceMaterial> materialResource =
-					std::dynamic_pointer_cast<ResourceMaterial>(resource);
-				ReImportMaterialAsset(materialResource);
-			}
-			else if (resource->GetType() == ResourceType::StateMachine)
-			{
-				std::shared_ptr<ResourceStateMachine> stateMachineResource =
-					std::dynamic_pointer_cast<ResourceStateMachine>(resource);
-				char* saveBuffer = {};
-				unsigned int size = 0;
-				stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-				App->GetModule<ModuleFileSystem>()->Save(
-					(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
-				delete saveBuffer;
-				break;
-			}
-			else if (resource->GetType() == ResourceType::ParticleSystem)
-				break;
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 		}
 		for (std::shared_ptr<Resource>& resource : toCreateMeta)
@@ -642,47 +628,6 @@ void ModuleResources::MonitorResources()
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 	}
-}
-
-void ModuleResources::ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource)
-{
-	std::vector<std::string> pathTextures;
-
-	std::shared_ptr<ResourceTexture> textureDiffuse = materialResource->GetDiffuse();
-	textureDiffuse ? pathTextures.push_back(textureDiffuse->GetAssetsPath()) : pathTextures.push_back(std::string());
-
-	std::shared_ptr<ResourceTexture> textureNormal = materialResource->GetNormal();
-	textureNormal ? pathTextures.push_back(textureNormal->GetAssetsPath()) : pathTextures.push_back(std::string());
-
-	std::shared_ptr<ResourceTexture> textureOcclusion = materialResource->GetOcclusion();
-	textureOcclusion ? pathTextures.push_back(textureOcclusion->GetAssetsPath())
-					 : pathTextures.push_back(std::string());
-
-	if (materialResource->GetShaderType() == 0)
-	{
-		std::shared_ptr<ResourceTexture> textureMetallic = materialResource->GetMetallic();
-		textureMetallic ? pathTextures.push_back(textureMetallic->GetAssetsPath()) 
-			: pathTextures.push_back(std::string());
-	}
-	else
-	{
-		std::shared_ptr<ResourceTexture> textureSpecular = materialResource->GetSpecular();
-		textureSpecular ? pathTextures.push_back(textureSpecular->GetAssetsPath()) 
-			: pathTextures.push_back(std::string());
-	}
-
-	std::shared_ptr<ResourceTexture> textureEmissive = materialResource->GetEmission();
-	textureEmissive ? pathTextures.push_back(textureEmissive->GetAssetsPath()) : pathTextures.push_back(std::string());
-
-	char* fileBuffer{};
-	unsigned int size = 0;
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
-
-	fileSystem->SaveInfoMaterial(pathTextures, fileBuffer, size);
-	std::string materialPath = materialResource->GetAssetsPath();
-
-	fileSystem->Save(materialPath.c_str(), fileBuffer, size);
-	delete fileBuffer;
 }
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)

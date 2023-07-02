@@ -4,7 +4,7 @@
 #include "FileSystem/Json.h"
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
-#include "ModuleResources.h"
+#include "FileSystem/ModuleResources.h"
 
 ResourceMaterial::ResourceMaterial(UID resourceUID,
 								   const std::string& fileName,
@@ -73,71 +73,27 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	loadOptions.offset.y = static_cast<float>(meta["offsety"]);
 }
 
-void ResourceMaterial::SavePaths(Json& meta)
+void ResourceMaterial::SavePaths(Json& meta, const std::vector<std::string>& pathTextures)
 {
-	if (diffuse)
-	{
-		meta["DiffuseAssetPath"] = diffuse->GetAssetsPath().c_str();
-	}
-	else
-	{
-		meta["DiffuseAssetPath"] = "";
-	}
-
-	if (normal)
-	{
-		meta["NormalAssetPath"] = normal->GetAssetsPath().c_str();
-	}
-	else
-	{
-		meta["NormalAssetPath"] = "";
-	}
-
-	if (occlusion)
-	{
-		meta["OcclusionAssetPath"] = occlusion->GetAssetsPath().c_str();
-	}
-	else
-	{
-		meta["OcclusionAssetPath"] = "";
-	}
-
+	meta["DiffuseAssetPath"] =
+		pathTextures.empty() ? (diffuse ? diffuse->GetAssetsPath().c_str() : "") : pathTextures[0].c_str();
+	meta["NormalAssetPath"] =
+		pathTextures.empty() ? (normal ? normal->GetAssetsPath().c_str() : "") : pathTextures[1].c_str();
+	meta["OcclusionAssetPath"] =
+		pathTextures.empty() ? (occlusion ? occlusion->GetAssetsPath().c_str() : "") : pathTextures[2].c_str();
 	switch (loadOptions.shaderType)
 	{
 		case 0:
-
-			if (metallic)
-			{
-				meta["SpecularAssetPath"] = metallic->GetAssetsPath().c_str();
-			}
-			else
-			{
-				meta["SpecularAssetPath"] = "";
-			}
-
+			meta["MetalicAssetPath"] =
+				pathTextures.empty() ? (metallic ? metallic->GetAssetsPath().c_str() : "") : pathTextures[3].c_str();
 			break;
 		case 1:
-
-			if (specular)
-			{
-				meta["SpecularAssetPath"] = specular->GetAssetsPath().c_str();
-			}
-			else
-			{
-				meta["SpecularAssetPath"] = "";
-			}
-
+			meta["SpecularAssetPath"] =
+				pathTextures.empty() ? (specular ? specular->GetAssetsPath().c_str() : "") : pathTextures[3].c_str();
 			break;
 	}
-
-	if (emission)
-	{
-		meta["EmissiveAssetPath"] = emission->GetAssetsPath().c_str();
-	}
-	else
-	{
-		meta["EmissiveAssetPath"] = "";
-	}
+	meta["EmissiveAssetPath"] =
+		pathTextures.empty() ? (emission ? emission->GetAssetsPath().c_str() : "") : pathTextures[4].c_str();
 }
 
 void ResourceMaterial::LoadPaths(Json& meta)
@@ -164,20 +120,23 @@ void ResourceMaterial::LoadPaths(Json& meta)
 		SetOcclusion(resources->RequestResource<ResourceTexture>(assetPath));
 	}
 
-	assetPath = meta["Metalic/SpecularAssetPath"];
 
-	if (CheckAssetPath(assetPath))
+	switch (loadOptions.shaderType)
 	{
-		switch (loadOptions.shaderType)
-		{
-			case 0:
+		case 0:
+			assetPath = meta["MetalicAssetPath"];
+			if (CheckAssetPath(assetPath))
+			{
 				SetMetallic(resources->RequestResource<ResourceTexture>(assetPath));
-				break;
-
-			case 1:
+			}
+			break;
+		case 1:
+			assetPath = meta["SpecularAssetPath"];
+			if (CheckAssetPath(assetPath))
+			{
 				SetSpecular(resources->RequestResource<ResourceTexture>(assetPath));
-				break;
-		}
+			}
+			break;
 	}
 
 	assetPath = meta["EmissiveAssetPath"];

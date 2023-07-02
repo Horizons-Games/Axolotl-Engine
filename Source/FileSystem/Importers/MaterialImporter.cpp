@@ -5,7 +5,7 @@
 #include "DataModels/Resources/ResourceTexture.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-
+#include "FileSystem/Json.h"
 MaterialImporter::MaterialImporter()
 {
 }
@@ -16,76 +16,17 @@ MaterialImporter::~MaterialImporter()
 
 void MaterialImporter::Import(const char* filePath, std::shared_ptr<ResourceMaterial> resource)
 {
-	//Load FilePath
 	char* bufferPaths;
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	fileSystem->Load(filePath, bufferPaths);
-
-	unsigned int header[5];
-	memcpy(header, bufferPaths, sizeof(header));
-
-	bufferPaths += sizeof(header);
-
-	std::vector<std::shared_ptr<ResourceTexture>> resourceTexture;
-
-	for (int i = 0; i < 5; ++i)
 	{
-		char* pathPointer = new char[header[i]];
-		memcpy(pathPointer, bufferPaths, header[i]);
-		std::string path(pathPointer, pathPointer + header[i]);
+		fileSystem->Load(filePath, bufferPaths);
+		rapidjson::Document doc;
+		Json mat(doc, doc);
+		mat.fromBuffer(bufferPaths);
+		delete bufferPaths;
 
-		if (!path.empty())
-		{
-			resourceTexture.push_back(
-				std::dynamic_pointer_cast<ResourceTexture>(App->GetModule<ModuleResources>()->ImportResource(path)));
-		}
-		else
-		{
-			resourceTexture.push_back(0);
-		}
-
-		bufferPaths += header[i];
-
-		delete[] pathPointer;
-	}
-
-	if (resourceTexture[0] != 0)
-	{
-		resource->SetDiffuse(resourceTexture[0]);
-	}
-
-	if (resourceTexture[1] != 0)
-	{
-		resource->SetNormal(resourceTexture[1]);
-	}
-
-	if (resourceTexture[2] != 0)
-	{
-		resource->SetOcclusion(resourceTexture[2]);
-	}
-
-	if (resourceTexture[3] != 0)
-	{
-		switch (resource->GetShaderType())
-		{
-			case 0:
-
-				resource->SetMetallic(resourceTexture[3]);
-
-				break;
-
-			case 1:
-
-				resource->SetSpecular(resourceTexture[3]);
-
-				break;
-		}
-	}
-
-	if (resourceTexture[4] != 0)
-	{
-		resource->SetEmission(resourceTexture[4]);
+		resource->LoadPaths(mat);
 	}
 	
 	// Load Meta to Update Load path options
