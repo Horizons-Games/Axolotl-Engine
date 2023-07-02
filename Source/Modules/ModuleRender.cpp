@@ -13,6 +13,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLine.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -370,6 +371,11 @@ UpdateStatus ModuleRender::Update()
 	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
 		particle->Render();
+	}
+
+	for (ComponentLine* lines : loadedScene->GetSceneComponentLines())
+	{
+		lines->Render();
 	}
 
 	glEnable(GL_CULL_FACE); // Enable face culling

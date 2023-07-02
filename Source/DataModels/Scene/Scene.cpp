@@ -1344,6 +1344,11 @@ void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& 
 	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
 }
 
+void Scene::AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines)
+{
+	sceneComponentLines.insert(std::end(sceneComponentLines), std::begin(componentLines), std::end(componentLines));
+}
+
 void Scene::InitCubemap()
 {
 	if (root->GetComponent<ComponentCubemap>() == nullptr)

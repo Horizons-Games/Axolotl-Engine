@@ -367,6 +367,8 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::LINE:
 		{
 			newComponent = std::make_unique<ComponentLine>(*static_cast<ComponentLine*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLines(
+				static_cast<ComponentLine*>(newComponent.get()));
 			break;
 		}
 
@@ -634,6 +636,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			{
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
+			else if (referenceBeforeMove->GetType() == ComponentType::LINE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 			}
 		}
 
