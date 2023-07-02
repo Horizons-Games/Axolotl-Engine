@@ -124,7 +124,8 @@ ModuleRender::ModuleRender() :
 	context(nullptr),
 	frameBuffer(0),
 	renderedTexture(0),
-	depthStencilRenderBuffer(0)
+	depthStencilRenderBuffer(0),
+	bloomActivation(1)
 {
 }
 
@@ -417,6 +418,7 @@ UpdateStatus ModuleRender::Update()
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
 	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
+	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 	colorCorrectionProgram->Deactivate();

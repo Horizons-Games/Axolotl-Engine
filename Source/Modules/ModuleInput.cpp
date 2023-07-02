@@ -209,15 +209,21 @@ UpdateStatus ModuleInput::Update()
 		App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
 	}
 
+	if (keysState[SDL_SCANCODE_F1] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->SwitchBloomActivation();
+	}
+
+	if (keysState[SDL_SCANCODE_F2] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->ChangeToneMapping();
+	}
+
 	if (keysState[SDL_SCANCODE_F5] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
 	{
 		App->GetModule<ModuleRender>()->ChangeRenderMode();
 	}
 
-	if (keysState[SDL_SCANCODE_F6] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
-	{
-		App->GetModule<ModuleRender>()->ChangeToneMapping();
-	}
 #endif
 
 	return UpdateStatus::UPDATE_CONTINUE;

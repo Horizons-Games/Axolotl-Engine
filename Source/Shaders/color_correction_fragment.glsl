@@ -9,6 +9,7 @@ in vec2 TexCoord;
 layout(binding = 0) uniform sampler2D scene;
 layout(binding = 1) uniform sampler2D bloomBlur;
 uniform int tonneMappingMode;
+uniform int bloomActivation;
 
 out vec4 outColor;
 
@@ -44,8 +45,11 @@ vec3 uncharted2_tonemap(const vec3 hdr)
 void main()
 {             
     vec3 hdrColor = texture(scene, TexCoord).rgb;      
-    vec3 bloomColor = texture(bloomBlur, TexCoord).rgb;
-    hdrColor += bloomColor; // additive blending
+    if (bloomActivation == 1)
+    {
+        vec3 bloomColor = texture(bloomBlur, TexCoord).rgb;
+        hdrColor += bloomColor; // additive blending
+    }
     
     // tone mapping
     vec3 result = hdrColor;

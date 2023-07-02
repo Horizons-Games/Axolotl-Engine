@@ -45,6 +45,7 @@ public:
 
 	void ChangeRenderMode();
 	void ChangeToneMapping();
+	void SwitchBloomActivation();
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -96,6 +97,7 @@ private:
 
 	unsigned modeRender;
 	unsigned toneMappingMode;
+	unsigned bloomActivation;
 	
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
@@ -130,6 +132,11 @@ inline void ModuleRender::ChangeRenderMode()
 inline void ModuleRender::ChangeToneMapping()
 {
 	toneMappingMode = (toneMappingMode + 1) % static_cast<int>(ToneMappingMode::LENGTH);
+}
+
+inline void ModuleRender::SwitchBloomActivation()
+{
+	bloomActivation = (bloomActivation + 1) % 2;
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const
