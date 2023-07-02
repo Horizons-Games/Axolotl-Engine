@@ -225,6 +225,7 @@ UpdateStatus ModuleEditor::Update()
 		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
 		ImGui::DockBuilderDockWindow("Console", dockIdDown);
 		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
+		ImGui::DockBuilderDockWindow("State Machine Editor", dockIdDown);
 		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
 		ImGui::DockBuilderDockWindow("Resources", dockIdRight);
 		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
