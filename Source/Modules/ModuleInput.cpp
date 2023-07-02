@@ -231,24 +231,6 @@ UpdateStatus ModuleInput::Update()
 						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_GUIDE:
 							LOG_DEBUG("GUIDE PRESSED");
 							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_MAX:
-							LOG_DEBUG("MAX PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_MISC1:
-							LOG_DEBUG("MISC1 PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE1:
-							LOG_DEBUG("PADDLE1 PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE2:
-							LOG_DEBUG("PADDLE2 PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE3:
-							LOG_DEBUG("PADDLE3 PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE4:
-							LOG_DEBUG("PADDLE4 PRESSED");
-							break;
 						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_START:
 							LOG_DEBUG("START PRESSED");
 							break;

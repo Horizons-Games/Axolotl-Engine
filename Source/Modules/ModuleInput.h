@@ -29,6 +29,8 @@ public:
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
+	KeyState GetGamepadButton(int gamepadButton) const;
+
 	SDL_GameController* FindController();
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
@@ -56,6 +58,7 @@ public:
 private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
+	KeyState gamepadState[SDL_CONTROLLER_BUTTON_MAX] = { KeyState::IDLE };
 
 	float2 mouseWheel;
 	float2 mouseMotion;
@@ -119,6 +122,11 @@ inline KeyState ModuleInput::GetKey(int scanCode) const
 inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 {
 	return mouseButtonState[mouseButton];
+}
+
+inline KeyState ModuleInput::GetGamepadButton(int gamepadButton) const
+{
+	return gamepadState[gamepadButton];
 }
 
 inline float2 ModuleInput::GetMouseMotion() const
