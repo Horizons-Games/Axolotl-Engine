@@ -34,7 +34,9 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
 	inputTextureEmission(std::make_unique<WindowTextureInput>(this, TextureType::EMISSION)),
-	reset(false), newMaterial(false)
+	reset(false), newMaterial(false),
+	tiling(float2(1.0f)),
+	offset(float2(0.0f))
 {
 	InitMaterialValues();
 }
@@ -399,6 +401,41 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 
 			ImGui::Text("");
+
+			if (ImGui::InputFloat2("Tiling", &tiling[0], "%.1f"))
+			{
+				if (tiling[0] < 0.0f)
+				{
+					tiling[0] = 0.0f;
+				}
+
+				if (tiling[1] < 0.0f)
+				{
+					tiling[1] = 0.0f;
+				}
+			};
+			if (ImGui::InputFloat2("Offset", &offset[0], "%.3f"))
+			{
+				if (offset[0] < 0.0f)
+				{
+					offset[0] = 0.0f;
+				}
+				else if (offset[0] > 1.0f)
+				{
+					offset[0] = 1.0f;
+				}
+
+				if (offset[1] < 0.0f)
+				{
+					offset[1] = 0.0f;
+				}
+				else if (offset[1] > 1.0f)
+				{
+					offset[1] = 1.0f;
+				}
+			}
+			
+			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
 
 			if (ImGui::Button("Reset"))
@@ -428,6 +465,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetMetalness(metalness);
 				asMeshRenderer->SetNormalStrength(normalStrength);
 				asMeshRenderer->SetTransparent(isTransparent);
+				asMeshRenderer->SetTiling(tiling);
+				asMeshRenderer->SetOffset(offset);
 				materialResource->SetChanged(true);
 
 				App->GetModule<ModuleResources>()->ReimportResource(materialResource->GetUID());

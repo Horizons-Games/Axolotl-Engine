@@ -65,9 +65,9 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 887.5,
+                            "worldAABB_min_x": 857.5,
                             "worldAABB_min_y": 567.5,
-                            "worldAABB_max_x": 887.5,
+                            "worldAABB_max_x": 857.5,
                             "worldAABB_max_y": 567.5
                         }
                     },
@@ -84,7 +84,48 @@
                             "active": true,
                             "removed": true,
                             "constructName": "UIGameManager",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "MainMenuObject",
+                                    "value": 11066425268734494476,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "HudCanvasObject",
+                                    "value": 14886606599652691690,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SliderHudHealthBixFront",
+                                    "value": 13163654242768771022,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SliderHudHealthBixBack",
+                                    "value": 3900694407317337281,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "HealPwrUpObject",
+                                    "value": 281671160951463111,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "AttackPwrUpObject",
+                                    "value": 13694083955783951177,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DefensePwrUpObject",
+                                    "value": 14749501585491042878,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SpeedPwrUpObject",
+                                    "value": 17471015758077267026,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -162,7 +203,7 @@
                             "removed": true,
                             "static": true,
                             "mouse": true,
-                            "actualPlayer": true
+                            "actualPlayer": false
                         }
                     }
                 ]
@@ -250,10 +291,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -289,9 +330,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 68.28125,
-                            "worldAABB_max_x": 1775.0,
-                            "worldAABB_max_y": 1066.71875
+                            "worldAABB_min_y": 85.15625,
+                            "worldAABB_max_x": 1715.0,
+                            "worldAABB_max_y": 1049.84375
                         }
                     },
                     {
@@ -301,59 +342,6 @@
                             "removed": true,
                             "imageUID": 15386501278595226923,
                             "assetPathImage": "Assets/Textures/HUD_Template_V02.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0,
-                            "renderPercentage": 1.0,
-                            "direction": 0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "PowerUp Attack",
-                "tag": "",
-                "uid": 7665678808526599654,
-                "parentUID": 14563338083214426448,
-                "enabled": false,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 664.0,
-                            "localPositionY": -380.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 0.5,
-                            "sizeX": 472.0,
-                            "sizeY": 472.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1392.2657470703125,
-                            "worldAABB_min_y": 809.7135620117188,
-                            "worldAABB_max_x": 1610.4427490234375,
-                            "worldAABB_max_y": 1027.890625
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 17555979536449329138,
-                            "assetPathImage": "Assets/Textures/PwrUp_Attack.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
@@ -394,10 +382,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -432,169 +420,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "PwrUp Speed",
-                "tag": "",
-                "uid": 4738042424952589525,
-                "parentUID": 14563338083214426448,
-                "enabled": false,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 664.0,
-                            "localPositionY": -380.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 0.5,
-                            "sizeX": 472.0,
-                            "sizeY": 472.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1392.2657470703125,
-                            "worldAABB_min_y": 809.7135620117188,
-                            "worldAABB_max_x": 1610.4427490234375,
-                            "worldAABB_max_y": 1027.890625
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 3798987971627694107,
-                            "assetPathImage": "Assets/Textures/PwrUp_Speed.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0,
-                            "renderPercentage": 1.0,
-                            "direction": 0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "PwrUp Defense",
-                "tag": "",
-                "uid": 9057507787138596570,
-                "parentUID": 14563338083214426448,
-                "enabled": false,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 664.0,
-                            "localPositionY": -380.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 0.5,
-                            "sizeX": 472.0,
-                            "sizeY": 472.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1392.2657470703125,
-                            "worldAABB_min_y": 809.7135620117188,
-                            "worldAABB_max_x": 1610.4427490234375,
-                            "worldAABB_max_y": 1027.890625
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 8691663868978952864,
-                            "assetPathImage": "Assets/Textures/PwrUp_Defense.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0,
-                            "renderPercentage": 1.0,
-                            "direction": 0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "PwrUp Heal",
-                "tag": "",
-                "uid": 17073534831301807940,
-                "parentUID": 14563338083214426448,
-                "enabled": false,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 664.0,
-                            "localPositionY": -380.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 0.5,
-                            "sizeX": 472.0,
-                            "sizeY": 472.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1392.2657470703125,
-                            "worldAABB_min_y": 809.7135620117188,
-                            "worldAABB_max_x": 1610.4427490234375,
-                            "worldAABB_max_y": 1027.890625
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 3653604655447012285,
-                            "assetPathImage": "Assets/Textures/PwrUp_Heal.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0,
-                            "renderPercentage": 1.0,
-                            "direction": 0
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -629,10 +458,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -668,9 +497,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 68.28125,
-                            "worldAABB_max_x": 1775.0,
-                            "worldAABB_max_y": 1066.71875
+                            "worldAABB_min_y": 85.15625,
+                            "worldAABB_max_x": 1715.0,
+                            "worldAABB_max_y": 1049.84375
                         }
                     },
                     {
@@ -720,10 +549,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -749,19 +578,19 @@
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 0.5,
+                            "localScaleX": 0.6000000238418579,
+                            "localScaleY": 0.6000000238418579,
+                            "localScaleZ": 0.6000000238418579,
                             "sizeX": 3840.0,
                             "sizeY": 2160.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 68.28125,
-                            "worldAABB_max_x": 1775.0,
-                            "worldAABB_max_y": 1066.71875
+                            "worldAABB_min_x": -171.5,
+                            "worldAABB_min_y": -11.3125,
+                            "worldAABB_max_x": 1886.5,
+                            "worldAABB_max_y": 1146.3125
                         }
                     },
                     {
@@ -811,10 +640,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -849,10 +678,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 728.02734375,
-                            "worldAABB_min_y": 321.72991943359375,
-                            "worldAABB_max_x": 1046.97265625,
-                            "worldAABB_max_y": 400.77288818359375
+                            "worldAABB_min_x": 703.41796875,
+                            "worldAABB_min_y": 330.0376281738281,
+                            "worldAABB_max_x": 1011.58203125,
+                            "worldAABB_max_y": 406.4087219238281
                         }
                     },
                     {
@@ -902,10 +731,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 474.64007568359375,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 549.0606689453125
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 477.7790222167969,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 549.6839599609375
                         }
                     },
                     {
@@ -961,7 +790,38 @@
                             "active": true,
                             "removed": true,
                             "constructName": "UIButtonControl",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 14886606599652691690,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 11066425268734494476,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 5830227730363227367,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetUiGameManagerObject",
+                                    "value": 11768532019124242966,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": true,
+                                    "type": 4
+                                }
+                            ]
                         }
                     }
                 ]
@@ -996,10 +856,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 567.7462158203125,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 642.166748046875
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 567.7379150390625,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 639.642822265625
                         }
                     },
                     {
@@ -1055,7 +915,38 @@
                             "active": true,
                             "removed": true,
                             "constructName": "UIButtonControl",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 11580530061803437761,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 5146720080302587582,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 10091108126440617277,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetUiGameManagerObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
                         }
                     }
                 ]
@@ -1090,10 +981,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -1128,10 +1019,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -1166,10 +1057,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 660.8523559570313,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 735.2728881835938
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 657.69677734375,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 729.6016845703125
                         }
                     },
                     {
@@ -1225,7 +1116,38 @@
                             "active": true,
                             "removed": true,
                             "constructName": "UIButtonControl",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 15866193747972503658,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetUiGameManagerObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
                         }
                     }
                 ]
@@ -1260,10 +1182,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 753.9584350585938,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 828.3789672851563
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 747.6556396484375,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 819.560546875
                         }
                     },
                     {
@@ -1319,7 +1241,38 @@
                             "active": true,
                             "removed": true,
                             "constructName": "UIButtonControl",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 12286245553779367630,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetUiGameManagerObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": true,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
                         }
                     }
                 ]
@@ -1354,10 +1307,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 474.6401672363281,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 549.0607299804688
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 477.7790832519531,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 549.6840209960938
                         }
                     },
                     {
@@ -1407,10 +1360,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 567.7462158203125,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 642.166748046875
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 567.7379150390625,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 639.642822265625
                         }
                     },
                     {
@@ -1460,10 +1413,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 660.8523559570313,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 735.2728881835938
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 657.69677734375,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 729.6016845703125
                         }
                     },
                     {
@@ -1513,10 +1466,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 764.3131713867188,
-                            "worldAABB_min_y": 753.9584350585938,
-                            "worldAABB_max_x": 1010.6868286132813,
-                            "worldAABB_max_y": 828.3789672851563
+                            "worldAABB_min_x": 738.4772338867188,
+                            "worldAABB_min_y": 747.6556396484375,
+                            "worldAABB_max_x": 976.5227661132813,
+                            "worldAABB_max_y": 819.560546875
                         }
                     },
                     {
@@ -1566,10 +1519,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -1605,9 +1558,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 68.28125,
-                            "worldAABB_max_x": 1775.0,
-                            "worldAABB_max_y": 1066.71875
+                            "worldAABB_min_y": 85.15625,
+                            "worldAABB_max_x": 1715.0,
+                            "worldAABB_max_y": 1049.84375
                         }
                     },
                     {
@@ -1657,10 +1610,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1502.3878173828125,
-                            "worldAABB_min_y": 124.34204864501953,
-                            "worldAABB_max_x": 1605.9295654296875,
-                            "worldAABB_max_y": 150.2274627685547
+                            "worldAABB_min_x": 1451.6029052734375,
+                            "worldAABB_min_y": 139.32203674316406,
+                            "worldAABB_max_x": 1551.6446533203125,
+                            "worldAABB_max_y": 164.3324432373047
                         }
                     },
                     {
@@ -1716,7 +1669,38 @@
                             "active": true,
                             "removed": true,
                             "constructName": "UIButtonControl",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetUiGameManagerObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 4
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 4
+                                }
+                            ]
                         }
                     }
                 ]
@@ -1752,9 +1736,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 68.28125,
-                            "worldAABB_max_x": 1775.0,
-                            "worldAABB_max_y": 1066.71875
+                            "worldAABB_min_y": 85.15625,
+                            "worldAABB_max_x": 1715.0,
+                            "worldAABB_max_y": 1049.84375
                         }
                     },
                     {
@@ -1777,10 +1761,209 @@
         },
         {
             "GameObject": {
-                "name": "Bix Health Bar",
+                "name": "Missions",
                 "tag": "",
-                "uid": 18362108928942882031,
+                "uid": 18116258631062435979,
+                "parentUID": 14886606599652691690,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lvl 01",
+                "tag": "",
+                "uid": 5722067464957369267,
+                "parentUID": 18116258631062435979,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura Healt Bar",
+                "tag": "",
+                "uid": 2861017150424849253,
                 "parentUID": 10674086688048330317,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -790.8007202148438,
+                            "localPositionY": 367.9649353027344,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 583.0,
+                            "sizeY": 169.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 20.945571899414063,
+                            "worldAABB_min_y": 201.0840301513672,
+                            "worldAABB_max_x": 281.3218994140625,
+                            "worldAABB_max_y": 276.5618896484375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 16130080222997067293,
+                            "assetPathImage": "Assets/Textures/UI_HUD_HealthBar_Allura.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lvl 01 Mission 01",
+                "tag": "",
+                "uid": 10638921152799868684,
+                "parentUID": 5722067464957369267,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 1272.0,
+                            "localPositionY": 417.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 1147.0,
+                            "sizeY": 310.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1737.553955078125,
+                            "worldAABB_min_y": 125.79817199707031,
+                            "worldAABB_max_x": 2249.821044921875,
+                            "worldAABB_max_y": 264.24871826171875
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 7962367836740038179,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Mission_01.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIImageDisplacementControl",
+                            "fields": [
+                                {
+                                    "name": "EndPosition",
+                                    "value x": 677.0,
+                                    "value y": 417.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bix Health Bar Back",
+                "tag": "",
+                "uid": 3900694407317337281,
+                "parentUID": 14151799066594789110,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -1804,10 +1987,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 124.65486145019531,
-                            "worldAABB_min_y": 42.55989074707031,
-                            "worldAABB_max_x": 309.55072021484375,
-                            "worldAABB_max_y": 227.4557342529297
+                            "worldAABB_min_x": 120.44117736816406,
+                            "worldAABB_min_y": 60.30433654785156,
+                            "worldAABB_max_x": 299.0870361328125,
+                            "worldAABB_max_y": 238.95018005371094
                         }
                     },
                     {
@@ -1815,9 +1998,9 @@
                             "type": "Component_Slider",
                             "active": true,
                             "removed": true,
-                            "background": 14271261983518468396,
-                            "fill": 10695947469734630043,
-                            "handle": 2486838170846447268,
+                            "background": 1866383147023959263,
+                            "fill": 5332624937324081886,
+                            "handle": 15988910177430497060,
                             "minValue": 0.0,
                             "maxValue": 100.0,
                             "currentValue": 100.0,
@@ -1831,8 +2014,8 @@
             "GameObject": {
                 "name": "Background",
                 "tag": "",
-                "uid": 14271261983518468396,
-                "parentUID": 18362108928942882031,
+                "uid": 1866383147023959263,
+                "parentUID": 3900694407317337281,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -1856,10 +2039,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 20.882080078125,
-                            "worldAABB_min_y": 79.30793762207031,
-                            "worldAABB_max_x": 413.323486328125,
-                            "worldAABB_max_y": 190.7076873779297
+                            "worldAABB_min_x": 20.17620849609375,
+                            "worldAABB_min_y": 95.81019592285156,
+                            "worldAABB_max_x": 399.35198974609375,
+                            "worldAABB_max_y": 203.44432067871094
                         }
                     },
                     {
@@ -1884,8 +2067,8 @@
             "GameObject": {
                 "name": "Fill",
                 "tag": "",
-                "uid": 10695947469734630043,
-                "parentUID": 18362108928942882031,
+                "uid": 5332624937324081886,
+                "parentUID": 3900694407317337281,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -1909,10 +2092,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 181.93910217285156,
-                            "worldAABB_min_y": 144.80101013183594,
-                            "worldAABB_max_x": 383.4755859375,
-                            "worldAABB_max_y": 163.2906036376953
+                            "worldAABB_min_x": 175.78907775878906,
+                            "worldAABB_min_y": 159.0894317626953,
+                            "worldAABB_max_x": 370.5130615234375,
+                            "worldAABB_max_y": 176.9540252685547
                         }
                     },
                     {
@@ -1922,9 +2105,9 @@
                             "removed": true,
                             "imageUID": 4905021488089693757,
                             "assetPathImage": "Assets/Textures/UI_HUD_FillHealthBar_Bix.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
+                            "color_x": 0.4803921580314636,
+                            "color_y": 0.45919838547706604,
+                            "color_z": 0.45919838547706604,
                             "color_w": 1.0,
                             "renderPercentage": 1.0,
                             "direction": 0
@@ -1937,8 +2120,8 @@
             "GameObject": {
                 "name": "Handle",
                 "tag": "",
-                "uid": 2486838170846447268,
-                "parentUID": 18362108928942882031,
+                "uid": 15988910177430497060,
+                "parentUID": 3900694407317337281,
                 "enabled": false,
                 "static": true,
                 "Components": [
@@ -1962,10 +2145,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 400.21136474609375,
-                            "worldAABB_min_y": 107.2734375,
-                            "worldAABB_max_x": 423.3233642578125,
-                            "worldAABB_max_y": 162.7421875
+                            "worldAABB_min_x": 386.68310546875,
+                            "worldAABB_min_y": 122.83038330078125,
+                            "worldAABB_max_x": 409.01385498046875,
+                            "worldAABB_max_y": 176.42413330078125
                         }
                     },
                     {
@@ -2004,9 +2187,1182 @@
         },
         {
             "GameObject": {
-                "name": "Missions",
+                "name": "Bix Health Bar front",
                 "tag": "",
-                "uid": 18116258631062435979,
+                "uid": 13163654242768771022,
+                "parentUID": 14151799066594789110,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -725.1619873046875,
+                            "localPositionY": 467.822998046875,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 120.44123840332031,
+                            "worldAABB_min_y": 60.30390930175781,
+                            "worldAABB_max_x": 299.08709716796875,
+                            "worldAABB_max_y": 238.9497528076172
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Slider",
+                            "active": true,
+                            "removed": true,
+                            "background": 3473242849874210043,
+                            "fill": 14614395388487057850,
+                            "handle": 1273987985221086045,
+                            "minValue": 0.0,
+                            "maxValue": 100.0,
+                            "currentValue": 100.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 3473242849874210043,
+                "parentUID": 13163654242768771022,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 400.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 31.118316650390625,
+                            "worldAABB_min_y": 127.29609680175781,
+                            "worldAABB_max_x": 388.4100036621094,
+                            "worldAABB_max_y": 171.9575653076172
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 0.0,
+                            "color_z": 0.0,
+                            "color_w": 0.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Fill",
+                "tag": "",
+                "uid": 14614395388487057850,
+                "parentUID": 13163654242768771022,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 70.96399688720703,
+                            "localPositionY": -20.593000411987305,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 436.0,
+                            "sizeY": 40.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 175.7892608642578,
+                            "worldAABB_min_y": 159.0887908935547,
+                            "worldAABB_max_x": 370.51324462890625,
+                            "worldAABB_max_y": 176.95338439941406
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 4905021488089693757,
+                            "assetPathImage": "Assets/Textures/UI_HUD_FillHealthBar_Bix.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Handle",
+                "tag": "",
+                "uid": 1273987985221086045,
+                "parentUID": 13163654242768771022,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 198.47772216796875,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 25.0,
+                            "sizeY": 60.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 375.8848571777344,
+                            "worldAABB_min_y": 122.8299560546875,
+                            "worldAABB_max_x": 398.2156066894531,
+                            "worldAABB_max_y": 176.4237060546875
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 0.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.7019608020782471,
+                            "colorHovered_y": 0.7019608020782471,
+                            "colorHovered_z": 0.7019608020782471,
+                            "colorHovered_w": 0.0,
+                            "colorClicked_x": 0.501960813999176,
+                            "colorClicked_y": 0.501960813999176,
+                            "colorClicked_z": 0.501960813999176,
+                            "colorClicked_w": 0.0,
+                            "sceneName": ""
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bix Health Bar",
+                "tag": "",
+                "uid": 14151799066594789110,
+                "parentUID": 10674086688048330317,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Attack Slider",
+                "tag": "",
+                "uid": 13694083955783951177,
+                "parentUID": 14563338083214426448,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 664.0,
+                            "localPositionY": -380.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1361.2813720703125,
+                            "worldAABB_min_y": 817.6041870117188,
+                            "worldAABB_max_x": 1539.9271240234375,
+                            "worldAABB_max_y": 996.2500610351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Slider",
+                            "active": true,
+                            "removed": true,
+                            "background": 13203558679158816417,
+                            "fill": 7487855490474547295,
+                            "handle": 6829838114871950059,
+                            "minValue": 0.0,
+                            "maxValue": 100.0,
+                            "currentValue": 100.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 13203558679158816417,
+                "parentUID": 13694083955783951177,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 11425878247400912966,
+                            "assetPathImage": "Assets/Textures/UI_HUD_PowerUP_Attack_Background.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Fill",
+                "tag": "",
+                "uid": 7487855490474547295,
+                "parentUID": 13694083955783951177,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 17555979536449329138,
+                            "assetPathImage": "Assets/Textures/PwrUp_Attack.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Handle",
+                "tag": "",
+                "uid": 6829838114871950059,
+                "parentUID": 13694083955783951177,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 25.0,
+                            "sizeY": 60.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1439.4388427734375,
+                            "worldAABB_min_y": 880.1302490234375,
+                            "worldAABB_max_x": 1461.7696533203125,
+                            "worldAABB_max_y": 933.7239990234375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.699999988079071,
+                            "colorHovered_y": 0.699999988079071,
+                            "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.5,
+                            "colorClicked_y": 0.5,
+                            "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
+                            "sceneName": ""
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Speed Slider",
+                "tag": "",
+                "uid": 17471015758077267026,
+                "parentUID": 14563338083214426448,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 664.0,
+                            "localPositionY": -380.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1361.2813720703125,
+                            "worldAABB_min_y": 817.6041870117188,
+                            "worldAABB_max_x": 1539.9271240234375,
+                            "worldAABB_max_y": 996.2500610351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Slider",
+                            "active": true,
+                            "removed": true,
+                            "background": 15150296062522508550,
+                            "fill": 14166962467357981295,
+                            "handle": 4480412655846678174,
+                            "minValue": 0.0,
+                            "maxValue": 100.0,
+                            "currentValue": 100.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 15150296062522508550,
+                "parentUID": 17471015758077267026,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 6770237067544660809,
+                            "assetPathImage": "Assets/Textures/UI_HUD_PowerUP_Speed_Background.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Fill",
+                "tag": "",
+                "uid": 14166962467357981295,
+                "parentUID": 17471015758077267026,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 3798987971627694107,
+                            "assetPathImage": "Assets/Textures/PwrUp_Speed.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Handle",
+                "tag": "",
+                "uid": 4480412655846678174,
+                "parentUID": 17471015758077267026,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 116.4324951171875,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 25.0,
+                            "sizeY": 60.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1543.439697265625,
+                            "worldAABB_min_y": 880.1302490234375,
+                            "worldAABB_max_x": 1565.7705078125,
+                            "worldAABB_max_y": 933.7239990234375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.699999988079071,
+                            "colorHovered_y": 0.699999988079071,
+                            "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.5,
+                            "colorClicked_y": 0.5,
+                            "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
+                            "sceneName": ""
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Defense Slider",
+                "tag": "",
+                "uid": 14749501585491042878,
+                "parentUID": 14563338083214426448,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 664.0,
+                            "localPositionY": -380.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1361.2813720703125,
+                            "worldAABB_min_y": 817.6041870117188,
+                            "worldAABB_max_x": 1539.9271240234375,
+                            "worldAABB_max_y": 996.2500610351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Slider",
+                            "active": true,
+                            "removed": true,
+                            "background": 17318654761981390240,
+                            "fill": 5978105949680126708,
+                            "handle": 10055287296249578520,
+                            "minValue": 0.0,
+                            "maxValue": 100.0,
+                            "currentValue": 100.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 17318654761981390240,
+                "parentUID": 14749501585491042878,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 10005511660713142964,
+                            "assetPathImage": "Assets/Textures/UI_HUD_PowerUP_Defense_Background.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Fill",
+                "tag": "",
+                "uid": 5978105949680126708,
+                "parentUID": 14749501585491042878,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 8691663868978952864,
+                            "assetPathImage": "Assets/Textures/PwrUp_Defense.png",
+                            "color_x": 10.01568603515625,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Handle",
+                "tag": "",
+                "uid": 10055287296249578520,
+                "parentUID": 14749501585491042878,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 117.17535400390625,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 25.0,
+                            "sizeY": 60.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1544.1031494140625,
+                            "worldAABB_min_y": 880.1302490234375,
+                            "worldAABB_max_x": 1566.4339599609375,
+                            "worldAABB_max_y": 933.7239990234375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.699999988079071,
+                            "colorHovered_y": 0.699999988079071,
+                            "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.5,
+                            "colorClicked_y": 0.5,
+                            "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
+                            "sceneName": ""
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Heal Slider",
+                "tag": "",
+                "uid": 281671160951463111,
+                "parentUID": 14563338083214426448,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 664.0,
+                            "localPositionY": -380.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1361.2813720703125,
+                            "worldAABB_min_y": 817.6041870117188,
+                            "worldAABB_max_x": 1539.9271240234375,
+                            "worldAABB_max_y": 996.2500610351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Slider",
+                            "active": true,
+                            "removed": true,
+                            "background": 12230106211237139063,
+                            "fill": 726005093174343592,
+                            "handle": 13985399621572815856,
+                            "minValue": 0.0,
+                            "maxValue": 100.0,
+                            "currentValue": 100.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 12230106211237139063,
+                "parentUID": 281671160951463111,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 15690615896427976929,
+                            "assetPathImage": "Assets/Textures/UI_HUD_PowerUP_Heal_Background.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Fill",
+                "tag": "",
+                "uid": 726005093174343592,
+                "parentUID": 281671160951463111,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 472.0,
+                            "sizeY": 472.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1345.2032470703125,
+                            "worldAABB_min_y": 801.5260620117188,
+                            "worldAABB_max_x": 1556.0052490234375,
+                            "worldAABB_max_y": 1012.3281860351563
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 3653604655447012285,
+                            "assetPathImage": "Assets/Textures/PwrUp_Heal.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 5
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Handle",
+                "tag": "",
+                "uid": 13985399621572815856,
+                "parentUID": 281671160951463111,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 195.3211669921875,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 25.0,
+                            "sizeY": 60.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1613.9053955078125,
+                            "worldAABB_min_y": 880.1302490234375,
+                            "worldAABB_max_x": 1636.2362060546875,
+                            "worldAABB_max_y": 933.7239990234375
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.699999988079071,
+                            "colorHovered_y": 0.699999988079071,
+                            "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.5,
+                            "colorClicked_y": 0.5,
+                            "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
+                            "sceneName": ""
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Text Box",
+                "tag": "",
+                "uid": 13666704241542302822,
                 "parentUID": 14886606599652691690,
                 "enabled": true,
                 "static": true,
@@ -2031,10 +3387,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -2042,10 +3398,63 @@
         },
         {
             "GameObject": {
-                "name": "Lvl 01",
+                "name": "Text 01",
                 "tag": "",
-                "uid": 5722067464957369267,
-                "parentUID": 18116258631062435979,
+                "uid": 17916654389136876799,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 3248082805158298044,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_01.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Level 01",
+                "tag": "",
+                "uid": 15284654306391073998,
+                "parentUID": 13666704241542302822,
                 "enabled": true,
                 "static": true,
                 "Components": [
@@ -2069,10 +3478,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.0520629882813,
-                            "worldAABB_min_y": 475.05206298828125,
-                            "worldAABB_max_x": 979.9479370117188,
-                            "worldAABB_max_y": 659.9479370117188
+                            "worldAABB_min_x": 768.1770629882813,
+                            "worldAABB_min_y": 478.17706298828125,
+                            "worldAABB_max_x": 946.8229370117188,
+                            "worldAABB_max_y": 656.8229370117188
                         }
                     }
                 ]
@@ -2080,20 +3489,20 @@
         },
         {
             "GameObject": {
-                "name": "Allura Healt Bar",
+                "name": "Text 02",
                 "tag": "",
-                "uid": 2861017150424849253,
-                "parentUID": 10674086688048330317,
-                "enabled": true,
-                "static": true,
+                "uid": 2673110718754032670,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": false,
                 "Components": [
                     {
                         "Component": {
                             "type": "Component_Transform2D",
                             "active": true,
                             "removed": true,
-                            "localPositionX": -790.8007202148438,
-                            "localPositionY": 367.9649353027344,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -2101,16 +3510,16 @@
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
                             "localScaleZ": 0.5,
-                            "sizeX": 583.0,
-                            "sizeY": 169.0,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.678359985351563,
-                            "worldAABB_min_y": 188.2648162841797,
-                            "worldAABB_max_x": 291.1640625,
-                            "worldAABB_max_y": 266.38330078125
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
                         }
                     },
                     {
@@ -2118,8 +3527,8 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 16130080222997067293,
-                            "assetPathImage": "Assets/Textures/UI_HUD_HealthBar_Allura.png",
+                            "imageUID": 3099659333238732227,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_02.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
@@ -2133,9 +3542,327 @@
         },
         {
             "GameObject": {
-                "name": "Lvl 01 Mission 01",
+                "name": "Text 03",
                 "tag": "",
-                "uid": 10638921152799868684,
+                "uid": 2592185457576911954,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 2535309866094451092,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_03.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Text 04",
+                "tag": "",
+                "uid": 1689164805163630186,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 9748447048711437888,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_04.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Text 05",
+                "tag": "",
+                "uid": 6091888972757855865,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 14916009882261556237,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_05.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Text 06",
+                "tag": "",
+                "uid": 4405782507747116226,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 14995942212236251845,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_06.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Text 07",
+                "tag": "",
+                "uid": 3166542200449923992,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 14299092559839784092,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_07.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Text 08",
+                "tag": "",
+                "uid": 5997746328631188160,
+                "parentUID": 15284654306391073998,
+                "enabled": false,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": -89.0,
+                            "localPositionY": -353.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 2611.0,
+                            "sizeY": 700.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 194.947265625,
+                            "worldAABB_min_y": 726.4948120117188,
+                            "worldAABB_max_x": 1361.0579833984375,
+                            "worldAABB_max_y": 1039.125
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 8604038549669355240,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Text_08.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lvl 01 Mission 02",
+                "tag": "",
+                "uid": 16679737417336427743,
                 "parentUID": 5722067464957369267,
                 "enabled": true,
                 "static": true,
@@ -2145,8 +3872,8 @@
                             "type": "Component_Transform2D",
                             "active": true,
                             "removed": true,
-                            "localPositionX": 724.0617065429688,
-                            "localPositionY": 416.947265625,
+                            "localPositionX": 1272.0,
+                            "localPositionY": 417.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -2160,10 +3887,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1291.78564453125,
-                            "worldAABB_min_y": 110.39378356933594,
-                            "worldAABB_max_x": 1821.974365234375,
-                            "worldAABB_max_y": 253.6880645751953
+                            "worldAABB_min_x": 1737.553955078125,
+                            "worldAABB_min_y": 125.79817199707031,
+                            "worldAABB_max_x": 2249.821044921875,
+                            "worldAABB_max_y": 264.24871826171875
                         }
                     },
                     {
@@ -2171,8 +3898,8 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 15732540000650079517,
-                            "assetPathImage": "Assets/Textures/UI_HUD_Mission_01.png",
+                            "imageUID": 1583584466603360351,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Mission_02.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
@@ -2186,8 +3913,156 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "UIImageControl",
-                            "fields": null
+                            "constructName": "UIImageDisplacementControl",
+                            "fields": [
+                                {
+                                    "name": "EndPosition",
+                                    "value x": 677.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lvl 01 Mission 03",
+                "tag": "",
+                "uid": 18363795978426903138,
+                "parentUID": 5722067464957369267,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 1272.0,
+                            "localPositionY": 417.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 1147.0,
+                            "sizeY": 310.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1737.553955078125,
+                            "worldAABB_min_y": 125.79817199707031,
+                            "worldAABB_max_x": 2249.821044921875,
+                            "worldAABB_max_y": 264.24871826171875
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 10021931094272375122,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Mission_03.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIImageDisplacementControl",
+                            "fields": [
+                                {
+                                    "name": "EndPosition",
+                                    "value x": 677.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lvl 01 Mission 04",
+                "tag": "",
+                "uid": 12425528680742481321,
+                "parentUID": 5722067464957369267,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 1272.0,
+                            "localPositionY": 417.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
+                            "localScaleZ": 0.5,
+                            "sizeX": 1147.0,
+                            "sizeY": 310.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1737.553955078125,
+                            "worldAABB_min_y": 125.79817199707031,
+                            "worldAABB_max_x": 2249.821044921875,
+                            "worldAABB_max_y": 264.24871826171875
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 10855208358669765874,
+                            "assetPathImage": "Assets/Textures/UI_HUD_Lvl01_Mission_04.png",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIImageDisplacementControl",
+                            "fields": [
+                                {
+                                    "name": "EndPosition",
+                                    "value x": 677.0,
+                                    "value y": 0.0,
+                                    "value z": 0.0,
+                                    "type": 3
+                                }
+                            ]
                         }
                     }
                 ]
@@ -2197,14 +4072,14 @@
     "Quadtree": {
         "BoundingBox": {
             "MinPoint": {
-                "x": -25.0,
+                "x": -125.0,
                 "y": -10.0,
-                "z": -25.0
+                "z": -125.0
             },
             "MaxPoint": {
-                "x": 25.0,
+                "x": 75.0,
                 "y": 10.0,
-                "z": 25.0
+                "z": 75.0
             }
         }
     },

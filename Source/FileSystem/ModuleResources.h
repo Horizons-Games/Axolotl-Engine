@@ -18,6 +18,7 @@ class SkyBoxImporter;
 class CubemapImporter;
 class AnimationImporter;
 class StateMachineImporter;
+class ParticleSystemImporter;
 
 class ResourceMaterial;
 class EditorResourceInterface;
@@ -104,6 +105,7 @@ private:
 	std::unique_ptr<CubemapImporter> cubemapImporter;
 	std::unique_ptr<AnimationImporter> animationImporter;
 	std::unique_ptr<StateMachineImporter> stateMachineImporter;
+	std::unique_ptr<ParticleSystemImporter> particleSystemImporter;
 
 	std::thread monitorThread;
 	bool monitorResources;

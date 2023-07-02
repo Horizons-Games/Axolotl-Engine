@@ -221,7 +221,7 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 	float4 diffuseColor[1] = { resource->GetDiffuseColor() };
 	float3 specularColor[1] = { resource->GetSpecularColor() };
 
-	size = sizeof(texturesUIDs) + sizeof(diffuseColor) + sizeof(specularColor) + sizeof(float) * 3 + sizeof(bool) +
+	size = sizeof(texturesUIDs) + sizeof(diffuseColor) + sizeof(specularColor) + sizeof(float) * 7 + sizeof(bool) +
 		   sizeof(unsigned int);
 
 	char* cursor = new char[size];
@@ -265,6 +265,16 @@ void MaterialImporter::Save(const std::shared_ptr<ResourceMaterial>& resource, c
 
 	bytes = sizeof(float);
 	memcpy(cursor, &resource->GetMetalness(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(float) * 2;
+	memcpy(cursor, &resource->GetTiling(), bytes);
+
+	cursor += bytes;
+
+	bytes = sizeof(float) * 2;
+	memcpy(cursor, &resource->GetOffset(), bytes);
 }
 
 void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMaterial> resource)
@@ -446,6 +456,18 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 	float metalness;
 	memcpy(&metalness, fileBuffer, sizeof(float));
 	resource->SetMetalness(metalness);
+
+	fileBuffer += sizeof(float);
+
+	float2 tiling;
+	memcpy(&tiling, fileBuffer, sizeof(float2));
+	resource->SetTiling(tiling);
+
+	fileBuffer += sizeof(float2);
+
+	float2 offset;
+	memcpy(&offset, fileBuffer, sizeof(float2));
+	resource->SetOffset(offset);
 
 	fileBuffer += sizeof(float);
 

@@ -1,0 +1,15 @@
+{
+    "UID": 18438155797130523465,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/sign_letters.Text_0.mesh",
+        "Assets/Meshes/sign_letters.Text.001_0.mesh",
+        "Assets/Meshes/sign_letters.BezierCurve.002_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/sign_lettersMaterial.001_0.mat",
+        "Assets/Materials/sign_lettersDefaultMaterial_0.mat",
+        "Assets/Materials/sign_lettersMaterial.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

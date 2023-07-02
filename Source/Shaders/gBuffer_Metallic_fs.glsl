@@ -20,6 +20,11 @@ struct Material {
     sampler2D emissive_map;     //72 //8 -->80
 };
 
+struct Tiling {
+    vec2 tiling;                //0  //8
+    vec2 offset;                //8  //8 --> 16
+};
+
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gDiffuse;
@@ -28,6 +33,10 @@ layout (location = 4) out vec4 gEmissive;
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 12) buffer Tilings {
+    Tiling tilings[];
 };
 
 in vec3 FragTangent;
@@ -41,12 +50,15 @@ in flat int InstanceIndex;
 void main()
 {    
     Material material = materials[InstanceIndex];
+    Tiling tiling = tilings[InstanceIndex];
+
+    vec2 newTexCoord = TexCoord*tiling.tiling+tiling.offset;
 
     gPosition = FragPos;
     gNormal = Normal;
 
-    vec4 metallicColor = texture(material.metallic_map,TexCoord);
-    vec4 diffuseColor = texture(material.diffuse_map, TexCoord);
+    vec4 metallicColor = texture(material.metallic_map, newTexCoord);
+    vec4 diffuseColor = texture(material.diffuse_map, newTexCoord);
 
     float metalnessMask = material.has_metallic_map * metallicColor.r + (1 - material.has_metallic_map) * 
      material.metalness;
@@ -55,7 +67,7 @@ void main()
     if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(gNormal, FragTangent);
-        gNormal = texture(material.normal_map, TexCoord).rgb;
+        gNormal = texture(material.normal_map, newTexCoord).rgb;
         gNormal = gNormal * 2.0 - 1.0;
         gNormal.xy *= material.normal_strength;
         gNormal = normalize(gNormal);
@@ -84,6 +96,6 @@ void main()
     gEmissive= vec4(0.0);
     if (material.has_emissive_map == 1) 
     {
-        gEmissive.rgb = vec3(texture(material.emissive_map, TexCoord).rgb);
+        gEmissive.rgb = vec3(texture(material.emissive_map, newTexCoord).rgb);
     }
 }
