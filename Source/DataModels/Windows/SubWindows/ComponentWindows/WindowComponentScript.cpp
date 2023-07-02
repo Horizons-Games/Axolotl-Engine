@@ -26,37 +26,25 @@ WindowComponentScript::~WindowComponentScript()
 
 std::string WindowComponentScript::DrawStringField(std::string value, const std::string name)
 {
-	if (ImGui::InputText(name.c_str(), value.data(), 24))
-	{
-		return value;
-	}
+	ImGui::InputText(name.c_str(), value.data(), 24);
 	return value;
 }
 
 bool WindowComponentScript::DrawBoolField(bool value, const std::string name)
 {
-	if (ImGui::Checkbox(name.c_str(), &value))
-	{
-		return value;
-	}
+	ImGui::Checkbox(name.c_str(), &value);
 	return value;
 }
 
 float WindowComponentScript::DrawFloatField(float value, const std::string name)
 {
-	if (ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
-	{
-		return value;
-	}
+	ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f");
 	return value;
 }
 
 math::float3 WindowComponentScript::DrawFloat3Field(math::float3 value, const std::string name)
 {
-	if (ImGui::DragFloat3(name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
-	{
-		return value;
-	}
+	ImGui::DragFloat3(name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f");
 	return value;
 }
 
