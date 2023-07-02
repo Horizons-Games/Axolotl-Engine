@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/Bottle1v2_Material_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/Bottle1v2_Material_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Bottle1v2_Material_MetallicSmoothness.png"
+    "EmissiveAssetPath": "Assets/Textures/Bottle2_DefaultMaterial_Emission.png"
 }

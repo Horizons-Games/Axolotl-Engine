@@ -7,7 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentButton;
 class ComponentScript;
-class UIGameStates;
+class UIGameManager;
 
 class UIButtonControl : public Script
 {
@@ -19,14 +19,16 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	ComponentButton* buttonComponent;
+	UIGameManager* UIGameManagerClass;
+
 	bool isGameExit;
 	bool isGameResume;
+
 	GameObject* disableObject;
 	GameObject* enableObject;
 	GameObject* buttonHover;
-	GameObject* setGameStateObject;
-	ComponentButton* buttonComponent;
-	UIGameStates* uiGameStatesClass;
+	GameObject* setUiGameManagerObject;
 };
 
 

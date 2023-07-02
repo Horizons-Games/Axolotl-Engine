@@ -11,6 +11,7 @@
 #define SKYBOX_EXTENSION ".sky"
 #define CUBEMAP_EXTENSION ".cube"
 #define MATERIAL_EXTENSION ".mat"
+#define PARTICLESYSTEM_EXTENSION ".particle"
 #define STATEMACHINE_EXTENSION ".state"
 #define MESH_EXTENSION ".mesh"
 #define ANIMATION_EXTENSION ".anim"

@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/Cantina_StageLow2_Material_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/Cantina_StageLow2_Material_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Cantina_StageLow2_Material_MetallicSmoothness.png"
+    "EmissiveAssetPath": "Assets/Textures/Cantina_StageLow2_Material_Emission.png"
 }

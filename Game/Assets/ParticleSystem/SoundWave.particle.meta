@@ -1,0 +1,12 @@
+{
+    "UID": 15185487520365136975,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/SoundNote.png",
+        "Assets/Textures/SoundWave1.png"
+    ],
+    "ConfigEmitters": [
+        true,
+        true
+    ]
+}

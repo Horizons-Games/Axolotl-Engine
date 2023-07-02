@@ -11,21 +11,33 @@ struct Material {
     int has_diffuse_map;        //32 //4
     int has_normal_map;         //36 //4
     int has_specular_map;       //40 //4
-    float smoothness;           //44 //4
-    float normal_strength;      //48 //4
-    sampler2D diffuse_map;      //48 //8
-    sampler2D normal_map;       //56 //8
-    sampler2D specular_map;     //64 //8    
-    vec2 padding;               //72 //8 --> 80
+    int has_emissive_map;       //44 //4
+    float smoothness;           //48 //4
+    float normal_strength;      //52 //4
+    sampler2D diffuse_map;      //56 //8
+    sampler2D normal_map;       //64 //8
+    sampler2D specular_map;     //72 //8    
+    sampler2D emissive_map;     //80 //8
+    int padding1, padding2;     //88 //8 --> 96
+};
+
+struct Tiling {
+    vec2 tiling;                //0  //8
+    vec2 offset;                //8  //8 --> 16
 };
 
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gDiffuse;
 layout (location = 3) out vec4 gSpecular;
+layout (location = 4) out vec4 gEmissive;
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 12) buffer Tilings {
+    Tiling tilings[];
 };
 
 in vec3 FragTangent;
@@ -40,6 +52,9 @@ void main()
 {    
 
     Material material = materials[InstanceIndex];
+    Tiling tiling = tilings[InstanceIndex];
+
+    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
 
     gPosition = FragPos;
     gNormal = Normal;
@@ -48,14 +63,14 @@ void main()
     gDiffuse = material.diffuse_color;
     if (material.has_diffuse_map == 1)
     {
-        gDiffuse = texture(material.diffuse_map, TexCoord);
+        gDiffuse = texture(material.diffuse_map, newTexCoord);
     }
 
     //Normals
     if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(gNormal, FragTangent);
-        gNormal = texture(material.normal_map, TexCoord).rgb;
+        gNormal = texture(material.normal_map, newTexCoord).rgb;
         gNormal = gNormal * 2.0 - 1.0;
         gNormal.xy *= material.normal_strength;
         gNormal = normalize(gNormal);
@@ -65,6 +80,13 @@ void main()
     //Specular + smoothness
     gSpecular = vec4(material.specular_color, material.smoothness);
     if (material.has_specular_map == 1) {
-        gSpecular = vec4(texture(material.specular_map, TexCoord));
+        gSpecular = vec4(texture(material.specular_map, newTexCoord));
+    }
+
+    //Emissive
+    gEmissive= vec4(0.0);
+    if (material.has_emissive_map == 1) 
+    {
+        gEmissive.rgb = vec3(texture(material.emissive_map, newTexCoord).rgb);
     }
 } 

@@ -172,8 +172,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp" />
+    <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
+    <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyDeathScript.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyVenomiteScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
@@ -209,7 +227,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\DebugGame.cpp" />
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
@@ -251,13 +276,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneFastAttack.cpp">
+    <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DroneFastBullet.cpp">
+    <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
@@ -329,18 +354,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\UIGameStates.cpp">
+    <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIImageDisplacementControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\UIImageControl.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIMissionTrigger.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp" />
+    <ClCompile Include="..\Game\Scripts\UITextTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -374,8 +397,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentBreakable.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCubemap.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleRotation.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleSize.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleTexture.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\PopUpWindows\WindowBuild.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -396,6 +429,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -415,6 +452,7 @@
     <ClCompile Include="DataModels\Components\ComponentCamera.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMeshCollider.cpp" />
     <ClCompile Include="DataModels\Components\ComponentMeshRenderer.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentParticleSystem.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayer.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAnimation.cpp" />
     <ClCompile Include="DataModels\Components\ComponentRigidBody.cpp" />
@@ -429,12 +467,20 @@
     <ClCompile Include="DataModels\Components\UI\ComponentImage.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentTransform2D.cpp" />
     <ClCompile Include="DataModels\GameObject\GameObject.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\EmitterInstance.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleBase.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleColor.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModulePosition.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleSpawn.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ParticleEmitter.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ParticleModule.cpp" />
     <ClCompile Include="DataModels\Program\Program.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceCubemap.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceAnimation.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMaterial.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceMesh.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceModel.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceParticleSytem.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceScene.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceStateMachine.cpp" />
@@ -628,6 +674,7 @@
     <ClCompile Include="FileSystem\Importers\MaterialImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\MeshImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\ModelImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\ParticleSystemImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\SceneImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\StateMachineImporter.cpp" />
@@ -638,6 +685,7 @@
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp" />
     <ClCompile Include="FileSystem\UIDGenerator.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="DataModels\ParticleSystem\ModuleRenderer.cpp" />
     <ClCompile Include="Modules\ModuleNavigation.cpp" />
     <ClCompile Include="Modules\ModuleAudio.cpp" />
     <ClCompile Include="Modules\ModuleCommand.cpp" />
@@ -694,23 +742,29 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
+    <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
-    <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />
-    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h" />
+    <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\BixAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
+    <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h" />
+    <ClInclude Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.h" />
+    <ClInclude Include="..\Game\Scripts\DebugGame.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\GameManager.h" />
     <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
-    <ClInclude Include="..\Game\Scripts\DroneFastAttack.h" />
-    <ClInclude Include="..\Game\Scripts\DroneFastBullet.h" />
+    <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h" />
+    <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\CameraSample.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
@@ -721,8 +775,11 @@
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
-    <ClInclude Include="..\Game\Scripts\UIGameStates.h" />
-    <ClInclude Include="..\Game\Scripts\UIImageControl.h" />
+    <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
+    <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
+    <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
+    <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h" />
+    <ClInclude Include="..\Game\Scripts\UITextTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
@@ -750,6 +807,10 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentSlider.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -769,6 +830,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Batch\GeometryBatch.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleRotation.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleSize.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleTexture.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -804,6 +875,7 @@
     <ClInclude Include="DataModels\Components\ComponentCamera.h" />
     <ClInclude Include="DataModels\Components\ComponentMeshCollider.h" />
     <ClInclude Include="DataModels\Components\ComponentMeshRenderer.h" />
+    <ClInclude Include="DataModels\Components\ComponentParticleSystem.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayer.h" />
     <ClInclude Include="DataModels\Components\ComponentAnimation.h" />
     <ClInclude Include="DataModels\Components\ComponentRigidBody.h" />
@@ -818,6 +890,13 @@
     <ClInclude Include="DataModels\Components\UI\ComponentImage.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentTransform2D.h" />
     <ClInclude Include="DataModels\GameObject\GameObject.h" />
+    <ClInclude Include="DataModels\ParticleSystem\EmitterInstance.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleBase.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleColor.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModulePosition.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleSpawn.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ParticleEmitter.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ParticleModule.h" />
     <ClInclude Include="DataModels\Program\Program.h" />
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResource.h" />
     <ClInclude Include="DataModels\Resources\EditorResource\EditorResourceInterface.h" />
@@ -827,6 +906,7 @@
     <ClInclude Include="DataModels\Resources\ResourceMaterial.h" />
     <ClInclude Include="DataModels\Resources\ResourceMesh.h" />
     <ClInclude Include="DataModels\Resources\ResourceModel.h" />
+    <ClInclude Include="DataModels\Resources\ResourceParticleSystem.h" />
     <ClInclude Include="DataModels\Resources\ResourceScene.h" />
     <ClInclude Include="DataModels\Resources\ResourceSkyBox.h" />
     <ClInclude Include="DataModels\Resources\ResourceStateMachine.h" />
@@ -1048,6 +1128,7 @@
     <ClInclude Include="FileSystem\Importers\MaterialImporter.h" />
     <ClInclude Include="FileSystem\Importers\MeshImporter.h" />
     <ClInclude Include="FileSystem\Importers\ModelImporter.h" />
+    <ClInclude Include="FileSystem\Importers\ParticleSystemImporter.h" />
     <ClInclude Include="FileSystem\Importers\SceneImporter.h" />
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h" />
     <ClInclude Include="FileSystem\Importers\StateMachineImporter.h" />
@@ -1057,6 +1138,7 @@
     <ClInclude Include="FileSystem\ModuleResources.h" />
     <ClInclude Include="DataModels\GBuffer\GBuffer.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="DataModels\ParticleSystem\ModuleRenderer.h" />
     <ClInclude Include="Modules\ModuleNavigation.h" />
     <ClInclude Include="FileSystem\UID.h" />
     <ClInclude Include="FileSystem\UIDGenerator.h" />

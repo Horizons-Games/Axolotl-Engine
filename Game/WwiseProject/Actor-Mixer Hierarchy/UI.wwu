@@ -4,6 +4,13 @@
 		<WorkUnit Name="UI" ID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}" OwnerID="{C302772C-A0A9-4317-9387-4E1FA6616738}" PersistMode="Nested">
 			<ChildrenList>
 				<Sound Name="sfx_button_hover_01" ID="{96ED333A-D579-4AC3-8A59-C3AC055172E6}" ShortID="132451268">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -26,6 +33,13 @@
 					</ActiveSourceList>
 				</Sound>
 				<Sound Name="sfx_button_press_01" ID="{C8902B41-FC66-4631-9041-4C18370BB189}" ShortID="960949092">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -55,6 +69,13 @@
 					</ActiveSourceList>
 				</Sound>
 				<Sound Name="sfx_button_back_01" ID="{D98F5510-5B2C-4E4B-972B-F79A828BD7FB}" ShortID="328711345">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>

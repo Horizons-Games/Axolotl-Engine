@@ -1,4 +1,6 @@
+#include "StdAfx.h"
 #include "PlayerDeathScript.h"
+#include "AxoLog.h"
 
 #ifndef ENGINE
 	#include "Application.h"
@@ -25,10 +27,9 @@ void PlayerDeathScript::Start()
 
 void PlayerDeathScript::ManagePlayerDeath() const
 {
-	DisablePlayerActions();
 
 #ifndef ENGINE
-	if (loseSceneName != "" && !componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
+	if (loseSceneName != "" && !componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "BixDying")
 	{
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
 	}
@@ -37,6 +38,7 @@ void PlayerDeathScript::ManagePlayerDeath() const
 	{
 		LOG_VERBOSE("Player is dead");
 	}
+	//DisablePlayerActions();
 }
 
 void PlayerDeathScript::DisablePlayerActions() const
