@@ -161,19 +161,19 @@ void ComponentScript::SaveOptions(Json& meta)
 				case FieldType::FLOAT:
 					vectorElementsWithName[i]["name"] = std::string(vectorField.name + std::to_string(i)).c_str();
 					vectorElementsWithName[i]["value"] = std::any_cast<float>(vectorValue[i]);
-					vectorElementsWithName[i]["innerType"] = 0;
+					vectorElements["innerType"] = static_cast<int>(vectorField.innerType);
 					break;
 
 				case FieldType::STRING:
 					vectorElementsWithName[i]["name"] = vectorField.name.c_str();
 					vectorElementsWithName[i]["value"] = std::any_cast<std::string>(vectorValue[i]).c_str();
-					vectorElementsWithName[i]["innerType"] = 1;
+					vectorElements["innerType"] = static_cast<int>(vectorField.innerType);
 					break;
 
 				case FieldType::BOOLEAN:
 					vectorElementsWithName[i]["name"] = vectorField.name.c_str();
 					vectorElementsWithName[i]["value"] = std::any_cast<bool>(vectorValue[i]);
-					vectorElementsWithName[i]["innerType"] = 5;
+					vectorElements["innerType"] = static_cast<int>(vectorField.innerType);
 					break;
 
 				case FieldType::GAMEOBJECT:
@@ -185,11 +185,11 @@ void ComponentScript::SaveOptions(Json& meta)
 					}
 					else
 					{
-						vectorElementsWithName[i]["value"] = 0;
+						vectorElementsWithName[i]["value"] = static_cast<int>(vectorField.innerType);
 					}
 
 					vectorElementsWithName[i]["type"] = static_cast<int>(enumAndValue.first);
-					vectorElementsWithName[i]["innerType"] = 2;
+					vectorElements["innerType"] = static_cast<int>(vectorField.innerType);
 					break;
 
 				case FieldType::FLOAT3:
@@ -197,7 +197,7 @@ void ComponentScript::SaveOptions(Json& meta)
 					vectorElementsWithName[i]["value x"] = std::any_cast<float3>(vectorValue[i])[0];
 					vectorElementsWithName[i]["value y"] = std::any_cast<float3>(vectorValue[i])[1];
 					vectorElementsWithName[i]["value z"] = std::any_cast<float3>(vectorValue[i])[2];
-					vectorElementsWithName[i]["innerType"] = 3;
+					vectorElements["innerType"] = static_cast<int>(vectorField.innerType);
 					break;
 				}
 			}
@@ -328,7 +328,7 @@ void ComponentScript::LoadOptions(Json& meta)
 			for (unsigned int j = 0; j < vectorElements.Size(); ++j)
 			{
 
-				FieldType innerFieldType = static_cast<FieldType>(static_cast<int>(vectorElements[j]["innerType"]));
+				FieldType innerFieldType = static_cast<FieldType>(static_cast<int>(field["innerType"]));
 
 				switch (innerFieldType) 
 				{
