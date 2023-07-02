@@ -288,7 +288,7 @@ void main()
         textureMat = texture(material.diffuse_map, TexCoord); 
         //textureMat = pow(textureMat, vec3(2.2));
     }
-    textureMat = pow(textureMat, gammaCorrection);
+    textureMat = SRGBA(textureMat);
     
     //Transparency
     textureMat.a = material.has_diffuse_map * textureMat.a + 

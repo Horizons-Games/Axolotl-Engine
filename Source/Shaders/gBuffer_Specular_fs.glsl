@@ -65,6 +65,7 @@ void main()
     {
         gDiffuse = texture(material.diffuse_map, newTexCoord);
     }
+    gDiffuse = SGRBA(gDiffuse);
 
     //Normals
     if (material.has_normal_map == 1)

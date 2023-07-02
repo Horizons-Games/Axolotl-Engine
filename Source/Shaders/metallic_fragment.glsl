@@ -298,7 +298,7 @@ void main()
     {
         textureMat = texture(material.diffuse_map, newTexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection); // sRGB textures to linear space
+    textureMat = SRGBA(textureMat);
     
     if(textureMat.a < 0.01)
     {

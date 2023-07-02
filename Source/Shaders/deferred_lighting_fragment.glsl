@@ -320,15 +320,15 @@ void main()
 
     if(renderMode == 0)
     {
-        outColor = vec4(color,1.0);
+        outColor = vec4(color, 1.0);
     }
     else if (renderMode == 1)
     {
-        outColor = vec4(fragPos, 1.0f);
+        outColor = vec4(fragPos, 1.0);
     }
     else if (renderMode == 2)
     {
-        outColor = vec4(norm, 1.0f);
+        outColor = vec4(norm, 1.0);
     }
     else if (renderMode == 3)
     {
