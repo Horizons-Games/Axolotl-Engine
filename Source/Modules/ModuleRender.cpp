@@ -124,7 +124,6 @@ ModuleRender::ModuleRender() :
 	context(nullptr),
 	frameBuffer(0),
 	renderedTexture(0),
-	bloomTexture(0),
 	depthStencilRenderBuffer(0)
 {
 }
@@ -185,7 +184,6 @@ bool ModuleRender::Init()
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
 #endif // ENGINE
-	glGenTextures(1, &bloomTexture);
 	glGenFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
 	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
@@ -397,7 +395,7 @@ UpdateStatus ModuleRender::Update()
 		bloomBlurProgram->BindUniformInt("horizontal", horizontal);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? bloomTexture : bloomBlurTextures[!horizontal]);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!horizontal]);
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 		horizontal = !horizontal;
@@ -459,7 +457,6 @@ bool ModuleRender::CleanUp()
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
 #endif // ENGINE
-	glDeleteTextures(1, &bloomTexture);
 	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
 	glDeleteTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
@@ -494,19 +491,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
-
-	glBindTexture(GL_TEXTURE_2D, bloomTexture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, bloomTexture, 0);
-
-	unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
-	glDrawBuffers(2, attachments);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
@@ -684,8 +668,6 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	glActiveTexture(GL_TEXTURE13);
-	glBindTexture(GL_TEXTURE_2D, bloomTexture);
 	glActiveTexture(GL_TEXTURE14);
 	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
 	glActiveTexture(GL_TEXTURE15);

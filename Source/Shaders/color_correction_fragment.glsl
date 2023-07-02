@@ -45,7 +45,7 @@ void main()
 {             
     vec3 hdrColor = texture(scene, TexCoord).rgb;      
     vec3 bloomColor = texture(bloomBlur, TexCoord).rgb;
-    //hdrColor += bloomColor; // additive blending
+    hdrColor += bloomColor; // additive blending
     
     // tone mapping
     vec3 result = hdrColor;
