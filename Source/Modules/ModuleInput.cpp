@@ -94,6 +94,8 @@ UpdateStatus ModuleInput::Update()
 
 	SDL_PumpEvents();
 
+	SDL_GameController* controller = FindController();
+
 	SDL_Event sdlEvent;
 
 	while (SDL_PollEvent(&sdlEvent) != 0)
@@ -107,6 +109,7 @@ UpdateStatus ModuleInput::Update()
 			ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 		}
 #endif
+	
 
 		switch (sdlEvent.type)
 		{
@@ -132,21 +135,25 @@ UpdateStatus ModuleInput::Update()
 					inFocus = true;
 				}
 				break;
+
 			case SDL_KEYDOWN:
 				if (sdlEvent.key.repeat == 0)
 				{
 					keysState[sdlEvent.key.keysym.scancode] = KeyState::DOWN;
 				}
 				break;
+
 			case SDL_KEYUP:
 				if (sdlEvent.key.repeat == 0)
 				{
 					keysState[sdlEvent.key.keysym.scancode] = KeyState::UP;
 				}
 				break;
+
 			case SDL_MOUSEBUTTONDOWN:
 				mouseButtonState[sdlEvent.button.button] = KeyState::DOWN;
 				break;
+
 			case SDL_MOUSEBUTTONUP:
 				mouseButtonState[sdlEvent.button.button] = KeyState::UP;
 				break;
@@ -160,6 +167,137 @@ UpdateStatus ModuleInput::Update()
 			case SDL_MOUSEWHEEL:
 				mouseWheel = float2((float) sdlEvent.wheel.x, (float) sdlEvent.wheel.y);
 				mouseWheelScrolled = true;
+				break;
+
+			case SDL_CONTROLLERDEVICEADDED:
+				if (!controller)
+				{
+					controller = SDL_GameControllerOpen(sdlEvent.cdevice.which);
+				}
+				break;
+
+			case SDL_CONTROLLERDEVICEREMOVED:
+				if (controller && sdlEvent.cdevice.which == GetControllerInstanceID(controller))
+				{
+					SDL_GameControllerClose(controller);
+					controller = FindController();
+				}
+				break;
+
+			case SDL_CONTROLLERBUTTONDOWN:
+				if (controller && sdlEvent.cdevice.which == GetControllerInstanceID(controller))
+				{
+					switch (sdlEvent.cbutton.button)
+					{
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A:
+							LOG_DEBUG("A PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_B:
+							LOG_DEBUG("B PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_X:
+							LOG_DEBUG("X PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_Y:
+							LOG_DEBUG("Y PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_BACK:
+							LOG_DEBUG("BACK PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+							LOG_DEBUG("DOWN PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+							LOG_DEBUG("LEFT PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+							LOG_DEBUG("RIGHT PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_UP:
+							LOG_DEBUG("UP PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_RIGHTSTICK:
+							LOG_DEBUG("RIGHT STICK PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+							LOG_DEBUG("RIGHT SHOULDER PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_LEFTSTICK:
+							LOG_DEBUG("LEFT STICK PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
+							LOG_DEBUG("LEFT SHOULDER PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_GUIDE:
+							LOG_DEBUG("GUIDE PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_MAX:
+							LOG_DEBUG("MAX PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_MISC1:
+							LOG_DEBUG("MISC1 PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE1:
+							LOG_DEBUG("PADDLE1 PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE2:
+							LOG_DEBUG("PADDLE2 PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE3:
+							LOG_DEBUG("PADDLE3 PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_PADDLE4:
+							LOG_DEBUG("PADDLE4 PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_START:
+							LOG_DEBUG("START PRESSED");
+							break;
+						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_TOUCHPAD:
+							LOG_DEBUG("TOUCHPAD PRESSED");
+							break;
+					}
+				}
+				break;
+
+			case SDL_JOYAXISMOTION: 
+				if (controller)
+				{
+					int axis = sdlEvent.jaxis.axis;
+					Sint16 axisValue = sdlEvent.jaxis.value;
+					switch (axis)
+					{
+						case 0:
+							if (axisValue < -3200) 
+							{
+								LOG_DEBUG("JOYSTICK LEFT");
+							}
+							else if (axisValue > 3200)
+							{
+								LOG_DEBUG("JOYSTICK RIGHT");
+							}
+							else
+							{
+							}
+							break;
+
+						case 1:
+							if (axisValue < -3200)
+							{
+								LOG_DEBUG("JOYSTICK DOWN");
+							}
+							else if (axisValue > 3200)
+							{
+								LOG_DEBUG("JOYSTICK UP");
+							}
+							else
+							{
+							}
+							break;
+
+						default:
+							break;
+					}
+				}
 				break;
 
 			case SDL_DROPFILE:

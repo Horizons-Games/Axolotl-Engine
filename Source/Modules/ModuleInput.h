@@ -29,6 +29,8 @@ public:
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
+	SDL_GameController* FindController();
+	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
@@ -90,6 +92,24 @@ private:
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
 };
+
+inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* controller) const
+{
+	return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
+}
+
+inline SDL_GameController* ModuleInput::FindController()
+{
+	for (int i = 0; i < SDL_NumJoysticks(); i++)
+	{
+		if (SDL_IsGameController(i))
+		{
+			return SDL_GameControllerOpen(i);
+		}
+	}
+
+	return nullptr;
+}
 
 inline KeyState ModuleInput::GetKey(int scanCode) const
 {
