@@ -92,6 +92,19 @@ UpdateStatus ModuleInput::Update()
 		}
 	}
 
+	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i)
+	{
+		if (gamepadState[i] == KeyState::DOWN)
+		{
+			gamepadState[i] = KeyState::REPEAT;
+		}
+
+		if (gamepadState[i] == KeyState::UP)
+		{
+			gamepadState[i] = KeyState::IDLE;
+		}
+	}
+
 	SDL_PumpEvents();
 
 	SDL_GameController* controller = FindController();
@@ -187,7 +200,10 @@ UpdateStatus ModuleInput::Update()
 			case SDL_CONTROLLERBUTTONDOWN:
 				if (controller && sdlEvent.cdevice.which == GetControllerInstanceID(controller))
 				{
-					switch (sdlEvent.cbutton.button)
+					gamepadState[sdlEvent.cbutton.button] = KeyState::DOWN;
+				}
+				break;
+					/*switch (sdlEvent.cbutton.button)
 					{
 						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A:
 							LOG_DEBUG("A PRESSED");
@@ -238,6 +254,12 @@ UpdateStatus ModuleInput::Update()
 							LOG_DEBUG("TOUCHPAD PRESSED");
 							break;
 					}
+				break;*/
+
+			case SDL_CONTROLLERBUTTONUP:
+				if (controller && sdlEvent.cdevice.which == GetControllerInstanceID(controller))
+				{
+					gamepadState[sdlEvent.cbutton.button] = KeyState::UP;
 				}
 				break;
 
