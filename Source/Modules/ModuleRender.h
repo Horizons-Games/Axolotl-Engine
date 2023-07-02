@@ -71,8 +71,9 @@ private:
 	};
 
 	enum class ToneMappingMode {
-		UNCHARTED2 = 0,
-		ACES_FILM = 1,
+		NONE = 0,
+		UNCHARTED2 = 1,
+		ACES_FILM = 2,
 		LENGTH
 	};
 

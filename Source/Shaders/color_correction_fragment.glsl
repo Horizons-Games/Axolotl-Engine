@@ -49,11 +49,11 @@ void main()
     
     // tone mapping
     vec3 result = hdrColor;
-    if (tonneMappingMode == 0)
+    if (tonneMappingMode == 1)
     {
-      ///  result = uncharted2_tonemap(hdrColor);
+        result = uncharted2_tonemap(hdrColor);
     }
-    else
+    else if (tonneMappingMode == 2)
     {
         result = ACESFilm(hdrColor);
     }
