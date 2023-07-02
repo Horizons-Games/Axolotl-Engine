@@ -385,16 +385,20 @@ UpdateStatus ModuleRender::Update()
 
 	// -------- POST EFFECTS ---------------------
 
+	// Blur bloom
 	bool horizontal = true, firstIteration = true;
 	int amount = 10;
-	Program* bloomBlur = moduleProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
-	bloomBlur->Activate();
+	Program* bloomBlurProgram = moduleProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
+	bloomBlurProgram->Activate();
 	for (auto i = 0; i < amount; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[horizontal]);
-		bloomBlur->BindUniformInt("horizontal", horizontal);
+		
+		bloomBlurProgram->BindUniformInt("horizontal", horizontal);
+		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, firstIteration ? bloomTexture : bloomBlurTextures[!horizontal]);
+		
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 		horizontal = !horizontal;
 		if (firstIteration)
@@ -402,9 +406,24 @@ UpdateStatus ModuleRender::Update()
 			firstIteration = false;
 		}
 	}
-	bloomBlur->Deactivate();
+	bloomBlurProgram->Deactivate();
 
-	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
+	// Color correction
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	Program* colorCorrectionProgram = moduleProgram->GetProgram(ProgramType::COLOR_CORRECTION);
+	colorCorrectionProgram->Activate();
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, renderedTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
+	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+	colorCorrectionProgram->Deactivate();
+
+	// ---- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{

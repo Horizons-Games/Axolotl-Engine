@@ -41,8 +41,10 @@ public:
 	void UpdateBuffers(unsigned width, unsigned height);
 
 	void SetBackgroundColor(float4 color);
-	void ChangeRenderMode();
 	float4 GetBackgroundColor() const;
+
+	void ChangeRenderMode();
+	void ChangeToneMapping();
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -68,6 +70,12 @@ private:
 		LENGTH
 	};
 
+	enum class ToneMappingMode {
+		UNCHARTED2 = 0,
+		ACES_FILM = 1,
+		LENGTH
+	};
+
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawHighlight(GameObject* gameObject);
@@ -86,6 +94,7 @@ private:
 	unsigned vbo;
 
 	unsigned modeRender;
+	unsigned toneMappingMode;
 	
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
@@ -107,14 +116,20 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 	backgroundColor = color;
 }
 
+
+inline float4 ModuleRender::GetBackgroundColor() const
+{
+	return backgroundColor;
+}
+
 inline void ModuleRender::ChangeRenderMode()
 {
 	modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
 }
 
-inline float4 ModuleRender::GetBackgroundColor() const
+inline void ModuleRender::ChangeToneMapping()
 {
-	return backgroundColor;
+	toneMappingMode = (toneMappingMode + 1) % static_cast<int>(ToneMappingMode::LENGTH);
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const

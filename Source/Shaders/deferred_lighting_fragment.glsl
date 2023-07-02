@@ -265,7 +265,6 @@ void main()
     float smoothness = specularMat.a;
 
     vec3 viewDir = normalize(viewPos - fragPos);
-    vec4 gammaCorrection = vec4(2.2);
 
     vec3 Cd = textureMat.rgb;
     vec3 f0 = specularMat.rgb;
@@ -313,10 +312,6 @@ void main()
     {
         brightColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
-	
-    //hdr rendering
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/gammaCorrection));
 
     if(renderMode == 0)
     {

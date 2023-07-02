@@ -290,7 +290,6 @@ void main()
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
-    vec4 gammaCorrection = vec4(2.2);
 
     // Diffuse
 	vec4 textureMat = material.diffuse_color;
@@ -381,10 +380,6 @@ void main()
     {
         brightColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
-
-	//hdr rendering
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/gammaCorrection));
    
     outColor = vec4(color, textureMat.a);
 }

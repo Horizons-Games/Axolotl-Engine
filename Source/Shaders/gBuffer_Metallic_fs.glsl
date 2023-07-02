@@ -81,7 +81,7 @@ void main()
     {
         gDiffuse = vec4(diffuseColor.rgb, diffuseColor.a);
     }
-    gDiffuse = SGRBA(gDiffuse);
+    gDiffuse = SRGBA(gDiffuse);
 
     //Metallic and Smoothness
     gSpecular.a = material.smoothness;
