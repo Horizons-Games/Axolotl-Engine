@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "Camera/Camera.h"
+#include "Geometry/Frustum.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -13,15 +14,17 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/PlayerManagerScript.h"
+#include "PlayerForceUseScript.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr)
+	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalized(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
+	REGISTER_FIELD(isParalized, bool)
 }
 
 void PlayerMoveScript::Start()
@@ -29,21 +32,32 @@ void PlayerMoveScript::Start()
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-
 	playerManager = owner->GetComponent<PlayerManagerScript>();
+	forceScript = owner->GetComponent<PlayerForceUseScript>();
+
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	btRb = rigidBody->GetRigidBody();
+
+	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
+	input = App->GetModule<ModuleInput>();
+
+	cameraFrustum = *camera->GetFrustum();
+
+	previousMovements = 0;
+	currentMovements = 0;
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	Move(deltaTime);
+	if (!forceScript->IsForceActive())
+	{
+		Move(deltaTime);
+	}
+	
 }
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	Camera* camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
-	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
@@ -52,18 +66,23 @@ void PlayerMoveScript::Move(float deltaTime)
 	float newSpeed = playerManager->GetPlayerSpeed();
 	bool shiftPressed = false;
 
+	previousMovements = currentMovements;
+	currentMovements = 0;
+
 	//run
+	if (isParalized)
+	{
+		return;
+	}
+
+	// Run
+	/*
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
 	{
-		componentAnimation->SetParameter("IsRunning", true);
 		newSpeed *= 2;
 		shiftPressed = true;
 	}
-
-	else
-	{
-		componentAnimation->SetParameter("IsRunning", false);
-	}
+	*/
 
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
@@ -71,12 +90,12 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += camera->GetFrustum()->Front().Normalized();
-
+		totalDirection += cameraFrustum.Front().Normalized();
+		currentMovements |= MovementFlag::W_DOWN;
 	}
 
 	// Back
@@ -85,11 +104,11 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
-		totalDirection += -camera->GetFrustum()->Front().Normalized();
-
+		totalDirection += -cameraFrustum.Front().Normalized();
+		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
@@ -98,12 +117,12 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += camera->GetFrustum()->WorldRight().Normalized();
-
+		totalDirection += cameraFrustum.WorldRight().Normalized();
+		currentMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
@@ -112,24 +131,25 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsWalking", true);
+			componentAnimation->SetParameter("IsRunning", true);
 			playerState = PlayerActions::WALKING;
 		}
 
-		totalDirection += -camera->GetFrustum()->WorldRight().Normalized();
+		totalDirection += -cameraFrustum.WorldRight().Normalized();
+		currentMovements |= MovementFlag::A_DOWN;
+	}
+
+	if (previousMovements ^ currentMovements)
+	{
+		cameraFrustum = *camera->GetFrustum();
 	}
 
 	if (!totalDirection.IsZero())
 	{
 		totalDirection.y = 0;
 		totalDirection = totalDirection.Normalized();
-		
-		btTransform worldTransform = btRb->getWorldTransform();
-		Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), totalDirection, float3::unitY, float3::unitY);
-		rot = rot * componentTransform->GetGlobalRotation();
-		worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
-		btRb->setWorldTransform(worldTransform);
-		btRb->getMotionState()->setWorldTransform(worldTransform);
+
+		MoveRotate(totalDirection, deltaTime);
 
 		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 	}
@@ -142,20 +162,23 @@ void PlayerMoveScript::Move(float deltaTime)
 		if (playerState == PlayerActions::WALKING)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			componentAnimation->SetParameter("IsWalking", false);
+			componentAnimation->SetParameter("IsRunning", false);
 			playerState = PlayerActions::IDLE;
 		}
+
 	}
-		
+
+	// Dash
 	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash)
 	{
+		/*
 		if (!isDashing)
 		{
-			componentAnimation->SetParameter("IsRolling", true);
+			componentAnimation->SetParameter("IsDashing", true);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 
-			if (!movement.isZero()) 
+			if (!movement.isZero())
 			{
 				if (shiftPressed)
 				{
@@ -172,7 +195,9 @@ void PlayerMoveScript::Move(float deltaTime)
 			canDash = false;
 			nextDash = 3000 + static_cast<float>(SDL_GetTicks());
 		}
+		*/
 	}
+
 	else
 	{
 		componentAnimation->SetParameter("IsRolling", false);
@@ -186,7 +211,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 		else
 		{
-			if (math::Abs(currentVelocity.getX()) < dashForce/100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+			if (math::Abs(currentVelocity.getX()) < dashForce / 100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
 			{
 				btRb->setLinearVelocity(newVelocity);
 				isDashing = false;
@@ -200,4 +225,68 @@ void PlayerMoveScript::Move(float deltaTime)
 		canDash = true;
 		nextDash = 0;
 	}
+}
+
+void PlayerMoveScript::MoveRotate(const float3& targetDirection, float deltaTime)
+{
+	btTransform worldTransform = btRb->getWorldTransform();
+	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), targetDirection, float3::unitY, float3::unitY);
+	Quat rotation = componentTransform->GetGlobalRotation();
+	Quat targetRotation = rot * componentTransform->GetGlobalRotation();
+
+	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
+	rotationError.Normalize();
+
+	if (!rotationError.Equals(Quat::identity, 0.05f))
+	{
+		float3 axis;
+		float angle;
+		rotationError.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 velocityRotation = axis * angle * playerManager->GetPlayerRotationSpeed();
+		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+		Quat wq_0 = angularVelocityQuat * rotation;
+
+		float deltaValue = 0.5f * deltaTime;
+		Quat deltaRotation = Quat(deltaValue * wq_0.x,
+			deltaValue * wq_0.y,
+			deltaValue * wq_0.z,
+			deltaValue * wq_0.w);
+
+		if (deltaRotation.Length() > rotationError.Length())
+		{
+			worldTransform.setRotation({ targetRotation.x,
+				targetRotation.y,
+				targetRotation.z,
+				targetRotation.w });
+		}
+
+		else
+		{
+			Quat nextRotation(rotation.x + deltaRotation.x,
+				rotation.y + deltaRotation.y,
+				rotation.z + deltaRotation.z,
+				rotation.w + deltaRotation.w);
+			nextRotation.Normalize();
+
+			worldTransform.setRotation({ nextRotation.x,
+				nextRotation.y,
+				nextRotation.z,
+				nextRotation.w });
+		}
+	}
+
+	btRb->setWorldTransform(worldTransform);
+	btRb->getMotionState()->setWorldTransform(worldTransform);
+}
+
+bool PlayerMoveScript::GetIsParalized() const
+{
+	return isParalized;
+}
+
+void PlayerMoveScript::SetIsParalized(bool isParalized)
+{
+	this->isParalized = isParalized;
 }

@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentParticleSystem;
 
 class HealthSystem : public Script
 {
@@ -20,11 +21,19 @@ public:
 	void HealLife(float amountHealed);
 
 	float GetCurrentHealth() const;
+	float GetMaxHealth() const;
+
 	bool EntityIsAlive() const;
 
+	bool GetIsImmortal() const;
+	void SetIsImmortal(bool isImmortal);
+	
 private:
 	float currentHealth;
 	float maxHealth;
+	bool isImmortal;
+	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
+	ComponentParticleSystem* componentParticleSystem;
 };

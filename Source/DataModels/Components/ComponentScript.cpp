@@ -275,7 +275,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 
 void ComponentScript::SignalEnable()
 {
-	if (App->IsOnPlayMode())
+	if (App->IsOnPlayMode() && !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		Init();
 		Start();

@@ -4,34 +4,46 @@
 
 #include "Application.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentScript.h"
+#include "Components/UI/ComponentSlider.h"
 #include "ModulePlayer.h"
 #include "ModuleInput.h"
+#include "UIImageDisplacementControl.h"
+#include "HealthSystem.h"
+
 
 
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false), 
-hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr), 
-speedPwrUpObject(nullptr), pwrUpActive(false), backgroundHealPwrUpObject(nullptr)
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false),
+hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
+speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
+sliderHudHealthBixBack(nullptr)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
+	REGISTER_FIELD(sliderHudHealthBixFront, GameObject*);
+	REGISTER_FIELD(sliderHudHealthBixBack, GameObject*);
 
 	REGISTER_FIELD(healPwrUpObject, GameObject*);
 	REGISTER_FIELD(attackPwrUpObject, GameObject*);
 	REGISTER_FIELD(defensePwrUpObject, GameObject*);
 	REGISTER_FIELD(speedPwrUpObject, GameObject*);
-
-	REGISTER_FIELD(backgroundHealPwrUpObject, GameObject*);
-	REGISTER_FIELD(backgroundAttackPwrUpObject, GameObject*);
-	REGISTER_FIELD(backgroundDefensePwrUpObject, GameObject*);
-	REGISTER_FIELD(backgroundSpeedPwrUpObject, GameObject*);
 }
 
 void UIGameManager::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
+	
+	healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
+
+	componentSliderBixFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
+	componentSliderBixBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
+	componentSliderBixFront->SetMaxValue(healthSystemClass->GetMaxHealth());
+	componentSliderBixBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+
+
 }
 
 void UIGameManager::Update(float deltaTime)
@@ -43,6 +55,17 @@ void UIGameManager::Update(float deltaTime)
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
 	}
+
+	if (healthSystemClass->GetCurrentHealth()!= componentSliderBixBack->GetCurrentValue() 
+		|| healthSystemClass->GetCurrentHealth() != componentSliderBixFront->GetCurrentValue())
+	{
+		ModifySliderHealthValue();
+	}
+
+	if (pwrUpActive)
+	{
+		ActiveSliderUIPwrUP(deltaTime);
+	}
 }
 
 void UIGameManager::MenuIsOpen()
@@ -53,51 +76,85 @@ void UIGameManager::MenuIsOpen()
 		hudCanvasObject->Enable();
 		player->SetMouse(false);
 	}
+
 	if (menuIsOpen == true)
 	{
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
 		player->SetMouse(true);
-
 	}
 }
 
 void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
 {
-	if (pwrUpActive == false)
+	if (pwrUpActive != true)
 	{
 		switch (pwrUp)
 		{
 		case PowerUpType::NONE:
 			break;
 		case PowerUpType::HEAL:
+			componentSliderHealPwrUp->ModifyCurrentValue(componentSliderHealPwrUp->GetMaxValue());
 			healPwrUpObject->Enable();
 			break;
 		case PowerUpType::ATTACK:
+			componentSliderAttackPwrUp->ModifyCurrentValue(componentSliderAttackPwrUp->GetMaxValue());
 			attackPwrUpObject->Enable();
 			break;
 		case PowerUpType::DEFENSE:
+			componentSliderDefensePwrUp->ModifyCurrentValue(componentSliderDefensePwrUp->GetMaxValue());
 			defensePwrUpObject->Enable();
 			break;
 		case PowerUpType::SPEED:
+			componentSliderSpeedPwrUp->ModifyCurrentValue(componentSliderSpeedPwrUp->GetMaxValue());
 			speedPwrUpObject->Enable();
 			break;
 		default:
 			break;
 		}
-		pwrUpActive = true;
-		LOG_INFO("PwrUp img enable");
 	}
-	
-	savePwrUp = pwrUp;
-	LOG_INFO("PwrUp saved for UI");
+		savePwrUp = pwrUp;
 }
 
-void UIGameManager::ActiveUIPwrUP()
+void UIGameManager::ActiveUIPwrUP(float maxPowerUpTimer)
 {
-	activePwrUp = savePwrUp;
-	savePwrUp = PowerUpType::NONE;
-	LOG_INFO("PwrUp UI used");
+	if (!pwrUpActive)
+	{
+		pwrUpActive = true;
+		activePwrUp = savePwrUp;
+		savePwrUp = PowerUpType::NONE;
+		powerUpTimer = maxPowerUpTimer;
+		currentPowerUpTime = 0.0f;
+	}
+}
+
+void UIGameManager::ActiveSliderUIPwrUP(float time)
+{
+	currentPowerUpTime += time;
+
+	differencePowerUpTime = powerUpTimer - currentPowerUpTime;
+
+	if (powerUpTimer >= currentPowerUpTime)
+	{
+		switch (activePwrUp)
+		{
+		case PowerUpType::NONE:
+			break;
+		case PowerUpType::HEAL:
+			componentSliderHealPwrUp->ModifyCurrentValue(differencePowerUpTime);
+			break;
+		case PowerUpType::ATTACK:
+			componentSliderAttackPwrUp->ModifyCurrentValue(differencePowerUpTime);
+			break;
+		case PowerUpType::DEFENSE:
+			componentSliderDefensePwrUp->ModifyCurrentValue(differencePowerUpTime);
+			break;
+		case PowerUpType::SPEED:
+			componentSliderSpeedPwrUp->ModifyCurrentValue(differencePowerUpTime);
+			break;
+		}
+	}
+
 }
 
 void UIGameManager::DisableUIPwrUP()
@@ -121,13 +178,37 @@ void UIGameManager::DisableUIPwrUP()
 	default:
 		break;
 	}
-
 	pwrUpActive = false;
-	LOG_INFO("PwrUp UI disable");
+	EnableUIPwrUp(savePwrUp);
+}
 
-	if (pwrUpActive == false)
+void UIGameManager::ModifySliderHealthValue()
+{
+	// We use 2 slider to do a effect in the health bar
+	damage = healthSystemClass->GetCurrentHealth() - componentSliderBixFront->GetCurrentValue();
+	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderBixBack->GetCurrentValue();
+
+	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		LOG_INFO("go for saved pwr up");
-		EnableUIPwrUp(savePwrUp);
+		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::max(damageBack, -0.1f));
+		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::max(damage, -0.4f));
 	}
+	else
+	{
+		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::min(damageBack, 0.4f));
+		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::min(damage, 0.2f));
+	}
+}
+
+void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
+{
+	componentSliderHealPwrUp = healPwrUpObject->GetComponent<ComponentSlider>();
+	componentSliderAttackPwrUp = attackPwrUpObject->GetComponent<ComponentSlider>();
+	componentSliderDefensePwrUp = defensePwrUpObject->GetComponent<ComponentSlider>();
+	componentSliderSpeedPwrUp = speedPwrUpObject->GetComponent<ComponentSlider>();
+
+	componentSliderHealPwrUp->SetMaxValue(maxPowerUpTime);
+	componentSliderAttackPwrUp->SetMaxValue(maxPowerUpTime);
+	componentSliderDefensePwrUp->SetMaxValue(maxPowerUpTime);
+	componentSliderSpeedPwrUp->SetMaxValue(maxPowerUpTime);
 }

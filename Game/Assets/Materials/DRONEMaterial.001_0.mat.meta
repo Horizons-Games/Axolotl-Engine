@@ -10,9 +10,10 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
+    "isTransparent": false,
     "DiffuseAssetPath": "Assets/Textures/Drone_Material.003_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/Drone_Material.003_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/Drone_Material.003_MetallicSmoothness.png",
-    "EmissiveAssetPath": ""
+    "EmissiveAssetPath": "Assets/Textures/Drone_Material.003_Emission.png"
 }

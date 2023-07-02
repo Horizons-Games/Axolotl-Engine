@@ -24,8 +24,8 @@ public:
 	const PowerUpType& GetSavedPowerUpType() const;
 	const PowerUpType& GetActivePowerUpType() const;
 
-	float GetRadiusSeeking();
-	bool GetDebugDraw();
+	float GetRadiusSeeking() const;
+	bool GetDebugDraw() const;
 
 private:
 	void EliminateCurrentPowerUpEffect();
@@ -51,12 +51,13 @@ private:
 	PowerUpType savedPowerUp;
 };
 
-inline float PowerUpsManagerScript::GetRadiusSeeking()
+inline float PowerUpsManagerScript::GetRadiusSeeking() const
 {
 	return radiusSeeking;
 }
 
-inline bool PowerUpsManagerScript::GetDebugDraw()
+inline bool PowerUpsManagerScript::GetDebugDraw() const
 {
 	return debugDraw;
 }
+

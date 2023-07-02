@@ -4,7 +4,12 @@
 		<UserProjectSettings Name="" ID="{11314FF3-BAB9-4FC2-BB74-A61BB117CE5E}">
 			<PropertyList>
 				<Property Name="AudioFilesImporter\Path" Type="string" Value="C:\Users\oriol\Downloads\"/>
+				<Property Name="Event Action List\{21DDF4B3-CFB3-447C-970E-BF73B0FDD8E3}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{304EA742-F8D7-4D35-91F1-FF0F5CB9EFDB}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{4B8F1C28-C43A-4E68-8AC5-12B6BDBAE315}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{ABFC1ACE-7A71-4CD7-91DE-77641751687E}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{BCA9AE80-1EC2-4B9C-953C-303BA6DD250A}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{E17BE6B3-01C7-449F-B203-EDFDD8BB57E7}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="EventView\FilterMode1" Type="int32" Value="2"/>
 				<Property Name="EventView\FilterMode2" Type="int32" Value="2"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
@@ -22,7 +27,7 @@
 				<Property Name="General\LatestPlatform" Type="string" Value="Windows"/>
 				<Property Name="GenerateSoundBanks\x64_SelectedLanguages" Type="string" Value=""/>
 				<Property Name="GenerateSoundBanks\x64_SelectedPlatforms" Type="string" Value=""/>
-				<Property Name="GenerateSoundBanks\x64_SelectedSoundBanks" Type="string" Value=""/>
+				<Property Name="GenerateSoundBanks\x64_SelectedSoundBanks" Type="string" Value="M1G980tV80SvBgBqvYb6DQbA1fmniXlFsVH7/EMubS1vFk6dQ7kFSp/BhlxzZZnFEjXLUQLbQ0ubar0bSmKE1Zt4/59pLo1BoYfFk3fUS80="/>
 				<Property Name="HardwareController\CurrentSession" Type="string" Value="{00000000-0000-0000-0000-000000000000}"/>
 				<Property Name="MeterView\LastObject1" Type="string" Value="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"/>
 				<Property Name="MeterView\MeterMode1" Type="int32" Value="1"/>
