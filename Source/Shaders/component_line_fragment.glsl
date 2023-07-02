@@ -1,7 +1,14 @@
 #version 460
+
+uniform sampler2D textureColor;
+
+in vec2 TexCoord;
+in vec3 incolor;
+
 out vec4 outColor;
   
 void main()
 {
-    outColor = vec4(0.30, 0.30, 1.0, 1.0);
+    outColor = texture(textureColor, TexCoord);
+    outColor.rgb *= incolor;
 }

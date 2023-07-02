@@ -3,17 +3,24 @@
 #include "Auxiliar/Generics/Updatable.h"
 
 #include "Components/Component.h"
+#include "Program/Program.h"
+
+#include "Math/float2.h"
+#include "Math/float3.h"
 
 class GameObject;
 
-class ComponentLine : public Component, public Updatable, public Drawable
+class ComponentLine : public Component, public Drawable
 {
 public:
 	ComponentLine(bool active, GameObject* owner);
 	~ComponentLine() override;
 
-	void Update() override;
 	void Draw() const override;
+
+	void Render();
+
+	void ModelMatrix(Program* program);
 
 	void InternalSave(Json& meta) override{};
 	void InternalLoad(const Json& meta) override{};
@@ -25,10 +32,18 @@ public:
 	void SetNumTiles(int numTiles);
 
 private:
-	void LoadVBO();
-	unsigned int quadVBO;
+
+	void UpdateBuffers() const;
+	void LoadBuffers();
+
+	unsigned int positionBuffers;
+	unsigned int textureBuffers;
+	unsigned int colorBuffers;
 	unsigned int quadVAO;
+	unsigned int quadEBO;
 	int numTiles = 1;
+
+	bool dirtyBuffers = true;
 
 	GameObject* childGameObject;
 };
