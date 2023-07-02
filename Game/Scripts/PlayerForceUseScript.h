@@ -5,9 +5,13 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ModuleInput;
 class CameraControllerScript;
 class PlayerRotationScript;
+class PlayerManagerScript;
 class PlayerMoveScript;
+class ComponentTransform;
+class ComponentRigidBody;
 class ComponentAnimation;
 class ComponentAudioSource;
 
@@ -19,6 +23,8 @@ public:
 
     void Start() override;
     void Update(float deltaTime) override;
+
+	bool IsForceActive() const;
 
 private:
 
@@ -40,8 +46,18 @@ private:
 	
 	PlayerRotationScript* rotationHorizontalScript;
 	CameraControllerScript* rotationVerticalScript;
+	PlayerManagerScript* playerManagerScript;
 	PlayerMoveScript* moveScript;
 
-	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
+	ComponentAnimation* componentAnimation;
+	ComponentTransform* transform;
+	ComponentRigidBody* rigidBody;
+
+	ModuleInput* input;
 };
+
+inline bool PlayerForceUseScript::IsForceActive() const
+{
+	return isForceActive;
+}

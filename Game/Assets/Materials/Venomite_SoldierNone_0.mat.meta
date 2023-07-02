@@ -1,0 +1,18 @@
+{
+    "UID": 10167347009347036053,
+    "Type": "Materials",
+    "diffuseColor_x": 1.0,
+    "diffuseColor_y": 1.0,
+    "diffuseColor_z": 0.0,
+    "specularColor_x": 0.5,
+    "specularColor_y": 0.30000001192092896,
+    "specularColor_z": 0.5,
+    "normalStrength": 1.0,
+    "smoothness": 0.5,
+    "metalness": 0.0,
+    "DiffuseAssetPath": "Assets/Textures/Blaster_D-15_None_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Blaster_D-15_None_Normal.png",
+    "OcclusionAssetPath": "",
+    "SpecularAssetPath": "Assets/Textures/BittMusician_Head_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/Blaster_D-15_None_Emission.png"
+}

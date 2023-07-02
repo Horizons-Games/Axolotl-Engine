@@ -11,6 +11,7 @@
 #include "Cubemap/Cubemap.h"
 
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
@@ -172,8 +173,9 @@ bool ModuleRender::Init()
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
 	glEnable(GL_DEPTH_TEST); // Enable depth test
-	glDisable(GL_CULL_FACE); // Enable cull backward faces
-	glFrontFace(GL_CCW);	 // Front faces will be counter clockwise
+	glEnable(GL_CULL_FACE); // Enable face culling
+	glFrontFace(GL_CW);	 // Front faces will be clockwise
+	glCullFace(GL_FRONT);
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -351,7 +353,7 @@ UpdateStatus ModuleRender::Update()
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 		glLineWidth(25);
-		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_BACK, GL_LINE);
 
 		// Draw Highliht for selected objects
 		DrawHighlight(goSelected);
@@ -360,6 +362,19 @@ UpdateStatus ModuleRender::Update()
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
+
+	glDisable(GL_CULL_FACE);
+	glPolygonMode(GL_BACK, GL_FILL);
+
+	// Draw Particles
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	{
+		particle->Render();
+	}
+
+	glEnable(GL_CULL_FACE); // Enable face culling
+	glCullFace(GL_FRONT);
+	glPolygonMode(GL_FRONT, GL_FILL);
 
 	glDisable(GL_BLEND);
 
@@ -427,8 +442,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
 

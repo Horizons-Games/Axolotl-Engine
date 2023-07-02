@@ -2,7 +2,10 @@
 
 #include "ComponentWindow.h"
 
-#include <sstream>
+#include "Application.h"
+#include "ComponentWindow.h"
+#include "ModuleScene.h"
+#include "ModuleCommand.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAnimation.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAreaLight.h"
@@ -19,6 +22,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentParticle.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
@@ -28,7 +32,6 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSlider.h"
 
-#include "Application.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentAudioListener.h"
@@ -40,6 +43,7 @@
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
@@ -51,11 +55,10 @@
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
-#include "ModuleScene.h"
 
 #include "Commands/CommandComponentEnabled.h"
-#include "ComponentWindow.h"
-#include "ModuleCommand.h"
+
+#include <sstream>
 
 #include "FileSystem/UIDGenerator.h"
 
@@ -104,6 +107,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentMeshCollider>(static_cast<ComponentMeshCollider*>(component));
 			case ComponentType::SCRIPT:
 				return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
+			case ComponentType::PARTICLE:
+				return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
 			case ComponentType::LIGHT:

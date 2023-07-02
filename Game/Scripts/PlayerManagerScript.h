@@ -14,6 +14,7 @@ public:
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
 	float GetPlayerSpeed() const;
+	float GetPlayerRotationSpeed() const;
 
 	void IncreasePlayerAttack(float attackIncrease);
 	void IncreasePlayerDefense(float defenseIncrease);
@@ -23,4 +24,5 @@ private:
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;
+	float playerRotationSpeed;
 };
