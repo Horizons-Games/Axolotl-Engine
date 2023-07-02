@@ -33,14 +33,14 @@ public:
 
 private:
 
-	void UpdateBuffers() const;
+	void UpdateBuffers();
 	void LoadBuffers();
 
 	unsigned int positionBuffers;
 	unsigned int textureBuffers;
 	unsigned int colorBuffers;
-	unsigned int quadVAO;
-	unsigned int quadEBO;
+	unsigned int lineEBO;
+	unsigned int lineVAO;
 	int numTiles = 1;
 
 	bool dirtyBuffers = true;
@@ -56,5 +56,6 @@ inline int ComponentLine::GetNumTiles()
 inline void ComponentLine::SetNumTiles(int numTiles)
 {
 	this->numTiles = numTiles;
-	RecalculateVertices();
+	dirtyBuffers = true;
+	UpdateBuffers();
 }

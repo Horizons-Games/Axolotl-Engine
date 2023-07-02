@@ -39,12 +39,12 @@ void ComponentLine::LoadBuffers()
 						 1.0f, 0.0f, 0.0f,
 						 1.0f, 1.0f, 0.0f };
 
-	glGenBuffers(1, &quadEBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadEBO);
+	glGenBuffers(1, &lineEBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 
-	glGenVertexArrays(1, &quadVAO);
-	glBindVertexArray(quadVAO);
+	glGenVertexArrays(1, &lineVAO);
+	glBindVertexArray(lineVAO);
 
 	glGenBuffers(1, &positionBuffers);
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
@@ -71,7 +71,7 @@ void ComponentLine::Draw() const
 {
 }
 
-void ComponentLine::UpdateBuffers() const
+void ComponentLine::UpdateBuffers()
 {
 	//Here you update vbo,ebo and vao
 	if (dirtyBuffers)
@@ -139,7 +139,10 @@ void ComponentLine::UpdateBuffers() const
 		}
 
 		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+
+		dirtyBuffers = false;
 	}
+
 }
 
 void ComponentLine::Render()
@@ -157,7 +160,7 @@ void ComponentLine::Render()
 		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadEBO);
 		//glEnableVertexAttribArray(0);
 		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-		glBindVertexArray(quadVAO);
+		glBindVertexArray(lineVAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
 		glBindVertexArray(0);
 		program->Deactivate();
