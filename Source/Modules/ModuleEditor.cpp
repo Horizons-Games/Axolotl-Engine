@@ -89,11 +89,11 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	
+
 	char* buffer = StateWindows();
 
-	if(buffer == nullptr)
-	{		
+	if (buffer == nullptr)
+	{
 		rapidjson::StringBuffer newBuffer;
 		for (const std::unique_ptr<EditorWindow>& window : windows)
 		{
@@ -126,7 +126,7 @@ bool ModuleEditor::Init()
 	}
 
 	delete buffer;
-	
+
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
 	buildGameLoading = std::make_unique<WindowLoading>();
