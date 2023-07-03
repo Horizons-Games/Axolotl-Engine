@@ -16,6 +16,11 @@ ComponentPlayerInput::~ComponentPlayerInput()
 
 void ComponentPlayerInput::Update()
 {
+	// if (App->GetPlayState() != PlayState::RUNNING)
+	if (!App->IsOnPlayMode())
+	{
+		return;
+	}
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
 	{
