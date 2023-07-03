@@ -28,7 +28,7 @@ private:
 	bool DrawBoolField(bool value, const std::string& name);
 	float DrawFloatField(float value, const std::string& name);
 	math::float3 DrawFloat3Field(math::float3 value, const std::string& name);
-	GameObject* DrawGOField(GameObject* value, const std::string& name);
+	GameObject* DrawGameObjectField(GameObject* value, const std::string& name);
 
 	void OpenCreateNewScriptPopUp();
 	void AddNewScriptToProject(const std::string& scriptName);

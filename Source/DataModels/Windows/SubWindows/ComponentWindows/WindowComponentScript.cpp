@@ -48,7 +48,7 @@ math::float3 WindowComponentScript::DrawFloat3Field(math::float3 value, const st
 	return value;
 }
 
-GameObject* WindowComponentScript::DrawGOField(GameObject* value, const std::string& name) 
+GameObject* WindowComponentScript::DrawGameObjectField(GameObject* value, const std::string& name)
 {
 	std::string gameObjectSlot = "Drag a GameObject here";
 	if (value != nullptr)
@@ -219,7 +219,7 @@ void WindowComponentScript::DrawWindowContents()
 				GameObject* value = gameObjectField.getter();
 
 
-				GameObject* draggedObject = DrawGOField(value, gameObjectField.name);
+				GameObject* draggedObject = DrawGameObjectField(value, gameObjectField.name);
 
 				gameObjectField.setter(draggedObject);
 
@@ -242,7 +242,7 @@ void WindowComponentScript::DrawWindowContents()
 					case FieldType::BOOLEAN:
 						return bool(DrawBoolField(std::any_cast<bool>(value), name));
 					case FieldType::GAMEOBJECT:
-						return std::any(DrawGOField(std::any_cast<GameObject*>(value), name));
+						return std::any(DrawGameObjectField(std::any_cast<GameObject*>(value), name));
 					case FieldType::FLOAT3:
 						return float3(DrawFloat3Field(std::any_cast<float3>(value), name));
 					}
