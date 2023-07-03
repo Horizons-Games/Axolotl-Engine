@@ -251,6 +251,7 @@ void WindowComponentScript::DrawWindowContents()
 
 				std::vector<std::any> vectorValue = vectorField.getter();
 
+				ImGui::Text(vectorField.name.c_str());
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
 					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
