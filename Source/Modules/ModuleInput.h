@@ -31,6 +31,10 @@ public:
 	KeyState GetMouseButton(int mouseButton) const;
 	KeyState GetGamepadButton(int gamepadButton) const;
 
+	// This method will override user input
+	// Use with care
+	void SetKey(SDL_Scancode scanCode, KeyState newState);
+
 	SDL_GameController* FindController();
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
@@ -127,6 +131,11 @@ inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 inline KeyState ModuleInput::GetGamepadButton(int gamepadButton) const
 {
 	return gamepadState[gamepadButton];
+}
+
+inline void ModuleInput::SetKey(SDL_Scancode scanCode, KeyState newState)
+{
+	keysState[scanCode] = newState;
 }
 
 inline float2 ModuleInput::GetMouseMotion() const
