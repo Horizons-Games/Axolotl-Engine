@@ -190,6 +190,9 @@ bool ModuleRender::Init()
 #endif // ENGINE
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
+	glGenFramebuffers(1, &shadowMapBuffer);
+	//glGenTextures(1, &shdowMapDepthTexture);
+
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
@@ -217,11 +220,6 @@ UpdateStatus ModuleRender::PreUpdate()
 	
 	gameObjectsInFrustrum.clear();
 	objectsInFrustrumDistances.clear();
-
-	gBuffer->BindFrameBuffer();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glStencilMask(0x00); // disable writing to the stencil buffer 
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -286,9 +284,16 @@ UpdateStatus ModuleRender::Update()
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
 	// -------- SHADOW MAP --------
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
 	RenderShadowMap(loadedScene->GetDirectionalLight());
 
 	// -------- DEFERRED GEOMETRY -----------
+	gBuffer->BindFrameBuffer();
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilMask(0x00); // disable writing to the stencil buffer 
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
@@ -437,6 +442,15 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
 	gBuffer->InitGBuffer(width,height);
+	
+	// Shadow Map Depth Buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
+	glDrawBuffer(GL_NONE);
+
+	/*glGenRenderbuffers(1, &shdowMapDepthTexture);
+	glBindRenderbuffer(GL_RENDERBUFFER, shdowMapDepthTexture);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, shdowMapDepthTexture);*/
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -610,9 +624,25 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
 	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
 
-	//TODO: Frustum culling with the created light frustum to obtain the meshes of the scene to take into account
-	std::vector<const GameObject*> objectsInFrustum =
+	// Frustum culling with the created light frustum to obtain the meshes of the scene to take into account
+	std::vector<GameObject*> objectsInFrustum =
 		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
+
+	// Program binding
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_MAPPING);
+	program->Activate();
+
+	const float4x4& view = frustum.ViewMatrix();
+	const float4x4& proj = frustum.ProjectionMatrix();
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
+	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	batchManager->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
+
+	program->Deactivate();
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)

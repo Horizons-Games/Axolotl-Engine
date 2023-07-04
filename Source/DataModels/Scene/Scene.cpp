@@ -112,9 +112,9 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-std::vector<const GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum)
+std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum)
 {
-	std::vector<const GameObject*> objectsInFrustum;
+	std::vector<GameObject*> objectsInFrustum;
 
 	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
 
@@ -122,7 +122,7 @@ std::vector<const GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum
 }
 
 void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
-									  std::vector<const GameObject*>& gos)
+									  std::vector<GameObject*>& gos)
 {
 	if (frustumInQuadTree(frustum, quad))
 	{
@@ -130,7 +130,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 
 		if (quad->IsLeaf())
 		{
-			for (const GameObject* gameObject : gameObjectsToRender)
+			for (GameObject* gameObject : gameObjectsToRender)
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
@@ -142,7 +142,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{

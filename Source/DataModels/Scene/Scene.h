@@ -41,9 +41,9 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
-	std::vector<const GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
+	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
 	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
-								   std::vector<const GameObject*>& gos);
+								   std::vector<GameObject*>& gos);
 	bool frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
 
 	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);

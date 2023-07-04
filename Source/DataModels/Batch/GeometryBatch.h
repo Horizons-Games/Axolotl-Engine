@@ -29,6 +29,7 @@ public:
 	std::vector<ComponentMeshRenderer*> ChangeBatch(const ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(bool selected);
+	void BindBatch(std::vector<GameObject*>& objects);
 	void FillMaterial();
 	void ReserveModelSpace();
 
@@ -38,6 +39,8 @@ public:
 	void SetFillMaterials(const bool fillMaterials);
 	void SortByDistanceFarToClose();
 	void SortByDistanceCloseToFar();
+	void SortByDistanceFarToClose(const float3& position);
+	void SortByDistanceCloseToFar(const float3& position);
 	void SetDirty(const bool dirty);
 
 	const int GetFlags() const;

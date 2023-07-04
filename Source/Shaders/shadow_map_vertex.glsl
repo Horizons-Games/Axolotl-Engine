@@ -32,22 +32,12 @@ readonly layout(std430, binding = 6) buffer PerInstances {
     PerInstance instanceInfo[];
 };
 
-uniform vec3 viewPos;
-
 layout (location = 0) in vec3 vertexPosition;
 layout (location = 1) in vec2 texCoord;
 layout (location = 2) in vec3 normal;
 layout (location = 3) in vec3 aTangent;
 layout (location = 4) in uvec4 bone_indices;
 layout (location = 5) in vec4 bone_weights;
-
-out vec2 TexCoord;
-out vec3 FragPos;
-out vec3 Normal;
-out vec3 ViewPos;
-out vec3 FragTangent;
-
-out flat int InstanceIndex;
 
 void main()
 {
@@ -69,17 +59,5 @@ void main()
         norm  = (skinT*vec4(normal, 0.0));
     }
 
-    gl_Position = proj*view*model*position; 
-
-    FragPos = vec3(model * position);
-
-    mat3 normalMatrix = transpose(inverse(mat3(model)));
-    Normal = normalize(normalMatrix * norm.xyz);
-
-    FragTangent = normalize(normalMatrix * aTangent);
-
-    TexCoord = texCoord;
-    ViewPos = viewPos;
-
-    InstanceIndex = gl_BaseInstance;
+    gl_Position = proj*view*model*position;
 }

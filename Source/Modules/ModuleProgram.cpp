@@ -82,6 +82,8 @@ bool ModuleProgram::Start()
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
 
+	programs.push_back(CreateProgram("shadow_map_vertex.glsl", "shadow_map_fragment.glsl", "ShadowMapping"));
+
 	return true;
 }
 
