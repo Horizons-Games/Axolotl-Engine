@@ -366,7 +366,7 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 25.0,
+                                    "value": 40.0,
                                     "type": 0
                                 },
                                 {
@@ -3314,7 +3314,7 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 25.0,
+                                    "value": 40.0,
                                     "type": 0
                                 },
                                 {

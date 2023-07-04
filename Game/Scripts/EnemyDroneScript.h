@@ -16,6 +16,7 @@ class SeekBehaviourScript;
 class RangedFastAttackBehaviourScript;
 class MeleeHeavyAttackBehaviourScript;
 class HealthSystem;
+class PlayerManagerScript;
 
 enum class DroneBehaviours
 {
@@ -59,4 +60,6 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 	ComponentTransform* seekTargetTransform;
+
+	PlayerManagerScript* playerManager;
 };
