@@ -483,7 +483,7 @@ std::shared_ptr<ResourceMaterial>
 		}
 	}
 
-	if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
+	if (material->GetTexture(aiTextureType_METALNESS, 0, &file) == AI_SUCCESS)
 	{
 		std::string specularPath = "";
 
