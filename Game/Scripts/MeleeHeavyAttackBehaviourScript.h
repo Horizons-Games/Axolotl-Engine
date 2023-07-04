@@ -27,10 +27,12 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetExplosionPosition(float3 explosionPos);
+	void SetExplosionPosition(const float3& explosionPos);
+
+	void TriggerExplosion();
 	void UpdateDroneColor();
 
-	ExplosionState IsExploted() const;
+	ExplosionState HasExploded() const;
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -43,7 +45,6 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	HealthSystem* parentHealthSystem;
-	EnemyDroneScript* parentEnemyDroneScript;
 	ComponentAudioSource* componentAudioSource;
 
 	float explosionDamage;

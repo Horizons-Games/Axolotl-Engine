@@ -14,6 +14,7 @@ class ComponentAudioSource;
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
 class RangedFastAttackBehaviourScript;
+class MeleeHeavyAttackBehaviourScript;
 class HealthSystem;
 
 enum class DroneBehaviours
@@ -36,10 +37,6 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	DroneBehaviours GetDroneBehaviour() const;
-	float3 GetSeekTargetPosition() const;
-	void SetStunnedTime(float newTime);
-
 private:
 	void CalculateNextPosition() const;
 
@@ -48,12 +45,11 @@ private:
 
 	float attackDistance;
 	float seekDistance;
-	float timeStunned;
-	bool stunned;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
-	RangedFastAttackBehaviourScript* attackScript;
+	RangedFastAttackBehaviourScript* fastAttackScript;
+	MeleeHeavyAttackBehaviourScript* heavyAttackScript;
 	HealthSystem* healthScript;
 
 	GameObject* seekTarget;

@@ -1,16 +1,24 @@
 #pragma once
 
-#include "Scripting\Script.h"
-#include "RuntimeInclude.h"
-
-RUNTIME_MODIFIABLE_INCLUDE;
-
-class EnemyClass : public Script
+class EnemyClass
 {
 public:
 	EnemyClass();
-	~EnemyClass() override = default;
+	~EnemyClass() = default;
 
-	void Start() override;
-	void Update(float deltaTime) override;
+	void SetStunnedTime(float newTime);
+
+protected:
+	bool stunned;
+	float timeStunned;
 };
+
+EnemyClass::EnemyClass() : stunned(false), timeStunned(0.0f)
+{
+}
+
+inline void EnemyClass::SetStunnedTime(float newTime)
+{
+	stunned = true;
+	timeStunned = newTime;
+}

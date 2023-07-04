@@ -35,8 +35,6 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetStunnedTime(float newTime);
-
 private:
 	VenomiteBehaviours venomiteState;
 
@@ -52,8 +50,6 @@ private:
 
 	float rangedAttackDistance;
 	float meleeAttackDistance;
-	float timeStunned;
-	bool stunned;
 
 	GameObject* batonGameObject;
 	GameObject* blasterGameObject;

@@ -8,6 +8,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDroneScript.h"
+#include "../Scripts/SeekBehaviourScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -26,36 +27,32 @@ void MeleeHeavyAttackBehaviourScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentHealthSystem = owner->GetParent()->GetComponent<HealthSystem>();
-	parentEnemyDroneScript = owner->GetParent()->GetComponent<EnemyDroneScript>();
 	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
 	rigidBody->SetKpForce(50);
 }
 
 void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 {
-	if (parentHealthSystem->GetCurrentHealth() <= 10.0f
-		&& parentEnemyDroneScript->GetDroneBehaviour() == DroneBehaviours::EXPLOSIONATTACK
-		&& attackState == ExplosionState::NOTDEAD)
-	{
-		SetExplosionPosition( parentEnemyDroneScript->GetSeekTargetPosition());
-	}
-
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
+
 	if (attackState == ExplosionState::WAITING_EXPLOSION)
 	{
 		explosionTime -= deltaTime;
 		UpdateDroneColor();
+
 		if (explosionTime < 0)
 		{
 			attackState = ExplosionState::EXPLODING;
 		}
 	}
+
 	else if (attackState == ExplosionState::EXPLODING)
 	{
 		if (targetPlayer)
 		{
 			targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
 		}
+
 		parentHealthSystem->TakeDamage(explosionDamage);
 		owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 		attackState = ExplosionState::DEAD;
@@ -64,10 +61,11 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 	}
 }
 
-void MeleeHeavyAttackBehaviourScript::SetExplosionPosition(float3 explosionPos)
+void MeleeHeavyAttackBehaviourScript::SetExplosionPosition(const float3& explosionPos)
 {
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
+
 	attackState = ExplosionState::WAITING_EXPLOSION;
 	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
 }
@@ -77,7 +75,15 @@ void MeleeHeavyAttackBehaviourScript::UpdateDroneColor()
 	//When we have tint the color of the drone will change.
 }
 
-ExplosionState MeleeHeavyAttackBehaviourScript::IsExploted() const
+void MeleeHeavyAttackBehaviourScript::TriggerExplosion()
+{
+	SeekBehaviourScript* droneSeekBehaviour = owner->GetComponent<SeekBehaviourScript>();
+	float3 targetPos = droneSeekBehaviour->GetTarget()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+
+	SetExplosionPosition(targetPos);
+}
+
+ExplosionState MeleeHeavyAttackBehaviourScript::HasExploded() const
 {
 	return attackState;
 }
