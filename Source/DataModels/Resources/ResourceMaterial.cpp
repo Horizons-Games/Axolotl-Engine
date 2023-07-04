@@ -19,6 +19,25 @@ ResourceMaterial::~ResourceMaterial()
 	this->Unload();
 }
 
+void ResourceMaterial::CopyValues(const ResourceMaterial& rhs)
+{
+	this->SetShaderType(rhs.GetShaderType());
+	this->SetDiffuseColor(rhs.GetDiffuseColor());
+	this->SetSpecularColor(rhs.GetSpecularColor());
+	this->SetNormalStrength(rhs.GetNormalStrength());
+	this->SetSmoothness(rhs.GetSmoothness());
+	this->SetMetalness(rhs.GetMetalness());
+	this->SetTransparent(rhs.IsTransparent());
+	this->SetTiling(rhs.GetTiling());
+	this->SetOffset(rhs.GetOffset());
+	this->SetDiffuse(rhs.GetDiffuse());
+	this->SetNormal(rhs.GetNormal());
+	this->SetOcclusion(rhs.GetOcclusion());
+	this->SetSpecular(rhs.GetSpecular());
+	this->SetMetallic(rhs.GetMetallic());
+	this->SetEmission(rhs.GetEmission());
+}
+
 void ResourceMaterial::SaveLoadOptions(Json& meta)
 {
 	SavePaths(meta);
@@ -81,7 +100,8 @@ void ResourceMaterial::SavePaths(Json& meta, const std::vector<std::string>& pat
 		pathTextures.empty() ? (normal ? normal->GetAssetsPath().c_str() : "") : pathTextures[1].c_str();
 	meta["OcclusionAssetPath"] =
 		pathTextures.empty() ? (occlusion ? occlusion->GetAssetsPath().c_str() : "") : pathTextures[2].c_str();
-	switch (loadOptions.shaderType)
+	int shaderType = pathTextures.empty() ? loadOptions.shaderType : 0;
+	switch (shaderType)
 	{
 		case 0:
 			meta["MetalicAssetPath"] =

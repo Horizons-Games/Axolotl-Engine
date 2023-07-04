@@ -38,6 +38,7 @@ public:
 					 const std::string& assetsPath,
 					 const std::string& libraryPath);
 	virtual ~ResourceMaterial() override;
+	void CopyValues(const ResourceMaterial& rhs);
 
 	ResourceType GetType() const override;
 
