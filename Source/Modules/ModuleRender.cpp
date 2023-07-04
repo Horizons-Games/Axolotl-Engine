@@ -618,6 +618,7 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	math::Frustum frustum;
 
 	float3 lightDir = lightTransform->GetGlobalForward();
+	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
 	frustum.SetPos(sphereCenter - lightDir * sphereRadius);
 	frustum.SetFront(lightDir);
 	frustum.SetUp(lightTransform->GetGlobalUp());
