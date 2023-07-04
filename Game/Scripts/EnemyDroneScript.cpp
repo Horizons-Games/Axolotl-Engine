@@ -19,11 +19,13 @@ REGISTERCLASS(EnemyDroneScript);
 EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
 	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE), 
-	heavyAttackScript(nullptr)
+	heavyAttackScript(nullptr), explosionGameObject(nullptr)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(seekDistance, float);
+
+	REGISTER_FIELD(explosionGameObject, GameObject*);
 }
 
 void EnemyDroneScript::Start()
@@ -40,7 +42,7 @@ void EnemyDroneScript::Start()
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	fastAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
-	heavyAttackScript = owner->GetComponent<MeleeHeavyAttackBehaviourScript>();
+	heavyAttackScript = explosionGameObject->GetComponent<MeleeHeavyAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
 
 	seekTarget = seekScript->GetTarget();

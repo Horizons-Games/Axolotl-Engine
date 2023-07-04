@@ -62,6 +62,11 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 
 void MeleeHeavyAttackBehaviourScript::SetExplosionPosition(const float3& explosionPos)
 {
+	if (attackState != ExplosionState::NOTDEAD)
+	{
+		return;
+	}
+
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
 	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
 
@@ -76,7 +81,7 @@ void MeleeHeavyAttackBehaviourScript::UpdateDroneColor()
 
 void MeleeHeavyAttackBehaviourScript::TriggerExplosion()
 {
-	SeekBehaviourScript* enemySeekBehaviour = owner->GetComponent<SeekBehaviourScript>();
+	SeekBehaviourScript* enemySeekBehaviour = owner->GetParent()->GetComponent<SeekBehaviourScript>();
 	float3 targetPos = enemySeekBehaviour->GetTarget()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	SetExplosionPosition(targetPos);

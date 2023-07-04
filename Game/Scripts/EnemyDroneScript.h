@@ -53,6 +53,7 @@ private:
 	HealthSystem* healthScript;
 
 	GameObject* seekTarget;
+	GameObject* explosionGameObject;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
