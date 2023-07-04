@@ -3,6 +3,8 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 
+#include "../Scripts/EnemyClass.h"
+
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class PatrolBehaviourScript;
@@ -24,7 +26,7 @@ enum class VenomiteBehaviours
 	MELEE_ATTACK
 };
 
-class EnemyVenomiteScript : public Script
+class EnemyVenomiteScript : public Script, public EnemyClass
 {
 public:
 	EnemyVenomiteScript();

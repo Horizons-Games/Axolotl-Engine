@@ -3,6 +3,8 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 
+#include "../Scripts/EnemyClass.h"
+
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
@@ -25,7 +27,7 @@ enum class DroneBehaviours
 	EXPLOSIONATTACK
 };
 
-class EnemyDroneScript : public Script
+class EnemyDroneScript : public Script, public EnemyClass
 {
 public:
 	EnemyDroneScript();
