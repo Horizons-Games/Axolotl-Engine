@@ -1,5 +1,6 @@
 #pragma once
-#include "Script.h"
+
+#include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
@@ -16,7 +17,6 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
 class HealthSystem;
-class EnemyDroneScript;
 
 class MeleeHeavyAttackBehaviourScript : public Script
 {

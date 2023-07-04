@@ -1,6 +1,5 @@
 #include "EnemyDroneScript.h"
 
-#include "Components/Component.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
@@ -209,10 +208,4 @@ void EnemyDroneScript::CalculateNextPosition() const
 	nextPosition += seekTargetTransform->GetGlobalPosition();
 	nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
 	fastAttackScript->Reposition(nextPosition);
-}
-
-void EnemyDroneScript::SetStunnedTime(float newTime)
-{
-	stunned = true;
-	timeStunned = newTime;
 }

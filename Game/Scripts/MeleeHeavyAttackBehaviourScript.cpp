@@ -7,7 +7,6 @@
 #include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/HealthSystem.h"
-#include "../Scripts/EnemyDroneScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -77,8 +76,8 @@ void MeleeHeavyAttackBehaviourScript::UpdateDroneColor()
 
 void MeleeHeavyAttackBehaviourScript::TriggerExplosion()
 {
-	SeekBehaviourScript* droneSeekBehaviour = owner->GetComponent<SeekBehaviourScript>();
-	float3 targetPos = droneSeekBehaviour->GetTarget()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	SeekBehaviourScript* enemySeekBehaviour = owner->GetComponent<SeekBehaviourScript>();
+	float3 targetPos = enemySeekBehaviour->GetTarget()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	SetExplosionPosition(targetPos);
 }
