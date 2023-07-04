@@ -142,7 +142,7 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	if (texturesUIDs[3] != 0)
 	{
-		switch (*shaderType)
+		switch (options.shaderType)
 		{
 			case 0:
 
