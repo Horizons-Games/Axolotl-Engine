@@ -45,6 +45,15 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
+	if (changed)
+	{
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(75, 25, 25, 255));
+	}
+	else
+	{
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 0, 0));
+	}
+	ImGui::BeginChild("##Window");
 	DrawEnableAndDeleteComponent();
 
 	// used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
@@ -145,6 +154,9 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::EndTable();
 		}
 	}
+
+	ImGui::EndChild();
+	ImGui::PopStyleColor();
 }
 
 void WindowComponentMeshRenderer::DrawSetMaterial()
@@ -506,6 +518,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 		if (materialResource)
 		{
 			material = std::make_shared<ResourceMaterial>(*materialResource);
+			changed = false;
 		}
 	}
 }
@@ -534,6 +547,8 @@ void WindowComponentMeshRenderer::ResetMaterialValues()
 			{
 				ChangedBatch();
 			}
+
+			changed = false;
 		}
 	}
 }
@@ -563,4 +578,5 @@ void WindowComponentMeshRenderer::ChangedBatch()
 	 {
 		 asMeshRenderer->GetBatch()->SetFillMaterials(true);
 	 }
+	 changed = true;
  }
