@@ -54,7 +54,7 @@ void WindowTextureInput::DoThisIfOk()
 			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
 		std::shared_ptr<ResourceMaterial> material = windowComponent->GetMaterial();
 
-		windowComponent->SetChanged(true);
+		windowComponent->MaterialChanged();
 
 		switch (textureType)
 		{

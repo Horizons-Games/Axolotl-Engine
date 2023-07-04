@@ -33,14 +33,14 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
 	inputTextureEmission(std::make_unique<WindowTextureInput>(this, TextureType::EMISSION)),
 	reset(false),
-	newMaterial(false),
-	changed(false)
+	newMaterial(false)
 {
 	InitMaterialValues();
 }
 
 WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 {
+	ResetMaterialValues();
 }
 
 void WindowComponentMeshRenderer::DrawWindowContents()
@@ -171,6 +171,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->GetBatch()->DeleteMaterial(asMeshRenderer);
 				materialResource->Unload();
 				asMeshRenderer->SetMaterial(nullptr);
+				updateMaterials = true;
 				return;
 			}
 
@@ -190,6 +191,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					if (ImGui::Selectable(shaderTypes[i].c_str(), isSelected))
 					{
 						materialResource->SetShaderType(i);
+						changeBatch = true;
+						updateMaterials = true;
 					}
 
 					if (isSelected)
@@ -215,7 +218,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					if (ImGui::Selectable(renderModes[i].c_str(), isSelected))
 					{
 						materialResource->SetTransparent(i);
-
+						changeBatch = true;
+						updateMaterials = true;
 					}
 
 					if (isSelected)
@@ -229,14 +233,24 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			ImGui::Text("Diffuse Color:");
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##Diffuse Color", (float*) &materialResource->GetDiffuseColor());
+			float4 diffuseColor = materialResource->GetDiffuseColor();
+			if (ImGui::ColorEdit4("##Diffuse Color", (float*) &diffuseColor))
+			{
+				materialResource->SetDiffuseColor(diffuseColor);
+				updateMaterials = true;
+			}
 
 			if (materialResource->GetShaderType() == 1)
 			{
 				ImGui::Text("Specular Color:");
 				ImGui::SameLine();
 
-				ImGui::ColorEdit3("##Specular Color", (float*) &materialResource->GetSpecularColor());
+				float3 specularColor = materialResource->GetSpecularColor();
+				if (ImGui::ColorEdit3("##Specular Color", (float*) &specularColor))
+				{
+					materialResource->SetSpecularColor(specularColor);
+					updateMaterials = true;
+				}
 			}
 
 			ImGui::Text("");
@@ -312,6 +326,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::DragFloat("Smoothness", &smoothness, 0.01f, 0.0f, 1.0f))
 			{
 				materialResource->SetSmoothness(smoothness);
+				updateMaterials = true;
 			}
 
 			if (materialResource->GetShaderType() == 0)
@@ -320,6 +335,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				if (ImGui::DragFloat("Metallic", &metalness, 0.01f, 0.0f, 1.0f))
 				{
 					materialResource->SetMetalness(metalness);
+					updateMaterials = true;
 				}
 			}
 
@@ -370,6 +386,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max()))
 			{
 				materialResource->SetNormalStrength(normalStrength);
+				updateMaterials = true;
 			}
 			ImGui::Separator();
 
@@ -408,6 +425,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					tiling[1] = 0.0f;
 				}
 				materialResource->SetTiling(tiling);
+				updateMaterials = true;
 			}
 
 			float2 offset = materialResource->GetOffset();
@@ -431,6 +449,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					offset[1] = 1.0f;
 				}
 				materialResource->SetOffset(offset);
+				updateMaterials = true;
 			}
 			
 			ImGui::Text("");
@@ -445,38 +464,20 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Apply"))
 			{
-				if (asMeshRenderer->IsTransparent() != material->IsTransparent() ||
-					asMeshRenderer->GetShaderType() != material->GetShaderType())
-				{
-					changeBatch = true;
-				}
-
 				InitMaterialValues();
 				materialResource->SetChanged(true);
 				App->GetModule<ModuleResources>()->ReimportResource(materialResource->GetUID());
-
-				updateMaterials = true;
 			}
 		}
 
 		if (changeBatch)
 		{
-			std::vector<ComponentMeshRenderer*> componentToMove;
-			componentToMove.clear();
-			componentToMove = asMeshRenderer->ChangeOfBatch();
-			for (ComponentMeshRenderer* component : componentToMove)
-			{
-				App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(component);
-			}
-			changeBatch = false;
+			ChangedBatch();
 		}
 
 		if (updateMaterials)
 		{
-			if (asMeshRenderer->GetBatch())
-			{
-				asMeshRenderer->GetBatch()->SetFillMaterials(true);
-			}
+			MaterialChanged();
 		}
 	}
 }
@@ -511,5 +512,55 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 
 void WindowComponentMeshRenderer::ResetMaterialValues()
 {
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
+	if (asMeshRenderer)
+	{
+		std::shared_ptr<ResourceMaterial> materialResource = asMeshRenderer->GetMaterial();
+
+		if (materialResource)
+		{
+			if (materialResource->IsTransparent() != material->IsTransparent() ||
+				materialResource->GetShaderType() != material->GetShaderType())
+			{
+				changeBatch = true;
+			}
+
+			materialResource->CopyValues(*material);
+
+			MaterialChanged();
+
+			if (changeBatch)
+			{
+				ChangedBatch();
+			}
+		}
+	}
 }
+
+void WindowComponentMeshRenderer::ChangedBatch()
+{
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
+
+	if (asMeshRenderer)
+	{
+		std::vector<ComponentMeshRenderer*> componentToMove;
+		componentToMove.clear();
+		componentToMove = asMeshRenderer->ChangeOfBatch();
+		for (ComponentMeshRenderer* component : componentToMove)
+		{
+			App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(component);
+		}
+		changeBatch = false;
+	}
+}
+
+ void WindowComponentMeshRenderer::MaterialChanged()
+{
+	 ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
+
+	 if (asMeshRenderer && asMeshRenderer->GetBatch())
+	 {
+		 asMeshRenderer->GetBatch()->SetFillMaterials(true);
+	 }
+ }

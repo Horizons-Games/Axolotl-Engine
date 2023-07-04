@@ -18,7 +18,7 @@ public:
 
 	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& material);
-	void SetChanged(bool changed);
+	void MaterialChanged();
 
 protected:
 	void DrawWindowContents() override;
@@ -28,6 +28,7 @@ private:
 	void DrawEmptyMaterial();
 	void InitMaterialValues();
 	void ResetMaterialValues();
+	void ChangedBatch();
 
 	static const std::vector<std::string> shaderTypes;
 	static const std::vector<std::string> renderModes;
@@ -60,9 +61,4 @@ inline void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<Resou
 {
 	this->material = material;
 	newMaterial = true;
-}
-
-inline void WindowComponentMeshRenderer::SetChanged(bool changed)
-{
-	this->changed = changed;
 }
