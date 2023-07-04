@@ -578,7 +578,7 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 				gameObjectQueue.push(child);
 			}
 		}
-		std::vector<ComponentMeshRenderer*> meshes = currentGo->GetComponents<ComponentMeshRenderer>();
+		GameObject::FilteredComponentView<ComponentMeshRenderer> meshes = currentGo->GetComponents<ComponentMeshRenderer>();
 		
 		if (gameObjectsInFrustrum.find(currentGo) != gameObjectsInFrustrum.end())
 		{

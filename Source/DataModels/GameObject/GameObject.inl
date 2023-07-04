@@ -54,7 +54,7 @@ template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
 S* GameObject::GetComponent()
 {
 	// GetComponents already makes sure the objects returned are not null
-	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
+	FilteredComponentView<ComponentScript> componentScripts = GetComponents<ComponentScript>();
 	auto componentWithScript = std::ranges::find_if(componentScripts,
 													[](const ComponentScript* component)
 													{
@@ -68,7 +68,7 @@ template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
 std::vector<S*> GameObject::GetComponents()
 {
 	// GetComponents already makes sure the objects returned are not null
-	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
+	FilteredComponentView<ComponentScript> componentScripts = GetComponents<ComponentScript>();
 	auto filteredScripts = componentScripts |
 						   std::views::transform(
 							   [](ComponentScript* component)

@@ -845,7 +845,7 @@ void GameObject::SpreadStatic()
 void GameObject::SetStatic(bool newStatic)
 {
 	staticObject = newStatic;
-	std::vector<ComponentRigidBody*> rigids = GetComponents<ComponentRigidBody>();
+	FilteredComponentView<ComponentRigidBody> rigids = GetComponents<ComponentRigidBody>();
 
 	for (ComponentRigidBody* rigid : rigids)
 	{

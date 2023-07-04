@@ -889,11 +889,11 @@ void Scene::UpdateScenePointLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
+			GameObject::FilteredComponentView<ComponentLight> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components.front()->GetLightType() == LightType::POINT && components.front()->IsEnabled())
 			{
-				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
-				ComponentTransform* transform = components[0]->GetOwner()->GetComponent<ComponentTransform>();
+				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components.front());
+				ComponentTransform* transform = components.front()->GetOwner()->GetComponent<ComponentTransform>();
 
 				PointLight pl;
 				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
@@ -919,10 +919,10 @@ void Scene::UpdateSceneSpotLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
+			GameObject::FilteredComponentView<ComponentLight> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components.front()->GetLightType() == LightType::SPOT && components.front()->IsEnabled())
 			{
-				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
+				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components.front());
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 
 				SpotLight sl;
@@ -955,10 +955,10 @@ void Scene::UpdateSceneAreaLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			GameObject::FilteredComponentView<ComponentLight> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components.front()->GetLightType() == LightType::AREA && components.front()->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components.front());
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -1013,10 +1013,10 @@ void Scene::UpdateSceneAreaSpheres()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			GameObject::FilteredComponentView<ComponentLight> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components.front()->GetLightType() == LightType::AREA && components.front()->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components.front());
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -1049,10 +1049,10 @@ void Scene::UpdateSceneAreaTubes()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			GameObject::FilteredComponentView<ComponentLight> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components.front()->GetLightType() == LightType::AREA && components.front()->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components.front());
 				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{

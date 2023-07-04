@@ -44,7 +44,7 @@ void PlayerDeathScript::ManagePlayerDeath() const
 void PlayerDeathScript::DisablePlayerActions() const
 {
 	// Once the player is dead, disable its scripts
-	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
+	GameObject::FilteredComponentView<ComponentScript> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
 	{
@@ -63,7 +63,7 @@ void PlayerDeathScript::DisablePlayerActions() const
 			continue;
 		}
 
-		std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
+		GameObject::FilteredComponentView<ComponentScript> cameraScripts = child->GetComponents<ComponentScript>();
 
 		for (ComponentScript* script : cameraScripts)
 		{

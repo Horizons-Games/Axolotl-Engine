@@ -49,7 +49,7 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 void EnemyDeathScript::DisableEnemyActions() const
 {
 	// Once the player is dead, disable its scripts
-	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
+	GameObject::FilteredComponentView<ComponentScript> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
 	{
