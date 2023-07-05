@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceNavMesh.h"
 
 ResourceNavMesh::ResourceNavMesh(UID resourceUID,
