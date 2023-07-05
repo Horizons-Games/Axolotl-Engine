@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceNavMesh.h"
 
 #include "Application.h"
@@ -6,6 +8,7 @@
 //#include "Components/ComponentObstacle.h"
 #include "Modules/ModuleCamera.h"
 //#include "Modules/ModuleDebugDraw.h"
+#include "DataModels/Camera/Camera.h"
 
 #include "Scene/Scene.h"
 

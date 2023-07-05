@@ -23,8 +23,8 @@ enum class ComponentType
 	BREAKABLE,
 	CUBEMAP,
 	AGENT,
-	OBSTACLE
-	PARTICLE,
+	OBSTACLE,
+	PARTICLE
 };
 
 class ComponentAnimation;

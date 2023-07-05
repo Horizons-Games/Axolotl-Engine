@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentAgent.h"
 
 #include "Components/ComponentAgent.h"

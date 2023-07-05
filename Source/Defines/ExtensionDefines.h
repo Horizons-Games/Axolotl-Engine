@@ -17,3 +17,4 @@
 #define ANIMATION_EXTENSION ".anim"
 #define META_EXTENSION ".meta"
 #define GENERAL_BINARY_EXTENSION ".bin"
+#define NAVMESH_EXTENSION ".nav"

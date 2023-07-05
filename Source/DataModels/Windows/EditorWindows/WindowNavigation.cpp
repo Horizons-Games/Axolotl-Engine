@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowNavigation.h"
 
 #include "Application.h"

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentObstacle.h"
 
 #include "Components/ComponentObstacle.h"

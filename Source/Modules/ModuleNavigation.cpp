@@ -58,24 +58,24 @@ UpdateStatus ModuleNavigation::PreUpdate()
 		agentsAdded = true;
 	}
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 UpdateStatus ModuleNavigation::Update()
 {
 	if (!navMesh->IsGenerated())
 	{
-		return update_status::UPDATE_CONTINUE;
+		return UpdateStatus::UPDATE_CONTINUE;
 	}
 
 	navMesh->GetTileCache()->update(App->GetDeltaTime(), navMesh->GetNavMesh()); // Update obstacles
 	navMesh->GetCrowd()->update(App->GetDeltaTime(), nullptr);					// Update agents
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 
-update_status ModuleNavigation::PostUpdate()
+UpdateStatus ModuleNavigation::PostUpdate()
 {
 	return UpdateStatus::UPDATE_CONTINUE;
 }
