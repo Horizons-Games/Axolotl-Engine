@@ -254,7 +254,9 @@ void WindowComponentScript::DrawWindowContents()
 				ImGui::Text(vectorField.name.c_str());
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
+					ImGui::Indent();
 					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
+					ImGui::Unindent();
 				}
 
 				vectorField.setter(vectorValue);
