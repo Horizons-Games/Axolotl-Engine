@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowHierarchy.h"
 
 #include "Application.h"
@@ -285,6 +287,11 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 	if (ImGui::MenuItem("Create Button"))
 	{
 		loadedScene->CreateUIGameObject("new Button", gameObject, ComponentType::BUTTON);
+	}
+
+	if (ImGui::MenuItem("Create Slider"))
+	{
+		loadedScene->CreateUIGameObject("new Slider", gameObject, ComponentType::SLIDER);	
 	}
 }
 

@@ -1,4 +1,8 @@
+#include "StdAfx.h"
+
 #include "ModuleEditor.h"
+
+#include "Defines/GlslDefines.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -90,8 +94,8 @@ bool ModuleEditor::Init()
 	
 	char* buffer = StateWindows();
 
-	if(buffer == nullptr)
-	{		
+	if (buffer == nullptr)
+	{
 		rapidjson::StringBuffer newBuffer;
 		for (const std::unique_ptr<EditorWindow>& window : windows)
 		{
@@ -124,7 +128,7 @@ bool ModuleEditor::Init()
 	}
 
 	delete buffer;
-	
+
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
 	buildGameLoading = std::make_unique<WindowLoading>();
@@ -168,7 +172,7 @@ bool ModuleEditor::CleanUp()
 	return true;
 }
 
-update_status ModuleEditor::PreUpdate()
+UpdateStatus ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->GetModule<ModuleWindow>()->GetWindow());
@@ -179,10 +183,10 @@ update_status ModuleEditor::PreUpdate()
 	ImGuizmo::Enable(true);
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::Update()
+UpdateStatus ModuleEditor::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
@@ -223,7 +227,9 @@ update_status ModuleEditor::Update()
 		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
 		ImGui::DockBuilderDockWindow("Console", dockIdDown);
 		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
+		ImGui::DockBuilderDockWindow("State Machine Editor", dockIdDown);
 		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
+		ImGui::DockBuilderDockWindow("Resources", dockIdRight);
 		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
 		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
 		ImGui::DockBuilderDockWindow("Hierarchy", dockIdLeft);
@@ -251,7 +257,7 @@ update_status ModuleEditor::Update()
 	debugOptions->Draw();
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::DrawLoadingBuild()
@@ -276,7 +282,7 @@ void ModuleEditor::DrawLoadingBuild()
 #endif
 }
 
-update_status ModuleEditor::PostUpdate()
+UpdateStatus ModuleEditor::PostUpdate()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -293,7 +299,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)

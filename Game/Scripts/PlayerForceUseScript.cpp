@@ -19,49 +19,51 @@
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "PlayerRotationScript.h"
-#include "PlayerCameraRotationVerticalScript.h"
-#include "PlayerMoveScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/CameraControllerScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
-maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
-currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource (nullptr)
+	gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
+	maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
+	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
+	playerManagerScript(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
 }
 
-PlayerForceUseScript::~PlayerForceUseScript()
-{
-}
-
 void PlayerForceUseScript::Start()
 {
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
-
 	currentTimeForce = maxTimeForce;
 
 	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
-	moveScript = owner->GetParent()->GetComponent<PlayerMoveScript>();
+	playerManagerScript = owner->GetParent()->GetComponent<PlayerManagerScript>();
+	moveScript = owner->GetComponent<PlayerMoveScript>();
 
-	rotationVerticalScript = owner->GetComponent<PlayerCameraRotationVerticalScript>();
+	input = App->GetModule<ModuleInput>();
+	transform = owner->GetComponent<ComponentTransform>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
 	{
-		//componentAnimation->SetParameter("IsUsingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", true);
+		componentAnimation->SetParameter("IsStoppingForce", false);
 		RaycastHit hit;
-		Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
+		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
+		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
+		Ray ray(origin, transform->GetGlobalForward());
 		LineSegment line(ray, 300);
+
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
@@ -73,6 +75,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 				gameObjectAttached = nullptr;
 				return;
 			}
+
 			else if (distancePointGameObjectAttached < minDistanceForce)
 			{
 				distancePointGameObjectAttached = minDistanceForce;
@@ -80,20 +83,16 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 			if (rotationHorizontalScript)
 			{
-				lastHorizontalSensitivity = rotationHorizontalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity / 2.0f);
+				lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
+				rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
+				lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
+				rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
 			}
 
-			if (rotationVerticalScript)
+			if (playerManagerScript)
 			{
-				lastVerticalSensitivity = rotationVerticalScript->GetField<float>("RotationSensitivity")->getter();
-				rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity / 2.0f);
-			}
-
-			if (moveScript)
-			{
-				lastMoveSpeed = moveScript->GetField<float>("Speed")->getter();
-				moveScript->GetField<float>("Speed")->setter(lastMoveSpeed / 2.0f);
+				lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
+				playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
 			}
 
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
@@ -101,13 +100,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rigidBody->SetKpTorque(50.0f);
 		}
 	}
+
 	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE
 		&& gameObjectAttached)
 		|| currentTimeForce < 0.0f
 		|| breakForce)
 	{
-		//componentAnimation->SetParameter("IsUsingForce", false);
-
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
@@ -123,9 +121,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
 		}
 
-		if (moveScript)
+		if (playerManagerScript)
 		{
-			moveScript->GetField<float>("Speed")->setter(lastMoveSpeed);
+			playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed);
+			rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
+			rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}
 
 		if (isForceActive)
@@ -137,15 +137,21 @@ void PlayerForceUseScript::Update(float deltaTime)
 		breakForce = false;
 	}
 
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
+	{
+		componentAnimation->SetParameter("IsStoppingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", false);
+	}
+
 	if (gameObjectAttached)
 	{
+		
 		if (!isForceActive)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
 			isForceActive = true;
 		}
 		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-		btRigidBody* hittedbtRb = hittedRigidBody->GetRigidBody();
 		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
 		if (input->IsMouseWheelScrolled())
@@ -155,10 +161,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 		}
 		// Get next position of the gameObject
+		float verticalOffset = 1.0f;
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
+		nextPosition.y += verticalOffset;
 
 		float currentDistance = hittedTransform->GetGlobalPosition().Distance(nextPosition);
 
@@ -170,15 +178,33 @@ void PlayerForceUseScript::Update(float deltaTime)
 		}
 
 		// Get next rotation of game object
-		ComponentTransform* parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-
 		Quat targetRotation =
 			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
-				(parentTransform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
+				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
 
-		// Set position and rotation
-		hittedRigidBody->SetPositionTarget(nextPosition);
-		hittedRigidBody->SetRotationTarget(targetRotation);
+		
+		btRigidBody* rigidBody = hittedRigidBody->GetRigidBody();
+
+		// Set position
+		float3 x = hittedTransform->GetGlobalPosition();
+		float3 positionError = nextPosition - x;
+		float3 velocityPosition = positionError * hittedRigidBody->GetKpForce();
+
+		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
+		rigidBody->setLinearVelocity(velocity);
+
+
+		// Set rotation
+		float3 axis;
+		float angle;
+		targetRotation.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 angularVelocity = axis * angle * hittedRigidBody->GetKpTorque();
+		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
+		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
+		rigidBody->setAngularVelocity(bulletAngularVelocity);
+
 
 		currentTimeForce -= deltaTime;
 	}

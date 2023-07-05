@@ -42,6 +42,8 @@ public:
 	void SetInnerAngle(float angle);
 	void SetOuterAngle(float angle);
 
+	void OnTransformChanged() override;
+
 private:
 	float radius;
 	float innerAngle;

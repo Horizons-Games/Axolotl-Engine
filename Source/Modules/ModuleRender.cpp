@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModulePlayer.h"
@@ -10,21 +12,25 @@
 #include "Cubemap/Cubemap.h"
 
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
+#include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Skybox/Skybox.h"
+#include "DataModels/GBuffer/GBuffer.h"
 
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include "DataStructures/Quadtree.h"
+
 #include "Program/Program.h"
 
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
-#include "DataModels/GBuffer/GBuffer.h"
-
-#include <queue>
+#include "Skybox/Skybox.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -168,8 +174,9 @@ bool ModuleRender::Init()
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
 
 	glEnable(GL_DEPTH_TEST); // Enable depth test
-	glDisable(GL_CULL_FACE); // Enable cull backward faces
-	glFrontFace(GL_CCW);	 // Front faces will be counter clockwise
+	glEnable(GL_CULL_FACE); // Enable face culling
+	glFrontFace(GL_CW);	 // Front faces will be clockwise
+	glCullFace(GL_FRONT);
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -196,7 +203,7 @@ bool ModuleRender::Init()
 	return true;
 }
 
-update_status ModuleRender::PreUpdate()
+UpdateStatus ModuleRender::PreUpdate()
 {
 	int width, height;
 
@@ -212,10 +219,10 @@ update_status ModuleRender::PreUpdate()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer 
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleRender::Update()
+UpdateStatus ModuleRender::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
@@ -303,7 +310,7 @@ update_status ModuleRender::Update()
 
 	gBuffer->BindTexture();
 
-	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 and specular = 4
+	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); // maybe we should move out this
@@ -348,7 +355,7 @@ update_status ModuleRender::Update()
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF); //discard the ones that are previously captured
 		glLineWidth(25);
-		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_BACK, GL_LINE);
 
 		// Draw Highliht for selected objects
 		DrawHighlight(goSelected);
@@ -357,6 +364,19 @@ update_status ModuleRender::Update()
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
+
+	glDisable(GL_CULL_FACE);
+	glPolygonMode(GL_BACK, GL_FILL);
+
+	// Draw Particles
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	{
+		particle->Render();
+	}
+
+	glEnable(GL_CULL_FACE); // Enable face culling
+	glCullFace(GL_FRONT);
+	glPolygonMode(GL_FRONT, GL_FILL);
 
 	glDisable(GL_BLEND);
 
@@ -375,18 +395,18 @@ update_status ModuleRender::Update()
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
 	{
-		return update_status::UPDATE_CONTINUE;
+		return UpdateStatus::UPDATE_CONTINUE;
 	}
 #endif //ENGINE
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleRender::PostUpdate()
+UpdateStatus ModuleRender::PostUpdate()
 {
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool ModuleRender::CleanUp()
@@ -429,8 +449,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
 

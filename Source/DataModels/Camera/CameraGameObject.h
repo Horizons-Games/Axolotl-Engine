@@ -10,6 +10,12 @@ public:
 
 	bool Update() override;
 
+	void SetPositionTarget(const float3& targetPosition, float deltaTime);
+	void SetRotationTarget(const Quat& targetRotation, float deltaTime);
+
+	void ApplyRotation(const Quat& rotationQuat);
+	void ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fixedUp);
+
 	void UpdateCameraWithMousePos();
 
 	bool IsDrawFrustum();

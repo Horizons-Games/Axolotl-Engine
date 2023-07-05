@@ -2,7 +2,7 @@
 
 #include "ComponentWindow.h"
 
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 
 class ComponentScript;
 
@@ -24,8 +24,5 @@ private:
 
 	void ReplaceSubstringsInString(std::string& stringToReplace, const std::string& from, const std::string& to);
 
-	bool IsDoubleClicked();
-
-	float secondsSinceLastClick = 0;
 	UID windowUID;
 };

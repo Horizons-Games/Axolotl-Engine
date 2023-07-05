@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FileSystem/UniqueID.h"
+#include "FileSystem/UID.h"
 
 class Json;
 
@@ -16,7 +16,8 @@ enum class ResourceType
 	SkyBox,
 	Cubemap,
 	Animation,
-	StateMachine
+	StateMachine,
+	ParticleSystem
 };
 
 class Resource

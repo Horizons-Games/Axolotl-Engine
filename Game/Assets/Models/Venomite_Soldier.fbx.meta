@@ -1,0 +1,37 @@
+{
+    "UID": 6902947716902427021,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Venomite_Soldier.Torso_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.ArmL_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.Belt_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.LegL_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.Cylinder.001_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.blaster1_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.ArmR_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.LegR_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.eyes_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.ninjago mouths final_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.Cylinder_0.mesh",
+        "Assets/Meshes/Venomite_Soldier.Sphere.002_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Venomite_SoldierBody_0.mat",
+        "Assets/Materials/Venomite_SoldierBody_0.mat",
+        "Assets/Materials/Venomite_SoldierBody_0.mat",
+        "Assets/Materials/Venomite_SoldierBody_0.mat",
+        "Assets/Materials/Venomite_SoldierDefaultMaterial_0.mat",
+        "Assets/Materials/Venomite_SoldierNone_0.mat",
+        "Assets/Materials/Venomite_SoldierBody_0.mat",
+        "Assets/Materials/Venomite_SoldierBody_0.mat",
+        "Assets/Materials/Venomite_SoldierEyes_0.mat",
+        "Assets/Materials/Venomite_SoldierMouth_0.mat",
+        "Assets/Materials/Venomite_SoldierMask_0.mat",
+        "Assets/Materials/Venomite_SoldierBody_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/Venomite_Soldier.Armature_Run.anim",
+        "Assets/Animation/Venomite_Soldier.blaster1_DobleJump.anim",
+        "Assets/Animation/Venomite_Soldier.Hat_Dash.anim"
+    ]
+}

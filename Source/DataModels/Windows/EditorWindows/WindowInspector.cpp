@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowInspector.h"
 
 #include "Application.h"
@@ -13,8 +15,9 @@
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
-#include "Components/ComponentMockState.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAgent.h"
@@ -41,9 +44,6 @@ WindowInspector::WindowInspector() :
 
 	auto isNotALight = [gameObjectDoesNotHaveComponent](GameObject* gameObject)
 	{
-		// C++ is a great language with perfectly readable syntax
-		// because of course you shouldn't be able to just do gameObjectDoesNotHaveComponent<ComponentLight>
-		// that'd be too easy
 		return gameObjectDoesNotHaveComponent.template operator()<ComponentLight>(gameObject);
 	};
 
@@ -70,12 +70,29 @@ WindowInspector::WindowInspector() :
 						   isNotALight,
 						   ComponentFunctionality::GRAPHICS));
 
+	actions.push_back(AddComponentAction("Create Particle System Component",
+		std::bind(&WindowInspector::AddComponentParticle, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentParticleSystem>(gameObject);
+		},
+		ComponentFunctionality::GRAPHICS));
+
 	actions.push_back(AddComponentAction(
 		"Create Player Component",
 		std::bind(&WindowInspector::AddComponentPlayer, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayer>(gameObject);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction(
+		"Create Camera Sample Component",
+		std::bind(&WindowInspector::AddComponentCameraSample, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentCameraSample>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
@@ -87,15 +104,6 @@ WindowInspector::WindowInspector() :
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentRigidBody>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
-
-	actions.push_back(AddComponentAction(
-		"Create MockState Component",
-		std::bind(&WindowInspector::AddComponentMockState, this),
-		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
-		{
-			return gameObjectDoesNotHaveComponent.template operator()<ComponentMockState>(gameObject);
-		},
-		ComponentFunctionality::GAMEPLAY));
 
 	actions.push_back(AddComponentAction("Create AudioSource Component",
 										 std::bind(&WindowInspector::AddComponentAudioSource, this),
@@ -439,6 +447,11 @@ void WindowInspector::AddComponentPlayer()
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
 
+void WindowInspector::AddComponentCameraSample()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::CAMERASAMPLE);
+}
+
 void WindowInspector::AddComponentAnimation()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::ANIMATION);
@@ -453,11 +466,6 @@ void WindowInspector::ResetSelectedGameObject()
 void WindowInspector::AddComponentRigidBody()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::RIGIDBODY);
-}
-
-void WindowInspector::AddComponentMockState()
-{
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::MOCKSTATE);
 }
 
 void WindowInspector::AddComponentAudioSource()
@@ -478,6 +486,11 @@ void WindowInspector::AddComponentMeshCollider()
 void WindowInspector::AddComponentScript()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SCRIPT);
+}
+
+void WindowInspector::AddComponentParticle()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PARTICLE);
 }
 
 void WindowInspector::AddComponentBreakable()

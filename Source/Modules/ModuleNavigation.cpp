@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleNavigation.h"
 #include "Application.h"
 #include "ModuleScene.h"
@@ -41,7 +43,7 @@ bool ModuleNavigation::CleanUp()
 	return true;
 }
 
-update_status ModuleNavigation::PreUpdate()
+UpdateStatus ModuleNavigation::PreUpdate()
 {
 	// WIP: This should be done when playMode starts
 	if (App->IsOnPlayMode() && !agentsAdded)
@@ -59,7 +61,7 @@ update_status ModuleNavigation::PreUpdate()
 	return update_status::UPDATE_CONTINUE;
 }
 
-update_status ModuleNavigation::Update()
+UpdateStatus ModuleNavigation::Update()
 {
 	if (!navMesh->IsGenerated())
 	{
@@ -75,7 +77,7 @@ update_status ModuleNavigation::Update()
 
 update_status ModuleNavigation::PostUpdate()
 {
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleNavigation::ChangeNavMesh(UID navMeshId_)

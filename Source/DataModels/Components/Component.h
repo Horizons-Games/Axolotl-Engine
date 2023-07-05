@@ -1,8 +1,5 @@
 #pragma once
 
-#include <assert.h>
-#include <string>
-
 #include "Enums/ComponentType.h"
 
 const static std::string GetNameByType(ComponentType type);
@@ -89,6 +86,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Light";
 		case ComponentType::CAMERA:
 			return "Component_Camera";
+		case ComponentType::CAMERASAMPLE:
+			return "Component_CameraSample";
 		case ComponentType::PLAYER:
 			return "Component_Player";
 		case ComponentType::ANIMATION:
@@ -97,6 +96,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Canvas";
 		case ComponentType::TRANSFORM2D:
 			return "Component_Transform2D";
+		case ComponentType::SLIDER:
+			return "Component_Slider";
 		case ComponentType::IMAGE:
 			return "Component_Image";
 		case ComponentType::BUTTON:
@@ -105,8 +106,6 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_RigidBody";
 		case ComponentType::BREAKABLE:
 			return "Component_Breakable";
-		case ComponentType::MOCKSTATE:
-			return "Component_MockState";
 		case ComponentType::AUDIOSOURCE:
 			return "Component_AudioSource";
 		case ComponentType::AUDIOLISTENER:
@@ -121,6 +120,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Agent";
 		case ComponentType::OBSTACLE:
 			return "Component_Obstacle";
+		case ComponentType::PARTICLE:
+			return "Component_Particle";
 		default:
 			assert(false && "Wrong component type introduced");
 			return std::string();
@@ -149,6 +150,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::CAMERA;
 	}
 
+	if (typeName == "Component_CameraSample")
+	{
+		return ComponentType::CAMERASAMPLE;
+	}
+
 	if (typeName == "Component_Player")
 	{
 		return ComponentType::PLAYER;
@@ -162,6 +168,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Transform2D")
 	{
 		return ComponentType::TRANSFORM2D;
+	}
+
+	if (typeName == "Component_Slider")
+	{
+		return ComponentType::SLIDER;
 	}
 
 	if (typeName == "Component_Image")
@@ -183,11 +194,6 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::BREAKABLE;
 	}
 
-	if (typeName == "Component_MockState")
-	{
-		return ComponentType::MOCKSTATE;
-	}
-
 	if (typeName == "Component_AudioSource")
 	{
 		return ComponentType::AUDIOSOURCE;
@@ -203,6 +209,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::SCRIPT;
 	}
 
+	if (typeName == "Component_Particle")
+	{
+		return ComponentType::PARTICLE;
+	}
+	
 	if (typeName == "Component_MeshCollider")
 	{
 		return ComponentType::MESHCOLLIDER;

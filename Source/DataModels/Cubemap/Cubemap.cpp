@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Cubemap.h"
 
 #include "Application.h"
@@ -86,6 +88,9 @@ void Cubemap::DebugNSight()
 
 void Cubemap::GenerateMaps()
 {
+	glCullFace(GL_BACK); // Show back faces	 
+	glFrontFace(GL_CCW); // Front faces will be counter clockwise
+
 	assert(cubemapRes);
 
 	cubemapRes->Load();
@@ -238,6 +243,8 @@ void Cubemap::GenerateMaps()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glEnable(GL_DEPTH_TEST);
+	glCullFace(GL_FRONT); // Show front faces
+	glFrontFace(GL_CW); // Clockwise
 }
 
 void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)
