@@ -44,7 +44,10 @@ public:
 	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
 	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
 								   std::vector<GameObject*>& gos);
+	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+										    std::vector<GameObject*>& gos);
 	bool frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
+	bool objectInFrustum(const math::Frustum* frustum, const AABB& aabb);
 
 	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
 	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);

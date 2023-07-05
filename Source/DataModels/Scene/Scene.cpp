@@ -118,6 +118,11 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 
 	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
 
+	for (GameObject* go : nonStaticObjects)
+	{
+		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum);
+	}
+
 	return objectsInFrustum;
 }
 
@@ -167,6 +172,39 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 	}
 }
 
+void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+										       std::vector<GameObject*>& gos)
+{
+	if (go->GetParent() == nullptr)
+	{
+		return;
+	}
+
+	ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+	// If an object doesn't have transform component it doesn't need to draw
+	if (transform == nullptr)
+	{
+		return;
+	}
+
+	if (objectInFrustum(frustum, transform->GetEncapsuledAABB()))
+	{
+		ComponentMeshRenderer* mesh = go->GetComponent<ComponentMeshRenderer>();
+		if (go->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
+		{
+			gos.push_back(go);
+		}
+	}
+
+	if (!go->GetChildren().empty())
+	{
+		for (GameObject* children : go->GetChildren())
+		{
+			CalculateNonStaticObjectsInFrustum(frustum, children, gos);
+		}
+	}
+}
+
 bool Scene::frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad)
 {
 	math::Plane planes[6];
@@ -181,6 +219,32 @@ bool Scene::frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad
 		for (int itPoints = 0; itPoints < 8; ++itPoints)
 		{
 			if (!planes[itPlanes].IsOnPositiveSide(corners[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+			return false;
+	}
+
+	return true;
+}
+
+bool Scene::objectInFrustum(const math::Frustum* frustum, const AABB& aabb)
+{
+	math::vec cornerPoints[8];
+	math::Plane frustumPlanes[6];
+
+	frustum->GetPlanes(frustumPlanes);
+	aabb.GetCornerPoints(cornerPoints);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
 			{
 				onPlane = true;
 				break;
