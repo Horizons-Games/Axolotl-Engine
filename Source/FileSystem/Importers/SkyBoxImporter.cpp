@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "SkyBoxImporter.h"
 
 #include "Application.h"

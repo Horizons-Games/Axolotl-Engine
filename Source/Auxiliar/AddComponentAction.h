@@ -1,7 +1,5 @@
 #pragma once
 
-#include <functional>
-
 #include "GameObject/GameObject.h"
 
 enum class ComponentFunctionality

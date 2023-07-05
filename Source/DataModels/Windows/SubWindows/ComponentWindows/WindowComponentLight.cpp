@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentLight.h"
 
 #include "DataModels/Components/ComponentLight.h"

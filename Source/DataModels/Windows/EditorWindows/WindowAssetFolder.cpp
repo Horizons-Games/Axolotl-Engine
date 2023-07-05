@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowAssetFolder.h"
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
@@ -23,7 +25,9 @@ void WindowAssetFolder::DrawWindowContents()
 		type = ResourceType::Material;
 		name = "NewMaterial";
 	}
-	ImGui::SameLine();
+
+	ImGui::SameLine(0.0f, -1.0f);
+
 	if (ImGui::Button("Create StateMachine"))
 	{
 		ImGui::OpenPopup("Select Name");
@@ -36,6 +40,15 @@ void WindowAssetFolder::DrawWindowContents()
 		ImGui::OpenPopup("Select Name");
 		type = ResourceType::NavMesh;
 		name = "NewNavMesh";
+	}
+
+	ImGui::SameLine(0.0f, -1.0f);
+
+	if (ImGui::Button("Create ParticleSystem"))
+	{
+		ImGui::OpenPopup("Select Name");
+		type = ResourceType::ParticleSystem;
+		name = "NewParticleSystem";
 	}
 
 	if (ImGui::BeginPopupModal("Select Name", NULL, ImGuiWindowFlags_AlwaysAutoResize))

@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_StoolV02_StoolV01_MetallicSmoothness.png",
+    "EmissiveAssetPath": ""
 }
