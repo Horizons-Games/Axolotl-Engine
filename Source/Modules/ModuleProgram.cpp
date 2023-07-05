@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ModuleProgram.h"
 
 #include "Application.h"
@@ -69,9 +71,12 @@ bool ModuleProgram::Start()
 
 	programs.push_back(
 		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
-	
+
+	programs.push_back
+		(CreateProgram("particle_vertex.glsl", "particle_fragment.glsl", "Particles"));
+
 	programs.push_back(
-		CreateProgram("render_clip_space_vertex.glsl", "deferred_lighting_fragment.glsl", "Scene Render"));
+		CreateProgram("render_clip_space_vertex.glsl", "deferred_lighting_fragment.glsl", "DeferredLight"));
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
 	

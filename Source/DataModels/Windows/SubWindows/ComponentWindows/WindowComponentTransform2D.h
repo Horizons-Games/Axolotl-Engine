@@ -1,9 +1,6 @@
 #pragma once
 #include "ComponentWindow.h"
 
-#include "Math/float2.h"
-#include "Math/float3.h"
-
 class ComponentTransform2D;
 
 class WindowComponentTransform2D : public ComponentWindow

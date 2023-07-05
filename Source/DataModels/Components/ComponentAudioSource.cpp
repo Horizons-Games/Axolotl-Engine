@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentAudioSource.h"
 #include "Auxiliar/Audio/AudioData.h"
 #include "DataModels/Components/ComponentTransform.h"

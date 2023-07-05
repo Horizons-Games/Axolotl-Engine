@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentCanvas.h"
 
 #include "Application.h"

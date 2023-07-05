@@ -1,0 +1,12 @@
+{
+    "UID": 9193011160089768419,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/muzzle_01_rotated.png",
+        "Assets/Textures/muzzle_01_rotated.png"
+    ],
+    "ConfigEmitters": [
+        true,
+        true
+    ]
+}

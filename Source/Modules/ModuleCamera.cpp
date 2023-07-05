@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "Application.h"
 
 #include "ModuleCamera.h"
@@ -7,6 +9,7 @@
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
+#include "Camera/Camera.h"
 
 #include "Components/ComponentCamera.h"
 
@@ -54,7 +57,7 @@ bool ModuleCamera::Start()
 	return true;
 }
 
-update_status ModuleCamera::Update()
+UpdateStatus ModuleCamera::Update()
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
@@ -75,7 +78,7 @@ update_status ModuleCamera::Update()
 			selectedPosition++;
 			SetSelectedCamera(selectedPosition);
 		}
-		else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+		/*else if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
 		{
 			selectedPosition = 0;
 			SetSelectedCamera(selectedPosition);
@@ -84,12 +87,12 @@ update_status ModuleCamera::Update()
 		{
 			selectedPosition = 1;
 			SetSelectedCamera(selectedPosition);
-		}
+		}*/
 	}
 
 	selectedCamera->Update();
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleCamera::ChangeCamera(CameraType newType)

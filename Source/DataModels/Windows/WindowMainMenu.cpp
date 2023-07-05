@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowMainMenu.h"
 
 #include "Application.h"
@@ -15,6 +17,8 @@
 #include "EditorWindows/ImporterWindows/WindowSaveScene.h"
 #include "EditorWindows/WindowAbout.h"
 #include "PopUpWindows/WindowBuild.h"
+
+#include "Defines/ExtensionDefines.h"
 
 const std::string WindowMainMenu::repositoryLink = "https://github.com/Horizons-Games/Axolotl-Engine";
 bool WindowMainMenu::defaultEnabled = true;
@@ -203,10 +207,12 @@ void WindowMainMenu::ShortcutSave()
 	if (filePathName != "New Scene")
 	{
 		scene->SaveScene(filePathName + SCENE_EXTENSION);
+		LOG_DEBUG("SAVED SCENE");
 	}
 	else
 	{
 		isSaving = true;
+		LOG_DEBUG("SAVED SCENE");
 	}
 }
 

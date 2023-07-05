@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentSpotLight.h"
 
 #include "Application.h"
@@ -166,8 +168,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 			if (modified)
 			{
-				loadedScene->UpdateSceneSpotLights();
-				loadedScene->RenderSpotLights();
+				loadedScene->UpdateSceneSpotLight(asSpotLight);
+				loadedScene->RenderSpotLight(asSpotLight);
 			}
 
 			ImGui::EndTable();

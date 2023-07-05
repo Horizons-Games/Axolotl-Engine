@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ResourceTexture.h"
 
 #include "FileSystem/Json.h"
@@ -79,11 +81,11 @@ void ResourceTexture::CreateTexture()
 
 	glTexParameteri(GL_TEXTURE_2D,
 					GL_TEXTURE_WRAP_S,
-					format == GL_RGBA || format == GL_RGB ? GL_CLAMP_TO_EDGE
+					format == GL_RGBA || format == GL_RGB ? GL_REPEAT
 														  : GetWrapFilterEquivalence(loadOptions.wrapS));
 	glTexParameteri(GL_TEXTURE_2D,
 					GL_TEXTURE_WRAP_T,
-					format == GL_RGBA || format == GL_RGB ? GL_CLAMP_TO_EDGE
+					format == GL_RGBA || format == GL_RGB ? GL_REPEAT
 														  : GetWrapFilterEquivalence(loadOptions.wrapT));
 }
 

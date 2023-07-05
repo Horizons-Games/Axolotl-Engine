@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
@@ -8,9 +10,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
-#include "ModuleRender.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "Program/Program.h"
 
@@ -18,9 +19,14 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
+#include "Batch/BatchManager.h"
+#include "Batch/GeometryBatch.h"
+
 #include "GameObject/GameObject.h"
 
-#include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
+#include "Enums/TextureType.h"
 
 #include <GL/glew.h>
 
@@ -88,9 +94,8 @@ void ComponentMeshRenderer::UpdatePalette()
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = 
-						boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
-						bindBones[i].transform;
+					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
+									 bindBones[i].transform;
 				}
 				else
 				{
@@ -302,6 +307,23 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 				break;
 		}
 
+		texture = material->GetEmission();
+		if (texture)
+		{
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glActiveTexture(GL_TEXTURE11);
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(10, 1);
+		}
+		else
+		{
+			glUniform1i(10, 0);
+		}
+
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
 	}
@@ -387,7 +409,7 @@ void ComponentMeshRenderer::InternalLoad(const Json& meta)
 			SetMaterial(resourceMaterial);
 		}
 	}
-	 path = meta["assetPathMesh"];
+	path = meta["assetPathMesh"];
 	bool meshExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (meshExists)
@@ -410,9 +432,9 @@ void ComponentMeshRenderer::InternalLoad(const Json& meta)
 	{
 		SetMaterial(resourceMaterial);
 	}
-	
+
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = 
+	std::shared_ptr<ResourceMesh> resourceMesh =
 		App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
@@ -432,8 +454,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		transform->Encapsule
-		(mesh->GetVertices().data(), mesh->GetNumVertices());
+		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
 
 		InitBones();
@@ -477,18 +498,26 @@ void ComponentMeshRenderer::UnloadTextures()
 			texture->Unload();
 		}
 
-		/*texture = material->GetSpecular();
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			texture->Unload();
-		}*/
+		}
+
 		texture = material->GetMetallic();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetEmission();
 		if (texture)
 		{
 			texture->Unload();
 		}
 	}
 }
+
 void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 {
 	if (material)
@@ -531,6 +560,13 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 				texture->Unload();
 			}
 			break;
+		case TextureType::EMISSION:
+			texture = material->GetEmission();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
 		}
 	}
 }
@@ -561,6 +597,11 @@ void ComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& 
 	this->material->SetSpecular(specular);
 }
 
+void ComponentMeshRenderer::SetEmissive(const std::shared_ptr<ResourceTexture>& emissive)
+{
+	this->material->SetEmission(emissive);
+}
+
 void ComponentMeshRenderer::SetShaderType(unsigned int shaderType)
 {
 	this->material->SetShaderType(shaderType);
@@ -574,6 +615,16 @@ void ComponentMeshRenderer::SetSmoothness(float smoothness)
 void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 {
 	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMeshRenderer::SetTiling(const float2& tiling)
+{
+	this->material->SetTiling(tiling);
+}
+
+void ComponentMeshRenderer::SetOffset(const float2& offset)
+{
+	this->material->SetOffset(offset);
 }
 
 // Default shader attributes (setters)
@@ -607,7 +658,6 @@ const unsigned int& ComponentMeshRenderer::GetShaderType() const
 {
 	return material->GetShaderType();
 }
-
 
 // Common attributes (getters)
 
@@ -647,7 +697,8 @@ const bool ComponentMeshRenderer::IsTransparent() const
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
 {
-	return material->GetDiffuse();;
+	return material->GetDiffuse();
+	;
 }
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const

@@ -1,15 +1,14 @@
 #pragma once
 #include "Module.h"
 
-#include <future>
-#include <map>
-#include <thread>
-
 #include "DataModels/Resources/Resource.h"
 
 #include "Application.h"
 #include "Json.h"
 #include "ModuleFileSystem.h"
+
+#include "Defines/ExtensionDefines.h"
+#include "Defines/FileSystemDefines.h"
 
 class ModelImporter;
 class TextureImporter;
@@ -19,6 +18,7 @@ class SkyBoxImporter;
 class CubemapImporter;
 class AnimationImporter;
 class StateMachineImporter;
+class ParticleSystemImporter;
 
 class ResourceMaterial;
 class EditorResourceInterface;
@@ -105,6 +105,7 @@ private:
 	std::unique_ptr<CubemapImporter> cubemapImporter;
 	std::unique_ptr<AnimationImporter> animationImporter;
 	std::unique_ptr<StateMachineImporter> stateMachineImporter;
+	std::unique_ptr<ParticleSystemImporter> particleSystemImporter;
 
 	std::thread monitorThread;
 	bool monitorResources;
@@ -217,7 +218,7 @@ inline void ModuleResources::CleanResourceBin()
 {
 #ifndef ENGINE
 	resourcesBin.clear();
-#endif //!ENGINE
+#endif //! ENGINE
 }
 
 template<class R>

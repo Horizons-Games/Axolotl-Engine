@@ -1,8 +1,12 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentParticleSystem;
 
 class HealthSystem : public Script
 {
@@ -15,18 +19,21 @@ public:
 
 	void TakeDamage(float damage);
 	void HealLife(float amountHealed);
+
 	float GetCurrentHealth() const;
+	float GetMaxHealth() const;
 
 	bool EntityIsAlive() const;
 
-	void PlayerDeath();
-
+	bool GetIsImmortal() const;
+	void SetIsImmortal(bool isImmortal);
+	
 private:
 	float currentHealth;
 	float maxHealth;
-	bool dead;
+	bool isImmortal;
+	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
-
-	std::string loseSceneName;
+	ComponentParticleSystem* componentParticleSystem;
 };
