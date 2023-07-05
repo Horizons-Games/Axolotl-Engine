@@ -265,16 +265,6 @@ UpdateStatus ModuleRender::Update()
 	}
 	AddToRenderList(goSelected);
 
-	// Bind camera and cubemap info to the shaders
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
-	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
-	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
-	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
-
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(loadedScene->GetRootQuadtree());
@@ -284,10 +274,17 @@ UpdateStatus ModuleRender::Update()
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
 	// -------- SHADOW MAP --------
-	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
 	RenderShadowMap(loadedScene->GetDirectionalLight());
+
+	// Bind camera and cubemap info to the shaders
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
+	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
+	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
@@ -447,10 +444,15 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
 	glDrawBuffer(GL_NONE);
 
-	/*glGenRenderbuffers(1, &shdowMapDepthTexture);
-	glBindRenderbuffer(GL_RENDERBUFFER, shdowMapDepthTexture);
+	glGenRenderbuffers(1, &gShadowDepthBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, gShadowDepthBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, shdowMapDepthTexture);*/
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, gShadowDepthBuffer);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("G Framebuffer not complete!");
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -632,6 +634,9 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	// Program binding
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_MAPPING);
 	program->Activate();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	const float4x4& view = frustum.ViewMatrix();
 	const float4x4& proj = frustum.ProjectionMatrix();

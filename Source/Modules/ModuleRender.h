@@ -94,7 +94,7 @@ private:
 	GLuint renderedTexture;
 	GLuint depthStencilRenderBuffer;
 	GLuint shadowMapBuffer;
-	GLuint shdowMapDepthTexture;
+	GLuint gShadowDepthBuffer;
 
 	friend class ModuleEditor;
 };
