@@ -123,6 +123,11 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum);
 	}
 
+#ifdef ENGINE
+	CalculateNonStaticObjectsInFrustum(frustum, App->GetModule<ModuleScene>()->GetSelectedGameObject(), 
+									   objectsInFrustum);
+#endif
+
 	return objectsInFrustum;
 }
 
