@@ -1141,7 +1141,6 @@
     <ClInclude Include="DataModels\Components\UI\ComponentSlider.h">
       <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
-    </ClInclude>
     <ClInclude Include="DataModels\GBuffer\GBuffer.h">
       <Filter>DataModels\GBuffer</Filter>
     </ClInclude>
