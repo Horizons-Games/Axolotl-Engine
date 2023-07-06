@@ -48,7 +48,7 @@ void ComponentAgent::Update()
 	//Testing purpose
 	if (test)
 	{
-		SetMoveTarget(float3(38.7f, 9.1f, 1.7f));
+		SetMoveTarget(float3(41.8f, 10.4f, -0.1f));
 		test = false;
 	}
 }
