@@ -790,11 +790,17 @@ void GeometryBatch::BindBatch(bool selected)
 
 			if (component->GetMesh()->GetNumBones() > 0)
 			{
-				std::vector<float4x4> palettes = component->GetPalette();
+				//std::vector<float4x4> palettes = component->GetPalette();
 
 				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 					&component->GetPalette()[0],
 					perInstances[paletteIndex].numBones * sizeof(float4x4));
+			}
+
+			if (component->GetMaterial())
+			{
+				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 
 			//do a for for all the instaces existing

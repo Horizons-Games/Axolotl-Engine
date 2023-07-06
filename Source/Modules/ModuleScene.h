@@ -46,6 +46,8 @@ public:
 
 	void ParticlesSystemUpdate(bool forceRecalculate = false);
 
+	bool IsLoading() const;
+
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
@@ -64,6 +66,8 @@ private:
 	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
 	std::map<UID, UID> uidMap;
+
+	bool loading;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const
@@ -79,4 +83,9 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
+}
+
+inline bool ModuleScene::IsLoading() const
+{
+	return loading;
 }

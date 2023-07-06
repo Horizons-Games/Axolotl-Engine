@@ -358,12 +358,13 @@ UpdateStatus ModuleRender::Update()
 		// Draw Highliht for selected objects
 		DrawHighlight(goSelected);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
 
 	glDisable(GL_CULL_FACE);
+	glPolygonMode(GL_BACK, GL_FILL);
 
 	// Draw Particles
 	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
@@ -373,6 +374,7 @@ UpdateStatus ModuleRender::Update()
 
 	glEnable(GL_CULL_FACE); // Enable face culling
 	glCullFace(GL_FRONT);
+	glPolygonMode(GL_FRONT, GL_FILL);
 
 	glDisable(GL_BLEND);
 
