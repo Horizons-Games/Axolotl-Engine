@@ -16,5 +16,6 @@
 #define MESH_EXTENSION ".mesh"
 #define ANIMATION_EXTENSION ".anim"
 #define META_EXTENSION ".meta"
+#define NAVMESH_EXTENSION ".nav"
 #define GENERAL_BINARY_EXTENSION ".bin"
 #define NAVMESH_EXTENSION ".nav"

@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceNavMesh.h"
+#include "Defines/ExtensionDefines.h"
 
 #include "Defines/ExtensionDefines.h"
 

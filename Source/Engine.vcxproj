@@ -385,6 +385,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAgent.cpp" />
     <ClCompile Include="DataModels\Components\ComponentObstacle.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
