@@ -38,38 +38,9 @@ void ResourceSkyBox::InternalLoad()
 			TextureCompression compression = textI->GetImportOptions().compression;
 			int compressFormat = -1;
 			int byteSize = 0;
-			switch (compression)
-			{
-				case TextureCompression::BC1:
-					compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
-					byteSize = 8;
-					break;
-				case TextureCompression::BC3:
-					compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
-					byteSize = 16;
-					break;
-				case TextureCompression::BC4:
-					compressFormat = GL_COMPRESSED_RED_RGTC1;
-					byteSize = 8;
-					break;
-				case TextureCompression::BC5:
-					compressFormat = GL_COMPRESSED_RG_RGTC2;
-					byteSize = 16;
-					break;
-				case TextureCompression::BC6:
-					compressFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
-					byteSize = 16;
-					break;
-				case TextureCompression::BC7:
-					compressFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
-					byteSize = 16;
-					break;
-				default:
-					break;
-			}
+			textI->GetCompressFormat(compression, compressFormat, byteSize);
 			textI->Load();
 			std::vector<uint8_t> aux = textI->GetPixels();
-			//glCompressedTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataSize, imageData);
 			if (compression == TextureCompression::NONE)
 			{
 				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
@@ -95,18 +66,6 @@ void ResourceSkyBox::InternalLoad()
 					((textI->GetWidth()+ 3) / 4) * ((textI->GetHeight() + 3) / 4) * byteSize,
 					&(aux[0]));
 			}
-
-
-			//(GLsizei)(ceilf( textI->GetWidth() / 4.f) * ceilf(textI->GetHeight() / 4.f) * 16.f)
-			/* glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-						 0,
-						 textI->GetInternalFormat(),
-						 textI->GetWidth(),
-						 textI->GetHeight(),
-						 0,
-						 textI->GetFormat(),
-						 textI->GetImageType(),
-						 &(aux[0]));*/
 		}
 	}
 

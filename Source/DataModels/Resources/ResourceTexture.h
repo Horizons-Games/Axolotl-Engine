@@ -95,6 +95,7 @@ public:
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 	const uint64_t& GetHandle();
+	void GetCompressFormat(TextureCompression compression, int &compressFormat, int &byteSize);
 
 	ImportOptionsTexture& GetImportOptions();
 	LoadOptionsTexture& GetLoadOptions();

@@ -423,7 +423,7 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());
-		for (GameObject* g : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneGameObjects())
+		/*for (GameObject* g : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneGameObjects())
 		{
 			ComponentMeshRenderer* render = g->GetComponent<ComponentMeshRenderer>();
 			if (render->GetMaterial()->HasDiffuse())
@@ -462,7 +462,7 @@ void WindowInspector::DrawTextureOptions()
 					render->SetEmissive(resourceTexture);
 				}
 			}
-		}
+		}*/
 	}
 }
 

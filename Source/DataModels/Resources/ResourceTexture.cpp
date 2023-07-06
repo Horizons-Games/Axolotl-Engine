@@ -67,15 +67,9 @@ void ResourceTexture::LoadLoadOptions(Json& meta)
 	loadOptions.mipMap = (bool) meta["mipMap"];
 }
 
-void ResourceTexture::CreateTexture()
+void ResourceTexture::GetCompressFormat(TextureCompression compression, int& compressFormat, int& byteSize)
 {
-	glGenTextures(1, &glTexture);
-	glBindTexture(GL_TEXTURE_2D, glTexture);
-
-	int compressFormat = -1;
-	int byteSize = 0;
-	
-	switch (importOptions.compression)
+	switch (compression)
 	{
 		case TextureCompression::BC1:
 			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
@@ -104,6 +98,18 @@ void ResourceTexture::CreateTexture()
 		default:
 			break;
 	}
+}
+
+void ResourceTexture::CreateTexture()
+{
+	glGenTextures(1, &glTexture);
+	glBindTexture(GL_TEXTURE_2D, glTexture);
+
+	int compressFormat = -1;
+	int byteSize = 0;
+	
+	GetCompressFormat(importOptions.compression, compressFormat, byteSize);
+	
 	if (importOptions.compression == TextureCompression::NONE) glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
 	else glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressFormat, width, height, 0, ((width + 3) / 4) * ((height + 3) / 4) * byteSize, &(pixels[0]));
 	if (loadOptions.mipMap)

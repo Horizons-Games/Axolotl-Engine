@@ -24,8 +24,7 @@ TextureImporter::~TextureImporter()
 
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
-
-	LOG_VERBOSE("Import texture from {}", filePath);
+	LOG_VERBOSE("Import texture from {} with a compression of {}", filePath, static_cast<int>(resource->GetImportOptions().compression));
 
 	ImportOptionsTexture options = resource->GetImportOptions();
 

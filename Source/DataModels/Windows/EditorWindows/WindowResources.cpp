@@ -46,6 +46,7 @@ void WindowResources::DrawResource(const std::weak_ptr<Resource>& resource,
 		ImGui::TextUnformatted(("UID: " + uidString).c_str());
 		ImGui::TextUnformatted(("Name: " + asShared->GetFileName()).c_str());
 		ImGui::TextUnformatted(("AssetPath: " + asShared->GetAssetsPath()).c_str());
+		if (asShared->GetType() != ResourceType::Texture)
 		ImGui::TextUnformatted(("LibPath: " + asShared->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
 		ImGui::TextUnformatted(("MetaPath: " + asShared->GetLibraryPath() + META_EXTENSION).c_str());
 		// a bit yucky I guess
