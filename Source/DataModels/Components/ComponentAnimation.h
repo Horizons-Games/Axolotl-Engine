@@ -4,8 +4,8 @@
 #include "Auxiliar/Generics/Updatable.h"
 
 #include "Components/Component.h"
-
-#include "Resources/ResourceStateMachine.h"
+#include "Animation/StateMachine.h"
+#include "Math/float4x4.h"
 
 #define NON_STATE 9999
 
@@ -43,25 +43,20 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	bool CheckTransitions(const State* state, Transition& transition);
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
 	AnimationController* controller;
-	std::shared_ptr<ResourceStateMachine> stateMachine;
-	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
+	std::unique_ptr<StateMachine> stateMachineInstance;
 	std::unordered_map<GameObject*, float4x4> defaultPosition;
 
-	unsigned int actualState;
-	unsigned int nextState;
-	int lastState;
-
+	bool firstEntry;
 	bool drawBones;
 };
 
 inline void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
 {
-	parameters[parameterName].second = value;
+	stateMachineInstance->SetParameter(parameterName, value);
 }
 
 inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
@@ -76,5 +71,5 @@ inline bool ComponentAnimation::IsDrawBonesActivated() const
 
 inline std::string& ComponentAnimation::GetActualStateName() const
 {
-	return stateMachine->GetState(actualState)->name;
+	return stateMachineInstance->GetActualStateName();
 }
