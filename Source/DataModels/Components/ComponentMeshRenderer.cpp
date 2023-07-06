@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentMeshRenderer.h"
 
 #include "ComponentTransform.h"
@@ -8,9 +10,8 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleCamera.h"
-#include "ModuleRender.h"
 #include "ModuleProgram.h"
-#include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "Program/Program.h"
 
@@ -18,16 +19,22 @@
 #include "Resources/ResourceMesh.h"
 #include "Resources/ResourceTexture.h"
 
+#include "Batch/BatchManager.h"
+#include "Batch/GeometryBatch.h"
+
 #include "GameObject/GameObject.h"
 
-#include "Scene/Scene.h"
+#include "Camera/Camera.h"
+
+#include "Enums/TextureType.h"
 
 #include <GL/glew.h>
 
 #ifdef ENGINE
-
 	#include "DataModels/Resources/EditorResource/EditorResourceInterface.h"
-
+#else
+	#include "Modules/ModuleEditor.h"
+	#include "Windows/WindowDebug.h"
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
@@ -87,9 +94,8 @@ void ComponentMeshRenderer::UpdatePalette()
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = static_cast<ComponentTransform*>(
-						boneNode->GetComponent(ComponentType::TRANSFORM))->CalculatePaletteGlobalMatrix() *
-						bindBones[i].transform;
+					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
+									 bindBones[i].transform;
 				}
 				else
 				{
@@ -116,6 +122,21 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	if (transform == nullptr)
+	{
+		return;
+	}
+#ifndef ENGINE
+	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif // ENGINE
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
 }
 
 void ComponentMeshRenderer::DrawMeshes(Program* program) const
@@ -159,8 +180,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-	const float4x4& model =
-		static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+	const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
 	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
@@ -287,6 +307,23 @@ void ComponentMeshRenderer::DrawMaterial(Program* program) const
 				break;
 		}
 
+		texture = material->GetEmission();
+		if (texture)
+		{
+			if (!texture->IsLoaded())
+			{
+				texture->Load();
+			}
+
+			glActiveTexture(GL_TEXTURE11);
+			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+			glUniform1i(10, 1);
+		}
+		else
+		{
+			glUniform1i(10, 0);
+		}
+
 		float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
 		program->BindUniformFloat3("viewPos", viewPos);
 	}
@@ -311,8 +348,7 @@ void ComponentMeshRenderer::DrawHighlight() const
 		program->Activate();
 		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-		const float4x4& model =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM))->GetGlobalMatrix();
+		const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 
 		GLint programInUse;
 
@@ -333,12 +369,8 @@ void ComponentMeshRenderer::DrawHighlight() const
 	}
 }
 
-void ComponentMeshRenderer::SaveOptions(Json& meta)
+void ComponentMeshRenderer::InternalSave(Json& meta)
 {
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = static_cast<bool>(active);
-	meta["removed"] = static_cast<bool>(canBeRemoved);
-
 	UID uid = 0;
 	std::string assetPath = "";
 
@@ -361,15 +393,11 @@ void ComponentMeshRenderer::SaveOptions(Json& meta)
 	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
-void ComponentMeshRenderer::LoadOptions(Json& meta)
+void ComponentMeshRenderer::InternalLoad(const Json& meta)
 {
-	type = GetTypeByName(meta["type"]);
-	active = static_cast<bool>(meta["active"]);
-	canBeRemoved = static_cast<bool>(meta["removed"]);
-
 #ifdef ENGINE
 	std::string path = meta["assetPathMaterial"];
-	bool materialExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	bool materialExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (materialExists)
 	{
@@ -381,8 +409,8 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 			SetMaterial(resourceMaterial);
 		}
 	}
-	 path = meta["assetPathMesh"];
-	bool meshExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	path = meta["assetPathMesh"];
+	bool meshExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (meshExists)
 	{
@@ -404,9 +432,9 @@ void ComponentMeshRenderer::LoadOptions(Json& meta)
 	{
 		SetMaterial(resourceMaterial);
 	}
-	
+
 	UID uidMesh = meta["meshUID"];
-	std::shared_ptr<ResourceMesh> resourceMesh = 
+	std::shared_ptr<ResourceMesh> resourceMesh =
 		App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(uidMesh);
 
 	if (resourceMesh)
@@ -423,12 +451,10 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	if (mesh)
 	{
 		mesh->Load();
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>
-			(GetOwner()->GetComponent(ComponentType::TRANSFORM));
 
-		transform->Encapsule
-		(mesh->GetVertices().data(), mesh->GetNumVertices());
+		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+
+		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
 
 		InitBones();
@@ -472,18 +498,26 @@ void ComponentMeshRenderer::UnloadTextures()
 			texture->Unload();
 		}
 
-		/*texture = material->GetSpecular();
+		texture = material->GetSpecular();
 		if (texture)
 		{
 			texture->Unload();
-		}*/
+		}
+
 		texture = material->GetMetallic();
+		if (texture)
+		{
+			texture->Unload();
+		}
+
+		texture = material->GetEmission();
 		if (texture)
 		{
 			texture->Unload();
 		}
 	}
 }
+
 void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 {
 	if (material)
@@ -526,6 +560,13 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 				texture->Unload();
 			}
 			break;
+		case TextureType::EMISSION:
+			texture = material->GetEmission();
+			if (texture)
+			{
+				texture->Unload();
+			}
+			break;
 		}
 	}
 }
@@ -556,6 +597,11 @@ void ComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& 
 	this->material->SetSpecular(specular);
 }
 
+void ComponentMeshRenderer::SetEmissive(const std::shared_ptr<ResourceTexture>& emissive)
+{
+	this->material->SetEmission(emissive);
+}
+
 void ComponentMeshRenderer::SetShaderType(unsigned int shaderType)
 {
 	this->material->SetShaderType(shaderType);
@@ -569,6 +615,16 @@ void ComponentMeshRenderer::SetSmoothness(float smoothness)
 void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 {
 	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMeshRenderer::SetTiling(const float2& tiling)
+{
+	this->material->SetTiling(tiling);
+}
+
+void ComponentMeshRenderer::SetOffset(const float2& offset)
+{
+	this->material->SetOffset(offset);
 }
 
 // Default shader attributes (setters)
@@ -602,7 +658,6 @@ const unsigned int& ComponentMeshRenderer::GetShaderType() const
 {
 	return material->GetShaderType();
 }
-
 
 // Common attributes (getters)
 
@@ -642,7 +697,8 @@ const bool ComponentMeshRenderer::IsTransparent() const
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
 {
-	return material->GetDiffuse();;
+	return material->GetDiffuse();
+	;
 }
 
 const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const

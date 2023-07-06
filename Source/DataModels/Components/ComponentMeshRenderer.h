@@ -1,38 +1,24 @@
 #pragma once
 
 #include "Component.h"
-#include "Globals.h"
 
-#include "Components/Component.h"
-
-#include "FileSystem/UniqueID.h"
-#include "Batch/GeometryBatch.h"
-
-
-#include <memory>
-#include "ModuleProgram.h"
+#include "FileSystem/UID.h"
 
 #include "Auxiliar/Generics/Drawable.h"
 
-#include "Components/Component.h"
-
-#include "FileSystem/UniqueID.h"
-
-#include "Math/float3.h"
-#include "Math/float4.h"
 #include "Math/float4x4.h"
-
-#include "Program/Program.h"
-
-#include <memory>
 
 class ResourceMesh;
 class ResourceMaterial;
 class ResourceTexture;
+class GeometryBatch;
+class Program;
 class Json;
 class WindowMeshInput;
 class WindowMaterialInput;
 class WindowTextureInput;
+
+enum class TextureType;
 
 class ComponentMeshRenderer : public Component, public Drawable
 {
@@ -50,11 +36,6 @@ public:
 	void DrawMaterial(Program* program) const;
 	void DrawHighlight() const;
 
-	void SaveOptions(Json& meta) override;
-	/*void SaveUIDOfResourceToMeta
-		(Json& meta, const char* field, const ResourceTexture* texturePtr);*/
-	void LoadOptions(Json& meta) override;
-
 	void SetMesh(const std::shared_ptr<ResourceMesh>& newMesh);
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& newMaterial);
 	void SetBones(const std::vector<GameObject*>& bones);
@@ -65,9 +46,12 @@ public:
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetEmissive(const std::shared_ptr<ResourceTexture>& emissive);
 	void SetShaderType(unsigned int shaderType);
 	void SetSmoothness(float smoothness);
 	void SetNormalStrength(float normalStrength);
+	void SetTiling(const float2& tiling);
+	void SetOffset(const float2& offset);
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
@@ -117,6 +101,9 @@ public:
 	void UnloadTexture(TextureType textureType);
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	bool IsMeshLoaded() const;
 	bool IsMaterialLoaded() const;
 

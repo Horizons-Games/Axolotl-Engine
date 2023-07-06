@@ -4,9 +4,9 @@
 
 struct AreaLightSphere
 {
-	float4 position;  	// xyz position+w radius
-	float4 color; 		// rgb colour+alpha intensity
-	float attRadius;	// radius for attenuation
+	float4 position; // xyz position+w radius
+	float4 color;	 // rgb colour+alpha intensity
+	float attRadius; // radius for attenuation
 	float padding1;
 	float2 padding2;
 };
@@ -15,8 +15,8 @@ struct AreaLightTube
 {
 	float4 positionA;
 	float4 positionB;
-	float4 color; 		// rgb colour+alpha intensity
-	float attRadius;	// radius for attenuation
+	float4 color;	 // rgb colour+alpha intensity
+	float attRadius; // radius for attenuation
 	float padding3;
 	float2 padding4;
 };
@@ -33,18 +33,24 @@ public:
 
 	void Draw() const override;
 
-	const AreaType GetAreaType();
-	const float GetShapeRadius();
-	const float GetHeight();
-	const float GetAttRadius();
+	const AreaType GetAreaType() const;
+	const float GetShapeRadius() const;
+	const float GetHeight() const;
+	const float GetAttRadius() const;
 
 	void SetAreaType(AreaType newType);
 	void SetShapeRadius(float newRadius);
 	void SetHeight(float newHeight);
 	void SetLightRadius(float newRadius);
 
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void OnTransformChanged() override;
+
+private:
+	void SignalEnable() override;
+	void SignalDisable() override;
+
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 private:
 	const std::string GetNameByAreaType(AreaType type);
@@ -56,22 +62,22 @@ private:
 	float attRadius;
 };
 
-inline const AreaType ComponentAreaLight::GetAreaType()
+inline const AreaType ComponentAreaLight::GetAreaType() const
 {
 	return areaType;
 }
 
-inline const float ComponentAreaLight::GetShapeRadius()
+inline const float ComponentAreaLight::GetShapeRadius() const
 {
 	return shapeRadius;
 }
 
-inline const float ComponentAreaLight::GetHeight()
+inline const float ComponentAreaLight::GetHeight() const
 {
 	return height;
 }
 
-inline const float ComponentAreaLight::GetAttRadius()
+inline const float ComponentAreaLight::GetAttRadius() const
 {
 	return attRadius;
 }
@@ -100,17 +106,17 @@ inline const std::string ComponentAreaLight::GetNameByAreaType(AreaType type)
 {
 	switch (type)
 	{
-	case AreaType::QUAD:
-		return "AreaType_Quad";
-	case AreaType::TUBE:
-		return "AreaType_Tube";
-	case AreaType::SPHERE:
-		return "AreaType_Sphere";
-	case AreaType::DISK:
-		return "AreaType_Disc";
-	default:
-		assert(false && "Wrong area type introduced");
-		return "";
+		case AreaType::QUAD:
+			return "AreaType_Quad";
+		case AreaType::TUBE:
+			return "AreaType_Tube";
+		case AreaType::SPHERE:
+			return "AreaType_Sphere";
+		case AreaType::DISK:
+			return "AreaType_Disc";
+		default:
+			assert(false && "Wrong area type introduced");
+			return "";
 	}
 }
 

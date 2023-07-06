@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentSpotLight.h"
 #include "ComponentTransform.h"
 
@@ -62,6 +64,7 @@ ComponentSpotLight::ComponentSpotLight(
 ComponentSpotLight::~ComponentSpotLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateSceneSpotLights();
@@ -71,68 +74,52 @@ ComponentSpotLight::~ComponentSpotLight()
 
 void ComponentSpotLight::Draw() const
 {
-#ifndef ENGINE
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight())
+	bool canDrawLight =
+#ifdef ENGINE
+		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+#else
+		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+#endif // ENGINE
+
+	if (!canDrawLight)
 	{
 		return;
 	}
-	if (IsEnabled())
-	{
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
+	const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		float3 position = transform->GetGlobalPosition();
-		float3 forward = transform->GetGlobalForward().Normalized();
+	float3 position = transform->GetGlobalPosition();
+	float3 forward = transform->GetGlobalForward().Normalized();
 
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
-	}
-#else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
-	{
-		ComponentTransform* transform =
-			static_cast<ComponentTransform*>(GetOwner()->GetComponent(ComponentType::TRANSFORM));
-
-		float3 position = transform->GetGlobalPosition();
-		float3 forward = transform->GetGlobalForward().Normalized();
-
-		dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
-		dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
-	}
-#endif // ENGINE
+	dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
+	dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 }
 
-void ComponentSpotLight::Enable()
+void ComponentSpotLight::OnTransformChanged()
 {
-	Component::Enable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
+
+	currentScene->UpdateSceneSpotLight(this);
+	currentScene->RenderSpotLight(this);
 }
 
-void ComponentSpotLight::Disable()
+void ComponentSpotLight::SignalEnable()
 {
-	Component::Disable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
+
+	currentScene->UpdateSceneSpotLights();
+	currentScene->RenderSpotLights();
 }
 
-void ComponentSpotLight::SaveOptions(Json& meta)
+void ComponentSpotLight::SignalDisable()
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
+	currentScene->UpdateSceneSpotLights();
+	currentScene->RenderSpotLights();
+}
+
+void ComponentSpotLight::InternalSave(Json& meta)
+{
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -145,13 +132,8 @@ void ComponentSpotLight::SaveOptions(Json& meta)
 	meta["outerAngle"] = (float) outerAngle;
 }
 
-void ComponentSpotLight::LoadOptions(Json& meta)
+void ComponentSpotLight::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];

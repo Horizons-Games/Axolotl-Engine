@@ -11,48 +11,34 @@
 
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "../Scripts/HealthSystem.h"
-
 REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoubleJump(false) , jumpReset(0), 
-	componentAnimation(nullptr), jumps(0), componentAudio(nullptr), healthScript(nullptr)
+	componentAnimation(nullptr), jumps(0), componentAudio(nullptr), canJump(true)
 {
 	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(canDoubleJump, bool);
+	REGISTER_FIELD(canJump, bool);
 }
 
 void PlayerJumpScript::Start()
 {
 	canDoubleJump ? jumps = 2 : jumps = 1;
-	componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
-	componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
-
-	std::vector<ComponentScript*> gameObjectScripts =
-		owner->GetParent()->GetComponentsByType<ComponentScript>(ComponentType::SCRIPT);
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-		}
-	}
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
-	if (healthScript && !healthScript->EntityIsAlive())
-	{
-		return;
-	}
-
 	Jump(deltaTime);
 }
 
 void PlayerJumpScript::Jump(float deltatime)
 {
+	if (canJump) 
+	{
 	float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
-	const ComponentRigidBody* rigidBody = static_cast<ComponentRigidBody*>(owner->GetComponent(ComponentType::RIGIDBODY));
+	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	const ModuleInput* input = App->GetModule<ModuleInput>();
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 
@@ -94,4 +80,15 @@ void PlayerJumpScript::Jump(float deltatime)
 
 		componentAnimation->SetParameter("IsDoubleJumping", false);
 	}
+	}
+}
+
+bool PlayerJumpScript::GetCanJump() const
+{
+	return canJump;
+}
+
+void PlayerJumpScript::SetCanJump(bool canJump)
+{
+	this->canJump = canJump;
 }

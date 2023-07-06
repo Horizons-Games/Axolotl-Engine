@@ -3,10 +3,12 @@
 #include "Window.h"
 
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
+
 class WindowLoadScene;
 class WindowSaveScene;
 class WindowImportScene;
 class WindowAbout;
+class WindowBuild;
 
 class Json;
 
@@ -38,8 +40,10 @@ private:
 	std::unique_ptr<WindowSaveScene> saveScene;
 	std::unique_ptr<WindowImportScene> importScene;
 	std::unique_ptr<WindowAbout> about;
+	std::unique_ptr<WindowBuild> build;
 
 	bool showAbout;
+	bool showBuild;
 	bool openPopup;
 	bool isSaving;
 

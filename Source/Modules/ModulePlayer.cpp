@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 
 #include "Application.h"
 
@@ -5,23 +6,22 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
-#include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 #include "Components/ComponentCamera.h"
-#include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr), speed(3){};
+ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr)
+{
+};
 
 ModulePlayer::~ModulePlayer(){};
 
@@ -41,8 +41,12 @@ GameObject* ModulePlayer::GetPlayer()
 
 void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
+	if (player)
+	{
+		componentPlayer->SetActualPlayer(false);
+	}
 	player = newPlayer;
-	componentPlayer = static_cast<ComponentPlayer*>(player->GetComponent(ComponentType::PLAYER));
+	if (player) componentPlayer = player->GetComponent<ComponentPlayer>();
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -50,39 +54,50 @@ Camera* ModulePlayer::GetCameraPlayer()
 	return cameraPlayer;
 }
 
-void ModulePlayer::LoadNewPlayer()
+GameObject* ModulePlayer::GetCameraPlayerObject()
+{
+	return cameraPlayerObject;
+}
+
+bool ModulePlayer::LoadNewPlayer()
 {
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = scene->GetLoadedScene();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
-	for (ComponentCamera* camera : cameras)
+
+	if (player)
 	{
-		GameObject* parentOfOwner = camera->GetOwner()->GetParent();
-		if (parentOfOwner->GetComponent(ComponentType::PLAYER))
+		for (ComponentCamera* camera : cameras)
 		{
-			SetPlayer(parentOfOwner);
-			cameraPlayer = camera->GetCamera();
+			GameObject* ownerGO = camera->GetOwner();
+			if (ownerGO->CompareTag("MainCamera"))
+			{
+				cameraPlayer = camera->GetCamera();
+				cameraPlayerObject = ownerGO;
 #ifdef ENGINE
-			cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
-			//loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
+				cameraPlayer->SetAspectRatio(editor->GetAvailableRegion().first / editor->GetAvailableRegion().second);
+				// loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(player);
 #else
-			//scene->RemoveGameObjectAndChildren(player);
-#endif // ENGINE			
-			App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
+				// scene->RemoveGameObjectAndChildren(player);
+#endif // ENGINE
+				App->GetModule<ModuleCamera>()->SetSelectedCamera(0);
 
-			CheckIfActivateMouse();
+				CheckIfActivateMouse();
 
-			return;
+				return true;
+			}
 		}
+		LOG_ERROR("Not found Camera with MainCamera tag");
+		return false;
 	}
-	ENGINE_LOG("Player is not load");
+	LOG_ERROR("Active Player not found");
+	return false;
 }
 
 void ModulePlayer::UnloadNewPlayer()
 {
 	App->GetModule<ModuleCamera>()->SetSelectedCamera(-1);
-	player = nullptr;
 }
 
 bool ModulePlayer::IsStatic()

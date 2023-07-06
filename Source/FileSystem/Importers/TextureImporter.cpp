@@ -1,9 +1,13 @@
+#include "StdAfx.h"
+
 #include "TextureImporter.h"
 
 #include "Application.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceTexture.h"
+
+#include "Defines/ExtensionDefines.h"
 
 #include <DirectXTex/DirectXTex.h>
 #include <GL/glew.h>
@@ -20,8 +24,8 @@ TextureImporter::~TextureImporter()
 
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
-	bool cubeMap = false;
-	ENGINE_LOG("Import texture from %s", filePath);
+
+	LOG_VERBOSE("Import texture from {}", filePath);
 
 	ImportOptionsTexture options = resource->GetImportOptions();
 
@@ -45,11 +49,9 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 			if (FAILED(result)) // WIC failed try with HDR
 			{
 				result = DirectX::LoadFromHDRFile(path, &md, img);
-				cubeMap = true;
 				if (FAILED(result))
 				{
-					
-					ENGINE_LOG("Cannot load the texture.");
+					LOG_ERROR("Cannot load the texture.");
 				}
 			}
 		}
@@ -306,6 +308,9 @@ void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture
 
 	
 	HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
+	//unsigned char* pixelsPointer = new unsigned char[resource->GetPixelsSize()];
+	//memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
+	//resource->SetPixels(std::vector<unsigned char>(pixelsPointer, pixelsPointer + resource->GetPixelsSize()));
 
 	if (!FAILED(result)) // DDS load
 	{

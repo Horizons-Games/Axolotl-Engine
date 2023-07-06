@@ -13,5 +13,6 @@
     "DiffuseAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_Normal.png",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_MetallicSmoothness.png"
+    "SpecularAssetPath": "Assets/Textures/CANTINA_Couchlow2_Material_MetallicSmoothness.png",
+    "EmissiveAssetPath": ""
 }

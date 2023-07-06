@@ -1,11 +1,21 @@
 #pragma once
 
 #include "Script.h"
+#include "RuntimeInclude.h"
+#include "Geometry/Frustum.h"
 
+RUNTIME_MODIFIABLE_INCLUDE;
+
+class Camera;
+class ModuleInput;
 class ComponentAudioSource;
-class ComponentAnimation;
 class ComponentTransform;
-class HealthSystem;
+class ComponentAnimation;
+
+class PlayerManagerScript;
+class PlayerForceUseScript;
+class ComponentRigidBody;
+class btRigidBody;
 
 enum class PlayerActions
 {
@@ -13,30 +23,52 @@ enum class PlayerActions
     WALKING
 };
 
+enum MovementFlag
+{
+	W_DOWN = 0x00000001,
+	A_DOWN = 0x00000002,
+	S_DOWN = 0x00000004,
+	D_DOWN = 0x00000008
+};
+
 class PlayerMoveScript :
     public Script
 {
 public:
-
     PlayerMoveScript();
+	~PlayerMoveScript() override = default;
 
     void Start() override;
     void PreUpdate(float deltaTime) override;
 
     void Move(float deltaTime);
+	void MoveRotate(const float3& targetDirection, float deltaTime);
+
+	bool GetIsParalized() const;
+	void SetIsParalized(bool isParalized);
 
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;
     ComponentAnimation* componentAnimation;
     PlayerActions playerState;
+	bool isParalized;
 
-    float speed;
     float dashForce;
     float nextDash;
     bool isDashing;
     bool canDash;
 
-	HealthSystem* healthScript;
-};
+	PlayerManagerScript* playerManager;
+	PlayerForceUseScript* forceScript;
 
+	ComponentRigidBody* rigidBody;
+	btRigidBody* btRb;
+
+	Camera* camera;
+	Frustum cameraFrustum;
+	ModuleInput* input;
+
+	int previousMovements;
+	int currentMovements;
+};

@@ -1,26 +1,30 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-#include "Bullet/LinearMath/btVector3.h"
+RUNTIME_MODIFIABLE_INCLUDE;
 
-
-class PlayerCameraRotationVerticalScript;
+class ModuleInput;
+class CameraControllerScript;
 class PlayerRotationScript;
+class PlayerManagerScript;
 class PlayerMoveScript;
+class ComponentTransform;
+class ComponentRigidBody;
 class ComponentAnimation;
 class ComponentAudioSource;
-class HealthSystem;
 
-class PlayerForceUseScript :
-    public Script
+class PlayerForceUseScript : public Script
 {
 public:
     PlayerForceUseScript();
-    ~PlayerForceUseScript();
+	~PlayerForceUseScript() override = default;
 
     void Start() override;
     void Update(float deltaTime) override;
+
+	bool IsForceActive() const;
 
 private:
 
@@ -41,10 +45,19 @@ private:
     std::string tag;
 	
 	PlayerRotationScript* rotationHorizontalScript;
-	PlayerCameraRotationVerticalScript* rotationVerticalScript;
+	CameraControllerScript* rotationVerticalScript;
+	PlayerManagerScript* playerManagerScript;
 	PlayerMoveScript* moveScript;
-	HealthSystem* healthScript;
 
-	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
+	ComponentAnimation* componentAnimation;
+	ComponentTransform* transform;
+	ComponentRigidBody* rigidBody;
+
+	ModuleInput* input;
 };
+
+inline bool PlayerForceUseScript::IsForceActive() const
+{
+	return isForceActive;
+}

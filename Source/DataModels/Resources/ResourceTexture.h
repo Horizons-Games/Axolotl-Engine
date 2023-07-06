@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Resource.h"
-#include "Globals.h"
 #include <memory>
+
 
 enum class TextureCompression
 {
@@ -102,7 +102,7 @@ public:
 	void SetFormat(unsigned int format);
 	void SetInternalFormat(unsigned int internalFormat);
 	void SetImageType(unsigned int imageType);
-	void SetPixels(std::vector<uint8_t>& pixels);
+	void SetPixels(const std::vector<uint8_t>& pixels);
 	void SetPixelsSize(unsigned int pixelsSize);
 
 protected:
@@ -213,7 +213,7 @@ inline void ResourceTexture::SetImageType(unsigned int imageType)
 	this->imageType = imageType;
 }
 
-inline void ResourceTexture::SetPixels(std::vector<uint8_t>& pixels)
+inline void ResourceTexture::SetPixels(const std::vector<uint8_t>& pixels)
 {
 	this->pixels = pixels;
 }

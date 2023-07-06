@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
 
-// This script is just to manage the sounds of a button
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAudioSource;
 class ComponentButton;

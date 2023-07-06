@@ -8,28 +8,27 @@
 REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
-	ownerRigidBody(nullptr), ownerRigidBodyGO(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), 
+	ownerRigidBody(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), 
 	wayPointTwoTransform(nullptr), currentWayPointTransform(nullptr)
 {
 	REGISTER_FIELD(wayPointOne, GameObject*);
 	REGISTER_FIELD(wayPointTwo, GameObject*);
-	REGISTER_FIELD(ownerRigidBodyGO, GameObject*);
 }
 
 void PatrolBehaviourScript::Start()
 {
 	if (wayPointOne)
 	{
-		wayPointOneTransform = static_cast<ComponentTransform*>(wayPointOne->GetComponent(ComponentType::TRANSFORM));
+		wayPointOneTransform = wayPointOne->GetComponent<ComponentTransform>();
 	}
 
 	if (wayPointTwo)
 	{
-		wayPointTwoTransform = static_cast<ComponentTransform*>(wayPointTwo->GetComponent(ComponentType::TRANSFORM));
+		wayPointTwoTransform = wayPointTwo->GetComponent<ComponentTransform>();
 	}
 
-	ownerRigidBody = static_cast<ComponentRigidBody*>(ownerRigidBodyGO->GetComponent(ComponentType::RIGIDBODY));
-	ownerTransform = static_cast<ComponentTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	ownerTransform = owner->GetComponent<ComponentTransform>();
 
 	currentWayPointTransform = wayPointOneTransform;
 }
@@ -39,7 +38,6 @@ void PatrolBehaviourScript::StartPatrol()
 {
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
-
 		currentWayPointTransform = wayPointOneTransform;
 
 		SetProportionalController();
@@ -50,7 +48,6 @@ void PatrolBehaviourScript::StartPatrol()
 // (This can be modularized into any amout of waypoints once the scripts can accept vectors)
 void PatrolBehaviourScript::Patrolling()
 {
-
 	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 2.0f)) 
 	{
 		currentWayPointTransform = wayPointTwoTransform;

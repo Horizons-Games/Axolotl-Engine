@@ -1,14 +1,20 @@
+#include "StdAfx.h"
+
 #include "WindowComponentMeshRenderer.h"
 
 #include "DataModels/Components/ComponentMeshRenderer.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
+#include "FileSystem/UIDGenerator.h"
 #include "ModuleRender.h"
 
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMaterialInput.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowMeshInput.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTextureInput.h"
+
+#include "DataModels/Batch/BatchManager.h"
+#include "DataModels/Batch/GeometryBatch.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
@@ -27,7 +33,10 @@ WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* 
 	inputTextureNormal(std::make_unique<WindowTextureInput>(this, TextureType::NORMAL)),
 	inputTextureMetallic(std::make_unique<WindowTextureInput>(this, TextureType::METALLIC)),
 	inputTextureSpecular(std::make_unique<WindowTextureInput>(this, TextureType::SPECULAR)),
-	reset(false), newMaterial(false)
+	inputTextureEmission(std::make_unique<WindowTextureInput>(this, TextureType::EMISSION)),
+	reset(false), newMaterial(false),
+	tiling(float2(1.0f)),
+	offset(float2(0.0f))
 {
 	InitMaterialValues();
 }
@@ -49,7 +58,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	{
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 		std::shared_ptr<ResourceMaterial> materialAsShared = asMeshRenderer->GetMaterial();
-		static char* meshPath = (char*)("unknown");
+		static char* meshPath = (char*) ("unknown");
 
 		if (newMaterial)
 		{
@@ -73,7 +82,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 		else
 		{
-			meshPath = (char*)("unknown");
+			meshPath = (char*) ("unknown");
 		}
 
 		if (materialAsShared)
@@ -91,8 +100,8 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
-				UID draggedMeshUID = *(UID*)payload->Data; // Double pointer to keep track correctly
-				//TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
+				UID draggedMeshUID = *(UID*) payload->Data; // Double pointer to keep track correctly
+				// TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
 				std::shared_ptr<ResourceMesh> newMesh =
 					App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(draggedMeshUID);
 				// And then this should be RequestResource not SearchResource
@@ -106,12 +115,10 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 
 			ImGui::EndDragDropTarget();
 		}
-		
 
 		bool showMeshBrowser;
 
 		meshAsShared ? showMeshBrowser = false : showMeshBrowser = true;
-
 
 		if (showMeshBrowser)
 		{
@@ -128,13 +135,14 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of vertices: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumVertices() : 0);
+			ImGui::TextColored(
+				ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ? meshAsShared->GetNumVertices() : 0);
 			ImGui::TableNextColumn();
 			ImGui::Text("Number of triangles: ");
 			ImGui::TableNextColumn();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i ", (meshAsShared) ?
-				meshAsShared->GetNumFaces() : 0); // faces = triangles
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),
+							   "%i ",
+							   (meshAsShared) ? meshAsShared->GetNumFaces() : 0); // faces = triangles
 
 			ImGui::EndTable();
 		}
@@ -259,7 +267,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (materialResource)
 			{
 				if (materialResource->GetDiffuse() || materialResource->GetNormal() ||
-					materialResource->GetMetallic() || materialResource->GetSpecular())
+					materialResource->GetMetallic() || materialResource->GetSpecular()
+					|| materialResource->GetEmission())
 				{
 					removeButtonLabel = "Remove Textures";
 				}
@@ -268,12 +277,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (ImGui::Button(removeButtonLabel.c_str()) && materialResource)
 			{
 				asMeshRenderer->UnloadTextures();
-				materialResource->SetDiffuse(nullptr);
-				materialResource->SetNormal(nullptr);
-				materialResource->SetOcclusion(nullptr);
-				materialResource->SetMetallic(nullptr);
-				materialResource->SetSpecular(nullptr);
-				materialResource->SetChanged(true);
+				diffuseTexture = nullptr;
+				normalMap = nullptr;
+				metallicMap = nullptr;
+				specularMap = nullptr;
+				emissionMap = nullptr;
 				updateMaterials = true;
 			}
 
@@ -283,7 +291,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			if (diffuseTexture)
 			{
 				diffuseTexture->Load();
-				ImGui::Image((void*)(intptr_t)diffuseTexture->GetGlTexture(), ImVec2(100, 100));
+				ImGui::Image((void*) (intptr_t) diffuseTexture->GetGlTexture(), ImVec2(100, 100));
 				if (ImGui::Button("Remove Texture Diffuse"))
 				{
 					diffuseTexture->Unload();
@@ -341,6 +349,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					{
 						specularMap->Unload();
 						specularMap = nullptr;
+						updateMaterials = true;
 					}
 				}
 				else
@@ -369,7 +378,63 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			}
 
 			ImGui::DragFloat("Normal Strength", &normalStrength, 0.01f, 0.0f, std::numeric_limits<float>::max());
+			ImGui::Separator();
 
+			ImGui::Text("Emission Texture");
+			if (emissionMap)
+			{
+				emissionMap->Load();
+				ImGui::Image((void*)(intptr_t)emissionMap->GetGlTexture(),
+					ImVec2(100, 100));
+
+				if (ImGui::Button("Remove Texture Emission"))
+				{
+					emissionMap->Unload();
+					emissionMap = nullptr;
+					updateMaterials = true;
+				}
+			}
+			else
+			{
+				inputTextureEmission->DrawWindowContents();
+			}
+
+
+			ImGui::Text("");
+
+			if (ImGui::InputFloat2("Tiling", &tiling[0], "%.1f"))
+			{
+				if (tiling[0] < 0.0f)
+				{
+					tiling[0] = 0.0f;
+				}
+
+				if (tiling[1] < 0.0f)
+				{
+					tiling[1] = 0.0f;
+				}
+			};
+			if (ImGui::InputFloat2("Offset", &offset[0], "%.3f"))
+			{
+				if (offset[0] < 0.0f)
+				{
+					offset[0] = 0.0f;
+				}
+				else if (offset[0] > 1.0f)
+				{
+					offset[0] = 1.0f;
+				}
+
+				if (offset[1] < 0.0f)
+				{
+					offset[1] = 0.0f;
+				}
+				else if (offset[1] > 1.0f)
+				{
+					offset[1] = 1.0f;
+				}
+			}
+			
 			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);
 
@@ -382,7 +447,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Apply"))
 			{
-				if (asMeshRenderer->IsTransparent() != isTransparent || 
+				if (asMeshRenderer->IsTransparent() != isTransparent ||
 					asMeshRenderer->GetShaderType() != currentShaderTypeIndex)
 				{
 					changeBatch = true;
@@ -393,11 +458,15 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				asMeshRenderer->SetSpecularColor(colorSpecular);
 				asMeshRenderer->SetDiffuse(diffuseTexture);
 				asMeshRenderer->SetMetallic(metallicMap);
+				asMeshRenderer->SetSpecular(specularMap);
 				asMeshRenderer->SetNormal(normalMap);
+				asMeshRenderer->SetEmissive(emissionMap);
 				asMeshRenderer->SetSmoothness(smoothness);
 				asMeshRenderer->SetMetalness(metalness);
 				asMeshRenderer->SetNormalStrength(normalStrength);
 				asMeshRenderer->SetTransparent(isTransparent);
+				asMeshRenderer->SetTiling(tiling);
+				asMeshRenderer->SetOffset(offset);
 				materialResource->SetChanged(true);
 
 				App->GetModule<ModuleResources>()->ReimportResource(materialResource->GetUID());
@@ -457,6 +526,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 			metallicMap = materialResource->GetMetallic();
 			specularMap = materialResource->GetSpecular();
 			normalMap = materialResource->GetNormal();
+			emissionMap = materialResource->GetEmission();
 			smoothness = materialResource->GetSmoothness();
 			metalness = materialResource->GetMetalness();
 			normalStrength = materialResource->GetNormalStrength();
