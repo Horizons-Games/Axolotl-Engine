@@ -43,6 +43,27 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 	ResetMaterialValues();
 }
 
+std::shared_ptr<ResourceMaterial>& WindowComponentMeshRenderer::GetMaterial() const
+{
+	std::shared_ptr<ResourceMaterial> materialResource = static_cast<ComponentMeshRenderer*>(component)->GetMaterial();
+	return materialResource;
+}
+
+void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& material)
+{
+	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
+	asMeshRenderer->SetMaterial(material);
+	if (asMeshRenderer->GetBatch())
+	{
+		asMeshRenderer->GetBatch()->ReserveModelSpace();
+		asMeshRenderer->RemoveFromBatch();
+	}
+
+	App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(asMeshRenderer);
+
+	InitMaterialValues();
+}
+
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
 	if (changed)
@@ -66,21 +87,6 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		std::shared_ptr<ResourceMesh> meshAsShared = asMeshRenderer->GetMesh();
 		std::shared_ptr<ResourceMaterial> materialAsShared = asMeshRenderer->GetMaterial();
 		static char* meshPath = (char*) ("unknown");
-
-		if (newMaterial)
-		{
-			asMeshRenderer->SetMaterial(material);
-			if (asMeshRenderer->GetBatch())
-			{
-				asMeshRenderer->GetBatch()->ReserveModelSpace();
-				asMeshRenderer->RemoveFromBatch();
-			}
-
-			App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(asMeshRenderer);
-
-			InitMaterialValues();
-			newMaterial = false;
-		}
 
 		if (meshAsShared)
 		{
@@ -517,7 +523,7 @@ void WindowComponentMeshRenderer::InitMaterialValues()
 
 		if (materialResource)
 		{
-			material = std::make_shared<ResourceMaterial>(*materialResource);
+			materialCopy = std::make_shared<ResourceMaterial>(*materialResource);
 			changed = false;
 		}
 	}
@@ -533,13 +539,13 @@ void WindowComponentMeshRenderer::ResetMaterialValues()
 
 		if (materialResource)
 		{
-			if (materialResource->IsTransparent() != material->IsTransparent() ||
-				materialResource->GetShaderType() != material->GetShaderType())
+			if (materialResource->IsTransparent() != materialCopy->IsTransparent() ||
+				materialResource->GetShaderType() != materialCopy->GetShaderType())
 			{
 				changeBatch = true;
 			}
 
-			materialResource->CopyValues(*material);
+			materialResource->CopyValues(*materialCopy);
 
 			MaterialChanged();
 

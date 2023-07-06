@@ -16,7 +16,7 @@ public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override;
 
-	std::shared_ptr<ResourceMaterial> GetMaterial() const;
+	std::shared_ptr<ResourceMaterial>& GetMaterial() const;
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& material);
 	void MaterialChanged();
 
@@ -33,7 +33,7 @@ private:
 	static const std::vector<std::string> shaderTypes;
 	static const std::vector<std::string> renderModes;
 
-	std::shared_ptr<ResourceMaterial> material;
+	std::shared_ptr<ResourceMaterial> materialCopy;
 
 	std::unique_ptr<WindowMeshInput> inputMesh;
 	std::unique_ptr<WindowMaterialInput> inputMaterial;
@@ -51,14 +51,3 @@ private:
 
 	bool changed;
 };
-
-inline std::shared_ptr<ResourceMaterial> WindowComponentMeshRenderer::GetMaterial() const
-{
-	return material;
-}
-
-inline void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMaterial>& material)
-{
-	this->material = material;
-	newMaterial = true;
-}
