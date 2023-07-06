@@ -9,14 +9,13 @@
 #include "Math/float3.h"
 
 class GameObject;
+class ResourceTexture;
 
-class ComponentLine : public Component, public Drawable
+class ComponentLine : public Component
 {
 public:
 	ComponentLine(bool active, GameObject* owner);
 	~ComponentLine() override;
-
-	void Draw() const override;
 
 	void Render();
 
@@ -30,6 +29,9 @@ public:
 
 	int GetNumTiles();
 	void SetNumTiles(int numTiles);
+
+	std::shared_ptr<ResourceTexture> GetLineTexture() const;
+	void SetLineTexture(const std::shared_ptr<ResourceTexture>& texture);
 
 private:
 
@@ -46,6 +48,12 @@ private:
 	bool dirtyBuffers = true;
 
 	GameObject* childGameObject;
+
+
+	std::shared_ptr<ResourceTexture> lineTexture;
+
+	float2 offset = float2::zero;
+	float2 tiling = float2::one;
 };
 
 inline int ComponentLine::GetNumTiles()
@@ -57,5 +65,14 @@ inline void ComponentLine::SetNumTiles(int numTiles)
 {
 	this->numTiles = numTiles;
 	dirtyBuffers = true;
-	UpdateBuffers();
+}
+
+inline std::shared_ptr<ResourceTexture> ComponentLine::GetLineTexture() const
+{
+	return lineTexture;
+}
+
+inline void ComponentLine::SetLineTexture(const std::shared_ptr<ResourceTexture>& texture)
+{
+	this->lineTexture = texture;
 }

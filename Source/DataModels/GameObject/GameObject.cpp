@@ -731,6 +731,11 @@ bool GameObject::RemoveComponent(const Component* component)
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
 			static_cast<const ComponentParticleSystem*>(component));
 	}
+	else if (component->GetType() == ComponentType::LINE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
+			static_cast<const ComponentLine*>(component));
+	}
 
 	components.erase(removeIfResult, std::end(components));
 

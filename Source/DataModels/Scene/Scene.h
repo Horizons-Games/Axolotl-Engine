@@ -122,6 +122,8 @@ public:
 	void AddComponentLines(ComponentLine* componentLine);
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 
+	void RemoveComponentLine(const ComponentLine* componentLine);
+
 	void InitNewEmptyScene();
 	void InitLights();
 	void InitCubemap();
@@ -312,4 +314,15 @@ inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleS
 			return particle == particleSystem;
 		}),
 							   std::end(sceneParticleSystems));
+}
+
+inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
+{
+	sceneComponentLines.erase(std::remove_if(std::begin(sceneComponentLines),
+		std::end(sceneComponentLines),
+		[&componentLine](ComponentLine* lines)
+		{
+			return lines == componentLine;
+		}),
+		std::end(sceneComponentLines));
 }

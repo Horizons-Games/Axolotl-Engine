@@ -363,7 +363,6 @@ UpdateStatus ModuleRender::Update()
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
-
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 
@@ -373,16 +372,21 @@ UpdateStatus ModuleRender::Update()
 		particle->Render();
 	}
 
-	for (ComponentLine* lines : loadedScene->GetSceneComponentLines())
-	{
-		lines->Render();
-	}
-
 	glEnable(GL_CULL_FACE); // Enable face culling
 	glCullFace(GL_FRONT);
 	glPolygonMode(GL_FRONT, GL_FILL);
 
 	glDisable(GL_BLEND);
+
+	glDisable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //See the billboard
+	for (ComponentLine* lines : loadedScene->GetSceneComponentLines())
+	{
+		lines->Render();
+	}
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	glPolygonMode(GL_FRONT, GL_FILL);
 
 	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 

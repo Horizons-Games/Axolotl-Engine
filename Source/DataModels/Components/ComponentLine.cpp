@@ -7,6 +7,7 @@
 #include "ModuleCamera.h"
 #include "Camera/Camera.h"
 #include "ModuleProgram.h"
+#include "Resources/ResourceTexture.h"
 #include <GL/glew.h>
 
 ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(ComponentType::LINE, active, owner, true)
@@ -23,6 +24,12 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 
 ComponentLine::~ComponentLine()
 {
+	//delete childGameObject;
+	glDeleteVertexArrays(1, &lineVAO);
+	glDeleteBuffers(1,&lineEBO);
+	glDeleteBuffers(1,&positionBuffers);
+	glDeleteBuffers(1,&textureBuffers);
+	glDeleteBuffers(1,&colorBuffers);
 }
 
 //void ComponentLine::Update()
@@ -34,22 +41,18 @@ ComponentLine::~ComponentLine()
 void ComponentLine::LoadBuffers()
 {
 	//Here will be the generation of all buffers, we can put them in the UpdateBuffers later but for now i split it
-	float vertices[] = { 0.0f, 0.0f, 0.0f,
-						 0.0f, 1.0f, 0.0f,
-						 1.0f, 0.0f, 0.0f,
-						 1.0f, 1.0f, 0.0f };
+
+	glGenVertexArrays(1, &lineVAO);
+	glBindVertexArray(lineVAO);
 
 	glGenBuffers(1, &lineEBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 
-	glGenVertexArrays(1, &lineVAO);
-	glBindVertexArray(lineVAO);
-
 	glGenBuffers(1, &positionBuffers);
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 
 	glGenBuffers(1, &textureBuffers);
@@ -67,35 +70,41 @@ void ComponentLine::LoadBuffers()
 	glBindVertexArray(0);
 }
 
-void ComponentLine::Draw() const
-{
-}
-
 void ComponentLine::UpdateBuffers()
 {
-	//Here you update vbo,ebo and vao
 	if (dirtyBuffers)
 	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineEBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ARRAY_BUFFER, textureBuffers);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ARRAY_BUFFER, colorBuffers);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+
 		float step = 1.0f / float(numTiles);
 
-		//vbo for position
+		// VBO for position
 		glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
 		float3* posData = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
-		float lambda = 1.0f;
-		//float size = sizeOverTimeRange[0];
+		float lambda = 0.0f;
 		posData[0] = float3(0.0f, 1 * -0.5f, 0.0f);
 		posData[1] = float3(0.0f, 1 * 0.5f, 0.0f);
 
 		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			lambda = step * float(i + 1);
-			//size = sizeOverTimeRange[0] + (sizeOverTimeRange[1] - sizeOverTimeRange[0]) * ImGui::BezierValue(lambda, reinterpret_cast<float*>(&sizeOverTimePoints));
 			posData[i * 2 + 2 + 0] = float3(lambda, 1.0 * -0.5f, 0.0f);
 			posData[i * 2 + 2 + 1] = float3(lambda, 1.0 * 0.5f, 0.0f);
 		}
 
 		glUnmapBuffer(GL_ARRAY_BUFFER);
-		//vbo for texture
+
+		// VBO for texture
 		glBindBuffer(GL_ARRAY_BUFFER, textureBuffers);
 		float2* texData = reinterpret_cast<float2*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 		texData[0] = float2(0.0f, 0.0f);
@@ -108,27 +117,27 @@ void ComponentLine::UpdateBuffers()
 		}
 
 		glUnmapBuffer(GL_ARRAY_BUFFER);
-		//vbo for color
+
+		// VBO for color
 		glBindBuffer(GL_ARRAY_BUFFER, colorBuffers);
 		float3* colorData = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 		lambda = 0.0f;
-		float3 color = { 1.0,0.0,0.0 };
-		//colorGradient.gradient.getColorAt(lambda, (float*)&color);
+		float3 color = { 1.0,0.0,1.0 };
 		colorData[0] = color;
 		colorData[1] = color;
 
 		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			lambda = step * float(i + 1);
-			//colorGradient.gradient.getColorAt(lambda, (float*)&color);
 			colorData[i * 2 + 2 + 0] = color;
 			colorData[i * 2 + 2 + 1] = color;
 		}
 
 		glUnmapBuffer(GL_ARRAY_BUFFER);
 
-		//ebo
-		unsigned int* indexPtr = reinterpret_cast<unsigned*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+		// EBO
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineEBO);
+		unsigned int* indexPtr = reinterpret_cast<unsigned int*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 		indexPtr[0] = 0;
 		indexPtr[1] = 1;
 
@@ -140,18 +149,33 @@ void ComponentLine::UpdateBuffers()
 
 		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
+		glBindVertexArray(lineVAO);
+
 		dirtyBuffers = false;
 	}
-
 }
 
 void ComponentLine::Render()
 {
+
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
 	if (program != nullptr && childGameObject != nullptr)
 	{
 		program->Activate();
 		ModelMatrix(program);
+		UpdateBuffers();
+		RecalculateVertices();
+
+		program->BindUniformFloat2("offset", offset);
+		program->BindUniformFloat2("tiling", tiling);
+
+		glActiveTexture(GL_TEXTURE0);
+		if (lineTexture)
+		{
+			lineTexture->Load();
+			glBindTexture(GL_TEXTURE_2D, lineTexture->GetGlTexture());
+		}
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		//I commented CW and CCW because they destroy the skybox need to look at that later
 		// 
@@ -162,9 +186,10 @@ void ComponentLine::Render()
 		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 		glBindVertexArray(lineVAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
+		//glDrawElements(GL_TRIANGLE_STRIP, 2 + 2 * numTiles, GL_UNSIGNED_INT, nullptr);
+		//glFrontFace(GL_CCW);
 		glBindVertexArray(0);
 		program->Deactivate();
-		//glFrontFace(GL_CCW);
 	}
 }
 
@@ -177,11 +202,10 @@ void ComponentLine::ModelMatrix(Program* program)
 	float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
-	float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
-	float3 xAxis = childGlobalPosition - globalPosition;
-	float3 normalized = (childGlobalPosition - globalPosition).Normalized();
-	float3 yAxis = centerCamera.Cross(normalized);
-	float3 zAxis = normalized.Cross(yAxis);
+	float3 zAxis = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
+	float3 xAxis = float3::unitX;
+	float3 yAxis = zAxis.Cross(xAxis).Normalized();
+	zAxis = xAxis.Cross(yAxis).Normalized();
 
 	const float4x4& model =
 		float4x4(float4(xAxis, 0.0),
