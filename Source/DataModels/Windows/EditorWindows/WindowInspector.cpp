@@ -338,7 +338,7 @@ void WindowInspector::InitTextureImportOptions()
 	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
 	flipVertical = resourceTexture->GetImportOptions().flipVertical;
 	flipHorizontal = resourceTexture->GetImportOptions().flipHorizontal;
-	compressionLevel = resourceTexture->GetImportOptions().compression + 1;
+	compressionLevel = static_cast<int>(resourceTexture->GetImportOptions().compression);
 }
 
 void WindowInspector::InitTextureLoadOptions()
@@ -414,7 +414,7 @@ void WindowInspector::DrawTextureOptions()
 	{
 		resourceTexture->GetImportOptions().flipVertical = flipVertical;
 		resourceTexture->GetImportOptions().flipHorizontal = flipHorizontal;
-		resourceTexture->GetImportOptions().compression = compressionLevel - 1;
+		resourceTexture->GetImportOptions().compression = static_cast<TextureCompression>(compressionLevel);
 		resourceTexture->GetLoadOptions().mipMap = mipMap;
 		resourceTexture->GetLoadOptions().min = (TextureMinFilter) min;
 		resourceTexture->GetLoadOptions().mag = (TextureMagFilter) mag;

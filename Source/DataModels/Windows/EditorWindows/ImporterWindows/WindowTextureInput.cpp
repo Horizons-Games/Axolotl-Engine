@@ -53,18 +53,18 @@ void WindowTextureInput::DoThisIfOk()
 		std::shared_ptr<ResourceTexture> texture =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
 		
-		texture->GetImportOptions().compression = -1;
+		texture->GetImportOptions().compression = TextureCompression::NONE;
 		
 		switch (textureType)
 		{
 			case TextureType::DIFFUSE:
-				texture->GetImportOptions().compression = 0;
+				texture->GetImportOptions().compression = TextureCompression::BC1;
 
 				break;
 
 			case TextureType::NORMAL:
 
-				texture->GetImportOptions().compression = 3;
+				texture->GetImportOptions().compression = TextureCompression::BC5;
 
 				break;
 			case TextureType::OCCLUSION:
@@ -74,17 +74,17 @@ void WindowTextureInput::DoThisIfOk()
 
 			case TextureType::METALLIC:
 
-				texture->GetImportOptions().compression = 3;
+				texture->GetImportOptions().compression = TextureCompression::BC5;
 
 				break;
 
 			case TextureType::SPECULAR:
 
-				texture->GetImportOptions().compression = 1;
+				texture->GetImportOptions().compression = TextureCompression::BC3;
 
 				break;
 			default:
-				texture->GetImportOptions().compression = -1;
+				texture->GetImportOptions().compression = TextureCompression::NONE;
 
 				break;
 		}

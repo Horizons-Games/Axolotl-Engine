@@ -37,14 +37,16 @@ void ResourceTexture::SaveImporterOptions(Json& meta)
 {
 	meta["flipVertical"] = importOptions.flipVertical;
 	meta["flipHorizontal"] = importOptions.flipHorizontal;
-	meta["compression"] = importOptions.compression;
+	int compression = static_cast<int>(importOptions.compression);
+	meta["compression"] = compression;
 }
 
 void ResourceTexture::LoadImporterOptions(Json& meta)
 {
 	importOptions.flipVertical = meta["flipVertical"];
 	importOptions.flipHorizontal = meta["flipHorizontal"];
-	importOptions.compression = meta["compression"];
+	int compression = meta["compression"];
+	importOptions.compression = static_cast<TextureCompression>(compression);
 }
 
 void ResourceTexture::SaveLoadOptions(Json& meta)
@@ -75,35 +77,34 @@ void ResourceTexture::CreateTexture()
 	
 	switch (importOptions.compression)
 	{
-		case 0:
-
+		case TextureCompression::BC1:
 			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
 			byteSize = 8;
 			break;
-		case 1:
+		case TextureCompression::BC3:
 			compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
 			byteSize = 16;
 			break;
-		case 2:
+		case TextureCompression::BC4:
 			compressFormat = GL_COMPRESSED_RED_RGTC1;
 			byteSize = 8;
 			break;
-		case 3:
+		case TextureCompression::BC5:
 			compressFormat = GL_COMPRESSED_RG_RGTC2;
 			byteSize = 16;
 			break;
-		case 4:
+		case TextureCompression::BC6:
 			compressFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
 			byteSize = 16;
 			break;
-		case 5:
+		case TextureCompression::BC7:
 			compressFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
 			byteSize = 16;
 			break;
 		default:
 			break;
 	}
-	if (importOptions.compression == -1) glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
+	if (importOptions.compression == TextureCompression::NONE) glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
 	else glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressFormat, width, height, 0, ((width + 3) / 4) * ((height + 3) / 4) * byteSize, &(pixels[0]));
 	if (loadOptions.mipMap)
 	{

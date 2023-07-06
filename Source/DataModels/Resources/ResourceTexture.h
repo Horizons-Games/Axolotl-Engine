@@ -7,9 +7,11 @@
 enum class TextureCompression
 {
 	NONE,
-	DXT1,
-	DXT3,
-	DXT5,
+	BC1,
+	BC3,
+	BC4,
+	BC5,
+	BC6,
 	BC7
 };
 
@@ -60,9 +62,9 @@ struct ImportOptionsTexture
 {
 	bool flipVertical;
 	bool flipHorizontal;
-	int compression;
+	TextureCompression compression;
 
-	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), compression(-1)
+	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), compression(TextureCompression::NONE)
 	{
 	}
 };

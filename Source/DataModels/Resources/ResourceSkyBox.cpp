@@ -35,32 +35,32 @@ void ResourceSkyBox::InternalLoad()
 
 		if (textI)
 		{
-			int compression = textI->GetImportOptions().compression;
+			TextureCompression compression = textI->GetImportOptions().compression;
 			int compressFormat = -1;
 			int byteSize = 0;
 			switch (compression)
 			{
-				case 0:
+				case TextureCompression::BC1:
 					compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT;
 					byteSize = 8;
 					break;
-				case 1:
+				case TextureCompression::BC3:
 					compressFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
 					byteSize = 16;
 					break;
-				case 2:
+				case TextureCompression::BC4:
 					compressFormat = GL_COMPRESSED_RED_RGTC1;
 					byteSize = 8;
 					break;
-				case 3:
+				case TextureCompression::BC5:
 					compressFormat = GL_COMPRESSED_RG_RGTC2;
 					byteSize = 16;
 					break;
-				case 4:
+				case TextureCompression::BC6:
 					compressFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
 					byteSize = 16;
 					break;
-				case 5:
+				case TextureCompression::BC7:
 					compressFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
 					byteSize = 16;
 					break;
@@ -70,7 +70,7 @@ void ResourceSkyBox::InternalLoad()
 			textI->Load();
 			std::vector<uint8_t> aux = textI->GetPixels();
 			//glCompressedTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataSize, imageData);
-			if (compression == -1)
+			if (compression == TextureCompression::NONE)
 			{
 				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 							 0,

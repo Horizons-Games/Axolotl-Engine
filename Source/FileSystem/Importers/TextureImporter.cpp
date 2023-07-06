@@ -107,22 +107,22 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	DXGI_FORMAT compressFormat;
 	switch (options.compression)
 	{
-		case 0:
+		case TextureCompression::BC1:
 			compressFormat = DXGI_FORMAT_BC1_UNORM;
 			break;
-		case 1:
+		case TextureCompression::BC3:
 			compressFormat = DXGI_FORMAT_BC3_UNORM;
 			break;
-		case 2:
+		case TextureCompression::BC4:
 			compressFormat = DXGI_FORMAT_BC4_UNORM;
 			break;
-		case 3:
+		case TextureCompression::BC5:
 			compressFormat = DXGI_FORMAT_BC5_UNORM;
 			break;
-		case 4:
+		case TextureCompression::BC6:
 			compressFormat = DXGI_FORMAT_BC6H_SF16;
 			break;
-		case 5:
+		case TextureCompression::BC7:
 			compressFormat = DXGI_FORMAT_BC7_UNORM;
 			break;
 		default:
@@ -130,7 +130,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	}
 
 	
-	if (options.compression > -1)
+	if (options.compression != TextureCompression::NONE)
 	{
 		result = DirectX::Compress(imgResult->GetImages(),
 								   imgResult->GetImageCount(),
