@@ -20,5 +20,5 @@ void main()
 
     incolor = vertexColor;
 
-     gl_Position = view * proj * model * vec4(vertexPosition, 1.0);
+     gl_Position = proj * view * model * vec4(vertexPosition, 1.0);
 }
