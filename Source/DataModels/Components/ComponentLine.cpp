@@ -180,10 +180,6 @@ void ComponentLine::Render()
 		//I commented CW and CCW because they destroy the skybox need to look at that later
 		// 
 		//glFrontFace(GL_CW);
-		//glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadEBO);
-		//glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 		glBindVertexArray(lineVAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
 		//glDrawElements(GL_TRIANGLE_STRIP, 2 + 2 * numTiles, GL_UNSIGNED_INT, nullptr);
@@ -244,9 +240,4 @@ void ComponentLine::RecalculateVertices()
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
 	glBufferData(GL_ARRAY_BUFFER, newVertices.size() * sizeof(float), &newVertices[0], GL_STATIC_DRAW);
-}
-
-void ComponentLine::FaceCamera()
-{
-	//Don't get this one
 }

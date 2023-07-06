@@ -25,7 +25,6 @@ public:
 	void InternalLoad(const Json& meta) override{};
 
 	void RecalculateVertices();
-	void FaceCamera();
 
 	int GetNumTiles();
 	void SetNumTiles(int numTiles);
@@ -75,4 +74,5 @@ inline std::shared_ptr<ResourceTexture> ComponentLine::GetLineTexture() const
 inline void ComponentLine::SetLineTexture(const std::shared_ptr<ResourceTexture>& texture)
 {
 	this->lineTexture = texture;
+	dirtyBuffers = true;
 }
