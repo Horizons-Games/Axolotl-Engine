@@ -47,7 +47,7 @@ private:
 	void LoadModelTransform(GameObject* gameObject);
 
 	AnimationController* controller;
-	std::unique_ptr<StateMachine> stateMachineInstance;
+	StateMachine* stateMachineInstance;
 	std::unordered_map<GameObject*, float4x4> defaultPosition;
 
 	bool firstEntry;

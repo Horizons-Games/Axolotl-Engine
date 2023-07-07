@@ -23,12 +23,13 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 	firstEntry(true)
 {
 	controller = new AnimationController();
-	stateMachineInstance = std::make_unique<StateMachine>();
+	stateMachineInstance = new StateMachine();
 }
 
 ComponentAnimation::~ComponentAnimation()
 {
 	delete controller;
+	delete stateMachineInstance;
 }
 
 AnimationController* ComponentAnimation::GetController()
