@@ -179,7 +179,7 @@ void WindowComponentScript::DrawWindowContents()
 		return;
 	}
 
-	for (std::size_t index = 0; TypeFieldPair enumAndMember : scriptObject->GetFields())
+	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
 
@@ -316,7 +316,7 @@ void WindowComponentScript::DrawWindowContents()
 				}
 
 				widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
-				
+
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
 					ImGui::Indent();
@@ -334,7 +334,6 @@ void WindowComponentScript::DrawWindowContents()
 			default:
 				break;
 		}
-		++index;
 	}
 
 	// Store the ending position of the collapsing header

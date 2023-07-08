@@ -6,7 +6,6 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
-class HelloWorldScript;
 
 // This script is just to show how to instantiate/use the different types of variables
 
