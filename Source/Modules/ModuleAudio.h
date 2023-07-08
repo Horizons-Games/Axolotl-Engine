@@ -1,6 +1,6 @@
 #pragma once
-#include "Module.h"
 #include "AK/SoundEngine/SampleLowLevelIO/Win32/AkFilePackageLowLevelIOBlocking.h"
+#include "Module.h"
 
 class ModuleAudio : public Module
 {
@@ -11,9 +11,9 @@ public:
 	bool Init() override;
 	bool Start() override;
 
-	update_status PreUpdate() override;
-	update_status Update() override;
-	update_status PostUpdate() override;
+	UpdateStatus PreUpdate() override;
+	UpdateStatus Update() override;
+	UpdateStatus PostUpdate() override;
 
 	bool CleanUp() override;
 

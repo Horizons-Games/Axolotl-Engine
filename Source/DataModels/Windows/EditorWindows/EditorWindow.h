@@ -3,14 +3,15 @@
 #include "Windows/Window.h"
 
 #include "imgui.h"
+
 class EditorWindow : public Window
 {
 public:
 	virtual ~EditorWindow() override;
 
-	void Draw(bool &enabled) override;
-	 
-	bool IsFocused() const;		
+	void Draw(bool& enabled) override;
+
+	bool IsFocused() const;
 	virtual bool DefaultActiveState() const;
 
 protected:
@@ -18,10 +19,9 @@ protected:
 	virtual void DrawWindowContents() = 0;
 
 	ImGuiWindowFlags flags;
-	
 
 private:
-	bool focused;	
+	bool focused;
 };
 
 inline bool EditorWindow::IsFocused() const

@@ -1,8 +1,12 @@
+#include "StdAfx.h"
+
 #include "WindowSaveScene.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
+#include "ModuleScene.h"
+
+#include "Defines/ExtensionDefines.h"
 
 WindowSaveScene::WindowSaveScene() : WindowFileBrowser()
 {
@@ -21,5 +25,5 @@ void WindowSaveScene::DoThisIfOk()
 {
 	this->isLoading = false;
 	std::string filePathName = fileDialogImporter.GetCurrentFileName();
-	App->GetModule<ModuleScene>()->SaveSceneToJson(filePathName);
+	App->GetModule<ModuleScene>()->SaveScene(filePathName);
 }

@@ -4,8 +4,7 @@
 
 class ComponentRigidBody;
 
-class WindowComponentRigidBody :
-	public ComponentWindow
+class WindowComponentRigidBody : public ComponentWindow
 {
 public:
 	WindowComponentRigidBody(ComponentRigidBody* component);
@@ -13,6 +12,4 @@ public:
 
 protected:
 	void DrawWindowContents() override;
-
 };
-

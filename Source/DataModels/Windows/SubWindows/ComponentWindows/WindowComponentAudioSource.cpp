@@ -1,8 +1,10 @@
+#include "StdAfx.h"
+
 #include "WindowComponentAudioSource.h"
 #include "Components/ComponentAudioSource.h"
 
-WindowComponentAudioSource::WindowComponentAudioSource(ComponentAudioSource* component):
-	ComponentWindow("Audio Source", component)
+WindowComponentAudioSource::WindowComponentAudioSource(ComponentAudioSource* component) :
+	ComponentWindow("AUDIO SOURCE", component)
 {
 }
 
@@ -19,7 +21,6 @@ void WindowComponentAudioSource::DrawWindowContents()
 	if (audioSource)
 	{
 		ImGui::Text("");
-		ImGui::Text("Audio Source"); 
+		ImGui::Text("Audio Source");
 	}
 }
-

@@ -6,8 +6,8 @@
 class AnimationImporter : public Importer<ResourceAnimation>
 {
 public:
-	AnimationImporter() {};
-	~AnimationImporter() {};
+	AnimationImporter(){};
+	~AnimationImporter() override {};
 
 	void Import(const char* filePath, std::shared_ptr<ResourceAnimation> resource) override;
 	void Load(const char* fileBuffer, std::shared_ptr<ResourceAnimation> resource) override;
@@ -15,4 +15,3 @@ public:
 protected:
 	void Save(const std::shared_ptr<ResourceAnimation>& resource, char*& fileBuffer, unsigned int& size) override;
 };
-

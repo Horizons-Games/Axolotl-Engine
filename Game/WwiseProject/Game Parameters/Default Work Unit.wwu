@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{2CF8BCEB-2271-4245-B45E-25E43F0E79B4}" SchemaVersion="110">
 	<GameParameters>
-		<WorkUnit Name="Default Work Unit" ID="{2CF8BCEB-2271-4245-B45E-25E43F0E79B4}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{2CF8BCEB-2271-4245-B45E-25E43F0E79B4}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="ListenerOrientation" ID="{65102F9C-5A37-4143-8856-B08D069BD536}"/>
+			</ChildrenList>
+		</WorkUnit>
 	</GameParameters>
 </WwiseDocument>

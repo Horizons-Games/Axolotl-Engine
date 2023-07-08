@@ -1,0 +1,8 @@
+{
+    "UID": 18423942700688970806,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/RodianCharacterAnim15.Armature_InitialPose_Drunk.anim",
+        "Assets/Animation/RodianCharacterAnim15.Armature_Drunk.001.anim"
+    ]
+}

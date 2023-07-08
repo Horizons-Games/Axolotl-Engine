@@ -1,0 +1,11 @@
+{
+    "UID": 9246187171805073407,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/WallV1.Cube.012_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/WallV1DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

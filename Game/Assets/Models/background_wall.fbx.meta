@@ -1,11 +1,11 @@
 {
-    "UID": 17992643005387749706,
+    "UID": 17851771733709805766,
     "Type": "Models",
     "MeshesAssetPaths": [
-        "Assets/Meshes/background_wall.Cube.001.mesh"
+        "Assets/Meshes/background_wall.Cube.001_0.mesh"
     ],
     "MatAssetPaths": [
-        "Assets/Materials/background_wall.Material.001.mat"
+        "Assets/Materials/background_wallMaterial.001_0.mat"
     ],
     "AnimAssetPaths": null
 }

@@ -1,0 +1,11 @@
+{
+    "UID": 13803402495750764766,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Plane.Plane.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/PlaneDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

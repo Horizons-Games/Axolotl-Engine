@@ -1,9 +1,11 @@
+#include "StdAfx.h"
+
 #include "WindowComponentDirLight.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
-#include "DataModels/Scene/Scene.h"
 #include "DataModels/Components/ComponentDirLight.h"
+#include "DataModels/Scene/Scene.h"
+#include "ModuleScene.h"
 
 WindowComponentDirLight::WindowComponentDirLight(ComponentDirLight* component) :
 	WindowComponentLight("DIRECTIONAL LIGHT", component)
@@ -32,7 +34,8 @@ void WindowComponentDirLight::DrawWindowContents()
 		{
 			ImGui::TableNextColumn();
 
-			ImGui::Text("Intensity"); ImGui::SameLine();
+			ImGui::Text("Intensity");
+			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			float intensity = asDirLight->GetIntensity();
@@ -52,9 +55,10 @@ void WindowComponentDirLight::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
-			ImGui::Text("Color"); ImGui::SameLine();
+			ImGui::Text("Color");
+			ImGui::SameLine();
 			float3 color = asDirLight->GetColor();
-			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
+			if (ImGui::ColorEdit3("MyColor##1", (float*) &color))
 			{
 				asDirLight->SetColor(color);
 				modified = true;

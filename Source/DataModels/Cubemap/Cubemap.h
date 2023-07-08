@@ -1,6 +1,5 @@
 #pragma once
 #include "GL/glew.h"
-#include <memory>
 
 class ResourceCubemap;
 class Program;
@@ -9,7 +8,6 @@ class Json;
 class Cubemap
 {
 public:
-
 	Cubemap();
 	~Cubemap();
 	Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes);
@@ -17,15 +15,16 @@ public:
 	void SaveOptions(Json& json) const;
 	void LoadOptions(Json& json);
 
-	void DebugNSight(); //DEBUG purpouse
-	
+	void DebugNSight(); // DEBUG purpouse
+
 	GLuint GetIrradiance();
 	GLuint GetPrefiltered();
 	GLuint GetEnvironmentBRDF();
 	int GetNumMiMaps();
+	void SetIntensity(float intensity);
+	float GetIntensity();
 
 private:
-	
 	void GenerateMaps();
 	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
 	void CreateVAO();
@@ -43,6 +42,8 @@ private:
 	int numMipMaps;
 
 	std::shared_ptr<ResourceCubemap> cubemapRes;
+
+	float intensity;
 };
 
 inline GLuint Cubemap::GetIrradiance()
@@ -64,3 +65,14 @@ inline int Cubemap::GetNumMiMaps()
 {
 	return numMipMaps;
 }
+
+inline void Cubemap::SetIntensity(float intensity)
+{
+	this->intensity = intensity;
+}
+
+inline float Cubemap::GetIntensity()
+{
+	return intensity;
+}
+

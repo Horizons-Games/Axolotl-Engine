@@ -60,6 +60,53 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="sewers_ambient" ID="{125E6131-A74B-496D-83E5-CCDF06C46240}">
+					<ChildrenList>
+						<Action Name="" ID="{E7446D1B-C4B0-4C91-B1C7-96A5270C9540}" ShortID="13678006">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ambient_sewers" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sewers_ambient_stop" ID="{30074C33-3718-4C5A-9BDB-99B09C3BEF1A}">
+					<ChildrenList>
+						<Action Name="" ID="{947BCA9D-695C-499D-906E-A695A220F89A}" ShortID="806575819">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ambient_sewers" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_bigDoor_open" ID="{12066074-050F-4499-BF2E-928F89F5B741}">
+					<ChildrenList>
+						<Action Name="" ID="{F58A8A01-465E-44B3-8BA9-12AED5192C6B}" ShortID="52952209">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_bigDoor_open-001" ID="{2112B696-05EB-4522-B842-FD23A3F45B2D}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_bigDoor_close" ID="{3C3F324B-E829-4D46-A7A6-3FE3986F8F21}">
+					<ChildrenList>
+						<Action Name="" ID="{28851586-53C5-445D-BED4-7D2969D14615}" ShortID="790404713">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_bigDoor_close-001" ID="{A52D03B5-D2CB-4F69-9D1E-2D2D4799B46C}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

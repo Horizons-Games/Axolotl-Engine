@@ -1,7 +1,25 @@
 {
-    "UID": 13502686984930630488,
+    "UID": 7461268226252201886,
     "Type": "Models",
-    "MeshesAssetPaths": null,
-    "MatAssetPaths": null,
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Pasarela.002_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.011_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.016_0.mesh",
+        "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.021_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_RunWay2Body_0.mat",
+        "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat",
+        "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat",
+        "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat",
+        "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat",
+        "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat",
+        "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat",
+        "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
+    ],
     "AnimAssetPaths": null
 }

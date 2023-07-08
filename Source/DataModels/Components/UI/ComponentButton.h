@@ -2,15 +2,11 @@
 #include "../Component.h"
 #include "Math/float4.h"
 
-class ComponentButton :
-	public Component
+class ComponentButton : public Component
 {
 public:
 	ComponentButton(bool active, GameObject* owner);
 	~ComponentButton() override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
 
 	void OnClicked();
 
@@ -26,6 +22,12 @@ public:
 	float4 GetColorHovered() const;
 
 	const char* GetSceneName() const;
+
+private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
+	void SignalDisable() override;
 
 private:
 	bool clicked;

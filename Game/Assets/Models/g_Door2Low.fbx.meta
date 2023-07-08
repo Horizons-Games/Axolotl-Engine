@@ -1,0 +1,20 @@
+{
+    "UID": 18131841904084633564,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/g_Door2Low.Cube.005_0.mesh",
+        "Assets/Meshes/g_Door2Low.Cube.013_0.mesh",
+        "Assets/Meshes/g_Door2Low.Cube.018_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/g_Door2LowMaterial_0.mat",
+        "Assets/Materials/g_Door2LowDefaultMaterial_0.mat",
+        "Assets/Materials/g_Door2LowDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/g_Door2Low.Open.anim",
+        "Assets/Animation/g_Door2Low.Armature.001_Action.anim",
+        "Assets/Animation/g_Door2Low.Armature.001_Closed.anim",
+        "Assets/Animation/g_Door2Low.Armature.001_Open.anim"
+    ]
+}

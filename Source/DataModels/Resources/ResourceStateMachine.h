@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Resource.h"
-#include <memory>
-#include <unordered_map>
-#include <variant>
 
 enum class FieldTypeParameter
 {
@@ -32,16 +29,19 @@ struct State
 	std::pair<int, int> auxiliarPos;
 	std::vector<UID> transitionsOriginedHere;
 	std::vector<UID> transitionsDestinedHere;
+	bool loop;
+	float speed;
 
-	State() :
-		id(0)
+	State() : id(0), loop(false)
 	{
 	}
 
-	State(const UID& id, const std::string& name, int x, int y) : 
-		id(id), 
-		name(name), 
-		auxiliarPos(std::pair<int, int>(x, y)) 
+	State(const UID& id, const std::string& name, int x, int y) :
+		id(id),
+		name(name),
+		auxiliarPos(std::pair<int, int>(x, y)),
+		loop(false),
+		speed(1.0f)
 	{
 	}
 
@@ -55,25 +55,23 @@ struct Condition
 	ValidFieldTypeParameter value;
 };
 
-
 struct Transition
 {
 	unsigned int originState;
 	unsigned int destinationState;
+	bool waitUntilFinish;
 	double transitionDuration;
 	std::vector<Condition> conditions;
 
-	Transition() : 
-		originState(0), 
-		destinationState(0), 
-		transitionDuration(0.0) 
+	Transition() : originState(0), destinationState(0), waitUntilFinish(false), transitionDuration(0.0)
 	{
 	}
-	
+
 	Transition(unsigned int originState, unsigned int destinationState, double transitionDuration) :
 		originState(originState),
 		destinationState(destinationState),
-		transitionDuration(transitionDuration)
+		transitionDuration(transitionDuration),
+		waitUntilFinish(false)
 	{
 	}
 
@@ -84,18 +82,18 @@ class ResourceStateMachine : virtual public Resource
 {
 public:
 	ResourceStateMachine(UID resourceUID,
-		const std::string& fileName,
-		const std::string& assetsPath,
-		const std::string& libraryPath);
+						 const std::string& fileName,
+						 const std::string& assetsPath,
+						 const std::string& libraryPath);
 	virtual ~ResourceStateMachine() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
 
-	void SaveLoadOptions(Json& meta) override {};
-	void LoadLoadOptions(Json& meta) override {};
+	void SaveLoadOptions(Json& meta) override{};
+	void LoadLoadOptions(Json& meta) override{};
 
 	unsigned int GetNumStates() const;
 	unsigned int GetNumTransitions() const;
@@ -103,7 +101,7 @@ public:
 	State* GetState(size_t stateIndex) const;
 	std::unordered_map<UID, Transition>& GetTransitions();
 	int GetIdState(const State& state) const;
-	
+
 	void AddState(std::unique_ptr<State> state);
 	void ClearAllStates();
 	void SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters);
@@ -131,8 +129,8 @@ public:
 	void EraseCondition(const UID transition, unsigned int index);
 
 protected:
-	void InternalLoad() override {};
-	void InternalUnload() override {};
+	void InternalLoad() override{};
+	void InternalUnload() override{};
 
 private:
 	std::vector<std::unique_ptr<State>> states;
@@ -149,17 +147,17 @@ inline ResourceType ResourceStateMachine::GetType() const
 
 inline unsigned int ResourceStateMachine::GetNumStates() const
 {
-	return states.size();
+	return static_cast<unsigned int>(states.size());
 }
 
 inline unsigned int ResourceStateMachine::GetNumTransitions() const
 {
-	return transitions.size();
+	return static_cast<unsigned int>(transitions.size());
 }
 
 inline unsigned int ResourceStateMachine::GetNumParameters() const
 {
-	return defaultParameters.size();
+	return static_cast<unsigned int>(defaultParameters.size());
 }
 
 inline State* ResourceStateMachine::GetState(size_t stateIndex) const
@@ -187,7 +185,8 @@ inline void ResourceStateMachine::ClearAllStates()
 	states.clear();
 }
 
-inline void ResourceStateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters)
+inline void
+	ResourceStateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters)
 {
 	this->defaultParameters = parameters;
 }
@@ -199,12 +198,11 @@ inline void ResourceStateMachine::SetTransitions(const std::unordered_map<UID, T
 
 inline void ResourceStateMachine::SetStateName(unsigned int id, std::string name)
 {
-	if(states[id] != nullptr)
+	if (states[id] != nullptr)
 	{
 		states[id]->name = name;
 	}
 }
-
 
 inline void ResourceStateMachine::SetDeadStates(const std::vector<unsigned int>& deadStates)
 {
@@ -233,4 +231,3 @@ inline void ResourceStateMachine::EraseParameter(const std::string& parameterNam
 {
 	defaultParameters.erase(parameterName);
 }
-

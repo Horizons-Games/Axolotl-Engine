@@ -1,10 +1,14 @@
+#include "StdAfx.h"
+
 #include "WindowImportScene.h"
 
 #include "Application.h"
-#include "ModuleScene.h"
 #include "Auxiliar/Utils/ConvertU8String.h"
+#include "ModuleScene.h"
 
-WindowImportScene::WindowImportScene() :WindowFileBrowser()
+#include "Defines/ExtensionDefines.h"
+
+WindowImportScene::WindowImportScene() : WindowFileBrowser()
 {
 	dialogName = " Import Scene";
 	title = ConvertU8String(ICON_IGFD_FOLDER) + " Import Scene";
@@ -20,5 +24,5 @@ void WindowImportScene::DoThisIfOk()
 {
 	this->isLoading = false;
 	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	App->GetModule<ModuleScene>()->ImportFromJson(filePath);
+	App->GetModule<ModuleScene>()->LoadScene(filePath, true);
 }

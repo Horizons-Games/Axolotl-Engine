@@ -1,28 +1,30 @@
-#pragma once
+#include "StdAfx.h"
+
 #include "Application.h"
 
-#include "ModuleWindow.h"
-#include "ModuleRender.h"
-#include "ModuleInput.h"
-#include "ModuleScene.h"
-#include "ModuleProgram.h"
-#include "ModuleCamera.h"
-#include "ModuleAudio.h"
-#include "ModuleUI.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "ModuleScene.h"
+#include "ModuleAudio.h"
+#include "ModuleCamera.h"
+#include "ModuleCommand.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
+#include "ModuleInput.h"
+#include "ModulePhysics.h"
 #include "ModulePlayer.h"
-#include "ModuleCommand.h"
+#include "ModuleProgram.h"
+#include "ModuleRender.h"
+#include "ModuleScene.h"
+#include "ModuleUI.h"
+#include "ModuleWindow.h"
+#include "ModuleNavigation.h"
 #include "ScriptFactory.h"
 
-#include <ranges>
+#include "Defines/FramerateDefines.h"
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false)
+Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false), closeGame(false)
 {
 	modules.resize(static_cast<int>(ModuleType::LAST));
 	modules[static_cast<int>(ModuleToEnum<ModuleWindow>::value)] = std::make_unique<ModuleWindow>();
@@ -33,6 +35,8 @@ Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
 	modules[static_cast<int>(ModuleToEnum<ModuleCamera>::value)] = std::make_unique<ModuleCamera>();
 	modules[static_cast<int>(ModuleToEnum<ModuleAudio>::value)] = std::make_unique<ModuleAudio>();
 	modules[static_cast<int>(ModuleToEnum<ModuleScene>::value)] = std::make_unique<ModuleScene>();
+	modules[static_cast<int>(ModuleToEnum<ModulePhysics>::value)] = std::make_unique<ModulePhysics>();
+	modules[static_cast<int>(ModuleToEnum<ModuleNavigation>::value)] = std::make_unique<ModuleNavigation>();
 	modules[static_cast<int>(ModuleToEnum<ModulePlayer>::value)] = std::make_unique<ModulePlayer>();
 	modules[static_cast<int>(ModuleToEnum<ModuleRender>::value)] = std::make_unique<ModuleRender>();
 	modules[static_cast<int>(ModuleToEnum<ModuleUI>::value)] = std::make_unique<ModuleUI>();
@@ -81,15 +85,20 @@ bool Application::Start()
 	return true;
 }
 
-update_status Application::Update()
+UpdateStatus Application::Update()
 {
+	if (closeGame == true)
+	{
+		return UpdateStatus::UPDATE_STOP;
+	}
+
 	bool playMode = isOnPlayMode;
 	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = module->PreUpdate();
-		if (result != update_status::UPDATE_CONTINUE)
+		UpdateStatus result = module->PreUpdate();
+		if (result != UpdateStatus::UPDATE_CONTINUE)
 		{
 			return result;
 		}
@@ -97,8 +106,8 @@ update_status Application::Update()
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = module->Update();
-		if (result != update_status::UPDATE_CONTINUE)
+		UpdateStatus result = module->Update();
+		if (result != UpdateStatus::UPDATE_CONTINUE)
 		{
 			return result;
 		}
@@ -106,24 +115,23 @@ update_status Application::Update()
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
-		update_status result = module->PostUpdate();
-		if (result != update_status::UPDATE_CONTINUE)
+		UpdateStatus result = module->PostUpdate();
+		if (result != UpdateStatus::UPDATE_CONTINUE)
 		{
 			return result;
 		}
 	}
 
 	float dt = playMode ? onPlayTimer.Read() - ms : appTimer.Read() - ms;
-	float minframeTime = 1000.0f / GetMaxFrameRate();
 
-	if (dt < minframeTime)
+	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay((Uint32)(minframeTime - dt));
+		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
 	}
 
 	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 bool Application::CleanUp()
@@ -145,14 +153,16 @@ void Application::OnPlay()
 	onPlayTimer.Start();
 	isOnPlayMode = true;
 	ModulePlayer* player = GetModule<ModulePlayer>();
-	player->LoadNewPlayer();
-	if (!player->GetPlayer())
+	if (!player->LoadNewPlayer())
 	{
 		isOnPlayMode = false;
+		onPlayTimer.Stop();
 	}
-
-	//Active Scripts
-	GetModule<ModuleScene>()->OnPlay();
+	else
+	{
+		// Active Scripts
+		GetModule<ModuleScene>()->OnPlay();
+	}
 }
 
 void Application::OnStop()
@@ -166,5 +176,5 @@ void Application::OnStop()
 
 void Application::OnPause()
 {
-	GetModule<ModuleScene>()->OnPause();
+	
 }

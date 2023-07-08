@@ -1,0 +1,11 @@
+{
+    "UID": 17367741014629860593,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/pipeType3.pipeType3_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/pipeType3DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,0 +1,23 @@
+{
+    "UID": 2131034356379042105,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/breakable_cube.Cube_0.mesh",
+        "Assets/Meshes/breakable_cube.Cube_cell.006_0.mesh",
+        "Assets/Meshes/breakable_cube.Cube_cell.001_0.mesh",
+        "Assets/Meshes/breakable_cube.Cube_cell.002_0.mesh",
+        "Assets/Meshes/breakable_cube.Cube_cell.003_0.mesh",
+        "Assets/Meshes/breakable_cube.Cube_cell.004_0.mesh",
+        "Assets/Meshes/breakable_cube.Cube_cell.001_cell.004_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/breakable_cubeMaterial_0.mat",
+        "Assets/Materials/breakable_cubeMaterial_0.mat",
+        "Assets/Materials/breakable_cubeMaterial_0.mat",
+        "Assets/Materials/breakable_cubeMaterial_0.mat",
+        "Assets/Materials/breakable_cubeMaterial_0.mat",
+        "Assets/Materials/breakable_cubeMaterial_0.mat",
+        "Assets/Materials/breakable_cubeMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

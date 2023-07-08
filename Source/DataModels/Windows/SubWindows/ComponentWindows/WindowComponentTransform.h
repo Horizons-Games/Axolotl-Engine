@@ -2,11 +2,10 @@
 
 #include "ComponentWindow.h"
 
-#include "Math/float3.h"
-
 class ComponentTransform;
 
-enum class Axis {
+enum class Axis
+{
 	X,
 	Y,
 	Z
@@ -38,4 +37,3 @@ private:
 	bool bbdraw;
 	bool uniformScale;
 };
-

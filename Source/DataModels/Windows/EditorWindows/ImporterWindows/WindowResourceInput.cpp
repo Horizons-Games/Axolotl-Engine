@@ -1,9 +1,11 @@
+#include "StdAfx.h"
+
 #include "WindowResourceInput.h"
 
 #include "Application.h"
+#include "DataModels/Resources/Resource.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleEditor.h"
-#include "DataModels/Resources/Resource.h"
 
 WindowResourceInput::WindowResourceInput()
 {

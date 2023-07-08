@@ -1,16 +1,8 @@
 #pragma once
 #include "Module.h"
 #include "ModuleDebugDraw.h"
-#include "Camera/Camera.h"
 
-#define DEFAULT_MOVE_SPEED 9.f
-#define DEFAULT_ROTATION_DEGREE 30
-#define DEFAULT_ROTATION_SPEED 5.f
-#define DEFAULT_MOUSE_SPEED_MODIFIER 0.f
-#define DEFAULT_SHIFT_ACCELERATION 2.f
-#define DEFAULT_FRUSTUM_MODE 0
-#define DEFAULT_FRUSTUM_OFFSET 1.f
-#define DEFAULT_FRUSTUM_DISTANCE 20000.f
+#include "Camera/CameraDefines.h"
 
 #define ORBIT_SPEED_MULTIPLIER 2.f
 
@@ -25,6 +17,9 @@
 
 class GameObject;
 class WindowScene;
+class Camera;
+
+enum class CameraType;
 
 class ModuleCamera : public Module
 {
@@ -35,7 +30,7 @@ public:
 	bool Init() override;
 	bool Start() override;
 
-	update_status Update();
+	UpdateStatus Update();
 
 	Camera* GetCamera();
 	void ChangeCamera(CameraType newType);
@@ -48,7 +43,7 @@ public:
 	void RecalculateOrthoProjectionMatrix();
 
 private:
-	std::unique_ptr <Camera> camera;
+	std::unique_ptr<Camera> camera;
 	Camera* selectedCamera;
 	int selectedPosition;
 
@@ -64,7 +59,6 @@ inline Camera* ModuleCamera::GetSelectedCamera() const
 {
 	return selectedCamera;
 }
-
 
 inline int ModuleCamera::GetSelectedPosition()
 {

@@ -1,0 +1,13 @@
+{
+    "UID": 238316357823381726,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/DRONE.Armature_ActivateWeapons.anim",
+        "Assets/Animation/DRONE.Armature_Attack.anim",
+        "Assets/Animation/DRONE.Armature_Damaged.anim",
+        "Assets/Animation/DRONE.Armature_Death.anim",
+        "Assets/Animation/DRONE.Armature_ForwardMov_start.anim",
+        "Assets/Animation/DRONE.Armature_IdleNormal.anim",
+        "Assets/Animation/DRONE.Armature_MoveForward_Stop.anim"
+    ]
+}

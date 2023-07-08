@@ -1,7 +1,8 @@
 #pragma once
+
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "Math/float3.h"
+
 RUNTIME_MODIFIABLE_INCLUDE;
 
 // This script is just to show how to instantiate/use the different types of variables
@@ -17,11 +18,13 @@ public:
 	void PreUpdate(float deltaTime) override {};
 	void Update(float deltaTime) override;
 	void PostUpdate(float deltaTime) override {};
+	virtual void OnCollisionEnter(ComponentRigidBody* other) override {};
+	virtual void OnCollisionExit(ComponentRigidBody* other) override {};
 	void CleanUp() override {};
 
 	const float3& GetFloat3() const;
 	void SetFloat3(const float3& fl3);
-	
+
 	const std::vector<float>& GetVectorFloat() const;
 	void SetVectorFloat(const std::vector<float>& vecFloat);
 	const std::vector<float3>& GetVectorFloat3() const;

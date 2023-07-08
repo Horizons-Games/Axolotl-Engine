@@ -1,0 +1,11 @@
+{
+    "UID": 6151354856232813846,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CANTINA_TableLow.Cylinder.006_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CANTINA_TableLowDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

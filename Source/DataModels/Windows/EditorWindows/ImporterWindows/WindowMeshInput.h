@@ -3,8 +3,7 @@
 
 class ComponentMeshRenderer;
 
-class WindowMeshInput :
-	public WindowFileBrowser
+class WindowMeshInput : public WindowFileBrowser
 {
 public:
 	WindowMeshInput(ComponentMeshRenderer* componentMesh);

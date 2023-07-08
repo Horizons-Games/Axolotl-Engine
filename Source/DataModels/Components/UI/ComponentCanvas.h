@@ -1,15 +1,11 @@
 #pragma once
 #include "../Component.h"
 #include "Math/float2.h"
-class ComponentCanvas :  public Component
+class ComponentCanvas : public Component
 {
-
 public:
 	ComponentCanvas(bool active, GameObject* owner);
 	~ComponentCanvas() override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
 
 	void SetScreenReferenceSize(float2 screenReferenceSize_);
 
@@ -19,26 +15,31 @@ public:
 	void RecalculateSizeAndScreenFactor();
 
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
+private:
 	float2 screenReferenceSize;
 	float2 size;
 	float screenFactor;
-
 };
 
-
-inline void ComponentCanvas::SetScreenReferenceSize(float2 screenReferenceSize_) {
+inline void ComponentCanvas::SetScreenReferenceSize(float2 screenReferenceSize_)
+{
 	screenReferenceSize = screenReferenceSize_;
 }
 
-inline float2 ComponentCanvas::GetScreenReferenceSize() const {
+inline float2 ComponentCanvas::GetScreenReferenceSize() const
+{
 	return screenReferenceSize;
 }
 
-inline float2 ComponentCanvas::GetSize() {
+inline float2 ComponentCanvas::GetSize()
+{
 	return size;
 }
 
-inline float ComponentCanvas::GetScreenFactor() {
+inline float ComponentCanvas::GetScreenFactor()
+{
 	return screenFactor;
 }
-

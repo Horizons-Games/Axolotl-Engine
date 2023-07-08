@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Resource.h"
-#include <memory>
 
 class ResourceTexture;
 
@@ -12,19 +11,19 @@ struct OptionsSkyBox
 class ResourceSkyBox : virtual public Resource
 {
 public:
-	ResourceSkyBox(UID resourceUID, 
-		const std::string& fileName, 
-		const std::string& assetsPath, 
-		const std::string& libraryPath);
+	ResourceSkyBox(UID resourceUID,
+				   const std::string& fileName,
+				   const std::string& assetsPath,
+				   const std::string& libraryPath);
 	virtual ~ResourceSkyBox() override;
 
 	ResourceType GetType() const override;
 
-	void SaveImporterOptions(Json& meta) override {};
-	void LoadImporterOptions(Json& meta) override {};
+	void SaveImporterOptions(Json& meta) override{};
+	void LoadImporterOptions(Json& meta) override{};
 
-	void SaveLoadOptions(Json& meta) override {};
-	void LoadLoadOptions(Json& meta) override {};
+	void SaveLoadOptions(Json& meta) override{};
+	void LoadLoadOptions(Json& meta) override{};
 
 	void LoadVBO();
 	void CreateVAO();

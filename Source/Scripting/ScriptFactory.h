@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ObjectFactorySystem/ObjectFactorySystem.h"
-#include <vector>
 
 class IScript;
 struct IRuntimeObjectSystem;
@@ -27,10 +26,11 @@ public:
 	bool IsCompiling();
 	bool IsCompiled();
 	std::vector<const char*> GetConstructors();
+
 private:
 	void IncludeDirs();
 
-	//Runtime Systems
+	// Runtime Systems
 	ICompilerLogger* pCompilerLogger;
 	IRuntimeObjectSystem* pRuntimeObjectSystem;
 

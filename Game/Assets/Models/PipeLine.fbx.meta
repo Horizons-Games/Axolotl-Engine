@@ -1,0 +1,11 @@
+{
+    "UID": 3570809297286856633,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/PipeLine.Cylinder.002_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/PipeLineDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

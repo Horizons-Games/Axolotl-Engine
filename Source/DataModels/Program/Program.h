@@ -1,14 +1,15 @@
 #pragma once
 
-#include "Math/float3.h"
-#include "Math/float4.h"
 #include "GL/glew.h"
 
 class Program
 {
 public:
-	Program(unsigned vertexShader, unsigned fragmentShader,
-		const std::string& vtxShaderFileName, const std::string& frgShaderFileName, const std::string& programName);
+	Program(unsigned vertexShader,
+			unsigned fragmentShader,
+			const std::string& vtxShaderFileName,
+			const std::string& frgShaderFileName,
+			const std::string& programName);
 	~Program();
 
 	void Activate();
@@ -45,7 +46,7 @@ private:
 
 inline bool Program::IsValidProgram() const
 {
-	return id !=0;
+	return id != 0;
 }
 
 inline const std::string& Program::GetFragementShaderFileName() const
@@ -90,8 +91,7 @@ inline void Program::BindUniformFloat4x4(const int location, const float* data, 
 
 inline void Program::BindUniformFloat3(const std::string& name, const float3& data)
 {
-	glUniform3f(glGetUniformLocation(id, name.c_str()),
-		data.x, data.y, data.z);
+	glUniform3f(glGetUniformLocation(id, name.c_str()), data.x, data.y, data.z);
 }
 
 inline void Program::BindUniformFloat3(const int location, const float3& data)
@@ -101,8 +101,7 @@ inline void Program::BindUniformFloat3(const int location, const float3& data)
 
 inline void Program::BindUniformFloat4(const std::string& name, const float4& data)
 {
-	glUniform4f(glGetUniformLocation(id, name.c_str()),
-		data.x, data.y, data.z, data.w);
+	glUniform4f(glGetUniformLocation(id, name.c_str()), data.x, data.y, data.z, data.w);
 }
 
 inline void Program::BindUniformFloat4(const int location, const float4& data)

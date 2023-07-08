@@ -1,0 +1,11 @@
+{
+    "UID": 4229512999923911369,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CANTINA_SpeakerCantina_V05.polySurface19_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CANTINA_SpeakerCantina_V05lambert1_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentMeshCollider.h"
 
 #include "Components/ComponentMeshCollider.h"
@@ -15,7 +17,7 @@ void WindowComponentMeshCollider::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
 
-	ImGui::Text(""); //used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
+	ImGui::Text(""); // used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
 
 	ComponentMeshCollider* asMeshCollider = static_cast<ComponentMeshCollider*>(component);
 
@@ -25,7 +27,8 @@ void WindowComponentMeshCollider::DrawWindowContents()
 
 		bool isTrigger = asMeshCollider->GetIsTrigger();
 
-		ImGui::Text("Is Trigger"); ImGui::SameLine();
+		ImGui::Text("Is Trigger");
+		ImGui::SameLine();
 		if (ImGui::Checkbox("##Is SetIsTrigger", &isTrigger))
 		{
 			asMeshCollider->SetIsTrigger(isTrigger);

@@ -1,13 +1,9 @@
 #pragma once
 #include "ComponentWindow.h"
 
-#include "Math/float3.h"
-#include "Math/float2.h"
-
 class ComponentTransform2D;
 
-class WindowComponentTransform2D :
-	public ComponentWindow
+class WindowComponentTransform2D : public ComponentWindow
 {
 public:
 	WindowComponentTransform2D(ComponentTransform2D* component);
@@ -18,7 +14,6 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-
 	void UpdateComponentTransform();
 	float3 currentTranslation;
 	float3 currentRotation;

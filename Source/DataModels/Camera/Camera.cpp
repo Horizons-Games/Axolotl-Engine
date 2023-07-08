@@ -1,34 +1,36 @@
+#include "StdAfx.h"
+
 #include "Camera.h"
 
 #include "Application.h"
-#include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
+#include "ModuleWindow.h"
 
 #include "Scene/Scene.h"
 
 #include "GameObject/GameObject.h"
 
-#include "Components/ComponentTransform.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentTransform.h"
 
 #include "Resources/ResourceMesh.h"
 
 #include "Windows/EditorWindows/WindowScene.h"
 
-#include "DataStructures/Quadtree.h"
-
 #include "Math/float3x3.h"
-#include "Math/Quat.h"
-#include "Geometry/Triangle.h"
 
-Camera::Camera(const CameraType type)
-	: type(type), mouseWarped(false), isUsingProportionalController(false), isFocusing(false), frustum(new Frustum())
+Camera::Camera(const CameraType type) :
+	type(type),
+	mouseWarped(false),
+	isUsingProportionalController(false),
+	isFocusing(false),
+	frustum(new Frustum())
 {
 }
 
-Camera::Camera(Camera& camera)
-	: type(type),
+Camera::Camera(Camera& camera) :
+	type(type),
 	position(camera.position),
 	rotation(camera.rotation),
 	projectionMatrix(camera.projectionMatrix),
@@ -59,8 +61,8 @@ Camera::Camera(Camera& camera)
 	}
 }
 
-Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
-	: type(type),
+Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type) :
+	type(type),
 	position(camera->position),
 	rotation(camera->rotation),
 	projectionMatrix(camera->projectionMatrix),
@@ -85,7 +87,7 @@ Camera::Camera(const std::unique_ptr<Camera>& camera, const CameraType type)
 	mouseState(camera->mouseState),
 	frustum(new Frustum(*camera->frustum))
 {
-	//frustum = std::make_unique <Frustum>();
+	// frustum = std::make_unique <Frustum>();
 	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
 		RecalculateOffsetPlanes();
@@ -115,7 +117,7 @@ bool Camera::Init()
 	frustumOffset = DEFAULT_FRUSTUM_OFFSET;
 
 	position = float3(0.f, 2.f, 5.f);
-	
+
 	frustum->SetPos(position);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
@@ -148,7 +150,6 @@ void Camera::ApplyRotation(const float3x3& rotationMatrix)
 	frustum->SetUp(rotationMatrix.MulDir(oldUp));
 
 	rotation = rotationMatrix.ToQuat();
-	
 }
 
 void Camera::ApplyRotation(const Quat& rotationQuat)
@@ -188,7 +189,6 @@ void Camera::ApplyRotationWithFixedUp(const Quat& rotationQuat, const float3& fi
 	rotation = rotationQuat;
 }
 
-
 void Camera::Run()
 {
 	acceleration = DEFAULT_SHIFT_ACCELERATION;
@@ -207,7 +207,7 @@ void Camera::KeyboardRotate()
 
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	if (input->GetKey(SDL_SCANCODE_UP) != KeyState::IDLE)
+	if ((*input)[SDL_SCANCODE_UP] != KeyState::IDLE)
 	{
 		if (rotationAngle + rotationSpeed * acceleration < 180)
 			pitch = math::DegToRad(-DEFAULT_ROTATION_DEGREE);
@@ -244,7 +244,7 @@ void Camera::FreeLook()
 	float mouseSpeedPercentage = 0.05f;
 	float xrel = -input->GetMouseMotion().x * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
 	float yrel = -input->GetMouseMotion().y * (rotationSpeed * mouseSpeedPercentage) * deltaTime;
-	
+
 	Quat rotationX = Quat::RotateAxisAngle(float3::unitY, xrel);
 	Quat rotationY = Quat::RotateAxisAngle(frustum->WorldRight().Normalized(), yrel);
 	Quat combinedRotation = rotationY * rotationX;
@@ -279,7 +279,8 @@ bool Camera::IsInside(const AABB& aabb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+			return false;
 	}
 
 	return true;
@@ -287,11 +288,11 @@ bool Camera::IsInside(const AABB& aabb)
 
 bool Camera::IsInside(const OBB& obb)
 {
-	if (frustumMode == EFrustumMode::noFrustum) 
+	if (frustumMode == EFrustumMode::noFrustum)
 	{
 		return false;
-	} 
-	if (frustumMode == EFrustumMode::offsetFrustum) 
+	}
+	if (frustumMode == EFrustumMode::offsetFrustum)
 	{
 		return IsInsideOffset(obb);
 	}
@@ -312,7 +313,8 @@ bool Camera::IsInside(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+			return false;
 	}
 
 	return true;
@@ -334,7 +336,8 @@ bool Camera::IsInsideOffset(const OBB& obb)
 				break;
 			}
 		}
-		if (!onPlane) return false;
+		if (!onPlane)
+			return false;
 	}
 
 	return true;
@@ -351,7 +354,6 @@ void Camera::RecalculateOffsetPlanes()
 		plane.Translate(-frustumPlanes[itPlanes].normal * frustumOffset);
 		offsetFrustumPlanes[itPlanes] = plane;
 	}
-
 }
 
 void Camera::SetHFOV(float fov)
@@ -391,7 +393,7 @@ void Camera::SetNewSelectedGameObject(GameObject* gameObject)
 	if (gameObject != nullptr)
 	{
 		ModuleScene* scene = App->GetModule<ModuleScene>();
-		scene->ChangeSelectedGameObject(gameObject);
+		scene->SetSelectedGameObject(gameObject);
 		scene->GetSelectedGameObject()->SetStateOfSelection(StateOfSelection::SELECTED);
 	}
 }

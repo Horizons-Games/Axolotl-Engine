@@ -1,56 +1,62 @@
+#include "StdAfx.h"
+
 #include "ModuleEditor.h"
 
+#include "Defines/GlslDefines.h"
+
 #include "Application.h"
-#include "ModuleWindow.h"
+#include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
-#include "ModuleInput.h"
+#include "ModuleWindow.h"
 
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include "FileSystem/Json.h"
 
-#include "Windows/WindowMainMenu.h"
-#include "Windows/WindowDebug.h"
 #include "Windows/EditorWindows/WindowStateMachineEditor.h"
+#include "Windows/PopUpWindows/WindowLoading.h"
+#include "Windows/WindowDebug.h"
+#include "Windows/WindowMainMenu.h"
 #ifdef ENGINE
-#include "Windows/EditorWindows/WindowConsole.h"
-#include "Windows/EditorWindows/WindowScene.h"
-#include "Windows/EditorWindows/WindowConfiguration.h"
-#include "Windows/EditorWindows/WindowInspector.h"
-#include "Windows/EditorWindows/WindowHierarchy.h"
-#include "Windows/EditorWindows/WindowEditorControl.h"
-#include "Windows/EditorWindows/WindowResources.h"
-#include "Windows/EditorWindows/WindowAssetFolder.h"
-#include "Resources/ResourceStateMachine.h"
+	#include "Auxiliar/GameBuilder.h"
+	#include "Resources/ResourceStateMachine.h"
+	#include "Windows/EditorWindows/WindowAssetFolder.h"
+	#include "Windows/EditorWindows/WindowConfiguration.h"
+	#include "Windows/EditorWindows/WindowConsole.h"
+	#include "Windows/EditorWindows/WindowEditorControl.h"
+	#include "Windows/EditorWindows/WindowHierarchy.h"
+	#include "Windows/EditorWindows/WindowInspector.h"
+	#include "Windows/EditorWindows/WindowResources.h"
+	#include "Windows/EditorWindows/WindowScene.h"
 #else
-#include "Windows/EditorWindows/EditorWindow.h"
+	#include "Windows/EditorWindows/EditorWindow.h"
 #endif
 
 #ifdef DEBUG
-#include "optick.h"
+	#include "optick.h"
 #endif // DEBUG
 
-#include <ImGui/imgui_internal.h>
-#include <ImGui/imgui_impl_sdl.h>
-#include <ImGui/imgui_impl_opengl3.h>
 #include <ImGui/ImGuizmo.h>
+#include <ImGui/imgui_impl_opengl3.h>
+#include <ImGui/imgui_impl_sdl.h>
+#include <ImGui/imgui_internal.h>
 
 #include <FontIcons/CustomFont.cpp>
 
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
-ModuleEditor::ModuleEditor() : 
-	mainMenu(nullptr), 
-	scene(nullptr), 
-	stateMachineWindowEnable(true),
+ModuleEditor::ModuleEditor() :
+	mainMenu(nullptr),
+	scene(nullptr),
+	stateMachineWindowEnable(false),
 	stateMachineEditor(nullptr)
 {
 }
 
-ModuleEditor::~ModuleEditor() 
+ModuleEditor::~ModuleEditor()
 {
 }
 
@@ -59,20 +65,22 @@ bool ModuleEditor::Init()
 	ImGui::CreateContext();
 
 	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;     // Prevent mouse flickering
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	// Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;	// Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // Prevent mouse flickering
 
 	io.Fonts->AddFontDefault();
 	static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
-	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+	ImFontConfig icons_config;
+	icons_config.MergeMode = true;
+	icons_config.PixelSnapH = true;
 	io.Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
 
 #ifdef ENGINE
 	rapidjson::Document doc;
 	Json json(doc, doc);
-	
+
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
 	windows.push_back(std::make_unique<WindowResources>());
@@ -81,10 +89,11 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	
-	std::string buffer = StateWindows();
-	if(buffer.empty())
-	{		
+
+	char* buffer = StateWindows();
+
+	if (buffer == nullptr)
+	{
 		rapidjson::StringBuffer newBuffer;
 		for (const std::unique_ptr<EditorWindow>& window : windows)
 		{
@@ -94,16 +103,17 @@ bool ModuleEditor::Init()
 	}
 	else
 	{
-		char* bufferPointer = buffer.data();
-		json.fromBuffer(bufferPointer);
+		json.fromBuffer(buffer);
 
 		auto windowNameNotInJson = [&json](const std::string& windowName)
 		{
 			std::vector<const char*> namesInJson = json.GetVectorNames();
-			return std::none_of(std::begin(namesInJson), std::end(namesInJson), [&windowName](const char* name)
-				{
-					return windowName == name;
-				});
+			return std::none_of(std::begin(namesInJson),
+								std::end(namesInJson),
+								[&windowName](const char* name)
+								{
+									return windowName == name;
+								});
 		};
 
 		for (const std::unique_ptr<EditorWindow>& window : windows)
@@ -114,9 +124,13 @@ bool ModuleEditor::Init()
 			}
 		}
 	}
-	
+
+	delete buffer;
+
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
+	buildGameLoading = std::make_unique<WindowLoading>();
+
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
 	debugOptions = std::make_unique<WindowDebug>();
@@ -137,15 +151,16 @@ bool ModuleEditor::CleanUp()
 {
 #ifdef ENGINE
 	rapidjson::Document doc;
-	Json json(doc, doc);	
-	
-	for (int i = 0; i < windows.size(); ++i) 
+	Json json(doc, doc);
+
+	for (int i = 0; i < windows.size(); ++i)
 	{
-		json[windows[i].get()->GetName().c_str()] = mainMenu.get()->IsWindowEnabled(i);				
+		json[windows[i].get()->GetName().c_str()] = mainMenu.get()->IsWindowEnabled(i);
 	}
 	rapidjson::StringBuffer buffer;
-	json.toBuffer(buffer);	
-	App->GetModule<ModuleFileSystem>()->Save(set.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+	json.toBuffer(buffer);
+	App->GetModule<ModuleFileSystem>()->Save(set.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+	builder::Terminate();
 #endif
 
 	ImGui_ImplOpenGL3_Shutdown();
@@ -155,7 +170,7 @@ bool ModuleEditor::CleanUp()
 	return true;
 }
 
-update_status ModuleEditor::PreUpdate()
+UpdateStatus ModuleEditor::PreUpdate()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->GetModule<ModuleWindow>()->GetWindow());
@@ -165,26 +180,27 @@ update_status ModuleEditor::PreUpdate()
 	ImGuizmo::BeginFrame();
 	ImGuizmo::Enable(true);
 #endif
-	
-	return update_status::UPDATE_CONTINUE;
+
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::Update()
+UpdateStatus ModuleEditor::Update()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateEditor", Optick::Category::UI);
 #endif // DEBUG
 
 #ifdef ENGINE
-	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+	ModuleInput* input = App->GetModule<ModuleInput>();
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
 
 	ImGuiWindowFlags dockSpaceWindowFlags = 0;
-	dockSpaceWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | 
-		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking;
+	dockSpaceWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+							ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking;
 	dockSpaceWindowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
@@ -209,7 +225,9 @@ update_status ModuleEditor::Update()
 		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
 		ImGui::DockBuilderDockWindow("Console", dockIdDown);
 		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
+		ImGui::DockBuilderDockWindow("State Machine Editor", dockIdDown);
 		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
+		ImGui::DockBuilderDockWindow("Resources", dockIdRight);
 		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
 		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
 		ImGui::DockBuilderDockWindow("Hierarchy", dockIdLeft);
@@ -219,11 +237,15 @@ update_status ModuleEditor::Update()
 
 	ImGui::End();
 
-	//disable ALT key triggering nav menu
+	// disable ALT key triggering nav menu
 	ImGui::GetCurrentContext()->NavWindowingToggleLayer = false;
 
 	mainMenu->Draw();
-	for (int i = 0; i < windows.size(); ++i) {
+
+	DrawLoadingBuild();
+
+	for (int i = 0; i < windows.size(); ++i)
+	{
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
 		windows[i]->Draw(windowEnabled);
 		mainMenu->SetWindowEnabled(i, windowEnabled);
@@ -233,10 +255,32 @@ update_status ModuleEditor::Update()
 	debugOptions->Draw();
 #endif
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-update_status ModuleEditor::PostUpdate()
+void ModuleEditor::DrawLoadingBuild()
+{
+#ifdef ENGINE
+	bool gameCompiling = builder::Compiling();
+	bool zipping = builder::Zipping();
+	bool gameBuilding = gameCompiling || zipping;
+	if (gameCompiling)
+	{
+		buildGameLoading->AddWaitingOn("Game is being compiled...");
+	}
+	if (zipping)
+	{
+		buildGameLoading->AddWaitingOn("Binaries are being zipped...");
+	}
+	buildGameLoading->Draw(gameBuilding);
+	if (gameBuilding)
+	{
+		buildGameLoading->ResetWaitingOn();
+	}
+#endif
+}
+
+UpdateStatus ModuleEditor::PostUpdate()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -253,7 +297,7 @@ update_status ModuleEditor::PostUpdate()
 		SDL_GL_MakeCurrent(backupCurrentWindow, backupCurrentContext);
 	}
 
-	return update_status::UPDATE_CONTINUE;
+	return UpdateStatus::UPDATE_CONTINUE;
 }
 
 void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)
@@ -292,7 +336,6 @@ void ModuleEditor::RefreshInspector() const
 #ifdef ENGINE
 	inspector->ResetSelectedGameObject();
 #endif // ENGINE
-
 }
 
 std::pair<float, float> ModuleEditor::GetAvailableRegion()
@@ -304,25 +347,28 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	return App->GetModule<ModuleWindow>()->GetWindowSize();
 #endif
 }
-std::string ModuleEditor::StateWindows()
+
+char* ModuleEditor::StateWindows()
 {
-	if (App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str()))
-	{		
-		if (App->GetModule<ModuleFileSystem>()->Exists(set.c_str()))
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	if (fileSystem->Exists(settingsFolder.c_str()))
+	{
+		if (fileSystem->Exists(set.c_str()))
 		{
 			char* binaryBuffer = {};
-			App->GetModule<ModuleFileSystem>()->Load(set.c_str(), binaryBuffer);
-			return std::string(binaryBuffer);
+			fileSystem->Load(set.c_str(), binaryBuffer);
+			return binaryBuffer;
 		}
 	}
-	return std::string();
+	return nullptr;
 }
 
 void ModuleEditor::CreateFolderSettings()
 {
-	bool settingsFolderNotCreated = !App->GetModule<ModuleFileSystem>()->Exists(settingsFolder.c_str());
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	bool settingsFolderNotCreated = !fileSystem->Exists(settingsFolder.c_str());
 	if (settingsFolderNotCreated)
 	{
-		App->GetModule<ModuleFileSystem>()->CreateDirectory(settingsFolder.c_str());
+		fileSystem->CreateDirectory(settingsFolder.c_str());
 	}
 }

@@ -1,10 +1,6 @@
 #pragma once
 
-#include "Math/Quat.h"
-#include "Math/float3.h"
-
-#include <memory>
-
+struct State;
 class ResourceAnimation;
 
 class AnimationController
@@ -13,9 +9,9 @@ public:
 	AnimationController();
 	~AnimationController();
 
-	void Play(const std::shared_ptr<ResourceAnimation>& resource, bool loop);
+	void Play(State* resource, bool loop);
 	void Stop();
-	
+
 	void Update();
 
 	bool GetTransform(const std::string& name, float3& pos, Quat& rot);
@@ -29,6 +25,7 @@ private:
 	float currentTime;
 	bool isLooping;
 	bool isPlaying;
+	const State* stateResource;
 	std::shared_ptr<ResourceAnimation> resource;
 };
 

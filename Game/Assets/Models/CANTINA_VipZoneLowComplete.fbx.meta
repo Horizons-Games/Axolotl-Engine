@@ -1,0 +1,11 @@
+{
+    "UID": 1790358727640538199,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/CANTINA_VipZoneLowComplete.Cube.023_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CANTINA_VipZoneLowCompleteMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

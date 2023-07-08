@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{FE576376-BB94-4EB1-84EF-142998372586}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}">
+	<Events>
+		<WorkUnit Name="NPCsCantina" ID="{FE576376-BB94-4EB1-84EF-142998372586}" OwnerID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="sfx_drunkNPC_sound_random" ID="{B11FB7B5-CD3C-4B7E-8C8F-69AD442DBB14}">
+					<ChildrenList>
+						<Action Name="" ID="{57BC892E-236F-4631-9953-A8D47D29003E}" ShortID="750639741">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_drunkNPC_sound" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" WorkUnitID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

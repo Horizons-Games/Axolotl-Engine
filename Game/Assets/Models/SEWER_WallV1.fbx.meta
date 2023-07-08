@@ -1,0 +1,11 @@
+{
+    "UID": 9473102802293067893,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/SEWER_WallV1.Cube.012_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/SEWER_WallV1DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,5 +1,7 @@
 #include "DefaultScript.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(DefaultScript);
 
 DefaultScript::DefaultScript() : Script(), value(10), vecStr{"Esto", "es un", "vector string", "de prueba"},
@@ -20,16 +22,16 @@ sentence("Horizons"), character(nullptr), check(true)
 
 void DefaultScript::Update(float deltaTime)
 {
-	ENGINE_LOG("%f", value);
-	ENGINE_LOG("%f %f %f ", fl3[2], fl3[1], fl3[0]);
-	ENGINE_LOG("%s", sentence.c_str());
+	LOG_DEBUG("{}", value);
+	LOG_DEBUG("{} {} {} ", fl3[2], fl3[1], fl3[0]);
+	LOG_DEBUG("{}", sentence.c_str());
 
 	if (character != nullptr)
 	{
-		ENGINE_LOG("%s", character->GetName().c_str())
+		LOG_DEBUG("{}", character);
 	}
 
-	ENGINE_LOG("%s", std::to_string(check).c_str());
+	LOG_DEBUG("{}", check);
 }
 
 //Float3
@@ -102,6 +104,5 @@ GameObject* DefaultScript::GetCharacter() const
 
 void DefaultScript::SetCharacter(GameObject* character)
 {
-	ENGINE_LOG("My Character has been changed!");
 	this->character = character;
 }

@@ -3,9 +3,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 
-#include <string>
-#include <vector>
-class Json 
+class Json
 {
 public:
 	Json(rapidjson::Document& document, rapidjson::Value& value);
@@ -17,7 +15,8 @@ public:
 	void toBuffer(rapidjson::StringBuffer& buffer);
 	std::vector<const char*> GetVectorNames();
 
-	template<typename T> Json operator[](const T* key) const;
+	template<typename T>
+	Json operator[](const T* key) const;
 	Json operator[](const unsigned index) const;
 
 	operator bool() const;
@@ -43,7 +42,8 @@ private:
 	rapidjson::Value& value;
 };
 
-inline unsigned int Json::Size() const {
+inline unsigned int Json::Size() const
+{
 	return value.IsArray() ? value.Size() : 0;
 }
 
@@ -84,7 +84,7 @@ inline Json::operator double() const
 
 inline Json::operator std::string() const
 {
-	return value.IsString() ? value.GetString() : "";
+	return value.IsString() ? value.GetString() : std::string();
 }
 
 template<typename T>

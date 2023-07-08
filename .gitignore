@@ -444,3 +444,4 @@ FodyWeavers.xsd
 imgui.ini
 Game/Lib/*
 Game/Settings/**
+*.conf
