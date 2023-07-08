@@ -14,6 +14,7 @@ protected:
 
 private:
 	bool DrawRecursiveHierarchy(GameObject* gameObject);
+	void ProcessInput();
 
 	void Create2DObjectMenu(GameObject* gameObject);
 

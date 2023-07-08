@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentCubemap.h"
 #include "Components/ComponentCubemap.h"
 #include "ModuleScene.h"
@@ -6,7 +8,7 @@
 #include "Cubemap/Cubemap.h"
 
 
-WindowComponentCubemap::WindowComponentCubemap(ComponentCubemap* component) : ComponentWindow("Cube Map", component)
+WindowComponentCubemap::WindowComponentCubemap(ComponentCubemap* component) : ComponentWindow("CUBEMAP", component)
 {
 }
 

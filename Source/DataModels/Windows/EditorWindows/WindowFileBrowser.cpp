@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowFileBrowser.h"
 
 #include "Application.h"
@@ -183,7 +185,7 @@ void WindowFileBrowser::ImportResourceWithLoadingWindow()
 	{
 		isLoading = false;
 		timer->Stop();
-		ENGINE_LOG("Resource loaded succesfully");
+		LOG_VERBOSE("Resource loaded succesfully");
 	}
 }
 
@@ -193,7 +195,7 @@ void WindowFileBrowser::ImportResourceAsync(const std::string& filePath)
 
 	timer = std::make_unique<Timer>();
 	timer->Start();
-	ENGINE_LOG("Started loading resource");
+	LOG_VERBOSE("Started loading resource");
 }
 
 void WindowFileBrowser::GetResourceAfterImport()

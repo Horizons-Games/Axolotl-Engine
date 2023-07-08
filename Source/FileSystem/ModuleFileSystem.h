@@ -15,10 +15,10 @@ public:
 
 	void CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath);
 	unsigned int Load(const std::string& filePath, char*& buffer) const;
-	unsigned int Save(const std::string& filePath, const void* buffer, unsigned int size, bool append = false) const;
+	unsigned int Save(const std::string& filePath, const void* buffer, size_t size, bool append = false) const;
 	bool Copy(const std::string& sourceFilePath, const std::string& destinationFilePath) const;
 	bool CopyFromOutside(const std::string& sourceFilePath, const std::string& destinationFilePath) const;
-	bool Delete(const char* filePath);
+	bool Delete(const char* filePath) const;
 	bool Exists(const char* filePath) const;
 	bool IsDirectory(const char* directoryPath) const;
 	bool CreateDirectory(const char* directoryPath) const;
@@ -38,20 +38,13 @@ public:
 	void AppendToZipFolder(const std::string& zipPath,
 						   const std::string& newFileName,
 						   const void* buffer,
-						   unsigned int size,
+						   size_t size,
 						   bool overwriteIfExists) const;
 	void AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const;
 
 private:
 	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
 };
-
-inline bool ModuleFileSystem::CleanUp()
-{
-	// returns non-zero on success, zero on failure
-	int deinitResult = PHYSFS_deinit();
-	return deinitResult != 0;
-}
 
 inline bool ModuleFileSystem::Exists(const char* filePath) const
 {

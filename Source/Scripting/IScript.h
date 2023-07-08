@@ -8,7 +8,6 @@
 #include "Enums/FieldType.h"
 
 #include "Math/float3.h"
-
 #include <optional>
 #include <variant>
 
@@ -89,6 +88,23 @@ inline std::optional<Field<T>> IScript::GetField(const std::string& name) const
 	return std::nullopt;
 }
 
+template<>
+inline std::optional<Field<std::vector<std::any>>> IScript::GetField(const std::string& name) const
+{
+	for (const TypeFieldPair& enumAndType : members)
+	{
+		if (FieldType::VECTOR== enumAndType.first)
+		{
+			VectorField field = std::get<VectorField>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
+		}
+	}
+	return std::nullopt;
+}
+
 inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 {
 	SERIALIZE(owner);
@@ -106,14 +122,14 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 				break;
 			}
 
-			case FieldType::VECTOR3:
-			{
-				Field<float3> field = std::get<Field<float3>>(enumAndField.second);
-				float3 value = field.getter();
-				pSerializer->SerializeProperty(field.name.c_str(), value);
-				field.setter(value);
-				break;
-			}
+		case FieldType::FLOAT3:
+		{
+			Field<float3> field = std::get<Field<float3>>(enumAndField.second);
+			float3 value = field.getter();
+			pSerializer->SerializeProperty(field.name.c_str(), value);
+			field.setter(value);
+			break;
+		}
 
 			case FieldType::VECTOR:
 			{

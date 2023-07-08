@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ComponentPointLight.h"
 #include "ComponentTransform.h"
 
@@ -48,6 +50,7 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 ComponentPointLight::~ComponentPointLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateScenePointLights();
@@ -57,62 +60,50 @@ ComponentPointLight::~ComponentPointLight()
 
 void ComponentPointLight::Draw() const
 {
-#ifndef ENGINE
-	if (!App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight())
+	bool canDrawLight =
+#ifdef ENGINE
+		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+#else
+		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight();
+#endif // ENGINE
+
+	if (!canDrawLight)
 	{
 		return;
 	}
-	if (IsEnabled())
-	{
-		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-		float3 position = transform->GetGlobalPosition();
+	float3 position = transform->GetGlobalPosition();
 
-		dd::sphere(position, dd::colors::White, radius);
-	}
-#else
-	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
-	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
-		float3 position = transform->GetGlobalPosition();
-
-		dd::sphere(position, dd::colors::White, radius);
-	}
-#endif // ENGINE
+	dd::sphere(position, dd::colors::White, radius);
 }
 
-void ComponentPointLight::Enable()
+void ComponentPointLight::OnTransformChanged()
 {
-	Component::Enable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
+
+	currentScene->UpdateScenePointLight(this);
+	currentScene->RenderPointLight(this);
 }
 
-void ComponentPointLight::Disable()
+void ComponentPointLight::SignalEnable()
 {
-	Component::Disable();
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateScenePointLights();
-		currentScene->RenderPointLights();
-	}
+
+	currentScene->UpdateScenePointLights();
+	currentScene->RenderPointLights();
 }
 
-void ComponentPointLight::SaveOptions(Json& meta)
+void ComponentPointLight::SignalDisable()
 {
-	// Do not delete these
-	meta["type"] = GetNameByType(type).c_str();
-	meta["active"] = (bool) active;
-	meta["removed"] = (bool) canBeRemoved;
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	
+	currentScene->UpdateScenePointLights();
+	currentScene->RenderPointLights();
+}
 
+void ComponentPointLight::InternalSave(Json& meta)
+{
 	meta["color_light_X"] = (float) color.x;
 	meta["color_light_Y"] = (float) color.y;
 	meta["color_light_Z"] = (float) color.z;
@@ -123,13 +114,8 @@ void ComponentPointLight::SaveOptions(Json& meta)
 	meta["radius"] = (float) radius;
 }
 
-void ComponentPointLight::LoadOptions(Json& meta)
+void ComponentPointLight::InternalLoad(const Json& meta)
 {
-	// Do not delete these
-	type = GetTypeByName(meta["type"]);
-	active = (bool) meta["active"];
-	canBeRemoved = (bool) meta["removed"];
-
 	color.x = (float) meta["color_light_X"];
 	color.y = (float) meta["color_light_Y"];
 	color.z = (float) meta["color_light_Z"];

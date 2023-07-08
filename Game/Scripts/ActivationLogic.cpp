@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "ActivationLogic.h"
 
 #include "Application.h"
@@ -32,8 +33,16 @@ void ActivationLogic::Start()
 {
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	componentRigidBody = owner->GetChildren()[1]->GetComponent<ComponentRigidBody>();
-	//Until the trigger works 100% of the time better cross a closed door than be closed forever
+	componentRigidBody = nullptr;
+	for (GameObject* child : owner->GetChildren())
+	{
+		componentRigidBody = child->GetComponent<ComponentRigidBody>();
+		if (componentRigidBody != nullptr)
+		{
+			break;
+		}
+	}
+	assert(componentRigidBody);
 	componentRigidBody->Disable();
 }
 

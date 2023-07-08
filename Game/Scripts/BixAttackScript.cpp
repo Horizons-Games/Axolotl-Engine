@@ -13,38 +13,32 @@
 #include "Components/ComponentScript.h"
 
 #include "../Scripts/HealthSystem.h"
-
-#include "HealthSystem.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 #include "GameObject/GameObject.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "Geometry/Ray.h"
+#include "../MathGeoLib/Include/Geometry/Ray.h"
 
 #include "debugdraw.h"
 
 #include <set>
 
+#include "AxoLog.h"
+
 REGISTERCLASS(BixAttackScript);
 
-namespace
-{
-	std::vector<Ray> rays;
-}
-
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), damageAttack(20.0f),
-transform(nullptr),
-//Provisional
-ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
-ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
-//--Provisional
-healthScript(nullptr)
+	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), transform(nullptr),
+	//Provisional
+	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
+	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
+	//--Provisional
+	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(rayAttackSize, float);
-	REGISTER_FIELD(damageAttack, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 
 	//Provisional
@@ -83,24 +77,11 @@ void BixAttackScript::Start()
 	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	//--Provisional
 
-	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
-
-	for (int i = 0; i < gameObjectScripts.size(); ++i)
-	{
-		if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-		{
-			healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-		}
-	}
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 }
 
 void BixAttackScript::Update(float deltaTime)
 {
-	if (healthScript && !healthScript->EntityIsAlive())
-	{
-		return;
-	}
-
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
@@ -121,31 +102,19 @@ void BixAttackScript::Update(float deltaTime)
 	}
 #endif // DEBUG
 
-	// Attack
-	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN)
-	{
-		PerformAttack();
-	}
+	CheckCombo();
 }
 
 void BixAttackScript::PerformAttack()
 {
-	if (isAttackAvailable())
-	{
-		if (animation)
-		{
-			animation->SetParameter("IsAttacking", true);
-		}
+	lastAttackTime = SDL_GetTicks() / 1000.0f;
 
-		lastAttackTime = SDL_GetTicks() / 1000.0f;
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
-
-		CheckCollision();
-	}
+	CheckCollision();
 }
 
-void BixAttackScript::CheckCollision()
+void BixAttackScript::CheckCollision() const
 {
 	//Provisional
 	std::set<UID> hitObjects;
@@ -157,26 +126,23 @@ void BixAttackScript::CheckCollision()
 		if (Physics::Raycast(line, hit, transform->GetOwner()))
 		{
 			playSFX = true;
-			if (hit.gameObject->GetRootGO())
+			if (hit.gameObject->GetRootGO() && hit.gameObject->GetRootGO()->CompareTag("Enemy"))
 			{
-				if (hit.gameObject->GetRootGO()->CompareTag("Enemy"))
+				if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
 				{
-					if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
+					// insertion could take place -> element not hit yet
+					// get component health and do damage
+					HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
+					float damageAttack = playerManager->GetPlayerAttack();
+					if (!isDeathTouched)
 					{
-						// insertion could take place -> element not hit yet
-						//get component health and do damage
-						std::vector<ComponentScript*> gameObjectScripts =
-							hit.gameObject->GetRootGO()->GetComponents<ComponentScript>();
-
-						for (int i = 0; i < gameObjectScripts.size(); ++i)
-						{
-							if (gameObjectScripts[i]->GetConstructName() == "HealthSystem")
-							{
-								HealthSystem* healthScript = static_cast<HealthSystem*>(gameObjectScripts[i]->GetScript());
-								healthScript->TakeDamage(damageAttack);
-							}
-						}
+						healthScript->TakeDamage(damageAttack);
 					}
+					else
+					{
+						healthScript->TakeDamage(healthScript->GetMaxHealth());
+					}
+					
 				}
 			}
 		}
@@ -189,7 +155,75 @@ void BixAttackScript::CheckCollision()
 	//--Provisional
 }
 
-bool BixAttackScript::isAttackAvailable()
+bool BixAttackScript::IsAttackAvailable() const
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+}
+
+void BixAttackScript::CheckCombo()
+{
+	// Attack, starting the combo
+	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN && IsAttackAvailable())
+	{
+		//LOG_VERBOSE("Pressing left mouse button");
+
+		if (animation && attackComboPhase == AttackCombo::IDLE)
+		{
+			attackComboPhase = AttackCombo::FIRST_ATTACK;
+			animation->SetParameter("IsAttacking", true);
+
+			PerformAttack();
+		}
+	}
+
+	// Attack, continue the combo
+	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::REPEAT && IsAttackAvailable())
+	{
+		//LOG_VERBOSE("KEEP Pressing left mouse button");
+
+		if (animation && attackComboPhase == AttackCombo::FIRST_ATTACK)
+		{
+			attackComboPhase = AttackCombo::SECOND_ATTACK;
+			animation->SetParameter("IsAttacking_2", true);
+
+			PerformAttack();
+		}
+
+		else if (animation && attackComboPhase == AttackCombo::SECOND_ATTACK)
+		{
+			attackComboPhase = AttackCombo::THIRD_ATTACK;
+			animation->SetParameter("IsAttacking_3", true);
+
+			PerformAttack();
+		}
+
+		else if (animation && attackComboPhase == AttackCombo::THIRD_ATTACK)
+		{
+			attackComboPhase = AttackCombo::IDLE;
+			animation->SetParameter("IsAttacking", false);
+
+			PerformAttack();
+		}
+	}
+
+	// If attack could be performed but no button pressed, lose the combo streak
+	else if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE && IsAttackAvailable())
+	{
+		//LOG_VERBOSE("NOT pressing left mouse button");
+
+		attackComboPhase = AttackCombo::IDLE;
+		animation->SetParameter("IsAttacking", false);
+		animation->SetParameter("IsAttacking_2", false);
+		animation->SetParameter("IsAttacking_3", false);
+	}
+}
+
+bool BixAttackScript::GetIsDeathTouched() const
+{
+	return isDeathTouched;
+}
+
+void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
+{
+	this->isDeathTouched = isDeathTouched;
 }

@@ -17,15 +17,15 @@
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "UIGameStates.h"
+#include "UIGameManager.h"
 #include "HealthSystem.h"
 #include "Components/ComponentScript.h"
 
 REGISTERCLASS(UITrigger);
 
 UITrigger::UITrigger() : Script(),componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setGameStateObject(nullptr),
-uiGameStatesClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false),
-playerHealthSystem(nullptr), setPlayer(nullptr)
+UIGameManagerClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
+playerHealthSystem(nullptr), setPlayer(nullptr), onTriggerState(false), damageTaken(1)
 {
 	REGISTER_FIELD(isWinTrigger, bool);
 	REGISTER_FIELD(isLoseTrigger, bool);
@@ -33,6 +33,7 @@ playerHealthSystem(nullptr), setPlayer(nullptr)
 	REGISTER_FIELD(isLoseByDamage, bool);
 	REGISTER_FIELD(setGameStateObject, GameObject*);
 	REGISTER_FIELD(setPlayer, GameObject*);
+	REGISTER_FIELD(damageTaken, float);
 }
 
 UITrigger::~UITrigger()
@@ -47,10 +48,10 @@ void UITrigger::Start()
 
 	if (setGameStateObject != nullptr)
 	{
-		uiGameStatesClass = setGameStateObject->GetComponent<UIGameStates>();
+		UIGameManagerClass = setGameStateObject->GetComponent<UIGameManager>();
 	}
 
-	if (isLoseByDamage != false)
+	if (isLoseByDamage)
 	{
 		playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
 	}
@@ -58,31 +59,46 @@ void UITrigger::Start()
 
 void UITrigger::Update(float deltaTime)
 {
+	if(onTriggerState)
+	{
+		if (isWinTrigger)
+		{
+			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_WinScene_VS3.axolotl");
 
+		}
+		else if (isLoseTrigger)
+		{
+
+		}
+		else if (isLoseByDamage)
+		{
+			damageTimer += deltaTime;
+			if (damageTimer >= timer)
+			{
+				timer++;
+				playerHealthSystem->TakeDamage(damageTaken);
+			}
+			//UIGameManagerClass->LoseStateScene(true);
+		}
+		else if (isNextSceneTrigger)
+		{
+			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_Level2_VS3.axolotl");
+		}
+	}
 }
 
 void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->GetComponent<ComponentPlayer>())
 	{
-		if (isWinTrigger == true)
-		{
-			uiGameStatesClass->WinStateScene(true);
-		}
-		
-		if (isLoseTrigger == true)
-		{
-			uiGameStatesClass->LoseStateScene(true);
-		}
-		if (isLoseByDamage == true)
-		{
-			playerHealthSystem->TakeDamage(100);
-			//uiGameStatesClass->LoseStateScene(true);
-		}
+		onTriggerState = true;
 	}
 }
 
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-
+	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	{
+		onTriggerState = false;
+	}
 }

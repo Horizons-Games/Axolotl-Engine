@@ -1,9 +1,8 @@
+#include "StdAfx.h"
+
 #include "ModuleFileSystem.h"
 #include "physfs.h"
 #include "zip.h"
-#ifndef ENGINE
-	#include <assert.h>
-#endif
 
 ModuleFileSystem::ModuleFileSystem()
 {
@@ -20,6 +19,7 @@ bool ModuleFileSystem::Init()
 #ifdef ENGINE
 	PHYSFS_mount("..", nullptr, 0);
 	PHYSFS_setWriteDir(".");
+	logContext->StartWritingToFile();
 #else  // ENGINE
 	if (!Exists("Assets.zip"))
 	{
@@ -30,6 +30,16 @@ bool ModuleFileSystem::Init()
 	PHYSFS_unmount(".");
 #endif // GAME
 	return true;
+}
+
+bool ModuleFileSystem::CleanUp()
+{
+#ifdef ENGINE
+	logContext->StopWritingToFile();
+#endif // ENGINE
+	// returns non-zero on success, zero on failure
+	int deinitResult = PHYSFS_deinit();
+	return deinitResult != 0;
 }
 
 void ModuleFileSystem::CopyFileInAssets(const std::string& originalPath, const std::string& assetsPath)
@@ -76,11 +86,11 @@ bool ModuleFileSystem::Copy(const std::string& sourceFilePath, const std::string
 	return true;
 }
 
-bool ModuleFileSystem::Delete(const char* filePath)
+bool ModuleFileSystem::Delete(const char* filePath) const
 {
 	if (!PHYSFS_delete(filePath))
 	{
-		ENGINE_LOG("Physfs has error : %s when try to delete %s", PHYSFS_getLastError(), filePath);
+		LOG_ERROR("Physfs has error {{}} when try to delete {}", PHYSFS_getLastError(), filePath);
 		return false;
 	}
 	return true;
@@ -89,19 +99,19 @@ bool ModuleFileSystem::Delete(const char* filePath)
 unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) const
 {
 	PHYSFS_File* file = PHYSFS_openRead(filePath.c_str());
-	if (file == NULL)
+	if (file == nullptr)
 	{
-		ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), filePath);
+		LOG_ERROR("Physfs has error {{}} when try to open {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
-		return -1;
+		return 0;
 	}
 	PHYSFS_sint64 size = PHYSFS_fileLength(file);
 	buffer = new char[size + 1]{};
 	if (PHYSFS_readBytes(file, buffer, size) < size)
 	{
-		ENGINE_LOG("Physfs has error : %s when try to open %s", PHYSFS_getLastError(), file);
+		LOG_ERROR("Physfs has error {{}} when try to open {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
-		return -1;
+		return 0;
 	}
 	PHYSFS_close(file);
 	return (unsigned int) size;
@@ -109,19 +119,19 @@ unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) 
 
 unsigned int ModuleFileSystem::Save(const std::string& filePath,
 									const void* buffer,
-									unsigned int size,
+									size_t size,
 									bool append /*= false*/) const
 {
 	PHYSFS_File* file = append ? PHYSFS_openAppend(filePath.c_str()) : PHYSFS_openWrite(filePath.c_str());
-	if (file == NULL)
+	if (file == nullptr)
 	{
-		ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
+		LOG_ERROR("Physfs has error {{}} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 1;
 	}
-	if (PHYSFS_writeBytes(file, buffer, size) < size)
+	if (PHYSFS_writeBytes(file, buffer, size) < static_cast<PHYSFS_sint64>(size))
 	{
-		ENGINE_LOG("Physfs has error : %s when try to save %s", PHYSFS_getLastError(), file);
+		LOG_ERROR("Physfs has error {{}} when try to save {}", PHYSFS_getLastError(), filePath);
 		PHYSFS_close(file);
 		return 1;
 	}
@@ -133,7 +143,7 @@ bool ModuleFileSystem::CreateDirectory(const char* directoryPath) const
 {
 	if (!PHYSFS_mkdir(directoryPath))
 	{
-		ENGINE_LOG("Physfs has error : %s when try to create %s", PHYSFS_getLastError(), directoryPath);
+		LOG_ERROR("Physfs has error {{}} when try to create {}", PHYSFS_getLastError(), directoryPath);
 		return false;
 	}
 	return true;
@@ -251,13 +261,14 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 										char*& fileBuffer,
 										unsigned int& size)
 {
-	unsigned int header[4] = { (unsigned int) pathTextures[0].size(),
+	unsigned int header[5] = { (unsigned int) pathTextures[0].size(),
 							   (unsigned int) pathTextures[1].size(),
 							   (unsigned int) pathTextures[2].size(),
-							   (unsigned int) pathTextures[3].size() };
+							   (unsigned int) pathTextures[3].size(),
+							   (unsigned int) pathTextures[4].size()};
 
 	size = (unsigned int) (sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + pathTextures[2].size() +
-						   pathTextures[3].size());
+						   pathTextures[3].size() + pathTextures[4].size());
 
 	char* cursor = new char[size]{};
 
@@ -285,6 +296,11 @@ void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathText
 
 	bytes = (unsigned int) pathTextures[3].size();
 	memcpy(cursor, pathTextures[3].c_str(), bytes);
+
+	cursor += bytes;
+
+	bytes = (unsigned int) pathTextures[4].size();
+	memcpy(cursor, pathTextures[4].c_str(), bytes);
 }
 
 void ModuleFileSystem::ZipFolder(zip_t* zip, const char* path) const
@@ -323,7 +339,7 @@ void ModuleFileSystem::ZipLibFolder() const
 void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath,
 										 const std::string& newFileName,
 										 const void* buffer,
-										 unsigned int size,
+										 size_t size,
 										 bool overwriteIfExists) const
 {
 	if (overwriteIfExists)

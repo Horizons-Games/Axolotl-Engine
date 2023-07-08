@@ -1,0 +1,15 @@
+{
+    "UID": 7177512993112170067,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Bottle1v2.Cube_0.mesh",
+        "Assets/Meshes/Bottle1v2.Cylinder_0.mesh",
+        "Assets/Meshes/Bottle1v2.Cylinder.008_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Bottle1v2Material_0.mat",
+        "Assets/Materials/Bottle1v2DefaultMaterial_0.mat",
+        "Assets/Materials/Bottle1v2DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

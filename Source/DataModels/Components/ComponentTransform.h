@@ -12,17 +12,15 @@
 class Json;
 class ComponentLight;
 
-class ComponentTransform : public Component, public Drawable
+class ComponentTransform : public Component
 {
 public:
 	ComponentTransform(const bool active, GameObject* owner);
 	ComponentTransform(const ComponentTransform& componentTransform);
 	~ComponentTransform() override;
 
-	void Draw() const override;
-
-	void SaveOptions(Json& meta) override;
-	void LoadOptions(Json& meta) override;
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	const float3& GetPosition() const;
 	const float3& GetGlobalPosition() const;
@@ -60,8 +58,7 @@ public:
 	void CalculateMatrices();
 	void RecalculateLocalMatrix();
 	const float4x4 CalculatePaletteGlobalMatrix();
-	void UpdateTransformMatrices();
-	void UpdateTransformMatricesOnLoad();
+	void UpdateTransformMatrices(bool notifyChanges = true);
 
 	void CalculateLightTransformed(const ComponentLight* lightComponent,
 								   bool translationModified,

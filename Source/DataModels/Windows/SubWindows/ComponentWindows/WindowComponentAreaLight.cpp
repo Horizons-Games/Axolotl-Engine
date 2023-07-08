@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "WindowComponentAreaLight.h"
 
 #include "Application.h"
@@ -48,7 +50,10 @@ void WindowComponentAreaLight::DrawWindowContents()
 			break;
 		}
 
-		bool modified = false;
+		bool modifiedTube = false;
+		bool modifiedSphere = false;
+
+		bool modifiedType = false;
 
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
 
@@ -63,19 +68,18 @@ void WindowComponentAreaLight::DrawWindowContents()
 				{
 					bool isSelected = (currentType == lightTypes[i]);
 
-
 					if (ImGui::Selectable(lightTypes[i], isSelected)) // Watch this
 					{
 						if (lightTypes[i] != currentType)
 						{
 							if (lightTypes[i] == "SPHERE")
 							{
-								modified = true;
+								modifiedType = true;
 								asAreaLight->SetAreaType(AreaType::SPHERE);
 							}
 							else if (lightTypes[i] == "TUBE")
 							{
-								modified = true;
+								modifiedType = true;
 								asAreaLight->SetAreaType(AreaType::TUBE);
 							}
 						}
@@ -107,7 +111,14 @@ void WindowComponentAreaLight::DrawWindowContents()
 				}
 
 				asAreaLight->SetIntensity(intensity);
-				modified = true;
+				if (currentType == "TUBE")
+				{
+					modifiedTube = true;
+				}
+				else
+				{
+					modifiedSphere = true;
+				}
 			}
 			ImGui::PopStyleVar();
 
@@ -116,7 +127,14 @@ void WindowComponentAreaLight::DrawWindowContents()
 			if (ImGui::ColorEdit3("MyColor##1", (float*)&color))
 			{
 				asAreaLight->SetColor(color);
-				modified = true;
+				if (currentType == "TUBE")
+				{
+					modifiedTube = true;
+				}
+				else
+				{
+					modifiedSphere = true;
+				}
 			}
 
 			if (currentType == "TUBE")
@@ -128,7 +146,7 @@ void WindowComponentAreaLight::DrawWindowContents()
 				if (ImGui::DragFloat("##Height", &height, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
 				{
 					asAreaLight->SetHeight(height);
-					modified = true;
+					modifiedTube = true;
 				}
 				ImGui::PopStyleVar();
 			}
@@ -140,7 +158,14 @@ void WindowComponentAreaLight::DrawWindowContents()
 			if (ImGui::DragFloat("##ShapeRadius", &shapeRadius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
 				asAreaLight->SetShapeRadius(shapeRadius);
-				modified = true;
+				if (currentType == "TUBE")
+				{
+					modifiedTube = true;
+				}
+				else
+				{
+					modifiedSphere = true;
+				}
 			}
 			ImGui::PopStyleVar();
 
@@ -151,14 +176,37 @@ void WindowComponentAreaLight::DrawWindowContents()
 			if (ImGui::DragFloat("##LightRadius", &attRadius, 0.01f, 0.0001f, std::numeric_limits<float>::max()))
 			{
 				asAreaLight->SetLightRadius(attRadius);
-				modified = true;
+				if (currentType == "TUBE")
+				{
+					modifiedTube = true;
+				}
+				else
+				{
+					modifiedSphere = true;
+				}
 			}
 			ImGui::PopStyleVar();
 
-			if (modified)
+			if (modifiedType)
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaLights();
-				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaLights();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSpheres();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSpheres();
+
+				App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTubes();
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTubes();
+			}
+			else
+			{
+				if (modifiedSphere)
+				{
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaSphere(asAreaLight);
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaSphere(asAreaLight);
+				}
+				if (modifiedTube)
+				{
+					App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneAreaTube(asAreaLight);
+					App->GetModule<ModuleScene>()->GetLoadedScene()->RenderAreaTube(asAreaLight);
+				}
 			}
 
 			ImGui::EndTable();
