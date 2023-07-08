@@ -18,6 +18,7 @@ public:
 	void Seeking() const;
 	void DisableMovement() const;
 	void DisableRotation() const;
+	void RotateToTarget() const;
 
 	GameObject* GetTarget() const;
 
@@ -26,7 +27,6 @@ private:
 
 	ComponentTransform* targetTransform;
 	ComponentRigidBody* ownerRigidBody;
-	GameObject* ownerRigidBodyGO;
 	ComponentTransform* ownerTransform;
 };
 

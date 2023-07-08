@@ -50,7 +50,8 @@ private:
 	bool Format(std::string& format, bool arg) const;
 	bool Format(std::string& format, const GameObject* arg) const;
 	bool Format(std::string& format, unsigned long long arg) const;
-	bool Format(std::string& format, const Resource* arg) const;
+	// since it's only for logging purposes, pass it as reference to avoid increasing and decreasing ref count
+	bool Format(std::string& format, const std::shared_ptr<Resource>& arg) const;
 	// for glew logging
 	bool Format(std::string& format, const unsigned char* arg) const;
 
@@ -61,7 +62,7 @@ private:
 	{
 		LogSeverity severity;
 		std::string file;
-		unsigned int line;
+		uint16_t line;
 		std::string message;
 
 		std::string ToDetailedString(bool addBreak = true) const;

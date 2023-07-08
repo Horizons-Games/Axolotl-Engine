@@ -168,8 +168,8 @@ void WindowComponentSpotLight::DrawWindowContents()
 
 			if (modified)
 			{
-				loadedScene->UpdateSceneSpotLights();
-				loadedScene->RenderSpotLights();
+				loadedScene->UpdateSceneSpotLight(asSpotLight);
+				loadedScene->RenderSpotLight(asSpotLight);
 			}
 
 			ImGui::EndTable();

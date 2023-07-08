@@ -11,6 +11,7 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -23,6 +24,14 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 
+#include "ModulePlayer.h"
+#include "Components/Component.h"
+#include "Components/ComponentCamera.h"
+#include "Components/UI/ComponentCanvas.h"
+#include "Components/ComponentLight.h"
+#include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
+#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -40,7 +49,7 @@
 	#include "optick.h"
 #endif // DEBUG
 
-ModuleScene::ModuleScene() : loadedScene(nullptr), selectedGameObject(nullptr)
+ModuleScene::ModuleScene() : loadedScene(nullptr), selectedGameObject(nullptr), loading(false)
 {
 }
 
@@ -100,6 +109,8 @@ UpdateStatus ModuleScene::PreUpdate()
 		App->GetScriptFactory()->UpdateNotifier();
 	}
 
+
+
 	if (App->IsOnPlayMode())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
@@ -118,7 +129,7 @@ UpdateStatus ModuleScene::Update()
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-
+	
 	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
@@ -129,6 +140,13 @@ UpdateStatus ModuleScene::Update()
 			}
 		}
 	}
+
+	// Particles need to be updated 
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	{
+		particle->Update();
+	}
+
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
@@ -186,6 +204,7 @@ void ModuleScene::OnPlay()
 	SaveSceneToJson(jsonScene);
 
 	InitAndStartScriptingComponents();
+	InitParticlesComponents();
 }
 
 void ModuleScene::OnStop()
@@ -232,6 +251,17 @@ void ModuleScene::InitAndStartScriptingComponents()
 			{
 				componentScript->Start();
 			}
+		}
+	}
+}
+
+void ModuleScene::InitParticlesComponents()
+{
+	for (ComponentParticleSystem* componentParticle : loadedScene->GetSceneParticleSystems())
+	{
+		if (componentParticle->GetOwner()->IsActive() && componentParticle->GetPlayAtStart())
+		{
+			componentParticle->Play();
 		}
 	}
 }
@@ -314,7 +344,9 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	sceneJson.fromBuffer(buffer);
 	delete buffer;
 
+	loading = true;
 	LoadSceneFromJson(sceneJson, mantainActualScene);
+	loading = false;
 
 #ifndef ENGINE
 	ModulePlayer* player = App->GetModule<ModulePlayer>();
@@ -324,6 +356,7 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	}
 
 	InitAndStartScriptingComponents();
+	InitParticlesComponents();
 #endif // !ENGINE
 }
 
@@ -359,6 +392,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	std::vector<ComponentCamera*> loadedCameras{};
 	std::vector<ComponentCanvas*> loadedCanvas{};
 	std::vector<Component*> loadedInteractable{};
+	std::vector<ComponentParticleSystem*> loadedParticle{};
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
@@ -375,6 +409,11 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		if (button != nullptr)
 		{
 			loadedInteractable.push_back(button);
+		}
+		Component* particle = obj->GetComponent<ComponentParticleSystem>();
+		if (particle != nullptr)
+		{
+			loadedParticle.push_back(static_cast<ComponentParticleSystem*>(particle));
 		}
 
 		std::vector<ComponentLight*> lightsOfObj = obj->GetComponents<ComponentLight>();
@@ -421,6 +460,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		loadedScene->AddSceneCameras(loadedCameras);
 		loadedScene->AddSceneCanvas(loadedCanvas);
 		loadedScene->AddSceneInteractable(loadedInteractable);
+		loadedScene->AddSceneParticleSystem(loadedParticle);
 		RemoveGameObject(directionalLight);
 		loadedScene->DestroyGameObject(directionalLight);
 	}
@@ -574,6 +614,15 @@ void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 		RemoveGameObjectAndChildren(child);
 	}
 }
+
+void ModuleScene::ParticlesSystemUpdate(bool forceRecalculate)
+{
+	for(ComponentParticleSystem* particleComponent : loadedScene->GetSceneParticleSystems())
+	{
+		particleComponent->CheckEmitterInstances(forceRecalculate);
+	}
+}
+
 
 void ModuleScene::AddGameObject(GameObject* object)
 {

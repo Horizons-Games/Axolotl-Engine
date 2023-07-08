@@ -12,7 +12,7 @@
 #include "DataModels/Components/ComponentLight.h"
 #include "DataModels/Components/ComponentMeshCollider.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
-#include "DataModels/Components/ComponentMockState.h"
+#include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
@@ -23,6 +23,8 @@
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
+#include "DataModels/Components/ComponentCameraSample.h"
+#include "DataModels/Components/UI/ComponentSlider.h"
 
 #include "Application.h"
 
@@ -296,6 +298,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::CAMERASAMPLE:
+		{
+			newComponent = std::make_unique<ComponentCameraSample>(static_cast<ComponentCameraSample&>(*component));
+			break;
+		}
+
 		case ComponentType::LIGHT:
 		{
 			CopyComponentLight(static_cast<ComponentLight&>(*component).GetLightType(), component);
@@ -365,6 +373,14 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::ANIMATION:
 		{
 			newComponent = std::make_unique<ComponentAnimation>(*static_cast<ComponentAnimation*>(component));
+			break;
+		}
+
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
+				static_cast<ComponentParticleSystem*>(newComponent.get()));
 			break;
 		}
 
@@ -492,6 +508,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::CAMERASAMPLE:
+		{
+			newComponent = std::make_unique<ComponentCameraSample>(true, this);
+			break;
+		}
+
 		case ComponentType::LIGHT:
 		{
 			newComponent = std::make_unique<ComponentLight>(true, this);
@@ -539,11 +561,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		case ComponentType::MOCKSTATE:
+		case ComponentType::SLIDER:
 		{
-			newComponent = std::make_unique<ComponentMockState>(true, this);
+			newComponent = std::make_unique<ComponentSlider>(true, this);
 			break;
 		}
+
 
 		case ComponentType::AUDIOSOURCE:
 		{
@@ -568,6 +591,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentScript>(true, this);
 			break;
 		}
+
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(true, this);
+			break;
+		}
+		
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
@@ -587,6 +617,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 		if (updatable)
 		{
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+		else
+		{
+			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
 		}
 
 		components.push_back(std::move(newComponent));
@@ -635,9 +673,20 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 				scene->UpdateSceneSpotLights();
 				scene->RenderSpotLights();
 				break;
+
 			case LightType::AREA:
-				scene->UpdateSceneAreaLights();
-				scene->RenderAreaLights();
+				switch (areaType)
+				{
+				case AreaType::SPHERE:
+					scene->UpdateSceneAreaSpheres();
+					scene->RenderAreaSpheres();
+					break;
+
+				case AreaType::TUBE:
+					scene->UpdateSceneAreaTubes();
+					scene->RenderAreaTubes();
+					break;
+				}
 				break;
 		}
 
@@ -659,7 +708,15 @@ bool GameObject::RemoveComponent(const Component* component)
 	{
 		return false;
 	}
+
+	if (component->GetType() == ComponentType::PARTICLE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
+			static_cast<const ComponentParticleSystem*>(component));
+	}
+
 	components.erase(removeIfResult, std::end(components));
+
 	return true;
 }
 

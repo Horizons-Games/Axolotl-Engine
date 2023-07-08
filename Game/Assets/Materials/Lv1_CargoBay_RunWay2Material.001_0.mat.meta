@@ -10,8 +10,14 @@
     "normalStrength": 1.0,
     "smoothness": 0.5,
     "metalness": 0.0,
+    "isTransparent": true,
+    "tilingx": 1.0,
+    "tilingy": 1.0,
+    "offsetx": 0.0,
+    "offsety": 0.0,
     "DiffuseAssetPath": "Assets/Textures/Grid.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "SpecularAssetPath": ""
+    "SpecularAssetPath": "",
+    "EmissiveAssetPath": ""
 }

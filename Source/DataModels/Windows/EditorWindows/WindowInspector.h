@@ -42,14 +42,15 @@ private:
 	void AddComponentMeshRenderer();
 	void AddComponentLight(LightType type, AreaType areaType);
 	void AddComponentPlayer();
+	void AddComponentCameraSample();
 	void AddComponentAnimation();
 
 	void AddComponentRigidBody();
-	void AddComponentMockState();
 	void AddComponentAudioSource();
 	void AddComponentAudioListener();
 	void AddComponentMeshCollider();
 	void AddComponentScript();
+	void AddComponentParticle();
 	void AddComponentBreakable();
 
 	GameObject* lastSelectedGameObject;

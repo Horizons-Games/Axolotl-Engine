@@ -14,5 +14,5 @@
     "NormalAssetPath": "Assets/Textures/Cantina_SeatingFloor_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
     "SpecularAssetPath": "Assets/Textures/Cantina_SeatingFloor_DefaultMaterial_MetallicSmoothness.png",
-    "MetallicAssetPath": "Assets/Textures/Cantina_SeatingFloor_DefaultMaterial_MetallicSmoothness.png"
+    "EmissiveAssetPath": "Assets/Textures/Cantina_SeatingFloor_DefaultMaterial_Emission.png"
 }

@@ -4,7 +4,7 @@
 #include "Components/ComponentBreakable.h"
 
 WindowComponentBreakable::WindowComponentBreakable(ComponentBreakable* component) :
-	ComponentWindow("Breakable", component)
+	ComponentWindow("BREAKABLE", component)
 {
 }
 

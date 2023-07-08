@@ -1,7 +1,5 @@
 #include "StdAfx.h"
 
-#pragma warning(disable : 6386)
-
 #include "StateMachineImporter.h"
 
 #include "Application.h"
@@ -61,7 +59,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		   // size of 2 pos State + size vector conditions + Own UID Key + double + bool
 		   + (sizeof(unsigned int) * 3 + sizeof(UID) + sizeof(double) + sizeof(bool)) * resource->GetNumTransitions();
 
-	for (int i = 0; i < resource->GetNumStates(); i++)
+	for (unsigned int i = 0; i < resource->GetNumStates(); i++)
 	{
 		const State* state = resource->GetState(i);
 		if (state != nullptr)
@@ -69,19 +67,19 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 			size += sizeof(unsigned int) * 4; // size of 3 vectors + check resource
 			size += sizeof(UID);			  // own UID
 			size += sizeof(int) * 2;		  // Auxiliar Pos
-			size += sizeof(char) * state->name.size();
+			size += sizeof(char) * static_cast<unsigned int>(state->name.size());
 			size += sizeof(float);
 			if (state->resource != nullptr)
 				size += sizeof(UID);
-			size += sizeof(UID) * state->transitionsOriginedHere.size();
-			size += sizeof(UID) * state->transitionsDestinedHere.size();
+			size += sizeof(UID) * static_cast<unsigned int>(state->transitionsOriginedHere.size());
+			size += sizeof(UID) * static_cast<unsigned int>(state->transitionsDestinedHere.size());
 			size += sizeof(bool);
 		}
 	}
 
 	for (const auto& it : resource->GetParameters())
 	{
-		size += sizeof(char) * it.first.size();
+		size += sizeof(char) * static_cast<unsigned int>(it.first.size());
 		switch (it.second.first)
 		{
 			case FieldTypeParameter::FLOAT:
@@ -96,11 +94,11 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 	for (const auto& it : resource->GetTransitions())
 	{
 		// Size of nameSize and Enum Condition
-		size += (sizeof(unsigned int) * 2) * it.second.conditions.size();
+		size += (sizeof(unsigned int) * 2) * static_cast<unsigned int>(it.second.conditions.size());
 
 		for (const Condition& condition : it.second.conditions)
 		{
-			size += sizeof(char) * condition.parameter.size();
+			size += sizeof(char) * static_cast<unsigned int>(condition.parameter.size());
 			const auto& itParameter = resource->GetParameters().find(condition.parameter);
 			if (itParameter != resource->GetParameters().end())
 			{
@@ -126,7 +124,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 	cursor += bytes;
 
-	for (int i = 0; i < resource->GetNumStates(); i++)
+	for (unsigned int i = 0; i < resource->GetNumStates(); i++)
 	{
 		const State* state = resource->GetState(i);
 
@@ -138,10 +136,10 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 		if (state != nullptr)
 		{
-			unsigned int stateHeader[4] = { state->name.size(),
+			unsigned int stateHeader[4] = { static_cast<unsigned int>(state->name.size()),
 											state->resource != nullptr ? true : false,
-											state->transitionsOriginedHere.size(),
-											state->transitionsDestinedHere.size() };
+											static_cast<unsigned int>(state->transitionsOriginedHere.size()),
+											static_cast<unsigned int>(state->transitionsDestinedHere.size()) };
 
 			bytes = sizeof(stateHeader);
 			memcpy(cursor, stateHeader, bytes);
@@ -183,13 +181,13 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 			cursor += bytes;
 
-			bytes = sizeof(UID) * state->transitionsOriginedHere.size();
+			bytes = sizeof(UID) * static_cast<unsigned int>(state->transitionsOriginedHere.size());
 			if (!state->transitionsOriginedHere.empty())
 				memcpy(cursor, &(state->transitionsOriginedHere[0]), bytes);
 
 			cursor += bytes;
 
-			bytes = sizeof(UID) * state->transitionsDestinedHere.size();
+			bytes = sizeof(UID) * static_cast<unsigned int>(state->transitionsDestinedHere.size());
 			if (!state->transitionsDestinedHere.empty())
 				memcpy(cursor, &(state->transitionsDestinedHere[0]), bytes);
 
@@ -204,7 +202,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 	for (const auto& parameterIterator : resource->GetParameters())
 	{
-		unsigned int parameterHeader[2] = { parameterIterator.first.size(),
+		unsigned int parameterHeader[2] = { static_cast<unsigned int>(parameterIterator.first.size()),
 											static_cast<unsigned int>(parameterIterator.second.first) };
 
 		bytes = sizeof(parameterHeader);
@@ -235,9 +233,9 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 	for (const auto& transitionIterator : resource->GetTransitions())
 	{
-		unsigned int transitionHeader[3] = { transitionIterator.second.originState,
-											 transitionIterator.second.destinationState,
-											 transitionIterator.second.conditions.size() };
+		unsigned int transitionHeader[3] = { static_cast<unsigned int>(transitionIterator.second.originState),
+											 static_cast<unsigned int>(transitionIterator.second.destinationState),
+											 static_cast<unsigned int>(transitionIterator.second.conditions.size()) };
 
 		bytes = sizeof(transitionHeader);
 		memcpy(cursor, transitionHeader, bytes);
@@ -261,7 +259,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 		for (const Condition& condition : transitionIterator.second.conditions)
 		{
-			unsigned int conditionHeader[2] = { condition.parameter.size(),
+			unsigned int conditionHeader[2] = { static_cast<unsigned int>(condition.parameter.size()),
 												static_cast<unsigned int>(condition.conditionType) };
 
 			bytes = sizeof(conditionHeader);
@@ -509,7 +507,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 		std::vector<Condition> conditions;
 		conditions.reserve(transitionHeader[2]);
-		for (int j = 0; j < transitionHeader[2]; j++)
+		for (unsigned int j = 0; j < transitionHeader[2]; j++)
 		{
 			Condition condition;
 

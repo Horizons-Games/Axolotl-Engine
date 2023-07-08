@@ -52,33 +52,37 @@ private:
 		GLuint baseInstance;  // Instance Index
 	};
 
-	struct MaterialMetallic
+	struct MaterialMetallic 
 	{
-		float4 diffuse_color = float4::zero; // 0 //16
-		int has_diffuse_map = 0;			 // 20 //4
-		int has_normal_map = 0;				 // 24 //4
-		int has_metallic_map = 0;			 // 36 //4
-		float smoothness = 0;				 // 28 //4
-		float metalness = 0;				 // 32 //4
-		float normal_strength = 0;			 // 16 //4
-		uint64_t diffuse_map;				 // 40 //8
-		uint64_t normal_map;				 // 48 //8
-		uint64_t metallic_map;				 // 56 //8 -->64
+		float4 diffuse_color = float4::zero; //0 //16
+		int has_diffuse_map = 0;			 //16 //4      
+		int has_normal_map = 0;				 //20 //4
+		int has_metallic_map = 0;			 //24 //4
+		int has_emissive_map = 0;			 //28 //4
+		float smoothness = 0;				 //32 //4
+		float metalness = 0;				 //36 //4
+		float normal_strength = 0;			 //40 //4
+		uint64_t diffuse_map;				 //48 //8
+		uint64_t normal_map;				 //56 //8
+		uint64_t metallic_map;				 //64 //8 
+		uint64_t emissive_map;				 //72 //8 -->80
 	};
 
-	struct MaterialSpecular
+	struct MaterialSpecular 
 	{
-		float4 diffuse_color = float4::zero;  // 0  //16
-		float3 specular_color = float3::zero; // 16 //16
-		int has_diffuse_map = 0;			  // 32 //4
-		int has_normal_map = 0;				  // 36 //4
-		int has_specular_map = 0;			  // 40 //4
-		float smoothness = 0;				  // 44 //4
-		float normal_strength = 0;			  // 48 //4
-		uint64_t diffuse_map;				  // 48 //8
-		uint64_t normal_map;				  // 56 //8
-		uint64_t specular_map;				  // 64 //8
-		float2 padding = float2::zero;		  // 72 //8 --> 80
+		float4 diffuse_color = float4::zero;  //0  //16
+		float3 specular_color = float3::zero; //16 //16       
+		int has_diffuse_map = 0;              //32 //4
+		int has_normal_map = 0;               //36 //4
+		int has_specular_map = 0;             //40 //4
+		int has_emissive_map = 0;             //44 //4
+		float smoothness = 0;                 //48 //4
+		float normal_strength = 0;            //52 //4
+		uint64_t diffuse_map;				  //56 //8
+		uint64_t normal_map;				  //64 //8
+		uint64_t specular_map;				  //72 //8    
+		uint64_t emissive_map;				  //80 //8    
+		int padding1 = 0, padding2 = 0;		  //88 //8 --> 96
 	};
 
 	struct ResourceInfo
@@ -93,6 +97,12 @@ private:
 		unsigned int numBones;
 		unsigned int paletteOffset;
 		unsigned int padding0, padding1;
+	};
+
+	struct Tiling
+	{
+		float2 tiling;
+		float2 offset;
 	};
 
 	struct uint4
@@ -116,6 +126,7 @@ private:
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::unordered_map<const ComponentMeshRenderer*, int> objectIndexes;
 	std::unordered_map<const ComponentMeshRenderer*, int> paletteIndexes;
+	std::unordered_map<const ComponentMeshRenderer*, int> tilingIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<PerInstance> perInstances;
 	std::vector<int> instanceData;
@@ -134,6 +145,7 @@ private:
 	unsigned int perInstancesBuffer = 0;
 	unsigned int transforms[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int palettes[DOUBLE_BUFFERS] = { 0, 0 };
+	unsigned int tilingBuffer = 0;
 
 	bool createBuffers;
 	bool reserveModelSpace;
@@ -150,12 +162,14 @@ private:
 	const GLuint bindingPointPerInstance = 6;
 	const GLuint bindingPointModel = 10;
 	const GLuint bindingPointMaterial = 11;
+	const GLuint bindingPointTiling = 12;
 
 	GLbitfield mapFlags;
 	GLbitfield createFlags;
 
 	float4x4* transformData[DOUBLE_BUFFERS];
 	float4x4* paletteData[DOUBLE_BUFFERS];
+	Tiling* tilingData;
 	MaterialMetallic* metallicMaterialData;
 	MaterialSpecular* specularMaterialData;
 

@@ -31,13 +31,27 @@ GeometryBatch::GeometryBatch(int flags) : numTotalVertices(0), numTotalIndices(0
 	mapFlags(GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
 	createFlags(mapFlags | GL_DYNAMIC_STORAGE_BIT)
 {
-	if (this->flags & BatchManager::HAS_SPECULAR)
+	if (flags & BatchManager::HAS_SPECULAR)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR);
+		}
 	}
-	else 
+	else if (flags & BatchManager::HAS_METALLIC)
 	{
-		program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		if (flags & BatchManager::HAS_TRANSPARENCY)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT);
+		}
+		else if (flags & BatchManager::HAS_OPAQUE)
+		{
+			program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC);
+		}
 	}
 
 	//initialize buffers
@@ -163,6 +177,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength()
@@ -185,6 +200,13 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.metallic_map = texture->GetHandle();
 			}
+
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
+			}
+			
 			metallicMaterialData[i] = newMaterial;
 		}
 
@@ -197,9 +219,10 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
-				resourceMaterial->GetNormalStrength()
+				static_cast<uint64_t>(resourceMaterial->GetNormalStrength())
 			};
 
 			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
@@ -219,6 +242,13 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.specular_map = texture->GetHandle();
 			}
+			
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
+			}
+			
 			specularMaterialData[i] = newMaterial;
 		}
 	}
@@ -426,6 +456,16 @@ void GeometryBatch::CreateVAO()
 		glBufferStorage(GL_SHADER_STORAGE_BUFFER, perInstances.size() * sizeof(PerInstance), nullptr, createFlags);
 	}
 
+	//Tiling
+	if (tilingBuffer == 0)
+	{
+		glGenBuffers(1, &tilingBuffer);
+	}
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer, 0, count * sizeof(Tiling));
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, count * sizeof(Tiling), nullptr, createFlags);
+
+	tilingData = static_cast<Tiling*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, count * sizeof(Tiling), mapFlags));
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
@@ -436,6 +476,7 @@ void GeometryBatch::ClearBuffer()
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
+	glDeleteBuffers(1, &tilingBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }
@@ -607,6 +648,7 @@ void GeometryBatch::BindBatch(bool selected)
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPalette, palettes[frame]);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer);
 
 	WaitBuffer();
 	
@@ -704,13 +746,20 @@ void GeometryBatch::BindBatch(bool selected)
 				unsigned int instanceIndex = objectIndexes[component];
 				unsigned int paletteIndex = paletteIndexes[component];
 
-				transformData[frame][instanceIndex] = component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+				transformData[frame][instanceIndex] = 
+					component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
 				
 				if (component->GetMesh()->GetNumBones() > 0)
 				{
 					memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 						&component->GetPalette()[0],
 						perInstances[paletteIndex].numBones * sizeof(float4x4));
+				}
+				
+				if (component->GetMaterial())
+				{
+					Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
 				//do a for for all the instaces existing
@@ -741,11 +790,17 @@ void GeometryBatch::BindBatch(bool selected)
 
 			if (component->GetMesh()->GetNumBones() > 0)
 			{
-				std::vector<float4x4> palettes = component->GetPalette();
+				//std::vector<float4x4> palettes = component->GetPalette();
 
 				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 					&component->GetPalette()[0],
 					perInstances[paletteIndex].numBones * sizeof(float4x4));
+			}
+
+			if (component->GetMaterial())
+			{
+				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 
 			//do a for for all the instaces existing
@@ -818,7 +873,7 @@ int GeometryBatch::CreateInstanceResourceMaterial(const std::shared_ptr<Resource
 		instanceData.push_back(index);
 	}
 	
-	return instanceData.size() - 1;
+	return static_cast<int>(instanceData.size()) - 1;
 }
 
 GeometryBatch::ResourceInfo* GeometryBatch::FindResourceInfo(const std::shared_ptr<ResourceMesh> mesh)
@@ -847,6 +902,7 @@ void GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &bonesBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
+	glDeleteBuffers(1, &tilingBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }

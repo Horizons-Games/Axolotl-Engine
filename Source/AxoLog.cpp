@@ -26,7 +26,7 @@ void AxoLog::Write(const char file[], int line, LogSeverity severity, const std:
 	// meaning that there won't be any deadlocks if the mutex is attempted to be locked twice
 	std::scoped_lock lock(writeLock);
 
-	LogLine logLine{ severity, file, line, formattedLine };
+	LogLine logLine{ severity, file, static_cast<uint16_t>(line), formattedLine };
 	logLines.push_back(logLine);
 
 	std::string detailedString = logLine.ToDetailedString();
@@ -131,7 +131,7 @@ bool AxoLog::Format(std::string& format, bool arg) const
 
 bool AxoLog::Format(std::string& format, const GameObject* arg) const
 {
-	return Format(format, arg->GetName());
+	return Format(format, arg != nullptr ? arg->GetName() : "NULL");
 }
 
 bool AxoLog::Format(std::string& format, unsigned long long arg) const
@@ -139,9 +139,13 @@ bool AxoLog::Format(std::string& format, unsigned long long arg) const
 	return Format(format, std::to_string(arg));
 }
 
-bool AxoLog::Format(std::string& format, const Resource* arg) const
+bool AxoLog::Format(std::string& format, const std::shared_ptr<Resource>& arg) const
 {
-	return Format(format, arg->GetUID());
+	if (arg)
+	{
+		return Format(format, arg->GetUID());
+	}
+	return Format(format, "NULL");
 }
 
 bool AxoLog::Format(std::string& format, const unsigned char* arg) const

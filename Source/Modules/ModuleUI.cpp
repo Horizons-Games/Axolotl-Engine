@@ -14,6 +14,7 @@
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
+#include "Components/UI/ComponentSlider.h"
 #include "GL/glew.h"
 #include "Physics/Physics.h"
 
@@ -57,10 +58,10 @@ UpdateStatus ModuleUI::Update()
 	int width, height;
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
-	/*glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, height, 0, 1, -1);
-	glMatrixMode(GL_MODELVIEW);*/
+	glMatrixMode(GL_MODELVIEW);
 
 	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
 	Camera* camera = moduleCamera->GetCamera();
@@ -78,10 +79,10 @@ UpdateStatus ModuleUI::Update()
 	glEnable(GL_DEPTH_TEST);
 	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), camera->GetAspectRatio());
 
-	/*glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1, 1, -1, 1, -1, 1);
-	glMatrixMode(GL_MODELVIEW);*/
+	glMatrixMode(GL_MODELVIEW);
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -157,6 +158,14 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		disabledHierarchy = true;
 	}
 
+	for (ComponentSlider* slider : gameObject->GetComponents<ComponentSlider>())
+	{
+		if (slider->IsEnabled())
+		{
+			slider->CheckSlider();
+		}
+	}
+
 	for (ComponentButton* button : gameObject->GetComponents<ComponentButton>())
 	{
 		if (disabledHierarchy
@@ -185,7 +194,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 			else
 			{
 				button->SetHovered(false);
-				button->SetClicked(false);
+				//button->SetClicked(false);
 			}
 		}
 	}
