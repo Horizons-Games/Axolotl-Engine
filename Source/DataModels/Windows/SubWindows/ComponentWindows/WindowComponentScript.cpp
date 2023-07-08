@@ -24,25 +24,25 @@ WindowComponentScript::~WindowComponentScript()
 {
 }
 
-std::string WindowComponentScript::DrawStringField(char* value, const std::string& name)
+std::string WindowComponentScript::DrawStringField(std::string& value, const std::string& name)
 {
-	ImGui::InputText(name.c_str(), value, 24);
+	ImGui::InputText(name.c_str(), value.data(), 24);
 	return value;
 }
 
-bool WindowComponentScript::DrawBoolField(bool value, const std::string& name)
+bool WindowComponentScript::DrawBoolField(bool& value, const std::string& name)
 {
 	ImGui::Checkbox(name.c_str(), &value);
 	return value;
 }
 
-float WindowComponentScript::DrawFloatField(float value, const std::string& name)
+float WindowComponentScript::DrawFloatField(float& value, const std::string& name)
 {
 	ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f");
 	return value;
 }
 
-math::float3 WindowComponentScript::DrawFloat3Field(math::float3 value, const std::string& name)
+math::float3 WindowComponentScript::DrawFloat3Field(math::float3& value, const std::string& name)
 {
 	ImGui::DragFloat3(name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f");
 	return value;
@@ -195,7 +195,7 @@ void WindowComponentScript::DrawWindowContents()
 				label = stringField.name;
 				finalLabel = label + separator + thisID;
 
-				stringField.setter(DrawStringField(value.data(), finalLabel).c_str());
+				stringField.setter(DrawStringField(value, finalLabel).c_str());
 				
 				break;
 			}
@@ -230,21 +230,21 @@ void WindowComponentScript::DrawWindowContents()
 			{
 				VectorField vectorField = std::get<VectorField>(member);
 
-				std::function<std::any(const std::any&, const std::string&)> elementDrawer =
-					[this, &vectorField](const std::any& value, const std::string& name) -> std::any
+				std::function<std::any(std::any&, const std::string&)> elementDrawer =
+					[this, &vectorField](std::any& value, const std::string& name) -> std::any
 				{
 					switch (vectorField.innerType)
 					{
 					case FieldType::FLOAT:
-						return float(DrawFloatField(std::any_cast<float>(value), name));
+						return float(DrawFloatField(std::any_cast<float&>(value), name));
 					case FieldType::STRING:
-						return std::string(DrawStringField(std::any_cast<std::string>(value).data(), name).c_str());
+						return std::string(DrawStringField(std::any_cast<std::string&>(value), name).c_str());
 					case FieldType::BOOLEAN:
-						return bool(DrawBoolField(std::any_cast<bool>(value), name));
+						return bool(DrawBoolField(std::any_cast<bool&>(value), name));
 					case FieldType::GAMEOBJECT:
 						return std::any(DrawGameObjectField(std::any_cast<GameObject*>(value), name));
 					case FieldType::FLOAT3:
-						return float3(DrawFloat3Field(std::any_cast<float3>(value), name));
+						return float3(DrawFloat3Field(std::any_cast<float3&>(value), name));
 					}
 					return std::any();  // Default return 
 				};
