@@ -319,7 +319,7 @@ void ComponentScript::LoadOptions(Json& meta)
 			{
 				continue;
 			}
-			std::vector<std::any> vectorCase = vectorField.value().getter();
+			std::vector<std::any> vectorCase;
 
 			for (unsigned int j = 0; j < vectorElements.Size(); ++j)
 			{
@@ -330,19 +330,19 @@ void ComponentScript::LoadOptions(Json& meta)
 				{
 				case FieldType::FLOAT:
 
-					vectorCase[j] = (float)vectorElements[j]["value"];
+					vectorCase.push_back((float)vectorElements[j]["value"]);
 
 					break;
 
 				case FieldType::STRING:
 
-					vectorCase[j] = (std::string)vectorElements[j]["value"];
+					vectorCase.push_back((std::string)vectorElements[j]["value"]);
 
 					break;
 
 				case FieldType::BOOLEAN:
 
-					vectorCase[j] = (bool)vectorElements[j]["value"];
+					vectorCase.push_back((bool)vectorElements[j]["value"]);
 
 					break;
 
@@ -354,24 +354,22 @@ void ComponentScript::LoadOptions(Json& meta)
 						UID newFieldUID;
 						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
 						{
-							vectorCase[j] = (GameObject*)App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID);
+							vectorCase.push_back((GameObject*)App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
 						}
 						else
 						{
-							vectorCase[j] = (GameObject*)App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID);
+							vectorCase.push_back((GameObject*)App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(fieldUID));
 						}
 					}
 					else
 					{
-						vectorCase[j] = (GameObject*)nullptr;
+						vectorCase.push_back((GameObject*)nullptr);
 					}
 
 					break;
 				}
 				case FieldType::FLOAT3:
-					float3 vec3(vectorElements[j]["value x"], vectorElements[j]["value y"], vectorElements[j]["value z"]);
-
-					vectorCase[j] = vec3;
+					vectorCase.push_back(float3(vectorElements[j]["value x"], vectorElements[j]["value y"], vectorElements[j]["value z"]));
 					break;
 				}
 			}

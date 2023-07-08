@@ -236,14 +236,34 @@ void WindowComponentScript::DrawWindowContents()
 					switch (vectorField.innerType)
 					{
 					case FieldType::FLOAT:
+						if (!value.has_value()) 
+						{
+							value = std::make_any<float>();
+						}
 						return float(DrawFloatField(std::any_cast<float&>(value), name));
 					case FieldType::STRING:
+						if (!value.has_value())
+						{
+							value = std::make_any<std::string>();
+						}
 						return std::string(DrawStringField(std::any_cast<std::string&>(value), name).c_str());
 					case FieldType::BOOLEAN:
+						if (!value.has_value())
+						{
+							value = std::make_any<bool>();
+						}
 						return bool(DrawBoolField(std::any_cast<bool&>(value), name));
 					case FieldType::GAMEOBJECT:
+						if (!value.has_value())
+						{
+							value = std::make_any<GameObject*>();
+						}
 						return std::any(DrawGameObjectField(std::any_cast<GameObject*>(value), name));
 					case FieldType::FLOAT3:
+						if (!value.has_value())
+						{
+							value = std::make_any<float3>(0.f);
+						}
 						return float3(DrawFloat3Field(std::any_cast<float3&>(value), name));
 					}
 					return std::any();  // Default return 
@@ -252,6 +272,16 @@ void WindowComponentScript::DrawWindowContents()
 				std::vector<std::any> vectorValue = vectorField.getter();
 
 				ImGui::Text(vectorField.name.c_str());
+				ImGui::SameLine();
+				if (ImGui::Button(("+##" + vectorField.name).c_str()))
+				{
+					vectorValue.emplace_back();
+				}
+				ImGui::SameLine();
+				if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
+				{
+					vectorValue.pop_back();
+				}
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
 					ImGui::Indent();
