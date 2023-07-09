@@ -7,6 +7,7 @@
 
 #include "Math/float2.h"
 #include "Math/float3.h"
+#include "ImGui/imgui_color_gradient.h"
 
 class GameObject;
 class ResourceTexture;
@@ -32,6 +33,9 @@ public:
 	std::shared_ptr<ResourceTexture> GetLineTexture() const;
 	void SetLineTexture(const std::shared_ptr<ResourceTexture>& texture);
 
+	ImGradient* GetGradient();
+	void SetGradient(ImGradient* gradient);
+
 private:
 
 	void UpdateBuffers();
@@ -53,6 +57,7 @@ private:
 
 	float2 offset = float2::zero;
 	float2 tiling = float2::one;
+	ImGradient* gradient = new ImGradient();
 };
 
 inline int ComponentLine::GetNumTiles()
@@ -75,4 +80,14 @@ inline void ComponentLine::SetLineTexture(const std::shared_ptr<ResourceTexture>
 {
 	this->lineTexture = texture;
 	dirtyBuffers = true;
+}
+
+inline ImGradient* ComponentLine::GetGradient()
+{
+	return gradient;
+}
+
+inline void ComponentLine::SetGradient(ImGradient* gradient)
+{
+	this->gradient = gradient;
 }

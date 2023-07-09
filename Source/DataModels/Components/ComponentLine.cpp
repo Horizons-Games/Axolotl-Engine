@@ -122,15 +122,17 @@ void ComponentLine::UpdateBuffers()
 		glBindBuffer(GL_ARRAY_BUFFER, colorBuffers);
 		float3* colorData = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 		lambda = 0.0f;
-		float3 color = { 1.0,0.0,1.0 };
-		colorData[0] = color;
-		colorData[1] = color;
-
+		float stepsGradient = static_cast<float>(1) / static_cast<float>(numTiles);
+		float color[3];
+		gradient->getColorAt(0.0, color);
+		colorData[0] = float3(color[0], color[1], color[2]);
+		colorData[1] = float3(color[0], color[1], color[2]);
 		for (unsigned int i = 0; i < numTiles; ++i)
 		{
+			gradient->getColorAt(stepsGradient * (i + 1), color);
 			lambda = step * float(i + 1);
-			colorData[i * 2 + 2 + 0] = color;
-			colorData[i * 2 + 2 + 1] = color;
+			colorData[i * 2 + 2 + 0] = float3(color[0], color[1], color[2]);
+			colorData[i * 2 + 2 + 1] = float3(color[0], color[1], color[2]);
 		}
 
 		glUnmapBuffer(GL_ARRAY_BUFFER);

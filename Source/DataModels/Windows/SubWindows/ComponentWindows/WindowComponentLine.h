@@ -2,6 +2,7 @@
 #include "ComponentWindow.h"
 
 class ComponentLine;
+class ImGradient;
 
 class WindowComponentLine : public ComponentWindow
 {
