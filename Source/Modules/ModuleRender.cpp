@@ -125,7 +125,8 @@ ModuleRender::ModuleRender() :
 	frameBuffer(0),
 	renderedTexture(0),
 	depthStencilRenderBuffer(0),
-	bloomActivation(1)
+	bloomActivation(1),
+	toneMappingMode(2)
 {
 }
 
