@@ -4,7 +4,7 @@ class EnemyClass
 {
 public:
 	EnemyClass();
-	~EnemyClass() = default;
+	~EnemyClass();
 
 	void SetStunnedTime(float newTime);
 

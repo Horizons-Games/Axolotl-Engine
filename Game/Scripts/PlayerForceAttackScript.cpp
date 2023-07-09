@@ -104,8 +104,8 @@ void PlayerForceAttackScript::PushEnemies()
 		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 		enemybtRb->setLinearVelocity(newVelocity);
 
-		//EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
-		//enemyScript->SetStunnedTime(stunTime);
+		EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
+		enemyScript->SetStunnedTime(stunTime);
 
 		HealthSystem* enemyHealthScript =
 			(*it)->GetComponent<HealthSystem>();

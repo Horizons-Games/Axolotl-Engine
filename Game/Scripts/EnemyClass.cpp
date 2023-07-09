@@ -4,6 +4,10 @@ EnemyClass::EnemyClass() : stunned(false), timeStunned(0.0f)
 {
 }
 
+EnemyClass::~EnemyClass()
+{
+}
+
 inline void EnemyClass::SetStunnedTime(float newTime)
 {
 	stunned = true;
