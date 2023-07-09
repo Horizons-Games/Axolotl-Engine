@@ -60,7 +60,7 @@ void ComponentAnimation::Update()
 		}
 
 		controller->Update();
-
+		stateMachineInstance->Update(!controller->GetPlay());
 		if (!stateMachineInstance->IsTransitioning())
 		{
 			State* state = stateMachineInstance->GetActualState();
