@@ -47,7 +47,7 @@ void ComponentLine::LoadBuffers()
 
 	glGenBuffers(1, &lineEBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineEBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &positionBuffers);
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
@@ -75,7 +75,7 @@ void ComponentLine::UpdateBuffers()
 	if (dirtyBuffers)
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineEBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
@@ -239,5 +239,6 @@ void ComponentLine::RecalculateVertices()
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
-	glBufferData(GL_ARRAY_BUFFER, newVertices.size() * sizeof(float), &newVertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), &newVertices[0], GL_STATIC_DRAW);
+
 }
