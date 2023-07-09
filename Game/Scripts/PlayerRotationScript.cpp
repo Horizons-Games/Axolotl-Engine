@@ -65,3 +65,23 @@ void PlayerRotationScript::SetCanRotate(bool canRotate)
 {
 	this->canRotate = canRotate;
 }
+
+float PlayerRotationScript::GetHorizontalSensitivity() const
+{
+	return rotationSensitivityHorizontal;
+}
+
+float PlayerRotationScript::GetVerticalSensitivity() const
+{
+	return rotationSensitivityVertical;
+}
+
+void PlayerRotationScript::SetHorizontalSensitivity(float sensitivity)
+{
+	rotationSensitivityHorizontal = sensitivity;
+}
+
+void PlayerRotationScript::SetVerticalSensitivity(float sensitivity)
+{
+	rotationSensitivityVertical = sensitivity;
+}
