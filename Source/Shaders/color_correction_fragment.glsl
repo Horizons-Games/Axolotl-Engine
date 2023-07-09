@@ -53,6 +53,7 @@ void main()
     
     // tone mapping
     vec3 result = hdrColor;
+    result = result / (result + vec3(1.0));
     if (tonneMappingMode == 1)
     {
         result = uncharted2_tonemap(hdrColor);
@@ -63,7 +64,6 @@ void main()
     }
 
     // gamma correct
-    result = result / (result + vec3(1.0));
     result = pow(result, vec3(1.0 / GAMMA));
 
     outColor = vec4(result, 1.0);
