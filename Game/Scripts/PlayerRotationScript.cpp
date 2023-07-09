@@ -56,11 +56,6 @@ void PlayerRotationScript::Rotation(float deltaTime)
 	btRb->setAngularVelocity(angularVelocity);
 }
 
-void PlayerRotationScript::SetRotationSensitivity(float rotationSensitivity)
-{
-	rotationSensitivityHorizontal = rotationSensitivity;
-}
-
 bool PlayerRotationScript::GetCanRotate() const
 {
 	return canRotate;

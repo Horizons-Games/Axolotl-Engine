@@ -114,8 +114,3 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 	}
 	return closestSample;
 }
-
-void CameraControllerScript::SetRotationSensitivity(float rotationSensitivity)
-{
-	throw std::logic_error("The method or operation is not implemented.");
-}

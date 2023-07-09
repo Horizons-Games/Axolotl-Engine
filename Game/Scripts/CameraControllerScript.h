@@ -15,8 +15,6 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
-	void SetRotationSensitivity(float rotationSensitivity);
-
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
