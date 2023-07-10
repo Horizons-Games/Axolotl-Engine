@@ -108,15 +108,18 @@ void CameraControllerScript::CalculateOffsetVector(float3 offset)
 
 void CameraControllerScript::CalculateFocusOffsetVector()
 {
-	defaultFocusOffsetVector = float3::unitX * xFocusOffset
-		+ float3::unitY * yFocusOffset
-		+ float3::unitZ * 0.0f;
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+	float3 rightVector = currentFocus.Cross(float3::unitY);
+	defaultFocusOffsetVector = rightVector * xFocusOffset
+		+ float3::unitY * yFocusOffset;
 }
 
 void CameraControllerScript::CalculateFocusOffsetVector(float2 offset)
 {
-
-	defaultFocusOffsetVector = float3(offset, 0.0f);
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+	float3 rightVector = currentFocus.Cross(float3::unitY);
+	defaultFocusOffsetVector = rightVector * offset.x
+		+ float3::unitY * offset.y;
 }
 
 
