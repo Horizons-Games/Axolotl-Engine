@@ -52,8 +52,12 @@ void main()
     }
     
     // tone mapping
-    vec3 result = hdrColor;
-    if (tonneMappingMode == 1)
+    vec3 result;
+    if (tonneMappingMode == 0)
+    {
+        result = hdrColor.rgb / (hdrColor.rgb + vec3(1.0)); // Reinhard tone mapping
+    }
+    else if (tonneMappingMode == 1)
     {
         result = uncharted2_tonemap(hdrColor);
     }

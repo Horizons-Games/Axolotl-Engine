@@ -125,8 +125,6 @@ ModuleRender::ModuleRender() :
 	frameBuffer(0),
 	renderedTexture(0),
 	depthStencilRenderBuffer(0),
-	bloomBlurFramebuffers(0),
-	bloomBlurTexture(0),
 	bloomActivation(1),
 	toneMappingMode(2)
 {
@@ -188,8 +186,8 @@ bool ModuleRender::Init()
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
 #endif // ENGINE
-	glGenFramebuffers(1, &bloomBlurFramebuffers);
-	glGenTextures(1, &bloomBlurTexture);
+	glGenFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
+	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
@@ -388,17 +386,20 @@ UpdateStatus ModuleRender::Update()
 	// -------- POST EFFECTS ---------------------
 
 	// Blur bloom with kawase
-	bool firstIteration = true;
+	bool kawaseFrameBuffer = true, firstIteration = true;
 	int kawaseSamples = 2;
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
 	kawaseDownProgram->Activate();
-	glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers);
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTexture);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
 		if (firstIteration)
 		{
 			firstIteration = false;
@@ -410,10 +411,14 @@ UpdateStatus ModuleRender::Update()
 	kawaseUpProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, bloomBlurTexture);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
 	}
 	kawaseUpProgram->Deactivate();
 
@@ -426,7 +431,7 @@ UpdateStatus ModuleRender::Update()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, renderedTexture);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, bloomBlurTexture);
+	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
 	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
 	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
 
@@ -469,8 +474,8 @@ bool ModuleRender::CleanUp()
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderedTexture);
 #endif // ENGINE
-	glDeleteFramebuffers(1, &bloomBlurFramebuffers);
-	glDeleteTextures(1, &bloomBlurTexture);
+	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
+	glDeleteTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 	return true;
 }
@@ -509,21 +514,24 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers);
-
-	glBindTexture(GL_TEXTURE_2D, bloomBlurTexture);
-		
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomBlurTexture, 0);
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	for (unsigned int i = 0; i < BLOOM_BLUR_PING_PONG; i++)
 	{
-		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer bloom blur is not complete!");
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[i]);
+		
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[i]);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomBlurTextures[i], 0);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer bloom blur is not complete!");
+		}
 	}
 		
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -676,9 +684,6 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-	glActiveTexture(GL_TEXTURE15);
-	glBindTexture(GL_TEXTURE_2D, bloomBlurTexture);
 
 	program->BindUniformFloat3("viewPos", viewPos);
 
