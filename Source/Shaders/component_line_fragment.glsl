@@ -10,5 +10,5 @@ out vec4 outColor;
 void main()
 {
     outColor = texture(textureColor, TexCoord);
-    outColor.rgb = incolor;
+    outColor.rgb *= incolor;
 }
