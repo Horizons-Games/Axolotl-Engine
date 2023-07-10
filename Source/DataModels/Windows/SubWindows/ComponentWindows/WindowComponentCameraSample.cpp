@@ -26,6 +26,9 @@ void WindowComponentCameraSample::DrawWindowContents()
 		float influenceRadius = asCameraSample->GetRadius();
 		float3 positionOffset = asCameraSample->GetOffset();
 
+		bool isSampleFixedEnabled = asCameraSample->GetFixedOffsetEnabled();
+		float3 positionFixed = asCameraSample->GetFixedOffset();
+
 		bool isSampleFocusEnabled = asCameraSample->GetFocusOffsetEnabled();
 		float2 focusOffset = asCameraSample->GetFocusOffset();
 
@@ -62,8 +65,53 @@ void WindowComponentCameraSample::DrawWindowContents()
 						 std::numeric_limits<float>::min(),
 						 std::numeric_limits<float>::min());
 
-		
+
 		ImGui::Text("");
+
+		if (ImGui::Checkbox("##Fixed Offset Enabled", &isSampleFixedEnabled))
+		{
+			asCameraSample->SetFixedOffsetEnabled(isSampleFixedEnabled);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Fixed Offset Enabled");
+
+		if (isSampleFixedEnabled)
+		{
+			ImGui::Text("Fixed Position Offset");
+			ImGui::Text("X:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::DragFloat("##XFixedOffset",
+							 &positionFixed.x,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
+
+			ImGui::SameLine();
+			ImGui::Text("Y:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::DragFloat("##YFixedOffset",
+							 &positionFixed.y,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
+
+			ImGui::SameLine();
+			ImGui::Text("Z:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::DragFloat("##ZFixedOffset",
+							 &positionFixed.z,
+							 0.025f,
+							 std::numeric_limits<float>::min(),
+							 std::numeric_limits<float>::min());
+
+
+			asCameraSample->SetFixedOffset(positionFixed);
+		}
+
 
 		if (ImGui::Checkbox("##Focus Offset Enabled", &isSampleFocusEnabled))
 		{
@@ -101,7 +149,5 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		asCameraSample->SetRadius(influenceRadius);
 		asCameraSample->SetOffset(positionOffset);
-		
-		
 	}
 }

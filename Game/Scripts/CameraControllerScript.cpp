@@ -47,7 +47,15 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 
 	if (closestSample)
 	{
-		CalculateOffsetVector(closestSample->GetOffset());
+		if (closestSample->GetFixedOffsetEnabled())
+		{
+			CalculateOffsetVector(closestSample->GetFixedOffset() - playerTransform->GetGlobalPosition());
+		}
+		else
+		{
+			CalculateOffsetVector(closestSample->GetOffset());
+		}
+		
 		if (closestSample->GetFocusOffsetEnabled())
 		{
 			CalculateFocusOffsetVector(closestSample->GetFocusOffset());

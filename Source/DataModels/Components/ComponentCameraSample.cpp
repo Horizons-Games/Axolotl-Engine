@@ -21,6 +21,7 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	positionOffset = float3::zero;
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	isSampleFocusEnabled = false;
+	isSampleFixedEnabled = false;
 }
 
 ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& componentCameraSample):
@@ -28,7 +29,8 @@ ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& compon
 	influenceRadius(componentCameraSample.influenceRadius),
 	positionOffset(componentCameraSample.positionOffset),
 	position(componentCameraSample.position),
-	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled)
+	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
+	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled)
 {
 }
 
@@ -63,10 +65,15 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["positionOffsetY"] = (float) positionOffset.y;
 	meta["positionOffsetZ"] = (float) positionOffset.z;
 
+	meta["positionFixedX"] = (float) positionFixed.x;
+	meta["positionFixedY"] = (float) positionFixed.y;
+	meta["positionFixedZ"] = (float) positionFixed.z;
+
 	meta["focusOffsetX"] = (float) focusOffset.x;
 	meta["focusOffsetY"] = (float) focusOffset.y;
 
 	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
+	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
 
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
@@ -83,10 +90,15 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 	positionOffset.y = meta["positionOffsetY"];
 	positionOffset.z = meta["positionOffsetZ"];
 
+	positionFixed.x = meta["positionFixedX"];
+	positionFixed.y = meta["positionFixedY"];
+	positionFixed.z = meta["positionFixedZ"];
+
 	focusOffset.x = meta["focusOffsetX"];
 	focusOffset.y = meta["focusOffsetY"];
 
 	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
+	isSampleFixedEnabled = meta["isSampleFixedEnabled"];
 
 	position.x = meta["positionX"];
 	position.y = meta["positionY"];
