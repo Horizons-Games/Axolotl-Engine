@@ -4,10 +4,13 @@
 #include "Components/ComponentLine.h"
 #include "ImGui/imgui_color_gradient.h"
 
+#include "DataModels/Resources/ResourceTexture.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowLineTexture.h"
 
 
 WindowComponentLine::WindowComponentLine(ComponentLine* component) :
-	ComponentWindow("Line", component)
+	ComponentWindow("Line", component),
+	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE))
 {
 }
 
@@ -46,6 +49,25 @@ void WindowComponentLine::DrawWindowContents()
 		if (ImGui::GradientEditor(gradient, draggingMark, selectedMark))
 		{
 			componentLine->SetGradient(gradient);
+		}
+
+		ImGui::Separator();
+
+		ImGui::Text("Diffuse Texture");
+		if (lineTexture)
+		{
+			lineTexture->Load();
+			componentLine->SetLineTexture(lineTexture);
+			ImGui::Image((void*)(intptr_t)lineTexture->GetGlTexture(), ImVec2(100, 100));
+			if (ImGui::Button("Remove Texture Diffuse"))
+			{
+				lineTexture->Unload();
+				lineTexture = nullptr;
+			}
+		}
+		else
+		{
+			inputTexture->DrawWindowContents();
 		}
 	}
 }

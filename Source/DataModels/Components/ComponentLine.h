@@ -90,4 +90,5 @@ inline ImGradient* ComponentLine::GetGradient()
 inline void ComponentLine::SetGradient(ImGradient* gradient)
 {
 	this->gradient = gradient;
+	dirtyBuffers = true;
 }

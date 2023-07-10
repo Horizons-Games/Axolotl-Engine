@@ -742,6 +742,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
@@ -1198,6 +1199,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataModels\GameObject\GameObject.inl" />

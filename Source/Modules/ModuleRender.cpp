@@ -379,14 +379,14 @@ UpdateStatus ModuleRender::Update()
 	glDisable(GL_BLEND);
 
 	glDisable(GL_CULL_FACE);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //See the billboard
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //See the billboard
 	for (ComponentLine* lines : loadedScene->GetSceneComponentLines())
 	{
 		lines->Render();
 	}
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
-	glPolygonMode(GL_FRONT, GL_FILL);
+	//glPolygonMode(GL_FRONT, GL_FILL);
 
 	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 

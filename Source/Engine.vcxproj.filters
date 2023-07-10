@@ -421,7 +421,6 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ChangeMenuStatus.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLine.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -609,6 +608,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1042,7 +1044,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ChangeMenuStatus.h" />
     <ClInclude Include="DataModels\Components\ComponentLine.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1255,6 +1256,9 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
