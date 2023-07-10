@@ -5,6 +5,9 @@
 #include "Application.h"
 #include "GameObject/GameObject.h"
 
+#include "FileSystem/ModuleResources.h"
+#include "Animation/StateMachine.h"
+
 #include "Scripting/Script.h"
 #include "Scripting/ScriptFactory.h"
 
@@ -167,6 +170,27 @@ void ComponentScript::InternalSave(Json& meta)
 				break;
 			}
 
+			case FieldType::STATEMACHINE:
+			{
+				field["name"] = std::get<Field<StateMachine>>(enumAndValue.second).name.c_str();
+
+				std::shared_ptr<ResourceStateMachine> resource =
+					std::get<Field<StateMachine>>(enumAndValue.second).getter().GetStateMachine();
+				if (resource)
+				{
+					field["valueUID"] = resource->GetUID();
+					field["valuePath"] = resource->GetAssetsPath().c_str();
+				}
+				else
+				{
+					field["valueUID"] = 0;
+					field["valuePath"] = "";
+				}
+
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
 			default:
 				break;
 		}
@@ -263,6 +287,33 @@ void ComponentScript::InternalLoad(const Json& meta)
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
+				}
+				break;
+			}
+
+			case FieldType::STATEMACHINE:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<StateMachine>> optField = script->GetField<StateMachine>(valueName);
+				if (optField)
+				{
+					std::shared_ptr<ResourceStateMachine> resourceState;
+#ifdef ENGINE
+					std::string path = meta["valuePath"];
+					bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+					if (resourceExists)
+					{
+						resourceState = App->GetModule<ModuleResources>()->RequestResource<ResourceStateMachine>(path);
+					}
+#else
+					UID uidState = meta["valueUID"];
+					resourceState = App->GetModule<ModuleResources>()->SearchResource<ResourceStateMachine>(uidState);
+
+#endif
+					if (resourceState)
+					{
+						optField.value().getter().SetStateMachine(resourceState);
+					}
 				}
 				break;
 			}

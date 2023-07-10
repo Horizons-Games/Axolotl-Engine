@@ -9,6 +9,8 @@ REGISTERCLASS(AnimatedTexture);
 
 AnimatedTexture::AnimatedTexture() : Script()
 {
+	REGISTER_FIELD(state, StateMachine);
+	REGISTER_FIELD(offset, float);
 }
 
 void AnimatedTexture::Start()

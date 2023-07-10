@@ -5,6 +5,9 @@
 #include "Application.h"
 #include "Scene/Scene.h"
 
+#include "Windows/EditorWindows/ImporterWindows/WindowStateMachineInput.h"
+#include "Animation/StateMachine.h"
+
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/UIDGenerator.h"
 #include "Modules/ModuleScene.h"
@@ -22,6 +25,7 @@ WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 
 WindowComponentScript::~WindowComponentScript()
 {
+	inputStates.clear();
 }
 
 void WindowComponentScript::DrawWindowContents()
@@ -117,6 +121,7 @@ void WindowComponentScript::DrawWindowContents()
 		ShellExecuteA(0, 0, scriptPath.c_str(), 0, 0, SW_SHOW);
 	}
 
+	int stateMachineCount = 0;
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
@@ -222,10 +227,41 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 			}
 
+			case FieldType::STATEMACHINE:
+			{
+				stateMachineCount++;
+				Field<StateMachine> stateField = std::get<Field<StateMachine>>(member);
+				StateMachine& value = &(stateField.getter());
+
+				if (value)
+				{
+					if (value->GetStateMachine())
+					{
+						ImGui::Text(value->GetStateMachine()->GetFileName().c_str());
+						ImGui::SameLine();
+						if (ImGui::Button(("X##" + thisID).c_str()))
+						{
+							value->SetStateMachine(nullptr);
+						}
+					}
+					else
+					{
+						if (inputStates.size() < stateMachineCount)
+						{
+							inputStates.push_back(std::make_unique<WindowStateMachineInput>(value));
+						}
+						inputStates[stateMachineCount - 1]->DrawWindowContents();
+					}
+				}
+				ImGui::SameLine();
+				ImGui::Text(stateField.name.c_str());
+			}
+
 			default:
 				break;
 		}
 	}
+	CheckStateMachinesInput(stateMachineCount);
 }
 
 void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char* selectedScript)
@@ -309,5 +345,13 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 	{
 		stringToReplace.replace(startPos, from.length(), to);
 		startPos += to.length();
+	}
+}
+
+void WindowComponentScript::CheckStateMachinesInput(int stateMachineCount)
+{
+	if (inputStates.size() != stateMachineCount)
+	{
+		inputStates = std::vector<std::unique_ptr<WindowStateMachineInput>>(stateMachineCount);
 	}
 }

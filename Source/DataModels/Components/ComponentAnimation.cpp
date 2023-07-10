@@ -37,6 +37,11 @@ AnimationController* ComponentAnimation::GetController()
 	return controller;
 }
 
+StateMachine* ComponentAnimation::GetStateMachineInstance() const
+{
+	return stateMachineInstance;
+}
+
 const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine() const
 {
 	return stateMachineInstance->GetStateMachine();

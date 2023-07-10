@@ -11,7 +11,7 @@
 
 WindowComponentAnimation::WindowComponentAnimation(ComponentAnimation* component) :
 	ComponentWindow("ANIMATION", component),
-	inputState(std::make_unique<WindowStateMachineInput>(component))
+	inputState(std::make_unique<WindowStateMachineInput>(component->GetStateMachineInstance()))
 {
 }
 

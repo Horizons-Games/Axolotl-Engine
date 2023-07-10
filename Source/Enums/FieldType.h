@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject/GameObject.h"
+#include "Animation/StateMachine.h"
 
 enum class FieldType
 {
@@ -8,7 +9,8 @@ enum class FieldType
 	STRING,
 	GAMEOBJECT,
 	VECTOR3,
-	BOOLEAN
+	BOOLEAN,
+	STATEMACHINE
 };
 
 template<typename T>
@@ -44,4 +46,10 @@ template<>
 struct TypeToEnum<bool>
 {
 	const static FieldType value = FieldType::BOOLEAN;
+};
+
+template<>
+struct TypeToEnum<StateMachine>
+{
+	const static FieldType value = FieldType::STATEMACHINE;
 };

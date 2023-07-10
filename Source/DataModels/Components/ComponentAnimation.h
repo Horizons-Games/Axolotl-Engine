@@ -23,6 +23,7 @@ public:
 
 	AnimationController* GetController();
 
+	StateMachine* GetStateMachineInstance() const;
 	const std::shared_ptr<ResourceStateMachine>& GetStateMachine() const;
 	void SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine);
 

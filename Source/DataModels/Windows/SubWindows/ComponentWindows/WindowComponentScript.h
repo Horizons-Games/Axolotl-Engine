@@ -5,6 +5,7 @@
 #include "FileSystem/UID.h"
 
 class ComponentScript;
+class WindowStateMachineInput;
 
 class WindowComponentScript : public ComponentWindow
 {
@@ -24,5 +25,9 @@ private:
 
 	void ReplaceSubstringsInString(std::string& stringToReplace, const std::string& from, const std::string& to);
 
+	void CheckStateMachinesInput(int stateMachineCount);
+
 	UID windowUID;
+
+	std::vector<std::unique_ptr<WindowStateMachineInput>> inputStates;
 };
