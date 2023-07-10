@@ -42,13 +42,13 @@ ComponentCameraSample::~ComponentCameraSample()
 void ComponentCameraSample::Draw() const
 {
 #ifdef ENGINE
-	/*bool canDrawSample = 
-		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	bool canDrawSample = 
+		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (!canDrawSample)
 	{
 		return;
-	}*/
+	}
 
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
