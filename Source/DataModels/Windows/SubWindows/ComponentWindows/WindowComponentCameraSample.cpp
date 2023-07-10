@@ -78,7 +78,6 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		if (isSampleFixedEnabled)
 		{
-			ImGui::Text("Fixed Position Offset");
 			ImGui::Text("X:");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
