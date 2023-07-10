@@ -603,6 +603,12 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Trail\Trail.cpp">
+      <Filter>DataModels\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentTrail.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1242,6 +1248,12 @@
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Trail\Trail.h">
+      <Filter>DataModels\Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentTrail.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1396,6 +1408,9 @@
     </Filter>
     <Filter Include="UserScripts\Graphics">
       <UniqueIdentifier>{fca70cf2-3a20-410d-9019-42e680fad56c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Trail">
+      <UniqueIdentifier>{6cf0d0a9-3e22-442c-be80-c9ab80a7adc5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

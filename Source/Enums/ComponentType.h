@@ -22,7 +22,8 @@ enum class ComponentType
 	SCRIPT,
 	BREAKABLE,
 	PARTICLE,
-	CUBEMAP
+	CUBEMAP,
+	TRAIL
 };
 
 class ComponentAnimation;
@@ -40,6 +41,7 @@ class ComponentParticleSystem;
 class ComponentRigidBody;
 class ComponentScript;
 class ComponentTransform;
+class ComponentTrail;
 
 class ComponentButton;
 class ComponentCanvas;
@@ -140,6 +142,12 @@ template<>
 struct ComponentToEnum<ComponentTransform>
 {
 	const static ComponentType value = ComponentType::TRANSFORM;
+};
+
+template<>
+struct ComponentToEnum<ComponentTrail>
+{
+	const static ComponentType value = ComponentType::TRAIL;
 };
 
 template<>
