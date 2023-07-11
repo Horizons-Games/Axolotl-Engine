@@ -378,15 +378,23 @@ UpdateStatus ModuleRender::Update()
 
 	glDisable(GL_BLEND);
 
+	//ComponentLine
 	glDisable(GL_CULL_FACE);
+
+	//additive blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //See the billboard
 	for (ComponentLine* lines : loadedScene->GetSceneComponentLines())
 	{
 		lines->Render();
 	}
+
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
-	//glPolygonMode(GL_FRONT, GL_FILL);
+	glDisable(GL_BLEND);
+	//glPolygonMode(GL_FRONT, GL_FILL); //See the billboard
 
 	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 
