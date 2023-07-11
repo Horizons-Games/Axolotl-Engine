@@ -28,8 +28,11 @@ private:
 
 	void CheckStateMachinesInput(const IScript* scriptObject);
 
+	bool IsDoubleClicked();
+
+	float secondsSinceLastClick = 0;
 	UID windowUID;
 
 	std::vector<std::unique_ptr<WindowStateMachineInput>> inputStates;
-	int stateMachineCount;
+	int stateMachineCount = -1;
 };
