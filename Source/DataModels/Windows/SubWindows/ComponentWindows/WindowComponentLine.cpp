@@ -58,7 +58,6 @@ void WindowComponentLine::DrawWindowContents()
 		if (lineTexture)
 		{
 			lineTexture->Load();
-			componentLine->SetLineTexture(lineTexture);
 			ImGui::Image((void*)(intptr_t)lineTexture->GetGlTexture(), ImVec2(100, 100));
 			if (ImGui::Button("Remove Texture Diffuse"))
 			{
@@ -69,6 +68,11 @@ void WindowComponentLine::DrawWindowContents()
 		else
 		{
 			inputTexture->DrawWindowContents();
+		}
+
+		if (ImGui::Button("Apply"))
+		{
+			componentLine->SetLineTexture(lineTexture);
 		}
 	}
 }

@@ -176,6 +176,11 @@ void ComponentLine::Render()
 		{
 			lineTexture->Load();
 			glBindTexture(GL_TEXTURE_2D, lineTexture->GetGlTexture());
+			program->BindUniformInt("hasTexture", 1);
+		}
+		else
+		{
+			program->BindUniformInt("hasTexture", 0);
 		}
 
 		//I commented CW and CCW because they destroy the skybox need to look at that later
