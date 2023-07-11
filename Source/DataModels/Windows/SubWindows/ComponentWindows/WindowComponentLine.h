@@ -13,6 +13,7 @@ public:
 	~WindowComponentLine() override;
 
 	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
+	void InitValues();
 
 protected:
 	void DrawWindowContents() override;

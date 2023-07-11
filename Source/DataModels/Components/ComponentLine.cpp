@@ -177,7 +177,6 @@ void ComponentLine::Render()
 			lineTexture->Load();
 			glBindTexture(GL_TEXTURE_2D, lineTexture->GetGlTexture());
 		}
-		glBindTexture(GL_TEXTURE_2D, 0);
 
 		//I commented CW and CCW because they destroy the skybox need to look at that later
 		// 
@@ -186,6 +185,7 @@ void ComponentLine::Render()
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
 		//glDrawElements(GL_TRIANGLE_STRIP, 2 + 2 * numTiles, GL_UNSIGNED_INT, nullptr);
 		//glFrontFace(GL_CCW);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
 		program->Deactivate();
 	}

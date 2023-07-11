@@ -12,6 +12,7 @@ WindowComponentLine::WindowComponentLine(ComponentLine* component) :
 	ComponentWindow("Line", component),
 	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE))
 {
+	InitValues();
 }
 
 WindowComponentLine::~WindowComponentLine()
@@ -70,4 +71,11 @@ void WindowComponentLine::DrawWindowContents()
 			inputTexture->DrawWindowContents();
 		}
 	}
+}
+
+void WindowComponentLine::InitValues()
+{
+	ComponentLine* componentLine = static_cast<ComponentLine*>(component);
+
+	lineTexture = componentLine->GetLineTexture();
 }
