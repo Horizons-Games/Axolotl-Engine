@@ -6,6 +6,7 @@
 
 class ComponentScript;
 class WindowStateMachineInput;
+class IScript;
 
 class WindowComponentScript : public ComponentWindow
 {
@@ -25,9 +26,10 @@ private:
 
 	void ReplaceSubstringsInString(std::string& stringToReplace, const std::string& from, const std::string& to);
 
-	void CheckStateMachinesInput(int stateMachineCount);
+	void CheckStateMachinesInput(const IScript* scriptObject);
 
 	UID windowUID;
 
 	std::vector<std::unique_ptr<WindowStateMachineInput>> inputStates;
+	int stateMachineCount;
 };

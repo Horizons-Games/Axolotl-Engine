@@ -2,7 +2,6 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "Animation/StateMachine.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -16,7 +15,6 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	StateMachine state;
 	ComponentMeshRenderer* mesh;
 	float offset;
 	float movement;

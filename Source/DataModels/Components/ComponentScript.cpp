@@ -172,10 +172,10 @@ void ComponentScript::InternalSave(Json& meta)
 
 			case FieldType::STATEMACHINE:
 			{
-				field["name"] = std::get<Field<StateMachine>>(enumAndValue.second).name.c_str();
+				field["name"] = std::get<Field<StateMachine*>>(enumAndValue.second).name.c_str();
 
 				std::shared_ptr<ResourceStateMachine> resource =
-					std::get<Field<StateMachine>>(enumAndValue.second).getter().GetStateMachine();
+					std::get<Field<StateMachine*>>(enumAndValue.second).getter()->GetStateMachine();
 				if (resource)
 				{
 					field["valueUID"] = resource->GetUID();
@@ -294,25 +294,25 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::STATEMACHINE:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<StateMachine>> optField = script->GetField<StateMachine>(valueName);
+				std::optional<Field<StateMachine*>> optField = script->GetField<StateMachine*>(valueName);
 				if (optField)
 				{
 					std::shared_ptr<ResourceStateMachine> resourceState;
 #ifdef ENGINE
-					std::string path = meta["valuePath"];
+					std::string path = field["valuePath"];
 					bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 					if (resourceExists)
 					{
 						resourceState = App->GetModule<ModuleResources>()->RequestResource<ResourceStateMachine>(path);
 					}
 #else
-					UID uidState = meta["valueUID"];
+					UID uidState = field["valueUID"];
 					resourceState = App->GetModule<ModuleResources>()->SearchResource<ResourceStateMachine>(uidState);
 
 #endif
 					if (resourceState)
 					{
-						optField.value().getter().SetStateMachine(resourceState);
+						optField.value().getter()->SetStateMachine(resourceState);
 					}
 				}
 				break;

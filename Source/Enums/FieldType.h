@@ -49,7 +49,7 @@ struct TypeToEnum<bool>
 };
 
 template<>
-struct TypeToEnum<StateMachine>
+struct TypeToEnum<StateMachine*>
 {
 	const static FieldType value = FieldType::STATEMACHINE;
 };

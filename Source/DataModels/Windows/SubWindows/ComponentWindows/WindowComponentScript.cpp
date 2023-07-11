@@ -19,7 +19,8 @@
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	ComponentWindow("SCRIPT", component),
-	windowUID(UniqueID::GenerateUID())
+	windowUID(UniqueID::GenerateUID()),
+	stateMachineCount(-1)
 {
 }
 
@@ -121,7 +122,8 @@ void WindowComponentScript::DrawWindowContents()
 		ShellExecuteA(0, 0, scriptPath.c_str(), 0, 0, SW_SHOW);
 	}
 
-	int stateMachineCount = 0;
+	CheckStateMachinesInput(scriptObject);
+	stateMachineCount = 0;
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
@@ -229,9 +231,8 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::STATEMACHINE:
 			{
-				stateMachineCount++;
-				Field<StateMachine> stateField = std::get<Field<StateMachine>>(member);
-				StateMachine& value = &(stateField.getter());
+				Field<StateMachine*> stateField = std::get<Field<StateMachine*>>(member);
+				StateMachine* value = stateField.getter();
 
 				if (value)
 				{
@@ -246,22 +247,18 @@ void WindowComponentScript::DrawWindowContents()
 					}
 					else
 					{
-						if (inputStates.size() < stateMachineCount)
-						{
-							inputStates.push_back(std::make_unique<WindowStateMachineInput>(value));
-						}
-						inputStates[stateMachineCount - 1]->DrawWindowContents();
+						inputStates[stateMachineCount]->DrawWindowContents();
 					}
 				}
 				ImGui::SameLine();
 				ImGui::Text(stateField.name.c_str());
+				stateMachineCount++;
 			}
 
 			default:
 				break;
 		}
 	}
-	CheckStateMachinesInput(stateMachineCount);
 }
 
 void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char* selectedScript)
@@ -348,10 +345,19 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 	}
 }
 
-void WindowComponentScript::CheckStateMachinesInput(int stateMachineCount)
+void WindowComponentScript::CheckStateMachinesInput(const IScript* scriptObject)
 {
 	if (inputStates.size() != stateMachineCount)
 	{
-		inputStates = std::vector<std::unique_ptr<WindowStateMachineInput>>(stateMachineCount);
+		inputStates.clear();
+		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
+		{
+			if (enumAndMember.first == FieldType::STATEMACHINE)
+			{
+				Field<StateMachine*> stateField = std::get<Field<StateMachine*>>(enumAndMember.second);
+				StateMachine* value = stateField.getter();
+				inputStates.push_back(std::make_unique<WindowStateMachineInput>(value));
+			}
+		}
 	}
 }

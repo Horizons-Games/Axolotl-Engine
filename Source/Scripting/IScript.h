@@ -43,7 +43,7 @@ class ComponentRigidBody;
 												   this->Set##Name(value);   \
 											   })));
 
-using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::string>, Field<GameObject*>, Field<bool>, Field<StateMachine>>;
+using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::string>, Field<GameObject*>, Field<bool>, Field<StateMachine*>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -162,8 +162,8 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 
 			case FieldType::STATEMACHINE:
 			{
-				Field<StateMachine> field = std::get<Field<StateMachine>>(enumAndField.second);
-				StateMachine value = field.getter();
+				Field<StateMachine*> field = std::get<Field<StateMachine*>>(enumAndField.second);
+				StateMachine* value = field.getter();
 				pSerializer->SerializeProperty(field.name.c_str(), value);
 				field.setter(value);
 				break;
