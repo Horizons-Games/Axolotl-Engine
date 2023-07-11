@@ -32,12 +32,6 @@ ComponentLine::~ComponentLine()
 	glDeleteBuffers(1,&colorBuffers);
 }
 
-//void ComponentLine::Update()
-//{
-//	RecalculateVertices();
-//	FaceCamera();
-//}
-
 void ComponentLine::LoadBuffers()
 {
 	//Here will be the generation of all buffers, we can put them in the UpdateBuffers later but for now i split it
@@ -167,6 +161,10 @@ void ComponentLine::Render()
 		ModelMatrix(program);
 		UpdateBuffers();
 		RecalculateVertices();
+
+		//will be move in AnimetedTexture Script or something similar
+		offset.x += 0.004f;
+		if (offset.x > 1.f) offset.x = 0.f;
 
 		program->BindUniformFloat2("offset", offset);
 		program->BindUniformFloat2("tiling", tiling);

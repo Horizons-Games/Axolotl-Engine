@@ -10,7 +10,9 @@
 
 WindowComponentLine::WindowComponentLine(ComponentLine* component) :
 	ComponentWindow("Line", component),
-	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE))
+	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE)),
+	tiling(float2(1.0f)),
+	offset(float2(0.0f))
 {
 	InitValues();
 }
@@ -70,9 +72,48 @@ void WindowComponentLine::DrawWindowContents()
 			inputTexture->DrawWindowContents();
 		}
 
+		ImGui::Separator();
+
+		if (ImGui::InputFloat2("Tiling", &tiling[0], "%.1f"))
+		{
+			if (tiling[0] < 0.0f)
+			{
+				tiling[0] = 0.0f;
+			}
+
+			if (tiling[1] < 0.0f)
+			{
+				tiling[1] = 0.0f;
+			}
+		};
+		if (ImGui::InputFloat2("Offset", &offset[0], "%.3f"))
+		{
+			if (offset[0] < 0.0f)
+			{
+				offset[0] = 0.0f;
+			}
+			else if (offset[0] > 1.0f)
+			{
+				offset[0] = 1.0f;
+			}
+
+			if (offset[1] < 0.0f)
+			{
+				offset[1] = 0.0f;
+			}
+			else if (offset[1] > 1.0f)
+			{
+				offset[1] = 1.0f;
+			}
+		}
+
+		ImGui::Separator();
+
 		if (ImGui::Button("Apply"))
 		{
 			componentLine->SetLineTexture(lineTexture);
+			componentLine->SetTiling(tiling);
+			componentLine->SetOffset(offset);
 		}
 	}
 }

@@ -19,6 +19,10 @@ protected:
 	void DrawWindowContents() override;
 
 private:
+
+	float2 tiling;
+	float2 offset;
+
 	std::unique_ptr<WindowLineTexture> inputTexture;
 	std::shared_ptr<ResourceTexture> lineTexture;
 

@@ -30,6 +30,12 @@ public:
 	int GetNumTiles();
 	void SetNumTiles(int numTiles);
 
+	float2& GetTiling();
+	void SetTiling(float2& tiling);
+
+	float2& GetOffset();
+	void SetOffset(float2& offset);
+
 	std::shared_ptr<ResourceTexture> GetLineTexture() const;
 	void SetLineTexture(const std::shared_ptr<ResourceTexture>& texture);
 
@@ -69,6 +75,26 @@ inline void ComponentLine::SetNumTiles(int numTiles)
 {
 	this->numTiles = numTiles;
 	dirtyBuffers = true;
+}
+
+inline float2& ComponentLine::GetTiling()
+{
+	return tiling;
+}
+
+inline void ComponentLine::SetTiling(float2& tiling)
+{
+	this->tiling = tiling;
+}
+
+inline float2& ComponentLine::GetOffset()
+{
+	return offset;
+}
+
+inline void ComponentLine::SetOffset(float2& offset)
+{
+	this->offset = offset;
 }
 
 inline std::shared_ptr<ResourceTexture> ComponentLine::GetLineTexture() const
