@@ -10,6 +10,7 @@ layout(location = 2) in vec3 vertexColor;
 
 uniform vec2 offset;
 uniform vec2 tiling;
+uniform float time;
 
 out vec2 TexCoord;
 out vec3 incolor;
@@ -17,6 +18,8 @@ out vec3 incolor;
 void main()
 {
     TexCoord = texCoord*tiling+offset;
+
+    TexCoord.x -= time;
 
     incolor = vertexColor;
 

@@ -9,6 +9,8 @@
 #include "Math/float3.h"
 #include "ImGui/imgui_color_gradient.h"
 
+#include "Timer/Timer.h"
+
 class GameObject;
 class ResourceTexture;
 
@@ -29,6 +31,9 @@ public:
 
 	int GetNumTiles();
 	void SetNumTiles(int numTiles);
+
+	float GetSpeed();
+	void SetSpeed(float speeds);
 
 	float2& GetTiling();
 	void SetTiling(float2& tiling);
@@ -61,6 +66,8 @@ private:
 
 	std::shared_ptr<ResourceTexture> lineTexture;
 
+	float speed = 0;
+	float time = 0;
 	float2 offset = float2::zero;
 	float2 tiling = float2::one;
 	ImGradient* gradient = new ImGradient();
@@ -75,6 +82,16 @@ inline void ComponentLine::SetNumTiles(int numTiles)
 {
 	this->numTiles = numTiles;
 	dirtyBuffers = true;
+}
+
+inline float ComponentLine::GetSpeed()
+{
+	return speed;
+}
+
+inline void ComponentLine::SetSpeed(float speeds)
+{
+	this->speed = speeds;
 }
 
 inline float2& ComponentLine::GetTiling()

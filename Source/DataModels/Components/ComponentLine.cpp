@@ -162,12 +162,15 @@ void ComponentLine::Render()
 		UpdateBuffers();
 		RecalculateVertices();
 
+		time += App->GetDeltaTime() * speed;
+
 		//will be move in AnimetedTexture Script or something similar
 		offset.x += 0.004f;
 		if (offset.x > 1.f) offset.x = 0.f;
 
 		program->BindUniformFloat2("offset", offset);
 		program->BindUniformFloat2("tiling", tiling);
+		program->BindUniformFloat("time", time);
 
 		glActiveTexture(GL_TEXTURE0);
 		if (lineTexture)

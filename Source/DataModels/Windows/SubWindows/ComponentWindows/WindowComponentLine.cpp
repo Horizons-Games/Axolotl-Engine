@@ -42,6 +42,16 @@ void WindowComponentLine::DrawWindowContents()
 			componentLine->SetNumTiles(numTiles);
 			
 		}
+		float speed = componentLine->GetSpeed();
+		ImGui::Text("");
+		ImGui::Text("Speed");
+		ImGui::SameLine();
+		if (ImGui::DragFloat("speed", &speed, 0.1f, 0.0f, 50.0f))
+		{
+
+			componentLine->SetSpeed(speed);
+
+		}
 		ImGui::Text("");
 		ImGui::Text("Color Gradient");
 		
