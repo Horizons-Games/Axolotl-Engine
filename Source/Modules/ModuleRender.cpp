@@ -387,7 +387,7 @@ UpdateStatus ModuleRender::Update()
 
 	// Blur bloom with kawase
 	bool kawaseFrameBuffer = true, firstIteration = true;
-	int kawaseSamples = 2;
+	int kawaseSamples = 8;
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
 	kawaseDownProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
