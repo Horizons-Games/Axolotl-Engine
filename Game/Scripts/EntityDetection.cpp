@@ -18,7 +18,7 @@
 REGISTERCLASS(EntityDetection);
 
 EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr), player(nullptr), 
-interactionAngle(50.0f), playerTransform(nullptr)
+interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr)
 {
 	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(interactionAngle, float);
@@ -58,7 +58,7 @@ void EntityDetection::Update(float deltaTime)
 		playerTransform->GetGlobalForward().Normalized() * rigidBody->GetRadius() * rigidBody->GetFactor(),
 		dd::colors::IndianRed);
 
-
+	enemySelected = nullptr;
 	
 	for (GameObject* enemy : enemiesInTheArea) 
 	{
@@ -77,12 +77,30 @@ void EntityDetection::Update(float deltaTime)
 		{
 			color = dd::colors::Red;
 
-			dd::arrow(playerTransform->GetGlobalPosition(), enemy->GetComponent<ComponentTransform>()->GetGlobalPosition(),
-				dd::colors::Red, 0.5f);
+			if (enemySelected == nullptr)
+			{
+				enemySelected = enemy;
+			}
+			else
+			{
+				float3 currentEnemyPosition = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
+				float3 lastEnemyPosition = enemySelected->GetComponent<ComponentTransform>()->GetGlobalPosition();
+				if (playerTransform->GetGlobalPosition().Distance(currentEnemyPosition) < playerTransform->GetGlobalPosition().Distance(lastEnemyPosition))
+				{
+					enemySelected = enemy;
+				}
+			}
+
 		}
 
 		dd::sphere(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition(),
 			color, 0.5f);
+	}
+
+	if (enemySelected != nullptr)
+	{
+		dd::arrow(playerTransform->GetGlobalPosition(), enemySelected->GetComponent<ComponentTransform>()->GetGlobalPosition(),
+			dd::colors::Red, 0.5f);
 	}
 
 }

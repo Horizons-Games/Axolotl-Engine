@@ -33,4 +33,5 @@ private:
 	float interactionAngle;
 
 	std::vector<GameObject*> enemiesInTheArea;
+	GameObject* enemySelected;
 };
