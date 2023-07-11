@@ -3,6 +3,7 @@
 #include "WindowComponentLine.h"
 #include "Components/ComponentLine.h"
 #include "ImGui/imgui_color_gradient.h"
+#include "ImGui/imgui_bezier.h"
 
 #include "DataModels/Resources/ResourceTexture.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowLineTexture.h"
@@ -52,6 +53,16 @@ void WindowComponentLine::DrawWindowContents()
 			componentLine->SetSpeed(speed);
 
 		}
+
+		ImGui::Text("");
+		ImGui::Text("Size");
+		static float v[] = { 0.390f, 0.575f, 0.565f, 1.000f };
+		if(ImGui::Bezier( "", v ))
+		{
+		
+		}
+		float y = ImGui::BezierValue( 0.5f, v ); 
+
 		ImGui::Text("");
 		ImGui::Text("Color Gradient");
 		

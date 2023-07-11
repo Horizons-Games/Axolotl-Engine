@@ -495,6 +495,7 @@
     <ClInclude Include="ImGui\imgui_color_gradient.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="ImGui\imgui_bezier.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -740,6 +741,7 @@
     <ClCompile Include="ImGui\imgui_color_gradient.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_bezier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FontIcons\CustomFont.ifs">
