@@ -18,7 +18,7 @@
 REGISTERCLASS(EntityDetection);
 
 EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr), player(nullptr), 
-interactionAngle(30.0f), playerTransform(nullptr)
+interactionAngle(50.0f), playerTransform(nullptr)
 {
 	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(interactionAngle, float);
@@ -76,10 +76,13 @@ void EntityDetection::Update(float deltaTime)
 		if (finalAngle < interactionAngle)
 		{
 			color = dd::colors::Red;
+
+			dd::arrow(playerTransform->GetGlobalPosition(), enemy->GetComponent<ComponentTransform>()->GetGlobalPosition(),
+				dd::colors::Red, 0.5f);
 		}
 
 		dd::sphere(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition(),
-			color, 1.0f);
+			color, 0.5f);
 	}
 
 }
