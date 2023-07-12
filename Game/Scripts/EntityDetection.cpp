@@ -107,6 +107,11 @@ void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 
 void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 {
+	if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
+	{
+		enemySelected = nullptr;
+	}
+
 	enemiesInTheArea.erase(
 		std::remove_if(
 			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentTransform* transform)
@@ -115,4 +120,18 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 			}
 		),
 		std::end(enemiesInTheArea));
+}
+
+
+
+GameObject* EntityDetection::GetEnemySelected() const
+{
+	if (enemySelected != nullptr)
+	{
+		return enemySelected->GetOwner();
+	}
+	else
+	{
+		return nullptr;
+	}
 }

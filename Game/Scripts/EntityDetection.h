@@ -38,15 +38,3 @@ private:
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	ComponentTransform* enemySelected;
 };
-
-inline GameObject* EntityDetection::GetEnemySelected() const
-{
-	if (enemySelected != nullptr)
-	{
-		return enemySelected->GetOwner();
-	}
-	else
-	{
-		return nullptr;
-	}
-}
