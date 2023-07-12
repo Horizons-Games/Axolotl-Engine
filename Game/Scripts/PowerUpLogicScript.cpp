@@ -72,13 +72,14 @@ void PowerUpLogicScript::Update(float deltaTime)
 }
 
 // Once requested, a given powerup will spawn in the given position
-void PowerUpLogicScript::ActivatePowerUp(const float3& position)
+void PowerUpLogicScript::ActivatePowerUp(GameObject* newParent)
 {
 	srand(static_cast<unsigned int>(time(0)));
 	type = PowerUpType(rand() % 4 + 1);
 	timer = 0.f;
 
-	ownerTransform->SetLocalPosition(position);
+	owner->SetParent(newParent);
+	ownerTransform->SetLocalPosition(float3::zero);
 	ownerTransform->UpdateTransformMatrices();
 
 	ownerRb->UpdateRigidBody();

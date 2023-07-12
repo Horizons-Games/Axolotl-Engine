@@ -195,7 +195,7 @@ void DebugGame::PowerUpDrop() const
 		PowerUpLogicScript* newPowerUpLogic = DebugPowerUp->GetComponent<PowerUpLogicScript>();
 		ComponentTransform* ownerTransform = player->GetComponent<ComponentTransform>();
 
-		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetGlobalPosition());
+		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
 	}
 
 
