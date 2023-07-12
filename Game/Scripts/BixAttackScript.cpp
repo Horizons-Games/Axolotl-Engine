@@ -65,14 +65,6 @@ void BixAttackScript::Update(float deltaTime)
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
 
-
-#ifdef DEBUG
-	for (const Ray& ray : rays)
-	{
-		dd::arrow(ray.pos, ray.pos + ray.dir * rayAttackSize, dd::colors::Red, 0.05f);
-	}
-#endif // DEBUG
-
 	CheckCombo();
 }
 
