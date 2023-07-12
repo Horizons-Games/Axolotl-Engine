@@ -26,6 +26,9 @@ private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void DrawDetectionLines();
+	void SelectEnemy();
+
 	ModuleInput* input;
 
 	GameObject* player;
@@ -37,4 +40,7 @@ private:
 
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	ComponentTransform* enemySelected;
+
+	float3 vecForward;
+	float3 originPosition;
 };

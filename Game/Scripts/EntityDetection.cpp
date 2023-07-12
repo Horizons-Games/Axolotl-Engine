@@ -7,6 +7,7 @@
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentScript.h"
 #include "GameObject/GameObject.h"
 
 #include "../Scripts/HealthSystem.h"
@@ -42,8 +43,16 @@ void EntityDetection::Update(float deltaTime)
 	rigidBody->SetPositionTarget(playerTransform->GetGlobalPosition());
 
 
-	float3 vecForward = playerTransform->GetGlobalForward();
-	float3 originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
+	vecForward = playerTransform->GetGlobalForward();
+	originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
+
+	DrawDetectionLines();
+	
+	SelectEnemy();
+}
+
+void EntityDetection::DrawDetectionLines()
+{
 	float magnitude = rigidBody->GetRadius() * rigidBody->GetFactor();
 
 	//Forward line
@@ -54,8 +63,10 @@ void EntityDetection::Update(float deltaTime)
 	vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(-interactionAngle)) * vecForward;
 	dd::line(originPosition, originPosition + magnitude * vecRotated.Normalized(), dd::colors::BlueViolet);
 	dd::line(originPosition, originPosition + magnitude * vecForward.Normalized(), dd::colors::IndianRed);
+}
 
-
+void EntityDetection::SelectEnemy()
+{
 	enemySelected = nullptr;
 
 	for (ComponentTransform* enemy : enemiesInTheArea)
@@ -63,7 +74,7 @@ void EntityDetection::Update(float deltaTime)
 		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive())
 			continue;
 
-		vecForward = vecForward.Normalized();
+		float3 vecForward = playerTransform->GetGlobalForward().Normalized();
 		float3 vecTowardsEnemy = (enemy->GetGlobalPosition() - originPosition).Normalized();
 
 		float angle = Quat::FromEulerXYZ(vecForward.x, vecForward.y, vecForward.z).
@@ -99,7 +110,6 @@ void EntityDetection::Update(float deltaTime)
 		//Draw arrow to the enemy selected
 		dd::arrow(originPosition, enemySelected->GetGlobalPosition(), dd::colors::Red, 0.1f);
 	}
-
 }
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
@@ -115,6 +125,7 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 	if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
 	{
 		enemySelected = nullptr;
+		SelectEnemy();
 	}
 
 	enemiesInTheArea.erase(
