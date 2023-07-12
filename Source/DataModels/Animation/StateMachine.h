@@ -23,10 +23,13 @@ public:
 	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
 
 	std::string& GetActualStateName() const;
+	unsigned int GetActualStateID() const;
 
 	State* GetActualState() const;
 	State* GetNextState() const;
 	State* GetLastState() const;
+
+	long long GetLastTranstionID() const;
 
 	bool CheckTransitions(const State* state, Transition& transition, bool statePlayFinish = true);
 	bool IsTransitioning() const;
@@ -35,7 +38,8 @@ private:
 
 	std::shared_ptr<ResourceStateMachine> stateMachine;
 	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
-
+	
+	long long lastTransition;
 	unsigned int actualState;
 	unsigned int nextState;
 	unsigned int lastState;
@@ -65,4 +69,9 @@ inline void StateMachine::SetParameter(const std::string& parameterName, ValidFi
 inline std::string& StateMachine::GetActualStateName() const
 {
 	return stateMachine->GetState(actualState)->name;
+}
+
+inline unsigned int StateMachine::GetActualStateID() const
+{
+	return actualState;
 }

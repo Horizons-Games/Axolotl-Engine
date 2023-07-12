@@ -89,6 +89,7 @@ bool StateMachine::CheckTransitions(const State* state, Transition& transition, 
 			}
 
 			transition = actualTransition;
+			lastTransition = idTransition;
 			return true;
 		}
 	}
@@ -118,4 +119,9 @@ State* StateMachine::GetLastState() const
 		return nullptr;
 	}
 	return stateMachine->GetState(lastState);
+}
+
+long long StateMachine::GetLastTranstionID() const
+{
+	return lastTransition;
 }
