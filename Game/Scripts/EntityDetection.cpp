@@ -17,7 +17,7 @@
 
 REGISTERCLASS(EntityDetection);
 
-EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr), player(nullptr), 
+EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr), player(nullptr),
 interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr), interactionOffset(1.0f)
 {
 	REGISTER_FIELD(player, GameObject*);
@@ -44,33 +44,32 @@ void EntityDetection::Update(float deltaTime)
 	float3 originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
 	float magnitude = rigidBody->GetRadius() * rigidBody->GetFactor();
 
+	//Forward line
 	float3 vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(interactionAngle)) * vecForward;
 	dd::line(originPosition, originPosition + magnitude * vecRotated.Normalized(), dd::colors::BlueViolet);
 
+	//Angle lines
 	vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(-interactionAngle)) * vecForward;
 	dd::line(originPosition, originPosition + magnitude * vecRotated.Normalized(), dd::colors::BlueViolet);
 	dd::line(originPosition, originPosition + magnitude * vecForward.Normalized(), dd::colors::IndianRed);
 
 
 	enemySelected = nullptr;
-	
+
 	for (ComponentTransform* enemy : enemiesInTheArea)
 	{
-		float3 vecTowardsEnemy = enemy->GetGlobalPosition() - originPosition;
-	
 		vecForward = vecForward.Normalized();
-		vecTowardsEnemy = vecTowardsEnemy.Normalized();
+		float3 vecTowardsEnemy = (enemy->GetGlobalPosition() - originPosition).Normalized();
 
 		float angle = Quat::FromEulerXYZ(vecForward.x, vecForward.y, vecForward.z).
 			AngleBetween(Quat::FromEulerXYZ(vecTowardsEnemy.x, vecTowardsEnemy.y, vecTowardsEnemy.z));
 
-		
 		float3 color = dd::colors::Blue;
-		float finalAngle = math::Abs(math::RadToDeg(angle));
 
 		float dotProduct = vecTowardsEnemy.Dot((playerTransform->GetGlobalPosition() - originPosition).Normalized());
+		angle = math::Abs(math::RadToDeg(angle));
 
-		if (finalAngle < interactionAngle && dotProduct > 0)
+		if (angle < interactionAngle && dotProduct > 0) //Enemy is inside angle and in front of player
 		{
 			color = dd::colors::Red;
 
@@ -78,20 +77,22 @@ void EntityDetection::Update(float deltaTime)
 			{
 				enemySelected = enemy;
 			}
-			else if (originPosition.Distance(enemy->GetGlobalPosition()) < originPosition.Distance(enemySelected->GetGlobalPosition()))
+			//enemy is closer than the currently selected one
+			else if (originPosition.Distance(enemy->GetGlobalPosition()) <
+				originPosition.Distance(enemySelected->GetGlobalPosition()))
 			{
 				enemySelected = enemy;
 			}
-
 		}
 
+		//Draw enemies inside the sphere
 		dd::sphere(enemy->GetGlobalPosition(), color, 0.5f);
 	}
 
 	if (enemySelected != nullptr)
 	{
-		dd::arrow(originPosition, enemySelected->GetGlobalPosition(),
-			dd::colors::Red, 0.1f);
+		//Draw arrow to the enemy selected
+		dd::arrow(originPosition, enemySelected->GetGlobalPosition(), dd::colors::Red, 0.1f);
 	}
 
 }
@@ -108,9 +109,9 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 {
 	enemiesInTheArea.erase(
 		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentTransform* gameObject)
+			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentTransform* transform)
 			{
-				return gameObject == other->GetOwner()->GetComponent<ComponentTransform>();
+				return transform == other->GetOwner()->GetComponent<ComponentTransform>();
 			}
 		),
 		std::end(enemiesInTheArea));
