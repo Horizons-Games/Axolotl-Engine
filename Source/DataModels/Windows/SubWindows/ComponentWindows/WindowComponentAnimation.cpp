@@ -3,6 +3,7 @@
 #include "WindowComponentAnimation.h"
 
 #include "Components/ComponentAnimation.h"
+#include "GameObject/GameObject.h"
 #include "Windows/EditorWindows/ImporterWindows/WindowStateMachineInput.h"
 
 #include "Application.h"
@@ -41,7 +42,9 @@ void WindowComponentAnimation::DrawWindowContents()
 			ImGui::SameLine();
 			if (ImGui::Button("Edit StateMachine"))
 			{
-				App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(state);
+				std::string nameInstance = asAnimation->GetOwner()->GetName() + "->ComponentAnimation";
+				StateMachine* instance = asAnimation->GetStateMachineInstance();
+				App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(instance, nameInstance);
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("x"))

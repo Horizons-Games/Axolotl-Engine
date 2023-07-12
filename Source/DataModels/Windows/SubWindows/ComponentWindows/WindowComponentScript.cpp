@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "Scene/Scene.h"
+#include "ModuleEditor.h"
 
 #include "Windows/EditorWindows/ImporterWindows/WindowStateMachineInput.h"
 #include "Animation/StateMachine.h"
@@ -236,6 +237,12 @@ void WindowComponentScript::DrawWindowContents()
 					if (value->GetStateMachine())
 					{
 						ImGui::Text(value->GetStateMachine()->GetFileName().c_str());
+						ImGui::SameLine();
+						if (ImGui::Button("Edit StateMachine"))
+						{
+							std::string nameInstance = script->GetOwner()->GetName() + "->" + scriptName; 
+							App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(value, nameInstance);
+						}
 						ImGui::SameLine();
 						if (ImGui::Button(("X##" + thisID).c_str()))
 						{
