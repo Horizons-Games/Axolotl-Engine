@@ -31,6 +31,7 @@ private:
 	ComponentRigidBody* rigidBody;
 
 	float interactionAngle;
+	float interactionOffset;
 
 	std::vector<GameObject*> enemiesInTheArea;
 	GameObject* enemySelected;

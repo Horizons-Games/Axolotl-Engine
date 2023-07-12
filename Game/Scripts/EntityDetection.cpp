@@ -18,10 +18,11 @@
 REGISTERCLASS(EntityDetection);
 
 EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr), player(nullptr), 
-interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr)
+interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr), interactionOffset(1.0f)
 {
 	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(interactionAngle, float);
+	REGISTER_FIELD(interactionOffset, float);
 }
 
 void EntityDetection::Start()
@@ -40,21 +41,22 @@ void EntityDetection::Update(float deltaTime)
 
 
 	float3 vecForward = playerTransform->GetGlobalForward();
+	float3 originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
 
 	float newMagnitude = rigidBody->GetRadius() * rigidBody->GetFactor();
 
 	float3 vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(interactionAngle)) * vecForward;
-	dd::line(playerTransform->GetGlobalPosition(),
-		playerTransform->GetGlobalPosition() + newMagnitude * vecRotated.Normalized(),
+	dd::line(originPosition,
+		originPosition + newMagnitude * vecRotated.Normalized(),
 		dd::colors::BlueViolet);
 
 	vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(-interactionAngle)) * vecForward;
-	dd::line(playerTransform->GetGlobalPosition(),
-		playerTransform->GetGlobalPosition() + newMagnitude * vecRotated.Normalized(),
+	dd::line(originPosition,
+		originPosition + newMagnitude * vecRotated.Normalized(),
 		dd::colors::BlueViolet);
 
 
-	dd::line(playerTransform->GetGlobalPosition(), playerTransform->GetGlobalPosition() +
+	dd::line(originPosition, originPosition +
 		playerTransform->GetGlobalForward().Normalized() * rigidBody->GetRadius() * rigidBody->GetFactor(),
 		dd::colors::IndianRed);
 
@@ -62,7 +64,7 @@ void EntityDetection::Update(float deltaTime)
 	
 	for (GameObject* enemy : enemiesInTheArea) 
 	{
-		float3 vecTowardsEnemy = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition() - playerTransform->GetGlobalPosition();
+		float3 vecTowardsEnemy = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition() - originPosition;
 	
 		vecForward = vecForward.Normalized();
 		vecTowardsEnemy = vecTowardsEnemy.Normalized();
@@ -85,7 +87,7 @@ void EntityDetection::Update(float deltaTime)
 			{
 				float3 currentEnemyPosition = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
 				float3 lastEnemyPosition = enemySelected->GetComponent<ComponentTransform>()->GetGlobalPosition();
-				if (playerTransform->GetGlobalPosition().Distance(currentEnemyPosition) < playerTransform->GetGlobalPosition().Distance(lastEnemyPosition))
+				if (originPosition.Distance(currentEnemyPosition) < originPosition.Distance(lastEnemyPosition))
 				{
 					enemySelected = enemy;
 				}
@@ -99,7 +101,7 @@ void EntityDetection::Update(float deltaTime)
 
 	if (enemySelected != nullptr)
 	{
-		dd::arrow(playerTransform->GetGlobalPosition(), enemySelected->GetComponent<ComponentTransform>()->GetGlobalPosition(),
+		dd::arrow(originPosition, enemySelected->GetComponent<ComponentTransform>()->GetGlobalPosition(),
 			dd::colors::Red, 0.5f);
 	}
 
