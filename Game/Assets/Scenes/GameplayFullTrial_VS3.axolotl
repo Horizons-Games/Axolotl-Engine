@@ -6743,33 +6743,13 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "RayAttackSize",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
                                     "name": "AnimationGO",
-                                    "value": 0,
+                                    "value": 1326767777895378518,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray1GO",
-                                    "value": 0,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray2GO",
-                                    "value": 0,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 0,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 0,
+                                    "name": "EnemyDetectionObject",
+                                    "value": 8746673805549693416,
                                     "type": 2
                                 }
                             ]
@@ -23568,6 +23548,11 @@
                                 {
                                     "name": "InteractionAngle",
                                     "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "InteractionOffset",
+                                    "value": 1.0,
                                     "type": 0
                                 }
                             ]
