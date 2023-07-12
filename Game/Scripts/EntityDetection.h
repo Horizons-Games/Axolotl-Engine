@@ -33,6 +33,6 @@ private:
 	float interactionAngle;
 	float interactionOffset;
 
-	std::vector<GameObject*> enemiesInTheArea;
-	GameObject* enemySelected;
+	std::vector<ComponentTransform*> enemiesInTheArea;
+	ComponentTransform* enemySelected;
 };
