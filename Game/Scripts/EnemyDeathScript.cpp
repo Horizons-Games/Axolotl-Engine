@@ -22,7 +22,7 @@ void EnemyDeathScript::ManageEnemyDeath() const
 		PowerUpLogicScript* newPowerUpLogic = newPowerUp->GetComponent<PowerUpLogicScript>();
 		ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
 
-		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetPosition());
+		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetGlobalPosition());
 	}
 
 	DisableEnemyActions();
