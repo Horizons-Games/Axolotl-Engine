@@ -75,7 +75,10 @@ void EntityDetection::Update(float deltaTime)
 		
 		float3 color = dd::colors::Blue;
 		float finalAngle = math::Abs(math::RadToDeg(angle));
-		if (finalAngle < interactionAngle)
+
+		float dotProduct = vecTowardsEnemy.Dot((playerTransform->GetGlobalPosition() - originPosition).Normalized());
+
+		if (finalAngle < interactionAngle && dotProduct > 0)
 		{
 			color = dd::colors::Red;
 
