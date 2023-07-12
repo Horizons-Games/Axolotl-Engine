@@ -107,7 +107,9 @@
                             "active": true,
                             "removed": false,
                             "frustumOfset": 1.0,
-                            "drawFrustum": false
+                            "drawFrustum": false,
+                            "kpPosition": 2.0320000648498535,
+                            "kpRotation": 2.0
                         }
                     },
                     {
@@ -150,7 +152,12 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "FocusPointOffset",
+                                    "name": "XFocusOffset",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "YFocusOffset",
                                     "value": 0.0,
                                     "type": 0
                                 }
@@ -6430,6 +6437,13 @@
                             "positionOffsetX": 0.0,
                             "positionOffsetY": 0.0,
                             "positionOffsetZ": 0.0,
+                            "positionFixedX": 0.0,
+                            "positionFixedY": 0.0,
+                            "positionFixedZ": 0.0,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": 0.0,
+                            "isSampleFocusEnabled": false,
+                            "isSampleFixedEnabled": false,
                             "positionX": 0.0,
                             "positionY": 0.0,
                             "positionZ": 62.397525787353516
