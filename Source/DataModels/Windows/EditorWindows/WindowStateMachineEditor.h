@@ -6,6 +6,7 @@ class WindowResourceInput;
 class Resource;
 class ResourceStateMachine;
 class EditorResourceInterface;
+class StateMachine;
 
 class WindowStateMachineEditor : public EditorWindow
 {
@@ -13,7 +14,7 @@ public:
 	WindowStateMachineEditor();
 	~WindowStateMachineEditor() = default;
 
-	void SetStateMachine(const std::weak_ptr<ResourceStateMachine>& resource);
+	void SetStateMachine(StateMachine*& resourceInstance, std::string& instanceName);
 
 	void SetResourceOnState(const std::shared_ptr<Resource>& resource);
 
@@ -43,7 +44,8 @@ private:
 
 	void DrawRightClickPopUp(std::shared_ptr<ResourceStateMachine>& stateAsShared, const ImVec2& mousePosInCanvas);
 
-	std::weak_ptr<ResourceStateMachine> stateMachine;
+	std::string instanceName;
+	StateMachine* stateMachine;
 	int stateIdSelected;
 	long long transitionIdSelected;
 	bool creatingTransition;
@@ -53,9 +55,10 @@ private:
 	std::unique_ptr<WindowResourceInput> inputResource;
 };
 
-inline void WindowStateMachineEditor::SetStateMachine(const std::weak_ptr<ResourceStateMachine>& resource)
+inline void WindowStateMachineEditor::SetStateMachine(StateMachine*& resourceInstance, std::string& instanceName)
 {
-	stateMachine = resource;
+	this->instanceName = instanceName;
+	stateMachine = resourceInstance;
 	transitionIdSelected = -1;
 	stateIdSelected = -1;
 	creatingTransition = false;

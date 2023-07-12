@@ -137,6 +137,8 @@ void WindowStateMachineEditor::DrawWindowContents()
 	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 12));
 	if (stateAsShared)
 	{
+		ImGui::Text(instanceName.c_str());
+		ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 28));
 		ImGui::Text(stateAsShared->GetFileName().c_str());
 	}
 	else
