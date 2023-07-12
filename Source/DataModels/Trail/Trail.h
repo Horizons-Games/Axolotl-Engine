@@ -1,9 +1,5 @@
 #pragma once
-#include "Math/float3.h"
 #include "GL/glew.h"
-
-#include <vector>
-#include <memory>
 
 class ImGradient;
 class ImGradientMark;
@@ -21,16 +17,26 @@ public:
 	Trail();
 	~Trail();
 
-	void Update(float3 position);
+	void Update(float3 newPosition);
+	void CreateBuffers();
+
+	bool IsRendering();
+	void SetRendering(bool isRendering);
 	
 private:
 	void UpdateLife();
 
+	GLuint vao;
 	GLuint vbo;
+	GLuint ebo;
+	GLuint uv;
 
-	float3 position;
+	float3 currentPosition;
+	float3 oldPosition;
 
 	std::vector<Point*> points;
+
+	bool isRendering;
 
 	// generation properties
 	float duration;
@@ -45,3 +51,12 @@ private:
 	std::shared_ptr<ResourceTexture> texture;
 };
 
+inline bool Trail::IsRendering()
+{
+	return isRendering;
+}
+
+inline void Trail::SetRendering(bool isRendering)
+{
+	this->isRendering = isRendering;
+}

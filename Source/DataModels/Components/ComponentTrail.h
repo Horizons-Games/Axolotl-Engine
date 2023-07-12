@@ -15,6 +15,9 @@ public:
 	void Draw() const override;
 	void Update() override;
 private:
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 	Trail* trail;
 };
 

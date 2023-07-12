@@ -23,6 +23,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentParticle.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTrail.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
@@ -44,6 +45,7 @@
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentTrail.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
@@ -109,6 +111,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 			case ComponentType::PARTICLE:
 				return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
+			case ComponentType::TRAIL:
+				return std::make_unique<WindowComponentTrail>(static_cast<ComponentTrail*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
 			case ComponentType::LIGHT:

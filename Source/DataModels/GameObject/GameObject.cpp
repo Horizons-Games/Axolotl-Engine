@@ -19,6 +19,7 @@
 #include "DataModels/Components/ComponentScript.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/ComponentTrail.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
@@ -384,6 +385,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::TRAIL:
+		{
+			newComponent = std::make_unique<ComponentTrail>(*static_cast<ComponentTrail*>(component));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -595,6 +602,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::PARTICLE:
 		{
 			newComponent = std::make_unique<ComponentParticleSystem>(true, this);
+			break;
+		}
+
+		case ComponentType::TRAIL:
+		{
+			newComponent = std::make_unique<ComponentTrail>(true, this);
 			break;
 		}
 		

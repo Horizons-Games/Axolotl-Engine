@@ -23,3 +23,11 @@ void ComponentTrail::Update()
 {
 	trail->Update(GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition());
 }
+
+void ComponentTrail::InternalSave(Json& meta)
+{
+}
+
+void ComponentTrail::InternalLoad(const Json& meta)
+{
+}
