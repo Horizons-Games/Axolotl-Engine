@@ -1,9 +1,7 @@
 #pragma once
 
-#include "Scripting\Script.h"
-#include "RuntimeInclude.h"
-
 #include "../Scripts/EnemyClass.h"
+#include "RuntimeInclude.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -29,7 +27,7 @@ enum class DroneBehaviours
 	EXPLOSIONATTACK
 };
 
-class EnemyDroneScript : public Script, public EnemyClass
+class EnemyDroneScript : public EnemyClass
 {
 public:
 	EnemyDroneScript();

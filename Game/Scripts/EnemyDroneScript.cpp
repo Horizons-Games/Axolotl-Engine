@@ -17,7 +17,7 @@
 
 REGISTERCLASS(EnemyDroneScript);
 
-EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
+EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
 	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE), 
 	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr)

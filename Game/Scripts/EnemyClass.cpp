@@ -8,7 +8,7 @@ EnemyClass::~EnemyClass()
 {
 }
 
-inline void EnemyClass::SetStunnedTime(float newTime)
+void EnemyClass::SetStunnedTime(float newTime)
 {
 	stunned = true;
 	timeStunned = newTime;

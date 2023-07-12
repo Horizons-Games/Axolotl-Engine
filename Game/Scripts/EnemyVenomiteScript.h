@@ -1,9 +1,7 @@
 #pragma once
 
-#include "Scripting\Script.h"
-#include "RuntimeInclude.h"
-
 #include "../Scripts/EnemyClass.h"
+#include "RuntimeInclude.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -26,7 +24,7 @@ enum class VenomiteBehaviours
 	MELEE_ATTACK
 };
 
-class EnemyVenomiteScript : public Script, public EnemyClass
+class EnemyVenomiteScript : public EnemyClass
 {
 public:
 	EnemyVenomiteScript();

@@ -1,6 +1,8 @@
 #pragma once
 
-class EnemyClass
+#include "Scripting\Script.h"
+
+class EnemyClass : public Script
 {
 public:
 	EnemyClass();
