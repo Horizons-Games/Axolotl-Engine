@@ -36,7 +36,7 @@ void RangedFastAttackBullet::Start()
 void RangedFastAttackBullet::Update(float deltaTime)
 {
 #ifdef DEBUG
-	Ray rayDebug(transform->GetPosition(), transform->GetLocalForward());
+	Ray rayDebug(transform->GetLocalPosition(), transform->GetLocalForward());
 	dd::arrow(rayDebug.pos, rayDebug.pos + rayDebug.dir * rayAttackSize, dd::colors::Red, 0.05f);
 #endif // DEBUG
 
