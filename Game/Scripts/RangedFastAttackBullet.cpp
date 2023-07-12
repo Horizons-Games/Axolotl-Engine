@@ -52,7 +52,7 @@ void RangedFastAttackBullet::Update(float deltaTime)
 
 void RangedFastAttackBullet::ShootBullet(float deltaTime)
 {
-	transform->SetPosition(transform->GetGlobalPosition() + transform->GetGlobalForward() * velocity * deltaTime * 1000);
+	transform->SetLocalPosition(transform->GetGlobalPosition() + transform->GetGlobalForward() * velocity * deltaTime * 1000);
 	transform->UpdateTransformMatrices();
 }
 

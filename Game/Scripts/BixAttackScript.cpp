@@ -70,7 +70,7 @@ void BixAttackScript::Start()
 	ray4Transform = ray4GO->GetComponent<ComponentTransform>();
 
 	rays.reserve(5);
-	rays.push_back(Ray(transform->GetPosition(), transform->GetLocalForward()));
+	rays.push_back(Ray(transform->GetLocalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray1Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward()));
 	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
@@ -86,7 +86,7 @@ void BixAttackScript::Update(float deltaTime)
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
 
-	rays[0] = Ray(transform->GetPosition(), transform->GetLocalForward());
+	rays[0] = Ray(transform->GetLocalPosition(), transform->GetLocalForward());
 	//Provisional
 	rays[1] = Ray(ray1Transform->GetGlobalPosition(), transform->GetLocalForward());
 	rays[2] = Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward());

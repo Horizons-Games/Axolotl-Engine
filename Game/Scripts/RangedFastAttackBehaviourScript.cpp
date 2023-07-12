@@ -75,9 +75,9 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
 
 	// Set the new bullet in the drone, ready for being shooted
-	bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
-	bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-	bulletTransf->SetRotation(transform->GetGlobalRotation());
+	bulletTransf->SetLocalPosition(bulletOrigin->GetGlobalPosition());
+	bulletTransf->SetLocalScale(float3(0.2f, 0.2f, 0.2f));
+	bulletTransf->SetLocalRotation(transform->GetGlobalRotation());
 	bulletTransf->UpdateTransformMatrices();
 
 	// Attack the DroneFastBullet script to the new bullet to give it its logic

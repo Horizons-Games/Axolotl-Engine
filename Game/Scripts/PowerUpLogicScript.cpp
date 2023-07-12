@@ -78,7 +78,7 @@ void PowerUpLogicScript::ActivatePowerUp(const float3& position)
 	type = PowerUpType(rand() % 4 + 1);
 	timer = 0.f;
 
-	ownerTransform->SetPosition(position);
+	ownerTransform->SetLocalPosition(position);
 	ownerTransform->UpdateTransformMatrices();
 
 	ownerRb->UpdateRigidBody();
@@ -102,8 +102,8 @@ void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)
 
 void PowerUpLogicScript::DisablePowerUp() const
 {
-	float3 position = ownerTransform->GetPosition();
-	ownerTransform->SetPosition(float3(position.x, position.y - 200, position.z));
+	float3 position = ownerTransform->GetGlobalPosition();
+	ownerTransform->SetGlobalPosition(float3(position.x, position.y - 200, position.z));
 	ownerTransform->UpdateTransformMatrices();
 
 	ownerRb->UpdateRigidBody();
