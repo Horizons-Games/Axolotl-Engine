@@ -9,6 +9,8 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 
+#include "../Scripts/HealthSystem.h"
+
 #include "debugdraw.h"
 
 #include <set>
@@ -58,6 +60,9 @@ void EntityDetection::Update(float deltaTime)
 
 	for (ComponentTransform* enemy : enemiesInTheArea)
 	{
+		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive())
+			continue;
+
 		vecForward = vecForward.Normalized();
 		float3 vecTowardsEnemy = (enemy->GetGlobalPosition() - originPosition).Normalized();
 
