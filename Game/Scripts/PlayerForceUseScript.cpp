@@ -111,16 +111,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 
-		if (rotationHorizontalScript)
-		{
-			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
-		}
-
-		if (rotationVerticalScript)
-		{
-			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
-		}
-
 		if (playerManagerScript)
 		{
 			playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed);
