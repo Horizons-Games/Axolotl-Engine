@@ -86,14 +86,17 @@ void ComponentLine::UpdateBuffers()
 		glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
 		float3* posData = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 		float lambda = 0.0f;
-		posData[0] = float3(0.0f, 1 * -0.5f, 0.0f);
-		posData[1] = float3(0.0f, 1 * 0.5f, 0.0f);
+		float size = sizeFading[0];
+		posData[0] = float3(0.0f, size * -0.5f, 0.0f);
+		posData[1] = float3(0.0f, size * 0.5f, 0.0f);
 
 		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			lambda = step * float(i + 1);
-			posData[i * 2 + 2 + 0] = float3(lambda, 1.0 * -0.5f, 0.0f);
-			posData[i * 2 + 2 + 1] = float3(lambda, 1.0 * 0.5f, 0.0f);
+			size = sizeFading[0] + (sizeFading[1] - sizeFading[0]) * 
+				ImGui::BezierValue(lambda, reinterpret_cast<float*>(&sizeFadingPoints));
+			posData[i * 2 + 2 + 0] = float3(lambda, size * -0.5f, 0.0f);
+			posData[i * 2 + 2 + 1] = float3(lambda, size * 0.5f, 0.0f);
 		}
 
 		glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -160,7 +163,6 @@ void ComponentLine::Render()
 		program->Activate();
 		ModelMatrix(program);
 		UpdateBuffers();
-		RecalculateVertices();
 
 		time += App->GetDeltaTime() * speed;
 
@@ -206,10 +208,11 @@ void ComponentLine::ModelMatrix(Program* program)
 	float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
-	float3 zAxis = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
-	float3 xAxis = float3::unitX;
-	float3 yAxis = zAxis.Cross(xAxis).Normalized();
-	zAxis = xAxis.Cross(yAxis).Normalized();
+	float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
+	float3 xAxis = childGlobalPosition - globalPosition;
+	float3 normalized = (childGlobalPosition - globalPosition).Normalized();
+	float3 yAxis = centerCamera.Cross(normalized);
+	float3 zAxis = normalized.Cross(yAxis);
 
 	const float4x4& model =
 		float4x4(float4(xAxis, 0.0),
@@ -220,33 +223,4 @@ void ComponentLine::ModelMatrix(Program* program)
 	program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
 	program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
 	program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&model), true);
-}
-
-void ComponentLine::RecalculateVertices()
-{	
-	const ComponentTransform* childTransform = childGameObject->GetComponent<ComponentTransform>();
-	const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
-	float stepsX = (childTransform->GetGlobalPosition().x - transform->GetGlobalPosition().x) / numTiles;
-	float stepsY = (childTransform->GetGlobalPosition().y - transform->GetGlobalPosition().y) / numTiles;
-	float stepsZ = (childTransform->GetGlobalPosition().z - transform->GetGlobalPosition().z) / numTiles;
-
-	float vertices[] = { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, stepsX, stepsY, stepsZ, stepsX, stepsY + 1, stepsZ };
-
-	std::vector<float> newVertices = std::vector<float>();
-	newVertices.insert(newVertices.end(), &vertices[0], &vertices[sizeof(vertices) / sizeof(int)]);
-	for (int i = 1; i < numTiles; i++)
-	{
-		float newPos = i + 1;
-		newVertices.push_back(newPos * stepsX);
-		newVertices.push_back(newPos * stepsY);
-		newVertices.push_back(newPos * stepsZ);
-		newVertices.push_back(newPos * stepsX);
-		newVertices.push_back((newPos * stepsY) + 1);
-		newVertices.push_back(newPos * stepsZ);
-	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, positionBuffers);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), &newVertices[0], GL_STATIC_DRAW);
-
 }

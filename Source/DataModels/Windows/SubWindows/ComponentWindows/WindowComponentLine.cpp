@@ -8,6 +8,8 @@
 #include "DataModels/Resources/ResourceTexture.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowLineTexture.h"
 
+#include "Math/float4.h"
+
 
 WindowComponentLine::WindowComponentLine(ComponentLine* component) :
 	ComponentWindow("Line", component),
@@ -56,14 +58,30 @@ void WindowComponentLine::DrawWindowContents()
 
 		ImGui::Text("");
 		ImGui::Text("Size");
-		static float v[] = { 0.390f, 0.575f, 0.565f, 1.000f };
-		if(ImGui::Bezier( "", v ))
+		static float4 size = componentLine->GetSizeFadingPoints();
+		if(ImGui::Bezier( "", reinterpret_cast<float*>(&size)))
 		{
-		
-		}
-		float y = ImGui::BezierValue( 0.5f, v ); 
+			componentLine->SetSizeFadingPoints(size);
+		} 
 
 		ImGui::Text("");
+		ImGui::Separator();
+
+		ImGui::Text("");
+		ImGui::Text("Fading");
+		float2 fadeRange = componentLine->GetSizeFading();
+		if (ImGui::DragFloat("Start Fading", &fadeRange.x, 0.01f, 0.0f, 50.0f))
+		{
+			componentLine->SetSizeFading(fadeRange);
+		}
+		if (ImGui::DragFloat("End Fading", &fadeRange.y, 0.01f, 0.0f, 50.0f))
+		{
+			componentLine->SetSizeFading(fadeRange);
+		}
+
+		ImGui::Text("");
+		ImGui::Separator();
+
 		ImGui::Text("Color Gradient");
 		
 		ImGradient* gradient = componentLine->GetGradient();

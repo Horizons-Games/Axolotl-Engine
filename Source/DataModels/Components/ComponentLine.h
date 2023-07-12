@@ -8,6 +8,8 @@
 #include "Math/float2.h"
 #include "Math/float3.h"
 #include "ImGui/imgui_color_gradient.h"
+#include "ImGui/imgui_bezier.h"
+
 
 #include "Timer/Timer.h"
 
@@ -27,19 +29,23 @@ public:
 	void InternalSave(Json& meta) override{};
 	void InternalLoad(const Json& meta) override{};
 
-	void RecalculateVertices();
-
-	int GetNumTiles();
+	const int GetNumTiles() const;
 	void SetNumTiles(int numTiles);
 
-	float GetSpeed();
+	const float GetSpeed() const;
 	void SetSpeed(float speeds);
 
-	float2& GetTiling();
+	const float2& GetTiling() const;
 	void SetTiling(float2& tiling);
 
-	float2& GetOffset();
+	const float2& GetOffset() const;
 	void SetOffset(float2& offset);
+
+	const float2& GetSizeFading() const;
+	void  SetSizeFading(const float2& range);
+
+	const float4& GetSizeFadingPoints() const;
+	void  SetSizeFadingPoints(const float4& points);
 
 	std::shared_ptr<ResourceTexture> GetLineTexture() const;
 	void SetLineTexture(const std::shared_ptr<ResourceTexture>& texture);
@@ -71,9 +77,11 @@ private:
 	float2 offset = float2::zero;
 	float2 tiling = float2::one;
 	ImGradient* gradient = new ImGradient();
+	float2 sizeFading = float2::one;
+	float4 sizeFadingPoints = float4::zero;
 };
 
-inline int ComponentLine::GetNumTiles()
+inline const int ComponentLine::GetNumTiles() const
 {
 	return numTiles;
 }
@@ -84,7 +92,7 @@ inline void ComponentLine::SetNumTiles(int numTiles)
 	dirtyBuffers = true;
 }
 
-inline float ComponentLine::GetSpeed()
+inline const float ComponentLine::GetSpeed() const
 {
 	return speed;
 }
@@ -94,7 +102,7 @@ inline void ComponentLine::SetSpeed(float speeds)
 	this->speed = speeds;
 }
 
-inline float2& ComponentLine::GetTiling()
+inline const float2& ComponentLine::GetTiling() const
 {
 	return tiling;
 }
@@ -104,7 +112,7 @@ inline void ComponentLine::SetTiling(float2& tiling)
 	this->tiling = tiling;
 }
 
-inline float2& ComponentLine::GetOffset()
+inline const float2& ComponentLine::GetOffset() const
 {
 	return offset;
 }
@@ -133,5 +141,25 @@ inline ImGradient* ComponentLine::GetGradient()
 inline void ComponentLine::SetGradient(ImGradient* gradient)
 {
 	this->gradient = gradient;
+	dirtyBuffers = true;
+}
+
+inline const float2& ComponentLine::GetSizeFading() const
+{
+	return sizeFading;
+}
+inline void ComponentLine::SetSizeFading(const float2& range)
+{
+	this->sizeFading = range;
+	dirtyBuffers = true;
+}
+
+inline const float4& ComponentLine::GetSizeFadingPoints() const
+{
+	return sizeFadingPoints;
+}
+inline void ComponentLine::SetSizeFadingPoints(const float4& points)
+{
+	this->sizeFadingPoints = points;
 	dirtyBuffers = true;
 }
