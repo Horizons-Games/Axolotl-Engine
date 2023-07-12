@@ -10,6 +10,7 @@ class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
+class EntityDetection;
 
 class PlayerManagerScript;
 
@@ -51,24 +52,10 @@ private:
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
 	GameObject* animationGO;
+	EntityDetection* enemyDetection;
+	GameObject* enemyDetectionObject;
 
 	ModuleInput* input;
-
-	//Provisional
-	std::vector<Ray> rays;
-
-	GameObject* ray1GO;
-	GameObject* ray2GO;
-	GameObject* ray3GO;
-	GameObject* ray4GO;
-
-	ComponentTransform* ray1Transform;
-	ComponentTransform* ray2Transform;
-	ComponentTransform* ray3Transform;
-	ComponentTransform* ray4Transform;
-
-	float rayAttackSize;
-	//--Provisional
 
 	PlayerManagerScript* playerManager;
 	AttackCombo attackComboPhase;

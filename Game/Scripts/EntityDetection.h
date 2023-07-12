@@ -20,6 +20,8 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
+	GameObject* GetEnemySelected() const;
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -36,3 +38,15 @@ private:
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	ComponentTransform* enemySelected;
 };
+
+inline GameObject* EntityDetection::GetEnemySelected() const
+{
+	if (enemySelected != nullptr)
+	{
+		return enemySelected->GetOwner();
+	}
+	else
+	{
+		return nullptr;
+	}
+}

@@ -14,6 +14,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/EntityDetection.h"
 
 #include "GameObject/GameObject.h"
 
@@ -30,22 +31,12 @@
 REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-	input(nullptr), rayAttackSize(10.0f), animation(nullptr), animationGO(nullptr), transform(nullptr),
-	//Provisional
-	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
-	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
-	//--Provisional
-	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE)
+	input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
+	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
-	REGISTER_FIELD(rayAttackSize, float);
 	REGISTER_FIELD(animationGO, GameObject*);
-
-	//Provisional
-	REGISTER_FIELD(ray1GO, GameObject*);
-	REGISTER_FIELD(ray2GO, GameObject*);
-	REGISTER_FIELD(ray3GO, GameObject*);
-	REGISTER_FIELD(ray4GO, GameObject*);
+	REGISTER_FIELD(enemyDetectionObject, GameObject*);
 	//--Provisional
 }
 
@@ -63,21 +54,9 @@ void BixAttackScript::Start()
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
 
-	//Provisional
-	ray1Transform = ray1GO->GetComponent<ComponentTransform>();
-	ray2Transform = ray2GO->GetComponent<ComponentTransform>();
-	ray3Transform = ray3GO->GetComponent<ComponentTransform>();
-	ray4Transform = ray4GO->GetComponent<ComponentTransform>();
-
-	rays.reserve(5);
-	rays.push_back(Ray(transform->GetPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray1Transform->GetGlobalPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward()));
-	rays.push_back(Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward()));
-	//--Provisional
-
 	playerManager = owner->GetComponent<PlayerManagerScript>();
+
+	enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
 }
 
 void BixAttackScript::Update(float deltaTime)
@@ -85,14 +64,6 @@ void BixAttackScript::Update(float deltaTime)
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
-
-	rays[0] = Ray(transform->GetPosition(), transform->GetLocalForward());
-	//Provisional
-	rays[1] = Ray(ray1Transform->GetGlobalPosition(), transform->GetLocalForward());
-	rays[2] = Ray(ray2Transform->GetGlobalPosition(), transform->GetLocalForward());
-	rays[3] = Ray(ray3Transform->GetGlobalPosition(), transform->GetLocalForward());
-	rays[4] = Ray(ray4Transform->GetGlobalPosition(), transform->GetLocalForward());
-	//--Provisional
 
 
 #ifdef DEBUG
@@ -116,43 +87,23 @@ void BixAttackScript::PerformAttack()
 
 void BixAttackScript::CheckCollision() const
 {
-	//Provisional
-	std::set<UID> hitObjects;
-	bool playSFX = false;
-	for (const Ray& ray : rays)
+	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
+
+	if (enemyAttacked != nullptr)
 	{
-		LineSegment line(ray, rayAttackSize);
-		RaycastHit hit;
-		if (Physics::Raycast(line, hit, transform->GetOwner()))
+		HealthSystem* healthScript = enemyAttacked->GetComponent<HealthSystem>();
+		float damageAttack = playerManager->GetPlayerAttack();
+		if (!isDeathTouched)
 		{
-			playSFX = true;
-			if (hit.gameObject->GetRootGO() && hit.gameObject->GetRootGO()->CompareTag("Enemy"))
-			{
-				if (hitObjects.insert(hit.gameObject->GetRootGO()->GetUID()).second)
-				{
-					// insertion could take place -> element not hit yet
-					// get component health and do damage
-					HealthSystem* healthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
-					float damageAttack = playerManager->GetPlayerAttack();
-					if (!isDeathTouched)
-					{
-						healthScript->TakeDamage(damageAttack);
-					}
-					else
-					{
-						healthScript->TakeDamage(healthScript->GetMaxHealth());
-					}
-					
-				}
-			}
+			healthScript->TakeDamage(damageAttack);
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
+		}
+		else
+		{
+			healthScript->TakeDamage(healthScript->GetMaxHealth());
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 		}
 	}
-
-	if (playSFX)
-	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
-	}
-	//--Provisional
 }
 
 bool BixAttackScript::IsAttackAvailable() const
