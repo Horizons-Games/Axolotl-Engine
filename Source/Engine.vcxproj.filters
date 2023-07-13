@@ -573,9 +573,6 @@
     <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp">
       <Filter>UserScripts\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
-      <Filter>UserScripts\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -912,9 +909,6 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1218,7 +1212,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
