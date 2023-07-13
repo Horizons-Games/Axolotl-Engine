@@ -244,8 +244,15 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 	result = DirectX::SaveToDDSFile(
 		compressImg.GetImages(), compressImg.GetImageCount(), compressImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	
+	char* buffer{};
+	unsigned int size;
+	Save(resource, buffer, size);
 
-	//Save(resource, buffer, size);
+	App->GetModule<ModuleFileSystem>()->Save(
+		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+
+	delete buffer;
 
 	/* if (!cubeMap)
 	{
@@ -265,7 +272,16 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[6] = { resource->GetWidth(),		  resource->GetHeight(),	resource->GetFormat(),
+	unsigned int options[5] = { static_cast<unsigned int>(resource->GetLoadOptions().min),
+								static_cast<unsigned int>(resource->GetLoadOptions().mag),
+								static_cast<unsigned int>(resource->GetLoadOptions().wrapS),
+								static_cast<unsigned int>(resource->GetLoadOptions().wrapT),
+								resource->GetLoadOptions().mipMap };
+	size = sizeof(options);
+	unsigned int bytes = sizeof(options);
+	fileBuffer = new char[size];
+	memcpy(fileBuffer, options, bytes);
+	/*unsigned int header[6] = { resource->GetWidth(),		  resource->GetHeight(),	resource->GetFormat(),
 							   resource->GetInternalFormat(), resource->GetImageType(), resource->GetPixelsSize() };
 
 	unsigned int options[5] = { static_cast<unsigned int>(resource->GetLoadOptions().min),
@@ -291,7 +307,7 @@ void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, cha
 	cursor += bytes;
 
 	bytes = sizeof(options);
-	memcpy(cursor, options, bytes);
+	memcpy(cursor, options, bytes);*/
 }
 
 void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture> resource)
@@ -425,8 +441,21 @@ void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture
 	
 
 #ifndef ENGINE
+	std::string narrowStringOptions(filePath);
+	size_t dotPos = narrowStringOptions.find_last_of('.');
+	if (dotPos != std::string::npos)
+	{
+		// Remove the existing extension
+		narrowStringOptions.erase(dotPos);
+	}
+
+	// Append the new extension
+	narrowStringOptions += GENERAL_BINARY_EXTENSION;
+	std::wstring wideStringOptions = std::wstring(narrowStringOptions.begin(), narrowStringOptions.end());
+	const wchar_t* pathOptions = wideStringOptions.c_str();
+	
 	unsigned int options[5];
-	memcpy(options, fileBuffer, sizeof(options));
+	memcpy(options, pathOptions, sizeof(options));
 
 	resource->GetLoadOptions().min = (TextureMinFilter) options[0];
 	resource->GetLoadOptions().mag = (TextureMagFilter) options[1];
