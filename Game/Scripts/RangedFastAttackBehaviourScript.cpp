@@ -70,15 +70,17 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
-	GameObject* root = loadedScene->GetRoot();
-	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, root);
+	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
+	ComponentRigidBody* bulletRigidBody = bullet->GetComponent<ComponentRigidBody>();
 
 	// Set the new bullet in the drone, ready for being shooted
-	bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
-	bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-	bulletTransf->SetRotation(transform->GetGlobalRotation());
+	//bulletTransf->SetGlobalPosition(bulletOrigin->GetGlobalPosition());
+	//bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
+	bulletTransf->SetPosition(bulletOrigin->GetPosition());
 	bulletTransf->UpdateTransformMatrices();
+
+	bulletRigidBody->SetDefaultPosition();
 
 	// Attack the DroneFastBullet script to the new bullet to give it its logic
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
@@ -89,6 +91,7 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
+
 
 	lastAttackTime = SDL_GetTicks() / 1000.0f;
 	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);

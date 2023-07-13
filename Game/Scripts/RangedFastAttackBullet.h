@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 
+class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
 class Scene;
@@ -16,8 +17,7 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	void ShootBullet(float deltaTime);
-	void CheckCollision();
+	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void DestroyBullet();
 
 	float velocity;
@@ -26,6 +26,7 @@ private:
 	float rayAttackSize;
 	float originTime;
 
-	ComponentTransform* transform;
+	ComponentRigidBody* rigidBody;
+	ComponentTransform* parentTransform;
 	ComponentAudioSource* audioSource;
 };
