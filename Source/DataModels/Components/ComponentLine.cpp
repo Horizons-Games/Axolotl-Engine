@@ -5,6 +5,8 @@
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
 #include "ModuleCamera.h"
+#include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
 #include "Camera/Camera.h"
 #include "ModuleProgram.h"
 #include "Resources/ResourceTexture.h"
@@ -251,6 +253,16 @@ void ComponentLine::InternalSave(Json& meta)
 		meta[i + "pos"] = (float) mark->position;
 		i++;
 	}
+	UID uid = 0;
+	std::string assetPath = "";
+	if (lineTexture)
+	{
+		uid = lineTexture->GetUID();
+		assetPath = lineTexture->GetAssetsPath();
+	}
+
+	meta["materialUID"] = static_cast<UID>(uid);
+	meta["assetPathMaterial"] = assetPath.c_str();
 }
 
 void ComponentLine::InternalLoad(const Json& meta)
@@ -278,5 +290,18 @@ void ComponentLine::InternalLoad(const Json& meta)
 															   (float) meta[i + "color_a"]));
 	}
 	gradient->refreshCache();
+	std::string path = meta["assetPathMaterial"];
+	bool materialExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+
+	if (materialExists)
+	{
+		std::shared_ptr<ResourceTexture> lineTexture =
+			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(path);
+
+		if (lineTexture)
+		{
+			SetLineTexture(lineTexture);
+		}
+	}
 	dirtyBuffers = true;
 }
