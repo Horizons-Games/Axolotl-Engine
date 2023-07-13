@@ -26,8 +26,8 @@ public:
 
 	void ModelMatrix(Program* program);
 
-	void InternalSave(Json& meta) override{};
-	void InternalLoad(const Json& meta) override{};
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
 
 	const int GetNumTiles() const;
 	void SetNumTiles(int numTiles);
@@ -54,7 +54,6 @@ public:
 	void SetGradient(ImGradient* gradient);
 
 private:
-
 	void UpdateBuffers();
 	void LoadBuffers();
 

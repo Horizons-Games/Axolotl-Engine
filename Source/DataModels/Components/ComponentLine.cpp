@@ -224,3 +224,59 @@ void ComponentLine::ModelMatrix(Program* program)
 	program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
 	program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&model), true);
 }
+
+void ComponentLine::InternalSave(Json& meta)
+{
+	meta["numTiles"] = (int) numTiles;
+	meta["speed"] = (float) speed;
+	meta["offset_x"] = (float) offset.x;
+	meta["offset_y"] = (float) offset.y;
+	meta["tiling_x"] = (float) tiling.x;
+	meta["tiling_y"] = (float) tiling.y;
+	meta["sizeFading_x"] = (float) sizeFading.x;
+	meta["sizeFading_y"] = (float) sizeFading.y;
+	meta["sizeFadingPoints_x"] = (float) sizeFadingPoints.x;
+	meta["sizeFadingPoints_y"] = (float) sizeFadingPoints.y;
+	meta["sizeFadingPoints_z"] = (float) sizeFadingPoints.z;
+	meta["sizeFadingPoints_w"] = (float) sizeFadingPoints.w;
+	meta["numberOfMarks"] = (int) gradient->getMarks().size();
+	std::list<ImGradientMark*> marks = gradient->getMarks();
+	int i = 0;
+	for (ImGradientMark* const& mark : marks)
+	{
+		meta[i + "color_x"] = (float) mark->color[0];
+		meta[i + "color_y"] = (float) mark->color[1];
+		meta[i + "color_z"] = (float) mark->color[2];
+		meta[i + "color_w"] = (float) mark->color[3];
+		meta[i + "pos"] = (float) mark->position;
+		i++;
+	}
+}
+
+void ComponentLine::InternalLoad(const Json& meta)
+{
+	numTiles = (int) meta["numTiles"];
+	speed = (float) meta["speed"];
+	offset.x = (float) meta["offset_x"];
+	offset.y = (float) meta["offset_y"];
+	tiling.x = (float) meta["tiling_x"];
+	tiling.y = (float) meta["tiling_y"];
+	sizeFading.x = (float) meta["sizeFading_x"];
+	sizeFading.y = (float) meta["sizeFading_y"];
+	sizeFadingPoints.x = (float) meta["sizeFadingPoints_x"];
+	sizeFadingPoints.y = (float) meta["sizeFadingPoints_y"];
+	sizeFadingPoints.z = (float) meta["sizeFadingPoints_z"];
+	sizeFadingPoints.w = (float) meta["sizeFadingPoints_w"];
+	int numberOfMarks = (int) meta["numberOfMarks"];
+	gradient->getMarks().clear();
+	for (int i = 0; i < numberOfMarks; i++)
+	{
+		ImColor color = ImColor();
+		gradient->addMark((float) meta[i + "pos"], ImColor((float) meta[i + "color_x"],
+															   (float) meta[i + "color_y"],
+															   (float) meta[i + "color_z"],
+															   (float) meta[i + "color_a"]));
+	}
+	gradient->refreshCache();
+	dirtyBuffers = true;
+}
