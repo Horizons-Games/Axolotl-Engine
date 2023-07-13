@@ -18,11 +18,10 @@
 #include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
-#include <AxoLog.h>
 
 REGISTERCLASS(RangedFastAttackBullet);
 
-RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(20.0f), audioSource(nullptr),
+RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(10.0f), audioSource(nullptr),
 	bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f)
 {
 }
