@@ -248,18 +248,14 @@ void ComponentLine::InternalSave(Json& meta)
 	int i = 0;
 	char charI;
 	std::string value;
+	Json jsonColors = meta["ColorsGradient"];
 	for (ImGradientMark* const& mark : marks)
 	{
-		value = std::to_string(i);
-		for (char c : value)
-		{
-			charI = c;
-		}
-		meta[charI + "color_x"] = (float)mark->color[0];
-		meta[charI + "color_y"] = (float) mark->color[1];
-		meta[charI + "color_z"] = (float) mark->color[2];
-		meta[charI + "color_w"] = (float) mark->color[3];
-		meta[charI + "pos"] = (float) mark->position;
+		jsonColors[i]["color_x"] = (float)mark->color[0];
+		jsonColors[i]["color_y"] = (float) mark->color[1];
+		jsonColors[i]["color_z"] = (float) mark->color[2];
+		jsonColors[i]["color_w"] = (float) mark->color[3];
+		jsonColors[i]["pos"] = (float) mark->position;
 		i++;
 	}
 	UID uid = 0;
@@ -297,22 +293,16 @@ void ComponentLine::InternalLoad(const Json& meta)
 	sizeFadingPoints.w = (float) meta["sizeFadingPoints_w"];
 	int numberOfMarks = (int) meta["numberOfMarks"];
 	gradient->getMarks().clear();
-	char charI;
-	std::string value;
+
+	Json jsonColors = meta["ColorsGradient"];
 
 	for (int i = 0; i < numberOfMarks; i++)
 	{
-		ImColor color = ImColor();
-		value = std::to_string(i);
-		for (char c : value)
-		{
-			charI = c;
-		}
-
-		gradient->addMark((float) meta[charI + "pos"], ImColor((float) meta[charI + "color_x"],
-															   (float) meta[charI + "color_y"],
-															   (float) meta[charI + "color_z"],
-															   (float) meta[charI + "color_a"]));
+		
+		gradient->addMark((float)jsonColors[i]["pos"], ImColor((float) jsonColors[i]["color_x"],
+															   (float) jsonColors[i]["color_y"],
+															   (float) jsonColors[i]["color_z"],
+															   (float) jsonColors[i]["color_a"]));
 	}
 	gradient->refreshCache();
 	std::string path = meta["assetPathMaterial"];
