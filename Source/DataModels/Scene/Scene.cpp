@@ -19,6 +19,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentLine.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -304,6 +305,26 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 			RemoveGameObjectFromScripts(gameObject);
 			delete gameObject->GetParent()->UnlinkChild(gameObject);
 		});
+	DeleteComponentLine(gameObject);
+}
+
+void Scene::DeleteComponentLine(const GameObject* gameObject)
+{
+	auto componentLine = sceneGameObjects |
+		std::views::transform(
+			[](GameObject* gameObject)
+			{
+				return gameObject->GetComponent<ComponentLine>();
+			}) |
+			std::views::filter(
+					[gameObject](ComponentLine* component)
+					{
+						return component->GetEnd() == gameObject;
+					});
+			for (ComponentLine* component : componentLine)
+			{
+				component->SetEnd(nullptr);
+			}
 }
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
