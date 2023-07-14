@@ -4,6 +4,9 @@
 #include "Components/ComponentLine.h"
 #include "ImGui/imgui_color_gradient.h"
 #include "ImGui/imgui_bezier.h"
+#include "Application.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "DataModels/Resources/ResourceTexture.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowLineTexture.h"
@@ -32,6 +35,42 @@ void WindowComponentLine::DrawWindowContents()
 
 	if (componentLine)
 	{
+		ImGui::Text("Drop the End Point");
+		std::string label;
+		if (componentLine->GetEnd())
+		{
+			label = componentLine->GetEnd()->GetName().c_str();
+		}
+		else
+		{
+			label = "";
+		}
+		std::string finalLabel = label;
+
+		ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+			{
+				UID draggedGameObjectID = *(UID*)payload->Data;
+				GameObject* draggedGameObject =
+					App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+
+				if (draggedGameObject)
+				{
+					componentLine->SetEnd(draggedGameObject);
+				}
+			}
+
+			ImGui::EndDragDropTarget();
+		}
+		if (ImGui::Button("Remove End Point"))
+		{
+			componentLine->SetEnd(nullptr);
+		}
+
+		ImGui::Separator();
 
 		float numTiles = componentLine->GetNumTiles();
 		ImGui::Text("");

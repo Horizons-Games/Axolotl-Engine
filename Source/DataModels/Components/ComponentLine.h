@@ -82,7 +82,6 @@ private:
 	ImGradient* gradient = new ImGradient();
 	float2 sizeFading = float2::one;
 	float4 sizeFadingPoints = float4::zero;
-	float3 childGlobalPosition = { 1.0f,0.0f,0.0f };
 };
 
 inline const int ComponentLine::GetNumTiles() const

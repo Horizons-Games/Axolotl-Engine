@@ -17,12 +17,6 @@
 
 ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(ComponentType::LINE, active, owner, true)
 {
-	childGameObject = new GameObject("Line End", owner);
-	childGameObject->InitNewEmptyGameObject(true);
-	ComponentTransform* transform = childGameObject->GetComponent<ComponentTransform>();
-	transform->SetPosition(
-		float3(childGlobalPosition.x, childGlobalPosition.y, childGlobalPosition.z));
-	transform->UpdateTransformMatrices();
 	LoadBuffers();
 	UpdateBuffers();
 }
@@ -214,7 +208,7 @@ void ComponentLine::ModelMatrix(Program* program)
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 
 		float3 globalPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
-		childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 		float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
 		float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
@@ -249,9 +243,6 @@ void ComponentLine::InternalSave(Json& meta)
 	meta["sizeFadingPoints_y"] = (float) sizeFadingPoints.y;
 	meta["sizeFadingPoints_z"] = (float) sizeFadingPoints.z;
 	meta["sizeFadingPoints_w"] = (float) sizeFadingPoints.w;
-	meta["childGlobalPosition_x"] = (float)childGlobalPosition.x;
-	meta["childGlobalPosition_y"] = (float)childGlobalPosition.y;
-	meta["childGlobalPosition_z"] = (float)childGlobalPosition.z;
 	meta["numberOfMarks"] = (int) gradient->getMarks().size();
 	std::list<ImGradientMark*> marks = gradient->getMarks();
 	int i = 0;
@@ -281,6 +272,13 @@ void ComponentLine::InternalSave(Json& meta)
 
 	meta["materialUID"] = static_cast<UID>(uid);
 	meta["assetPathMaterial"] = assetPath.c_str();
+
+	if (childGameObject)
+	{
+		uid = childGameObject->GetUID();
+	}
+
+	meta["EndPoint"] = static_cast<UID>(uid);
 }
 
 void ComponentLine::InternalLoad(const Json& meta)
@@ -297,9 +295,6 @@ void ComponentLine::InternalLoad(const Json& meta)
 	sizeFadingPoints.y = (float) meta["sizeFadingPoints_y"];
 	sizeFadingPoints.z = (float) meta["sizeFadingPoints_z"];
 	sizeFadingPoints.w = (float) meta["sizeFadingPoints_w"];
-	childGlobalPosition.x = (float)meta["childGlobalPosition_x"];
-	childGlobalPosition.y = (float)meta["childGlobalPosition_y"];
-	childGlobalPosition.z = (float)meta["childGlobalPosition_z"];
 	int numberOfMarks = (int) meta["numberOfMarks"];
 	gradient->getMarks().clear();
 	char charI;
@@ -333,6 +328,14 @@ void ComponentLine::InternalLoad(const Json& meta)
 			SetLineTexture(lineTexture);
 		}
 	}
+
+	UID endpoint = meta["EndPoint"];
+
+	if (endpoint != 0)
+	{
+		childGameObject = App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(endpoint);
+	}
+
 	dirtyBuffers = true;
 }
 
