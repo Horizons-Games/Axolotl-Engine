@@ -37,4 +37,7 @@ public:
 	virtual void SetOwner(GameObject* owner) = 0;
 
 	virtual const std::vector<TypeFieldPair>& GetFields() const = 0;
+
+public:
+	virtual void AddMember(TypeFieldPair&& member) = 0;
 };
