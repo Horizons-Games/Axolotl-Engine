@@ -28,6 +28,10 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 #include "Auxiliar/AddComponentAction.h"
+namespace
+{
+	const char* compression[] = { "No compress", "BC1", "BC3", "BC4", "BC5", "BC6", "BC7" };
+}
 
 WindowInspector::WindowInspector() :
 	EditorWindow("Inspector"),
