@@ -234,9 +234,8 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 	resource->SetPixelsSize((unsigned int) compressImg.GetPixelsSize());
 
-	std::vector<uint8_t> pixels(compressImg.GetPixels(), compressImg.GetPixels() + compressImg.GetPixelsSize());
-
-	resource->SetPixels(pixels);
+	resource->SetPixels(
+		std::vector<uint8_t>(compressImg.GetPixels(), compressImg.GetPixels() + compressImg.GetPixelsSize()));
 
 
 	// Save in DDS format
@@ -255,21 +254,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
 	delete buffer;
-
-	/* if (!cubeMap)
-	{
-		
-	}
-	else
-	{
-		char* buffer{};
-		unsigned int size;
-		Save(resource, buffer, size);
-		App->GetModule<ModuleFileSystem>()->Save(
-			(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
-
-		delete buffer;
-	}*/
+	delete path;
 }
 
 void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)
@@ -283,33 +268,6 @@ void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, cha
 	unsigned int bytes = sizeof(options);
 	fileBuffer = new char[size];
 	memcpy(fileBuffer, options, bytes);
-	/*unsigned int header[6] = { resource->GetWidth(),		  resource->GetHeight(),	resource->GetFormat(),
-							   resource->GetInternalFormat(), resource->GetImageType(), resource->GetPixelsSize() };
-
-	unsigned int options[5] = { static_cast<unsigned int>(resource->GetLoadOptions().min),
-								static_cast<unsigned int>(resource->GetLoadOptions().mag),
-								static_cast<unsigned int>(resource->GetLoadOptions().wrapS),
-								static_cast<unsigned int>(resource->GetLoadOptions().wrapT),
-								resource->GetLoadOptions().mipMap };
-
-	size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize() + sizeof(options);
-
-	char* cursor = new char[size];
-
-	fileBuffer = cursor;
-
-	unsigned int bytes = sizeof(header);
-	memcpy(cursor, header, bytes);
-
-	cursor += bytes;
-
-	bytes = sizeof(unsigned char) * resource->GetPixelsSize();
-	memcpy(cursor, &(resource->GetPixels()[0]), bytes);
-
-	cursor += bytes;
-
-	bytes = sizeof(options);
-	memcpy(cursor, options, bytes);*/
 }
 
 void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture> resource)
@@ -318,16 +276,12 @@ void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture
 	std::wstring wideString = std::wstring(narrowString.begin(), narrowString.end());
 	const wchar_t* path = wideString.c_str();
 
-
 	DirectX::TexMetadata md;
 	DirectX::ScratchImage* imgResult;
 	DirectX::ScratchImage img;
 
 	
 	HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
-	//unsigned char* pixelsPointer = new unsigned char[resource->GetPixelsSize()];
-	//memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
-	//resource->SetPixels(std::vector<unsigned char>(pixelsPointer, pixelsPointer + resource->GetPixelsSize()));
 
 	if (!FAILED(result)) // DDS load
 	{
@@ -439,6 +393,8 @@ void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture
 		fileBuffer += sizeof(unsigned char) * resource->GetPixelsSize();
 
 		delete[] pixelsPointer;
+		delete fileBuffer;
+		delete path;
 	}
 	
 
