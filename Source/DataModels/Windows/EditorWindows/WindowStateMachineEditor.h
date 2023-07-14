@@ -14,7 +14,7 @@ public:
 	WindowStateMachineEditor();
 	~WindowStateMachineEditor() = default;
 
-	void SetStateMachine(StateMachine*& resourceInstance, std::string& instanceName);
+	void SetStateMachine(StateMachine*& resourceInstance,const std::string& instanceName);
 
 	void SetResourceOnState(const std::shared_ptr<Resource>& resource);
 
@@ -55,7 +55,7 @@ private:
 	std::unique_ptr<WindowResourceInput> inputResource;
 };
 
-inline void WindowStateMachineEditor::SetStateMachine(StateMachine*& resourceInstance, std::string& instanceName)
+inline void WindowStateMachineEditor::SetStateMachine(StateMachine*& resourceInstance, const std::string& instanceName)
 {
 	this->instanceName = instanceName;
 	stateMachine = resourceInstance;

@@ -232,31 +232,7 @@ void WindowComponentScript::DrawWindowContents()
 				Field<StateMachine*> stateField = std::get<Field<StateMachine*>>(member);
 				StateMachine* value = stateField.getter();
 
-				if (value)
-				{
-					if (value->GetStateMachine())
-					{
-						ImGui::Text(value->GetStateMachine()->GetFileName().c_str());
-						ImGui::SameLine();
-						if (ImGui::Button("Edit StateMachine"))
-						{
-							std::string nameInstance = script->GetOwner()->GetName() + "->" + scriptName; 
-							App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(value, nameInstance);
-						}
-						ImGui::SameLine();
-						if (ImGui::Button(("X##" + thisID).c_str()))
-						{
-							value->SetStateMachine(nullptr);
-						}
-					}
-					else
-					{
-						inputStates[stateMachineCount]->SetStateMachine(value);
-						inputStates[stateMachineCount]->DrawWindowContents();
-					}
-				}
-				ImGui::SameLine();
-				ImGui::Text(stateField.name.c_str());
+				StateMachineField(value, stateField.name, script->GetOwner()->GetName() + "->" + scriptName);
 				stateMachineCount++;
 			}
 
@@ -398,4 +374,34 @@ void WindowComponentScript::UpdateStateMachinesInputVector(const IScript* script
 bool WindowComponentScript::IsDoubleClicked()
 {
 	return secondsSinceLastClick <= doubleClickTimeFrameInS;
+}
+
+void WindowComponentScript::StateMachineField(StateMachine* value,
+											  const std::string& nameState,
+											  const std::string& nameInstance)
+{
+	if (value)
+	{
+		if (value->GetStateMachine())
+		{
+			ImGui::Text(value->GetStateMachine()->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Edit StateMachine"))
+			{
+				App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(value, nameInstance);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button(("X##" + nameState).c_str()))
+			{
+				value->SetStateMachine(nullptr);
+			}
+		}
+		else
+		{
+			inputStates[stateMachineCount]->SetStateMachine(value);
+			inputStates[stateMachineCount]->DrawWindowContents();
+		}
+	}
+	ImGui::SameLine();
+	ImGui::Text(nameState.c_str());
 }

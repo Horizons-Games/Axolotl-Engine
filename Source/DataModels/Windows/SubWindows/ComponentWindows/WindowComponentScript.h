@@ -6,6 +6,7 @@
 
 class ComponentScript;
 class WindowStateMachineInput;
+class StateMachine;
 class IScript;
 
 class WindowComponentScript : public ComponentWindow
@@ -29,6 +30,8 @@ private:
 	void UpdateStateMachinesInputVector(const IScript* scriptObject);
 
 	bool IsDoubleClicked();
+
+	void StateMachineField(StateMachine* value, const std::string& name, const std::string& nameInstance);
 
 	float secondsSinceLastClick = 0;
 	UID windowUID;

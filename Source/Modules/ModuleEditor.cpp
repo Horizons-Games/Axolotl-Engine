@@ -301,7 +301,7 @@ UpdateStatus ModuleEditor::PostUpdate()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::SetStateMachineWindowEditor(StateMachine*& resourceInstance, std::string& instanceName)
+void ModuleEditor::SetStateMachineWindowEditor(StateMachine*& resourceInstance, const std::string& instanceName)
 {
 #ifdef ENGINE
 	this->stateMachineEditor->SetStateMachine(resourceInstance, instanceName);

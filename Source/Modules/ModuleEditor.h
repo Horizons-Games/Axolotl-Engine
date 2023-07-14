@@ -28,7 +28,7 @@ public:
 
 	void Resized();
 
-	void SetStateMachineWindowEditor(StateMachine*& resourceInstance, std::string& instanceName);
+	void SetStateMachineWindowEditor(StateMachine*& resourceInstance,const std::string& instanceName);
 	void SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource);
 
 	const WindowScene* GetScene() const;
