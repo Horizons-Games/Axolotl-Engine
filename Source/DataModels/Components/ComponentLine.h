@@ -1,6 +1,4 @@
 #pragma once
-#include "Auxiliar/Generics/Drawable.h"
-#include "Auxiliar/Generics/Updatable.h"
 
 #include "Components/Component.h"
 #include "Program/Program.h"
@@ -29,17 +27,23 @@ public:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
+	const GameObject* GetEnd() const;
+	void SetEnd(GameObject* end);
+
 	const int GetNumTiles() const;
 	void SetNumTiles(int numTiles);
 
 	const float GetSpeed() const;
 	void SetSpeed(float speeds);
 
+	const float GetTime() const;
+	void SetTime(float time);
+
 	const float2& GetTiling() const;
 	void SetTiling(float2& tiling);
 
 	const float2& GetOffset() const;
-	void SetOffset(float2& offset);
+	void SetOffset(const float2& offset);
 
 	const float2& GetSizeFading() const;
 	void  SetSizeFading(const float2& range);
@@ -78,6 +82,7 @@ private:
 	ImGradient* gradient = new ImGradient();
 	float2 sizeFading = float2::one;
 	float4 sizeFadingPoints = float4::zero;
+	float3 childGlobalPosition = { 1.0f,0.0f,0.0f };
 };
 
 inline const int ComponentLine::GetNumTiles() const
@@ -101,6 +106,16 @@ inline void ComponentLine::SetSpeed(float speeds)
 	this->speed = speeds;
 }
 
+inline const float ComponentLine::GetTime() const
+{
+	return time;
+}
+
+inline void ComponentLine::SetTime(float time)
+{
+	this->time += time;
+}
+
 inline const float2& ComponentLine::GetTiling() const
 {
 	return tiling;
@@ -116,7 +131,7 @@ inline const float2& ComponentLine::GetOffset() const
 	return offset;
 }
 
-inline void ComponentLine::SetOffset(float2& offset)
+inline void ComponentLine::SetOffset(const float2& offset)
 {
 	this->offset = offset;
 }

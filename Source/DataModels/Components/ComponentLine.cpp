@@ -5,12 +5,15 @@
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
 #include "ModuleCamera.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 #include "Camera/Camera.h"
 #include "ModuleProgram.h"
 #include "Resources/ResourceTexture.h"
 #include <GL/glew.h>
+#include <string>
 
 ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(ComponentType::LINE, active, owner, true)
 {
@@ -18,7 +21,7 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 	childGameObject->InitNewEmptyGameObject(true);
 	ComponentTransform* transform = childGameObject->GetComponent<ComponentTransform>();
 	transform->SetPosition(
-		float3(transform->GetPosition().x + 1.0, transform->GetPosition().y, transform->GetPosition().z));
+		float3(childGlobalPosition.x, childGlobalPosition.y, childGlobalPosition.z));
 	transform->UpdateTransformMatrices();
 	LoadBuffers();
 	UpdateBuffers();
@@ -27,6 +30,8 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 ComponentLine::~ComponentLine()
 {
 	//delete childGameObject;
+	//App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
+	//	static_cast<const ComponentLine*>(this));
 	glDeleteVertexArrays(1, &lineVAO);
 	glDeleteBuffers(1,&lineEBO);
 	glDeleteBuffers(1,&positionBuffers);
@@ -166,11 +171,11 @@ void ComponentLine::Render()
 		ModelMatrix(program);
 		UpdateBuffers();
 
-		time += App->GetDeltaTime() * speed;
 
-		//will be move in AnimetedTexture Script or something similar
-		offset.x += 0.004f;
-		if (offset.x > 1.f) offset.x = 0.f;
+		//Moved in AnimetedTexture Script
+		//time += App->GetDeltaTime() * speed;
+		//offset.x += 0.004f;
+		//if (offset.x > 1.f) offset.x = 0.f;
 
 		program->BindUniformFloat2("offset", offset);
 		program->BindUniformFloat2("tiling", tiling);
@@ -203,28 +208,31 @@ void ComponentLine::Render()
 
 void ComponentLine::ModelMatrix(Program* program)
 {
-	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+	if (childGameObject)
+	{
+		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
+		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 
-	float3 globalPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
-	float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		float3 globalPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
-	float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
-	float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
-	float3 xAxis = childGlobalPosition - globalPosition;
-	float3 normalized = (childGlobalPosition - globalPosition).Normalized();
-	float3 yAxis = centerCamera.Cross(normalized);
-	float3 zAxis = normalized.Cross(yAxis);
+		float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
+		float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
+		float3 xAxis = childGlobalPosition - globalPosition;
+		float3 normalized = (childGlobalPosition - globalPosition).Normalized();
+		float3 yAxis = centerCamera.Cross(normalized);
+		float3 zAxis = normalized.Cross(yAxis);
 
-	const float4x4& model =
-		float4x4(float4(xAxis, 0.0),
-			float4(yAxis, 0.0),
-			float4(zAxis, 0.0),
-			GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix().Col(3));
+		const float4x4& model =
+			float4x4(float4(xAxis, 0.0),
+				float4(yAxis, 0.0),
+				float4(zAxis, 0.0),
+				GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix().Col(3));
 
-	program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
-	program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
-	program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&model), true);
+		program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
+		program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
+		program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&model), true);
+	}
 }
 
 void ComponentLine::InternalSave(Json& meta)
@@ -241,16 +249,26 @@ void ComponentLine::InternalSave(Json& meta)
 	meta["sizeFadingPoints_y"] = (float) sizeFadingPoints.y;
 	meta["sizeFadingPoints_z"] = (float) sizeFadingPoints.z;
 	meta["sizeFadingPoints_w"] = (float) sizeFadingPoints.w;
+	meta["childGlobalPosition_x"] = (float)childGlobalPosition.x;
+	meta["childGlobalPosition_y"] = (float)childGlobalPosition.y;
+	meta["childGlobalPosition_z"] = (float)childGlobalPosition.z;
 	meta["numberOfMarks"] = (int) gradient->getMarks().size();
 	std::list<ImGradientMark*> marks = gradient->getMarks();
 	int i = 0;
+	char charI;
+	std::string value;
 	for (ImGradientMark* const& mark : marks)
 	{
-		meta[i + "color_x"] = (float) mark->color[0];
-		meta[i + "color_y"] = (float) mark->color[1];
-		meta[i + "color_z"] = (float) mark->color[2];
-		meta[i + "color_w"] = (float) mark->color[3];
-		meta[i + "pos"] = (float) mark->position;
+		value = std::to_string(i);
+		for (char c : value)
+		{
+			charI = c;
+		}
+		meta[charI + "color_x"] = (float)mark->color[0];
+		meta[charI + "color_y"] = (float) mark->color[1];
+		meta[charI + "color_z"] = (float) mark->color[2];
+		meta[charI + "color_w"] = (float) mark->color[3];
+		meta[charI + "pos"] = (float) mark->position;
 		i++;
 	}
 	UID uid = 0;
@@ -279,15 +297,27 @@ void ComponentLine::InternalLoad(const Json& meta)
 	sizeFadingPoints.y = (float) meta["sizeFadingPoints_y"];
 	sizeFadingPoints.z = (float) meta["sizeFadingPoints_z"];
 	sizeFadingPoints.w = (float) meta["sizeFadingPoints_w"];
+	childGlobalPosition.x = (float)meta["childGlobalPosition_x"];
+	childGlobalPosition.y = (float)meta["childGlobalPosition_y"];
+	childGlobalPosition.z = (float)meta["childGlobalPosition_z"];
 	int numberOfMarks = (int) meta["numberOfMarks"];
 	gradient->getMarks().clear();
+	char charI;
+	std::string value;
+
 	for (int i = 0; i < numberOfMarks; i++)
 	{
 		ImColor color = ImColor();
-		gradient->addMark((float) meta[i + "pos"], ImColor((float) meta[i + "color_x"],
-															   (float) meta[i + "color_y"],
-															   (float) meta[i + "color_z"],
-															   (float) meta[i + "color_a"]));
+		value = std::to_string(i);
+		for (char c : value)
+		{
+			charI = c;
+		}
+
+		gradient->addMark((float) meta[charI + "pos"], ImColor((float) meta[charI + "color_x"],
+															   (float) meta[charI + "color_y"],
+															   (float) meta[charI + "color_z"],
+															   (float) meta[charI + "color_a"]));
 	}
 	gradient->refreshCache();
 	std::string path = meta["assetPathMaterial"];
@@ -304,4 +334,14 @@ void ComponentLine::InternalLoad(const Json& meta)
 		}
 	}
 	dirtyBuffers = true;
+}
+
+const GameObject* ComponentLine::GetEnd() const
+{
+	return childGameObject;
+}
+
+void ComponentLine::SetEnd(GameObject* end)
+{
+	childGameObject = end;
 }
