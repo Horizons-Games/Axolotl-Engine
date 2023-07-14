@@ -49,7 +49,7 @@ private:
 
 	bool isRendering;
 
-	int maxPoints;
+	int maxSamplers;
 
 	// generation properties
 	float duration;

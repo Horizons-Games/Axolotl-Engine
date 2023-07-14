@@ -13,9 +13,9 @@
 
 #include "FileSystem/Json.h"
 
-Trail::Trail() : maxPoints(10), redoBuffers(true)
+Trail::Trail() : maxSamplers(10), redoBuffers(true)
 {
-	points.reserve(maxPoints);
+	points.reserve(maxSamplers);
 }
 
 Trail::~Trail()
@@ -35,12 +35,10 @@ void Trail::Update(float3 newPosition, Quat newRotation)
 		return;
 	}
 
-	if (!CheckDistance(newPosition))
+	if (CheckDistance(newPosition))
 	{
-		return;
+		InsertPoint(newPosition, newRotation);
 	}
-
-	InsertPoint(newPosition, newRotation);
 	
 	UpdateLife();
 }
@@ -54,7 +52,7 @@ void Trail::Draw()
 			RedoBuffers();
 		}
 
-		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT); // change to componentTrail or create one
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT); // TODO change to componentTrail or create one
 		program->Activate();
 		BindCamera(program);
 
@@ -117,18 +115,18 @@ void Trail::CreateBuffers()
 void Trail::RedoBuffers()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * (maxPoints * 2), nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * (maxSamplers * 2), nullptr, GL_STATIC_DRAW);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (maxPoints * 2), nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (maxSamplers * 2), nullptr, GL_STATIC_DRAW);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, uv);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * (maxPoints * 2), nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * (maxSamplers * 2), nullptr, GL_STATIC_DRAW);
 
 	CalculateUV();
-	redoBuffers = false;
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	redoBuffers = false;
 }
 
 void Trail::UpdateLife()
@@ -139,6 +137,7 @@ void Trail::UpdateLife()
 		if (point->life <= 0)
 		{
 			std::erase(points, point);
+			CalculateVBO();
 		}
 	}
 }
@@ -157,7 +156,7 @@ void Trail::InsertPoint(float3 position, Quat rotation)
 	nPoint->vertex[1] = position - dirPerpendicular;
 	nPoint->life = duration;
 
-	if (points.size() + 1 >= maxPoints) //if we have more than the number specified, delete the first one
+	if (points.size() + 1 >= maxSamplers) //if we have more than the number specified, delete the first one
 	{
 		points.erase(points.begin());
 	}
