@@ -1,9 +1,10 @@
 #pragma once
 #include "IScript.h"
-#include "ISimpleSerializer.h"
-#include "InterfacesIds.h"
-#include "ObjectInterfacePerModule.h"
 
+#include "RuntimeObjectSystem/ISimpleSerializer.h"
+#include "RuntimeObjectSystem/ObjectInterfacePerModule.h"
+
+#include "Scripting/InterfacesIds.h"
 #include "Scripting/RegisterFieldMacros.h"
 
 #include "RuntimeLinkLibrary.h"

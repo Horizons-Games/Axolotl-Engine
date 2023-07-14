@@ -1,14 +1,12 @@
 #pragma once
 #include "IObject.h"
 
-#include "RuntimeObjectSystem/ISimpleSerializer.h"
-
 #include "Auxiliar/Reflection/Field.h"
 #include "Auxiliar/Reflection/VectorField.h"
 #include "Enums/FieldType.h"
 
 #include "Math/float3.h"
-#include <optional>
+
 #include <variant>
 
 class GameObject;
