@@ -18,7 +18,8 @@ CameraControllerScript::CameraControllerScript() : Script(),
 	REGISTER_FIELD(xOffset, float);
 	REGISTER_FIELD(yOffset, float);
 	REGISTER_FIELD(zOffset, float);
-	REGISTER_FIELD(focusPointOffset, float);
+	REGISTER_FIELD(xFocusOffset, float);
+	REGISTER_FIELD(yFocusOffset, float);
 }
 
 void CameraControllerScript::Start()
@@ -36,14 +37,46 @@ void CameraControllerScript::Start()
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
 	CalculateOffsetVector();
+	CalculateFocusOffsetVector();
 }
 
 void CameraControllerScript::PreUpdate(float deltaTime)
 {
+
+	ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
+
+	if (closestSample)
+	{
+		if (closestSample->GetFixedOffsetEnabled())
+		{
+			CalculateOffsetVector(closestSample->GetFixedOffset() - playerTransform->GetGlobalPosition());
+		}
+		else
+		{
+			CalculateOffsetVector(closestSample->GetOffset());
+		}
+		
+		if (closestSample->GetFocusOffsetEnabled())
+		{
+			CalculateFocusOffsetVector(closestSample->GetFocusOffset());
+		}
+		else
+		{
+			CalculateFocusOffsetVector();
+		}
+		
+	}
+	else
+	{
+		CalculateOffsetVector();
+		CalculateFocusOffsetVector();
+	}
+
 	float3 sourceDirection = transform->GetGlobalForward().Normalized();
-	float3 targetDirection = (playerTransform->GetGlobalPosition() 
-		+ float3(0.0f,focusPointOffset,0.0f) 
+	float3 targetDirection = (playerTransform->GetGlobalPosition()
+		+ defaultFocusOffsetVector
 		- transform->GetGlobalPosition()).Normalized();
+
 	Quat orientationOffset = Quat::identity;
 
 	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01))
@@ -54,20 +87,6 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	else
 	{
 		orientationOffset = transform->GetGlobalRotation();
-	}
-
-	ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
-	if (closestSample)
-	{
-		CalculateOffsetVector(closestSample->GetOffset());
-
-		/*float3 eulerAngles = closestSample->orientationOffset;
-		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));*/
-
-	}
-	else
-	{
-		CalculateOffsetVector();
 	}
 
 	finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
@@ -85,16 +104,30 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 
 void CameraControllerScript::CalculateOffsetVector()
 {
-	//defaultOffsetVector = -float3::unitZ * zOffset + playerTransform->GetGlobalUp().Normalized() * yOffset;
-	defaultOffsetVector = float3::unitX * xOffset + float3::unitY * yOffset + float3::unitZ * zOffset;
-	defaultOffset = defaultOffsetVector.Length();
+	defaultOffsetVector = float3::unitX * xOffset 
+		+ float3::unitY * yOffset 
+		+ float3::unitZ * zOffset;
 }
 
 void CameraControllerScript::CalculateOffsetVector(float3 offset)
 {
-
 	defaultOffsetVector = offset;
-	defaultOffset = defaultOffsetVector.Length();
+}
+
+void CameraControllerScript::CalculateFocusOffsetVector()
+{
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+	float3 rightVector = currentFocus.Cross(float3::unitY);
+	defaultFocusOffsetVector = rightVector * xFocusOffset
+		+ float3::unitY * yFocusOffset;
+}
+
+void CameraControllerScript::CalculateFocusOffsetVector(float2 offset)
+{
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+	float3 rightVector = currentFocus.Cross(float3::unitY);
+	defaultFocusOffsetVector = rightVector * offset.x
+		+ float3::unitY * offset.y;
 }
 
 
