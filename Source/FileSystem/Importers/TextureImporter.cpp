@@ -390,7 +390,6 @@ void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture
 		std::vector<unsigned char> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
 		resource->SetPixels(pixels);
 
-		fileBuffer += sizeof(unsigned char) * resource->GetPixelsSize();
 
 		delete[] pixelsPointer;
 		delete fileBuffer;
