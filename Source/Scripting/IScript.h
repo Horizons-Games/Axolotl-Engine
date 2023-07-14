@@ -17,7 +17,8 @@ class ComponentRigidBody;
 
 #include "Scripting/RegisterFieldMacros.h"
 
-using ValidFieldType = std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>>;
+using ValidFieldType =
+	std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -34,7 +35,8 @@ public:
 	virtual void OnCollisionExit(ComponentRigidBody* other) = 0;
 	virtual void CleanUp() = 0;
 
-	void SetGameObject(GameObject* owner);
+	GameObject* GetOwner() const;
+	void SetOwner(GameObject* owner);
 	void SetApplication(Application* app);
 
 	const std::vector<TypeFieldPair>& GetFields() const;
@@ -49,7 +51,12 @@ protected:
 	std::vector<TypeFieldPair> members;
 };
 
-inline void IScript::SetGameObject(GameObject* owner)
+inline GameObject* IScript::GetOwner() const
+{
+	return owner;
+}
+
+inline void IScript::SetOwner(GameObject* owner)
 {
 	this->owner = owner;
 }
@@ -124,44 +131,44 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 			break;
 		}
 
-		case FieldType::VECTOR:
-		{
-			VectorField field = std::get<VectorField>(enumAndField.second);
-			std::vector<std::any> value = field.getter();
-			pSerializer->SerializeProperty(field.name.c_str(), value);
-			field.setter(value);
-			break;
-		}
+			case FieldType::VECTOR:
+			{
+				VectorField field = std::get<VectorField>(enumAndField.second);
+				std::vector<std::any> value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
 
-		case FieldType::STRING:
-		{
-			Field<std::string> field = std::get<Field<std::string>>(enumAndField.second);
-			std::string value = field.getter();
-			pSerializer->SerializeProperty(field.name.c_str(), value);
-			field.setter(value);
-			break;
-		}
+			case FieldType::STRING:
+			{
+				Field<std::string> field = std::get<Field<std::string>>(enumAndField.second);
+				std::string value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
 
-		case FieldType::GAMEOBJECT:
-		{
-			Field<GameObject*> field = std::get<Field<GameObject*>>(enumAndField.second);
-			GameObject* value = field.getter();
-			pSerializer->SerializeProperty(field.name.c_str(), value);
-			field.setter(value);
-			break;
-		}
+			case FieldType::GAMEOBJECT:
+			{
+				Field<GameObject*> field = std::get<Field<GameObject*>>(enumAndField.second);
+				GameObject* value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
 
-		case FieldType::BOOLEAN:
-		{
-			Field<bool> field = std::get<Field<bool>>(enumAndField.second);
-			bool value = field.getter();
-			pSerializer->SerializeProperty(field.name.c_str(), value);
-			field.setter(value);
-			break;
-		}
+			case FieldType::BOOLEAN:
+			{
+				Field<bool> field = std::get<Field<bool>>(enumAndField.second);
+				bool value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 }

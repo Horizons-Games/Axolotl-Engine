@@ -1,23 +1,27 @@
 #include "DefaultScript.h"
+#include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/ComponentScript.h"
 
 #include "AxoLog.h"
 
 REGISTERCLASS(DefaultScript);
 
-DefaultScript::DefaultScript() : Script(), value(10), vecStr{"Esto", "es un", "vector string", "de prueba"},
-vecFloat{ 1.2f,2.3f,3.3f }, fl3(2.1f, 1.2f, 1.4f), vecFloat3{ fl3, fl3 }, vecGO{(nullptr),(nullptr)}, vecBool{(true),(false)},
+DefaultScript::DefaultScript() : Script(), value(10), vecStr{ "Esto", "es un", "vector string", "de prueba" },
+vecFloat{ 1.2f,2.3f,3.3f }, fl3(2.1f, 1.2f, 1.4f), vecFloat3{ fl3, fl3 }, vecGO{ (nullptr),(nullptr) }, vecBool{ (true),(false) },
 sentence("Horizons"), character(nullptr), check(true)
 {
 	REGISTER_FIELD(value, float);
 	REGISTER_FIELD(sentence, std::string);
 	REGISTER_FIELD_WITH_ACCESSORS(Float3, float3);
-	REGISTER_VECTOR_WITH_ACCESSORS(VectorFloat, float);
-	REGISTER_VECTOR_WITH_ACCESSORS(VectorFloat3, float3);
-	REGISTER_VECTOR_WITH_ACCESSORS(VectorStr, std::string);
-	REGISTER_VECTOR_WITH_ACCESSORS(VectorGO, GameObject*);
-	REGISTER_VECTOR_WITH_ACCESSORS(VectorBool, bool);
+	REGISTER_FIELD_WITH_ACCESSORS(VectorFloat, std::vector<float>);
+	REGISTER_FIELD_WITH_ACCESSORS(VectorFloat3, std::vector<float3>);
+	REGISTER_FIELD_WITH_ACCESSORS(VectorStr, std::vector<std::string>);
+	REGISTER_FIELD_WITH_ACCESSORS(VectorGO, std::vector<GameObject*>);
+	REGISTER_FIELD_WITH_ACCESSORS(VectorBool, std::vector<bool>);
 	REGISTER_FIELD_WITH_ACCESSORS(Character, GameObject*);
 	REGISTER_FIELD(check, bool);
+	REGISTER_FIELD(transform, ComponentTransform*);
+	REGISTER_FIELD_WITH_ACCESSORS(Script, DefaultScript*);
 }
 
 void DefaultScript::Update(float deltaTime)
@@ -105,4 +109,14 @@ GameObject* DefaultScript::GetCharacter() const
 void DefaultScript::SetCharacter(GameObject* character)
 {
 	this->character = character;
+}
+
+DefaultScript* DefaultScript::GetScript() const
+{
+	return script;
+}
+
+void DefaultScript::SetScript(DefaultScript* script)
+{
+	this->script = script;
 }

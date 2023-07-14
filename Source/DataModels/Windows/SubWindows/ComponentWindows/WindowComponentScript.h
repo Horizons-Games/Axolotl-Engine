@@ -19,7 +19,6 @@ public:
 
 protected:
 	void DrawWindowContents() override;
-	int current_item = 0;
 
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
@@ -39,4 +38,5 @@ private:
 
 	float secondsSinceLastClick = 0;
 	UID windowUID;
+	int currentItem = 0;
 };

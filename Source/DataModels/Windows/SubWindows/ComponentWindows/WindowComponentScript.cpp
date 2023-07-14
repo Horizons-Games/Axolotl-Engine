@@ -126,9 +126,9 @@ void WindowComponentScript::DrawWindowContents()
 	if (!scriptObject)
 	{
 		if (ImGui::ListBox(
-				finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
+				finalLabel.c_str(), &currentItem, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
-			ChangeScript(script, constructors[current_item]);
+			ChangeScript(script, constructors[currentItem]);
 			LOG_VERBOSE("{} SELECTED, drawing its contents.", script->GetConstructName());
 		}
 
@@ -316,7 +316,7 @@ void WindowComponentScript::DrawWindowContents()
 				}
 
 				widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
-				
+
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
 					ImGui::Indent();
@@ -368,7 +368,7 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 {
 	newScript->SetConstuctor(selectedScript);
 	IScript* Iscript = App->GetScriptFactory()->ConstructScript(selectedScript);
-	Iscript->SetGameObject(component->GetOwner());
+	Iscript->SetOwner(component->GetOwner());
 	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
 }

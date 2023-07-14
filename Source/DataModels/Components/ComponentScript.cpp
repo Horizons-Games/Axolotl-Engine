@@ -239,7 +239,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 	}
 
 	script->SetApplication(App.get());
-	script->SetGameObject(GetOwner());
+	script->SetOwner(GetOwner());
 	Json fields = meta["fields"];
 
 	for (unsigned int i = 0; i < fields.Size(); ++i)

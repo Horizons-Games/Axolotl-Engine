@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentTransform;
+
 // This script is just to show how to instantiate/use the different types of variables
 
 class DefaultScript : public Script
@@ -36,9 +38,11 @@ public:
 	const std::vector<bool>& GetVectorBool() const;
 	void SetVectorBool(const std::vector<bool>& vecBool);
 
-
 	GameObject* GetCharacter() const;
 	void SetCharacter(GameObject* character);
+
+	DefaultScript* GetScript() const;
+	void SetScript(DefaultScript* script);
 
 private:
 	float value;
@@ -50,5 +54,7 @@ private:
 	std::vector<bool> vecBool;
 	std::string sentence;
 	GameObject* character;
+	ComponentTransform* transform;
+	DefaultScript* script;
 	bool check;
 };
