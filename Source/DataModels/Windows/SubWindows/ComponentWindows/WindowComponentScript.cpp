@@ -251,6 +251,7 @@ void WindowComponentScript::DrawWindowContents()
 					}
 					else
 					{
+						inputStates[stateMachineCount]->SetStateMachine(value);
 						inputStates[stateMachineCount]->DrawWindowContents();
 					}
 				}
