@@ -395,7 +395,6 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 					default:
 						break;
 				}
-				delete binaryBuffer;
 				return;
 		}
 	}
