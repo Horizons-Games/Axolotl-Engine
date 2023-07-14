@@ -46,6 +46,11 @@ void EntityDetection::Update(float deltaTime)
 	vecForward = playerTransform->GetGlobalForward();
 	originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
 
+	if (interactionOffset > 0.0f)
+	{
+		interactionOffset = 0.0f;
+	}
+
 	DrawDetectionLines();
 	
 	SelectEnemy();
