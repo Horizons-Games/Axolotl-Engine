@@ -5,6 +5,7 @@
 #include "ComponentTransform.h"
 
 #include "Animation/AnimationController.h"
+#include "Animation/StateMachine.h"
 
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleResources.h"
@@ -20,10 +21,10 @@
 ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 	Component(ComponentType::ANIMATION, active, owner, true),
 	drawBones(false),
-	firstEntry(true)
+	firstEntry(true),
+	controller(new AnimationController()),
+	stateMachineInstance(new StateMachine())
 {
-	controller = new AnimationController();
-	stateMachineInstance = new StateMachine();
 }
 
 ComponentAnimation::~ComponentAnimation()

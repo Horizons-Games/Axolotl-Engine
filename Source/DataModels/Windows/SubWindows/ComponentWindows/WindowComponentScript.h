@@ -26,7 +26,7 @@ private:
 
 	void ReplaceSubstringsInString(std::string& stringToReplace, const std::string& from, const std::string& to);
 
-	void CheckStateMachinesInput(const IScript* scriptObject);
+	void UpdateStateMachinesInputVector(const IScript* scriptObject);
 
 	bool IsDoubleClicked();
 

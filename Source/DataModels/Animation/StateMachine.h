@@ -42,7 +42,7 @@ private:
 	long long lastTransition;
 	unsigned int actualState;
 	unsigned int nextState;
-	unsigned int lastState;
+	unsigned int lastState = NON_STATE;
 };
 
 inline const std::shared_ptr<ResourceStateMachine>& StateMachine::GetStateMachine() const
@@ -59,6 +59,7 @@ inline void StateMachine::SetStateMachine(const std::shared_ptr<ResourceStateMac
 	}
 	actualState = 0;
 	nextState = 0;
+	lastState = NON_STATE;
 }
 
 inline void StateMachine::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)

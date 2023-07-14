@@ -4,8 +4,8 @@
 #include "Auxiliar/Generics/Updatable.h"
 
 #include "Components/Component.h"
-#include "Animation/StateMachine.h"
 #include "Math/float4x4.h"
+#include "Resources/ResourceStateMachine.h"
 
 #define NON_STATE 9999
 
@@ -14,6 +14,7 @@ class AnimationController;
 class ResourceAnimation;
 struct State;
 struct Transition;
+class StateMachine;
 
 class ComponentAnimation : public Component, public Drawable, public Updatable
 {

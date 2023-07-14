@@ -4,7 +4,6 @@
 
 StateMachine::StateMachine()
 {
-	lastState = NON_STATE;
 }
 
 StateMachine::~StateMachine()

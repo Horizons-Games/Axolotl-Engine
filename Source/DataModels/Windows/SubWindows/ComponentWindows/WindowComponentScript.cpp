@@ -120,7 +120,7 @@ void WindowComponentScript::DrawWindowContents()
 		return;
 	}
 
-	CheckStateMachinesInput(scriptObject);
+	UpdateStateMachinesInputVector(scriptObject);
 	stateMachineCount = 0;
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
@@ -379,7 +379,7 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 	}
 }
 
-void WindowComponentScript::CheckStateMachinesInput(const IScript* scriptObject)
+void WindowComponentScript::UpdateStateMachinesInputVector(const IScript* scriptObject)
 {
 	if (inputStates.size() != stateMachineCount)
 	{
