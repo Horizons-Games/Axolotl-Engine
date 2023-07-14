@@ -76,7 +76,7 @@ void WindowComponentLine::DrawWindowContents()
 		ImGui::Text("");
 		ImGui::Text("Number of billboards");
 		ImGui::SameLine();
-		if (ImGui::DragFloat("Billboards", &numTiles, 1.0f, 1.0f, 50.0f))
+		if (ImGui::DragFloat("Billboards", &numTiles, 1.0f, 1.0f, 100.0f))
 		{
 			
 			componentLine->SetNumTiles(numTiles);
