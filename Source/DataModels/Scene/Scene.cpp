@@ -303,12 +303,13 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 			RemoveFatherAndChildren(gameObject);
 			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
 			RemoveGameObjectFromScripts(gameObject);
-			DeleteComponentLine(gameObject);
+			RemoveEndOfLine(gameObject);
+			RemoveComponentLineOfObject(gameObject);
 			delete gameObject->GetParent()->UnlinkChild(gameObject);
 		});
 }
 
-void Scene::DeleteComponentLine(const GameObject* gameObject)
+void Scene::RemoveEndOfLine(const GameObject* gameObject)
 {
 	auto componentLine = sceneGameObjects |
 						 std::views::transform(
@@ -325,6 +326,15 @@ void Scene::DeleteComponentLine(const GameObject* gameObject)
 	{
 		component->SetEnd(nullptr);
 	}
+}
+
+void Scene::RemoveComponentLineOfObject(const GameObject* gameObject)
+{
+	std::erase_if(sceneComponentLines,
+				  [gameObject](ComponentLine* component)
+				  {
+					  return component->GetOwner() == gameObject;
+				  });
 }
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)

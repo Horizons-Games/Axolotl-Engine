@@ -54,7 +54,10 @@ public:
 									  AreaType areaType = AreaType::NONE);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(const GameObject* gameObject);
-	void DeleteComponentLine(const GameObject* gameObject);
+
+	void RemoveComponentLineOfObject(const GameObject* gameObject);
+	void RemoveEndOfLine(const GameObject* gameObject);
+
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
