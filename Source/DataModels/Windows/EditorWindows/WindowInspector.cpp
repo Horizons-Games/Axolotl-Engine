@@ -427,46 +427,6 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());
-		/*for (GameObject* g : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneGameObjects())
-		{
-			ComponentMeshRenderer* render = g->GetComponent<ComponentMeshRenderer>();
-			if (render->GetMaterial()->HasDiffuse())
-			{
-				if (render->GetMaterial()->GetDiffuse()->GetUID() == resourceTexture->GetUID())
-				{
-					render->SetDiffuse(resourceTexture);
-				}
-			}
-			if (render->GetMaterial()->HasMetallic())
-			{
-				if (render->GetMaterial()->GetMetallic()->GetUID() == resourceTexture->GetUID())
-				{
-					render->SetMetallic(resourceTexture);
-				}
-			}
-			if (render->GetMaterial()->HasSpecular())
-			{
-				if (render->GetMaterial()->GetSpecular()->GetUID() == resourceTexture->GetUID())
-				{
-					render->SetSpecular(resourceTexture);
-				}
-			}
-			if (render->GetMaterial()->HasNormal())
-			{
-				if (render->GetMaterial()->GetNormal()->GetUID() == resourceTexture->GetUID())
-				{
-					render->SetNormal(resourceTexture);
-				}
-			}
-			
-			if (render->GetMaterial()->HasEmissive())
-			{
-				if (render->GetMaterial()->GetEmission()->GetUID() == resourceTexture->GetUID())
-				{
-					render->SetEmissive(resourceTexture);
-				}
-			}
-		}*/
 	}
 }
 

@@ -141,6 +141,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 		if (FAILED(result)) // Compression fails
 		{
+			LOG_ERROR("Cannot compress texture %s", filePath);
 		}
 	}
 	else
@@ -150,6 +151,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		if (FAILED(result))
 		{
 			// Handle the error appropriately
+			LOG_ERROR("Fail to initialize image %s", filePath);
 		}
 	}
 	GLint internalFormat;
