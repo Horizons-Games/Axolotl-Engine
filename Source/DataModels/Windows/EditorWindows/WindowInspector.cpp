@@ -69,7 +69,7 @@ WindowInspector::WindowInspector() :
 						   isNotALight,
 						   ComponentFunctionality::GRAPHICS));
 
-	actions.push_back(AddComponentAction("Create Particle Component",
+	actions.push_back(AddComponentAction("Create Particle System Component",
 		std::bind(&WindowInspector::AddComponentParticle, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
