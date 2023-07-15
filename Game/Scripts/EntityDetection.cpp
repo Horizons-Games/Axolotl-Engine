@@ -51,7 +51,9 @@ void EntityDetection::Update(float deltaTime)
 		interactionOffset = 0.0f;
 	}
 
+#ifdef ENGINE
 	DrawDetectionLines();
+#endif // ENGINE
 	
 	SelectEnemy();
 }
@@ -85,14 +87,18 @@ void EntityDetection::SelectEnemy()
 		float angle = Quat::FromEulerXYZ(vecForward.x, vecForward.y, vecForward.z).
 			AngleBetween(Quat::FromEulerXYZ(vecTowardsEnemy.x, vecTowardsEnemy.y, vecTowardsEnemy.z));
 
+#ifdef ENGINE
 		float3 color = dd::colors::Blue;
+#endif // ENGINE
 
 		float dotProduct = vecTowardsEnemy.Dot((playerTransform->GetGlobalPosition() - originPosition).Normalized());
 		angle = math::Abs(math::RadToDeg(angle));
 
 		if (angle < interactionAngle && dotProduct > 0) //Enemy is inside angle and in front of player
 		{
+#ifdef ENGINE
 			color = dd::colors::Red;
+#endif // ENGINE
 
 			if (enemySelected == nullptr)
 			{
@@ -106,6 +112,7 @@ void EntityDetection::SelectEnemy()
 			}
 		}
 
+#ifdef ENGINE
 		//Draw enemies inside the sphere
 		dd::sphere(enemy->GetGlobalPosition(), color, 0.5f);
 	}
@@ -115,6 +122,7 @@ void EntityDetection::SelectEnemy()
 		//Draw arrow to the enemy selected
 		dd::arrow(originPosition, enemySelected->GetGlobalPosition(), dd::colors::Red, 0.1f);
 	}
+#endif // ENGINE
 }
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
