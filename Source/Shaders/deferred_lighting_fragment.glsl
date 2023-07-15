@@ -257,7 +257,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, 
     return Lo;
 }
 
-float ShadowCalculation(vec4 posFromLight)
+float ShadowCalculation(vec4 posFromLight, vec3 normal)
 {
     // perform perspective divide
     vec3 projCoords = posFromLight.xyz / posFromLight.w;
@@ -268,7 +268,8 @@ float ShadowCalculation(vec4 posFromLight)
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    float bias = max(0.0099 * (1.0 - max(dot(normal, directionalDir), EPSILON)), 0.0007);  
+    float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
 
     return shadow;
 }
@@ -294,7 +295,7 @@ void main()
 
     // Shadow Mapping
     vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
-    float shadow = ShadowCalculation(fragPosFromLightSpace);
+    float shadow = ShadowCalculation(fragPosFromLightSpace, norm);
     
     // Lights
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
