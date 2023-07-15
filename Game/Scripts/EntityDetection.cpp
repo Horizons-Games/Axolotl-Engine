@@ -115,8 +115,10 @@ void EntityDetection::SelectEnemy()
 #ifdef ENGINE
 		//Draw enemies inside the sphere
 		dd::sphere(enemy->GetGlobalPosition(), color, 0.5f);
+#endif // ENGINE
 	}
 
+#ifdef ENGINE
 	if (enemySelected != nullptr)
 	{
 		//Draw arrow to the enemy selected
