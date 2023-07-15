@@ -603,6 +603,9 @@
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1206,9 +1209,6 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1239,6 +1239,9 @@
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EntityDetection.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
   </ItemGroup>
