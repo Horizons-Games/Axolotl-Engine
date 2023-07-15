@@ -53,9 +53,9 @@ void main()
     
     // tone mapping
     vec3 result;
-    if (tonneMappingMode == 0)
+    if (tonneMappingMode == 0) // Reinhard tone mapping
     {
-        result = hdrColor.rgb / (hdrColor.rgb + vec3(1.0)); // Reinhard tone mapping
+        result = hdrColor.rgb / (hdrColor.rgb + vec3(1.0));
     }
     else if (tonneMappingMode == 1)
     {
@@ -67,7 +67,6 @@ void main()
     }
 
     // gamma correct
-    result = result / (result + vec3(1.0));
     result = pow(result, vec3(1.0 / GAMMA));
 
     outColor = vec4(result, 1.0);
