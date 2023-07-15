@@ -7,6 +7,8 @@
 
 #include "FileSystem/UID.h"
 
+#define BLOOM_BLUR_PING_PONG 2
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -39,8 +41,11 @@ public:
 	void UpdateBuffers(unsigned width, unsigned height);
 
 	void SetBackgroundColor(float4 color);
-	void ChangeRenderMode();
 	float4 GetBackgroundColor() const;
+
+	void ChangeRenderMode();
+	void ChangeToneMapping();
+	void SwitchBloomActivation();
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -66,6 +71,13 @@ private:
 		LENGTH
 	};
 
+	enum class ToneMappingMode {
+		NONE = 0,
+		UNCHARTED2 = 1,
+		ACES_FILM = 2,
+		LENGTH
+	};
+
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawHighlight(GameObject* gameObject);
@@ -84,12 +96,17 @@ private:
 	unsigned vbo;
 
 	unsigned modeRender;
+	unsigned toneMappingMode;
+	unsigned bloomActivation;
 	
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
 
 	GLuint frameBuffer;
 	GLuint renderedTexture;
+
+	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG]; // Ping-pong buffers to blur bloom
+	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
 	
 	GLuint depthStencilRenderBuffer;
 
@@ -101,14 +118,25 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 	backgroundColor = color;
 }
 
-inline void ModuleRender::ChangeRenderMode()
-{
-		modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
-}
 
 inline float4 ModuleRender::GetBackgroundColor() const
 {
 	return backgroundColor;
+}
+
+inline void ModuleRender::ChangeRenderMode()
+{
+	modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
+}
+
+inline void ModuleRender::ChangeToneMapping()
+{
+	toneMappingMode = (toneMappingMode + 1) % static_cast<int>(ToneMappingMode::LENGTH);
+}
+
+inline void ModuleRender::SwitchBloomActivation()
+{
+	bloomActivation = (bloomActivation + 1) % 2;
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const
