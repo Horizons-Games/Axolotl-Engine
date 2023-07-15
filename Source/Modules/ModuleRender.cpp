@@ -619,11 +619,13 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	// Compute bounding box
 	math::Frustum frustum;
 
-	float3 lightDir = lightTransform->GetGlobalForward();
+	float3 lightFront = lightTransform->GetGlobalForward();
+	float3 lightRight = Cross(lightFront, float3(0.0f, 1.0f, 0.0f)).Normalized();
+	float3 lifghtUp = math::Cross(lightRight, lightFront).Normalized();
 	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	frustum.SetPos(sphereCenter - lightDir * sphereRadius);
-	frustum.SetFront(lightDir);
-	frustum.SetUp(lightTransform->GetGlobalUp());
+	frustum.SetPos(sphereCenter - lightFront * sphereRadius);
+	frustum.SetFront(lightFront);
+	frustum.SetUp(lifghtUp);
 	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
 	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
 

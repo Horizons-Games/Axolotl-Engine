@@ -1135,7 +1135,6 @@
     <ClInclude Include="Enums\EFrustumMode.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
     </ClInclude>
@@ -1241,6 +1240,9 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h">
+      <Filter>DataModels\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
