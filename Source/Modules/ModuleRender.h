@@ -85,6 +85,8 @@ private:
 	void BindCameraToProgram(Program* program);
 	void BindCubemapToProgram(Program* program);
 
+	void KawaseDualFiltering();
+
 	void* context;
 
 	float4 backgroundColor;

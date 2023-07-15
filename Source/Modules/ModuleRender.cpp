@@ -385,42 +385,7 @@ UpdateStatus ModuleRender::Update()
 
 	// -------- POST EFFECTS ---------------------
 
-	// Blur bloom with kawase
-	bool kawaseFrameBuffer = true, firstIteration = true;
-	int kawaseSamples = 8;
-	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
-	kawaseDownProgram->Activate();
-	for (auto i = 0; i < kawaseSamples; i++)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
-		
-		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
-
-		kawaseFrameBuffer = !kawaseFrameBuffer;
-		if (firstIteration)
-		{
-			firstIteration = false;
-		}
-	}
-	kawaseDownProgram->Deactivate();
-
-	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
-	kawaseUpProgram->Activate();
-	for (auto i = 0; i < kawaseSamples; i++)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
-
-		kawaseFrameBuffer = !kawaseFrameBuffer;
-	}
-	kawaseUpProgram->Deactivate();
+	KawaseDualFiltering();
 
 	// Color correction
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -706,6 +671,47 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	program->Deactivate();
+}
+
+void ModuleRender::KawaseDualFiltering()
+{
+	// Blur bloom with kawase
+	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
+	bool kawaseFrameBuffer = true, firstIteration = true;
+	int kawaseSamples = 8;
+	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
+	kawaseDownProgram->Activate();
+	for (auto i = 0; i < kawaseSamples; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
+		if (firstIteration)
+		{
+			firstIteration = false;
+		}
+	}
+	kawaseDownProgram->Deactivate();
+
+	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
+	kawaseUpProgram->Activate();
+	for (auto i = 0; i < kawaseSamples; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
+	}
+	kawaseUpProgram->Deactivate();
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
