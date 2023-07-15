@@ -37,49 +37,49 @@ void PlayerJumpScript::Jump(float deltatime)
 {
 	if (canJump) 
 	{
-	float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
-	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	btRigidBody* btRb = rigidBody->GetRigidBody();
+		float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
+		const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+		const ModuleInput* input = App->GetModule<ModuleInput>();
+		btRigidBody* btRb = rigidBody->GetRigidBody();
 
-	btVector3 movement(0, 1, 0);
-	float3 direction = float3::zero;
+		btVector3 movement(0, 1, 0);
+		float3 direction = float3::zero;
 
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
-	{
-		btRb->applyCentralImpulse(movement.normalized() * jumpParameter);
-		jumps --;
-		jumpReset = 0;
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-
-		if ((canDoubleJump && jumps == 1) || (!canDoubleJump && jumps == 0))
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
-			componentAnimation->SetParameter("IsJumping", true);
+			btRb->applyCentralImpulse(movement.normalized() * jumpParameter);
+			jumps --;
+			jumpReset = 0;
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+
+			if ((canDoubleJump && jumps == 1) || (!canDoubleJump && jumps == 0))
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
+				componentAnimation->SetParameter("IsJumping", true);
+			}
+
+			if (canDoubleJump && jumps == 0)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
+				componentAnimation->SetParameter("IsDoubleJumping", true);
+			}
 		}
 
-		if (canDoubleJump && jumps == 0)
+		btVector3 currentVelocity = btRb->getLinearVelocity();
+
+		if (currentVelocity.getY() < -0.1 && jumpReset == 0)
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
-			componentAnimation->SetParameter("IsDoubleJumping", true);
+			jumpReset = 1;
+
+			componentAnimation->SetParameter("IsJumping", false);
 		}
-	}
+		else if (currentVelocity.getY() > -0.1 && jumpReset == 1)
+		{
+			jumpReset = 0;
+			canDoubleJump ? jumps = 2 : jumps = 1;
 
-	btVector3 currentVelocity = btRb->getLinearVelocity();
-
-	if (currentVelocity.getY() < -0.1 && jumpReset == 0)
-	{
-		jumpReset = 1;
-
-		componentAnimation->SetParameter("IsJumping", false);
-	}
-	else if (currentVelocity.getY() > -0.1 && jumpReset == 1)
-	{
-		jumpReset = 0;
-		canDoubleJump ? jumps = 2 : jumps = 1;
-
-		componentAnimation->SetParameter("IsDoubleJumping", false);
-	}
+			componentAnimation->SetParameter("IsDoubleJumping", false);
+		}
 	}
 }
 
