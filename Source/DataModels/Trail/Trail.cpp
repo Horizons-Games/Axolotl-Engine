@@ -12,10 +12,13 @@
 #include "Resources/ResourceTexture.h"
 
 #include "FileSystem/Json.h"
+#include "ImGui/imgui_color_gradient.h"
+
 
 Trail::Trail() : maxSamplers(10), redoBuffers(true)
 {
 	points.reserve(maxSamplers);
+	gradient = new ImGradient();
 }
 
 Trail::~Trail()
@@ -149,7 +152,7 @@ bool Trail::CheckDistance(float3 comparedPosition)
 
 void Trail::InsertPoint(float3 position, Quat rotation)
 {
-	float3 dirPerpendicular = (rotation * float3::unitY) * widht;
+	float3 dirPerpendicular = (rotation * float3::unitY) * width;
 	Point* nPoint = new Point();
 	nPoint->centerPosition = position;
 	nPoint->vertex[0] = position + dirPerpendicular;

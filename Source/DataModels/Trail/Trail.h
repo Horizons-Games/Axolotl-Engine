@@ -2,7 +2,6 @@
 #include "GL/glew.h"
 
 class ImGradient;
-class ImGradientMark;
 class ResourceTexture;
 class Program;
 
@@ -26,6 +25,21 @@ public:
 	bool IsRendering();
 	void SetRendering(bool isRendering);
 	
+	const float GetDuration() const;
+	void SetDuration(float duration);
+
+	const float GetMinDistance() const;
+	void SetMinDistance(float minDistance);
+
+	const float GetWidth() const;
+	void SetWidth(float width);
+
+	std::shared_ptr<ResourceTexture> GetTexture() const;
+	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
+
+	ImGradient* GetGradient();
+	void SetGradient(ImGradient* gradient);
+
 private:
 	void RedoBuffers();
 
@@ -54,12 +68,10 @@ private:
 	// generation properties
 	float duration;
 	float minDistance;
-	float widht;
+	float width;
 
 	// render properties
 	ImGradient* gradient;
-	ImGradientMark* draggingMark;
-	ImGradientMark* selectedMark;
 
 	bool redoBuffers;
 
@@ -74,4 +86,57 @@ inline bool Trail::IsRendering()
 inline void Trail::SetRendering(bool isRendering)
 {
 	this->isRendering = isRendering;
+}
+
+inline const float Trail::GetDuration() const
+{
+	return duration;
+}
+
+inline void Trail::SetDuration(float duration)
+{
+	this->duration = duration;
+	redoBuffers = true;
+}
+
+inline const float Trail::GetMinDistance() const
+{
+	return minDistance;
+}
+
+inline void Trail::SetMinDistance(float minDistance)
+{
+	this->minDistance = minDistance;
+}
+
+inline const float Trail::GetWidth() const
+{
+	return width;
+}
+
+inline void Trail::SetWidth(float width)
+{
+	this->width = width;
+}
+
+inline std::shared_ptr<ResourceTexture> Trail::GetTexture() const
+{
+	return texture;
+}
+
+inline void Trail::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
+{
+	this->texture = texture;
+	redoBuffers = true;
+}
+
+inline ImGradient* Trail::GetGradient()
+{
+	return gradient;
+}
+
+inline void Trail::SetGradient(ImGradient* gradient)
+{
+	this->gradient = gradient;
+	redoBuffers = true;
 }
