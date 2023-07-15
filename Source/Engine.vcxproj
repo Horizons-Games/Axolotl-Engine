@@ -177,7 +177,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
-    <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
+    <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -742,7 +742,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
-    <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
+    <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />
