@@ -7,8 +7,6 @@
 
 #include "/Common/Structs/lights.glsl"
 
-#include "/Common/Uniforms/lights_uniform.glsl"
-
 struct Material {
     vec4 diffuse_color;         //0 //16
     int has_diffuse_map;        //16 //4       
@@ -291,8 +289,6 @@ void main()
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
-	vec3 lightDir = normalize(light.position - FragPos);
-    vec4 gammaCorrection = vec4(2.2);
 
     // Diffuse
 	vec4 textureMat = material.diffuse_color;
@@ -300,7 +296,7 @@ void main()
     {
         textureMat = texture(material.diffuse_map, newTexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection); // sRGB textures to linear space
+    textureMat = SRGBA(textureMat);
     
     if(textureMat.a < 0.01)
     {
@@ -372,10 +368,6 @@ void main()
     {
         color += vec3(texture(material.emissive_map, newTexCoord));
     }
-    
-	//hdr rendering
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/gammaCorrection));
-   
+       
     outColor = vec4(color, textureMat.a);
 }
