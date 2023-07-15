@@ -392,9 +392,13 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 						stateMachineImporter->Load(binaryBuffer,
 												   std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 						break;
+					case ResourceType::ParticleSystem:
+						particleSystemImporter->Load(binaryBuffer,
+													 std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
 					default:
 						break;
 				}
+				delete binaryBuffer;
 				return;
 		}
 	}
