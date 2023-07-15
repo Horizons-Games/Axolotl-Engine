@@ -11,6 +11,7 @@ layout(binding = 1) uniform sampler2D gNormal;
 layout(binding = 2) uniform sampler2D gDiffuse;
 layout(binding = 3) uniform sampler2D gSpecular;
 layout(binding = 4) uniform sampler2D gEmissive;
+layout(binding = 5) uniform sampler2D gShadowMap;
 
 layout(std140, binding=1) uniform Directional
 {
@@ -52,6 +53,9 @@ uniform float cubemap_intensity;
 uniform int renderMode;
 
 uniform vec3 viewPos;
+
+// Shadow Mapping
+uniform mat4 lightSpaceMatrix;
 
 in vec2 TexCoord;
 
@@ -253,6 +257,22 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, 
     return Lo;
 }
 
+float ShadowCalculation(vec4 posFromLight)
+{
+    // perform perspective divide
+    vec3 projCoords = posFromLight.xyz / posFromLight.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(gShadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+
+    return shadow;
+}
+
 void main()
 {             
     // retrieve data from gbuffer
@@ -271,6 +291,10 @@ void main()
 
     // smoothness and roughness
     float roughness = pow(1-smoothness,2) + EPSILON;
+
+    // Shadow Mapping
+    vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
+    float shadow = ShadowCalculation(fragPosFromLightSpace);
     
     // Lights
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
@@ -297,8 +321,8 @@ void main()
 
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL) * cubemap_intensity;
+    vec3 ambient = GetAmbientLightShadowed(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+        environmentBRDF, numLevels_IBL, shadow) * cubemap_intensity;
 
     vec3 color = ambient + Lo + emissiveMat.rgb;
     

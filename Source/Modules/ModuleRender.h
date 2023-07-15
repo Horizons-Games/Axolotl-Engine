@@ -79,6 +79,9 @@ private:
 
 	float4 backgroundColor;
 
+	float4x4 dirLightView;
+	float4x4 dirLightProj;
+
 	BatchManager* batchManager;
 	GBuffer* gBuffer;
 
@@ -94,7 +97,7 @@ private:
 	GLuint renderedTexture;
 	GLuint depthStencilRenderBuffer;
 	GLuint shadowMapBuffer;
-	GLuint gShadowDepthBuffer;
+	GLuint gShadowMap;
 
 	friend class ModuleEditor;
 };
