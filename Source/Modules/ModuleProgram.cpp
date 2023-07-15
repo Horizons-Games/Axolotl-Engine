@@ -70,7 +70,7 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("cubemap_vertex.glsl", "pre_filtered_map_fragment.glsl", "PreFilteredMap"));
 
 	programs.push_back(
-		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
+		CreateProgram("render_clip_space_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
 	programs.push_back
 		(CreateProgram("particle_vertex.glsl", "particle_fragment.glsl", "Particles"));
@@ -81,6 +81,11 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
+	
+	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "gaussian_blur_fragment.glsl", "GaussianBlur"));
+	
+	programs.push_back(
+		CreateProgram("render_clip_space_vertex.glsl", "color_correction_fragment.glsl", "ColorCorrection"));
 
 	return true;
 }
