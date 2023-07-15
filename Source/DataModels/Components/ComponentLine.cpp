@@ -11,11 +11,13 @@
 #include "FileSystem/ModuleResources.h"
 #include "Camera/Camera.h"
 #include "ModuleProgram.h"
+#include "Program/Program.h"
 #include "Resources/ResourceTexture.h"
 #include <GL/glew.h>
-#include <string>
 
-ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(ComponentType::LINE, active, owner, true)
+ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(ComponentType::LINE, active, owner, true),
+	numTiles(1),speed(0.0f),time(0.0f),dirtyBuffers(true),offset(float2::zero),tiling(float2::one), gradient(new ImGradient()),
+	sizeFading(float2::one),sizeFadingPoints(float4::zero)
 {
 	LoadBuffers();
 	UpdateBuffers();
@@ -23,9 +25,6 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 
 ComponentLine::~ComponentLine()
 {
-	//delete childGameObject;
-	//App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
-	//	static_cast<const ComponentLine*>(this));
 	glDeleteVertexArrays(1, &lineVAO);
 	glDeleteBuffers(1,&lineEBO);
 	glDeleteBuffers(1,&positionBuffers);
@@ -35,8 +34,6 @@ ComponentLine::~ComponentLine()
 
 void ComponentLine::LoadBuffers()
 {
-	//Here will be the generation of all buffers, we can put them in the UpdateBuffers later but for now i split it
-
 	glGenVertexArrays(1, &lineVAO);
 	glBindVertexArray(lineVAO);
 
@@ -149,8 +146,6 @@ void ComponentLine::UpdateBuffers()
 
 		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
-		glBindVertexArray(lineVAO);
-
 		dirtyBuffers = false;
 	}
 }
@@ -159,17 +154,11 @@ void ComponentLine::Render()
 {
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
-	if (program != nullptr && childGameObject != nullptr)
+	if (childGameObject != nullptr)
 	{
 		program->Activate();
 		ModelMatrix(program);
 		UpdateBuffers();
-
-
-		//Moved in AnimetedTexture Script
-		//time += App->GetDeltaTime() * speed;
-		//offset.x += 0.004f;
-		//if (offset.x > 1.f) offset.x = 0.f;
 
 		program->BindUniformFloat2("offset", offset);
 		program->BindUniformFloat2("tiling", tiling);
@@ -187,13 +176,8 @@ void ComponentLine::Render()
 			program->BindUniformInt("hasTexture", 0);
 		}
 
-		//I commented CW and CCW because they destroy the skybox need to look at that later
-		// 
-		//glFrontFace(GL_CW);
 		glBindVertexArray(lineVAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
-		//glDrawElements(GL_TRIANGLE_STRIP, 2 + 2 * numTiles, GL_UNSIGNED_INT, nullptr);
-		//glFrontFace(GL_CCW);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
 		program->Deactivate();
@@ -231,19 +215,19 @@ void ComponentLine::ModelMatrix(Program* program)
 
 void ComponentLine::InternalSave(Json& meta)
 {
-	meta["numTiles"] = (int) numTiles;
-	meta["speed"] = (float) speed;
-	meta["offset_x"] = (float) offset.x;
-	meta["offset_y"] = (float) offset.y;
-	meta["tiling_x"] = (float) tiling.x;
-	meta["tiling_y"] = (float) tiling.y;
-	meta["sizeFading_x"] = (float) sizeFading.x;
-	meta["sizeFading_y"] = (float) sizeFading.y;
-	meta["sizeFadingPoints_x"] = (float) sizeFadingPoints.x;
-	meta["sizeFadingPoints_y"] = (float) sizeFadingPoints.y;
-	meta["sizeFadingPoints_z"] = (float) sizeFadingPoints.z;
-	meta["sizeFadingPoints_w"] = (float) sizeFadingPoints.w;
-	meta["numberOfMarks"] = (int) gradient->getMarks().size();
+	meta["numTiles"] = static_cast<int>(numTiles);
+	meta["speed"] = static_cast<float>(speed);
+	meta["offset_x"] =  static_cast<float>(offset.x);
+	meta["offset_y"] =  static_cast<float>(offset.y);
+	meta["tiling_x"] =  static_cast<float>(tiling.x);
+	meta["tiling_y"] =  static_cast<float>(tiling.y);
+	meta["sizeFading_x"] = static_cast<float>(sizeFading.x);
+	meta["sizeFading_y"] = static_cast<float>(sizeFading.y);
+	meta["sizeFadingPoints_x"] = static_cast<float>(sizeFadingPoints.x);
+	meta["sizeFadingPoints_y"] = static_cast<float>(sizeFadingPoints.y);
+	meta["sizeFadingPoints_z"] = static_cast<float>(sizeFadingPoints.z);
+	meta["sizeFadingPoints_w"] = static_cast<float>(sizeFadingPoints.w);
+	meta["numberOfMarks"] = static_cast<int>( gradient->getMarks().size());
 	std::list<ImGradientMark*> marks = gradient->getMarks();
 	int i = 0;
 	char charI;
@@ -251,11 +235,11 @@ void ComponentLine::InternalSave(Json& meta)
 	Json jsonColors = meta["ColorsGradient"];
 	for (ImGradientMark* const& mark : marks)
 	{
-		jsonColors[i]["color_x"] = (float)mark->color[0];
-		jsonColors[i]["color_y"] = (float) mark->color[1];
-		jsonColors[i]["color_z"] = (float) mark->color[2];
-		jsonColors[i]["color_w"] = (float) mark->color[3];
-		jsonColors[i]["pos"] = (float) mark->position;
+		jsonColors[i]["color_x"] = static_cast<float>(mark->color[0]);
+		jsonColors[i]["color_y"] = static_cast<float>(mark->color[1]);
+		jsonColors[i]["color_z"] = static_cast<float>(mark->color[2]);
+		jsonColors[i]["color_w"] = static_cast<float>(mark->color[3]);
+		jsonColors[i]["pos"] =	   static_cast<float>(mark->position);
 		i++;
 	}
 	UID uid = 0;
@@ -279,19 +263,19 @@ void ComponentLine::InternalSave(Json& meta)
 
 void ComponentLine::InternalLoad(const Json& meta)
 {
-	numTiles = (int) meta["numTiles"];
-	speed = (float) meta["speed"];
-	offset.x = (float) meta["offset_x"];
-	offset.y = (float) meta["offset_y"];
-	tiling.x = (float) meta["tiling_x"];
-	tiling.y = (float) meta["tiling_y"];
-	sizeFading.x = (float) meta["sizeFading_x"];
-	sizeFading.y = (float) meta["sizeFading_y"];
-	sizeFadingPoints.x = (float) meta["sizeFadingPoints_x"];
-	sizeFadingPoints.y = (float) meta["sizeFadingPoints_y"];
-	sizeFadingPoints.z = (float) meta["sizeFadingPoints_z"];
-	sizeFadingPoints.w = (float) meta["sizeFadingPoints_w"];
-	int numberOfMarks = (int) meta["numberOfMarks"];
+	numTiles = static_cast<int>(meta["numTiles"]);
+	speed = static_cast<float>(meta["speed"]);
+	offset.x = static_cast<float>(meta["offset_x"]);
+	offset.y = static_cast<float>(meta["offset_y"]);
+	tiling.x = static_cast<float>(meta["tiling_x"]);
+	tiling.y = static_cast<float>(meta["tiling_y"]);
+	sizeFading.y = static_cast<float>(meta["sizeFading_y"]);
+	sizeFading.x = static_cast<float>(meta["sizeFading_x"]);
+	sizeFadingPoints.x = static_cast<float>(meta["sizeFadingPoints_x"]);
+	sizeFadingPoints.y = static_cast<float>(meta["sizeFadingPoints_y"]);
+	sizeFadingPoints.z = static_cast<float>(meta["sizeFadingPoints_z"]);
+	sizeFadingPoints.w = static_cast<float>(meta["sizeFadingPoints_w"]);
+	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);
 	gradient->getMarks().clear();
 
 	Json jsonColors = meta["ColorsGradient"];
@@ -299,10 +283,11 @@ void ComponentLine::InternalLoad(const Json& meta)
 	for (int i = 0; i < numberOfMarks; i++)
 	{
 		
-		gradient->addMark((float)jsonColors[i]["pos"], ImColor((float) jsonColors[i]["color_x"],
-															   (float) jsonColors[i]["color_y"],
-															   (float) jsonColors[i]["color_z"],
-															   (float) jsonColors[i]["color_a"]));
+		gradient->addMark(static_cast<float>(jsonColors[i]["pos"]), 
+							ImColor(static_cast<float>(jsonColors[i]["color_x"]),
+							static_cast<float>(jsonColors[i]["color_y"]),
+							static_cast<float>(jsonColors[i]["color_z"]),
+							static_cast<float>(jsonColors[i]["color_a"])));
 	}
 	gradient->refreshCache();
 	std::string path = meta["assetPathMaterial"];

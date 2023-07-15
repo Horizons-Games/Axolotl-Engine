@@ -15,7 +15,7 @@
 
 
 WindowComponentLine::WindowComponentLine(ComponentLine* component) :
-	ComponentWindow("Line", component),
+	ComponentWindow("LINE", component),
 	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE))
 {
 	InitValues();

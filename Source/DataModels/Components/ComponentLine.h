@@ -1,10 +1,7 @@
 #pragma once
 
 #include "Components/Component.h"
-#include "Program/Program.h"
 
-#include "Math/float2.h"
-#include "Math/float3.h"
 #include "ImGui/imgui_color_gradient.h"
 #include "ImGui/imgui_bezier.h"
 
@@ -13,6 +10,7 @@
 
 class GameObject;
 class ResourceTexture;
+class Program;
 
 class ComponentLine : public Component
 {
@@ -34,7 +32,7 @@ public:
 	void SetNumTiles(int numTiles);
 
 	const float GetSpeed() const;
-	void SetSpeed(float speeds);
+	void SetSpeed(float speed);
 
 	const float GetTime() const;
 	void SetTime(float time);
@@ -66,22 +64,22 @@ private:
 	unsigned int colorBuffers;
 	unsigned int lineEBO;
 	unsigned int lineVAO;
-	int numTiles = 1;
+	int numTiles;
 
-	bool dirtyBuffers = true;
+	bool dirtyBuffers;
 
 	GameObject* childGameObject;
 
 
 	std::shared_ptr<ResourceTexture> lineTexture;
 
-	float speed = 0;
-	float time = 0;
-	float2 offset = float2::zero;
-	float2 tiling = float2::one;
-	ImGradient* gradient = new ImGradient();
-	float2 sizeFading = float2::one;
-	float4 sizeFadingPoints = float4::zero;
+	float speed;
+	float time;
+	float2 offset;
+	float2 tiling;
+	ImGradient* gradient;
+	float2 sizeFading;
+	float4 sizeFadingPoints;
 };
 
 inline const int ComponentLine::GetNumTiles() const
@@ -100,9 +98,9 @@ inline const float ComponentLine::GetSpeed() const
 	return speed;
 }
 
-inline void ComponentLine::SetSpeed(float speeds)
+inline void ComponentLine::SetSpeed(float speed)
 {
-	this->speed = speeds;
+	this->speed = speed;
 }
 
 inline const float ComponentLine::GetTime() const
@@ -142,7 +140,7 @@ inline std::shared_ptr<ResourceTexture> ComponentLine::GetLineTexture() const
 
 inline void ComponentLine::SetLineTexture(const std::shared_ptr<ResourceTexture>& texture)
 {
-	this->lineTexture = texture;
+	lineTexture = texture;
 	dirtyBuffers = true;
 }
 
@@ -163,7 +161,7 @@ inline const float2& ComponentLine::GetSizeFading() const
 }
 inline void ComponentLine::SetSizeFading(const float2& range)
 {
-	this->sizeFading = range;
+	sizeFading = range;
 	dirtyBuffers = true;
 }
 
@@ -173,6 +171,6 @@ inline const float4& ComponentLine::GetSizeFadingPoints() const
 }
 inline void ComponentLine::SetSizeFadingPoints(const float4& points)
 {
-	this->sizeFadingPoints = points;
+	sizeFadingPoints = points;
 	dirtyBuffers = true;
 }
