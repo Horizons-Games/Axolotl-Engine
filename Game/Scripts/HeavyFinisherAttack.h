@@ -30,8 +30,10 @@ private:
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
-	GameObject* gameObject;
+	GameObject* mesh;
 	ComponentRigidBody* rigidBody;
+	GameObject* player;
+	ComponentTransform* playerTransform;
 
 	ComponentTransform* target;
 	ComponentTransform* attackOwner;

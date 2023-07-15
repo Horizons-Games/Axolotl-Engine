@@ -1,8 +1,7 @@
+#include "StdAfx.h"
 #include "HeavyFinisherAttack.h"
 
 #include "Application.h"
-
-#include "ModuleInput.h"
 
 #include "Physics/Physics.h"
 
@@ -24,29 +23,34 @@
 REGISTERCLASS(HeavyFinisherAttack);
 
 HeavyFinisherAttack::HeavyFinisherAttack() : Script(), audioSource(nullptr), transform(nullptr), rigidBody(nullptr),
-gameObject(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr), 
-returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(1.0f), hitDistance(1.0f)
+mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr), 
+returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(1.0f), hitDistance(1.0f), player(nullptr),
+playerTransform(nullptr)
 {
 	REGISTER_FIELD(returnToPlayer, bool);
 	REGISTER_FIELD(rotateWhileAttacking, bool);
 	REGISTER_FIELD(damage, float);
 	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(hitDistance, float);
+	REGISTER_FIELD(mesh, GameObject*);
+	REGISTER_FIELD(player, GameObject*);
 }
 
 void HeavyFinisherAttack::Start()
 {
-	gameObject = owner->GetComponent<GameObject>();
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 
+	playerTransform = player->GetComponent<ComponentTransform>();
 
-	gameObject->Disable();
+	mesh->Disable();
 }
 
 void HeavyFinisherAttack::Update(float deltaTime)
 {
+	rigidBody->SetPositionTarget(playerTransform->GetGlobalPosition());
+
 	if (isActivated)
 	{
 		float3 currentPos = transform->GetGlobalPosition();
@@ -61,6 +65,7 @@ void HeavyFinisherAttack::Update(float deltaTime)
 			if (!isReturningToOwner)
 			{
 				target->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damage);
+				audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 
 				bool hasAnotherTarget = SeekNextEnemy();
 
@@ -81,10 +86,11 @@ void HeavyFinisherAttack::Update(float deltaTime)
 				enemiesAlreadyHit.clear();
 				enemiesInTheArea.clear();
 
-				gameObject->Disable();
+				mesh->Disable();
 			}
 		}
 	}
+
 }
 
 void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner)
@@ -92,7 +98,7 @@ void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, Compo
 	this->target = target;
 	this->attackOwner = attackOwner;
 
-	gameObject->Enable();
+	mesh->Enable();
 
 	isActivated = true;
 }
