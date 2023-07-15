@@ -11,6 +11,7 @@ class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
 class EntityDetection;
+class ComboManager;
 
 class PlayerManagerScript;
 
@@ -36,6 +37,11 @@ private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void NormalAttack(bool heavy);
+	void JumpAttack();
+	void SoftFinisher();
+	void HeavyFinisher();
+
 	void PerformAttack();
 	void CheckCombo();
 
@@ -47,7 +53,6 @@ private:
 
 	bool isDeathTouched;
 
-
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
@@ -55,7 +60,7 @@ private:
 	EntityDetection* enemyDetection;
 	GameObject* enemyDetectionObject;
 
-	ModuleInput* input;
+	ComboManager* comboSystem;
 
 	PlayerManagerScript* playerManager;
 	AttackCombo attackComboPhase;

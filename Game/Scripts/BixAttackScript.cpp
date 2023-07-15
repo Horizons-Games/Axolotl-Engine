@@ -14,6 +14,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/EntityDetection.h"
 
 #include "GameObject/GameObject.h"
@@ -27,11 +28,12 @@
 #include <set>
 
 #include "AxoLog.h"
+#include "ComboManager.h"
 
 REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-	input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
+	animation(nullptr), animationGO(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
@@ -49,14 +51,14 @@ void BixAttackScript::Start()
 		animation = animationGO->GetComponent<ComponentAnimation>();
 	}
 
-	input = App->GetModule<ModuleInput>();
-
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 
 	enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
+
+	comboSystem = owner->GetComponent<ComboManager>();
 }
 
 void BixAttackScript::Update(float deltaTime)
@@ -65,7 +67,59 @@ void BixAttackScript::Update(float deltaTime)
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
 
-	CheckCombo();
+	comboSystem->CheckSpecial();
+	if (IsAttackAvailable())
+	{
+		AttackType attackType = comboSystem->CheckAttackInput(playerManager->IsJumping());
+		switch (attackType)
+		{
+		case AttackType::SOFTNORMAL:
+			NormalAttack(false);
+			break;
+		case AttackType::HEAVYNORMAL:
+			NormalAttack(true);
+			break;
+		case AttackType::JUMPATTACK:
+			JumpAttack();
+			break;
+		case AttackType::SOFTFINISHER:
+			SoftFinisher();
+			break;
+		case AttackType::HEAVYFINISHER:
+			HeavyFinisher();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void BixAttackScript::NormalAttack(bool heavy) 
+{
+	//Activate visuals
+	animation->SetParameter("IsAttacking", true);
+
+	//Check collisions and Apply Effects
+	lastAttackTime = SDL_GetTicks() / 1000.0f;
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
+	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
+	if(enemyAttacked != nullptr) //We need to add a form to CHANGE this check collision because this is really static
+	{
+		//If Collisions call combo again to update the combo count
+		comboSystem->SuccessfulAttack(20, false);
+	}
+}
+
+void BixAttackScript::JumpAttack()
+{
+}
+
+void BixAttackScript::SoftFinisher()
+{
+}
+
+void BixAttackScript::HeavyFinisher()
+{
 }
 
 void BixAttackScript::PerformAttack()
@@ -106,9 +160,6 @@ bool BixAttackScript::IsAttackAvailable() const
 void BixAttackScript::CheckCombo()
 {
 	// Attack, starting the combo
-	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN && IsAttackAvailable())
-	{
-		//LOG_VERBOSE("Pressing left mouse button");
 
 		if (animation && attackComboPhase == AttackCombo::IDLE)
 		{
@@ -117,11 +168,8 @@ void BixAttackScript::CheckCombo()
 
 			PerformAttack();
 		}
-	}
 
 	// Attack, continue the combo
-	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::REPEAT && IsAttackAvailable())
-	{
 		//LOG_VERBOSE("KEEP Pressing left mouse button");
 
 		if (animation && attackComboPhase == AttackCombo::FIRST_ATTACK)
@@ -147,18 +195,6 @@ void BixAttackScript::CheckCombo()
 
 			PerformAttack();
 		}
-	}
-
-	// If attack could be performed but no button pressed, lose the combo streak
-	else if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::IDLE && IsAttackAvailable())
-	{
-		//LOG_VERBOSE("NOT pressing left mouse button");
-
-		attackComboPhase = AttackCombo::IDLE;
-		animation->SetParameter("IsAttacking", false);
-		animation->SetParameter("IsAttacking_2", false);
-		animation->SetParameter("IsAttacking_3", false);
-	}
 }
 
 bool BixAttackScript::GetIsDeathTouched() const
