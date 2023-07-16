@@ -603,6 +603,12 @@
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ComboManager.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1206,9 +1212,6 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1240,6 +1243,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EntityDetection.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ComboManager.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIComboManager.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
