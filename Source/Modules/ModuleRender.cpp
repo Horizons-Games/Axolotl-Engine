@@ -160,6 +160,7 @@ bool ModuleRender::Init()
 
 	batchManager = new BatchManager();
 	gBuffer = new GBuffer();
+	renderShadows = true;
 
 	GLenum err = glewInit();
 	// check for errors
@@ -275,7 +276,10 @@ UpdateStatus ModuleRender::Update()
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
 	// -------- SHADOW MAP --------
-	RenderShadowMap(loadedScene->GetDirectionalLight());
+	if (renderShadows)
+	{
+		RenderShadowMap(loadedScene->GetDirectionalLight());
+	}
 
 	// Bind camera and cubemap info to the shaders
 	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
@@ -312,25 +316,27 @@ UpdateStatus ModuleRender::Update()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // maybe we should move out this
-
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
 
 	gBuffer->BindTexture();
 
 	// Binding Shadow map depth buffer
-	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, gShadowMap);
+	if (renderShadows)
+	{
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, gShadowMap);
 
-	float4x4 lightSpaceMatrix = dirLightProj * dirLightView;
-	ComponentDirLight* directLight = 
-		static_cast<ComponentDirLight*>
+		float4x4 lightSpaceMatrix = dirLightProj * dirLightView;
+		ComponentDirLight* directLight =
+			static_cast<ComponentDirLight*>
 			(App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
 
-	program->BindUniformFloat4x4("lightSpaceMatrix", reinterpret_cast<const float*>(&lightSpaceMatrix), GL_TRUE);
-	program->BindUniformFloat("minBias", directLight->shadowBias[0]);
-	program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
+		program->BindUniformFloat4x4("lightSpaceMatrix", reinterpret_cast<const float*>(&lightSpaceMatrix), GL_TRUE);
+		program->BindUniformFloat("minBias", directLight->shadowBias[0]);
+		program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
+	}
+	program->BindUniformInt("useShadows", static_cast<int>(renderShadows));
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);

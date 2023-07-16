@@ -58,6 +58,7 @@ uniform vec3 viewPos;
 uniform mat4 lightSpaceMatrix;
 uniform float minBias;
 uniform float maxBias;
+uniform int useShadows;
 
 in vec2 TexCoord;
 
@@ -296,8 +297,11 @@ void main()
     float roughness = pow(1-smoothness,2) + EPSILON;
 
     // Shadow Mapping
-    vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
-    float shadow = ShadowCalculation(fragPosFromLightSpace, norm);
+    if (useShadows > 0)
+    {
+        vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
+        float shadow = ShadowCalculation(fragPosFromLightSpace, norm);
+    }
     
     // Lights
     vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
@@ -324,8 +328,21 @@ void main()
 
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLightShadowed(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL, shadow) * cubemap_intensity;
+    
+    vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
+    float shadow = ShadowCalculation(fragPosFromLightSpace, norm);
+    vec3 ambient;
+
+    if (useShadows > 0)
+    {
+        ambient = GetAmbientLightShadowed(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+            environmentBRDF, numLevels_IBL, shadow) * cubemap_intensity;
+    }
+    else
+    {
+        ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+                environmentBRDF, numLevels_IBL) * cubemap_intensity;
+    }
 
     vec3 color = ambient + Lo + emissiveMat.rgb;
     

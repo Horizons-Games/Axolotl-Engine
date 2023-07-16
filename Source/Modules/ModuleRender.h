@@ -40,6 +40,7 @@ public:
 
 	void SetBackgroundColor(float4 color);
 	void ChangeRenderMode();
+	void ToggleShadows();
 	float4 GetBackgroundColor() const;
 
 	GLuint GetRenderedTexture() const;
@@ -99,6 +100,8 @@ private:
 	GLuint shadowMapBuffer;
 	GLuint gShadowMap;
 
+	bool renderShadows;
+
 	friend class ModuleEditor;
 };
 
@@ -109,7 +112,12 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 
 inline void ModuleRender::ChangeRenderMode()
 {
-		modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
+	modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
+}
+
+inline void ModuleRender::ToggleShadows()
+{
+	renderShadows = !renderShadows;
 }
 
 inline float4 ModuleRender::GetBackgroundColor() const
