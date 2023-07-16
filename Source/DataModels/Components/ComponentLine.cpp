@@ -207,8 +207,8 @@ void ComponentLine::ModelMatrix(Program* program)
 				float4(zAxis, 0.0),
 				GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix().Col(3));
 
-		program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
-		program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
+		program->BindUniformFloat4x4(0, proj.ptr(), true);
+		program->BindUniformFloat4x4(1, view.ptr(), true);
 		program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&model), true);
 	}
 }
