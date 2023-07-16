@@ -33,7 +33,8 @@ public:
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
 	void SaveScene(const std::string& name);
-	void LoadScene(const std::string& name, bool mantainActualScene = false);
+	void LoadScene(const std::string& name, bool mantainScene = false);
+	void LoadSceneAsync(const std::string& name, std::function<void(void)> callback, bool mantainCurrentScene = false);
 
 	void OnPlay();
 	void OnStop();
@@ -51,9 +52,11 @@ public:
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
+	void LoadScene(Scene* sceneToLoadInto, const std::string& name, bool mantainScene);
 	void SaveSceneToJson(Json& jsonScene);
-	void LoadSceneFromJson(Json& json, bool mantainActualScene);
-	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy);
+	void LoadSceneFromJson(Scene* sceneToLoadInto, Json& json, bool mantainActualScene);
+	std::vector<GameObject*>
+		CreateHierarchyFromJson(Scene* sceneToLoadInto, const Json& jsonGameObjects, bool mantainCurrentHierarchy);
 
 	void AddGameObject(GameObject* object);
 	void RemoveGameObject(const GameObject* object);
