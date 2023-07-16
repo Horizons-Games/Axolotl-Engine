@@ -122,7 +122,7 @@ void MaterialImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceMate
 
 	LoadOptionsMaterial options;
 	memcpy(&options, fileBuffer, sizeof(LoadOptionsMaterial));
-
+	resource->SetLoadOptions(options);
 	fileBuffer += sizeof(LoadOptionsMaterial);
 
 	if (texturesUIDs[0] != 0)

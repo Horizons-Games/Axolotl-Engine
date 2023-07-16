@@ -78,6 +78,7 @@ public:
 	const float2& GetTiling() const;
 	const float2& GetOffset() const;
 
+	void SetLoadOptions(LoadOptionsMaterial& options);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);
@@ -224,6 +225,11 @@ inline bool ResourceMaterial::HasMetallic()
 inline bool ResourceMaterial::HasEmissive()
 {
 	return emission != nullptr;
+}
+
+inline void ResourceMaterial::SetLoadOptions(LoadOptionsMaterial& options)
+{
+	loadOptions = options;
 }
 
 inline void ResourceMaterial::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
