@@ -67,7 +67,7 @@ void BixAttackScript::Update(float deltaTime)
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
 
-	comboSystem->CheckSpecial();
+	comboSystem->CheckSpecial(deltaTime);
 	if (IsAttackAvailable())
 	{
 		AttackType attackType = comboSystem->CheckAttackInput(playerManager->IsJumping());
@@ -103,10 +103,11 @@ void BixAttackScript::NormalAttack(bool heavy)
 	lastAttackTime = SDL_GetTicks() / 1000.0f;
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	if(enemyAttacked != nullptr) //We need to add a form to CHANGE this check collision because this is really static
+	comboSystem->SuccessfulAttack(20, heavy);
+	if(enemyAttacked != nullptr) //We need a form to CHANGE this check collision because this is really static
 	{
 		//If Collisions call combo again to update the combo count
-		comboSystem->SuccessfulAttack(20, false);
+		comboSystem->SuccessfulAttack(20, heavy);
 	}
 }
 

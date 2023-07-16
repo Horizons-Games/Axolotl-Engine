@@ -1,7 +1,9 @@
+#include "StdAfx.h"
 #include "ComboManager.h"
 
 #include "Components/ComponentScript.h"
 #include "Modules/ModuleInput.h"
+#include "UIComboManager.h"
 
 REGISTERCLASS(ComboManager);
 
@@ -11,24 +13,32 @@ ComboManager::ComboManager() : Script(),
 	specialCount(0),
 	maxSpecialCount(100),
 	comboCount(0), 
-	maxComboCount(3)
+	maxComboCount(3),
+	comboManagerUIReference(nullptr),
+	comboTime(10),
+	actualComboTimer(0)
 {
+	REGISTER_FIELD(comboManagerUIReference, GameObject*);
+	REGISTER_FIELD(comboTime, float);
 }
 
 void ComboManager::Start()
 {
 	input = App->GetModule<ModuleInput>();
+	uiComboManager = comboManagerUIReference->GetComponent<UIComboManager>();
 }
 
 void ComboManager::Update(float deltaTime)
 {
+	
 }
 
-void ComboManager::CheckSpecial()
+void ComboManager::CheckSpecial(float deltaTime)
 {
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
+		uiComboManager->SetActivateSpecial(true);
 		//ADD UI & PARTICLE CALLS
 	}
 	//CHECK TIME WITHOUT COMBO AND GO DOWN
@@ -67,7 +77,18 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 void ComboManager::SuccessfulAttack(int specialCount, bool heavy)
 {
-	this->specialCount = std::max(0, std::min(this->specialCount + specialCount, maxComboCount));
+	this->specialCount = std::max(0, std::min(this->specialCount + specialCount, maxSpecialCount));
+	uiComboManager->SetComboBarValue(this->specialCount);
+	actualComboTimer = comboTime;
+
 	comboCount++;
 	//ADD UI CALL
+	if(heavy)
+	{
+		uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
+	}
+	else 
+	{
+		uiComboManager->AddInputVisuals(InputVisualType::SOFT);
+	}
 }
