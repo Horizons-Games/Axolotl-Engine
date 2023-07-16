@@ -13,6 +13,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLine.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -367,7 +368,6 @@ UpdateStatus ModuleRender::Update()
 		glLineWidth(1);
 		glDisable(GL_STENCIL_TEST);
 	}
-
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 
@@ -383,6 +383,23 @@ UpdateStatus ModuleRender::Update()
 
 	glDisable(GL_BLEND);
 
+	//ComponentLine
+	glDisable(GL_CULL_FACE);
+
+	//additive blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	for (ComponentLine* lines : loadedScene->GetSceneComponentLines())
+	{
+		lines->Render();
+	}
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	glDisable(GL_BLEND);
+
+	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 	// -------- POST EFFECTS ---------------------
 
 	KawaseDualFiltering();

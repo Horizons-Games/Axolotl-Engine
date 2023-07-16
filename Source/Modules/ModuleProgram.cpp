@@ -85,6 +85,8 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_down_fragment.glsl", "KawaseDown"));
 	
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_up_fragment.glsl", "KawaseUp"));
+
+	programs.push_back(CreateProgram("component_line_vertex.glsl", "component_line_fragment.glsl", "ComponentLine"));
 	
 	programs.push_back(
 		CreateProgram("render_clip_space_vertex.glsl", "color_correction_fragment.glsl", "ColorCorrection"));

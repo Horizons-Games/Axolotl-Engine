@@ -22,6 +22,8 @@ public:
 	void BindUniformFloat3(const int location, const float3& data);
 	void BindUniformFloat4(const std::string& name, const float4& data);
 	void BindUniformFloat4(const int location, const float4& data);
+	void BindUniformFloat2(const std::string& name, const float2& data);
+	void BindUniformFloat2(const int location, const float2& data);
 	void BindUniformFloat(const std::string& name, const float data);
 	void BindUniformFloat(const int location, const float data);
 	void BindUniformInt(const std::string& name, int value);
@@ -107,6 +109,16 @@ inline void Program::BindUniformFloat4(const std::string& name, const float4& da
 inline void Program::BindUniformFloat4(const int location, const float4& data)
 {
 	glUniform4f(location, data.x, data.y, data.z, data.w);
+}
+
+inline void Program::BindUniformFloat2(const std::string& name, const float2& data)
+{
+	glUniform2f(glGetUniformLocation(id, name.c_str()), data.x,data.y);
+}
+
+inline void Program::BindUniformFloat2(const int location, const float2& data)
+{
+	glUniform2f(location, data.x, data.y);
 }
 
 inline void Program::BindUniformFloat(const std::string& name, const float data)
