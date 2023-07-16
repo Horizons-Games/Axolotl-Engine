@@ -20,6 +20,7 @@
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLine.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
@@ -145,6 +146,15 @@ WindowInspector::WindowInspector() :
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentBreakable>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
+	
+	actions.push_back(AddComponentAction(
+		"Create Line Component",
+		std::bind(&WindowInspector::AddComponentLine, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentLine>(gameObject);
+		},
+		ComponentFunctionality::GRAPHICS));
 
 	std::sort(std::begin(actions), std::end(actions));
 }
@@ -476,4 +486,9 @@ void WindowInspector::AddComponentParticle()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentLine()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LINE);
 }

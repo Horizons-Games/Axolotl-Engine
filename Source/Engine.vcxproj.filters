@@ -421,6 +421,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentLine.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -600,6 +603,8 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1029,6 +1034,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLine.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
@@ -1203,9 +1211,6 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1235,6 +1240,8 @@
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
