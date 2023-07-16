@@ -32,7 +32,7 @@ void WindowComponentTrail::DrawWindowContents()
 		ImGui::Text("");
 		ImGui::Text("Duration");
 		ImGui::SameLine();
-		if (ImGui::DragFloat("", &duration, 0.1f, 1.0f, 100.0f))
+		if (ImGui::DragFloat("##Duration", &duration, 0.1f, 1.0f, 100.0f))
 		{
 			componentTrail->SetDuration(duration);
 		}
@@ -40,15 +40,16 @@ void WindowComponentTrail::DrawWindowContents()
 		ImGui::Text("");
 		ImGui::Text("Minimum distance");
 		ImGui::SameLine();
-		if (ImGui::DragFloat("", &minDistance, 0.1f, 1.0f, 100.0f))
+		if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.1f, 1.0f, 100.0f))
 		{
 			componentTrail->SetMinDistance(minDistance);
 		}
 
 		ImGui::Text("");
 		ImGui::Text("Width");
+		ImGui::SameLine();
 		float width = componentTrail->GetWidth();
-		if (ImGui::DragFloat("", &width, 0.1f, 1.0f, 100.0f))
+		if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 100.0f))
 		{
 			componentTrail->SetWidth(width);
 		}
