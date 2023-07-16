@@ -41,7 +41,25 @@ void ComboManager::CheckSpecial(float deltaTime)
 		uiComboManager->SetActivateSpecial(true);
 		//ADD UI & PARTICLE CALLS
 	}
-	//CHECK TIME WITHOUT COMBO AND GO DOWN
+
+	if (actualComboTimer <= 0)
+	{
+		if (comboCount > 0)
+		{
+			comboCount = 0;
+			uiComboManager->CleanInputVisuals();
+			actualComboTimer = comboTime;
+		}
+		else if (specialCount > 0 && specialCount < maxSpecialCount)
+		{
+			specialCount = std::max(0.0f, specialCount - (5 * deltaTime));
+			uiComboManager->SetComboBarValue(specialCount);
+		}
+	}
+	else
+	{
+		actualComboTimer -= deltaTime;
+	}
 }
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
