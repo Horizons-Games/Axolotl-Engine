@@ -209,7 +209,7 @@ void ComponentLine::ModelMatrix(Program* program)
 
 		program->BindUniformFloat4x4(0, proj.ptr(), true);
 		program->BindUniformFloat4x4(1, view.ptr(), true);
-		program->BindUniformFloat4x4(2, reinterpret_cast<const float*>(&model), true);
+		program->BindUniformFloat4x4(2, model.ptr(), true);
 	}
 }
 
