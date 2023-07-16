@@ -12,6 +12,7 @@
 
 #include "Cubemap/Cubemap.h"
 
+#include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
@@ -323,7 +324,13 @@ UpdateStatus ModuleRender::Update()
 	glBindTexture(GL_TEXTURE_2D, gShadowMap);
 
 	float4x4 lightSpaceMatrix = dirLightProj * dirLightView;
+	ComponentDirLight* directLight = 
+		static_cast<ComponentDirLight*>
+			(App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
+
 	program->BindUniformFloat4x4("lightSpaceMatrix", reinterpret_cast<const float*>(&lightSpaceMatrix), GL_TRUE);
+	program->BindUniformFloat("minBias", directLight->shadowBias[0]);
+	program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);

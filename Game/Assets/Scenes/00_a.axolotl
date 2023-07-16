@@ -53,9 +53,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 1.143115758895874,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -170.06216430664063,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -122,45 +122,6 @@
         },
         {
             "GameObject": {
-                "name": "Plane",
-                "tag": "",
-                "uid": 6872033942224864036,
-                "parentUID": 5818728810008522664,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": -0.041590213775634766,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 2.450000047683716,
-                            "localSca_Y": 2.450000047683716,
-                            "localSca_Z": 2.450000047683716
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 5097944874115135421,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Cube",
                 "tag": "",
                 "uid": 14736221545763251965,
@@ -173,15 +134,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 3.27059006690979,
-                            "localPos_Y": 1.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localPos_X": -0.22227680683135986,
+                            "localPos_Y": 4.989439487457275,
+                            "localPos_Z": -1.7746191024780273,
+                            "localRot_X": -89.98104858398438,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 6.0,
+                            "localSca_Y": 0.19735682010650635,
+                            "localSca_Z": 5.000000476837158
                         }
                     },
                     {
@@ -252,7 +213,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.5874598622322083,
-                            "localPos_Y": 1.1926416158676147,
+                            "localPos_Y": 1.6981563568115234,
                             "localPos_Z": 2.07875657081604,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -269,45 +230,6 @@
                             "removed": true,
                             "meshUID": 3457435429278227001,
                             "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Plane",
-                "tag": "",
-                "uid": 17643846580721308412,
-                "parentUID": 5818728810008522664,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.7639251947402954,
-                            "localPos_Y": 2.9668922424316406,
-                            "localPos_Z": -1.6933462619781494,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 90.0,
-                            "localRot_Z": 90.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 5097944874115135421,
-                            "assetPathMesh": "Assets/Meshes/Plane.mesh",
                             "materialUID": 4337559970860798462,
                             "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
@@ -623,6 +545,84 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 13877690159234568814,
+                "parentUID": 5818728810008522664,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.230001926422119,
+                            "localPos_Y": 1.0155868530273438,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 3382260958351012014,
+                "parentUID": 5818728810008522664,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.22227680683135986,
+                            "localPos_Y": -0.24777662754058838,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 6.0,
+                            "localSca_Y": 0.25,
+                            "localSca_Z": 7.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]

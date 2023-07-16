@@ -56,6 +56,8 @@ uniform vec3 viewPos;
 
 // Shadow Mapping
 uniform mat4 lightSpaceMatrix;
+uniform float minBias;
+uniform float maxBias;
 
 in vec2 TexCoord;
 
@@ -268,7 +270,7 @@ float ShadowCalculation(vec4 posFromLight, vec3 normal)
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    float bias = max(0.0099 * (1.0 - max(dot(normal, directionalDir), EPSILON)), 0.0007);  
+    float bias = max(minBias * (1.0 - max(dot(normal, directionalDir), EPSILON)), maxBias);  
     float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
 
     return shadow;
