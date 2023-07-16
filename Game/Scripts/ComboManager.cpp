@@ -47,7 +47,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 		if (comboCount > 0)
 		{
 			comboCount = 0;
-			uiComboManager->CleanInputVisuals();
+			uiComboManager->ClearCombo(false);
 			actualComboTimer = comboTime;
 		}
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
@@ -105,8 +105,14 @@ void ComboManager::SuccessfulAttack(int specialCount, bool heavy)
 	{
 		uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
 	}
-	else 
+	else
 	{
 		uiComboManager->AddInputVisuals(InputVisualType::SOFT);
+	}
+
+	if (comboCount == 3) 
+	{
+		uiComboManager->ClearCombo(true);
+		comboCount = 0;
 	}
 }

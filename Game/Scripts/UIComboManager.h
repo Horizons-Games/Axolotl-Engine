@@ -28,6 +28,8 @@ public:
 
 	void AddInputVisuals(InputVisualType type);
 
+	void ClearCombo(bool finish);
+
 	void CleanInputVisuals();
 
 private:
@@ -38,4 +40,7 @@ private:
 	std::vector<GameObject*> inputPositions;
 
 	ComponentSlider* comboBar;
+
+	float clearComboTimer;
+	bool clearCombo;
 };
