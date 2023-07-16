@@ -832,16 +832,19 @@ void Scene::GenerateLights()
 
 void Scene::RenderDirectionalLight() const
 {
-	ComponentTransform* dirTransform = directionalLight->GetComponent<ComponentTransform>();
-	ComponentLight* dirComp = directionalLight->GetComponent<ComponentLight>();
+	if (directionalLight)
+	{
+		ComponentTransform* dirTransform = directionalLight->GetComponent<ComponentTransform>();
+		ComponentLight* dirComp = directionalLight->GetComponent<ComponentLight>();
 
-	float3 directionalDir = dirTransform->GetGlobalForward();
-	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
+		float3 directionalDir = dirTransform->GetGlobalForward();
+		float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
 
-	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
-	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
+		glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
 }
 
 void Scene::RenderPointLights() const

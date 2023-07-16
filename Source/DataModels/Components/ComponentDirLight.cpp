@@ -6,6 +6,8 @@
 
 #include "Modules/ModuleScene.h"
 
+#include "Scene/Scene.h"
+
 #ifndef ENGINE
 	#include "Modules/ModuleDebugDraw.h"
 	#include "Modules/ModuleEditor.h"
@@ -102,6 +104,13 @@ void ComponentDirLight::Draw() const
 		}
 	}
 #endif // ENGINE
+}
+
+void ComponentDirLight::OnTransformChanged()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->RenderDirectionalLight();
 }
 
 void ComponentDirLight::InternalSave(Json& meta)

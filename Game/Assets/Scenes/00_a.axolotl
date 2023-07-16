@@ -53,7 +53,7 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 1.143115758895874,
                             "localPos_Z": 0.0,
-                            "localRot_X": -170.06216430664063,
+                            "localRot_X": -169.7778778076172,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
@@ -69,7 +69,7 @@
                             "color_light_X": 1.0,
                             "color_light_Y": 1.0,
                             "color_light_Z": 1.0,
-                            "intensity": 0.0,
+                            "intensity": 0.25,
                             "lightType": "LightType_Directional"
                         }
                     }
@@ -91,7 +91,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.596735417842865,
-                            "localPos_Y": 1.2978346347808838,
+                            "localPos_Y": 1.7956008911132813,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -109,7 +109,7 @@
                             "color_light_X": 1.0,
                             "color_light_Y": 1.0,
                             "color_light_Z": 1.0,
-                            "intensity": 1.0,
+                            "intensity": 1.100000023841858,
                             "lightType": "LightType_Area",
                             "areaType": "AreaType_Tube",
                             "shapeRadius": 1.0,
@@ -214,7 +214,7 @@
                             "removed": false,
                             "localPos_X": 0.5874598622322083,
                             "localPos_Y": 1.6981563568115234,
-                            "localPos_Z": 2.07875657081604,
+                            "localPos_Z": 2.2150373458862305,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -270,7 +270,7 @@
                             "color_light_X": 1.0,
                             "color_light_Y": 1.0,
                             "color_light_Z": 1.0,
-                            "intensity": 1.0,
+                            "intensity": 1.9500000476837158,
                             "lightType": "LightType_Point",
                             "radius": 0.5
                         }
@@ -311,7 +311,7 @@
                             "color_light_X": 1.0,
                             "color_light_Y": 0.0,
                             "color_light_Z": 0.0,
-                            "intensity": 1.590000033378601,
+                            "intensity": 2.700000047683716,
                             "lightType": "LightType_Point",
                             "radius": 0.5
                         }
@@ -333,9 +333,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.2713977098464966,
-                            "localPos_Y": 5.249983787536621,
-                            "localPos_Z": -0.3078272342681885,
+                            "localPos_X": -0.2367461919784546,
+                            "localPos_Y": 7.1151814460754395,
+                            "localPos_Z": 0.20224764943122864,
                             "localRot_X": -180.0,
                             "localRot_Y": -3.8863608837127686,
                             "localRot_Z": -180.0,
@@ -352,11 +352,11 @@
                             "color_light_X": 0.9117647409439087,
                             "color_light_Y": 1.0,
                             "color_light_Z": 0.0,
-                            "intensity": 1.0,
+                            "intensity": 6.840000152587891,
                             "lightType": "LightType_Spot",
-                            "radius": 5.0,
-                            "innerAngle": 0.24958208203315735,
-                            "outerAngle": 0.30000001192092896
+                            "radius": 2.9000000953674316,
+                            "innerAngle": 0.8429940342903137,
+                            "outerAngle": 0.9477137923240662
                         }
                     }
                 ]

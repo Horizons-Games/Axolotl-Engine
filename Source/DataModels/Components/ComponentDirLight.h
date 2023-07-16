@@ -15,7 +15,9 @@ public:
 
 	void Draw() const override;
 
-	float2 shadowBias = float2(0.004, 0.0005);
+	void OnTransformChanged() override;
+
+	float2 shadowBias = float2(0.002, 0.0005);
 
 private:
 	void InternalSave(Json& meta) override;

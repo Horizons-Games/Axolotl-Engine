@@ -297,14 +297,15 @@ void main()
     float roughness = pow(1-smoothness,2) + EPSILON;
 
     // Shadow Mapping
+    float shadow = 0.0;
     if (useShadows > 0)
     {
         vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
-        float shadow = ShadowCalculation(fragPosFromLightSpace, norm);
+        shadow = ShadowCalculation(fragPosFromLightSpace, norm);
     }
     
     // Lights
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
+    vec3 Lo = (1.0 - shadow) * calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
     if (num_point > 0)
     {
@@ -329,20 +330,8 @@ void main()
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
     
-    vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
-    float shadow = ShadowCalculation(fragPosFromLightSpace, norm);
-    vec3 ambient;
-
-    if (useShadows > 0)
-    {
-        ambient = GetAmbientLightShadowed(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-            environmentBRDF, numLevels_IBL, shadow) * cubemap_intensity;
-    }
-    else
-    {
-        ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-                environmentBRDF, numLevels_IBL) * cubemap_intensity;
-    }
+    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+        environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
     vec3 color = ambient + Lo + emissiveMat.rgb;
     
