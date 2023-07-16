@@ -52,11 +52,9 @@ public:
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
-	void LoadScene(Scene* sceneToLoadInto, const std::string& name, bool mantainScene);
 	void SaveSceneToJson(Json& jsonScene);
-	void LoadSceneFromJson(Scene* sceneToLoadInto, Json& json, bool mantainActualScene);
-	std::vector<GameObject*>
-		CreateHierarchyFromJson(Scene* sceneToLoadInto, const Json& jsonGameObjects, bool mantainCurrentHierarchy);
+	void LoadSceneFromJson(Json& json, bool mantainActualScene);
+	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy);
 
 	void AddGameObject(GameObject* object);
 	void RemoveGameObject(const GameObject* object);
