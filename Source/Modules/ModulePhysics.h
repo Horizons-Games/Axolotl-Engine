@@ -73,6 +73,8 @@ public:
 
 	void UpdateDrawableRigidBodies(int value);
 
+	void GetCollisions(ComponentRigidBody* rb, std::vector<ComponentRigidBody*>& collisions, std::string tag = std::string());
+
 private:
 	std::unique_ptr<btDefaultCollisionConfiguration> collisionConfiguration;
 	std::unique_ptr<btCollisionDispatcher> dispatcher;
