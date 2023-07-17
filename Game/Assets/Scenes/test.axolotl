@@ -1,0 +1,218 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "test",
+                "tag": "",
+                "uid": 10276076196178744562,
+                "parentUID": 0,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 9511750220103364140,
+                "parentUID": 10276076196178744562,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 3619614083762279753,
+                "parentUID": 10276076196178744562,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Line",
+                            "active": true,
+                            "removed": true,
+                            "numTiles": 50,
+                            "speed": 11.800000190734863,
+                            "offset_x": 0.0,
+                            "offset_y": 0.0,
+                            "tiling_x": 1.0,
+                            "tiling_y": 1.0,
+                            "sizeFading_x": 4.210000038146973,
+                            "sizeFading_y": 0.0,
+                            "sizeFadingPoints_x": 0.0,
+                            "sizeFadingPoints_y": 1.0,
+                            "sizeFadingPoints_z": 0.0,
+                            "sizeFadingPoints_w": 1.0,
+                            "numberOfMarks": 11,
+                            "_x": 1.0,
+                            "n not supported": 1.0,
+                            "pported": 0.0,
+                            "D:\\UPCSchool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 1.0,
+                            "x": 0.0,
+                            "izeFadingPoints_y": 1.0,
+                            " not supported": 0.19795429706573486,
+                            "ported": 1.0,
+                            ":\\UPCSchool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.0,
+                            "": 0.0,
+                            "zeFadingPoints_y": 0.26713237166404724,
+                            "not supported": 0.26713237166404724,
+                            "orted": 0.0,
+                            "\\UPCSchool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.27363184094429016,
+                            "eFadingPoints_y": 0.32746171951293945,
+                            "ot supported": 0.32746171951293945,
+                            "rted": 0.0,
+                            "UPCSchool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.33084577322006226,
+                            "FadingPoints_y": 0.38823530077934265,
+                            "t supported": 0.38823530077934265,
+                            "ted": 0.0,
+                            "PCSchool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.3905472755432129,
+                            "adingPoints_y": 0.5079444050788879,
+                            " supported": 0.5079444050788879,
+                            "ed": 0.0,
+                            "CSchool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.5124378204345703,
+                            "dingPoints_y": 0.6585975885391235,
+                            "supported": 0.6585975885391235,
+                            "d": 0.0,
+                            "School\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.6641790866851807,
+                            "ingPoints_y": 0.7348334193229675,
+                            "upported": 0.0,
+                            "chool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.7388059496879578,
+                            "ngPoints_y": 0.7969582080841064,
+                            "hool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 0.8034825921058655,
+                            "gPoints_y": 1.0,
+                            "ool\\repoAxolotl\\Axolotl-Engine\\Source\\FileSystem\\ModuleResources.h": 1.0,
+                            "materialUID": 0,
+                            "assetPathMaterial": "",
+                            "EndPoint": 15116642423024201960
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 15116642423024201960,
+                "parentUID": 3619614083762279753,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.1158447265625,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 6.738016128540039,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -25.0,
+                "y": -10.0,
+                "z": -25.0
+            },
+            "MaxPoint": {
+                "x": 25.0,
+                "y": 10.0,
+                "z": 25.0
+            }
+        }
+    },
+    "Skybox": {
+        "skyboxUID": 4377575066284441384,
+        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 992078593789236745,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    }
+}

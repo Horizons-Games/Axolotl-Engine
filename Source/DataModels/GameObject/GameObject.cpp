@@ -20,11 +20,12 @@
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentTrail.h"
+#include "DataModels/Components/ComponentLine.h"
+#include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
-#include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/UI/ComponentSlider.h"
 
 #include "Application.h"
@@ -364,6 +365,13 @@ void GameObject::CopyComponent(Component* component)
 			newComponent = std::make_unique<ComponentCanvas>(*static_cast<ComponentCanvas*>(component));
 			break;
 		}
+		case ComponentType::LINE:
+		{
+			newComponent = std::make_unique<ComponentLine>(*static_cast<ComponentLine*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLines(
+				static_cast<ComponentLine*>(newComponent.get()));
+			break;
+		}
 
 		case ComponentType::BREAKABLE:
 		{
@@ -616,7 +624,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
 			break;
 		}
-
+		case ComponentType::LINE:
+		{
+			newComponent = std::make_unique<ComponentLine>(true, this);
+			break;
+		}
 		default:
 			assert(false && "Wrong component type introduced");
 			return nullptr;
@@ -637,6 +649,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			{
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
+			else if (referenceBeforeMove->GetType() == ComponentType::LINE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 			}
 		}
 
@@ -726,6 +743,11 @@ bool GameObject::RemoveComponent(const Component* component)
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
 			static_cast<const ComponentParticleSystem*>(component));
+	}
+	else if (component->GetType() == ComponentType::LINE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
+			static_cast<const ComponentLine*>(component));
 	}
 
 	components.erase(removeIfResult, std::end(components));

@@ -116,6 +116,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Script";
 		case ComponentType::CUBEMAP:
 			return "Component_Cubemap";
+		case ComponentType::LINE:
+			return "Component_Line";
 		case ComponentType::PARTICLE:
 			return "Component_Particle";
 		case ComponentType::TRAIL:
@@ -228,6 +230,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Trail")
 	{
 		return ComponentType::TRAIL;
+	}
+	if (typeName == "Component_Line")
+	{
+		return ComponentType::LINE;
 	}
 
 	return ComponentType::UNKNOWN;
