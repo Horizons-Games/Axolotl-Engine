@@ -40,7 +40,6 @@ void Trail::Update(float3 newPosition, Quat newRotation)
 	{
 		InsertPoint(newPosition, newRotation);
 	}
-	
 }
 
 void Trail::Draw()
@@ -105,11 +104,16 @@ void Trail::CreateBuffers()
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &ebo);
+	unsigned maxTriangles = (maxSamplers - 1) * 2;
+	GLuint maxIndices = maxTriangles * 3;
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 
 	unsigned vertexsSize = sizeof(Vertex);
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	int numVertices = maxSamplers * 2;
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
 	
 	glEnableVertexAttribArray(0); // pos
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexsSize, (void*)0);
@@ -125,30 +129,42 @@ void Trail::CreateBuffers()
 
 void Trail::RedoBuffers()
 {
-	maxSamplers = std::max(maxSamplers, static_cast<int>(points.size()));
-	unsigned maxTriangles = (maxSamplers - 1) * 2;
-	GLuint maxIndices = maxTriangles * 3;
+	bool sizeChanged = false;
 	
+	if (maxSamplers < static_cast<int>(points.size()))
+	{
+		maxSamplers = static_cast<int>(points.size());
+		sizeChanged = true;
+	}
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, maxIndices, nullptr, GL_STATIC_DRAW);
+	if (sizeChanged)
+	{
+		unsigned maxTriangles = (maxSamplers - 1) * 2;
+		GLuint maxIndices = maxTriangles * 3;
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
+	}
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
-
-	for (int i = 0; i < maxSamplers - 1; i++)
+	unsigned int index_idx = 0; // could be changed
+	for (unsigned int i = 0; i < maxSamplers - 1; i++)
 	{
-		*(indices++) = 0 + 2 * i;
-		*(indices++) = 1 + 2 * i;
-		*(indices++) = 2 + 2 * i;
-		*(indices++) = 1 + 2 * i;
-		*(indices++) = 3 + 2 * i;
-		*(indices++) = 2 + 2 * i;
+		indices[index_idx++] = 0 + 2 * i;
+		indices[index_idx++] = 1 + 2 * i;
+		indices[index_idx++] = 2 + 2 * i;
+		indices[index_idx++] = 1 + 2 * i;
+		indices[index_idx++] = 3 + 2 * i;
+		indices[index_idx++] = 2 + 2 * i;
 	}
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
-
-	int numVertices = maxSamplers * 2;
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
+	if (sizeChanged)
+	{
+		int numVertices = maxSamplers * 2;
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
+	}
 
 	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
@@ -174,10 +190,13 @@ void Trail::RedoBuffers()
 		gradient->getColorAt(stepsGradient * i, color);
 		vertexData[i * 2].color = float4(color[0], color[1], color[2], p.life / duration);
 		vertexData[i * 2 + 1].color = float4(color[0], color[1], color[2], p.life / duration);
+		//if (blendingMode == BlendingMode::ADDITIVE)
+		//{
+		//	// Additive alpha lerp to black
+		//	color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - vertexData[i].color.w);
+		//}
 	}
-
 	glUnmapBuffer(GL_ARRAY_BUFFER);
-	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -191,7 +210,11 @@ void Trail::UpdateLife()
 
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (points[i].life <= 0 && points[i + 1].life <= 0)
+		if (i == points.size() - 1 && points[i].life <= 0)
+		{
+			points.erase(points.begin() + i);
+		}
+		else if (points[i].life <= 0 && points[i + 1].life <= 0)
 		{
 			points.erase(points.begin() + i);
 		}
@@ -200,7 +223,7 @@ void Trail::UpdateLife()
 
 bool Trail::CheckDistance(float3 comparedPosition)
 {
-	return points.back().centerPosition.DistanceSq(comparedPosition) >= minDistance;
+	return points.empty() || points.back().centerPosition.DistanceSq(comparedPosition) >= minDistance;
 }
 
 void Trail::InsertPoint(float3 position, Quat rotation)
