@@ -5,6 +5,8 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Functions/srgba_functions.glsl"
+
 struct Material {
     vec4 diffuse_color;         //0  //16
     vec3 specular_color;        //16 //16       

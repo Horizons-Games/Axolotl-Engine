@@ -4,6 +4,8 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Functions/srgba_functions.glsl"
+
 in vec2 TexCoord;
 
 layout(binding = 0) uniform sampler2D scene;

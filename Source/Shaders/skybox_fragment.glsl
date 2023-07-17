@@ -2,7 +2,7 @@
 
 #extension GL_ARB_shading_language_include : require
 
-#include "/Common/Functions/pbr_functions.glsl"
+#include "/Common/Functions/srgba_functions.glsl"
 
 out vec4 FragColor;
 
