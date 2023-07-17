@@ -8,8 +8,15 @@ class Program;
 struct Point
 {
 	float3 centerPosition;
-	float3 vertex[2];
+	Quat rotation;
 	float life;
+};
+
+struct Vertex
+{
+	float3 position;
+	float4 color;
+	float2 uv;
 };
 
 class Trail
@@ -47,21 +54,16 @@ private:
 	bool CheckDistance(float3 comparedPosition);
 
 	void InsertPoint(float3 position, Quat rotation);
-	void CalculateUV();
-	void CalculateVBO();
-
+	
 	void BindCamera(Program* program);
 
 	GLuint vao;
 	GLuint vbo;
 	GLuint ebo;
-	GLuint uv;
 
-	float3 lastPosition;
+	std::vector<Point> points;
 
-	std::vector<std::unique_ptr<Point>> points;
-
-	bool isRendering;
+	//bool isRendering;
 
 	int maxSamplers;
 
@@ -73,20 +75,18 @@ private:
 	// render properties
 	ImGradient* gradient;
 
-	bool redoBuffers;
-
 	std::shared_ptr<ResourceTexture> texture;
 };
 
-inline bool Trail::IsRendering()
-{
-	return isRendering;
-}
-
-inline void Trail::SetRendering(bool isRendering)
-{
-	this->isRendering = isRendering;
-}
+//inline bool Trail::IsRendering()
+//{
+//	return isRendering;
+//}
+//
+//inline void Trail::SetRendering(bool isRendering)
+//{
+//	this->isRendering = isRendering;
+//}
 
 inline const float Trail::GetDuration() const
 {
@@ -96,7 +96,7 @@ inline const float Trail::GetDuration() const
 inline void Trail::SetDuration(float duration)
 {
 	this->duration = duration;
-	redoBuffers = true;
+	points.clear();
 }
 
 inline const float Trail::GetMinDistance() const
@@ -107,6 +107,7 @@ inline const float Trail::GetMinDistance() const
 inline void Trail::SetMinDistance(float minDistance)
 {
 	this->minDistance = minDistance;
+	points.clear();
 }
 
 inline const float Trail::GetWidth() const
@@ -117,6 +118,7 @@ inline const float Trail::GetWidth() const
 inline void Trail::SetWidth(float width)
 {
 	this->width = width;
+	points.clear();
 }
 
 inline std::shared_ptr<ResourceTexture> Trail::GetTexture() const
@@ -127,7 +129,7 @@ inline std::shared_ptr<ResourceTexture> Trail::GetTexture() const
 inline void Trail::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
 {
 	this->texture = texture;
-	redoBuffers = true;
+	points.clear();
 }
 
 inline ImGradient* Trail::GetGradient()
@@ -138,5 +140,5 @@ inline ImGradient* Trail::GetGradient()
 inline void Trail::SetGradient(ImGradient* gradient)
 {
 	this->gradient = gradient;
-	redoBuffers = true;
+	points.clear();
 }

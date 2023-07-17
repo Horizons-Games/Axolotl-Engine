@@ -15,7 +15,7 @@
 #include "ImGui/imgui_color_gradient.h"
 
 
-Trail::Trail() : maxSamplers(10), redoBuffers(true)
+Trail::Trail() : maxSamplers(64), duration(2.5f), minDistance(1.f), width(10.f)
 {
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -28,32 +28,24 @@ Trail::~Trail()
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
-	glDeleteBuffers(1, &uv);
 }
 
 void Trail::Update(float3 newPosition, Quat newRotation)
 {
-	if (!isRendering) // if we are not rendering the tail don't store
-	{
-		return;
-	}
+	UpdateLife();
 
 	if (CheckDistance(newPosition))
 	{
 		InsertPoint(newPosition, newRotation);
 	}
 	
-	UpdateLife();
 }
 
 void Trail::Draw()
 {
-	if (isRendering)
-	{
-		if (redoBuffers)
-		{
-			RedoBuffers();
-		}
+	//if (isRendering)
+	//{
+		RedoBuffers();
 
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT); // TODO change to componentTrail or create one
 		program->Activate();
@@ -91,7 +83,7 @@ void Trail::Draw()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);
 		program->Deactivate();
-	}
+	//}
 }
 
 void Trail::CreateBuffers()
@@ -100,104 +92,112 @@ void Trail::CreateBuffers()
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &ebo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+	unsigned vertexsSize = sizeof(Vertex);
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float3), (void*)0);
-	glEnableVertexAttribArray(0);
+	
+	glEnableVertexAttribArray(0); // pos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexsSize, (void*)0);
 
-	glGenBuffers(1, &uv);
-	glBindBuffer(GL_ARRAY_BUFFER, uv);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float2), (void*)0);
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(1); // color
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, vertexsSize, (void*)(sizeof(float3)));
+
+	glEnableVertexAttribArray(2); // uv
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexsSize, (void*)((sizeof(float3)) + sizeof(float4)));
 
 	glBindVertexArray(0);
 }
 
 void Trail::RedoBuffers()
 {
+	maxSamplers = std::max(maxSamplers, static_cast<int>(points.size()));
+	unsigned maxTriangles = (maxSamplers - 1) * 2;
+	GLuint maxIndices = maxTriangles * 3;
+	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned) * (maxSamplers * 2), nullptr, GL_STATIC_DRAW);
-	
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, maxIndices, nullptr, GL_STATIC_DRAW);
+
+	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+
+	for (int i = 0; i < maxSamplers - 1; i++)
+	{
+		*(indices++) = 0 + 2 * i;
+		*(indices++) = 1 + 2 * i;
+		*(indices++) = 2 + 2 * i;
+		*(indices++) = 1 + 2 * i;
+		*(indices++) = 3 + 2 * i;
+		*(indices++) = 2 + 2 * i;
+	}
+	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+
+	int numVertices = maxSamplers * 2;
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (maxSamplers * 2), nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
+
+	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+
+	float stepUV = 1.0f / float(points.size());
+	float stepsGradient = 1.f / static_cast<float>(points.size());
+	float color[3];
+	for (unsigned int i = 0; i < points.size(); ++i)
+	{
+		Point p = points[i];
+		
+		// pos
+		float3 dirPerpendicular = (p.rotation * float3::unitY) * width;
+		float3 vertex = p.centerPosition + dirPerpendicular;
+		vertexData[i * 2].position = vertex;
+		vertex = p.centerPosition - dirPerpendicular;
+		vertexData[i * 2 + 1].position = vertex;
+
+		// uv
+		vertexData[i * 2].uv = float2(stepUV * static_cast<float>(i), 0.0f);
+		vertexData[i * 2 + 1].uv = float2(stepUV * static_cast<float>(i), 1.0f);
+
+		// color
+		gradient->getColorAt(stepsGradient * i, color);
+		vertexData[i * 2].color = float4(color[0], color[1], color[2], p.life / duration);
+		vertexData[i * 2 + 1].color = float4(color[0], color[1], color[2], p.life / duration);
+	}
+
+	glUnmapBuffer(GL_ARRAY_BUFFER);
 	
-	glBindBuffer(GL_ARRAY_BUFFER, uv);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * (maxSamplers * 2), nullptr, GL_STATIC_DRAW);
-
-	CalculateUV();
-
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	redoBuffers = false;
 }
 
 void Trail::UpdateLife()
 {
-	for (auto &point : points)
+	float timePassed = App->GetDeltaTime();
+	for (int i = 0; i < points.size(); i++)
 	{
-		point->life -= App->GetDeltaTime();
-		if (point->life <= 0)
+		points[i].life -= timePassed;
+	}
+
+	for (int i = 0; i < points.size(); i++)
+	{
+		if (points[i].life <= 0 && points[i + 1].life <= 0)
 		{
-			std::erase(points, point);
-			CalculateVBO();
+			points.erase(points.begin() + i);
 		}
 	}
 }
 
 bool Trail::CheckDistance(float3 comparedPosition)
 {
-	return lastPosition.DistanceSq(comparedPosition) >= minDistance;
+	return points.back().centerPosition.DistanceSq(comparedPosition) >= minDistance;
 }
 
 void Trail::InsertPoint(float3 position, Quat rotation)
 {
-	float3 dirPerpendicular = (rotation * float3::unitY) * width;
-	Point* nPoint = new Point();
-	nPoint->centerPosition = position;
-	nPoint->vertex[0] = position + dirPerpendicular;
-	nPoint->vertex[1] = position - dirPerpendicular;
-	nPoint->life = duration;
+	Point nPoint = Point();
+	nPoint.centerPosition = position;
+	nPoint.rotation = rotation;
+	nPoint.life = duration;
 
-	if (points.size() + 1 >= maxSamplers) //if we have more than the number specified, delete the first one
-	{
-		points.erase(points.begin());
-	}
-
-	points.push_back(std::make_unique<Point>(*nPoint));
-
-	CalculateVBO();
-}
-
-void Trail::CalculateUV()
-{
-	float step = 1.0f / float(points.size());
-
-	glBindBuffer(GL_ARRAY_BUFFER, uv);
-	float2* texData = reinterpret_cast<float2*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
-
-	for (unsigned int i = 0; i < points.size(); ++i)
-	{
-		texData[i * 2 + 0] = float2(step * float(i), 0.0f);
-		texData[i * 2 + 1] = float2(step * float(i), 1.0f);
-	}
-
-	glUnmapBuffer(GL_ARRAY_BUFFER);
-}
-
-void Trail::CalculateVBO()
-{
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	float3* posData = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
-
-	for (unsigned int i = 0; i < points.size(); ++i)
-	{
-		Point* p = points[i].get();
-		posData[i * 2 + 0] = p->vertex[0];
-		posData[i * 2 + 1] = p->vertex[1];
-	}
-
-	glUnmapBuffer(GL_ARRAY_BUFFER);
+	points.push_back(nPoint);
 }
 
 void Trail::BindCamera(Program* program)
@@ -207,5 +207,4 @@ void Trail::BindCamera(Program* program)
 
 	program->BindUniformFloat4x4(0, proj.ptr(), true);
 	program->BindUniformFloat4x4(1, view.ptr(), true);
-	program->BindUniformFloat4x4(2, float4x4::identity.ptr(), true);
 }
