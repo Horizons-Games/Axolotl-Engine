@@ -5,6 +5,8 @@ class ImGradient;
 class ResourceTexture;
 class Program;
 
+enum class BlendingMode;
+
 struct Point
 {
 	float3 centerPosition;
@@ -62,6 +64,8 @@ private:
 	GLuint ebo;
 
 	std::vector<Point> points;
+
+	BlendingMode blendingMode;
 
 	//bool isRendering;
 

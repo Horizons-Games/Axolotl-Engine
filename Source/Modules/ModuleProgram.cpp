@@ -83,9 +83,11 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
 	
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "gaussian_blur_fragment.glsl", "GaussianBlur"));
-	
+
 	programs.push_back(
 		CreateProgram("render_clip_space_vertex.glsl", "color_correction_fragment.glsl", "ColorCorrection"));
+
+	programs.push_back(CreateProgram("trail_vertex.glsl", "trail_fragment.glsl", "Trail"));
 
 	return true;
 }

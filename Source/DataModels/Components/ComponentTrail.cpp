@@ -27,6 +27,7 @@ ComponentTrail::~ComponentTrail()
 
 void ComponentTrail::Draw() const
 {
+	trail->Draw();
 }
 
 void ComponentTrail::Update()

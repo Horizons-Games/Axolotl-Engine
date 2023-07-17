@@ -14,8 +14,10 @@
 #include "FileSystem/Json.h"
 #include "ImGui/imgui_color_gradient.h"
 
+#include "Enums/BlendingType.h"
 
-Trail::Trail() : maxSamplers(64), duration(2.5f), minDistance(1.f), width(10.f)
+
+Trail::Trail() : maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ALPHA)
 {
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -45,44 +47,55 @@ void Trail::Draw()
 {
 	//if (isRendering)
 	//{
+	if (points.size() < 2)
+	{
+		return;
+	}
 		RedoBuffers();
 
-		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT); // TODO change to componentTrail or create one
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRAIL);
 		program->Activate();
 		BindCamera(program);
 
-		//time += App->GetDeltaTime() * speed;
+		glDepthMask(GL_FALSE);
+		glDisable(GL_CULL_FACE);
 
-		//will be move in AnimetedTexture Script or something similar
-		//offset.x += 0.004f;
-		//if (offset.x > 1.f) offset.x = 0.f;
+		glEnable(GL_BLEND);
+		switch (blendingMode)
+		{
+		case BlendingMode::ALPHA:
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			break;
 
-		//program->BindUniformFloat2("offset", offset);
-		//program->BindUniformFloat2("tiling", tiling);
-		//program->BindUniformFloat("time", time);
+		case BlendingMode::ADDITIVE:
+			glBlendFunc(GL_ONE, GL_ONE);
+			break;
+		}
 
 		glActiveTexture(GL_TEXTURE0);
 		if (texture)
 		{
 			texture->Load();
 			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			program->BindUniformInt("hasTexture", 1);
+			program->BindUniformInt(3, 1);
 		}
 		else
 		{
-			program->BindUniformInt("hasTexture", 0);
+			program->BindUniformInt(3, 0);
 		}
 
-		//I commented CW and CCW because they destroy the skybox need to look at that later
-		// 
-		//glFrontFace(GL_CW);
 		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 * points.size());
-		//glDrawElements(GL_TRIANGLE_STRIP, 2 + 2 * numTiles, GL_UNSIGNED_INT, nullptr);
-		//glFrontFace(GL_CCW);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		glDrawElements(GL_TRIANGLES, (maxSamplers - 1) * 2 * 3, GL_UNSIGNED_INT, nullptr);
 		program->Deactivate();
+
+		glDepthMask(GL_TRUE);
+		glEnable(GL_CULL_FACE);
+
+		glDisable(GL_BLEND);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
 	//}
 }
 
