@@ -865,6 +865,7 @@
     <ClInclude Include="Defines\GlslDefines.h" />
     <ClInclude Include="Defines\QuadtreeDefines.h" />
     <ClInclude Include="Defines\WindowDefines.h" />
+    <ClInclude Include="Enums\BlendingType.h" />
     <ClInclude Include="Enums\ComponentType.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>

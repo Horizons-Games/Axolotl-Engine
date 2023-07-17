@@ -13,11 +13,9 @@
 #include "Components/ComponentTransform.h"
 
 #include "Enums/TextureType.h"
+#include "Enums/BlendingType.h"
 
 #include "GameObject/GameObject.h"
-
-#include "Math/float4x4.h"
-#include "Math/float3x3.h"
 
 #include "Modules/ModuleCamera.h"
 
@@ -32,8 +30,6 @@
 #ifdef ENGINE
 #include "Windows/EditorWindows/ImporterWindows/WindowParticleTexture.h"
 #endif //ENGINE
-
-#include <algorithm>
 
 ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(ModuleType::RENDER, emitter)
 {
@@ -401,16 +397,16 @@ void ModuleRenderer::DrawImGui()
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 
-			ModuleRenderer::BlendingMode blending = GetBlending();
+			BlendingMode blending = GetBlending();
 
 			const char* blendingItems[] = { "ALPHA", "ADDITIVE" };
 
 			switch (blending)
 			{
-			case ModuleRenderer::BlendingMode::ALPHA:
+			case BlendingMode::ALPHA:
 				currentItem = blendingItems[0];
 				break;
-			case ModuleRenderer::BlendingMode::ADDITIVE:
+			case BlendingMode::ADDITIVE:
 				currentItem = blendingItems[1];
 				break;
 			}
@@ -434,11 +430,11 @@ void ModuleRenderer::DrawImGui()
 
 				if (currentItem == blendingItems[0])
 				{
-					blending = ModuleRenderer::BlendingMode::ALPHA;
+					blending = BlendingMode::ALPHA;
 				}
 				else if (currentItem == blendingItems[1])
 				{
-					blending = ModuleRenderer::BlendingMode::ADDITIVE;
+					blending = BlendingMode::ADDITIVE;
 				}
 
 				SetBlending(blending);

@@ -16,6 +16,8 @@
 #include "ParticleSystem/ModuleRotation.h"
 #include "ParticleSystem/ModuleSize.h"
 
+#include "Enums/BlendingType.h"
+
 ParticleSystemImporter::ParticleSystemImporter()
 {
 }
@@ -682,7 +684,7 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 			int blending;
 			memcpy(&blending, fileBuffer, bytes);
 
-			render->SetBlending(static_cast<ModuleRenderer::BlendingMode>(blending));
+			render->SetBlending(static_cast<BlendingMode>(blending));
 
 			fileBuffer += bytes;
 
