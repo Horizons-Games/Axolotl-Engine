@@ -187,7 +187,6 @@ void ModulePhysics::ManageCollisions()
 		if (!result.collisionDetected)
 		{
 			rb->OnCollisionExit(other);
-			other->OnCollisionExit(rb);
 			it = collisions.erase(it);
 		}
 		else
