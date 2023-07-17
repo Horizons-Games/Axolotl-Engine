@@ -56,11 +56,6 @@ private:
 	bool drawBones;
 };
 
-inline void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
-{
-	stateMachineInstance->SetParameter(parameterName, value);
-}
-
 inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
 {
 	this->drawBones = drawBones;
@@ -69,9 +64,4 @@ inline void ComponentAnimation::ActivateDrawBones(bool drawBones)
 inline bool ComponentAnimation::IsDrawBonesActivated() const
 {
 	return drawBones;
-}
-
-inline std::string& ComponentAnimation::GetActualStateName() const
-{
-	return stateMachineInstance->GetActualStateName();
 }

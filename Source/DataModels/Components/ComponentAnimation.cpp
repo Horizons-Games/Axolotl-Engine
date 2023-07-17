@@ -136,6 +136,11 @@ void ComponentAnimation::DrawBones(GameObject* parent) const
 	}
 }
 
+void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
+{
+	stateMachineInstance->SetParameter(parameterName, value);
+}
+
 void ComponentAnimation::InternalSave(Json& meta)
 {
 	UID uidState = 0;
@@ -207,4 +212,9 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 bool ComponentAnimation::isPlaying() const
 {
 	return controller->GetPlay();
+}
+
+std::string& ComponentAnimation::GetActualStateName() const
+{
+	return stateMachineInstance->GetActualStateName();
 }
