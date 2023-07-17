@@ -54,6 +54,7 @@ private:
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 
+
 	ModuleInput* input;
 };
 

@@ -49,6 +49,7 @@ public:
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
+	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -161,6 +162,7 @@ private:
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
+	bool isStatic = false;
 
 	Shape currentShape = Shape::NONE;
 

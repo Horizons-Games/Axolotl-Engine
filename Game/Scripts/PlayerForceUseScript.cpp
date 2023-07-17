@@ -69,6 +69,8 @@ void PlayerForceUseScript::Update(float deltaTime)
 			gameObjectAttached = hit.gameObject;
 			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hittedTransform->GetGlobalPosition());
+			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+			rigidBody->SetIsStatic(false);
 
 			if (distancePointGameObjectAttached > maxDistanceForce)
 			{
@@ -95,9 +97,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 				playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
 			}
 
-			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+			
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
+			
 		}
 	}
 
@@ -110,6 +113,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
+		rigidBody->SetIsStatic(true);
 
 		if (rotationHorizontalScript)
 		{
