@@ -227,8 +227,8 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
 		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
 	}
-	else if (isStatic)//(IsStatic())
-	{
+	else if (IsStatic())
+	{	
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
@@ -442,7 +442,8 @@ bool ComponentRigidBody::IsStatic() const
 	return GetOwner()->IsStatic();
 }
 
-void ComponentRigidBody::SetIsStatic(bool isStatic)
+void ComponentRigidBody::SetStatic(bool newStatic)
 {
-	this->isStatic = isStatic;
+	GetOwner()->SetStatic(newStatic);
+
 }
