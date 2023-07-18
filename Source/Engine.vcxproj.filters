@@ -603,6 +603,9 @@
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1240,6 +1243,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyClass.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EntityDetection.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
