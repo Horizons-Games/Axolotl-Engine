@@ -3,6 +3,7 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
 
@@ -55,4 +56,8 @@ void EnemyDeathScript::DisableEnemyActions() const
 	{
 		script->Disable();
 	}
+
+	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
+	enemyRigidBody->DisablePositionController();
+	enemyRigidBody->DisableRotationController();
 }

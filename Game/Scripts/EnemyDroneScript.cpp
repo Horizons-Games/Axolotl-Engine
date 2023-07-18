@@ -1,6 +1,5 @@
 #include "EnemyDroneScript.h"
 
-#include "Components/Component.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
@@ -10,20 +9,24 @@
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/RangedFastAttackBehaviourScript.h"
+#include "../Scripts/MeleeHeavyAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(EnemyDroneScript);
 
-EnemyDroneScript::EnemyDroneScript() : Script(), patrolScript(nullptr), seekScript(nullptr), attackScript(nullptr),
+EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr), timeStunned(0.0f), stunned(false),
-	lastDroneState(DroneBehaviours::IDLE)
+	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE), 
+	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(seekDistance, float);
+
+	REGISTER_FIELD(explosionGameObject, GameObject*);
 }
 
 void EnemyDroneScript::Start()
@@ -39,11 +42,14 @@ void EnemyDroneScript::Start()
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
-	attackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
+	fastAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
+	heavyAttackScript = explosionGameObject->GetComponent<MeleeHeavyAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
 
 	seekTarget = seekScript->GetTarget();
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
+
+	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
 
 	droneState = DroneBehaviours::IDLE;
 }
@@ -117,24 +123,27 @@ void EnemyDroneScript::Update(float deltaTime)
 		{
 			if (lastDroneState != DroneBehaviours::FASTATTACK)
 			{
-				attackScript->StartAttack();
+				fastAttackScript->StartAttack();
 			}
 
-			if (healthScript->GetCurrentHealth() <= 10.0f)
+			if (healthScript->GetCurrentHealth() <= playerManager->GetPlayerAttack())
 			{
 				droneState = DroneBehaviours::EXPLOSIONATTACK;
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 				seekScript->RotateToTarget();
 			}
+
 			else
 			{
 				droneState = DroneBehaviours::FASTATTACK;
 			}
 		}
+
 		else
 		{
 			owner->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 		}
+
 		lastDroneState = droneState;
 	}
 
@@ -153,21 +162,21 @@ void EnemyDroneScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsAttacking", false);
 	}
 
-	if (seekScript && attackScript && droneState == DroneBehaviours::FASTATTACK)
+	if (seekScript && fastAttackScript && droneState == DroneBehaviours::FASTATTACK)
 	{
-		if (attackScript->IsAttackAvailable())
+		if (fastAttackScript->IsAttackAvailable())
 		{
-			attackScript->PerformAttack();
+			fastAttackScript->PerformAttack();
 			seekScript->DisableMovement();
 			componentAnimation->SetParameter("IsAttacking", true);
 		}
 
-		if (attackScript->NeedReposition())
+		if (fastAttackScript->NeedReposition())
 		{
 			CalculateNextPosition();
 		}
 
-		if (!attackScript->MovingToNewReposition())
+		if (!fastAttackScript->MovingToNewReposition())
 		{
 			seekScript->DisableMovement();
 		}
@@ -175,20 +184,11 @@ void EnemyDroneScript::Update(float deltaTime)
 		seekScript->RotateToTarget();
 	}
 
-	if (droneState == DroneBehaviours::EXPLOSIONATTACK)
+	if (seekScript && heavyAttackScript && droneState == DroneBehaviours::EXPLOSIONATTACK)
 	{
 		seekScript->RotateToTarget();
+		heavyAttackScript->TriggerExplosion();
 	}
-}
-
-DroneBehaviours EnemyDroneScript::GetDroneBehaviour() const
-{
-	return droneState;
-}
-
-float3 EnemyDroneScript::GetSeekTargetPosition() const
-{
-	return seekTargetTransform->GetGlobalPosition();
 }
 
 void EnemyDroneScript::CalculateNextPosition() const
@@ -212,11 +212,5 @@ void EnemyDroneScript::CalculateNextPosition() const
 	nextPosition *= (attackDistance - 2);
 	nextPosition += seekTargetTransform->GetGlobalPosition();
 	nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
-	attackScript->Reposition(nextPosition);
-}
-
-void EnemyDroneScript::SetStunnedTime(float newTime)
-{
-	stunned = true;
-	timeStunned = newTime;
+	fastAttackScript->Reposition(nextPosition);
 }

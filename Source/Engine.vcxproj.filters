@@ -600,6 +600,9 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
@@ -1237,6 +1240,9 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyClass.h">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EntityDetection.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>

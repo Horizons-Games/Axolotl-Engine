@@ -4,13 +4,12 @@
 #include "ModuleInput.h"
 
 #include "Components/Component.h"
+#include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/ComponentScript.h"
 
-#include "../Scripts/EnemyDroneScript.h"
-#include "../Scripts/EnemyVenomiteScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/EnemyClass.h"
 
 REGISTERCLASS(PlayerForceAttackScript);
 
@@ -105,19 +104,8 @@ void PlayerForceAttackScript::PushEnemies()
 		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 		enemybtRb->setLinearVelocity(newVelocity);
 
-		EnemyDroneScript* enemyDroneScript =
-			(*it)->GetComponent<EnemyDroneScript>();
-		if (enemyDroneScript)
-		{
-			enemyDroneScript->SetStunnedTime(stunTime);
-		}
-
-		EnemyVenomiteScript* enemyVenomiteScript =
-			(*it)->GetComponent<EnemyVenomiteScript>();
-		if (enemyVenomiteScript)
-		{
-			enemyVenomiteScript->SetStunnedTime(stunTime);
-		}
+		EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
+		enemyScript->SetStunnedTime(stunTime);
 
 		HealthSystem* enemyHealthScript =
 			(*it)->GetComponent<HealthSystem>();

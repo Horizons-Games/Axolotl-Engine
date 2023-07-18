@@ -313,13 +313,18 @@
                             "fields": [
                                 {
                                     "name": "AttackDistance",
-                                    "value": 7.699999809265137,
+                                    "value": 7.5,
                                     "type": 0
                                 },
                                 {
                                     "name": "SeekDistance",
-                                    "value": 14.050000190734863,
+                                    "value": 14.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionGameObject",
+                                    "value": 14483489300051812384,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -368,7 +373,7 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 25.799999237060547,
+                                    "value": 40.0,
                                     "type": 0
                                 },
                                 {
@@ -3256,13 +3261,18 @@
                             "fields": [
                                 {
                                     "name": "AttackDistance",
-                                    "value": 5.0,
+                                    "value": 7.5,
                                     "type": 0
                                 },
                                 {
                                     "name": "SeekDistance",
-                                    "value": 8.0,
+                                    "value": 14.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionGameObject",
+                                    "value": 5229768384213810302,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -3311,7 +3321,7 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 100.0,
+                                    "value": 40.0,
                                     "type": 0
                                 },
                                 {
