@@ -351,9 +351,9 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		node->transform.Decompose(pos, rot, scale);
 
-		transformNode->SetPosition(pos);
-		transformNode->SetRotation(rot);
-		transformNode->SetScale(scale);
+		transformNode->SetLocalPosition(pos);
+		transformNode->SetLocalRotation(rot);
+		transformNode->SetLocalScale(scale);
 
 		parentsStack.push(std::make_pair(i, gameObjectNode));
 
