@@ -177,6 +177,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
+    <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -231,7 +238,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\DebugGame.cpp" />
+        <ClCompile Include="..\Game\Scripts\DebugGame.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -741,6 +753,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
+    <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />

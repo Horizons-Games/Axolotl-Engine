@@ -1,35 +1,36 @@
-#include "StdAfx.h"
-
 #include "DebugGame.h"
-#include "Components/ComponentPlayer.h"
+
+#include "Application.h"
+#include "ModulePlayer.h"
 #include "ModuleInput.h"
-#include "HealthSystem.h"
 #include "ModuleCamera.h"
-#include "BixAttackScript.h"
-#include "PlayerMoveScript.h"
-#include "PlayerJumpScript.h"
-#include "PlayerRotationScript.h"
+
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
-#include "debugdraw.h"
-#include "Application.h"
-#include "ModulePlayer.h"
-#include "../Scripts/PowerUpLogicScript.h"
 
-#include "GameManager.h"
+#include "../Scripts/HealthSystem.h"
+#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerJumpScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/GameManager.h"
+
+#include "debugdraw.h"
+#include "AxoLog.h"
 
 REGISTERCLASS(DebugGame);
 
-
 DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true), DebugPowerUp(nullptr)
 {
-	
 	REGISTER_FIELD(debugPoint1, GameObject*);
 	REGISTER_FIELD(debugPoint2, GameObject*);
 	REGISTER_FIELD(debugPoint3, GameObject*);
 	REGISTER_FIELD(debugPoint4, GameObject*);
 	REGISTER_FIELD(debugPoint5, GameObject*);
+
 	REGISTER_FIELD(isDebugModeActive, bool);
 	REGISTER_FIELD(playerOnLocation, bool);
 	REGISTER_FIELD(DebugPowerUp, GameObject*)
@@ -39,7 +40,7 @@ void DebugGame::Start()
 {
 	input = App->GetModule<ModuleInput>();
 
-	//ImmortalityStart
+	//Immortality Start
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 
 	playerHealthSystem = player->GetComponent<HealthSystem>();
@@ -48,8 +49,7 @@ void DebugGame::Start()
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
 	playerRotationScript = player->GetComponent<PlayerRotationScript>();
 
-	//TeleportStart
-
+	//Teleport Start
 	if (debugPoint1)
 	{
 		debugPoints.push_back(debugPoint1->GetComponent<ComponentTransform>());
@@ -83,10 +83,7 @@ void DebugGame::Start()
 
 void DebugGame::Update(float deltaTime)
 {
-	
-	
-	//INPUTS
-
+	//KEYBOARD INPUTS
 	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN)
 	{
 		SwitchDebugMode();
@@ -109,13 +106,11 @@ void DebugGame::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN && isDebugModeActive)
 	{
-
 		BeImmortal();
 	}
 
 	if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN && isDebugModeActive)
 	{
-		
 		DeathTouch();
 	}
 
@@ -123,11 +118,10 @@ void DebugGame::Update(float deltaTime)
 	{
 		Teleport();
 		playerOnLocation = false;
-		
 	}
 
-	//TELEPORTMOVEMENT
-	if(!playerOnLocation && isDebugModeActive)
+	//TELEPORT MOVEMENT
+	if (!playerOnLocation && isDebugModeActive)
 	{
 		for(const ComponentTransform* debugPointTransform : debugPoints)
 		{
@@ -140,9 +134,6 @@ void DebugGame::Update(float deltaTime)
 			}
 		}
 	}
-	
-
-
 }
 
 void DebugGame::SwitchDebugMode()
@@ -150,19 +141,19 @@ void DebugGame::SwitchDebugMode()
 	if (!isDebugModeActive)
 	{
 		isDebugModeActive = true;
-		LOG_DEBUG("DEBUG MODE ACTIVATED");
+		LOG_VERBOSE("DEBUG MODE ACTIVATED");
 	}
+
 	else
 	{
 		isDebugModeActive = false;
-		LOG_DEBUG("DEBUG MODE DEACTIVATED");
+		LOG_VERBOSE("DEBUG MODE DEACTIVATED");
 	}
 }
 
-void DebugGame::GodCamera() const {
-
+void DebugGame::GodCamera() const 
+{
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-
 
 	if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump())
 	{
@@ -171,8 +162,9 @@ void DebugGame::GodCamera() const {
 		
 		camera->SetSelectedPosition(1);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		LOG_DEBUG("GOD CAMERA ACTIVATED");
+		LOG_VERBOSE("GOD CAMERA ACTIVATED");
 	}
+
 	else if (playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump())
 	{
 		playerMoveScript->SetIsParalized(false);
@@ -180,16 +172,12 @@ void DebugGame::GodCamera() const {
 		
 		camera->SetSelectedPosition(0);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		LOG_DEBUG("GOD CAMERA DEACTIVATED");
+		LOG_VERBOSE("GOD CAMERA DEACTIVATED");
 	}
-
-	
-
 }
 
 void DebugGame::PowerUpDrop() const
 {
-
 	if (DebugPowerUp != nullptr)
 	{
 		PowerUpLogicScript* newPowerUpLogic = DebugPowerUp->GetComponent<PowerUpLogicScript>();
@@ -197,14 +185,12 @@ void DebugGame::PowerUpDrop() const
 
 		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetPosition());
 	}
-
-
 }
 
 void DebugGame::FillHealth() const
 {
 	playerHealthSystem->HealLife(playerHealthSystem->GetMaxHealth());
-	LOG_DEBUG("Full Health");
+	LOG_VERBOSE("Full Health");
 }
 
 void DebugGame::BeImmortal() const
@@ -212,42 +198,37 @@ void DebugGame::BeImmortal() const
 	if (!playerHealthSystem->GetIsImmortal()) 
 	{
 		playerHealthSystem->SetIsImmortal(true);
-		LOG_DEBUG("Immortal ON");
+		LOG_VERBOSE("Immortal ON");
 	}
+
 	else if (playerHealthSystem->GetIsImmortal())
 	{
 		playerHealthSystem->SetIsImmortal(false);
-		LOG_DEBUG("Immortal OFF");
+		LOG_VERBOSE("Immortal OFF");
 	}
 }
 
 void DebugGame::DeathTouch() const
 {
-
 	if (!playerAttackScript->GetIsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(true);
-		LOG_DEBUG("Death Touch ON");
+		LOG_VERBOSE("Death Touch ON");
 	}
+
 	else if (playerAttackScript->GetIsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(false);
-		LOG_DEBUG("Death Touch OFF");	
+		LOG_VERBOSE("Death Touch OFF");
 	}
-
 }
 
 void DebugGame::Teleport() 
 {
-	LOG_DEBUG("TELEPORTING");
 	playerRigidBody->SetIsTrigger(true);
 	currentdDebugPointTransform = debugPoints[debugCurrentPosIndex];
 	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 	debugCurrentPosIndex = (debugCurrentPosIndex + 1) % debugPoints.size();
-	LOG_DEBUG("%d", debugCurrentPosIndex);
+
+	LOG_VERBOSE("TELEPORTING TO %d", debugCurrentPosIndex);
 }
-
-
-
-
-

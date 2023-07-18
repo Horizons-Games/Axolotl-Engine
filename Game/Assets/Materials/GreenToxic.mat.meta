@@ -1,6 +1,12 @@
 {
     "UID": 3477591964355817557,
     "Type": "Materials",
+    "DiffuseAssetPath": "Assets/Textures/Original.png",
+    "NormalAssetPath": "",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "",
+    "EmissiveAssetPath": "Assets/Textures/Toxic_water_emission.png",
+    "shaderType": 0,
     "diffuseColor_x": 0.0,
     "diffuseColor_y": 1.0,
     "diffuseColor_z": 0.058823585510253906,
@@ -15,10 +21,5 @@
     "tilingx": 1.0,
     "tilingy": 12.0,
     "offsetx": 0.0,
-    "offsety": 0.0,
-    "DiffuseAssetPath": "Assets/Textures/Original.png",
-    "NormalAssetPath": "",
-    "OcclusionAssetPath": "",
-    "SpecularAssetPath": "",
-    "EmissiveAssetPath": "Assets/Textures/Toxic_water_emission.png"
+    "offsety": 0.0
 }
