@@ -43,12 +43,42 @@ void WindowComponentTransform::DrawWindowContents()
 		currentTranslation = asTransform->GetPosition();
 		currentRotation = asTransform->GetRotationXYZ();
 		currentScale = asTransform->GetScale();
+		bbScale = asTransform->GetBBScale();
+		bbTranslation = asTransform->GetBBPos();
 
 		currentDragSpeed = 0.025f;
 
 		translationModified = false;
 		rotationModified = false;
 		scaleModified = false;
+
+
+		if (ImGui::DragFloat("ScalingX", &bbScale.x, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+		{
+			asTransform->ScaleLocalAABB(bbScale);
+		}
+		if (ImGui::DragFloat("ScalingY", &bbScale.y, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+		{
+			asTransform->ScaleLocalAABB(bbScale);
+		}
+		if (ImGui::DragFloat("ScalingZ", &bbScale.z, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+		{
+			asTransform->ScaleLocalAABB(bbScale);
+		}
+
+
+		if (ImGui::DragFloat("TranslateX", &bbTranslation.x, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+		{
+			asTransform->TranslateLocalAABB(bbTranslation);
+		}
+		if (ImGui::DragFloat("TranslateY", &bbTranslation.y, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+		{
+			asTransform->TranslateLocalAABB(bbTranslation);
+		}
+		if (ImGui::DragFloat("TranslateZ", &bbTranslation.z, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+		{
+			asTransform->TranslateLocalAABB(bbTranslation);
+		}
 
 		bool ownerIsRoot = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
 
