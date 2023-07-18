@@ -10,12 +10,14 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 
-#include "AxoLog.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(PlayerDeathScript);
 
-PlayerDeathScript::PlayerDeathScript() : Script(), loseSceneName("00_LoseScene_VS3"), componentAnimation(nullptr)
+PlayerDeathScript::PlayerDeathScript() : Script(), loseSceneName("00_LoseScene_VS3"), componentAnimation(nullptr),
+	componentAudioSource(nullptr)
 {
 	REGISTER_FIELD(loseSceneName, std::string);
 }
@@ -23,6 +25,7 @@ PlayerDeathScript::PlayerDeathScript() : Script(), loseSceneName("00_LoseScene_V
 void PlayerDeathScript::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 }
 
 void PlayerDeathScript::ManagePlayerDeath() const
@@ -39,6 +42,7 @@ void PlayerDeathScript::ManagePlayerDeath() const
 		LOG_VERBOSE("Player is dead");
 	}
 
+	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 	DisablePlayerActions();
 }
 
