@@ -4,11 +4,11 @@
 
 #include "/Common/Functions/srgba_functions.glsl"
 
+layout(binding = 0)  uniform sampler2D diffuseTex;
+layout(location = 3) uniform int hasTexture;
+
 in vec2 TexCoord;
 in vec4 fragColor;
-
-layout(location = 3) uniform int hasTexture;
-layout(binding = 0)  uniform sampler2D diffuseTex;
 
 out vec4 outColor;
 
@@ -20,6 +20,6 @@ void main()
 
 	vec4 color = hasTexture * diffuse * fragColor + (1 - hasTexture) * fragColor;
 
-	color.rgb = pow(color.rgb, vec3(1.0/GAMMA));
+	color.rgb = pow(color.rgb, vec3(GAMMA));
 	outColor = color;
 }
