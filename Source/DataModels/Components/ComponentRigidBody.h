@@ -118,6 +118,9 @@ public:
 	float GetKpTorque() const;
 	void SetKpTorque(float newKpTorque);
 
+	bool GetIsAxialConstricted() const;
+	void SetIsAxialConstricted(bool newIsAxialConstricted);
+
     void RemoveRigidBodyFromSimulation();
 
     btRigidBody* GetRigidBody() const;
@@ -162,7 +165,7 @@ private:
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
-	bool isStatic = false;
+	bool isAxialConstricted = false;
 
 	Shape currentShape = Shape::NONE;
 
@@ -393,4 +396,14 @@ inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
 inline btVector3 ComponentRigidBody::GetRigidBodyTranslation() const
 {
 	return translation;
+}
+
+inline void ComponentRigidBody::SetIsAxialConstricted(bool newIsAxialConstricted)
+{
+	isAxialConstricted = newIsAxialConstricted;
+}
+
+inline bool ComponentRigidBody::GetIsAxialConstricted() const
+{
+	return isAxialConstricted;
 }

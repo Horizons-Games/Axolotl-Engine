@@ -31,10 +31,15 @@ PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(null
 	gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
 	maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
 	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
-	playerManagerScript(nullptr)
+	playerManagerScript(nullptr), isAxialConstricted(false), xUsable(false), yUsable(false), zUsable(false)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
+	REGISTER_FIELD(isAxialConstricted, bool);
+	REGISTER_FIELD(xUsable, bool);
+	REGISTER_FIELD(yUsable, bool);
+	REGISTER_FIELD(zUsable, bool);
+
 }
 
 void PlayerForceUseScript::Start()
@@ -71,6 +76,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hittedTransform->GetGlobalPosition());
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			rigidBody->SetStatic(false);
+			
 
 			if (distancePointGameObjectAttached > maxDistanceForce)
 			{
@@ -114,7 +120,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
-		rigidBody->SetStatic(true);		
+		rigidBody->SetStatic(true);
 
 		if (rotationHorizontalScript)
 		{
@@ -144,6 +150,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
 	{
+		
 		componentAnimation->SetParameter("IsStoppingForce", true);
 		componentAnimation->SetParameter("IsStartingForce", false);
 	}
@@ -195,9 +202,29 @@ void PlayerForceUseScript::Update(float deltaTime)
 		float3 positionError = nextPosition - x;
 		float3 velocityPosition = positionError * hittedRigidBody->GetKpForce();
 
-		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
-		rigidBody->setLinearVelocity(velocity);
-
+		if (!isAxialConstricted)
+		{
+			btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
+			rigidBody->setLinearVelocity(velocity);
+		}
+		else if(isAxialConstricted)
+		{
+			if (xUsable)
+			{
+				btVector3 velocity(velocityPosition.x, 0, 0);
+				rigidBody->setLinearVelocity(velocity);
+			}
+			else if (yUsable)
+			{
+				btVector3 velocity(0, velocityPosition.y, 0);
+				rigidBody->setLinearVelocity(velocity);
+			}
+			else if (zUsable)
+			{
+				btVector3 velocity(0, 0, velocityPosition.z);
+				rigidBody->setLinearVelocity(velocity);
+			}
+		}
 
 		// Set rotation
 		float3 axis;
