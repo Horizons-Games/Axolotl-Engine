@@ -46,58 +46,59 @@ void Trail::Update(float3 newPosition, Quat newRotation)
 
 void Trail::Draw()
 {
-	//if (isRendering)
-	//{
 	if (points.size() < 2)
 	{
 		return;
 	}
-		RedoBuffers();
 
-		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRAIL);
-		program->Activate();
-		BindCamera(program);
+	RedoBuffers();
 
-		glDepthMask(GL_FALSE);
-		glDisable(GL_CULL_FACE);
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRAIL);
+	program->Activate();
+	BindCamera(program);
 
-		glEnable(GL_BLEND);
-		switch (blendingMode)
-		{
-		case BlendingMode::ALPHA:
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			break;
+	//glDepthMask(GL_FALSE);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 
-		case BlendingMode::ADDITIVE:
-			glBlendFunc(GL_ONE, GL_ONE);
-			break;
-		}
+	glEnable(GL_BLEND);
+	switch (blendingMode)
+	{
+	case BlendingMode::ALPHA:
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		break;
 
+	case BlendingMode::ADDITIVE:
+		glBlendFunc(GL_ONE, GL_ONE);
+		break;
+	}
+
+	if (texture)
+	{
+		texture->Load();
 		glActiveTexture(GL_TEXTURE0);
-		if (texture)
-		{
-			texture->Load();
-			glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
-			program->BindUniformInt(3, 1);
-		}
-		else
-		{
-			program->BindUniformInt(3, 0);
-		}
+		glBindTexture(GL_TEXTURE_2D, texture->GetGlTexture());
+		program->BindUniformInt(3, 1);
+	}
+	else
+	{
+		program->BindUniformInt(3, 0);
+	}
 
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glDrawElements(GL_TRIANGLES, (maxSamplers - 1) * 2 * 3, GL_UNSIGNED_INT, nullptr);
-		program->Deactivate();
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	//glDrawArrays(GL_TRIANGLE_STRIP, 0, (maxSamplers - 1) * 2 * 3);
+	glDrawElements(GL_TRIANGLES, (maxSamplers - 1) * 2 * 3, GL_UNSIGNED_INT, nullptr);
+	program->Deactivate();
 
-		glDepthMask(GL_TRUE);
-		glEnable(GL_CULL_FACE);
+	//glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 
-		glDisable(GL_BLEND);
+	glDisable(GL_BLEND);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	//}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 void Trail::CreateBuffers()
@@ -150,14 +151,14 @@ void Trail::RedoBuffers()
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	unsigned int index_idx = 0; // could be changed
-	for (unsigned int i = 0; i < maxSamplers - 1; i++)
+	for (int i = 0; i < maxSamplers - 1; i++)
 	{
 		indices[index_idx++] = 0 + 2 * i;
-		indices[index_idx++] = 1 + 2 * i;
 		indices[index_idx++] = 2 + 2 * i;
 		indices[index_idx++] = 1 + 2 * i;
+		indices[index_idx++] = 2 + 2 * i;
 		indices[index_idx++] = 3 + 2 * i;
-		indices[index_idx++] = 2 + 2 * i;
+		indices[index_idx++] = 1 + 2 * i;
 	}
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -171,9 +172,8 @@ void Trail::RedoBuffers()
 
 	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	float stepUV = 1.0f / float(points.size());
-	float stepsGradient = 1.f / static_cast<float>(points.size());
-	float color[3];
+	float steps = 1.0f / float(points.size());
+	float3 color;
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
 		Point p = points[i];
@@ -186,13 +186,13 @@ void Trail::RedoBuffers()
 		vertexData[i * 2 + 1].position = vertex;
 
 		// uv
-		vertexData[i * 2].uv = float2(stepUV * static_cast<float>(i), 0.0f);
-		vertexData[i * 2 + 1].uv = float2(stepUV * static_cast<float>(i), 1.0f);
+		vertexData[i * 2].uv = float2(steps * static_cast<float>(i), 1.0f);
+		vertexData[i * 2 + 1].uv = float2(steps * static_cast<float>(i), 0.0f);
 
 		// color
-		gradient->getColorAt(stepsGradient * i, color);
-		vertexData[i * 2].color = float4(color[0], color[1], color[2], p.life / duration);
-		vertexData[i * 2 + 1].color = float4(color[0], color[1], color[2], p.life / duration);
+		gradient->getColorAt(steps * i, color.ptr());
+		vertexData[i * 2].color = float4(color, 255 * p.life / duration);
+		vertexData[i * 2 + 1].color = float4(color, 255 * p.life / duration);
 		//if (blendingMode == BlendingMode::ADDITIVE)
 		//{
 		//	// Additive alpha lerp to black
