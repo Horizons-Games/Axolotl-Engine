@@ -4,6 +4,7 @@
 
 #include "Math/Quat.h"
 #include "Math/float4x4.h"
+#include "Math/float3x4.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "Geometry/AABB.h"
@@ -28,6 +29,8 @@ public:
 	const float3& GetRotationXYZ() const;
 	const Quat& GetGlobalRotation() const;
 	const float3& GetScale() const;
+	const float3& GetBBScale() const;
+	const float3& GetBBPos() const;
 	float3 GetLocalForward() const;
 	float3 GetGlobalForward() const;
 	float3 GetGlobalUp() const;
@@ -53,6 +56,10 @@ public:
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 	void SetGlobalTransform(const float4x4& transform);
 
+	void ScaleLocalAABB(float3& scaling);
+
+	void TranslateLocalAABB(float3& translation);
+
 	void SetDrawBoundingBoxes(bool newDraw);
 
 	void CalculateMatrices();
@@ -73,6 +80,9 @@ private:
 	float3 pos;
 	Quat rot;
 	float3 sca;
+
+	float3 bbPos;
+	float3 bbSca;
 
 	float3 globalPos;
 	Quat globalRot;
@@ -118,6 +128,16 @@ inline const Quat& ComponentTransform::GetGlobalRotation() const
 inline const float3& ComponentTransform::GetScale() const
 {
 	return sca;
+}
+
+inline const float3& ComponentTransform::GetBBScale() const
+{
+	return bbSca;
+}
+
+inline const float3& ComponentTransform::GetBBPos() const
+{
+	return bbPos;
 }
 
 inline const float3& ComponentTransform::GetGlobalScale() const
@@ -258,3 +278,24 @@ inline void ComponentTransform::SetGlobalTransform(const float4x4& transform)
 {
 	globalMatrix = transform;
 }
+
+inline void ComponentTransform::ScaleLocalAABB(float3& scaling)
+{
+	bbSca = scaling;
+	float3 center = localAABB.CenterPoint();
+
+	localAABB.minPoint = center - scaling;
+	localAABB.maxPoint = center + scaling;
+
+}
+
+inline void ComponentTransform::TranslateLocalAABB(float3& translation)
+{
+	bbPos = translation;
+	float3 halfsize = localAABB.HalfSize();
+
+	localAABB.minPoint = bbPos + pos - halfsize;
+	localAABB.maxPoint =  bbPos + pos + halfsize;
+
+}
+

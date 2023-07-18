@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "ComponentParticleSystem.h"
+#include "ComponentTransform.h"
 #include "ModuleScene.h"
 
 #include "Camera/Camera.h"
@@ -133,6 +134,12 @@ void ComponentParticleSystem::Draw() const
 		{
 			instance->DrawDD();
 			//instance->SimulateParticles();
+			//Draw the BoundingBox of ComponentParticle
+			ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+			if (transform->IsDrawBoundingBoxes())
+			{
+				App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+			}
 		}
 #endif //ENGINE
 	}
