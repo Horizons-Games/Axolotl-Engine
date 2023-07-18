@@ -33,6 +33,11 @@ void ComboManager::Update(float deltaTime)
 	
 }
 
+int ComboManager::GetcomboCount() const
+{
+	return comboCount;
+}
+
 void ComboManager::CheckSpecial(float deltaTime)
 {
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
@@ -93,9 +98,9 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 	return AttackType::NONE;
 }
 
-void ComboManager::SuccessfulAttack(int specialCount, bool heavy)
+void ComboManager::SuccessfulAttack(float specialCount, bool heavy)
 {
-	this->specialCount = std::max(0, std::min(this->specialCount + specialCount, maxSpecialCount));
+	this->specialCount = std::max(0.0f, std::min(this->specialCount + specialCount, maxSpecialCount));
 	uiComboManager->SetComboBarValue(this->specialCount);
 	actualComboTimer = comboTime;
 

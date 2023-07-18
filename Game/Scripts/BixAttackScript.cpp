@@ -32,11 +32,19 @@
 
 REGISTERCLASS(BixAttackScript);
 
-BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
+BixAttackScript::BixAttackScript() : Script(), isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), animationGO(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
 {
+	REGISTER_FIELD(comboInitTimer, float);
+
+	REGISTER_FIELD(comboCountHeavy, float);
+	REGISTER_FIELD(comboCountSoft, float);
+	REGISTER_FIELD(attackSoft, float);
+	REGISTER_FIELD(attackHeavy, float);
+	REGISTER_FIELD(isAttacking, bool);
 	REGISTER_FIELD(attackCooldown, float);
+
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(enemyDetectionObject, GameObject*);
 	//--Provisional
@@ -65,7 +73,37 @@ void BixAttackScript::Update(float deltaTime)
 {
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
-	animation->SetParameter("IsAttacking", false);
+	//animation->SetParameter("IsAttacking", false);
+
+	if(isAttacking)
+	{
+		if (attackCooldownCounter <= 0.0f)
+		{
+			isAttacking = false;
+		}
+		else 
+		{
+			attackCooldownCounter -= deltaTime;
+		}
+	}
+
+	if (attackComboPhase != AttackCombo::IDLE && !isAttacking)
+	{
+		if (comboNormalAttackTimer <= 0.0f)
+		{
+			attackComboPhase = AttackCombo::IDLE;
+			if (animation) 
+			{
+				animation->SetParameter("IsAttacking", false);
+				animation->SetParameter("IsAttacking_2", false);
+				animation->SetParameter("IsAttacking_3", false);
+			}
+		}
+		else
+		{
+			comboNormalAttackTimer -= deltaTime;
+		}
+	}
 
 	comboSystem->CheckSpecial(deltaTime);
 	if (IsAttackAvailable())
@@ -96,19 +134,21 @@ void BixAttackScript::Update(float deltaTime)
 
 void BixAttackScript::NormalAttack(bool heavy) 
 {
-	//Activate visuals
-	animation->SetParameter("IsAttacking", true);
+	//Activate visuals and audios
+	ActivateAnimationCombo();
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects
-	lastAttackTime = SDL_GetTicks() / 1000.0f;
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	comboSystem->SuccessfulAttack(20, heavy);
-	if(enemyAttacked != nullptr) //We need a form to CHANGE this check collision because this is really static
+	if(enemyAttacked != nullptr)
 	{
-		//If Collisions call combo again to update the combo count
-		comboSystem->SuccessfulAttack(20, heavy);
+		int comboCount = heavy ? comboCountHeavy : comboCountSoft;
+		float attack = heavy ? attackHeavy : attackSoft;
+		comboSystem->SuccessfulAttack(comboCount, heavy);
+		DamageEnemy(enemyAttacked, attack);
 	}
+	isAttacking = true;
+	attackCooldownCounter = attackCooldown;
 }
 
 void BixAttackScript::JumpAttack()
@@ -123,79 +163,50 @@ void BixAttackScript::HeavyFinisher()
 {
 }
 
-void BixAttackScript::PerformAttack()
+void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 
 {
-	lastAttackTime = SDL_GetTicks() / 1000.0f;
-
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
-
-	CheckCollision();
-}
-
-void BixAttackScript::CheckCollision() const
-{
-	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-
 	if (enemyAttacked != nullptr)
 	{
 		HealthSystem* healthScript = enemyAttacked->GetComponent<HealthSystem>();
-		float damageAttack = playerManager->GetPlayerAttack();
-		if (!isDeathTouched)
-		{
-			healthScript->TakeDamage(damageAttack);
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
-		}
-		else
-		{
-			healthScript->TakeDamage(healthScript->GetMaxHealth());
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
-		}
+		float attack = isDeathTouched ? healthScript->GetMaxHealth() : damageAttack;
+		healthScript->TakeDamage(attack);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 	}
 }
 
 bool BixAttackScript::IsAttackAvailable() const
 {
-	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+	return !isAttacking;
 }
 
-void BixAttackScript::CheckCombo()
+void BixAttackScript::ActivateAnimationCombo()
 {
 	// Attack, starting the combo
-
-		if (animation && attackComboPhase == AttackCombo::IDLE)
+	if (animation) 
+	{
+		switch (attackComboPhase)
 		{
+		case AttackCombo::IDLE:
 			attackComboPhase = AttackCombo::FIRST_ATTACK;
 			animation->SetParameter("IsAttacking", true);
-
-			PerformAttack();
-		}
-
-	// Attack, continue the combo
-		//LOG_VERBOSE("KEEP Pressing left mouse button");
-
-		if (animation && attackComboPhase == AttackCombo::FIRST_ATTACK)
-		{
+			comboNormalAttackTimer = 0.2f;
+			break;
+		case AttackCombo::FIRST_ATTACK:
 			attackComboPhase = AttackCombo::SECOND_ATTACK;
-			animation->SetParameter("IsAttacking_2", true);
-
-			PerformAttack();
-		}
-
-		else if (animation && attackComboPhase == AttackCombo::SECOND_ATTACK)
-		{
-			attackComboPhase = AttackCombo::THIRD_ATTACK;
-			animation->SetParameter("IsAttacking_3", true);
-
-			PerformAttack();
-		}
-
-		else if (animation && attackComboPhase == AttackCombo::THIRD_ATTACK)
-		{
-			attackComboPhase = AttackCombo::IDLE;
 			animation->SetParameter("IsAttacking", false);
-
-			PerformAttack();
+			animation->SetParameter("IsAttacking_2", true);
+			comboNormalAttackTimer = 0.2f;
+			break;
+		case AttackCombo::SECOND_ATTACK:
+			attackComboPhase = AttackCombo::THIRD_ATTACK;
+			animation->SetParameter("IsAttacking_2", false);
+			animation->SetParameter("IsAttacking_3", true);
+			comboNormalAttackTimer = 0.0f;
+			break;
+		default:
+			break;
 		}
+	}
 }
 
 bool BixAttackScript::GetIsDeathTouched() const

@@ -42,14 +42,16 @@ private:
 	void SoftFinisher();
 	void HeavyFinisher();
 
-	void PerformAttack();
-	void CheckCombo();
+	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
+	void ActivateAnimationCombo();
 
 	bool IsAttackAvailable() const;
-	void CheckCollision() const;
 
+	bool isAttacking;
 	float attackCooldown;
-	float lastAttackTime;
+	float attackCooldownCounter;
+	float comboInitTimer;
+	float comboNormalAttackTimer;
 
 	bool isDeathTouched;
 
@@ -61,6 +63,10 @@ private:
 	GameObject* enemyDetectionObject;
 
 	ComboManager* comboSystem;
+	float comboCountHeavy;
+	float comboCountSoft;
+	float attackSoft;
+	float attackHeavy;
 
 	PlayerManagerScript* playerManager;
 	AttackCombo attackComboPhase;

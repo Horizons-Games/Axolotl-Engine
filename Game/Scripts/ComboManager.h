@@ -23,9 +23,11 @@ public:
 	ComboManager();
 	~ComboManager() override = default;
 
+	int GetcomboCount() const;
+
 	void CheckSpecial(float deltaTime);
 	AttackType CheckAttackInput(bool jumping);
-	void SuccessfulAttack(int specialCount, bool type);
+	void SuccessfulAttack(float specialCount, bool type);
 
 private:
 	void Start() override;
@@ -37,7 +39,7 @@ private:
 	ModuleInput* input;
 	bool specialActivated;
 	int specialCount;
-	int maxSpecialCount;
+	float maxSpecialCount;
 	int comboCount;
 	int maxComboCount;
 
