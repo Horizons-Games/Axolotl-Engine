@@ -21,6 +21,8 @@ Trail::Trail() : maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.
 {
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
+
+	CreateBuffers();
 }
 
 Trail::~Trail()
@@ -104,6 +106,7 @@ void Trail::CreateBuffers()
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	unsigned maxTriangles = (maxSamplers - 1) * 2;
 	GLuint maxIndices = maxTriangles * 3;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
