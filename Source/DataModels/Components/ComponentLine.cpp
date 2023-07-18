@@ -152,6 +152,14 @@ void ComponentLine::UpdateBuffers()
 
 void ComponentLine::Render()
 {
+#ifdef ENGINE
+	//Draw the BoundingBox of ComponentLine
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	if (transform->IsDrawBoundingBoxes() && !App->IsOnPlayMode())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif //ENGINE
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
 	if (childGameObject != nullptr)
