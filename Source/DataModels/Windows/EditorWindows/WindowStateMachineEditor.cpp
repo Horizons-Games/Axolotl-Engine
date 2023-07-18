@@ -307,7 +307,7 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 			ImGui::SameLine();
 
 			Condition& condition = it->second.conditions[i];
-			ImGui::SetNextItemWidth(90);
+			ImGui::SetNextItemWidth(120);
 			if (ImGui::BeginCombo(("##comboName" + std::to_string(i)).c_str(), condition.parameter.c_str()))
 			{
 				for (const auto& parameter : stateAsShared->GetParameters())

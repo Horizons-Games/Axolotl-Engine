@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
-#include "ComponentAnimation.h"
 #include "Application.h"
+#include "ComponentAnimation.h"
 #include "ComponentTransform.h"
 
 #include "Animation/AnimationController.h"
@@ -12,7 +12,7 @@
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceStateMachine.h"
 
-#include "ModuleInput.h"
+#include "ModuleEditor.h"
 
 #include "GameObject/GameObject.h"
 
@@ -31,6 +31,7 @@ ComponentAnimation::~ComponentAnimation()
 {
 	delete controller;
 	delete stateMachineInstance;
+	App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(nullptr, "");
 }
 
 AnimationController* ComponentAnimation::GetController()
@@ -207,6 +208,11 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 	{
 		LoadModelTransform(children);
 	}
+}
+
+bool ComponentAnimation::isTransitioning()
+{
+	return stateMachineInstance->IsTransitioning();
 }
 
 bool ComponentAnimation::isPlaying() const
