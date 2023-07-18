@@ -258,6 +258,35 @@
                             "active": true,
                             "removed": true
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.24999985098838806,
+                            "boxSize_Y": 0.4375,
+                            "boxSize_Z": 0.24999979138374329,
+                            "radius": 4.499998569488525,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0
+                        }
                     }
                 ]
             }
@@ -451,6 +480,11 @@
                                     "name": "BulletVelocity",
                                     "value": 0.20000000298023224,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LaserParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -476,6 +510,11 @@
                                     "name": "IsImmortal",
                                     "value": false,
                                     "type": 4
+                                },
+                                {
+                                    "name": "EnemyParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -3743,7 +3782,7 @@
                             "removed": false,
                             "localPos_X": 0.6380000114440918,
                             "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.109311580657959,
+                            "localPos_Z": 3.760545253753662,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,

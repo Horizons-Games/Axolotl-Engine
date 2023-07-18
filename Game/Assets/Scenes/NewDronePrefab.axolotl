@@ -154,12 +154,12 @@
                             "fields": [
                                 {
                                     "name": "AttackDistance",
-                                    "value": 7.699999809265137,
+                                    "value": 8.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "SeekDistance",
-                                    "value": 14.050000190734863,
+                                    "value": 14.0,
                                     "type": 0
                                 }
                             ]
@@ -191,6 +191,11 @@
                                     "name": "BulletVelocity",
                                     "value": 0.20000000298023224,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LaserParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -216,6 +221,11 @@
                                     "name": "IsImmortal",
                                     "value": false,
                                     "type": 4
+                                },
+                                {
+                                    "name": "EnemyParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -2949,6 +2959,35 @@
                             "active": true,
                             "removed": true
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.07499995827674866,
+                            "boxSize_Y": 0.1312500238418579,
+                            "boxSize_Z": 0.07499995082616806,
+                            "radius": 4.499998569488525,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0
+                        }
                     }
                 ]
             }
@@ -2967,9 +3006,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.3573988676071167,
-                            "localPos_Z": 0.763093888759613,
+                            "localPos_X": 2.2737367544323206e-13,
+                            "localPos_Y": 0.5204896330833435,
+                            "localPos_Z": 1.6875813007354736,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -2995,8 +3034,8 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_X": 1.9326762412674725e-12,
+                            "localPos_Y": 0.2513563632965088,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -3027,11 +3066,11 @@
                             "boxSize_X": 0.0,
                             "boxSize_Y": 0.0,
                             "boxSize_Z": 0.0,
-                            "radius": 4.0,
+                            "radius": 2.5,
                             "factor": 1.0,
                             "height": 2.0,
-                            "rbPos_X": 0.0,
-                            "rbPos_Y": 0.0,
+                            "rbPos_X": -5.654783308273181e-9,
+                            "rbPos_Y": 1.2486436367034912,
                             "rbPos_Z": 0.0
                         }
                     },
