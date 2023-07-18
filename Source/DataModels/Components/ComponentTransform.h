@@ -294,8 +294,8 @@ inline void ComponentTransform::TranslateLocalAABB(float3& translation)
 	bbPos = translation;
 	float3 halfsize = localAABB.HalfSize();
 
-	localAABB.minPoint = bbPos + pos - halfsize;
-	localAABB.maxPoint =  bbPos + pos + halfsize;
+	localAABB.minPoint = bbPos - halfsize;
+	localAABB.maxPoint =  bbPos + halfsize;
 
 }
 
