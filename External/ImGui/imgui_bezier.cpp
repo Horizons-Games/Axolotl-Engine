@@ -123,6 +123,10 @@ namespace ImGui
         {
           P[i*2+0] += GetIO().MouseDelta.x / Canvas.x;
           P[i*2+1] -= GetIO().MouseDelta.y / Canvas.y;
+
+		  // Clamp the control point values between 0 and 1
+		  P[i*2+0] = ImClamp(P[i*2+0], 0.0f, 1.0f);
+		  P[i*2+1] = ImClamp(P[i*2+1], 0.0f, 1.0f);
           changed = true;
         }
       }
