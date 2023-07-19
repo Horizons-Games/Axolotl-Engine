@@ -73,9 +73,16 @@ void BixAttackScript::Update(float deltaTime)
 {
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
-	//animation->SetParameter("IsAttacking", false);
+	if (isAttacking) 
+	{
+		if (animation && !animation->isPlaying()) 
+		{
+			isAttacking = false;
+			animation->SetParameter("IsAttacking", false);
+		}
+	}
 
-	if(isAttacking)
+	/*if(isAttacking)
 	{
 		if (attackCooldownCounter <= 0.0f)
 		{
@@ -103,12 +110,12 @@ void BixAttackScript::Update(float deltaTime)
 		{
 			comboNormalAttackTimer -= deltaTime;
 		}
-	}
+	}*/
 
 	comboSystem->CheckSpecial(deltaTime);
 	if (IsAttackAvailable())
 	{
-		AttackType attackType = comboSystem->CheckAttackInput(playerManager->IsJumping());
+		AttackType attackType = comboSystem->CheckAttackInput(!playerManager->isGrounded());
 		switch (attackType)
 		{
 		case AttackType::SOFTNORMAL:
@@ -135,7 +142,8 @@ void BixAttackScript::Update(float deltaTime)
 void BixAttackScript::NormalAttack(bool heavy) 
 {
 	//Activate visuals and audios
-	ActivateAnimationCombo();
+	//ActivateAnimationCombo();
+	animation->SetParameter("IsAttacking", true);
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects

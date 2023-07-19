@@ -23,7 +23,7 @@ public:
 	void IncreasePlayerDefense(float defenseIncrease);
 	void IncreasePlayerSpeed(float speedIncrease);
 
-	bool IsJumping();
+	bool isGrounded();
 	PlayerJumpScript* GetJumpManager();
 	PlayerMoveScript* GetMovementManager();
 

@@ -23,9 +23,9 @@ void PlayerManagerScript::Start()
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 }
 
-bool PlayerManagerScript::IsJumping() 
+bool PlayerManagerScript::isGrounded()
 {
-	return false;
+	return jumpManager->isGrounded();
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
