@@ -22,8 +22,8 @@
 
 REGISTERCLASS(RangedFastAttackBehaviourScript);
 
-RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), LaserParticleSystem(nullptr),
-	audioSource(nullptr),
+RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
+	lastAttackTime(0.f), laserParticleSystem(nullptr),audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
 {
@@ -32,7 +32,7 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	REGISTER_FIELD(bulletOriginGO, GameObject*);
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
-	REGISTER_FIELD(LaserParticleSystem, GameObject*)
+	REGISTER_FIELD(laserParticleSystem, GameObject*)
 }
 
 void RangedFastAttackBehaviourScript::Start()
@@ -48,9 +48,9 @@ void RangedFastAttackBehaviourScript::Start()
 		bulletOrigin = bulletOriginGO->GetComponent<ComponentTransform>();
 	}
 
-	if (LaserParticleSystem)
+	if (laserParticleSystem)
 	{
-		particleSystem = LaserParticleSystem->GetComponent<ComponentParticleSystem>();
+		particleSystem = laserParticleSystem->GetComponent<ComponentParticleSystem>();
 	}
 }
 
@@ -75,9 +75,9 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
 
 	// Set the new bullet in the drone, ready for being shooted
-	bulletTransf->SetPosition(bulletOrigin->GetGlobalPosition());
-	bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-	bulletTransf->SetRotation(transform->GetGlobalRotation());
+	bulletTransf->SetLocalPosition(bulletOrigin->GetGlobalPosition());
+	bulletTransf->SetLocalScale(float3(0.2f, 0.2f, 0.2f));
+	bulletTransf->SetLocalRotation(transform->GetGlobalRotation());
 	bulletTransf->UpdateTransformMatrices();
 
 	// Attack the DroneFastBullet script to the new bullet to give it its logic

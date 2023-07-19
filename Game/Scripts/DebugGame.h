@@ -20,16 +20,17 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+
 	void SwitchDebugMode();
+
 	void GodCamera() const;
-	void PowerUpDrop() const;
+
 	void FillHealth() const;
 	void BeImmortal() const;
 	void DeathTouch() const;
-	void Teleport();
+	void PowerUpDrop() const;
 
-	
-	
+	void Teleport();
 
 private:
 	bool isDebugModeActive;
@@ -39,9 +40,6 @@ private:
 	bool playerOnLocation;
 	ModuleInput* input;
 
-
-	
-	
 	GameObject* player;
 	GameObject* DebugPowerUp;
 	HealthSystem* playerHealthSystem;
