@@ -91,7 +91,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 9.384241104125977,
+                            "localPos_Y": 10.557150840759277,
                             "localPos_Z": -22.870994567871094,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -119,6 +119,21 @@
                             "static": false,
                             "mouse": false,
                             "actualPlayer": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "RecastMovementTestScript",
+                            "fields": [
+                                {
+                                    "name": "Target",
+                                    "value": 2437746566609209267,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -642,6 +657,34 @@
                             "assetPathMesh": "Assets/Meshes/dungeoncm2.Cube.001_0.mesh",
                             "materialUID": 715003154336740104,
                             "assetPathMaterial": "Assets/Materials/dungeoncm2Material_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "target",
+                "tag": "",
+                "uid": 2437746566609209267,
+                "parentUID": 3443481771776544533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 40.67896270751953,
+                            "localPos_Y": 9.630575180053711,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
