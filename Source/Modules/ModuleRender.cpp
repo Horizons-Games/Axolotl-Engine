@@ -463,7 +463,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	
 	// Shadow Map Depth Buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
-	glDrawBuffer(GL_NONE);
 
 	glBindTexture(GL_TEXTURE_2D, gShadowMap);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
