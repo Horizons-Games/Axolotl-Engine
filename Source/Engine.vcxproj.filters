@@ -315,6 +315,9 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\RecastMovementTestScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -938,6 +941,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\CameraSample.h">
       <Filter>UserScripts\Level</Filter>
