@@ -142,6 +142,7 @@ public:
 	void SetZRotationAxisBlocked(bool newZ);
 
 	void UpdateBlockedRotationAxis();
+	void SetAngularFactor(btVector3 rotation);
 
     void RemoveRigidBodyFromSimulation();
 
@@ -322,11 +323,13 @@ inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
 inline void ComponentRigidBody::DisablePositionController()
 {
 	usePositionController = false;
+	UpdateBlockedAxis();
 }
 
 inline void ComponentRigidBody::DisableRotationController()
 {
 	useRotationController = false;
+	UpdateBlockedRotationAxis();
 }
 
 inline bool ComponentRigidBody::GetUsePositionController() const

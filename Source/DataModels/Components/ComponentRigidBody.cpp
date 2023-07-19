@@ -473,3 +473,10 @@ void ComponentRigidBody::UpdateBlockedRotationAxis()
 	rigidBody->setAngularFactor(
 		btVector3(!IsXRotationAxisBlocked(), !IsYRotationAxisBlocked(), !IsZRotationAxisBlocked()));
 }
+
+void ComponentRigidBody::SetAngularFactor(btVector3 rotation)
+{
+	rigidBody->setAngularFactor(btVector3(rotation.getX() * !IsXRotationAxisBlocked(),
+										  rotation.getY() *!IsYRotationAxisBlocked(),
+										  rotation.getZ() * !IsZRotationAxisBlocked()));
+}
