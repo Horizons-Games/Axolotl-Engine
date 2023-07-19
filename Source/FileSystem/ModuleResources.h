@@ -80,7 +80,6 @@ private:
 	// folder and file management
 	void CreateAssetAndLibFolders();
 	void MonitorResources();
-	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 
 	ResourceType FindTypeByFolder(const std::string& path);
@@ -168,6 +167,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
+			resource->LoadLoadOptions(meta);
 			ImportResourceFromLibrary(resource);
 			if (resource)
 			{
@@ -209,6 +209,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
+			resource->LoadLoadOptions(meta);
 			ImportResourceFromLibrary(resource);
 			if (resource)
 			{

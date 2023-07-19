@@ -1,6 +1,8 @@
 #pragma once
 #include "EditorWindow.h"
 
+#include "FileSystem/UID.h"
+
 class GameObject;
 
 class WindowHierarchy : public EditorWindow
@@ -13,8 +15,19 @@ protected:
 	void DrawWindowContents() override;
 
 private:
-	bool DrawRecursiveHierarchy(GameObject* gameObject);
+	enum class DrawHierarchyResultCode
+	{
+		HierarchyChanged,
+		ObjectNotFiltered,
+		Success
+	};
+	DrawHierarchyResultCode DrawRecursiveHierarchy(GameObject* gameObject);
+	void DrawSearchBar();
+
 	void ProcessInput();
+
+	void SetUpFilter(const std::string& nameFilter);
+	bool IsFiltered(const GameObject* gameObject) const;
 
 	void Create2DObjectMenu(GameObject* gameObject);
 
@@ -35,4 +48,6 @@ private:
 
 	// this is the second time I add such a member, this should be standardized in a module
 	GameObject* lastSelectedGameObject;
+
+	std::unordered_set<UID> filteredObjects;
 };

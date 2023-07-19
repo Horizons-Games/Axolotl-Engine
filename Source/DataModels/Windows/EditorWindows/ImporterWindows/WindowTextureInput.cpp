@@ -46,7 +46,8 @@ WindowTextureInput::~WindowTextureInput()
 
 void WindowTextureInput::DoThisIfOk()
 {
-	if (windowComponent)
+	std::shared_ptr<ResourceMaterial> material = windowComponent->GetMaterial();
+	if (material)
 	{
 		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
@@ -75,7 +76,6 @@ void WindowTextureInput::DoThisIfOk()
 			case TextureType::METALLIC:
 
 				texture->GetImportOptions().compression = TextureCompression::BC5;
-
 				break;
 
 			case TextureType::SPECULAR:
@@ -88,20 +88,20 @@ void WindowTextureInput::DoThisIfOk()
 
 				break;
 		}
-		texture->Unload();
-		texture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(texture->GetUID());
+		windowComponent->MaterialChanged();
+
 		switch (textureType)
 		{
 			case TextureType::DIFFUSE:
 
-				windowComponent->SetDiffuse(texture);
+				material->SetDiffuse(texture);
 
 				break;
 
 			case TextureType::NORMAL:
 
-				windowComponent->SetNormal(texture);
+				material->SetNormal(texture);
 
 				break;
 			case TextureType::OCCLUSION:
@@ -110,18 +110,18 @@ void WindowTextureInput::DoThisIfOk()
 
 			case TextureType::METALLIC:
 
-				windowComponent->SetMetallic(texture);
+				material->SetMetallic(texture);
 
 				break;
 
 			case TextureType::SPECULAR:
 
-				windowComponent->SetSpecular(texture);
+				material->SetSpecular(texture);
 
 				break;
 			case TextureType::EMISSION:
 
-				windowComponent->SetEmission(texture);
+				material->SetEmission(texture);
 
 				break;
 		}

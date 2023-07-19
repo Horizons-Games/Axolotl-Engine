@@ -20,13 +20,17 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	influenceRadius = 1.0f;
 	positionOffset = float3::zero;
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	isSampleFocusEnabled = false;
+	isSampleFixedEnabled = false;
 }
 
 ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& componentCameraSample):
 	Component(ComponentType::CAMERASAMPLE, componentCameraSample.IsEnabled(), componentCameraSample.GetOwner(), true),
 	influenceRadius(componentCameraSample.influenceRadius),
 	positionOffset(componentCameraSample.positionOffset),
-	position(componentCameraSample.position)
+	position(componentCameraSample.position),
+	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
+	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled)
 {
 }
 
@@ -38,13 +42,13 @@ ComponentCameraSample::~ComponentCameraSample()
 void ComponentCameraSample::Draw() const
 {
 #ifdef ENGINE
-	/*bool canDrawSample = 
-		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	bool canDrawSample = 
+		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (!canDrawSample)
 	{
 		return;
-	}*/
+	}
 
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
@@ -61,6 +65,16 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["positionOffsetY"] = (float) positionOffset.y;
 	meta["positionOffsetZ"] = (float) positionOffset.z;
 
+	meta["positionFixedX"] = (float) positionFixed.x;
+	meta["positionFixedY"] = (float) positionFixed.y;
+	meta["positionFixedZ"] = (float) positionFixed.z;
+
+	meta["focusOffsetX"] = (float) focusOffset.x;
+	meta["focusOffsetY"] = (float) focusOffset.y;
+
+	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
+	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
+
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
 	meta["positionY"] = (float) position.y;
@@ -75,6 +89,16 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 	positionOffset.x = meta["positionOffsetX"];
 	positionOffset.y = meta["positionOffsetY"];
 	positionOffset.z = meta["positionOffsetZ"];
+
+	positionFixed.x = meta["positionFixedX"];
+	positionFixed.y = meta["positionFixedY"];
+	positionFixed.z = meta["positionFixedZ"];
+
+	focusOffset.x = meta["focusOffsetX"];
+	focusOffset.y = meta["focusOffsetY"];
+
+	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
+	isSampleFixedEnabled = meta["isSampleFixedEnabled"];
 
 	position.x = meta["positionX"];
 	position.y = meta["positionY"];
