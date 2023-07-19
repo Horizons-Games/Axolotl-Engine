@@ -367,6 +367,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	if (!mantainActualScene)
 	{
+		App->GetModule<ModuleEditor>()->RefreshInspector();
 		loadedScene.reset();
 		loadedScene = std::make_unique<Scene>();
 
@@ -447,7 +448,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	SetSceneRootAnimObjects(loadedObjects);
 	selectedGameObject = loadedScene->GetRoot();
-	App->GetModule<ModuleEditor>()->RefreshInspector();
 
 	if (!mantainActualScene)
 	{
