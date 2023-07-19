@@ -99,6 +99,9 @@ void PlayerJumpScript::Jump(float deltatime)
 
 		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && (grounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
 		{
+			btVector3 velocity = btRb->getLinearVelocity();
+			velocity.setY(0.0f);
+			btRb->setLinearVelocity(velocity);
 			btRb->applyCentralImpulse(movement.normalized() * jumpParameter);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 
