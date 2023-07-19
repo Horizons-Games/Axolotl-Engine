@@ -39,10 +39,7 @@ private:
 	float lastVerticalSensitivity;
 	float lastMoveSpeed;
 	bool isForceActive;
-	bool isAxialConstricted;
-	bool xUsable;
-	bool yUsable;
-	bool zUsable;
+	bool objectStaticness;
 
 	bool breakForce;
 
