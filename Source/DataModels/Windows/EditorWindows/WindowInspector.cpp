@@ -422,7 +422,8 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());
-		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
+		App->GetModule<ModuleRender>()->GetBatchManager()->SetMaterialbatches();
+		//App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
 	}
 }
 

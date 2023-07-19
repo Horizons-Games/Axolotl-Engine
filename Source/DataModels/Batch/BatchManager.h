@@ -32,6 +32,7 @@ public:
 	void DrawBatch(GeometryBatch* batch, bool selected);
 
 	void SetDirtybatches();
+	void SetMaterialbatches();
 
 	void CleanBatches();
 
