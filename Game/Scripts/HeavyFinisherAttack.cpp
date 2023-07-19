@@ -68,11 +68,11 @@ void HeavyFinisherAttack::Update(float deltaTime)
 
 	float3 vecTowardsEnemy = (enemyPos - currentPos).Normalized();
 
-	transform->SetPosition(currentPos + vecTowardsEnemy * speed * deltaTime); //Move attack
+	transform->SetLocalPosition(currentPos + vecTowardsEnemy * speed * deltaTime); //Move attack
 	if (rotateWhileAttacking)
 	{
-		transform->SetRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(rotationVelocity * 10 * deltaTime))
-			* transform->GetRotation());
+		transform->SetLocalRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(rotationVelocity * 10.0f * deltaTime))
+			* transform->GetLocalRotation());
 	}
 	transform->UpdateTransformMatrices();
 
@@ -163,7 +163,7 @@ void HeavyFinisherAttack::SeekNextEnemy()
 
 void HeavyFinisherAttack::ResetValues()
 {
-	transform->SetPosition(attackOwner->GetGlobalPosition());
+	transform->SetLocalPosition(attackOwner->GetGlobalPosition());
 	transform->UpdateTransformMatrices();
 	owner->SetParent(attackOwner->GetOwner());
 	target = nullptr;
