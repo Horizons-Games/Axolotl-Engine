@@ -84,7 +84,7 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
 	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
 	script->SetConstuctor("RangedFastAttackBullet");
-	script->GetScript()->SetGameObject(bullet);
+	script->GetScript()->SetOwner(bullet);
 	script->GetScript()->SetApplication(App);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
