@@ -191,8 +191,8 @@ void Trail::RedoBuffers()
 
 		// color
 		gradient->getColorAt(steps * i, color.ptr());
-		vertexData[i * 2].color = float4(color, 255 * p.life / duration);
-		vertexData[i * 2 + 1].color = float4(color, 255 * p.life / duration);
+		vertexData[i * 2].color = float4(color, p.life / duration);
+		vertexData[i * 2 + 1].color = float4(color, p.life / duration);
 		//if (blendingMode == BlendingMode::ADDITIVE)
 		//{
 		//	// Additive alpha lerp to black
