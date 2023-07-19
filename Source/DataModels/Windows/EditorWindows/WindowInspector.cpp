@@ -5,6 +5,8 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
+#include "ModuleRender.h"
+#include "Batch/BatchManager.h"
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
@@ -420,6 +422,7 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());
+		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
 	}
 }
 
