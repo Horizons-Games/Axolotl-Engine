@@ -13,6 +13,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -27,7 +28,7 @@
 REGISTERCLASS(HeavyFinisherAttack);
 
 HeavyFinisherAttack::HeavyFinisherAttack() : Script(), audioSource(nullptr), transform(nullptr), rigidBody(nullptr),
-mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr),
+mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr), vfx(nullptr),
 returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), rotationVelocity(50.0f),
 player(nullptr), playerTransform(nullptr), loadedScene(nullptr), physics(nullptr)
 {
@@ -46,6 +47,7 @@ void HeavyFinisherAttack::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
+	vfx = owner->GetComponent<ComponentParticleSystem>();
 
 	playerTransform = player->GetComponent<ComponentTransform>();
 	
@@ -74,7 +76,6 @@ void HeavyFinisherAttack::Update(float deltaTime)
 	{
 		transform->SetRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(rotationVelocity * 10 * deltaTime))
 			* transform->GetRotation());
-		
 	}
 	transform->UpdateTransformMatrices();
 
@@ -84,6 +85,8 @@ void HeavyFinisherAttack::Update(float deltaTime)
 		{
 			target->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damage);
 			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
+			vfx->SetPlayAtStart(true);
+			vfx->Play();
 
 			SeekNextEnemy();
 		}

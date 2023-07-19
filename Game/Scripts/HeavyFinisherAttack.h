@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentParticleSystem;
 class ModulePhysics;
 class GameObject;
 class Scene;
@@ -33,6 +34,7 @@ private:
 	ComponentRigidBody* rigidBody;
 	GameObject* player;
 	ComponentTransform* playerTransform;
+	ComponentParticleSystem* vfx;
 
 	ComponentTransform* target;
 	ComponentTransform* attackOwner;

@@ -10968,8 +10968,8 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_X": 0.00000286102294921875,
+                            "localPos_Y": 0.0000019073486328125,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -23594,9 +23594,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": -0.9223482012748718,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": 0.425262451171875,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -23629,7 +23629,7 @@
                                 },
                                 {
                                     "name": "Speed",
-                                    "value": 10.0,
+                                    "value": 15.0,
                                     "type": 0
                                 },
                                 {
@@ -23638,8 +23638,13 @@
                                     "type": 0
                                 },
                                 {
+                                    "name": "RotationVelocity",
+                                    "value": 70.0,
+                                    "type": 0
+                                },
+                                {
                                     "name": "Mesh",
-                                    "value": 13696076717040388753,
+                                    "value": 6403752076942627003,
                                     "type": 2
                                 },
                                 {
@@ -23674,9 +23679,9 @@
                             "radius": 11.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 0.0,
+                            "rbPos_X": -0.27670446038246155,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": -14.0
+                            "rbPos_Z": -13.872421264648438
                         }
                     },
                     {
@@ -23684,6 +23689,16 @@
                             "type": "Component_AudioSource",
                             "active": true,
                             "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 17849944368398849094,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/NewSpark1.particle",
+                            "playAtStart": false
                         }
                     }
                 ]
@@ -23693,7 +23708,7 @@
             "GameObject": {
                 "name": "LightSaber",
                 "tag": "",
-                "uid": 13696076717040388753,
+                "uid": 6403752076942627003,
                 "parentUID": 14338870981782485152,
                 "enabled": true,
                 "static": false,
@@ -23703,15 +23718,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.29434168338775635,
-                            "localPos_Y": 1.9857419729232788,
-                            "localPos_Z": 1.8372344970703125,
+                            "localPos_X": 0.09567958116531372,
+                            "localPos_Y": 2.0,
+                            "localPos_Z": 0.042781829833984375,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 90.0,
-                            "localSca_X": 0.0033333334140479565,
-                            "localSca_Y": 0.0033333334140479565,
-                            "localSca_Z": 0.0033333334140479565
+                            "localSca_X": 0.0010000000474974513,
+                            "localSca_Y": 0.0010000000474974513,
+                            "localSca_Z": 0.0010000000474974513
                         }
                     }
                 ]
@@ -23721,8 +23736,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 12950625784564215912,
-                "parentUID": 13696076717040388753,
+                "uid": 12734454889038689768,
+                "parentUID": 6403752076942627003,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23749,8 +23764,8 @@
             "GameObject": {
                 "name": "LightSaberOn",
                 "tag": "",
-                "uid": 2746507792382538410,
-                "parentUID": 12950625784564215912,
+                "uid": 14065832124442898287,
+                "parentUID": 12734454889038689768,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23777,8 +23792,8 @@
             "GameObject": {
                 "name": "LightSaber.Mesh.003_0",
                 "tag": "",
-                "uid": 15467147949295539110,
-                "parentUID": 2746507792382538410,
+                "uid": 12526886908489996290,
+                "parentUID": 14065832124442898287,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23816,8 +23831,8 @@
             "GameObject": {
                 "name": "LightSaber.Mesh.003_1",
                 "tag": "",
-                "uid": 4649700777602354141,
-                "parentUID": 2746507792382538410,
+                "uid": 4574132007495142054,
+                "parentUID": 14065832124442898287,
                 "enabled": true,
                 "static": false,
                 "Components": [
