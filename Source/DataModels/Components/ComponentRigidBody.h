@@ -121,6 +121,15 @@ public:
 	bool GetIsAxialConstricted() const;
 	void SetIsAxialConstricted(bool newIsAxialConstricted);
 
+	bool IsXAxisBlocked() const;
+	void SetXAxisBlocked(bool newX);
+
+	bool IsYAxisBlocked() const;
+	void SetYAxisBlocked(bool newY);
+
+	bool IsZAxisBlocked() const;
+	void SetZAxisBlocked(bool newZ);
+
     void RemoveRigidBodyFromSimulation();
 
     btRigidBody* GetRigidBody() const;
@@ -166,6 +175,10 @@ private:
 	bool drawCollider = false;
 	bool isTrigger = false;
 	bool isAxialConstricted = false;
+
+	bool xAxisBlocked = false;
+	bool yAxisBlocked = false;
+	bool zAxisBlocked = false;
 
 	Shape currentShape = Shape::NONE;
 
@@ -406,4 +419,34 @@ inline void ComponentRigidBody::SetIsAxialConstricted(bool newIsAxialConstricted
 inline bool ComponentRigidBody::GetIsAxialConstricted() const
 {
 	return isAxialConstricted;
+}
+
+inline bool ComponentRigidBody::IsXAxisBlocked() const
+{
+	return xAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetXAxisBlocked(bool newX)
+{
+	xAxisBlocked = newX;
+}
+
+inline bool ComponentRigidBody::IsYAxisBlocked() const
+{
+	return yAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetYAxisBlocked(bool newY)
+{
+	yAxisBlocked = newY;
+}
+
+inline bool ComponentRigidBody::IsZAxisBlocked() const
+{
+	return zAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetZAxisBlocked(bool newZ)
+{
+	zAxisBlocked = newZ;
 }

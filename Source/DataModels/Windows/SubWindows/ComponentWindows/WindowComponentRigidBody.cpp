@@ -326,6 +326,30 @@ void WindowComponentRigidBody::DrawWindowContents()
 				asRigidBody->SetKpTorque(KpTorque);
 			}
 		}
+
+		ImGui::Separator();
+		ImGui::Text("Block Movement Axis: ");
+		bool xAxis = asRigidBody->IsXAxisBlocked();
+		bool yAxis = asRigidBody->IsYAxisBlocked();
+		bool zAxis = asRigidBody->IsZAxisBlocked();
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("X", &xAxis))
+		{
+			asRigidBody->SetXAxisBlocked(xAxis);
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Y", &yAxis))
+		{
+			asRigidBody->SetYAxisBlocked(yAxis);
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Z", &zAxis))
+		{
+			asRigidBody->SetZAxisBlocked(zAxis);
+		}
 		
 	}
 }

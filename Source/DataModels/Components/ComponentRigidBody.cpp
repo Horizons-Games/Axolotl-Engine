@@ -307,6 +307,9 @@ void ComponentRigidBody::InternalSave(Json& meta)
 	meta["rbPos_X"] = static_cast<float>(GetRigidBodyOrigin().getX());
 	meta["rbPos_Y"] = static_cast<float>(GetRigidBodyOrigin().getY());
 	meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());
+	meta["xAxisBlocked"] = static_cast<bool>(IsXAxisBlocked());
+	meta["yAxisBlocked"] = static_cast<bool>(IsYAxisBlocked());
+	meta["zAxisBlocked"] = static_cast<bool>(IsZAxisBlocked());
 }
 
 void ComponentRigidBody::InternalLoad(const Json& meta)
@@ -344,6 +347,10 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 	SetUpMobility();
 	SetGravity({ 0, static_cast<float>(meta["gravity_Y"]), 0 });
+
+	SetXAxisBlocked(static_cast<bool>(meta["xAxisBlocked"]));
+	SetYAxisBlocked(static_cast<bool>(meta["yAxisBlocked"]));
+	SetZAxisBlocked(static_cast<bool>(meta["zAxisBlocked"]));
 }
 
 void ComponentRigidBody::SignalEnable()
