@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentRigidBody;
+class ModulePhysics;
 class GameObject;
 class Scene;
 
@@ -17,17 +18,14 @@ public:
 	HeavyFinisherAttack();
 	~HeavyFinisherAttack() override = default;
 
-	virtual void OnCollisionEnter(ComponentRigidBody * other) override;
-	virtual void OnCollisionExit(ComponentRigidBody * other) override;
-
-
 	void PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner);
 
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	bool SeekNextEnemy();
+	void SeekNextEnemy();
+	void ResetValues();
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
@@ -43,6 +41,7 @@ private:
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	std::vector<ComponentTransform*> enemiesAlreadyHit;
 
+	ModulePhysics* physics;
 	Scene* loadedScene;
 
 	bool returnToPlayer;
