@@ -88,6 +88,7 @@ void WindowTextureInput::DoThisIfOk()
 
 				break;
 		}
+		texture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(texture->GetUID());
 		windowComponent->MaterialChanged();
 
