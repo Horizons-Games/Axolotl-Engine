@@ -20,7 +20,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	btTransform startTransform;
 	startTransform.setIdentity();
 	transform = GetOwner()->GetComponent<ComponentTransform>();
-	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetLocalScale());
 	radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 	factor = 0.5f;
 	// WIP set proper default value
@@ -397,7 +397,7 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 	switch (resetShape)
 	{
 		case Shape::BOX:
-			boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+			boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetLocalScale());
 			break;
 		case Shape::SPHERE:
 			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();

@@ -313,13 +313,18 @@
                             "fields": [
                                 {
                                     "name": "AttackDistance",
-                                    "value": 7.699999809265137,
+                                    "value": 7.5,
                                     "type": 0
                                 },
                                 {
                                     "name": "SeekDistance",
-                                    "value": 14.050000190734863,
+                                    "value": 14.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionGameObject",
+                                    "value": 14483489300051812384,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -368,7 +373,7 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 25.799999237060547,
+                                    "value": 40.0,
                                     "type": 0
                                 },
                                 {
@@ -3256,13 +3261,18 @@
                             "fields": [
                                 {
                                     "name": "AttackDistance",
-                                    "value": 5.0,
+                                    "value": 7.5,
                                     "type": 0
                                 },
                                 {
                                     "name": "SeekDistance",
-                                    "value": 8.0,
+                                    "value": 14.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionGameObject",
+                                    "value": 5229768384213810302,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -3311,7 +3321,7 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 100.0,
+                                    "value": 40.0,
                                     "type": 0
                                 },
                                 {
@@ -6153,7 +6163,7 @@
                             "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -7.840948581695557,
+                            "rbPos_X": 192.1590576171875,
                             "rbPos_Y": 3.2121219635009766,
                             "rbPos_Z": -8.762855529785156
                         }
@@ -6236,7 +6246,7 @@
                             "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -4.359014987945557,
+                            "rbPos_X": 195.6409912109375,
                             "rbPos_Y": 3.2121219635009766,
                             "rbPos_Z": -8.701062202453613
                         }
@@ -6273,7 +6283,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 200.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
@@ -13156,7 +13166,7 @@
                             "fields": [
                                 {
                                     "name": "ActivePowerUp",
-                                    "value": 9418173620591223368,
+                                    "value": 10105264902335347340,
                                     "type": 2
                                 }
                             ]
@@ -16521,7 +16531,7 @@
                             "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -7.840948581695557,
+                            "rbPos_X": 192.1590576171875,
                             "rbPos_Y": 3.2121219635009766,
                             "rbPos_Z": -8.762855529785156
                         }
@@ -16604,7 +16614,7 @@
                             "radius": 1.2999999523162842,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -4.359014987945557,
+                            "rbPos_X": 195.6409912109375,
                             "rbPos_Y": 3.2121219635009766,
                             "rbPos_Z": -8.701062202453613
                         }
