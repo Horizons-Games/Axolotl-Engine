@@ -130,6 +130,19 @@ public:
 	bool IsZAxisBlocked() const;
 	void SetZAxisBlocked(bool newZ);
 
+	void UpdateBlockedAxis();
+
+	bool IsXRotationAxisBlocked() const;
+	void SetXRotationAxisBlocked(bool newX);
+
+	bool IsYRotationAxisBlocked() const;
+	void SetYRotationAxisBlocked(bool newY);
+
+	bool IsZRotationAxisBlocked() const;
+	void SetZRotationAxisBlocked(bool newZ);
+
+	void UpdateBlockedRotationAxis();
+
     void RemoveRigidBodyFromSimulation();
 
     btRigidBody* GetRigidBody() const;
@@ -179,6 +192,10 @@ private:
 	bool xAxisBlocked = false;
 	bool yAxisBlocked = false;
 	bool zAxisBlocked = false;
+
+	bool xRotationAxisBlocked = false;
+	bool yRotationAxisBlocked = false;
+	bool zRotationAxisBlocked = false;
 
 	Shape currentShape = Shape::NONE;
 
@@ -421,6 +438,39 @@ inline bool ComponentRigidBody::GetIsAxialConstricted() const
 	return isAxialConstricted;
 }
 
+inline bool ComponentRigidBody::IsXRotationAxisBlocked() const
+{
+	return xRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetXRotationAxisBlocked(bool newX)
+{
+	xRotationAxisBlocked = newX;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsYRotationAxisBlocked() const
+{
+	return yRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetYRotationAxisBlocked(bool newY)
+{
+	yRotationAxisBlocked = newY;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsZRotationAxisBlocked() const
+{
+	return zRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetZRotationAxisBlocked(bool newZ)
+{
+	zRotationAxisBlocked = newZ;
+	UpdateBlockedRotationAxis();
+}
+
 inline bool ComponentRigidBody::IsXAxisBlocked() const
 {
 	return xAxisBlocked;
@@ -429,6 +479,7 @@ inline bool ComponentRigidBody::IsXAxisBlocked() const
 inline void ComponentRigidBody::SetXAxisBlocked(bool newX)
 {
 	xAxisBlocked = newX;
+	UpdateBlockedAxis();
 }
 
 inline bool ComponentRigidBody::IsYAxisBlocked() const
@@ -439,6 +490,7 @@ inline bool ComponentRigidBody::IsYAxisBlocked() const
 inline void ComponentRigidBody::SetYAxisBlocked(bool newY)
 {
 	yAxisBlocked = newY;
+	UpdateBlockedAxis();
 }
 
 inline bool ComponentRigidBody::IsZAxisBlocked() const
@@ -449,4 +501,5 @@ inline bool ComponentRigidBody::IsZAxisBlocked() const
 inline void ComponentRigidBody::SetZAxisBlocked(bool newZ)
 {
 	zAxisBlocked = newZ;
+	UpdateBlockedAxis();
 }

@@ -310,6 +310,9 @@ void ComponentRigidBody::InternalSave(Json& meta)
 	meta["xAxisBlocked"] = static_cast<bool>(IsXAxisBlocked());
 	meta["yAxisBlocked"] = static_cast<bool>(IsYAxisBlocked());
 	meta["zAxisBlocked"] = static_cast<bool>(IsZAxisBlocked());
+	meta["xRotationAxisBlocked"] = static_cast<bool>(IsXRotationAxisBlocked());
+	meta["yRotationAxisBlocked"] = static_cast<bool>(IsYRotationAxisBlocked());
+	meta["zRotationAxisBlocked"] = static_cast<bool>(IsZRotationAxisBlocked());
 }
 
 void ComponentRigidBody::InternalLoad(const Json& meta)
@@ -351,6 +354,10 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 	SetXAxisBlocked(static_cast<bool>(meta["xAxisBlocked"]));
 	SetYAxisBlocked(static_cast<bool>(meta["yAxisBlocked"]));
 	SetZAxisBlocked(static_cast<bool>(meta["zAxisBlocked"]));
+
+	SetXRotationAxisBlocked(static_cast<bool>(meta["xRotationAxisBlocked"]));
+	SetYRotationAxisBlocked(static_cast<bool>(meta["yRotationAxisBlocked"]));
+	SetZRotationAxisBlocked(static_cast<bool>(meta["zRotationAxisBlocked"]));
 }
 
 void ComponentRigidBody::SignalEnable()
@@ -453,4 +460,16 @@ void ComponentRigidBody::SetStatic(bool newStatic)
 {
 	GetOwner()->SetStatic(newStatic);
 
+}
+
+
+void ComponentRigidBody::UpdateBlockedAxis()
+{
+	rigidBody->setLinearFactor(btVector3(!IsXAxisBlocked(), !IsYAxisBlocked(), !IsZAxisBlocked()));
+}
+
+void ComponentRigidBody::UpdateBlockedRotationAxis()
+{
+	rigidBody->setAngularFactor(
+		btVector3(!IsXRotationAxisBlocked(), !IsYRotationAxisBlocked(), !IsZRotationAxisBlocked()));
 }

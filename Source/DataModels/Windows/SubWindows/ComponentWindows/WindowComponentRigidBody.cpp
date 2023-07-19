@@ -334,21 +334,43 @@ void WindowComponentRigidBody::DrawWindowContents()
 		bool zAxis = asRigidBody->IsZAxisBlocked();
 
 		ImGui::SameLine();
-		if (ImGui::Checkbox("X", &xAxis))
+		if (ImGui::Checkbox("X##mov", &xAxis))
 		{
 			asRigidBody->SetXAxisBlocked(xAxis);
 		}
 
 		ImGui::SameLine();
-		if (ImGui::Checkbox("Y", &yAxis))
+		if (ImGui::Checkbox("Y##mov", &yAxis))
 		{
 			asRigidBody->SetYAxisBlocked(yAxis);
 		}
 
 		ImGui::SameLine();
-		if (ImGui::Checkbox("Z", &zAxis))
+		if (ImGui::Checkbox("Z##mov", &zAxis))
 		{
 			asRigidBody->SetZAxisBlocked(zAxis);
+		}
+		ImGui::Text("Block Rotation Axis: ");
+		bool xRotationAxis = asRigidBody->IsXRotationAxisBlocked();
+		bool yRotationAxis = asRigidBody->IsYRotationAxisBlocked();
+		bool zRotationAxis = asRigidBody->IsZRotationAxisBlocked();
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("X##rot", &xRotationAxis))
+		{
+			asRigidBody->SetXRotationAxisBlocked(xRotationAxis);
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Y##rot", &yRotationAxis))
+		{
+			asRigidBody->SetYRotationAxisBlocked(yRotationAxis);
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Z##rot", &zRotationAxis))
+		{
+			asRigidBody->SetZRotationAxisBlocked(zRotationAxis);
 		}
 		
 	}
