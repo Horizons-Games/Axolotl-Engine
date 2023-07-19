@@ -1098,12 +1098,6 @@
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\RegisterFieldMacros.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\VectorField.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
@@ -1244,17 +1238,10 @@
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\RegisterFieldMacros.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Reflection\VectorField.h">
-      <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
+    <ClInclude Include="..\Game\Scripts\EntityDetection.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EntityDetection.h">
+    <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,8 +14,6 @@
 #include "IScript.h"
 #include "ScriptFactory.h"
 
-#include "Auxiliar/Reflection/VectorField.h"
-
 namespace
 {
 const float doubleClickTimeFrameInS = .5f;
@@ -29,68 +27,6 @@ WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 
 WindowComponentScript::~WindowComponentScript()
 {
-}
-
-std::string WindowComponentScript::DrawStringField(std::string& value, const std::string& name)
-{
-	ImGui::InputText(name.c_str(), value.data(), 24);
-	return value;
-}
-
-bool WindowComponentScript::DrawBoolField(bool& value, const std::string& name)
-{
-	ImGui::Checkbox(name.c_str(), &value);
-	return value;
-}
-
-float WindowComponentScript::DrawFloatField(float& value, const std::string& name)
-{
-	ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f");
-	return value;
-}
-
-math::float3 WindowComponentScript::DrawFloat3Field(math::float3& value, const std::string& name)
-{
-	ImGui::DragFloat3(name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f");
-	return value;
-}
-
-GameObject* WindowComponentScript::DrawGameObjectField(GameObject* value, const std::string& name)
-{
-	std::string gameObjectSlot = "Drag a GameObject here";
-	if (value != nullptr)
-	{
-		gameObjectSlot = value->GetName().c_str();
-	}
-
-	ImGui::Button((gameObjectSlot + "##" + std::to_string(windowUID)).c_str(), ImVec2(208.0f, 20.0f));
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
-		{
-			UID draggedGameObjectID = *(UID*) payload->Data;
-			GameObject* draggedGameObject =
-				App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
-
-			if (draggedGameObject)
-			{
-				ImGui::EndDragDropTarget();
-				return draggedGameObject;
-			}
-		}
-
-		ImGui::EndDragDropTarget();
-	}
-
-	ImGui::SameLine(0.0f, 3.0f);
-	ImGui::Text(name.c_str());
-	ImGui::SameLine();
-	if (ImGui::Button(("Remove" + name + "##" + std::to_string(windowUID)).c_str()))
-	{
-		return nullptr;
-	}
-
-	return value;
 }
 
 void WindowComponentScript::DrawWindowContents()
@@ -126,9 +62,9 @@ void WindowComponentScript::DrawWindowContents()
 	if (!scriptObject)
 	{
 		if (ImGui::ListBox(
-				finalLabel.c_str(), &currentItem, constructors.data(), static_cast<int>(constructors.size()), 5))
+				finalLabel.c_str(), &current_item, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{
-			ChangeScript(script, constructors[currentItem]);
+			ChangeScript(script, constructors[current_item]);
 			LOG_VERBOSE("{} SELECTED, drawing its contents.", script->GetConstructName());
 		}
 
@@ -182,7 +118,6 @@ void WindowComponentScript::DrawWindowContents()
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
-
 		switch (enumAndMember.first)
 		{
 			case FieldType::FLOAT:
@@ -192,23 +127,22 @@ void WindowComponentScript::DrawWindowContents()
 
 				label = floatField.name;
 				finalLabel = label + separator + thisID;
-
-				floatField.setter(DrawFloatField(value, finalLabel.c_str()));
-
-				// add the rect of each field
-				widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+				if (ImGui::DragFloat(finalLabel.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f"))
+				{
+					floatField.setter(value);
+				}
 				break;
 			}
 
-			case FieldType::FLOAT3:
+			case FieldType::VECTOR3:
 			{
 				Field<float3> float3Field = std::get<Field<float3>>(member);
 				float3 value = float3Field.getter();
-
-				float3Field.setter(DrawFloat3Field(value, float3Field.name.c_str()));
-
-				// add the rect of each field
-				widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+				if (ImGui::DragFloat3(
+						float3Field.name.c_str(), (&value[2], &value[1], &value[0]), 0.05f, -50.0f, 50.0f, "%.2f"))
+				{
+					float3Field.setter(value);
+				}
 				break;
 			}
 
@@ -219,11 +153,56 @@ void WindowComponentScript::DrawWindowContents()
 
 				label = stringField.name;
 				finalLabel = label + separator + thisID;
+				if (ImGui::InputText(finalLabel.c_str(), value.data(), 24))
+				{
+					stringField.setter(value);
+				}
+				break;
+			}
 
-				stringField.setter(DrawStringField(value, finalLabel).c_str());
+			case FieldType::GAMEOBJECT:
+			{
+				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
+				GameObject* value = gameObjectField.getter();
 
-				// add the rect of each field
-				widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+				std::string gameObjectSlot = "Drag a GameObject here";
+				if (value != nullptr)
+				{
+					gameObjectSlot = value->GetName().c_str();
+				}
+
+				label = gameObjectSlot;
+				finalLabel = label + separator + thisID;
+				ImGui::Button(finalLabel.c_str(), ImVec2(208.0f, 20.0f));
+
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HIERARCHY"))
+					{
+						UID draggedGameObjectID = *(UID*) payload->Data;
+						GameObject* draggedGameObject =
+							App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(draggedGameObjectID);
+
+						if (draggedGameObject)
+						{
+							gameObjectField.setter(draggedGameObject);
+						}
+					}
+
+					ImGui::EndDragDropTarget();
+				}
+
+				ImGui::SameLine(0.0f, 3.0f);
+				ImGui::Text(gameObjectField.name.c_str());
+				ImGui::SameLine();
+
+				label = "Remove GO##";
+				finalLabel = label + thisID;
+				if (ImGui::Button(finalLabel.c_str()))
+				{
+					gameObjectField.setter(nullptr);
+				}
+
 				break;
 			}
 
@@ -234,106 +213,18 @@ void WindowComponentScript::DrawWindowContents()
 
 				label = booleanField.name;
 				finalLabel = label + separator + thisID;
-
-				booleanField.setter(DrawBoolField(value, finalLabel.c_str()));
-
-				// add the rect of each field
-				widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
-				break;
-			}
-
-			case FieldType::GAMEOBJECT:
-			{
-				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
-				GameObject* value = gameObjectField.getter();
-
-				GameObject* draggedObject = DrawGameObjectField(value, gameObjectField.name);
-
-				gameObjectField.setter(draggedObject);
-
-				// add the rect of each field
-				widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
-				break;
-			}
-
-			case FieldType::VECTOR:
-			{
-				VectorField vectorField = std::get<VectorField>(member);
-
-				std::function<std::any(std::any&, const std::string&)> elementDrawer =
-					[this, &vectorField](std::any& value, const std::string& name) -> std::any
+				if (ImGui::Checkbox(finalLabel.c_str(), &value))
 				{
-					switch (vectorField.innerType)
-					{
-						case FieldType::FLOAT:
-							if (!value.has_value())
-							{
-								value = std::make_any<float>();
-							}
-							return float(DrawFloatField(std::any_cast<float&>(value), name));
-						case FieldType::STRING:
-							if (!value.has_value())
-							{
-								value = std::make_any<std::string>();
-							}
-							return std::string(DrawStringField(std::any_cast<std::string&>(value), name).c_str());
-						case FieldType::BOOLEAN:
-							if (!value.has_value())
-							{
-								value = std::make_any<bool>();
-							}
-							return bool(DrawBoolField(std::any_cast<bool&>(value), name));
-						case FieldType::GAMEOBJECT:
-							if (!value.has_value())
-							{
-								value = std::make_any<GameObject*>();
-							}
-							return std::any(DrawGameObjectField(std::any_cast<GameObject*>(value), name));
-						case FieldType::FLOAT3:
-							if (!value.has_value())
-							{
-								value = std::make_any<float3>(0.f);
-							}
-							return float3(DrawFloat3Field(std::any_cast<float3&>(value), name));
-					}
-					return std::any(); // Default return
-				};
-
-				std::vector<std::any> vectorValue = vectorField.getter();
-
-				ImVec2 startingPos = ImGui::GetCursorPos();
-
-				ImGui::Text(vectorField.name.c_str());
-				ImGui::SameLine();
-				if (ImGui::Button(("+##" + vectorField.name).c_str()))
-				{
-					vectorValue.emplace_back();
+					booleanField.setter(value);
 				}
-				ImGui::SameLine();
-				if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
-				{
-					vectorValue.pop_back();
-				}
-
-				widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
-
-				for (int i = 0; i < vectorValue.size(); ++i)
-				{
-					ImGui::Indent();
-					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
-					// add the rect of each field
-					widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
-					ImGui::Unindent();
-				}
-
-				vectorField.setter(vectorValue);
-
 				break;
 			}
 
 			default:
 				break;
 		}
+		// add the rect of each field
+		widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
 	}
 
 	// Store the ending position of the collapsing header
@@ -368,7 +259,7 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 {
 	newScript->SetConstuctor(selectedScript);
 	IScript* Iscript = App->GetScriptFactory()->ConstructScript(selectedScript);
-	Iscript->SetOwner(component->GetOwner());
+	Iscript->SetGameObject(component->GetOwner());
 	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
 }

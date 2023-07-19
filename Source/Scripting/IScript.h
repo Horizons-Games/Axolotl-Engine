@@ -4,7 +4,6 @@
 #include "RuntimeObjectSystem/ISimpleSerializer.h"
 
 #include "Auxiliar/Reflection/Field.h"
-#include "Auxiliar/Reflection/VectorField.h"
 #include "Enums/FieldType.h"
 
 #include "Math/float3.h"
@@ -15,10 +14,35 @@ class GameObject;
 class Application;
 class ComponentRigidBody;
 
-#include "Scripting/RegisterFieldMacros.h"
+// The parameter name must be the exact name of the field inside the class
+#define REGISTER_FIELD(name, Type)                                     \
+	this->members.push_back(std::make_pair(TypeToEnum<Type>::value,    \
+										   Field<Type>(                \
+											   #name,                  \
+											   [this]                  \
+											   {                       \
+												   return this->name;  \
+											   },                      \
+											   [this](Type value)      \
+											   {                       \
+												   this->name = value; \
+											   })));
 
-using ValidFieldType =
-	std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>>;
+// The parameter Name must be one such that Get{Name} and Set{Name} functions exist as members of the class
+#define REGISTER_FIELD_WITH_ACCESSORS(Name, Type)                            \
+	this->members.push_back(std::make_pair(TypeToEnum<Type>::value,          \
+										   Field<Type>(                      \
+											   #Name,                        \
+											   [this]                        \
+											   {                             \
+												   return this->Get##Name(); \
+											   },                            \
+											   [this](Type value)            \
+											   {                             \
+												   this->Set##Name(value);   \
+											   })));
+
+using ValidFieldType = std::variant<Field<float>, Field<float3>, Field<std::string>, Field<GameObject*>, Field<bool>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -35,8 +59,7 @@ public:
 	virtual void OnCollisionExit(ComponentRigidBody* other) = 0;
 	virtual void CleanUp() = 0;
 
-	GameObject* GetOwner() const;
-	void SetOwner(GameObject* owner);
+	void SetGameObject(GameObject* owner);
 	void SetApplication(Application* app);
 
 	const std::vector<TypeFieldPair>& GetFields() const;
@@ -51,12 +74,7 @@ protected:
 	std::vector<TypeFieldPair> members;
 };
 
-inline GameObject* IScript::GetOwner() const
-{
-	return owner;
-}
-
-inline void IScript::SetOwner(GameObject* owner)
+inline void IScript::SetGameObject(GameObject* owner)
 {
 	this->owner = owner;
 }
@@ -88,23 +106,6 @@ inline std::optional<Field<T>> IScript::GetField(const std::string& name) const
 	return std::nullopt;
 }
 
-template<>
-inline std::optional<Field<std::vector<std::any>>> IScript::GetField(const std::string& name) const
-{
-	for (const TypeFieldPair& enumAndType : members)
-	{
-		if (FieldType::VECTOR== enumAndType.first)
-		{
-			VectorField field = std::get<VectorField>(enumAndType.second);
-			if (field.name == name)
-			{
-				return field;
-			}
-		}
-	}
-	return std::nullopt;
-}
-
 inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 {
 	SERIALIZE(owner);
@@ -122,19 +123,10 @@ inline void IScript::Serialize(ISimpleSerializer* pSerializer)
 				break;
 			}
 
-		case FieldType::FLOAT3:
-		{
-			Field<float3> field = std::get<Field<float3>>(enumAndField.second);
-			float3 value = field.getter();
-			pSerializer->SerializeProperty(field.name.c_str(), value);
-			field.setter(value);
-			break;
-		}
-
-			case FieldType::VECTOR:
+			case FieldType::VECTOR3:
 			{
-				VectorField field = std::get<VectorField>(enumAndField.second);
-				std::vector<std::any> value = field.getter();
+				Field<float3> field = std::get<Field<float3>>(enumAndField.second);
+				float3 value = field.getter();
 				pSerializer->SerializeProperty(field.name.c_str(), value);
 				field.setter(value);
 				break;
