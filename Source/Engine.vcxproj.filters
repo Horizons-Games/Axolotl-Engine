@@ -600,6 +600,12 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1098,9 +1104,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
@@ -1212,9 +1215,6 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1249,6 +1249,13 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EntityDetection.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
