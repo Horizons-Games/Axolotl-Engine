@@ -1,0 +1,13 @@
+{
+    "UID": 1258497773911864002,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/LightSaber.Mesh.003_0.mesh",
+        "Assets/Meshes/LightSaber.Mesh.003_1.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/LightSaberLightSaber.001_0.mat",
+        "Assets/Materials/LightSaberLightSaberEmission_1.mat"
+    ],
+    "AnimAssetPaths": null
+}

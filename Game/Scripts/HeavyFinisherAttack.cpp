@@ -28,14 +28,15 @@ REGISTERCLASS(HeavyFinisherAttack);
 
 HeavyFinisherAttack::HeavyFinisherAttack() : Script(), audioSource(nullptr), transform(nullptr), rigidBody(nullptr),
 mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr),
-returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), player(nullptr),
-playerTransform(nullptr), loadedScene(nullptr), physics(nullptr)
+returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), rotationVelocity(50.0f),
+player(nullptr), playerTransform(nullptr), loadedScene(nullptr), physics(nullptr)
 {
 	REGISTER_FIELD(returnToPlayer, bool);
 	REGISTER_FIELD(rotateWhileAttacking, bool);
 	REGISTER_FIELD(damage, float);
 	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(hitDistance, float);
+	REGISTER_FIELD(rotationVelocity, float);
 	REGISTER_FIELD(mesh, GameObject*);
 	REGISTER_FIELD(player, GameObject*);
 }
@@ -71,7 +72,8 @@ void HeavyFinisherAttack::Update(float deltaTime)
 	transform->SetPosition(currentPos + vecTowardsEnemy * speed * deltaTime); //Move attack
 	if (rotateWhileAttacking)
 	{
-		transform->SetRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(10.0f)) * transform->GetRotation());
+		transform->SetRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(rotationVelocity * 10 * deltaTime))
+			* transform->GetRotation());
 		
 	}
 	transform->UpdateTransformMatrices();

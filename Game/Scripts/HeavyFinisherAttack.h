@@ -46,6 +46,7 @@ private:
 
 	bool returnToPlayer;
 	bool rotateWhileAttacking;
+	float rotationVelocity;
 	float damage;
 	float speed;
 	float hitDistance;
