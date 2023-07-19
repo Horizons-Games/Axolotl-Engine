@@ -52,32 +52,85 @@ void WindowComponentTransform::DrawWindowContents()
 		rotationModified = false;
 		scaleModified = false;
 
+		if (asTransform->IsDrawBoundingBoxes())
+		{
+			if (ImGui::BeginTable("Bounding Box", 2))
+			{
+				ImGui::TableNextColumn();
+				ImGui::Text("Scaling");
+				ImGui::SameLine();
 
-		if (ImGui::DragFloat("ScalingX", &bbScale.x, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
-		{
-			asTransform->ScaleLocalAABB(bbScale);
-		}
-		if (ImGui::DragFloat("ScalingY", &bbScale.y, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
-		{
-			asTransform->ScaleLocalAABB(bbScale);
-		}
-		if (ImGui::DragFloat("ScalingZ", &bbScale.z, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
-		{
-			asTransform->ScaleLocalAABB(bbScale);
-		}
+				ImGui::TableNextColumn();
+				ImGui::Text("x:");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+				if (ImGui::DragFloat("##XScale", &bbScale.x, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+				{
+					asTransform->ScaleLocalAABB(bbScale);
+				}
+				ImGui::PopStyleVar();
+				ImGui::SameLine();
 
+				ImGui::Text("y:");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+				if (ImGui::DragFloat("##YScale", &bbScale.y, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+				{
+					asTransform->ScaleLocalAABB(bbScale);
+				}
+				ImGui::PopStyleVar();
+				ImGui::SameLine();
 
-		if (ImGui::DragFloat("TranslateX", &bbTranslation.x, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
-		{
-			asTransform->TranslateLocalAABB(bbTranslation);
-		}
-		if (ImGui::DragFloat("TranslateY", &bbTranslation.y, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
-		{
-			asTransform->TranslateLocalAABB(bbTranslation);
-		}
-		if (ImGui::DragFloat("TranslateZ", &bbTranslation.z, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
-		{
-			asTransform->TranslateLocalAABB(bbTranslation);
+				ImGui::Text("z:");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+				if (ImGui::DragFloat("##ZScale", &bbScale.z, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
+				{
+					asTransform->ScaleLocalAABB(bbScale);
+				}
+				ImGui::PopStyleVar();
+
+				ImGui::TableNextColumn();
+				ImGui::Text("Translation");
+				ImGui::SameLine();
+
+				ImGui::TableNextColumn();
+				ImGui::Text("x:");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+				if (ImGui::DragFloat("##XTrans", &bbTranslation.x, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+				{
+					asTransform->TranslateLocalAABB(bbTranslation);
+				}
+				ImGui::PopStyleVar();
+				ImGui::SameLine();
+
+				ImGui::Text("y:");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+				if (ImGui::DragFloat("##YTrans", &bbTranslation.y, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+				{
+					asTransform->TranslateLocalAABB(bbTranslation);
+				}
+				ImGui::PopStyleVar();
+				ImGui::SameLine();
+
+				ImGui::Text("z:");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+				if (ImGui::DragFloat("##ZTrans", &bbTranslation.z, currentDragSpeed, std::numeric_limits<float>::min(), std::numeric_limits<float>::min()))
+				{
+					asTransform->TranslateLocalAABB(bbTranslation);
+				}
+				ImGui::PopStyleVar();
+				ImGui::EndTable();
+			}
 		}
 
 		bool ownerIsRoot = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot() == asTransform->GetOwner();
