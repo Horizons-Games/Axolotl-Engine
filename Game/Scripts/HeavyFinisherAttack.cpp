@@ -30,7 +30,7 @@ REGISTERCLASS(HeavyFinisherAttack);
 HeavyFinisherAttack::HeavyFinisherAttack() : Script(), audioSource(nullptr), transform(nullptr), rigidBody(nullptr),
 mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr), vfx(nullptr),
 returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), rotationVelocity(50.0f),
-player(nullptr), playerTransform(nullptr), loadedScene(nullptr), physics(nullptr)
+loadedScene(nullptr), physics(nullptr)
 {
 	REGISTER_FIELD(returnToPlayer, bool);
 	REGISTER_FIELD(rotateWhileAttacking, bool);
@@ -39,7 +39,6 @@ player(nullptr), playerTransform(nullptr), loadedScene(nullptr), physics(nullptr
 	REGISTER_FIELD(hitDistance, float);
 	REGISTER_FIELD(rotationVelocity, float);
 	REGISTER_FIELD(mesh, GameObject*);
-	REGISTER_FIELD(player, GameObject*);
 }
 
 void HeavyFinisherAttack::Start()
@@ -48,8 +47,6 @@ void HeavyFinisherAttack::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	vfx = owner->GetComponent<ComponentParticleSystem>();
-
-	playerTransform = player->GetComponent<ComponentTransform>();
 	
 	mesh->Disable();
 	rigidBody->Disable();
@@ -166,7 +163,7 @@ void HeavyFinisherAttack::SeekNextEnemy()
 
 void HeavyFinisherAttack::ResetValues()
 {
-	transform->SetPosition(playerTransform->GetGlobalPosition());
+	transform->SetPosition(attackOwner->GetGlobalPosition());
 	transform->UpdateTransformMatrices();
 	owner->SetParent(attackOwner->GetOwner());
 	target = nullptr;

@@ -32,8 +32,6 @@ private:
 	ComponentTransform* transform;
 	GameObject* mesh;
 	ComponentRigidBody* rigidBody;
-	GameObject* player;
-	ComponentTransform* playerTransform;
 	ComponentParticleSystem* vfx;
 
 	ComponentTransform* target;
