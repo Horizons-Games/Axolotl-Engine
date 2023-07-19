@@ -53,6 +53,8 @@ public:
 	void SetRotation(const Quat& rotation);
 	void SetGlobalRotation(const Quat& rotation);
 	void SetScale(const float3& scale);
+	void SetOriginScaling(const float3& originScaling);
+	void SetOriginCenter(const float3& originCenter);
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 	void SetGlobalTransform(const float4x4& transform);
 
@@ -76,6 +78,7 @@ public:
 
 	void CalculateLocalFromNewGlobal(const ComponentTransform* newTransformFrom);
 
+
 private:
 	float3 pos;
 	Quat rot;
@@ -83,6 +86,8 @@ private:
 
 	float3 bbPos;
 	float3 bbSca;
+	float3 originScaling;
+	float3 originCenter;
 
 	float3 globalPos;
 	Quat globalRot;
@@ -242,6 +247,16 @@ inline void ComponentTransform::SetScale(const float3& scale)
 	sca.z = std::max(scale.z, 0.0001f);
 }
 
+inline void ComponentTransform::SetOriginScaling(const float3& originScaling)
+{
+	this->originScaling = originScaling;
+}
+
+inline void ComponentTransform::SetOriginCenter(const float3& originCenter)
+{
+	this->originCenter = originCenter;
+}
+
 inline void ComponentTransform::SetUniformScale(const float3& scale, Axis modifiedScaleAxis)
 {
 	if (modifiedScaleAxis == Axis::X)
@@ -284,8 +299,8 @@ inline void ComponentTransform::ScaleLocalAABB(float3& scaling)
 	bbSca = scaling;
 	float3 center = localAABB.CenterPoint();
 
-	localAABB.minPoint = center - scaling;
-	localAABB.maxPoint = center + scaling;
+	localAABB.minPoint = center - bbSca.Mul(originScaling);
+	localAABB.maxPoint = center + bbSca.Mul(originScaling);
 
 }
 
@@ -294,8 +309,8 @@ inline void ComponentTransform::TranslateLocalAABB(float3& translation)
 	bbPos = translation;
 	float3 halfsize = localAABB.HalfSize();
 
-	localAABB.minPoint = bbPos - halfsize;
-	localAABB.maxPoint =  bbPos + halfsize;
+	localAABB.minPoint = (originCenter - halfsize) + bbPos;
+	localAABB.maxPoint = (originCenter + halfsize) + bbPos;
 
 }
 

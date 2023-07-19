@@ -16,6 +16,8 @@ ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
 	sca(float3::one),
 	bbPos(float3::zero),
 	bbSca(float3::one),
+	originScaling({ 0.5f, 0.5f, 0.5f }),
+	originCenter({ 0.5f, 0.5f, 0.5f }),
 	globalPos(float3::zero),
 	globalRot(Quat::identity),
 	globalSca(float3::one),
@@ -34,6 +36,8 @@ ComponentTransform::ComponentTransform(const ComponentTransform& componentTransf
 	pos(componentTransform.GetPosition()),
 	rot(componentTransform.GetRotation()),
 	sca(componentTransform.GetScale()),
+	bbPos(componentTransform.GetBBPos()),
+	bbSca(componentTransform.GetBBScale()),
 	globalPos(componentTransform.GetGlobalPosition()),
 	globalRot(componentTransform.GetGlobalRotation()),
 	globalSca(componentTransform.GetGlobalScale()),
@@ -99,11 +103,6 @@ void ComponentTransform::InternalLoad(const Json& meta)
 
 
 	CalculateMatrices();
-
-	ScaleLocalAABB(bbSca);
-	TranslateLocalAABB(bbPos);
-
-	CalculateBoundingBoxes();
 }
 
 void ComponentTransform::CalculateMatrices()
