@@ -8,6 +8,7 @@ class ComponentAudioSource;
 class ComponentTransform;
 class ComponentRigidBody;
 class GameObject;
+class Scene;
 
 class HeavyFinisherAttack : public Script
 {
@@ -41,6 +42,8 @@ private:
 	bool isReturningToOwner;
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	std::vector<ComponentTransform*> enemiesAlreadyHit;
+
+	Scene* loadedScene;
 
 	bool returnToPlayer;
 	bool rotateWhileAttacking;
