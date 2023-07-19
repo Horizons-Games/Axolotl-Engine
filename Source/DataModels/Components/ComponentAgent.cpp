@@ -44,13 +44,6 @@ void ComponentAgent::Update()
 	transform->SetGlobalPosition(float3(ag->npos));
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
-
-	//Testing purpose
-	if (test)
-	{
-		SetMoveTarget(float3(41.8f, 10.4f, -0.1f));
-		test = false;
-	}
 }
 
 void ComponentAgent::SetMoveTarget(float3 newTargetPosition, bool usePathfinding)
