@@ -152,43 +152,46 @@ void ComponentLine::UpdateBuffers()
 
 void ComponentLine::Render()
 {
-#ifdef ENGINE
-	//Draw the BoundingBox of ComponentLine
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-	if (transform->IsDrawBoundingBoxes() && !App->IsOnPlayMode())
+	if (App->GetModule<ModuleCamera>()->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
-	}
+#ifdef ENGINE
+		//Draw the BoundingBox of ComponentLine
+		if (transform->IsDrawBoundingBoxes() && !App->IsOnPlayMode())
+		{
+			App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+		}
 #endif //ENGINE
 
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
-	if (childGameObject != nullptr)
-	{
-		program->Activate();
-		ModelMatrix(program);
-		UpdateBuffers();
-
-		program->BindUniformFloat2("offset", offset);
-		program->BindUniformFloat2("tiling", tiling);
-		program->BindUniformFloat("time", time);
-
-		glActiveTexture(GL_TEXTURE0);
-		if (lineTexture)
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
+		if (childGameObject != nullptr)
 		{
-			lineTexture->Load();
-			glBindTexture(GL_TEXTURE_2D, lineTexture->GetGlTexture());
-			program->BindUniformInt("hasTexture", 1);
-		}
-		else
-		{
-			program->BindUniformInt("hasTexture", 0);
-		}
+			program->Activate();
+			ModelMatrix(program);
+			UpdateBuffers();
 
-		glBindVertexArray(lineVAO);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
-		program->Deactivate();
+			program->BindUniformFloat2("offset", offset);
+			program->BindUniformFloat2("tiling", tiling);
+			program->BindUniformFloat("time", time);
+
+			glActiveTexture(GL_TEXTURE0);
+			if (lineTexture)
+			{
+				lineTexture->Load();
+				glBindTexture(GL_TEXTURE_2D, lineTexture->GetGlTexture());
+				program->BindUniformInt("hasTexture", 1);
+			}
+			else
+			{
+				program->BindUniformInt("hasTexture", 0);
+			}
+
+			glBindVertexArray(lineVAO);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindVertexArray(0);
+			program->Deactivate();
+		}
 	}
 }
 
