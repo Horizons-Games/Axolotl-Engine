@@ -195,24 +195,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 		btRigidBody* rigidBody = hittedRigidBody->GetRigidBody();
 
 		// Set position
-
-		float3 x = hittedTransform->GetGlobalPosition();
-		float3 positionError = nextPosition - x;
-		float3 velocityPosition = positionError * hittedRigidBody->GetKpForce();
-
-		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
-		rigidBody->setLinearVelocity(velocity);
+		hittedRigidBody->SetPositionTarget(nextPosition);
 
 		// Set rotation
-		float3 axis;
-		float angle;
-		targetRotation.ToAxisAngle(axis, angle);
-		axis.Normalize();
-
-		float3 angularVelocity = axis * angle * hittedRigidBody->GetKpTorque();
-		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
-		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
-		rigidBody->setAngularVelocity(bulletAngularVelocity);
+		hittedRigidBody->SetRotationTarget(targetRotation);
 
 
 		currentTimeForce -= deltaTime;

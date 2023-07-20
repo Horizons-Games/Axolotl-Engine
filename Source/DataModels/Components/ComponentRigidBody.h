@@ -151,6 +151,8 @@ public:
 	void SetUpMobility();
 
 	void UpdateRigidBody();
+	void SimulatePositionController();
+	void SimulateRotationController();
 
 	template<typename T>
 	void AddCollisionEnterDelegate(void (T::*func)(ComponentRigidBody*), T* obj)
@@ -312,12 +314,14 @@ inline void ComponentRigidBody::SetPositionTarget(const float3& targetPos)
 {
 	targetPosition = targetPos;
 	usePositionController = true;
+	SimulatePositionController();
 }
 
 inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
 {
 	targetRotation = targetRot;
 	useRotationController = true;
+	SimulateRotationController();
 }
 
 inline void ComponentRigidBody::DisablePositionController()

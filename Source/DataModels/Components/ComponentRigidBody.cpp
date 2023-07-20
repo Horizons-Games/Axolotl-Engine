@@ -152,25 +152,12 @@ void ComponentRigidBody::Update()
 
 	if (usePositionController)
 	{
-		float3 x = transform->GetGlobalPosition();
-		float3 positionError = targetPosition - x;
-		float3 velocityPosition = positionError * KpForce;
-
-		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
-		rigidBody->setLinearVelocity(velocity);
+		SimulatePositionController();
 	}
 
 	if (useRotationController)
 	{
-		float3 axis;
-		float angle;
-		targetRotation.ToAxisAngle(axis, angle);
-		axis.Normalize();
-
-		float3 angularVelocity = axis * angle * KpTorque;
-		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
-		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
-		rigidBody->setAngularVelocity(bulletAngularVelocity);
+		SimulateRotationController();
 	}
 }
 
@@ -479,4 +466,28 @@ void ComponentRigidBody::SetAngularFactor(btVector3 rotation)
 	rigidBody->setAngularFactor(btVector3(rotation.getX() * !IsXRotationAxisBlocked(),
 										  rotation.getY() *!IsYRotationAxisBlocked(),
 										  rotation.getZ() * !IsZRotationAxisBlocked()));
+}
+
+void ComponentRigidBody::SimulatePositionController()
+{
+	float3 x = transform->GetGlobalPosition();
+	float3 positionError = targetPosition - x;
+	float3 velocityPosition = positionError * KpForce;
+
+	btVector3 velocity(velocityPosition.x * !IsXAxisBlocked(),
+					   velocityPosition.y * !IsYAxisBlocked(),
+					   velocityPosition.z * !IsZAxisBlocked());
+	rigidBody->setLinearVelocity(velocity);
+}
+
+void ComponentRigidBody::SimulateRotationController()
+{
+	float3 axis;
+	float angle;
+	targetRotation.ToAxisAngle(axis, angle);
+	axis.Normalize();
+
+	float3 angularVelocity = axis * angle * KpTorque;
+	btVector3 bulletAngularVelocity(0.0f, angularVelocity.y * !IsYRotationAxisBlocked(), 0.0f);
+	rigidBody->setAngularVelocity(bulletAngularVelocity);
 }
