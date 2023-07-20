@@ -257,52 +257,6 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
 	return std::string();
 }
 
-void ModuleFileSystem::SaveInfoMaterial(const std::vector<std::string>& pathTextures,
-										char*& fileBuffer,
-										unsigned int& size)
-{
-	unsigned int header[5] = { (unsigned int) pathTextures[0].size(),
-							   (unsigned int) pathTextures[1].size(),
-							   (unsigned int) pathTextures[2].size(),
-							   (unsigned int) pathTextures[3].size(),
-							   (unsigned int) pathTextures[4].size()};
-
-	size = (unsigned int) (sizeof(header) + pathTextures[0].size() + pathTextures[1].size() + pathTextures[2].size() +
-						   pathTextures[3].size() + pathTextures[4].size());
-
-	char* cursor = new char[size]{};
-
-	fileBuffer = cursor;
-
-	unsigned int bytes = sizeof(header);
-	memcpy(cursor, header, bytes);
-
-	cursor += bytes;
-
-	bytes = (unsigned int) pathTextures[0].size();
-	memcpy(cursor, pathTextures[0].c_str(), bytes);
-
-	cursor += bytes;
-
-	bytes = (unsigned int) pathTextures[1].size();
-	memcpy(cursor, pathTextures[1].c_str(), bytes);
-
-	cursor += bytes;
-
-	bytes = (unsigned int) pathTextures[2].size();
-	memcpy(cursor, pathTextures[2].c_str(), bytes);
-
-	cursor += bytes;
-
-	bytes = (unsigned int) pathTextures[3].size();
-	memcpy(cursor, pathTextures[3].c_str(), bytes);
-
-	cursor += bytes;
-
-	bytes = (unsigned int) pathTextures[4].size();
-	memcpy(cursor, pathTextures[4].c_str(), bytes);
-}
-
 void ModuleFileSystem::ZipFolder(zip_t* zip, const char* path) const
 {
 	std::vector<std::string> files = ListFiles(path);
