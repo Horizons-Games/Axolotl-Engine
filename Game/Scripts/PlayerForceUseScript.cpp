@@ -25,6 +25,9 @@
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 
+
+#include "AxoLog.h"
+
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
@@ -177,14 +180,19 @@ void PlayerForceUseScript::Update(float deltaTime)
 		nextPosition += transform->GetGlobalPosition();
 		nextPosition.y += verticalOffset;
 
-		float currentDistance = hittedTransform->GetGlobalPosition().Distance(nextPosition);
+		nextPosition.y = hittedTransform->GetGlobalPosition().y;
 
-		if (std::abs(currentDistance) > 1.5f && currentTimeForce < 14.5f)
+		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
+		
+		if (std::abs(currentDistance.x) > 1.5f && std::abs(currentDistance.z) > 1.5f && currentTimeForce < 14.5f)
 		{
 			breakForce = true;
 			currentTimeForce = 10;
 			return;
-		}
+		} 
+
+		float2 mouseMotion = input->GetMouseMotion();
+		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2 * deltaTime;
 
 		// Get next rotation of game object
 		Quat targetRotation =
