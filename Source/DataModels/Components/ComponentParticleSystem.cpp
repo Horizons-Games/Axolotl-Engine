@@ -147,7 +147,8 @@ void ComponentParticleSystem::Draw() const
 
 void ComponentParticleSystem::Render()
 {
-	if (IsEnabled())
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	if (IsEnabled() &&	App->GetModule<ModuleCamera>()->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
 
