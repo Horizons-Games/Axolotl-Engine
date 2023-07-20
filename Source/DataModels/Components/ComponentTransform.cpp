@@ -2,6 +2,7 @@
 
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
+#include "ComponentParticleSystem.h"
 
 #include "Application.h"
 #include "Scene/Scene.h"
@@ -67,6 +68,11 @@ void ComponentTransform::InternalSave(Json& meta)
 	meta["localSca_X"] = static_cast<float>(sca.x);
 	meta["localSca_Y"] = static_cast<float>(sca.y);
 	meta["localSca_Z"] = static_cast<float>(sca.z);
+	//Use this when you want to save ANY old scene with new boundingBox Value
+	//if (bbSca.x == 0.0f && bbSca.y == 0.0f && bbSca.z == 0.0f)
+	//{
+	//	bbSca = { 1.0f,1.0f,1.0f };
+	//}
 
 	meta["boudingBoxSca_X"] = static_cast<float>(bbSca.x);
 	meta["boudingBoxSca_Y"] = static_cast<float>(bbSca.y);
@@ -79,6 +85,19 @@ void ComponentTransform::InternalSave(Json& meta)
 
 void ComponentTransform::InternalLoad(const Json& meta)
 {
+	//Use this when you want to render an old scene that USES ParticleSystem and has not been updated yet
+	//if (GetOwner()->GetComponent<ComponentParticleSystem>())
+	//{
+	//	originScaling = { 0.5f, 0.5f, 0.5f };
+	//	originCenter = { 0.5f, 0.5f, 0.5f };
+	//	localAABB.minPoint = { 0, 0, 0 };
+	//	localAABB.maxPoint = { 1, 1, 1 };
+
+	//	TranslateLocalAABB(bbPos);
+	//	ScaleLocalAABB(bbSca);
+	//	CalculateBoundingBoxes();
+	//}
+
 	pos.x = static_cast<float>(meta["localPos_X"]);
 	pos.y = static_cast<float>(meta["localPos_Y"]);
 	pos.z = static_cast<float>(meta["localPos_Z"]);
