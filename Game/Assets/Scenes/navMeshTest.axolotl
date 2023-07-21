@@ -209,7 +209,9 @@
                             "active": true,
                             "removed": false,
                             "frustumOfset": 1.0,
-                            "drawFrustum": true
+                            "drawFrustum": true,
+                            "kpPosition": 0.0,
+                            "kpRotation": 0.0
                         }
                     }
                 ]
@@ -626,7 +628,7 @@
         {
             "GameObject": {
                 "name": "dungeoncm2.Cube.001_0",
-                "tag": "",
+                "tag": "NAVIGABLE",
                 "uid": 3929053049945067411,
                 "parentUID": 17120393109004037763,
                 "enabled": true,
