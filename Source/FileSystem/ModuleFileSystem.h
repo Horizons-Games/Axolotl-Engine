@@ -31,7 +31,6 @@ public:
 	const std::string GetFileExtension(const std::string& path);
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
 
-	void SaveInfoMaterial(const std::vector<std::string>& pathTextures, char*& fileBuffer, unsigned int& size);
 	void ZipFolder(zip_t* zip, const char* path) const;
 	void ZipLibFolder() const;
 
