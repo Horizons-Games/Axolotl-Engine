@@ -1424,7 +1424,7 @@ std::vector<float> Scene::GetVertices()
 	{
 		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
 		GameObject* go = meshRenderer->GetOwner();
-		if (mesh != nullptr && go->IsStatic())
+		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
 		{
 			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 			//for (const ResourceMesh::Vertex& vertex : mesh->vertices)
@@ -1451,7 +1451,7 @@ std::vector<int> Scene::GetTriangles()
 	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
 	{
 		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
-		if (mesh != nullptr && meshRenderer->GetOwner()->IsStatic())
+		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
 		{
 			//triangles += meshFaces.size() / 3;
 			triangles += mesh->GetFacesIndices().size();
@@ -1467,7 +1467,7 @@ std::vector<int> Scene::GetTriangles()
 	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
 	{
 		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
-		if (mesh != nullptr && meshRenderer->GetOwner()->IsStatic())
+		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
 		{
 			vertOverload += maxVertMesh[i];
 			std::vector<std::vector<unsigned int>> indices = mesh->GetFacesIndices();
@@ -1493,7 +1493,7 @@ std::vector<float> Scene::GetNormals()
 	{
 		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
 		GameObject* go = meshRenderer->GetOwner();
-		if (mesh != nullptr && go->IsStatic())
+		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
 		{
 			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
 			for (const float3 normal : mesh->GetNormals())
