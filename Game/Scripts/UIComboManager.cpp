@@ -46,17 +46,23 @@ void UIComboManager::SetActivateSpecial(bool activate)
 {
 	if (activate) 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(0.15,0.15,0,1));
+		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(1.0,1.0,0,1));
+		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(0.5, 0.5, 0, 1));
 	}
 	else 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(0, 0.5, 0, 1));
+		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(0, 1.0, 0, 1));
+		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(1.0, 0, 0, 1));
 	}
 }
 
 void UIComboManager::SetComboBarValue(float value)
 {
 	comboBar->ModifyCurrentValue(value);
+	if (value == 0) 
+	{
+		SetActivateSpecial(false);
+	}
 }
 
 void UIComboManager::AddInputVisuals(InputVisualType type) 
@@ -76,7 +82,7 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 			break;
 		}
 		
-		GameObject* newInput = App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(inputPrefabSoft->GetName(), inputPrefabSoft, inputPositions[0]);
+		GameObject* newInput = App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
 		newInput->Enable();
 		inputVisuals.push_front(newInput);
 		for (int i = 1; i < inputVisuals.size(); i++)
