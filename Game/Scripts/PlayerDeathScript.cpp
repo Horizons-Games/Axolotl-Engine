@@ -11,6 +11,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -78,4 +79,7 @@ void PlayerDeathScript::DisablePlayerActions() const
 			script->Disable();
 		}
 	}
+
+	ComponentRigidBody* playerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	playerRigidBody->SetIsKinematic(true);
 }

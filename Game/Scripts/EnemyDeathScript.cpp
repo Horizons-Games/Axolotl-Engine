@@ -60,4 +60,6 @@ void EnemyDeathScript::DisableEnemyActions() const
 	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
 	enemyRigidBody->DisablePositionController();
 	enemyRigidBody->DisableRotationController();
+
+	enemyRigidBody->SetIsKinematic(true);
 }
