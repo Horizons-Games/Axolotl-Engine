@@ -26,8 +26,9 @@ public:
 	int GetcomboCount() const;
 
 	void CheckSpecial(float deltaTime);
+	bool isSpecialActivated() const;
 	AttackType CheckAttackInput(bool jumping);
-	void SuccessfulAttack(float specialCount, bool type);
+	void SuccessfulAttack(float specialCount, AttackType type);
 
 private:
 	void Start() override;

@@ -67,6 +67,11 @@ void ComboManager::CheckSpecial(float deltaTime)
 	}
 }
 
+bool ComboManager::isSpecialActivated() const
+{
+	return specialActivated;
+}
+
 AttackType ComboManager::CheckAttackInput(bool jumping)
 {
 	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
@@ -98,24 +103,30 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 	return AttackType::NONE;
 }
 
-void ComboManager::SuccessfulAttack(float specialCount, bool heavy)
+void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
-	this->specialCount = std::max(0.0f, std::min(this->specialCount + specialCount, maxSpecialCount));
-	uiComboManager->SetComboBarValue(this->specialCount);
-	actualComboTimer = comboTime;
+	if(specialCount < 0 || !specialActivated)
+	{
+		this->specialCount = std::max(0.0f, std::min(this->specialCount + specialCount, maxSpecialCount));
+		if (this->specialCount <= 0.0f && specialActivated)
+		{
+			specialActivated = false;
+		}
+		uiComboManager->SetComboBarValue(this->specialCount);
+		actualComboTimer = comboTime;
+	}
 
 	comboCount++;
-	//ADD UI CALL
-	if(heavy)
+	if(type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
 	{
 		uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
 	}
-	else
+	else if (type == AttackType::SOFTNORMAL || type == AttackType::SOFTFINISHER)
 	{
 		uiComboManager->AddInputVisuals(InputVisualType::SOFT);
 	}
 
-	if (comboCount == 3) 
+	if (comboCount == 3 || type == AttackType::JUMPATTACK) 
 	{
 		uiComboManager->ClearCombo(true);
 		comboCount = 0;

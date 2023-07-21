@@ -32,18 +32,19 @@
 
 REGISTERCLASS(BixAttackScript);
 
-BixAttackScript::BixAttackScript() : Script(), isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
+BixAttackScript::BixAttackScript() : Script(), 
+	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), animationGO(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
 {
-	REGISTER_FIELD(comboInitTimer, float);
+	//REGISTER_FIELD(comboInitTimer, float);
 
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountSoft, float);
 	REGISTER_FIELD(attackSoft, float);
 	REGISTER_FIELD(attackHeavy, float);
 	REGISTER_FIELD(isAttacking, bool);
-	REGISTER_FIELD(attackCooldown, float);
+	//REGISTER_FIELD(attackCooldown, float);
 
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(enemyDetectionObject, GameObject*);
@@ -119,18 +120,23 @@ void BixAttackScript::Update(float deltaTime)
 		switch (attackType)
 		{
 		case AttackType::SOFTNORMAL:
+			LOG_DEBUG("NormalAttack Soft");
 			NormalAttack(false);
 			break;
 		case AttackType::HEAVYNORMAL:
+			LOG_DEBUG("NormalAttack Heavy");
 			NormalAttack(true);
 			break;
 		case AttackType::JUMPATTACK:
+			LOG_DEBUG("JumpAttack");
 			JumpAttack();
 			break;
 		case AttackType::SOFTFINISHER:
+			LOG_DEBUG("Special Soft");
 			SoftFinisher();
 			break;
 		case AttackType::HEAVYFINISHER:
+			LOG_DEBUG("Special Heavy");
 			HeavyFinisher();
 			break;
 		default:
@@ -150,25 +156,41 @@ void BixAttackScript::NormalAttack(bool heavy)
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	if(enemyAttacked != nullptr)
 	{
+		LOG_DEBUG("Enemy {} hitted", enemyAttacked->GetName());
 		int comboCount = heavy ? comboCountHeavy : comboCountSoft;
 		float attack = heavy ? attackHeavy : attackSoft;
-		comboSystem->SuccessfulAttack(comboCount, heavy);
+		AttackType type = heavy ? AttackType::HEAVYNORMAL : AttackType::SOFTNORMAL;
+		comboSystem->SuccessfulAttack(comboCount, type);
 		DamageEnemy(enemyAttacked, attack);
 	}
+	else 
+	{
+		LOG_DEBUG("Fail attack");
+	}
 	isAttacking = true;
-	attackCooldownCounter = attackCooldown;
+	//attackCooldownCounter = attackCooldown;
 }
 
 void BixAttackScript::JumpAttack()
 {
+	if (comboSystem->isSpecialActivated()) 
+	{
+		comboSystem->SuccessfulAttack(-20, AttackType::JUMPATTACK);
+	}
+	else
+	{
+		comboSystem->SuccessfulAttack(20, AttackType::JUMPATTACK);
+	}
 }
 
 void BixAttackScript::SoftFinisher()
 {
+	comboSystem->SuccessfulAttack(-20, AttackType::SOFTFINISHER);
 }
 
 void BixAttackScript::HeavyFinisher()
 {
+	comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
 }
 
 void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 
