@@ -17,7 +17,7 @@ UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(f
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
 }
 
-void UIComboManager::Start()
+void UIComboManager::Init()
 {
 	comboBar = owner->GetChildren()[0]->GetComponent<ComponentSlider>();
 
@@ -40,6 +40,11 @@ void UIComboManager::Update(float deltaTime)
 			clearComboTimer -= deltaTime;
 		}
 	}
+}
+
+int UIComboManager::GetMaxComboBarValue() const
+{
+	return comboBar->GetMaxValue();
 }
 
 void UIComboManager::SetActivateSpecial(bool activate) 
@@ -82,7 +87,8 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 			break;
 		}
 		
-		GameObject* newInput = App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
+		GameObject* newInput = 
+			App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
 		newInput->Enable();
 		inputVisuals.push_front(newInput);
 		for (int i = 1; i < inputVisuals.size(); i++)

@@ -21,6 +21,7 @@ ComboManager::ComboManager() : Script(),
 {
 	REGISTER_FIELD(comboManagerUIReference, GameObject*);
 	REGISTER_FIELD(comboTime, float);
+	REGISTER_FIELD(maxComboCount, float);
 }
 
 void ComboManager::Start()
@@ -29,6 +30,8 @@ void ComboManager::Start()
 	if(comboManagerUIReference)
 	{
 		uiComboManager = comboManagerUIReference->GetComponent<UIComboManager>();
+		maxSpecialCount = uiComboManager->GetMaxComboBarValue();
+		uiComboManager->SetComboBarValue(specialCount);
 	}
 }
 
@@ -48,17 +51,14 @@ void ComboManager::CheckSpecial(float deltaTime)
 	{
 		specialActivated = true;
 		if(uiComboManager) uiComboManager->SetActivateSpecial(true);
-		if(uiComboManager) uiComboManager->ClearCombo(false);
-		comboCount = 0;
-		//ADD UI & PARTICLE CALLS
+		ClearCombo(false);
 	}
 
 	if (actualComboTimer <= 0)
 	{
 		if (comboCount > 0)
 		{
-			comboCount = 0;
-			if (uiComboManager) uiComboManager->ClearCombo(false);
+			ClearCombo(false);
 			actualComboTimer = comboTime;
 		}
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
@@ -71,6 +71,15 @@ void ComboManager::CheckSpecial(float deltaTime)
 	{
 		actualComboTimer -= deltaTime;
 	}
+}
+
+void ComboManager::ClearCombo(bool finisher) 
+{
+	if (uiComboManager)
+	{
+		uiComboManager->ClearCombo(finisher);
+	}
+	comboCount = 0;
 }
 
 bool ComboManager::isSpecialActivated() const
@@ -123,18 +132,20 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 	}
 
 	comboCount++;
-	if(type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
+	if (uiComboManager) 
 	{
-		if (uiComboManager) uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
-	}
-	else if (type == AttackType::SOFTNORMAL || type == AttackType::SOFTFINISHER)
-	{
-		if (uiComboManager) uiComboManager->AddInputVisuals(InputVisualType::SOFT);
+		if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
+		{
+			uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
+		}
+		else if (type == AttackType::SOFTNORMAL || type == AttackType::SOFTFINISHER)
+		{
+			uiComboManager->AddInputVisuals(InputVisualType::SOFT);
+		}
 	}
 
 	if (comboCount == 3 || type == AttackType::JUMPATTACK) 
 	{
-		if (uiComboManager) uiComboManager->ClearCombo(true);
-		comboCount = 0;
+		ClearCombo(true);
 	}
 }

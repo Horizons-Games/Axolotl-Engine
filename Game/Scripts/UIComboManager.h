@@ -20,8 +20,10 @@ public:
 	UIComboManager();
 	~UIComboManager() override = default;
 
-	void Start() override;
+	void Init() override;
 	void Update(float deltaTime) override;
+
+	int GetMaxComboBarValue() const;
 
 	void SetActivateSpecial(bool activate);
 	void SetComboBarValue(float value);

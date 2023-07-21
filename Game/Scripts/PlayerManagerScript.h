@@ -39,6 +39,4 @@ private:
 	//All Principal PlayerManagers
 	PlayerJumpScript* jumpManager;
 	PlayerMoveScript* movementManager;
-	//We miss the attack but we can centralice in a Script the PlayerAttack and then select which player we have
-	//OR we can wait until we have Script as a RegisterField
 };
