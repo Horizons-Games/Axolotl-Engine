@@ -48,6 +48,8 @@ void ComboManager::CheckSpecial(float deltaTime)
 	{
 		specialActivated = true;
 		if(uiComboManager) uiComboManager->SetActivateSpecial(true);
+		if(uiComboManager) uiComboManager->ClearCombo(false);
+		comboCount = 0;
 		//ADD UI & PARTICLE CALLS
 	}
 
