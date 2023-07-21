@@ -192,14 +192,14 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -7.85365104675293,
-                            "localPos_Y": 9.372271537780762,
-                            "localPos_Z": 0.9606904983520508,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.27857542037963867,
+                            "localPos_Z": 0.0749969482421875,
                             "localRot_X": 85.22003173828125,
                             "localRot_Y": 41.64317321777344,
-                            "localRot_Z": -82.82732391357422,
-                            "localSca_X": 0.5,
-                            "localSca_Y": 0.5,
+                            "localRot_Z": -82.82733154296875,
+                            "localSca_X": 0.4999999701976776,
+                            "localSca_Y": 0.4999999701976776,
                             "localSca_Z": 0.5
                         }
                     },
@@ -210,8 +210,53 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": true,
-                            "kpPosition": 0.0,
+                            "kpPosition": 5.0,
                             "kpRotation": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "CameraControllerScript",
+                            "fields": [
+                                {
+                                    "name": "SamplePointsObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Player",
+                                    "value": 10436158917176386117,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "XOffset",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "YOffset",
+                                    "value": 3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ZOffset",
+                                    "value": -3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "XFocusOffset",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "YFocusOffset",
+                                    "value": 0.0,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]
