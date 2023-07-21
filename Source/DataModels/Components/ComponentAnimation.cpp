@@ -85,7 +85,7 @@ void ComponentAnimation::Update()
 
 						if (controller->GetTransform(&child->GetName()[0], pos, rot))
 						{
-							ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+							ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 							transform->SetPosition(pos);
 							transform->SetRotation(rot);
 						}

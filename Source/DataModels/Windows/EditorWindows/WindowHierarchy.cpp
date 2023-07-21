@@ -442,6 +442,7 @@ void WindowHierarchy::DeleteGameObject(const GameObject* gameObject) const
 																	 // change the focus to its parent
 		loadedScene->GetRootQuadtree()->RemoveGameObjectAndChildren(gameObject->GetParent());
 	}
+	App->GetModule<ModuleEditor>()->RefreshInspector();
 	loadedScene->DestroyGameObject(gameObject);
 }
 
