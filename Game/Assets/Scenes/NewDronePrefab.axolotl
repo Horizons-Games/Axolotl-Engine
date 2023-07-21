@@ -161,6 +161,11 @@
                                     "name": "SeekDistance",
                                     "value": 14.050000190734863,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionGameObject",
+                                    "value": 11812119009022448789,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -191,6 +196,11 @@
                                     "name": "BulletVelocity",
                                     "value": 0.20000000298023224,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LaserParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -216,6 +226,11 @@
                                     "name": "IsImmortal",
                                     "value": false,
                                     "type": 4
+                                },
+                                {
+                                    "name": "EnemyParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
