@@ -579,9 +579,6 @@
     <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp">
       <Filter>UserScripts\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
-      <Filter>UserScripts\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\ActivationLogic.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -918,9 +915,6 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1104,6 +1098,15 @@
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\RegisterFieldMacros.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\VectorField.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
@@ -1230,7 +1233,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1253,6 +1255,12 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\RegisterFieldMacros.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\VectorField.h">
+      <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
