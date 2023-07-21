@@ -18,7 +18,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void Move();
+	//void Move();
 
 private:
 	float3 targetPosition;

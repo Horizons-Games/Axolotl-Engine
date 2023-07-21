@@ -24,39 +24,40 @@ void RecastMovementTestScript::Start()
 
 void RecastMovementTestScript::Update(float deltaTime)
 {
-	/*if (test)
+	if (test)
 	{
 		agent->SetMoveTarget(targetPosition);
 		test = false;
-	}*/
+	}
 
-	Move();
+	//Move();
 }
 
-void RecastMovementTestScript::Move()
-{
-	float3 currentPosition = componentTransform->GetGlobalPosition();
-	float3 dir = float3(0, 0, 0);
-
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
-	{
-		dir += float3(1, 0, 0);
-	}
-	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
-	{
-		dir += float3(-1, 0, 0);
-	}
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
-	{
-		dir += float3(0, 0, -1);
-	}
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
-	{
-		dir += float3(0, 0, 1);
-	}
-	
-	float3 newPosition = currentPosition + dir;
-
-	//agent->SetMaxSpeed(10.0f);
-	agent->SetMoveTarget(newPosition, false);
-}
+//This will no longer be used
+//void RecastMovementTestScript::Move()
+//{
+//	float3 currentPosition = componentTransform->GetGlobalPosition();
+//	float3 dir = float3(0, 0, 0);
+//
+//	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+//	{
+//		dir += float3(1, 0, 0);
+//	}
+//	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+//	{
+//		dir += float3(-1, 0, 0);
+//	}
+//	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+//	{
+//		dir += float3(0, 0, -1);
+//	}
+//	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+//	{
+//		dir += float3(0, 0, 1);
+//	}
+//	
+//	float3 newPosition = currentPosition + dir;
+//
+//	//agent->SetMaxSpeed(10.0f);
+//	agent->SetMoveTarget(newPosition, false);
+//}
