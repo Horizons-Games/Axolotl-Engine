@@ -156,7 +156,7 @@ void BixAttackScript::NormalAttack(bool heavy)
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	if(enemyAttacked != nullptr)
 	{
-		LOG_DEBUG("Enemy {} hitted", enemyAttacked->GetName());
+		LOG_DEBUG("Enemy hitted");
 		int comboCount = heavy ? comboCountHeavy : comboCountSoft;
 		float attack = heavy ? attackHeavy : attackSoft;
 		AttackType type = heavy ? AttackType::HEAVYNORMAL : AttackType::SOFTNORMAL;
