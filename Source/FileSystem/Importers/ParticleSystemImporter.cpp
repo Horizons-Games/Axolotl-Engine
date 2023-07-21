@@ -77,7 +77,7 @@ void ParticleSystemImporter::Save
 		{
 			size += sizeof(UID);
 		}
-		size += (sizeof(int) + sizeof(bool)) * static_cast<unsigned int>(emitter->GetName().size());
+		size += (sizeof(int) + sizeof(bool)) * static_cast<unsigned int>(emitter->GetModules().size());
 
 		for (ParticleModule* module : emitter->GetModules())
 		{
