@@ -45,7 +45,8 @@ void ComponentCameraSample::Draw() const
 {
 #ifdef ENGINE
 	bool canDrawSample = 
-		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		(IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject()) 
+		|| GetOwner()->GetParent() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (!canDrawSample)
 	{
