@@ -55,7 +55,14 @@ void ComponentCameraSample::Draw() const
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 
-	dd::sphere(position, dd::colors::Yellow, influenceRadius);
+	if (isCombatCameraEnabled)
+	{
+		dd::sphere(position, dd::colors::Orange, influenceRadius);
+	}
+	else
+	{
+		dd::sphere(position, dd::colors::Yellow, influenceRadius);
+	}
 #endif
 }
 
