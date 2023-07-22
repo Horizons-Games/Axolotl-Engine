@@ -83,7 +83,8 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			venomiteState = VenomiteBehaviours::SEEK;
 		}
 
-		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
+		if (healthScript->GetCurrentHealth() <= healthScript->GetMaxHealth() / 2.0f
+			&& ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
 		{
 			venomiteState = VenomiteBehaviours::MELEE_ATTACK;
 		}
@@ -102,6 +103,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
 	{
+		batonGameObject->Disable();
 		blasterGameObject->Enable();
 
 		seekScript->Seeking();
@@ -139,6 +141,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
 	{
 		batonGameObject->Enable();
+		blasterGameObject->Disable();
 
 		seekScript->Seeking();
 		seekScript->DisableMovement();
