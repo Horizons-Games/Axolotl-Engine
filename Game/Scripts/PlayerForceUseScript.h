@@ -49,6 +49,7 @@ private:
 	CameraControllerScript* rotationVerticalScript;
 	PlayerManagerScript* playerManagerScript;
 	PlayerMoveScript* moveScript;
+	float3 offset;
 
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;
