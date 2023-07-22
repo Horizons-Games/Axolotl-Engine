@@ -28,6 +28,15 @@ void WindowComponentTrail::DrawWindowContents()
 
 	if (componentTrail)
 	{
+		bool onPlay = componentTrail->IsOnPlay();
+		ImGui::Text("");
+		ImGui::Text("Play");
+		ImGui::SameLine();
+		if (ImGui::Checkbox("##Onplay", &onPlay))
+		{
+			componentTrail->SetOnPlay(onPlay);
+		}
+
 		float duration = componentTrail->GetDuration();
 		ImGui::Text("");
 		ImGui::Text("Duration");
@@ -36,6 +45,7 @@ void WindowComponentTrail::DrawWindowContents()
 		{
 			componentTrail->SetDuration(duration);
 		}
+
 		float minDistance = componentTrail->GetMinDistance();
 		ImGui::Text("");
 		ImGui::Text("Minimum distance");

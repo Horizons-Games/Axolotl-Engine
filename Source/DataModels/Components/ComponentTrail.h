@@ -31,6 +31,9 @@ public:
 
 	ImGradient* GetGradient();
 	void SetGradient(ImGradient* gradient);
+	
+	bool IsOnPlay();
+	void SetOnPlay(bool onPlay);
 
 private:
 	void InternalSave(Json& meta) override;
@@ -88,4 +91,14 @@ inline ImGradient* ComponentTrail::GetGradient()
 inline void ComponentTrail::SetGradient(ImGradient* gradient)
 {
 	trail->SetGradient(gradient);
+}
+
+inline bool ComponentTrail::IsOnPlay()
+{
+	return trail->IsOnPlay();
+}
+
+inline void ComponentTrail::SetOnPlay(bool onPlay)
+{
+	trail->SetOnPlay(onPlay);
 }

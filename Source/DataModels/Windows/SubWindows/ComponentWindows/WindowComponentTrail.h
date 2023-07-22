@@ -19,7 +19,6 @@ protected:
 private:
 	void Init();
 
-	constexpr static float max_intensity = 5000.0f;
 	std::shared_ptr<ResourceTexture> texture;
 	std::unique_ptr<WindowTrailTexture> inputTexture;
 };

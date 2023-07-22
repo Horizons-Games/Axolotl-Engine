@@ -399,7 +399,6 @@ UpdateStatus ModuleRender::Update()
 	glCullFace(GL_FRONT);
 	glDisable(GL_BLEND);
 
-	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 	// -------- POST EFFECTS ---------------------
 
 	// Blur bloom

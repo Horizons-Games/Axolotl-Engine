@@ -31,8 +31,8 @@ public:
 	void Draw();
 	void CreateBuffers();
 
-	bool IsRendering();
-	void SetRendering(bool isRendering);
+	bool IsOnPlay();
+	void SetOnPlay(bool isRendering);
 	
 	const float GetDuration() const;
 	void SetDuration(float duration);
@@ -67,7 +67,7 @@ private:
 
 	BlendingMode blendingMode;
 
-	//bool isRendering;
+	bool onPlay;
 
 	int maxSamplers;
 
@@ -82,15 +82,15 @@ private:
 	std::shared_ptr<ResourceTexture> texture;
 };
 
-//inline bool Trail::IsRendering()
-//{
-//	return isRendering;
-//}
-//
-//inline void Trail::SetRendering(bool isRendering)
-//{
-//	this->isRendering = isRendering;
-//}
+inline bool Trail::IsOnPlay()
+{
+	return onPlay;
+}
+
+inline void Trail::SetOnPlay(bool onPlay)
+{
+	this->onPlay = onPlay;
+}
 
 inline const float Trail::GetDuration() const
 {
