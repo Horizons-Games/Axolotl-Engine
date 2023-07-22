@@ -77,9 +77,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 			objectStaticness = rigidBody->IsStatic();
 			rigidBody->SetStatic(false);
 			offset = hittedTransform->GetGlobalPosition() - hit.hitPoint;
-			LOG_DEBUG("Hit: x:{},y:{},z:{}", hit.hitPoint.x, hit.hitPoint.y, hit.hitPoint.z);
-			LOG_DEBUG("Object: x:{},y:{},z:{}", hittedTransform->GetGlobalPosition().x, hittedTransform->GetGlobalPosition().y, hittedTransform->GetGlobalPosition().z);
-			LOG_DEBUG("OffSet: x:{},y:{},z:{}", offset.x, offset.y, offset.z);
 			
 
 			if (distancePointGameObjectAttached > maxDistanceForce)
