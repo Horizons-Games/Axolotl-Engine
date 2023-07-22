@@ -22,17 +22,18 @@ public:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	const float3& GetPosition() const;
+	const float3& GetLocalPosition() const;
 	const float3& GetGlobalPosition() const;
-	const Quat& GetRotation() const;
+	const Quat& GetLocalRotation() const;
 	const float3& GetRotationXYZ() const;
 	const Quat& GetGlobalRotation() const;
-	const float3& GetScale() const;
+	const float3& GetLocalScale() const;
+	const float3& GetGlobalScale() const;
+
 	float3 GetLocalForward() const;
 	float3 GetGlobalForward() const;
 	float3 GetGlobalUp() const;
 	float3 GetGlobalRight() const;
-	const float3& GetGlobalScale() const;
 
 	const float4x4& GetLocalMatrix() const;
 	const float4x4& GetGlobalMatrix() const;
@@ -43,13 +44,13 @@ public:
 	bool IsDrawBoundingBoxes() const;
 	bool IsUniformScale() const;
 
-	void SetPosition(const float3& position);
+	void SetLocalPosition(const float3& position);
 	void SetGlobalPosition(const float3& position);
-	void SetRotation(const float3& rotation);
+	void SetLocalRotation(const float3& rotation);
 	void SetGlobalRotation(const float3& rotation);
-	void SetRotation(const Quat& rotation);
+	void SetLocalRotation(const Quat& rotation);
 	void SetGlobalRotation(const Quat& rotation);
-	void SetScale(const float3& scale);
+	void SetLocalScale(const float3& scale);
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 	void SetGlobalTransform(const float4x4& transform);
 
@@ -70,9 +71,9 @@ public:
 	void CalculateLocalFromNewGlobal(const ComponentTransform* newTransformFrom);
 
 private:
-	float3 pos;
-	Quat rot;
-	float3 sca;
+	float3 localPos;
+	Quat localRot;
+	float3 localSca;
 
 	float3 globalPos;
 	Quat globalRot;
@@ -90,9 +91,9 @@ private:
 	bool uniformScale;
 };
 
-inline const float3& ComponentTransform::GetPosition() const
+inline const float3& ComponentTransform::GetLocalPosition() const
 {
-	return pos;
+	return localPos;
 }
 
 inline const float3& ComponentTransform::GetGlobalPosition() const
@@ -100,9 +101,9 @@ inline const float3& ComponentTransform::GetGlobalPosition() const
 	return globalPos;
 }
 
-inline const Quat& ComponentTransform::GetRotation() const
+inline const Quat& ComponentTransform::GetLocalRotation() const
 {
-	return rot;
+	return localRot;
 }
 
 inline const float3& ComponentTransform::GetRotationXYZ() const
@@ -115,9 +116,9 @@ inline const Quat& ComponentTransform::GetGlobalRotation() const
 	return globalRot;
 }
 
-inline const float3& ComponentTransform::GetScale() const
+inline const float3& ComponentTransform::GetLocalScale() const
 {
-	return sca;
+	return localSca;
 }
 
 inline const float3& ComponentTransform::GetGlobalScale() const
@@ -183,9 +184,9 @@ inline bool ComponentTransform::IsDrawBoundingBoxes() const
 	return drawBoundingBoxes;
 }
 
-inline void ComponentTransform::SetPosition(const float3& position)
+inline void ComponentTransform::SetLocalPosition(const float3& position)
 {
-	pos = position;
+	localPos = position;
 }
 
 inline void ComponentTransform::SetGlobalPosition(const float3& position)
@@ -193,15 +194,15 @@ inline void ComponentTransform::SetGlobalPosition(const float3& position)
 	globalPos = position;
 }
 
-inline void ComponentTransform::SetRotation(const float3& rotation)
+inline void ComponentTransform::SetLocalRotation(const float3& rotation)
 {
 	rotXYZ = rotation;
-	rot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
+	localRot = Quat::FromEulerXYZ(DegToRad(rotation.x), DegToRad(rotation.y), DegToRad(rotation.z));
 }
 
-inline void ComponentTransform::SetRotation(const Quat& rotation)
+inline void ComponentTransform::SetLocalRotation(const Quat& rotation)
 {
-	rot = rotation;
+	localRot = rotation;
 	rotXYZ = RadToDeg(rotation.ToEulerXYZ());
 }
 
@@ -215,32 +216,32 @@ inline void ComponentTransform::SetGlobalRotation(const Quat& rotation)
 	globalRot = rotation;
 }
 
-inline void ComponentTransform::SetScale(const float3& scale)
+inline void ComponentTransform::SetLocalScale(const float3& scale)
 {
-	sca.x = std::max(scale.x, 0.0001f);
-	sca.y = std::max(scale.y, 0.0001f);
-	sca.z = std::max(scale.z, 0.0001f);
+	localSca.x = std::max(scale.x, 0.0001f);
+	localSca.y = std::max(scale.y, 0.0001f);
+	localSca.z = std::max(scale.z, 0.0001f);
 }
 
 inline void ComponentTransform::SetUniformScale(const float3& scale, Axis modifiedScaleAxis)
 {
 	if (modifiedScaleAxis == Axis::X)
 	{
-		sca.y = std::max(scale.y * scale.x / sca.x, 0.0001f);
-		sca.z = std::max(scale.z * scale.x / sca.x, 0.0001f);
-		sca.x = std::max(scale.x, 0.0001f);
+		localSca.y = std::max(scale.y * scale.x / localSca.x, 0.0001f);
+		localSca.z = std::max(scale.z * scale.x / localSca.x, 0.0001f);
+		localSca.x = std::max(scale.x, 0.0001f);
 	}
 	else if (modifiedScaleAxis == Axis::Y)
 	{
-		sca.z = std::max(scale.z * scale.y / sca.y, 0.0001f);
-		sca.x = std::max(scale.x * scale.y / sca.y, 0.0001f);
-		sca.y = std::max(scale.y, 0.0001f);
+		localSca.z = std::max(scale.z * scale.y / localSca.y, 0.0001f);
+		localSca.x = std::max(scale.x * scale.y / localSca.y, 0.0001f);
+		localSca.y = std::max(scale.y, 0.0001f);
 	}
 	else
 	{
-		sca.x = std::max(scale.x * scale.z / sca.z, 0.0001f);
-		sca.y = std::max(scale.y * scale.z / sca.z, 0.0001f);
-		sca.z = std::max(scale.z, 0.0001f);
+		localSca.x = std::max(scale.x * scale.z / localSca.z, 0.0001f);
+		localSca.y = std::max(scale.y * scale.z / localSca.z, 0.0001f);
+		localSca.z = std::max(scale.z, 0.0001f);
 	}
 }
 

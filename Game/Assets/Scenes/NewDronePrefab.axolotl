@@ -161,6 +161,11 @@
                                     "name": "SeekDistance",
                                     "value": 14.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionGameObject",
+                                    "value": 11812119009022448789,
+                                    "type": 2
                                 }
                             ]
                         }

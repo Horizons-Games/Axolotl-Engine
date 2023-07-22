@@ -11,14 +11,12 @@
 #include "../Scripts/MeleeFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 
-#include "AxoLog.h"
-
 REGISTERCLASS(EnemyVenomiteScript);
 
-EnemyVenomiteScript::EnemyVenomiteScript() : Script(), venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
+EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
 	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(2.0f), meleeAttackScript(nullptr),
 	healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), componentAudioSource(nullptr),
-	batonGameObject(nullptr), blasterGameObject(nullptr), stunned(false), timeStunned(0.0f)
+	batonGameObject(nullptr), blasterGameObject(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
@@ -158,10 +156,4 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		componentAnimation->SetParameter("IsRunning", true);
 	}
-}
-
-void EnemyVenomiteScript::SetStunnedTime(float newTime)
-{
-	stunned = true;
-	timeStunned = newTime;
 }

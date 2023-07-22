@@ -22,8 +22,8 @@
 
 REGISTERCLASS(RangedFastAttackBehaviourScript);
 
-RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), LaserParticleSystem(nullptr),
-	audioSource(nullptr),
+RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
+	lastAttackTime(0.f), laserParticleSystem(nullptr),audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
 {
@@ -32,7 +32,7 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	REGISTER_FIELD(bulletOriginGO, GameObject*);
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
-	REGISTER_FIELD(LaserParticleSystem, GameObject*)
+	REGISTER_FIELD(laserParticleSystem, GameObject*)
 }
 
 void RangedFastAttackBehaviourScript::Start()
@@ -48,9 +48,9 @@ void RangedFastAttackBehaviourScript::Start()
 		bulletOrigin = bulletOriginGO->GetComponent<ComponentTransform>();
 	}
 
-	if (LaserParticleSystem)
+	if (laserParticleSystem)
 	{
-		particleSystem = LaserParticleSystem->GetComponent<ComponentParticleSystem>();
+		particleSystem = laserParticleSystem->GetComponent<ComponentParticleSystem>();
 	}
 }
 
@@ -76,8 +76,8 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 
 	// Set the new bullet in the drone, ready for being shooted
 	//bulletTransf->SetGlobalPosition(bulletOrigin->GetGlobalPosition());
-	//bulletTransf->SetScale(float3(0.2f, 0.2f, 0.2f));
-	bulletTransf->SetPosition(bulletOrigin->GetPosition());
+	//bulletTransf->SetLocalScale(float3(0.2f, 0.2f, 0.2f));
+	bulletTransf->SetLocalPosition(bulletOrigin->GetGlobalPosition());
 	bulletTransf->UpdateTransformMatrices();
 
 	bulletRigidBody->SetDefaultPosition();
@@ -86,7 +86,7 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
 	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
 	script->SetConstuctor("RangedFastAttackBullet");
-	script->GetScript()->SetGameObject(bullet);
+	script->GetScript()->SetOwner(bullet);
 	script->GetScript()->SetApplication(App);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
