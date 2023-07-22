@@ -399,6 +399,11 @@ UpdateStatus ModuleRender::Update()
 	glCullFace(GL_FRONT);
 	glDisable(GL_BLEND);
 
+	for (const GameObject* go : gameObjectsInFrustrum)
+	{
+		go->Render();
+	}
+
 	// -------- POST EFFECTS ---------------------
 
 	// Blur bloom

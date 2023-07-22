@@ -15,6 +15,8 @@ public:
 	Component(const Component& component);
 	virtual ~Component();
 
+	virtual void Render() {};
+
 	void Save(Json& meta);
 	void Load(const Json& meta);
 

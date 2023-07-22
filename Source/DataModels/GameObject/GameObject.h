@@ -43,6 +43,7 @@ public:
 	void Save(Json& json);
 	void Load(const Json& meta);
 
+	void Render() const;
 	void Draw() const;
 
 	void InitNewEmptyGameObject(bool is3D = true);

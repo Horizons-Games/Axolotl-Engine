@@ -1,21 +1,20 @@
 #pragma once
 #include "Component.h"
 
-#include "Auxiliar/Generics/Drawable.h"
 #include "Auxiliar/Generics/Updatable.h"
 #include "Trail/Trail.h"
 
 class ImGradient;
 class ResourceTexture;
 
-class ComponentTrail : public Component, public Drawable, public Updatable
+class ComponentTrail : public Component, public Updatable
 {
 public:
 	ComponentTrail(bool active, GameObject* owner);
 	~ComponentTrail();
 
-	void Draw() const override;
 	void Update() override;
+	void Render() override;
 
 	const float GetDuration() const;
 	void SetDuration(float duration);

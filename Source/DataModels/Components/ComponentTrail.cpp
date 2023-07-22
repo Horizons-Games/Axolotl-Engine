@@ -25,15 +25,15 @@ ComponentTrail::~ComponentTrail()
 {
 }
 
-void ComponentTrail::Draw() const
-{
-	trail->Draw();
-}
-
 void ComponentTrail::Update()
 {
 	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
 	trail->Update(trans->GetGlobalPosition(), trans->GetGlobalRotation());
+}
+
+void ComponentTrail::Render()
+{
+	trail->Draw();
 }
 
 void ComponentTrail::InternalSave(Json& meta)

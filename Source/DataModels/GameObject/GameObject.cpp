@@ -165,6 +165,17 @@ void GameObject::Load(const Json& meta)
 	}
 }
 
+void GameObject::Render() const
+{
+	for (const std::unique_ptr<Component>& component : components)
+	{
+		if (component->IsEnabled())
+		{
+			component->Render();
+		}
+	}
+}
+
 void GameObject::Draw() const
 {
 	for (const std::unique_ptr<Component>& component : components)
