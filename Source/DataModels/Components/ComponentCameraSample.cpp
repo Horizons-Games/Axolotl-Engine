@@ -22,6 +22,7 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	isSampleFocusEnabled = false;
 	isSampleFixedEnabled = false;
+	isCombatCameraEnabled = false;
 }
 
 ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& componentCameraSample):
@@ -30,7 +31,8 @@ ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& compon
 	positionOffset(componentCameraSample.positionOffset),
 	position(componentCameraSample.position),
 	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
-	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled)
+	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled),
+	isCombatCameraEnabled(componentCameraSample.isCombatCameraEnabled)
 {
 }
 
@@ -74,6 +76,7 @@ void ComponentCameraSample::InternalSave(Json& meta)
 
 	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
 	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
+	meta["isCombatCameraEnabled"] = (bool) isCombatCameraEnabled;
 
 	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
@@ -99,6 +102,7 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 
 	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
 	isSampleFixedEnabled = meta["isSampleFixedEnabled"];
+	isCombatCameraEnabled = meta["isCombatCameraEnabled"];
 
 	position.x = meta["positionX"];
 	position.y = meta["positionY"];

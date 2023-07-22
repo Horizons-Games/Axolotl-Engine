@@ -37,6 +37,8 @@ public:
 
 	float3 GetPosition() const;
 
+	bool GetCombatCameraEnabled() const;
+
 private:
 	
 	void InternalSave(Json& meta) override;
@@ -51,6 +53,8 @@ private:
 
 	bool isSampleFocusEnabled;
 	float2 focusOffset;
+
+	bool isCombatCameraEnabled;
 };
 
 inline float ComponentCameraSample::GetRadius() const
@@ -116,4 +120,9 @@ inline void ComponentCameraSample::SetFocusOffset(float2 offset)
 inline float3 ComponentCameraSample::GetPosition() const
 {
 	return position;
+}
+
+inline bool ComponentCameraSample::GetCombatCameraEnabled() const
+{
+	return isCombatCameraEnabled;
 }
