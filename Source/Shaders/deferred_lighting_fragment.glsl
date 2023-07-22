@@ -263,46 +263,45 @@ void main()
     vec4 emissiveMat = texture(gEmissive, TexCoord);
     float smoothness = specularMat.a;
 
-    vec3 viewDir = normalize(viewPos - fragPos);
-
-    vec3 Cd = textureMat.rgb;
-    vec3 f0 = specularMat.rgb;
-
-    // smoothness and roughness
-    float roughness = pow(1-smoothness,2) + EPSILON;
-    
-    // Lights
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
-
-    if (num_point > 0)
-    {
-        Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
-
-    if (num_spot > 0)
-    {
-        Lo += calculateSpotLights(norm, viewDir,Cd, f0, roughness, fragPos);
-    }
-
-    if (num_spheres > 0)
-    {
-        Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
-
-    if (num_tubes > 0)
-    {
-        Lo += calculateAreaLightTubes(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
-
-    vec3 R = reflect(-viewDir, norm);
-    float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL) * cubemap_intensity;
-
-    vec3 color = ambient + Lo + emissiveMat.rgb;
-
     if(renderMode == 0)
     {
+        vec3 viewDir = normalize(viewPos - fragPos);
+
+        vec3 Cd = textureMat.rgb;
+        vec3 f0 = specularMat.rgb;
+
+        // smoothness and roughness
+        float roughness = pow(1-smoothness,2) + EPSILON;
+    
+        // Lights
+        vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
+
+        if (num_point > 0)
+        {
+            Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
+
+        if (num_spot > 0)
+        {
+            Lo += calculateSpotLights(norm, viewDir,Cd, f0, roughness, fragPos);
+        }
+
+        if (num_spheres > 0)
+        {
+            Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
+
+        if (num_tubes > 0)
+        {
+            Lo += calculateAreaLightTubes(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
+
+        vec3 R = reflect(-viewDir, norm);
+        float NdotV = max(dot(norm, viewDir), EPSILON);
+        vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+            environmentBRDF, numLevels_IBL) * cubemap_intensity;
+
+        vec3 color = ambient + Lo + emissiveMat.rgb;
         outColor = vec4(color, 1.0);
     }
     else if (renderMode == 1)
