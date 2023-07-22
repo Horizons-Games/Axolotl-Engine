@@ -39,7 +39,7 @@ void Trail::Update(float3 newPosition, Quat newRotation)
 {
 	UpdateLife();
 
-	if (CheckDistance(newPosition))
+	if (onPlay && CheckDistance(newPosition))
 	{
 		InsertPoint(newPosition, newRotation);
 	}
