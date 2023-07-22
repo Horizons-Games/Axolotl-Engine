@@ -17,7 +17,8 @@
 #include "Enums/BlendingType.h"
 
 
-Trail::Trail() : maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ALPHA)
+Trail::Trail() : maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ADDITIVE),
+				onPlay(false)
 {
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -57,11 +58,11 @@ void Trail::Draw()
 	program->Activate();
 	BindCamera(program);
 
-	//glDepthMask(GL_FALSE);
-	glDisable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
 	glDisable(GL_CULL_FACE);
 
 	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
 	switch (blendingMode)
 	{
 	case BlendingMode::ALPHA:
@@ -87,12 +88,10 @@ void Trail::Draw()
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	//glDrawArrays(GL_TRIANGLE_STRIP, 0, (maxSamplers - 1) * 2 * 3);
-	glDrawElements(GL_TRIANGLES, (maxSamplers - 1) * 2 * 3, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, (points.size() - 1) * 2 * 3, GL_UNSIGNED_INT, nullptr);
 	program->Deactivate();
 
-	//glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
 	glEnable(GL_CULL_FACE);
 
 	glDisable(GL_BLEND);
@@ -155,10 +154,10 @@ void Trail::RedoBuffers()
 	{
 		indices[index_idx++] = 0 + 2 * i;
 		indices[index_idx++] = 2 + 2 * i;
-		indices[index_idx++] = 1 + 2 * i;
-		indices[index_idx++] = 2 + 2 * i;
+		indices[index_idx++] = 3 + 2 * i;
 		indices[index_idx++] = 3 + 2 * i;
 		indices[index_idx++] = 1 + 2 * i;
+		indices[index_idx++] = 0 + 2 * i;
 	}
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
