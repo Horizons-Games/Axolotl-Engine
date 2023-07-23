@@ -296,7 +296,7 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
-	pendingCreateAndDeleteActions.emplace(
+	pendingActions.emplace(
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
@@ -1283,6 +1283,12 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 	}
 }
 
+void Scene::AddPendingAction(std::function<void(void)>&& pendingAction)
+{
+	std::scoped_lock(pendingActionsMutex);
+	pendingActions.push(std::move(pendingAction));
+}
+
 void Scene::AddStaticObject(GameObject* gameObject)
 {
 	// Quadtree treatment
@@ -1354,10 +1360,10 @@ void Scene::InitCubemap()
 
 void Scene::ExecutePendingActions()
 {
-	while (!pendingCreateAndDeleteActions.empty())
+	while (!pendingActions.empty())
 	{
-		std::function<void(void)> action = pendingCreateAndDeleteActions.front();
+		std::function<void(void)> action = pendingActions.front();
 		action();
-		pendingCreateAndDeleteActions.pop();
+		pendingActions.pop();
 	}
 }

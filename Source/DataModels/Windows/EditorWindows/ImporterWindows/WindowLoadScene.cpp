@@ -24,20 +24,15 @@ void WindowLoadScene::DoThisIfOk()
 {
 	this->isLoading = false;
 	std::string filePath = std::string(fileDialogImporter.GetFilePathName());
-	bool doneLoading = false;
-	App->GetModule<ModuleScene>()->LoadScene(filePath);
-	return;
-	App->GetModule<ModuleScene>()->LoadSceneAsync(filePath,
-												  [&doneLoading]()
-												  {
-													  doneLoading = true;
-												  });
+
 	std::chrono::time_point currentTime = std::chrono::system_clock::now();
-	while (!doneLoading)
-	{
-		float deltaTime =
-			std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - currentTime).count();
-		LOG_DEBUG("Loading... Time passed: {}", deltaTime);
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-	}
+	App->GetModule<ModuleScene>()->LoadSceneAsync(filePath,
+												  [currentTime]()
+												  {
+													  float duration =
+														  std::chrono::duration_cast<std::chrono::seconds>(
+															  std::chrono::system_clock::now() - currentTime)
+															  .count();
+													  LOG_DEBUG("Callback called!!! Took {} seconds", duration);
+												  });
 }

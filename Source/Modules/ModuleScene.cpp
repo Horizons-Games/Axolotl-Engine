@@ -24,19 +24,17 @@
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
 
-#include "ModulePlayer.h"
 #include "Components/Component.h"
 #include "Components/ComponentCamera.h"
-#include "Components/UI/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
-#include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
-#include "DataModels/Skybox/Skybox.h"
+#include "Components/ComponentScript.h"
+#include "Components/UI/ComponentCanvas.h"
+#include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
-#include "DataModels/Batch/BatchManager.h"
 #include "DataStructures/Quadtree.h"
 #include "ModulePlayer.h"
 
@@ -44,6 +42,8 @@
 
 #include "IScript.h"
 #include "ScriptFactory.h"
+
+#include "Auxiliar/AsyncSceneLoader.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -90,6 +90,11 @@ bool ModuleScene::Start()
 
 UpdateStatus ModuleScene::PreUpdate()
 {
+	if (!IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 	if (App->GetScriptFactory()->IsCompiled())
 	{
 		App->GetScriptFactory()->LoadCompiledModules();
@@ -124,10 +129,15 @@ UpdateStatus ModuleScene::PreUpdate()
 
 UpdateStatus ModuleScene::Update()
 {
+	if (!IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-	
+
 	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
@@ -139,7 +149,7 @@ UpdateStatus ModuleScene::Update()
 		}
 	}
 
-	// Particles need to be updated 
+	// Particles need to be updated
 	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
 		particle->Update();
@@ -150,21 +160,24 @@ UpdateStatus ModuleScene::Update()
 
 UpdateStatus ModuleScene::PostUpdate()
 {
-	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (!IsLoading())
 	{
-		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
+		if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 		{
-			if (dynamic_cast<Component*>(updatable)->IsEnabled())
+			for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 			{
-				updatable->PostUpdate();
+				if (dynamic_cast<Component*>(updatable)->IsEnabled())
+				{
+					updatable->PostUpdate();
+				}
 			}
 		}
-	}
 
-	if (!sceneToLoad.empty())
-	{
-		LoadScene(sceneToLoad);
-		sceneToLoad = std::string();
+		if (!sceneToLoad.empty())
+		{
+			LoadScene(sceneToLoad);
+			sceneToLoad = std::string();
+		}
 	}
 
 	loadedScene->ExecutePendingActions();
@@ -181,14 +194,18 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
+	std::scoped_lock(setSceneMutex);
 	loadedScene = std::move(newScene);
 	selectedGameObject = loadedScene->GetRoot();
 }
 
 void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
-	AddGameObjectAndChildren(selectedGameObject);
-	selectedGameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+	if (selectedGameObject)
+	{
+		AddGameObjectAndChildren(selectedGameObject);
+		selectedGameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+	}
 	selectedGameObject = gameObject;
 	selectedGameObject->SetStateOfSelection(StateOfSelection::SELECTED);
 	RemoveGameObjectAndChildren(selectedGameObject);
@@ -359,19 +376,9 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 #endif // !ENGINE
 }
 
-void ModuleScene::LoadSceneAsync(const std::string& name,
-								 std::function<void(void)> callback,
-								 bool mantainCurrentScene)
+void ModuleScene::LoadSceneAsync(const std::string& name, std::function<void(void)> callback, bool mantainCurrentScene)
 {
-	std::jthread loadingThread = std::jthread(
-		[=]()
-		{
-			LOG_VERBOSE("Started asynchronous load of scene {}", name);
-			LoadScene(name, mantainCurrentScene);
-			callback();
-			LOG_VERBOSE("Finished asynchronous load of scene {}", name);
-		});
-	loadingThread.detach();
+	axo::loader::LoadSceneAsync(name, callback, mantainCurrentScene);
 }
 
 void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
@@ -631,12 +638,16 @@ void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 
 void ModuleScene::ParticlesSystemUpdate(bool forceRecalculate)
 {
-	for(ComponentParticleSystem* particleComponent : loadedScene->GetSceneParticleSystems())
+	for (ComponentParticleSystem* particleComponent : loadedScene->GetSceneParticleSystems())
 	{
 		particleComponent->CheckEmitterInstances(forceRecalculate);
 	}
 }
 
+bool ModuleScene::IsLoading() const
+{
+	return loading || axo::loader::IsLoading();
+}
 
 void ModuleScene::AddGameObject(GameObject* object)
 {

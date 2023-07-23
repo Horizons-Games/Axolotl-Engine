@@ -122,6 +122,8 @@ public:
 	void InitCubemap();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+
+	void AddPendingAction(std::function<void(void)>&& pendingAction);
 	void ExecutePendingActions();
 
 private:
@@ -141,7 +143,7 @@ private:
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
-	//Draw is const so I need this vector
+	// Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 
 	GameObject* directionalLight;
@@ -170,7 +172,8 @@ private:
 
 	// All Updatable components should be added at the end of the frame to avoid modifying the iterated list
 	// Similarly, game objects should only be deleted at the end of the frame
-	std::queue<std::function<void(void)>> pendingCreateAndDeleteActions;
+	std::queue<std::function<void(void)>> pendingActions;
+	std::mutex pendingActionsMutex;
 };
 
 inline GameObject* Scene::GetRoot() const
@@ -270,7 +273,7 @@ inline void Scene::AddNonStaticObject(GameObject* gameObject)
 
 inline void Scene::AddUpdatableObject(Updatable* updatable)
 {
-	pendingCreateAndDeleteActions.emplace(
+	AddPendingAction(
 		[=]
 		{
 			sceneUpdatableObjects.push_back(updatable);
@@ -286,9 +289,9 @@ inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleS
 {
 	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
 											  std::end(sceneParticleSystems),
-		[&particleSystem](ComponentParticleSystem* particle)
-		{
-			return particle == particleSystem;
-		}),
+											  [&particleSystem](ComponentParticleSystem* particle)
+											  {
+												  return particle == particleSystem;
+											  }),
 							   std::end(sceneParticleSystems));
 }
