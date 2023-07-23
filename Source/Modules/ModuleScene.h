@@ -78,6 +78,7 @@ private:
 
 inline Scene* ModuleScene::GetLoadedScene() const
 {
+	std::scoped_lock(setSceneMutex);
 	return loadedScene.get();
 }
 

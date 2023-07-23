@@ -1360,6 +1360,7 @@ void Scene::InitCubemap()
 
 void Scene::ExecutePendingActions()
 {
+	std::scoped_lock(pendingActionsMutex);
 	while (!pendingActions.empty())
 	{
 		std::function<void(void)> action = pendingActions.front();
