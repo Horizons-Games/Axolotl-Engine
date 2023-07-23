@@ -139,10 +139,13 @@ UpdateStatus ModuleScene::Update()
 		}
 	}
 
-	// Particles need to be updated 
-	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
-		particle->Update();
+		// Particles need to be updated
+		for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+		{
+			particle->Update();
+		}
 	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
