@@ -166,8 +166,7 @@ void EndJsonLoad(std::vector<GameObject*>&& loadedObjects)
 	loadedScene->InitLights();
 	loadedScene->InitCubemap();
 
-	std::jthread endLoadThread = std::jthread(&EndLoadScene);
-	endLoadThread.detach();
+	EndLoadScene();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -229,8 +228,7 @@ void EndHierarchyLoad()
 	gameObjects.clear();
 	gameObjectMap.clear();
 
-	std::jthread jsonLoadThread = std::jthread(&EndJsonLoad, std::move(loadedObjects));
-	jsonLoadThread.detach();
+	EndJsonLoad(std::move(loadedObjects));
 }
 
 //////////////////////////////////////////////////////////////////
@@ -316,8 +314,7 @@ void StartJsonLoad(Json&& sceneJson)
 	}
 
 	Json gameObjects = sceneJson["GameObjects"];
-	std::jthread hierarchyLoadThread = std::jthread(&StartHierarchyLoad, std::move(gameObjects));
-	hierarchyLoadThread.detach();
+	StartHierarchyLoad(std::move(gameObjects));
 }
 
 //////////////////////////////////////////////////////////////////
@@ -356,8 +353,7 @@ void StartLoadScene()
 	sceneJson.fromBuffer(buffer);
 	delete buffer;
 
-	std::jthread jsonLoadThread = std::jthread(&StartJsonLoad, std::move(sceneJson));
-	jsonLoadThread.detach();
+	StartJsonLoad(std::move(sceneJson));
 }
 
 //////////////////////////////////////////////////////////////////
