@@ -56,8 +56,8 @@ private:
 	static const std::string settingsFolder;
 	static const std::string set;
 
-	void DrawLoadingBuild();
-	std::unique_ptr<WindowLoading> buildGameLoading = nullptr;
+	void DrawLoadingPopUp();
+	std::unique_ptr<WindowLoading> loadingPopUp = nullptr;
 };
 
 inline void ModuleEditor::Resized()

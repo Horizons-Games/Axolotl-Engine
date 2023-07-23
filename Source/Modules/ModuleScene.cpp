@@ -378,7 +378,7 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 
 void ModuleScene::LoadSceneAsync(const std::string& name, std::function<void(void)> callback, bool mantainCurrentScene)
 {
-	axo::loader::LoadSceneAsync(name, callback, mantainCurrentScene);
+	loader::LoadSceneAsync(name, callback, mantainCurrentScene);
 }
 
 void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
@@ -646,7 +646,7 @@ void ModuleScene::ParticlesSystemUpdate(bool forceRecalculate)
 
 bool ModuleScene::IsLoading() const
 {
-	return loading || axo::loader::IsLoading();
+	return loading || loader::IsLoading();
 }
 
 void ModuleScene::AddGameObject(GameObject* object)

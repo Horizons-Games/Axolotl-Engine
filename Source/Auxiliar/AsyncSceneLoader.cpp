@@ -28,7 +28,7 @@
 // For now, copy paste the code in ModuleScene
 // will refactor in a later commit
 
-namespace axo::loader
+namespace loader
 {
 namespace
 {
@@ -382,4 +382,4 @@ bool IsLoading()
 	return currentLoadingConfig.has_value();
 }
 
-} // namespace axo::loader
+} // namespace loader
