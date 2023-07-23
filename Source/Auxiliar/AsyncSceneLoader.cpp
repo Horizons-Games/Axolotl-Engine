@@ -307,14 +307,25 @@ void StartJsonLoad(Json&& sceneJson)
 		loadedScene->SetSkybox(std::make_unique<Skybox>());
 		Skybox* skybox = loadedScene->GetSkybox();
 		skybox->LoadOptions(sceneJson);
-
-		loadedScene->SetCubemap(std::make_unique<Cubemap>());
-		Cubemap* cubemap = loadedScene->GetCubemap();
-		cubemap->LoadOptions(sceneJson);
 	}
 
-	Json gameObjects = sceneJson["GameObjects"];
-	StartHierarchyLoad(std::move(gameObjects));
+	auto createCubemap = [sceneJson]() mutable
+	{
+		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+		if (!currentLoadingConfig->mantainCurrentScene)
+		{
+			loadedScene->SetCubemap(std::make_unique<Cubemap>());
+			Cubemap* cubemap = loadedScene->GetCubemap();
+			cubemap->LoadOptions(sceneJson);
+		}
+
+		Json gameObjects = sceneJson["GameObjects"];
+		std::jthread hierarchyLoadThread = std::jthread(&StartHierarchyLoad, std::move(gameObjects));
+		hierarchyLoadThread.detach();
+	};
+
+	loadedScene->AddPendingAction(createCubemap);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -369,8 +380,13 @@ void LoadSceneAsync(const std::string& name, std::function<void(void)> callback,
 	}
 	currentLoadingConfig = { name, callback, mantainCurrentScene };
 
-	std::jthread startLoadThread = std::jthread(&StartLoadScene);
-	startLoadThread.detach();
+	// Make sure the load starts at the end of the thread
+	App->GetModule<ModuleScene>()->GetLoadedScene()->AddPendingAction(
+		[]
+		{
+			std::jthread startLoadThread = std::jthread(&StartLoadScene);
+			startLoadThread.detach();
+		});
 }
 
 bool IsLoading()

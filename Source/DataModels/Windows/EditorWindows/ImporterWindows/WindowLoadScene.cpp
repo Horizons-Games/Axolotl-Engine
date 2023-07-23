@@ -33,6 +33,6 @@ void WindowLoadScene::DoThisIfOk()
 														  std::chrono::duration_cast<std::chrono::seconds>(
 															  std::chrono::system_clock::now() - currentTime)
 															  .count();
-													  LOG_DEBUG("Callback called!!! Took {} seconds", duration);
+													  LOG_DEBUG("Scene Loaded! Took {} seconds", duration);
 												  });
 }
