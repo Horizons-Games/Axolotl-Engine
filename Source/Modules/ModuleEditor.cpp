@@ -21,7 +21,7 @@
 #include "Windows/WindowMainMenu.h"
 #ifdef ENGINE
 	#include "Auxiliar/GameBuilder.h"
-	#include "Auxiliar/AsyncSceneLoader.h"
+	#include "Auxiliar/SceneLoader.h"
 	#include "Resources/ResourceStateMachine.h"
 	#include "Windows/EditorWindows/WindowAssetFolder.h"
 	#include "Windows/EditorWindows/WindowConfiguration.h"

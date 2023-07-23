@@ -59,8 +59,6 @@ private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SaveSceneToJson(Json& jsonScene);
-	void LoadSceneFromJson(Json& json, bool mantainActualScene);
-	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy);
 
 private:
 	std::unique_ptr<Scene> loadedScene;
@@ -70,8 +68,6 @@ private:
 	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
 	std::map<UID, UID> uidMap;
-
-	bool loading;
 
 	std::mutex setSceneMutex;
 };

@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-#include "AsyncSceneLoader.h"
+#include "SceneLoader.h"
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -13,7 +13,6 @@
 #include "DataModels/Scene/Scene.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataStructures/Quadtree.h"
-#include "FileSystem/Json.h"
 
 #include "DataModels/Components/ComponentCamera.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
@@ -34,9 +33,11 @@ namespace
 {
 struct LoadSceneConfig
 {
-	std::string scenePath;
 	std::function<void(void)> userCallback;
 	bool mantainCurrentScene;
+	LoadMode loadMode;
+	std::optional<std::string> scenePath;
+	std::optional<std::reference_wrapper<rapidjson::Document>> doc;
 };
 
 std::optional<LoadSceneConfig> currentLoadingConfig;
@@ -60,6 +61,16 @@ std::map<UID, UID> uidMap;
 
 //////////////////////////////////////////////////////////////////
 
+void FinishProcessAndInvokeCallback()
+{
+	// capture the callback before resetting, so we make sure invoking it is the last thing we do
+	std::function<void(void)> userCallback = std::move(currentLoadingConfig->userCallback);
+	currentLoadingConfig.reset();
+	userCallback();
+}
+
+//////////////////////////////////////////////////////////////////
+
 void EndLoadScene()
 {
 #ifndef ENGINE
@@ -73,12 +84,9 @@ void EndLoadScene()
 	InitParticlesComponents();
 #endif // !ENGINE
 
-	LOG_VERBOSE("Finished asynchronous load of scene {}", currentLoadingConfig->scenePath);
+	LOG_VERBOSE("Finished load of scene {}", currentLoadingConfig->scenePath.value());
 
-	// capture the callback before resetting, so we make sure invoking it is the last thing we do
-	std::function<void(void)> userCallback = std::move(currentLoadingConfig->userCallback);
-	currentLoadingConfig.reset();
-	userCallback();
+	FinishProcessAndInvokeCallback();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -166,7 +174,13 @@ void EndJsonLoad(std::vector<GameObject*>&& loadedObjects)
 	loadedScene->InitLights();
 	loadedScene->InitCubemap();
 
-	EndLoadScene();
+	// if no document was set, the user is creating a new scene. finish the process
+	if (!currentLoadingConfig->doc.has_value())
+	{
+		EndLoadScene();
+		return;
+	}
+	FinishProcessAndInvokeCallback();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -275,11 +289,25 @@ void StartHierarchyLoad(Json&& gameObjectsJson)
 
 			gameObjects[i]->Load(jsonGameObject);
 		}
-		std::jthread hierarchyLoadThread = std::jthread(&EndHierarchyLoad);
-		hierarchyLoadThread.detach();
+		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+		{
+			std::jthread hierarchyLoadThread = std::jthread(&EndHierarchyLoad);
+			hierarchyLoadThread.detach();
+		}
+		else
+		{
+			EndHierarchyLoad();
+		}
 	};
 
-	loadedScene->AddPendingAction(loadObjectThenFinishHierarchyLoad);
+	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	{
+		loadedScene->AddPendingAction(loadObjectThenFinishHierarchyLoad);
+	}
+	else
+	{
+		loadObjectThenFinishHierarchyLoad();
+	}
 }
 
 //////////////////////////////////////////////////////////////////
@@ -321,19 +349,42 @@ void StartJsonLoad(Json&& sceneJson)
 		}
 
 		Json gameObjects = sceneJson["GameObjects"];
-		std::jthread hierarchyLoadThread = std::jthread(&StartHierarchyLoad, std::move(gameObjects));
-		hierarchyLoadThread.detach();
+		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+		{
+			std::jthread hierarchyLoadThread = std::jthread(&StartHierarchyLoad, std::move(gameObjects));
+			hierarchyLoadThread.detach();
+		}
+		else
+		{
+			StartHierarchyLoad(std::move(gameObjects));
+		}
 	};
 
-	loadedScene->AddPendingAction(createCubemap);
+	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	{
+		loadedScene->AddPendingAction(createCubemap);
+	}
+	else
+	{
+		createCubemap();
+	}
 }
 
 //////////////////////////////////////////////////////////////////
 
 void StartLoadScene()
 {
-	LOG_VERBOSE("Started asynchronous load of scene {}", currentLoadingConfig->scenePath);
+	// existing document passed by user
+	if (currentLoadingConfig->doc.has_value())
+	{
+		Json sceneJson(currentLoadingConfig->doc.value(), currentLoadingConfig->doc.value());
+		StartJsonLoad(std::move(sceneJson));
+		return;
+	}
 
+	LOG_VERBOSE("Started load of scene {}", currentLoadingConfig->scenePath.value());
+
+	// no document, new scene has to be loaded
 	if (!currentLoadingConfig->mantainCurrentScene)
 	{
 		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
@@ -345,7 +396,8 @@ void StartLoadScene()
 
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(currentLoadingConfig->scenePath).c_str();
+	std::string fileName =
+		App->GetModule<ModuleFileSystem>()->GetFileName(currentLoadingConfig->scenePath.value()).c_str();
 	char* buffer{};
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
@@ -353,7 +405,7 @@ void StartLoadScene()
 	bool resourceExists = App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
 	if (!resourceExists)
 	{
-		fileSystem->CopyFileInAssets(currentLoadingConfig->scenePath, assetPath);
+		fileSystem->CopyFileInAssets(currentLoadingConfig->scenePath.value(), assetPath);
 	}
 	fileSystem->Load(assetPath.c_str(), buffer);
 #else
@@ -371,22 +423,41 @@ void StartLoadScene()
 
 } // namespace
 
-void LoadSceneAsync(const std::string& name, std::function<void(void)> callback, bool mantainCurrentScene)
+void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Document>> sceneNameOrDocument,
+			   std::function<void(void)> callback,
+			   bool mantainCurrentScene,
+			   LoadMode loadMode)
 {
 	if (IsLoading())
 	{
 		LOG_ERROR("Async load called while existing hasn't finished, ignoring.");
 		return;
 	}
-	currentLoadingConfig = { name, callback, mantainCurrentScene };
+	currentLoadingConfig = { callback, mantainCurrentScene, loadMode };
+	// see if user passed a filepath or an existing json
+	if (std::holds_alternative<std::string>(sceneNameOrDocument))
+	{
+		currentLoadingConfig->scenePath = std::move(std::get<std::string>(sceneNameOrDocument));
+	}
+	else
+	{
+		currentLoadingConfig->doc = std::get<std::reference_wrapper<rapidjson::Document>>(sceneNameOrDocument);
+	}
 
-	// Make sure the load starts at the end of the thread
-	App->GetModule<ModuleScene>()->GetLoadedScene()->AddPendingAction(
-		[]
-		{
-			std::jthread startLoadThread = std::jthread(&StartLoadScene);
-			startLoadThread.detach();
-		});
+	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	{
+		// Make sure the load starts at the end of the thread
+		App->GetModule<ModuleScene>()->GetLoadedScene()->AddPendingAction(
+			[]
+			{
+				std::jthread startLoadThread = std::jthread(&StartLoadScene);
+				startLoadThread.detach();
+			});
+	}
+	else
+	{
+		StartLoadScene();
+	}
 }
 
 bool IsLoading()

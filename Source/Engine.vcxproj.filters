@@ -600,7 +600,7 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Auxiliar\AsyncSceneLoader.cpp">
+    <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1248,7 +1248,7 @@
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="Auxiliar\AsyncSceneLoader.h">
+    <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
   </ItemGroup>
