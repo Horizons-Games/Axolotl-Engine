@@ -87,6 +87,8 @@ void WindowConsole::DrawConsole()
 	for (const AxoLog::LogLine& logLine : linesFiltered)
 	{
 		ImGui::TextColored(severityColors[logLine.severity], logLine.ToSimpleString().c_str());
+		// Add spacing between each line
+		ImGui::Dummy(ImVec2(0.0f, 0.5f));
 	}
 
 	ImGui::PopTextWrapPos();
