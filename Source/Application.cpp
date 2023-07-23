@@ -171,12 +171,14 @@ void Application::OnPause()
 		editorPlayState = PlayState::PAUSED;
 		GetModule<ModuleInput>()->SetShowCursor(true);
 		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+		GetModule<ModuleAudio>()->Suspend();
 	}
 	else if (GetPlayState() == PlayState::PAUSED)
 	{
 		editorPlayState = PlayState::RUNNING;
 		GetModule<ModuleInput>()->SetShowCursor(false);
 		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+		GetModule<ModuleAudio>()->WakeUp();
 	}
 }
 
