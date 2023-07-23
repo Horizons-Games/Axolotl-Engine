@@ -223,6 +223,11 @@ UpdateStatus ModuleRender::PreUpdate()
 
 UpdateStatus ModuleRender::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
