@@ -2,7 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-
+#include "Math/Quat.h"
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
@@ -49,7 +49,8 @@ private:
 	CameraControllerScript* rotationVerticalScript;
 	PlayerManagerScript* playerManagerScript;
 	PlayerMoveScript* moveScript;
-	float3 offset;
+	float3 offsetFromPickedPoint;
+	float3 pickedForward;
 
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;

@@ -65,50 +65,57 @@ void PlayerForceUseScript::Update(float deltaTime)
 		RaycastHit hit;
 		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
 		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
-		Ray ray(origin, transform->GetGlobalForward());
-		LineSegment line(ray, 300);
-
-		if (Physics::RaycastToTag(line, hit, owner, tag))
+		int raytries = 0;
+		
+		while (gameObjectAttached == nullptr && raytries < 4)
 		{
-			gameObjectAttached = hit.gameObject;
-			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
-			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
-			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-			objectStaticness = rigidBody->IsStatic();
-			rigidBody->SetStatic(false);
-			offset = hittedTransform->GetGlobalPosition() - hit.hitPoint;
-			
+			Ray ray(origin + float3(0.f, 1 * raytries, 0.f), transform->GetGlobalForward() );
+			LineSegment line(ray, 300);
+			raytries++;
 
-			if (distancePointGameObjectAttached > maxDistanceForce)
+			if (Physics::RaycastToTag(line, hit, owner, tag))
 			{
-				gameObjectAttached = nullptr;
-				return;
-			}
+				gameObjectAttached = hit.gameObject;
+				ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
+				distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
+				ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+				objectStaticness = rigidBody->IsStatic();
+				rigidBody->SetStatic(false);
+				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
+				pickedForward = transform->GetGlobalForward();
 
-			else if (distancePointGameObjectAttached < minDistanceForce)
-			{
-				distancePointGameObjectAttached = minDistanceForce;
-			}
 
-			if (rotationHorizontalScript)
-			{
-				lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
-				rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
-				lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
-				rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
-			}
+				if (distancePointGameObjectAttached > maxDistanceForce)
+				{
+					gameObjectAttached = nullptr;
+					return;
+				}
 
-			if (playerManagerScript)
-			{
-				lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
-				playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
-			}
+				else if (distancePointGameObjectAttached < minDistanceForce)
+				{
+					distancePointGameObjectAttached = minDistanceForce;
+				}
 
-			
-			rigidBody->SetKpForce(50.0f);
-			rigidBody->SetKpTorque(50.0f);
-			
-			
+				if (rotationHorizontalScript)
+				{
+					lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
+					rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
+					lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
+					rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
+				}
+
+				if (playerManagerScript)
+				{
+					lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
+					playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
+				}
+
+
+				rigidBody->SetKpForce(50.0f);
+				rigidBody->SetKpTorque(50.0f);
+
+
+			}
 		}
 	}
 
@@ -178,7 +185,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
-		nextPosition += offset;
 
 		nextPosition.y = hittedTransform->GetGlobalPosition().y;
 
@@ -193,6 +199,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		float2 mouseMotion = input->GetMouseMotion();
 		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2 * deltaTime;
+
 
 		// Get next rotation of game object
 		Quat targetRotation =
