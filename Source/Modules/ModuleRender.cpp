@@ -252,11 +252,14 @@ UpdateStatus ModuleRender::Update()
 
 	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
 	
-	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
-
-	for (GameObject* nonStaticObj : nonStaticsGOs)
+	if (!App->GetModule<ModuleScene>()->IsLoading())
 	{
-		AddToRenderList(nonStaticObj);
+		std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
+
+		for (GameObject* nonStaticObj : nonStaticsGOs)
+		{
+			AddToRenderList(nonStaticObj);
+		}
 	}
 	if (goSelected)
 	{
@@ -463,6 +466,11 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
+	if (quadtree == nullptr)
+	{
+		return;
+	}
+
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	float3 cameraPos = camera->GetCamera()->GetPosition();
 
