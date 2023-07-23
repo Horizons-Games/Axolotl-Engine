@@ -24,9 +24,6 @@
 #include "Defines/ExtensionDefines.h"
 #include "Defines/FileSystemDefines.h"
 
-// For now, copy paste the code in ModuleScene
-// will refactor in a later commit
-
 namespace loader
 {
 namespace
@@ -44,6 +41,7 @@ std::optional<LoadSceneConfig> currentLoadingConfig;
 
 //////////////////////////////////////////////////////////////////
 
+// keep the document alive, because the Json instance keeps a non-owning reference
 rapidjson::Document doc;
 
 //////////////////////////////////////////////////////////////////
@@ -63,6 +61,9 @@ std::map<UID, UID> uidMap;
 
 void FinishProcessAndInvokeCallback()
 {
+	// clear the document
+	rapidjson::Document().Swap(doc).SetObject();
+
 	// capture the callback before resetting, so we make sure invoking it is the last thing we do
 	std::function<void(void)> userCallback = std::move(currentLoadingConfig->userCallback);
 	currentLoadingConfig.reset();
@@ -446,7 +447,7 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 
 	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 	{
-		// Make sure the load starts at the end of the thread
+		// Make sure the load starts at the end of the frame
 		App->GetModule<ModuleScene>()->GetLoadedScene()->AddPendingAction(
 			[]
 			{
