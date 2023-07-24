@@ -41,7 +41,7 @@ void WindowHierarchy::DrawWindowContents()
 	ImGui::Separator();
 
 	GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
-	if (root)
+	if (root && !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		DrawRecursiveHierarchy(root);
 	}

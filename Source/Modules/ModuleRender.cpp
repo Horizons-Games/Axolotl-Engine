@@ -257,15 +257,13 @@ UpdateStatus ModuleRender::Update()
 
 	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
 	
-	if (!App->GetModule<ModuleScene>()->IsLoading())
-	{
-		std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
+	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
 
-		for (GameObject* nonStaticObj : nonStaticsGOs)
-		{
-			AddToRenderList(nonStaticObj);
-		}
+	for (GameObject* nonStaticObj : nonStaticsGOs)
+	{
+		AddToRenderList(nonStaticObj);
 	}
+	
 	if (goSelected)
 	{
 		AddToRenderList(goSelected);
