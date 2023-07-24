@@ -201,6 +201,17 @@ void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticle
 	{
 		InitEmitterInstances();
 	}
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	//set the origin to translate and scale the BoundingBox
+	transform->SetOriginScaling({0.5,0.5,0.5});
+	transform->SetOriginCenter({ 0.0, 0.0, 0.0 });
+
+	//Apply the BoundingBox modification
+	float3 translation = transform->GetBBPos();
+	float3 scaling = transform->GetBBScale();
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scaling);
+	transform->CalculateBoundingBoxes();
 }
 
 void ComponentParticleSystem::CheckEmitterInstances(bool forceRecalculate)

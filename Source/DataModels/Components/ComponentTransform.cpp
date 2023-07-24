@@ -85,19 +85,6 @@ void ComponentTransform::InternalSave(Json& meta)
 
 void ComponentTransform::InternalLoad(const Json& meta)
 {
-	//Use this when you want to render an old scene that USES ParticleSystem and has not been updated yet
-	//if (GetOwner()->GetComponent<ComponentParticleSystem>())
-	//{
-	//	originScaling = { 0.5f, 0.5f, 0.5f };
-	//	originCenter = { 0.5f, 0.5f, 0.5f };
-	//	localAABB.minPoint = { 0, 0, 0 };
-	//	localAABB.maxPoint = { 1, 1, 1 };
-
-	//	TranslateLocalAABB(bbPos);
-	//	ScaleLocalAABB(bbSca);
-	//	CalculateBoundingBoxes();
-	//}
-
 	pos.x = static_cast<float>(meta["localPos_X"]);
 	pos.y = static_cast<float>(meta["localPos_Y"]);
 	pos.z = static_cast<float>(meta["localPos_Z"]);
