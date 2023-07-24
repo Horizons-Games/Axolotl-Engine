@@ -183,18 +183,13 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "BulletOriginGO",
-                                    "value": 2605361363187490962,
-                                    "type": 2
-                                },
-                                {
                                     "name": "BulletPrefab",
                                     "value": 14049940314831996807,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 0.20000000298023224,
+                                    "value": 15.0,
                                     "type": 0
                                 },
                                 {
@@ -225,7 +220,7 @@
                                 {
                                     "name": "IsImmortal",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "EnemyParticleSystem",
@@ -2936,9 +2931,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 1.5096322298049927,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 1.1652900866465643e-11,
+                            "localPos_Y": 0.4740762710571289,
+                            "localPos_Z": 1.8622512817382813,
                             "localRot_X": 90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -2989,9 +2984,9 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 0.0,
-                            "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.0
+                            "rbPos_X": -6.501678626591456e-7,
+                            "rbPos_Y": 1.0355559587478638,
+                            "rbPos_Z": 1.8622512817382813
                         }
                     }
                 ]
@@ -3071,8 +3066,8 @@
                             "boxSize_X": 0.0,
                             "boxSize_Y": 0.0,
                             "boxSize_Z": 0.0,
-                            "radius": 2.5,
-                            "factor": 1.0,
+                            "radius": 1.0,
+                            "factor": 2.5,
                             "height": 2.0,
                             "rbPos_X": -5.654783308273181e-9,
                             "rbPos_Y": 1.2486436367034912,

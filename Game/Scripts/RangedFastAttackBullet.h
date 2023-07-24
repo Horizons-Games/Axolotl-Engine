@@ -16,6 +16,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void SetBulletVelocity(float velocity);
+
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void DestroyBullet();
@@ -30,3 +32,9 @@ private:
 	ComponentTransform* parentTransform;
 	ComponentAudioSource* audioSource;
 };
+
+
+inline void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)
+{
+	velocity = nVelocity;
+}

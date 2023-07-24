@@ -21,7 +21,7 @@
 
 REGISTERCLASS(RangedFastAttackBullet);
 
-RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(10.0f), audioSource(nullptr),
+RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), audioSource(nullptr),
 	bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f)
 {
 }
@@ -32,15 +32,19 @@ void RangedFastAttackBullet::Start()
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 
-	//rigidBody->SetDefaultPosition();
-	rigidBody->SetDrawCollider(true);
+	rigidBody->Enable();
+	rigidBody->SetDefaultPosition();
+	rigidBody->SetDrawCollider(false);
+
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
 
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setLinearVelocity(
 		btVector3(
-			parentTransform->GetGlobalForward().x,
+			forward.x,
 			0,
-			parentTransform->GetGlobalForward().z) * velocity);
+			forward.z) * velocity);
 
 	originTime = SDL_GetTicks() / 1000.0f;
 }
@@ -48,7 +52,6 @@ void RangedFastAttackBullet::Start()
 void RangedFastAttackBullet::Update(float deltaTime)
 {
 #ifdef DEBUG
-
 	Ray rayDebug(transform->GetLocalPosition(), transform->GetLocalForward());
 	dd::arrow(rayDebug.pos, rayDebug.pos + rayDebug.dir * rayAttackSize, dd::colors::Red, 0.05f);
 #endif // DEBUG

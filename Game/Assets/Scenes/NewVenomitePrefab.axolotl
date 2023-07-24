@@ -230,9 +230,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 4.3042919628533127e-7,
-                            "localPos_Y": -1.0,
-                            "localPos_Z": 3.952947054131073e-7,
+                            "localPos_X": 4.159226136835059e-7,
+                            "localPos_Y": 2.0559122562408447,
+                            "localPos_Z": 3.01865291595459,
                             "localRot_X": -90.00001525878906,
                             "localRot_Y": -0.00002231179314549081,
                             "localRot_Z": -179.99998474121094,
@@ -283,9 +283,9 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 0.0,
-                            "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.0
+                            "rbPos_X": -4.351974780547607e-9,
+                            "rbPos_Y": 0.9167737364768982,
+                            "rbPos_Z": 0.9055957794189453
                         }
                     }
                 ]
@@ -467,18 +467,13 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "BulletOriginGO",
-                                    "value": 2354890888242977287,
-                                    "type": 2
-                                },
-                                {
                                     "name": "BulletPrefab",
                                     "value": 14288243020694277961,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 0.20000000298023224,
+                                    "value": 15.0,
                                     "type": 0
                                 },
                                 {
@@ -509,7 +504,7 @@
                                 {
                                     "name": "IsImmortal",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "EnemyParticleSystem",

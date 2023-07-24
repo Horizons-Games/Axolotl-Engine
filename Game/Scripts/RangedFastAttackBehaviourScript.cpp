@@ -24,12 +24,11 @@ REGISTERCLASS(RangedFastAttackBehaviourScript);
 
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
 	lastAttackTime(0.f), laserParticleSystem(nullptr),audioSource(nullptr),
-	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
+	animation(nullptr), transform(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
-	REGISTER_FIELD(bulletOriginGO, GameObject*);
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(laserParticleSystem, GameObject*)
@@ -42,11 +41,6 @@ void RangedFastAttackBehaviourScript::Start()
 	animation = owner->GetComponent<ComponentAnimation>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-
-	if (bulletOriginGO)
-	{
-		bulletOrigin = bulletOriginGO->GetComponent<ComponentTransform>();
-	}
 
 	if (laserParticleSystem)
 	{
@@ -71,16 +65,6 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
-	ComponentTransform* bulletTransf = bullet->GetComponent<ComponentTransform>();
-	ComponentRigidBody* bulletRigidBody = bullet->GetComponent<ComponentRigidBody>();
-
-	// Set the new bullet in the drone, ready for being shooted
-	//bulletTransf->SetGlobalPosition(bulletOrigin->GetGlobalPosition());
-	//bulletTransf->SetLocalScale(float3(0.2f, 0.2f, 0.2f));
-	bulletTransf->SetLocalPosition(bulletOrigin->GetGlobalPosition());
-	bulletTransf->UpdateTransformMatrices();
-
-	bulletRigidBody->SetDefaultPosition();
 
 	// Attack the DroneFastBullet script to the new bullet to give it its logic
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
@@ -88,6 +72,8 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	script->SetConstuctor("RangedFastAttackBullet");
 	script->GetScript()->SetOwner(bullet);
 	script->GetScript()->SetApplication(App);
+
+	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
