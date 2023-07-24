@@ -31,7 +31,7 @@
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-	gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
+	gameObjectAttachedParent(nullptr), tag("Forceable"), tag2("ForceableDoors"), distancePointGameObjectAttached(0.0f),
 	maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
 	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
 	playerManagerScript(nullptr)
@@ -68,7 +68,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		Ray ray(origin, transform->GetGlobalForward());
 		LineSegment line(ray, 300);
 
-		if (Physics::RaycastToTag(line, hit, owner, tag))
+		if (Physics::RaycastToTag(line, hit, owner, tag) || Physics::RaycastToTag(line, hit, owner, tag2))
 		{
 			gameObjectAttached = hit.gameObject;
 			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
@@ -76,6 +76,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			objectStaticness = rigidBody->IsStatic();
 			rigidBody->SetStatic(false);
+			
+			if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
+			{
+				rigidBody->SetIsTrigger(true);
+			}
 			
 
 			if (distancePointGameObjectAttached > maxDistanceForce)
@@ -107,7 +112,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
 			
-			
 		}
 	}
 
@@ -117,6 +121,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 		|| breakForce)
 	{
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+		if (gameObjectAttached->GetTag() == "ForceableDoors" && rigidBody->IsTrigger())
+		{
+			rigidBody->SetIsTrigger(false);
+		}
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
