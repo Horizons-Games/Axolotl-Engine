@@ -294,23 +294,3 @@ inline void ComponentTransform::SetGlobalTransform(const float4x4& transform)
 	globalMatrix = transform;
 }
 
-inline void ComponentTransform::ScaleLocalAABB(float3& scaling)
-{
-	bbSca = scaling;
-	float3 center = localAABB.CenterPoint();
-
-	localAABB.minPoint = center - bbSca.Mul(originScaling);
-	localAABB.maxPoint = center + bbSca.Mul(originScaling);
-
-}
-
-inline void ComponentTransform::TranslateLocalAABB(float3& translation)
-{
-	bbPos = translation;
-	float3 halfsize = localAABB.HalfSize();
-
-	localAABB.minPoint = (originCenter - halfsize) + bbPos;
-	localAABB.maxPoint = (originCenter + halfsize) + bbPos;
-
-}
-

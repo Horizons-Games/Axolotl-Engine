@@ -261,3 +261,23 @@ void ComponentTransform::CalculateLocalFromNewGlobal(const ComponentTransform* n
 	localMatrix.Decompose(pos, rot, sca);
 	rotXYZ = RadToDeg(rot.ToEulerXYZ());
 }
+
+void ComponentTransform::ScaleLocalAABB(float3& scaling)
+{
+	bbSca = scaling;
+	float3 center = localAABB.CenterPoint();
+
+	localAABB.minPoint = center - bbSca.Mul(originScaling);
+	localAABB.maxPoint = center + bbSca.Mul(originScaling);
+
+}
+
+void ComponentTransform::TranslateLocalAABB(float3& translation)
+{
+	bbPos = translation;
+	float3 halfsize = localAABB.HalfSize();
+
+	localAABB.minPoint = (originCenter - halfsize) + bbPos;
+	localAABB.maxPoint = (originCenter + halfsize) + bbPos;
+
+}
