@@ -719,10 +719,10 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseUpProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[!kawaseFrameBuffer]);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[kawaseFrameBuffer]);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
