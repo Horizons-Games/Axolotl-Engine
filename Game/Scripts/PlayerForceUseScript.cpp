@@ -72,10 +72,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 		{
 			gameObjectAttached = hit.gameObject;
 			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
-			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hittedTransform->GetGlobalPosition());
+			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			objectStaticness = rigidBody->IsStatic();
 			rigidBody->SetStatic(false);
+			offset = hittedTransform->GetGlobalPosition() - hit.hitPoint;
 			
 			if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
 			{
@@ -181,12 +182,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 		}
 		// Get next position of the gameObject
-		float verticalOffset = 1.0f;
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
-		nextPosition.y += verticalOffset;
+		nextPosition += offset;
 
 		nextPosition.y = hittedTransform->GetGlobalPosition().y;
 
