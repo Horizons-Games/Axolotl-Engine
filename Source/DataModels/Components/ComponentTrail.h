@@ -2,12 +2,30 @@
 #include "Component.h"
 
 #include "Auxiliar/Generics/Updatable.h"
-#include "Trail/Trail.h"
+#include "Auxiliar/Generics/Drawable.h"
+#include "GL/glew.h"
 
 class ImGradient;
 class ResourceTexture;
+class Program;
 
-class ComponentTrail : public Component, public Updatable
+enum class BlendingMode;
+
+struct Point
+{
+	float3 centerPosition;
+	Quat rotation;
+	float life;
+};
+
+struct Vertex
+{
+	float3 position;
+	float4 color;
+	float2 uv;
+};
+
+class ComponentTrail : public Component, public Updatable, public Drawable
 {
 public:
 	ComponentTrail(bool active, GameObject* owner);
@@ -15,6 +33,7 @@ public:
 
 	void Update() override;
 	void Render() override;
+	void Draw() const override;
 
 	const float GetDuration() const;
 	void SetDuration(float duration);
@@ -37,67 +56,96 @@ public:
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
-	std::shared_ptr<ResourceTexture> texture;
 
-	Trail* trail;
+	void CreateBuffers();
+	void RedoBuffers();
+
+	void UpdateLife();
+	bool CheckDistance(float3 comparedPosition);
+
+	void InsertPoint(float3 position, Quat rotation);
+
+	void BindCamera(Program* program);
+
+	GLuint vao;
+	GLuint vbo;
+	GLuint ebo;
+
+	std::vector<Point> points;
+
+	BlendingMode blendingMode;
+
+	bool onPlay;
+
+	int maxSamplers;
+
+	// generation properties
+	float duration;
+	float minDistance;
+	float width;
+
+	// render properties
+	ImGradient* gradient;
+
+	std::shared_ptr<ResourceTexture> texture;
 };
 
 inline const float ComponentTrail::GetDuration() const
 {
-	return trail->GetDuration();
+	return duration;
 }
 
 inline void ComponentTrail::SetDuration(float duration)
 {
-	trail->SetDuration(duration);
+	this->duration = duration;
 }
 
 inline const float ComponentTrail::GetMinDistance() const
 {
-	return trail->GetMinDistance();
+	return minDistance;
 }
 
 inline void ComponentTrail::SetMinDistance(float minDistance)
 {
-	trail->SetMinDistance(minDistance);
+	this->minDistance = minDistance;
 }
 
 inline const float ComponentTrail::GetWidth() const
 {
-	return trail->GetWidth();
+	return width;
 }
 
 inline void ComponentTrail::SetWidth(float width)
 {
-	trail->SetWidth(width);
+	this->width = width;
 }
 
 inline std::shared_ptr<ResourceTexture> ComponentTrail::GetTexture() const
 {
-	return trail->GetTexture();
+	return texture;
 }
 
 inline void ComponentTrail::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
 {
-	trail->SetTexture(texture);
+	this->texture = texture;
 }
 
 inline ImGradient* ComponentTrail::GetGradient()
 {
-	return trail->GetGradient();
+	return gradient;
 }
 
 inline void ComponentTrail::SetGradient(ImGradient* gradient)
 {
-	trail->SetGradient(gradient);
+	this->gradient = gradient;
 }
 
 inline bool ComponentTrail::IsOnPlay()
 {
-	return trail->IsOnPlay();
+	return onPlay;
 }
 
 inline void ComponentTrail::SetOnPlay(bool onPlay)
 {
-	trail->SetOnPlay(onPlay);
+	this->onPlay = onPlay;
 }
