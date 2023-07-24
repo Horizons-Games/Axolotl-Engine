@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Modules/ModuleEditor.h"
+#include "Modules/ModulePlayer.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
@@ -80,9 +81,10 @@ void EndLoadScene()
 	{
 		player->LoadNewPlayer();
 	}
-
-	InitAndStartScriptingComponents();
-	InitParticlesComponents();
+	
+	ModuleScene* scene = App->GetModule<ModuleScene>();
+	scene->InitAndStartScriptingComponents();
+	scene->InitParticlesComponents();
 #endif // !ENGINE
 
 	LOG_VERBOSE("Finished load of scene {}", currentLoadingConfig->scenePath.value());
@@ -410,7 +412,7 @@ void StartLoadScene()
 	}
 	fileSystem->Load(assetPath.c_str(), buffer);
 #else
-	fileSystem->Load(filePath.c_str(), buffer);
+	fileSystem->Load(currentLoadingConfig->scenePath.value().c_str(), buffer);
 #endif
 	Json sceneJson(doc, doc);
 
