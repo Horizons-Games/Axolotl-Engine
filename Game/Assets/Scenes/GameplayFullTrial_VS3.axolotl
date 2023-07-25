@@ -23635,8 +23635,8 @@
                             "factor": 1.0,
                             "height": 2.0,
                             "rbPos_X": 0.0003659114590846002,
-                            "rbPos_Y": 0.5651993155479431,
-                            "rbPos_Z": -13.620311737060547
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": -14.259491920471191
                         }
                     },
                     {
@@ -23678,7 +23678,7 @@
                 "tag": "",
                 "uid": 10408460800769256454,
                 "parentUID": 1326767777895378518,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -23687,8 +23687,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": -9.98261384665966e-7,
-                            "localPos_Y": 1.8839976787567139,
-                            "localPos_Z": 2.1305999755859375,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": -0.000022311796783469617,
                             "localRot_Z": 180.0,
@@ -23740,8 +23740,17 @@
                             "factor": 0.5,
                             "height": 0.10000000149011612,
                             "rbPos_X": 0.0003659114590846002,
-                            "rbPos_Y": 0.5651993155479431,
-                            "rbPos_Z": -13.62031364440918
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": -14.259493827819824
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PlayerForceAttackBulletScript",
+                            "fields": null
                         }
                     }
                 ]
