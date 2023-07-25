@@ -46,6 +46,9 @@ private:
 
 	bool initialized = false;
 	bool started = false;
+
+	// whether this component raised an error during its execution
+	bool failed = false;
 };
 
 inline std::string ComponentScript::GetConstructName() const

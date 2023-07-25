@@ -45,7 +45,7 @@ void ComponentImage::Draw() const
 
 		program->Activate();
 
-		ComponentTransform2D* transform = GetOwner()->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
 		const float4x4& model = transform->GetGlobalScaledMatrix();
@@ -149,7 +149,7 @@ void ComponentImage::InternalLoad(const Json& meta)
 
 inline float4 ComponentImage::GetFullColor() const
 {
-	ComponentButton* button = GetOwner()->GetComponent<ComponentButton>();
+	ComponentButton* button = GetOwner()->GetComponentInternal<ComponentButton>();
 	if (button != nullptr)
 	{
 		if (button->IsClicked())

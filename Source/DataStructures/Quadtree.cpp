@@ -172,7 +172,7 @@ bool Quadtree::SmartRemove()
 
 bool Quadtree::InQuadrant(const GameObject* gameObject) const
 {
-	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 	const AABB& objectAABB = transform->GetEncapsuledAABB();
 	return boundingBox.minPoint.x <= objectAABB.maxPoint.x && boundingBox.minPoint.y <= objectAABB.maxPoint.y &&
 		   boundingBox.minPoint.z <= objectAABB.maxPoint.z && objectAABB.minPoint.x <= boundingBox.maxPoint.x &&
@@ -181,7 +181,7 @@ bool Quadtree::InQuadrant(const GameObject* gameObject) const
 
 bool Quadtree::EntireInQuadrant(const GameObject* gameObject) const
 {
-	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 	const AABB& objectAABB = transform->GetEncapsuledAABB();
 	return boundingBox.minPoint.x <= objectAABB.minPoint.x && boundingBox.minPoint.y <= objectAABB.minPoint.y &&
 		   boundingBox.minPoint.z <= objectAABB.minPoint.z && objectAABB.maxPoint.x <= boundingBox.maxPoint.x &&
@@ -260,7 +260,7 @@ void Quadtree::ExpandToFit(GameObject* gameObject)
 	float3 newMaxPoint = GetBoundingBox().maxPoint;
 	float3 newMinPoint = GetBoundingBox().minPoint;
 
-	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 	const AABB& gameObjectAABB = transform->GetEncapsuledAABB();
 	float3 gameObjectMaxPoint = gameObjectAABB.maxPoint;
 	float3 gameObjectMinPoint = gameObjectAABB.minPoint;
@@ -391,7 +391,7 @@ void Quadtree::AddGameObjectAndChildren(GameObject* gameObject)
 		return;
 	}
 	// If an object doesn't have transform component it can't be in the quadtree
-	if (gameObject->GetComponent<ComponentTransform>() == nullptr)
+	if (gameObject->GetComponentInternal<ComponentTransform>() == nullptr)
 	{
 		return;
 	}
