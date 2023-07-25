@@ -10,6 +10,11 @@ public:
 			const std::string& vtxShaderFileName,
 			const std::string& frgShaderFileName,
 			const std::string& programName);
+
+	Program(unsigned computeShader,
+			const std::string& computeShaderName,
+			const std::string& programName);
+
 	~Program();
 
 	void Activate();
@@ -41,6 +46,7 @@ private:
 	unsigned id;
 	std::string vertexShaderFileName;
 	std::string fragmentShaderFileName;
+	std::string computeShaderFileName;
 	std::string programName;
 };
 

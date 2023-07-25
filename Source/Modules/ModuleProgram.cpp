@@ -84,6 +84,8 @@ bool ModuleProgram::Start()
 
 	programs.push_back(CreateProgram("shadow_map_vertex.glsl", "shadow_map_fragment.glsl", "ShadowMapping"));
 
+	programs.push_back(CreateProgram("parallel_reduction.glsl", "ParallelReduction"));
+
 	return true;
 }
 
@@ -129,6 +131,31 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShad
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+
+	return program;
+}
+
+std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& computeShaderName, const std::string& programName)
+{
+	char* computeBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + computeShaderName).c_str(), computeBuffer);
+	unsigned computeShader = CompileShader(GL_COMPUTE_SHADER, computeBuffer);
+	delete computeBuffer;
+
+	if (computeShader == 0)
+	{
+		return nullptr;
+	}
+
+	std::unique_ptr<Program> program =
+		std::make_unique<Program>(computeShader, computeShaderName, programName);
+
+	if (!program->IsValidProgram())
+	{
+		return nullptr;
+	}
+
+	glDeleteShader(computeShader);
 
 	return program;
 }
