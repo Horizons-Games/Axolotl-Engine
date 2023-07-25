@@ -78,3 +78,8 @@ void RangedFastAttackBullet::DestroyBullet()
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
+
+void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)
+{
+	velocity = nVelocity;
+}

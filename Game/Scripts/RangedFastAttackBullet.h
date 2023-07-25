@@ -32,9 +32,3 @@ private:
 	ComponentTransform* parentTransform;
 	ComponentAudioSource* audioSource;
 };
-
-
-inline void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)
-{
-	velocity = nVelocity;
-}
