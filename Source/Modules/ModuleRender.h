@@ -95,7 +95,6 @@ private:
 	GBuffer* gBuffer;
 
 	unsigned uboCamera;
-	unsigned vbo;
 
 	unsigned modeRender;
 	unsigned toneMappingMode;

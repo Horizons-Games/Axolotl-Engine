@@ -183,10 +183,9 @@ bool ModuleRender::Init()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-#ifdef ENGINE
 	glGenFramebuffers(1, &frameBuffer);
 	glGenTextures(1, &renderedTexture);
-#endif // ENGINE
+
 	glGenFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
 	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
@@ -283,9 +282,6 @@ UpdateStatus ModuleRender::Update()
 		DrawQuadtree(loadedScene->GetRootQuadtree());
 	}
 
-	int w, h;
-	SDL_GetWindowSize(window->GetWindow(), &w, &h);
-
 	// -------- DEFERRED GEOMETRY -----------
 
 	// Draw opaque objects
@@ -307,7 +303,7 @@ UpdateStatus ModuleRender::Update()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // maybe we should move out this
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	Program* program = moduleProgram->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
@@ -323,7 +319,7 @@ UpdateStatus ModuleRender::Update()
 
 	int width, height;
 
-	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+	SDL_GetWindowSize(window->GetWindow(), &width, &height);
 
 	gBuffer->ReadFrameBuffer();
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
@@ -337,7 +333,7 @@ UpdateStatus ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
+	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), width, height);
 
 	// -------- DEFERRED + FORWARD ---------------
 
@@ -405,7 +401,12 @@ UpdateStatus ModuleRender::Update()
 	KawaseDualFiltering();
 
 	// Color correction
+#ifdef ENGINE
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+#else
+	glBindFramebuffer(GL_FRAMEBUFFER, 0); // default_frame_buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+#endif // ENGINE
 
 	Program* colorCorrectionProgram = moduleProgram->GetProgram(ProgramType::COLOR_CORRECTION);
 	colorCorrectionProgram->Activate();
@@ -414,6 +415,7 @@ UpdateStatus ModuleRender::Update()
 	glBindTexture(GL_TEXTURE_2D, renderedTexture);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
+
 	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
 	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
 
@@ -729,6 +731,7 @@ void ModuleRender::KawaseDualFiltering()
 		kawaseFrameBuffer = !kawaseFrameBuffer;
 	}
 	kawaseUpProgram->Deactivate();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
