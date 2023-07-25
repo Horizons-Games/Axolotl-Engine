@@ -344,9 +344,9 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 		loader::LoadMode::BLOCKING);
 }
 
-void ModuleScene::LoadSceneAsync(const std::string& name, std::function<void(void)> callback, bool mantainCurrentScene)
+void ModuleScene::LoadSceneAsync(const std::string& name, std::function<void(void)>&& callback, bool mantainCurrentScene)
 {
-	loader::LoadScene(name, callback, mantainCurrentScene, loader::LoadMode::ASYNCHRONOUS);
+	loader::LoadScene(name, std::move(callback), mantainCurrentScene, loader::LoadMode::ASYNCHRONOUS);
 }
 
 void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)

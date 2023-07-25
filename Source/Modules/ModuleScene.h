@@ -37,7 +37,7 @@ public:
 	void LoadScene(const std::string& name, bool mantainScene = false);
 	// !!! UNDER NO CIRCUMSTANCE SHOULD YOU BLOCK THE MAIN THREAD WAITING FOR THE CALLBACK TO BE INVOKED !!!
 	// I'll try to add a timeout so we can handle such cases, but in the meantime, please avoid it
-	void LoadSceneAsync(const std::string& name, std::function<void(void)> callback, bool mantainCurrentScene = false);
+	void LoadSceneAsync(const std::string& name, std::function<void(void)>&& callback, bool mantainCurrentScene = false);
 
 	void OnPlay();
 	void OnStop();

@@ -426,8 +426,8 @@ void StartLoadScene()
 
 } // namespace
 
-void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Document>> sceneNameOrDocument,
-			   std::function<void(void)> callback,
+void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Document>>&& sceneNameOrDocument,
+			   std::function<void(void)>&& callback,
 			   bool mantainCurrentScene,
 			   LoadMode loadMode)
 {
@@ -436,7 +436,7 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 		LOG_ERROR("Async load called while existing hasn't finished, ignoring.");
 		return;
 	}
-	currentLoadingConfig = { callback, mantainCurrentScene, loadMode };
+	currentLoadingConfig = { std::move(callback), mantainCurrentScene, loadMode };
 	// see if user passed a filepath or an existing json
 	if (std::holds_alternative<std::string>(sceneNameOrDocument))
 	{

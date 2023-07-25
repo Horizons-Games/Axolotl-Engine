@@ -10,8 +10,8 @@ enum class LoadMode
 	ASYNCHRONOUS
 };
 
-void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Document>> sceneNameOrDocument,
-			   std::function<void(void)> callback,
+void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Document>>&& sceneNameOrDocument,
+			   std::function<void(void)>&& callback,
 			   bool mantainCurrentScene,
 			   LoadMode loadMode);
 
