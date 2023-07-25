@@ -296,7 +296,7 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
-	pendingActions.emplace(
+	AddPendingAction(
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
