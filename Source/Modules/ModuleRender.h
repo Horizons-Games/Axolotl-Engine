@@ -103,10 +103,13 @@ private:
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
 
-	GLuint frameBuffer;
-	GLuint renderedTexture;
+	// 0: used in game and engine 
+	// 1: only in engine, stores the final result, to avoid writing and reading at the same time
+	GLuint frameBuffer[2];
+	GLuint renderedTexture[2];
 
-	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG]; // Ping-pong buffers to blur bloom
+	// Ping-pong buffers to kawase dual filtering bloom
+	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG];
 	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
 	
 	GLuint depthStencilRenderBuffer;
@@ -142,7 +145,7 @@ inline void ModuleRender::SwitchBloomActivation()
 
 inline GLuint ModuleRender::GetRenderedTexture() const
 {
-	return renderedTexture;
+	return renderedTexture[1];
 }
 
 inline BatchManager* ModuleRender::GetBatchManager() const
