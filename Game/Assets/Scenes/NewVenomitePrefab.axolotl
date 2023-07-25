@@ -293,34 +293,6 @@
         },
         {
             "GameObject": {
-                "name": "BulletOriginL",
-                "tag": "",
-                "uid": 2354890888242977287,
-                "parentUID": 4430577212557804531,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.637825071811676,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.109311580657959,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Venomite_Soldier",
                 "tag": "Enemy",
                 "uid": 4430577212557804531,
@@ -3756,34 +3728,6 @@
                             "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Sphere.002_0.mesh",
                             "materialUID": 1519239028450570977,
                             "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginR",
-                "tag": "",
-                "uid": 3508979104029647175,
-                "parentUID": 4430577212557804531,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.6380000114440918,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.760545253753662,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]

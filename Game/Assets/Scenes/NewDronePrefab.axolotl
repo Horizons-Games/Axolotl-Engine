@@ -2994,34 +2994,6 @@
         },
         {
             "GameObject": {
-                "name": "BulletOrigin",
-                "tag": "",
-                "uid": 2605361363187490962,
-                "parentUID": 48875548050334293,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.2737367544323206e-13,
-                            "localPos_Y": 0.5204896330833435,
-                            "localPos_Z": 1.6875813007354736,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "ExplosionArea",
                 "tag": "",
                 "uid": 11812119009022448789,

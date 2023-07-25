@@ -13187,34 +13187,6 @@
         },
         {
             "GameObject": {
-                "name": "BulletOrigin",
-                "tag": "",
-                "uid": 15130364200374570159,
-                "parentUID": 9419324827224935529,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.2737367544323206e-13,
-                            "localPos_Y": 0.5204896330833435,
-                            "localPos_Z": 1.6875813007354736,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "ExplosionArea",
                 "tag": "",
                 "uid": 1435588834732233720,
@@ -16152,34 +16124,6 @@
         },
         {
             "GameObject": {
-                "name": "BulletOrigin",
-                "tag": "",
-                "uid": 4153778932363935800,
-                "parentUID": 14606855830618181560,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 2.2737367544323206e-13,
-                            "localPos_Y": 0.5204896330833435,
-                            "localPos_Z": 1.6875813007354736,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "ExplosionArea",
                 "tag": "",
                 "uid": 11623988761034832719,
@@ -16465,34 +16409,6 @@
                             "rbPos_X": -9.97762680053711,
                             "rbPos_Y": 0.9167737364768982,
                             "rbPos_Z": 0.9055957794189453
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginL",
-                "tag": "",
-                "uid": 9125095254725605555,
-                "parentUID": 6043398887632489792,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.637825071811676,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.109311580657959,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]
@@ -19942,34 +19858,6 @@
         },
         {
             "GameObject": {
-                "name": "BulletOriginR",
-                "tag": "",
-                "uid": 6681949887014317205,
-                "parentUID": 6043398887632489792,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.6380000114440918,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.760545253753662,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "RaycastsAttack",
                 "tag": "",
                 "uid": 14266477998475451613,
@@ -20178,34 +20066,6 @@
                             "rbPos_X": -13.030592918395996,
                             "rbPos_Y": 0.9167737364768982,
                             "rbPos_Z": 5.935412406921387
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginL",
-                "tag": "",
-                "uid": 3926326442080684873,
-                "parentUID": 18030829170383573904,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.637825071811676,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.109311580657959,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]
@@ -23648,34 +23508,6 @@
                             "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Sphere.002_0.mesh",
                             "materialUID": 1519239028450570977,
                             "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginR",
-                "tag": "",
-                "uid": 1087838314122023019,
-                "parentUID": 18030829170383573904,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.6380000114440918,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.760545253753662,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]
