@@ -19,7 +19,7 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 {
 	influenceRadius = 1.0f;
 	positionOffset = float3::zero;
-	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 	isSampleFocusEnabled = false;
 	isSampleFixedEnabled = false;
 }
@@ -50,7 +50,7 @@ void ComponentCameraSample::Draw() const
 		return;
 	}
 
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 
 	dd::sphere(position, dd::colors::Yellow, influenceRadius);
@@ -75,7 +75,7 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
 	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
 
-	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
 	meta["positionY"] = (float) position.y;
 	meta["positionZ"] = (float) position.z;

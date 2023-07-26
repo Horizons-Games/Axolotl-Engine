@@ -33,7 +33,7 @@ void WindowComponentTransform::DrawWindowContents()
 			asTransform->SetDrawBoundingBoxes(bbdraw);
 			for (GameObject* child : asTransform->GetOwner()->GetChildren())
 			{
-				ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 				transform->SetDrawBoundingBoxes(bbdraw);
 			}
 		}
@@ -268,7 +268,7 @@ void WindowComponentTransform::UpdateLights()
 		// Rendering lights if modified
 		if (translationModified || rotationModified)
 		{
-			const ComponentLight* lightComp = asTransform->GetOwner()->GetComponent<ComponentLight>();
+			const ComponentLight* lightComp = asTransform->GetOwner()->GetComponentInternal<ComponentLight>();
 
 			if (lightComp)
 			{

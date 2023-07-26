@@ -15,6 +15,32 @@
 
 #include "ComponentRigidBody.h"
 
+namespace
+{
+// helper method to handle exception and validity state of the component
+// this logic is the same for all the method of component script, so we can just encapsulate it here
+template<typename Fun>
+void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript* script, Fun&& scriptMethod)
+{
+	try
+	{
+		if (scriptFailedState)
+		{
+			return;
+		}
+		scriptMethod();
+	}
+	catch (const ComponentNotFoundException& exception)
+	{
+		LOG_ERROR("Error during execution of script {}, owned by {}. Error message: {}",
+				  script->GetConstructName(),
+				  script->GetOwner(),
+				  exception.what());
+		scriptFailedState = true;
+	}
+}
+} // namespace
+
 ComponentScript::ComponentScript(bool active, GameObject* owner) :
 	Component(ComponentType::SCRIPT, active, owner, true),
 	script(nullptr)
@@ -27,70 +53,115 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (!initialized && GetOwner()->IsActive() && ScriptCanBeCalled())
-	{
-		script->Init();
-		initialized = true;
-	}
+	failed = false;
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (!initialized && GetOwner()->IsActive() && ScriptCanBeCalled())
+										  {
+											  script->Init();
+											  initialized = true;
+										  }
+									  });
 }
 
 void ComponentScript::Start()
 {
-	if (!started && IsEnabled() && ScriptCanBeCalled())
-	{
-		script->Start();
-		started = true;
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (!started && IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->Start();
+											  started = true;
+										  }
+									  });
 }
 
 void ComponentScript::PreUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->PreUpdate(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->PreUpdate(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::Update()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->Update(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->Update(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::PostUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->PostUpdate(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->PostUpdate(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->OnCollisionEnter(other);
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this, &other]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->OnCollisionEnter(other);
+										  }
+									  });
 }
 void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->OnCollisionExit(other);
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this, &other]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->OnCollisionExit(other);
+										  }
+									  });
 }
 
 void ComponentScript::CleanUp()
 {
-	// Call CleanUp regardless if the script is active or not
-	if (script)
-	{
-		script->CleanUp();
-	}
-	started = false;
-	initialized = false;
+	// reset the failed state again, so even if the script had an error during its execution, try to clean up
+	failed = false;
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  // Call CleanUp regardless if the script is active or not
+										  if (script)
+										  {
+											  script->CleanUp();
+										  }
+										  started = false;
+										  initialized = false;
+									  });
+	// reset the failed state again in case there was an error during cleanup
+	failed = true;
 }
 
 bool ComponentScript::ScriptCanBeCalled() const
