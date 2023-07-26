@@ -1,0 +1,52 @@
+#include "StdAfx.h"
+#include "JumpFinisherAttack.h"
+
+#include "ModuleInput.h"
+
+#include "Components/ComponentScript.h"
+
+#include "../Scripts/JumpFinisherArea.h"
+#include "../Scripts/JumpFinisherAttackBullet.h"
+
+REGISTERCLASS(JumpFinisherAttack);
+
+JumpFinisherAttack::JumpFinisherAttack() : Script(), cooldown(6.0f), currentCooldown(0.0f), input(nullptr)
+{
+	REGISTER_FIELD(cooldown, float);
+	REGISTER_FIELD(forceArea, JumpFinisherArea*);
+	REGISTER_FIELD(forceAttackBullet, JumpFinisherAttackBullet*);
+}
+
+void JumpFinisherAttack::Start()
+{
+	input = App->GetModule<ModuleInput>();
+}
+
+void JumpFinisherAttack::Update(float deltaTime)
+{
+	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCooldown <= 0) // Bix jump finisher
+	{
+		currentCooldown = cooldown;
+		forceArea->PushEnemies();
+	}
+
+	else if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE && currentCooldown <= 0) // Allura jump finisher
+	{
+		currentCooldown = cooldown;
+		ShootForceBullet();
+	}
+
+	else
+	{
+		if (currentCooldown > 0)
+		{
+			currentCooldown -= deltaTime;
+			currentCooldown = std::max(0.0f, currentCooldown);
+		}
+	}
+}
+
+void JumpFinisherAttack::ShootForceBullet()
+{
+
+}

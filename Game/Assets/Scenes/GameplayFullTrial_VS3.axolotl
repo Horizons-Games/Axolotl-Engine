@@ -1081,6 +1081,31 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "JumpFinisherAttack",
+                            "fields": [
+                                {
+                                    "name": "Cooldown",
+                                    "value": 6.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ForceArea",
+                                    "value": 5796801568389261786,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ForceAttackBullet",
+                                    "value": 14250011793920983639,
+                                    "type": 2
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -6700,11 +6725,6 @@
                                 {
                                     "name": "StunTime",
                                     "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CoolDown",
-                                    "value": 6.0,
                                     "type": 0
                                 },
                                 {
@@ -23582,11 +23602,6 @@
                                 {
                                     "name": "StunTime",
                                     "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CoolDown",
-                                    "value": 6.0,
                                     "type": 0
                                 },
                                 {

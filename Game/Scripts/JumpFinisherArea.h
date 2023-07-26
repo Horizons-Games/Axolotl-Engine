@@ -1,10 +1,12 @@
 #pragma once
-#include "Script.h"
 
-class ModuleInput;
+#include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
+
 class ComponentRigidBody;
 class ComponentTransform;
-
 
 class JumpFinisherArea : public Script
 {
@@ -23,13 +25,10 @@ public:
 private:
 	std::vector<GameObject*> enemiesInTheArea;
 
-	float force;
-	float stunTime;
-	float coolDown;
-	float currentCoolDown;
-	float forceDamage;
-
-	ModuleInput* input;
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
+
+	float force;
+	float stunTime;
+	float forceDamage;
 };

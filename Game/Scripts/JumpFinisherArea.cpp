@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "JumpFinisherArea.h"
 
-#include "ModuleInput.h"
-
-#include "Components/Component.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
@@ -13,42 +10,25 @@
 
 REGISTERCLASS(JumpFinisherArea);
 
-JumpFinisherArea::JumpFinisherArea() : Script(), force(10.0f), stunTime(3.0f), coolDown(6.0f),
-	currentCoolDown(0.0f), forceDamage(10.0f)
+JumpFinisherArea::JumpFinisherArea() : Script(), force(10.0f), stunTime(3.0f), forceDamage(10.0f),
+	parentTransform(nullptr), rigidBody(nullptr)
 {
 	enemiesInTheArea.reserve(10);
 
 	REGISTER_FIELD(force, float);
 	REGISTER_FIELD(stunTime, float);
-	REGISTER_FIELD(coolDown, float);
 	REGISTER_FIELD(forceDamage, float);
-
 }
 
 void JumpFinisherArea::Start()
 {
-	input = App->GetModule<ModuleInput>();
-	rigidBody =	owner->GetComponent<ComponentRigidBody>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 }
 
 void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
-
-	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCoolDown <= 0)
-	{
-		currentCoolDown = coolDown;
-		PushEnemies();
-	}
-	else
-	{
-		if (currentCoolDown > 0) 
-		{
-			currentCoolDown -= deltaTime;
-			currentCoolDown = std::max(0.0f, currentCoolDown);
-		}
-	}
 }
 
 void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
@@ -73,8 +53,7 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 
 void JumpFinisherArea::PushEnemies()
 {
-	const ComponentTransform* transform =
-		owner->GetComponent<ComponentTransform>();
+	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
 		it++)
@@ -103,8 +82,7 @@ void JumpFinisherArea::PushEnemies()
 		EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
 		enemyScript->SetStunnedTime(stunTime);
 
-		HealthSystem* enemyHealthScript =
-			(*it)->GetComponent<HealthSystem>();
+		HealthSystem* enemyHealthScript = (*it)->GetComponent<HealthSystem>();
 
 		enemyHealthScript->TakeDamage(forceDamage);
 	}

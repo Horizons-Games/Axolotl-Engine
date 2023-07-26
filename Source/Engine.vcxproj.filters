@@ -612,6 +612,9 @@
     <ClCompile Include="..\Game\Scripts\JumpFinisherArea.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\JumpFinisherAttack.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1267,6 +1270,9 @@
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\JumpFinisherArea.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\JumpFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
     </ClInclude>
   </ItemGroup>
