@@ -166,8 +166,8 @@ void ComponentTrail::InternalSave(Json& meta)
 		assetPath = texture->GetAssetsPath();
 	}
 
-	meta["materialUID"] = static_cast<UID>(uid);
-	meta["assetPathMaterial"] = assetPath.c_str();
+	meta["textureUID"] = static_cast<UID>(uid);
+	meta["assetPathTexture"] = assetPath.c_str();
 }
 
 void ComponentTrail::InternalLoad(const Json& meta)
@@ -188,14 +188,24 @@ void ComponentTrail::InternalLoad(const Json& meta)
 								  static_cast<float>(jsonColors[i]["color_a"])));
 	}
 	gradient->refreshCache();
-	
-	std::string path = meta["assetPathMaterial"];
+#ifdef ENGINE
+	std::string path = meta["assetPathTexture"];
 	bool materialExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (materialExists)
 	{
 		texture = App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(path);
 	}
+#else
+	UID uidTexture = meta["textureUID"];
+	std::shared_ptr<ResourceTexture> resourceTexture =
+		App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(uidTexture);
+
+	if (resourceTexture)
+	{
+		texture = resourceTexture;
+	}
+#endif // ENGINE
 }
 
 void ComponentTrail::CreateBuffers()
