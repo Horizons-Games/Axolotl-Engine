@@ -11,6 +11,7 @@ class ComponentScript : public Component, public Updatable
 {
 public:
 	ComponentScript(bool active, GameObject* owner);
+	ComponentScript(const ComponentScript& other);
 
 	~ComponentScript() override;
 
