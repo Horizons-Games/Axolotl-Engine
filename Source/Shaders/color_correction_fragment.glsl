@@ -10,6 +10,7 @@ in vec2 TexCoord;
 
 layout(binding = 0) uniform sampler2D scene;
 layout(binding = 1) uniform sampler2D bloomBlur;
+
 uniform int tonneMappingMode;
 uniform int bloomActivation;
 
@@ -54,9 +55,12 @@ void main()
     }
     
     // tone mapping
-    vec3 result = hdrColor;
-    result = result / (result + vec3(1.0));
-    if (tonneMappingMode == 1)
+    vec3 result;
+    if (tonneMappingMode == 0) // Reinhard tone mapping
+    {
+        result = hdrColor.rgb / (hdrColor.rgb + vec3(1.0));
+    }
+    else if (tonneMappingMode == 1)
     {
         result = uncharted2_tonemap(hdrColor);
     }
