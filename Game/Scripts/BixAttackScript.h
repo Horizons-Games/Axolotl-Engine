@@ -47,16 +47,17 @@ private:
 
 	bool isDeathTouched;
 
+	ModuleInput* input;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
+
 	GameObject* animationGO;
-	EntityDetection* enemyDetection;
 	GameObject* enemyDetectionObject;
 
-	ModuleInput* input;
-
+	EntityDetection* enemyDetection;
 	PlayerManagerScript* playerManager;
+
 	AttackCombo attackComboPhase;
 };

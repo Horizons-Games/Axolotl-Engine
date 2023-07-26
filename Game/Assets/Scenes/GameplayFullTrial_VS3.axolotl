@@ -23678,7 +23678,13 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceAttackBulletScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "ForceArea",
+                                    "value": 8166282151556450443,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]

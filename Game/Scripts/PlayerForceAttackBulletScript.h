@@ -8,6 +8,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentRigidBody;
 class ComponentTransform;
 
+class PlayerForceAttackScript;
+
 class PlayerForceAttackBulletScript : public Script
 {
 public:
@@ -17,7 +19,11 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
+
 private:
 	ComponentTransform* parentTransform;
 	ComponentRigidBody* rigidBody;
+
+	PlayerForceAttackScript* forceArea;
 };
