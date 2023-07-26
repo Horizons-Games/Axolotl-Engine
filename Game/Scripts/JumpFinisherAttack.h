@@ -27,6 +27,6 @@ private:
 	float cooldown;
 	float currentCooldown;
 
-	JumpFinisherArea* forceArea;
-	JumpFinisherAttackBullet* forceAttackBullet;
+	GameObject* forceArea;
+	GameObject* forceAttackBullet;
 };

@@ -44,9 +44,9 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 	enemiesInTheArea.erase(
 		std::remove_if(
 			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const GameObject* gameObject)
-		{
-			return gameObject == other->GetOwner();
-		}
+			{
+				return gameObject == other->GetOwner();
+			}
 		),
 		std::end(enemiesInTheArea));
 }

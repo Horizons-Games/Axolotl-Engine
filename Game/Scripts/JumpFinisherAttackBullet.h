@@ -21,9 +21,18 @@ public:
 
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 
+	void SetBulletVelocity(float velocity);
+
 private:
+	void InitializeBullet();
+	void DestroyBullet();
+
 	ComponentTransform* parentTransform;
 	ComponentRigidBody* rigidBody;
 
 	JumpFinisherArea* forceArea;
+
+	float bulletVelocity;
+	float originTime;
+	float bulletLifeTime;
 };

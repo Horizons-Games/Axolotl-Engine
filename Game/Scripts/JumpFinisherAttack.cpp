@@ -2,7 +2,10 @@
 #include "JumpFinisherAttack.h"
 
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
+#include "Scripting/ScriptFactory.h"
 #include "Components/ComponentScript.h"
 
 #include "../Scripts/JumpFinisherArea.h"
@@ -13,8 +16,8 @@ REGISTERCLASS(JumpFinisherAttack);
 JumpFinisherAttack::JumpFinisherAttack() : Script(), cooldown(6.0f), currentCooldown(0.0f), input(nullptr)
 {
 	REGISTER_FIELD(cooldown, float);
-	REGISTER_FIELD(forceArea, JumpFinisherArea*);
-	REGISTER_FIELD(forceAttackBullet, JumpFinisherAttackBullet*);
+	REGISTER_FIELD(forceArea, GameObject*);
+	REGISTER_FIELD(forceAttackBullet, GameObject*);
 }
 
 void JumpFinisherAttack::Start()
@@ -27,7 +30,8 @@ void JumpFinisherAttack::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCooldown <= 0) // Bix jump finisher
 	{
 		currentCooldown = cooldown;
-		forceArea->PushEnemies();
+		JumpFinisherArea* forceAreaComponent = forceArea->GetComponent<JumpFinisherArea>();
+		forceAreaComponent->PushEnemies();
 	}
 
 	else if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE && currentCooldown <= 0) // Allura jump finisher
@@ -49,5 +53,10 @@ void JumpFinisherAttack::Update(float deltaTime)
 void JumpFinisherAttack::ShootForceBullet()
 {
 	// Duplicate force bullet
+	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject(forceAttackBullet->GetName(), forceAttackBullet, owner);
+	newForceBullet->SetName("aaaaaaaa");
+	newForceBullet->GetComponent<JumpFinisherAttackBullet>()->Start();
+
 	// Launch it in front of Allura
 }
