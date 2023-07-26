@@ -6690,7 +6690,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerForceAttackScript",
+                            "constructName": "JumpFinisherArea",
                             "fields": [
                                 {
                                     "name": "Force",
@@ -23572,7 +23572,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerForceAttackScript",
+                            "constructName": "JumpFinisherArea",
                             "fields": [
                                 {
                                     "name": "Force",
@@ -23677,7 +23677,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerForceAttackBulletScript",
+                            "constructName": "JumpFinisherAttackBullet",
                             "fields": [
                                 {
                                     "name": "ForceArea",

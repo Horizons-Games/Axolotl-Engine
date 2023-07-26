@@ -6,11 +6,11 @@ class ComponentRigidBody;
 class ComponentTransform;
 
 
-class PlayerForceAttackScript : public Script
+class JumpFinisherArea : public Script
 {
 public:
-	PlayerForceAttackScript();
-	~PlayerForceAttackScript();
+	JumpFinisherArea();
+	~JumpFinisherArea() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;

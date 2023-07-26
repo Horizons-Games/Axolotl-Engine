@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "PlayerForceAttackScript.h"
+#include "JumpFinisherArea.h"
 
 #include "ModuleInput.h"
 
@@ -11,9 +11,9 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
 
-REGISTERCLASS(PlayerForceAttackScript);
+REGISTERCLASS(JumpFinisherArea);
 
-PlayerForceAttackScript::PlayerForceAttackScript() : Script(), force(10.0f), stunTime(3.0f), coolDown(6.0f), 
+JumpFinisherArea::JumpFinisherArea() : Script(), force(10.0f), stunTime(3.0f), coolDown(6.0f),
 	currentCoolDown(0.0f), forceDamage(10.0f)
 {
 	enemiesInTheArea.reserve(10);
@@ -25,18 +25,14 @@ PlayerForceAttackScript::PlayerForceAttackScript() : Script(), force(10.0f), stu
 
 }
 
-PlayerForceAttackScript::~PlayerForceAttackScript()
-{
-}
-
-void PlayerForceAttackScript::Start()
+void JumpFinisherArea::Start()
 {
 	input = App->GetModule<ModuleInput>();
 	rigidBody =	owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 }
 
-void PlayerForceAttackScript::Update(float deltaTime)
+void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
 
@@ -55,7 +51,7 @@ void PlayerForceAttackScript::Update(float deltaTime)
 	}
 }
 
-void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
+void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->GetTag() == "Enemy")
 	{
@@ -63,7 +59,7 @@ void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	}
 }
 
-void PlayerForceAttackScript::OnCollisionExit(ComponentRigidBody* other)
+void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 {
 	enemiesInTheArea.erase(
 		std::remove_if(
@@ -75,7 +71,7 @@ void PlayerForceAttackScript::OnCollisionExit(ComponentRigidBody* other)
 		std::end(enemiesInTheArea));
 }
 
-void PlayerForceAttackScript::PushEnemies()
+void JumpFinisherArea::PushEnemies()
 {
 	const ComponentTransform* transform =
 		owner->GetComponent<ComponentTransform>();

@@ -256,8 +256,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceAttackBulletScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
+    <ClCompile Include="..\Game\Scripts\JumpFinisherAttackBullet.cpp" />
+    <ClCompile Include="..\Game\Scripts\JumpFinisherArea.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
@@ -771,8 +771,8 @@
     <ClInclude Include="..\Game\Scripts\DebugGame.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\GameManager.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerForceAttackBulletScript.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\JumpFinisherAttackBullet.h" />
+    <ClInclude Include="..\Game\Scripts\JumpFinisherArea.h" />
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />

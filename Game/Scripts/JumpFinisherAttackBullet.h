@@ -8,13 +8,13 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentRigidBody;
 class ComponentTransform;
 
-class PlayerForceAttackScript;
+class JumpFinisherArea;
 
-class PlayerForceAttackBulletScript : public Script
+class JumpFinisherAttackBullet : public Script
 {
 public:
-	PlayerForceAttackBulletScript();
-	~PlayerForceAttackBulletScript() override = default;
+	JumpFinisherAttackBullet();
+	~JumpFinisherAttackBullet() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -25,5 +25,5 @@ private:
 	ComponentTransform* parentTransform;
 	ComponentRigidBody* rigidBody;
 
-	PlayerForceAttackScript* forceArea;
+	JumpFinisherArea* forceArea;
 };

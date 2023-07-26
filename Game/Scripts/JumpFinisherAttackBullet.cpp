@@ -1,31 +1,31 @@
 #include "StdAfx.h"
-#include "PlayerForceAttackBulletScript.h"
+#include "JumpFinisherAttackBullet.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
-#include "../Scripts/PlayerForceAttackScript.h"
+#include "../Scripts/JumpFinisherArea.h"
 
-REGISTERCLASS(PlayerForceAttackBulletScript);
+REGISTERCLASS(JumpFinisherAttackBullet);
 
-PlayerForceAttackBulletScript::PlayerForceAttackBulletScript() : Script()
+JumpFinisherAttackBullet::JumpFinisherAttackBullet() : Script()
 {
-	REGISTER_FIELD(forceArea, PlayerForceAttackScript*);
+	REGISTER_FIELD(forceArea, JumpFinisherArea*);
 }
 
-void PlayerForceAttackBulletScript::Start()
+void JumpFinisherAttackBullet::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 }
 
-void PlayerForceAttackBulletScript::Update(float deltaTime)
+void JumpFinisherAttackBullet::Update(float deltaTime)
 {
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
 }
 
-void PlayerForceAttackBulletScript::OnCollisionEnter(ComponentRigidBody* other)
+void JumpFinisherAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (!other->GetOwner()->CompareTag("Player"))
 	{
