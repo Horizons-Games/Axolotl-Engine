@@ -48,5 +48,6 @@ void JumpFinisherAttack::Update(float deltaTime)
 
 void JumpFinisherAttack::ShootForceBullet()
 {
-
+	// Duplicate force bullet
+	// Launch it in front of Allura
 }

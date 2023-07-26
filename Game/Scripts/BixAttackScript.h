@@ -10,8 +10,8 @@ class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
-class EntityDetection;
 
+class EntityDetection;
 class PlayerManagerScript;
 
 enum class AttackCombo

@@ -104,14 +104,6 @@ bool BixAttackScript::IsAttackAvailable() const
 
 void BixAttackScript::CheckCombo()
 {
-	// Test Allura jumping finisher
-	// TODO: Remove this once it is integrated in the combo system
-	if (input->GetMouseButton(SDL_BUTTON_MIDDLE) == KeyState::DOWN && IsAttackAvailable())
-	{
-		LOG_VERBOSE("Allura jump finisher");
-		lastAttackTime = SDL_GetTicks() / 1000.0f;
-	}
-
 	// Attack, starting the combo
 	if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN && IsAttackAvailable())
 	{
