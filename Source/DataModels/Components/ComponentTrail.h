@@ -53,6 +53,9 @@ public:
 	bool IsOnPlay();
 	void SetOnPlay(bool onPlay);
 
+	BlendingMode GetBlendingMode();
+	void SetBlendingMode(BlendingMode mode);
+
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -148,4 +151,14 @@ inline bool ComponentTrail::IsOnPlay()
 inline void ComponentTrail::SetOnPlay(bool onPlay)
 {
 	this->onPlay = onPlay;
+}
+
+inline BlendingMode ComponentTrail::GetBlendingMode()
+{
+	return blendingMode;
+}
+
+inline void ComponentTrail::SetBlendingMode(BlendingMode mode)
+{
+	blendingMode = mode;
 }

@@ -7,6 +7,8 @@
 #include "DataModels/Resources/ResourceTexture.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowTrailTexture.h"
 
+#include "Enums/BlendingType.h"
+
 
 WindowComponentTrail::WindowComponentTrail(ComponentTrail* component) : 
 			ComponentWindow("TRAIL", component),
@@ -28,42 +30,125 @@ void WindowComponentTrail::DrawWindowContents()
 
 	if (componentTrail)
 	{
-		bool onPlay = componentTrail->IsOnPlay();
-		ImGui::Text("");
-		ImGui::Text("Play");
-		ImGui::SameLine();
-		if (ImGui::Checkbox("##Onplay", &onPlay))
+		if (ImGui::BeginTable("##trailTable", 2))
 		{
-			componentTrail->SetOnPlay(onPlay);
+			ImGui::TableNextColumn();
+			bool onPlay = componentTrail->IsOnPlay();
+			ImGui::Text("Play");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			if (ImGui::Checkbox("##Onplay", &onPlay))
+			{
+				componentTrail->SetOnPlay(onPlay);
+			}
+
+			float duration = componentTrail->GetDuration();
+			ImGui::TableNextColumn();
+			ImGui::Text("Duration");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+
+			if (ImGui::DragFloat("##Duration", &duration, 0.1f, 0.1f, 25.f))
+			{
+				if (duration > 25.f)
+				{
+					duration = 25.f;
+				}
+				else if (duration < 0.1f)
+				{
+					duration = 0.1f;
+				}
+				componentTrail->SetDuration(duration);
+			}
+			
+			ImGui::TableNextColumn();
+			ImGui::Text("Minimum distance");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			
+			float minDistance = componentTrail->GetMinDistance();
+
+			if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.1f, 1.f, 10.f))
+			{
+				if (minDistance > 10.f)
+				{
+					minDistance = 10.f;
+				}
+				else if (minDistance < 0.1f)
+				{
+					minDistance = 0.1f;
+				}
+				componentTrail->SetMinDistance(minDistance);
+			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Width");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+
+			float width = componentTrail->GetWidth();
+			if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 100.0f))
+			{
+				componentTrail->SetWidth(width);
+			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Blending");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+
+			BlendingMode blending = componentTrail->GetBlendingMode();
+
+			const char* blendingItems[] = { "ALPHA", "ADDITIVE" };
+			static const char* currentItem;
+			switch (blending)
+			{
+			case BlendingMode::ALPHA:
+				currentItem = blendingItems[0];
+				break;
+			case BlendingMode::ADDITIVE:
+				currentItem = blendingItems[1];
+				break;
+			}
+
+			if (ImGui::BeginCombo("##blendingCombo", currentItem))
+			{
+				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); n++)
+				{
+					bool isSelected = (currentItem == blendingItems[n]);
+
+					if (ImGui::Selectable(blendingItems[n], isSelected))
+					{
+						currentItem = blendingItems[n];
+
+						if (isSelected)
+						{
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+				}
+
+				if (currentItem == blendingItems[0])
+				{
+					blending = BlendingMode::ALPHA;
+				}
+				else if (currentItem == blendingItems[1])
+				{
+					blending = BlendingMode::ADDITIVE;
+				}
+
+				componentTrail->SetBlendingMode(blending);
+
+				ImGui::EndCombo();
+			}
+			ImGui::EndTable();
 		}
 
-		float duration = componentTrail->GetDuration();
-		ImGui::Text("");
-		ImGui::Text("Duration");
-		ImGui::SameLine();
-		if (ImGui::DragFloat("##Duration", &duration, 0.1f, 1.0f, 100.0f))
-		{
-			componentTrail->SetDuration(duration);
-		}
-
-		float minDistance = componentTrail->GetMinDistance();
-		ImGui::Text("");
-		ImGui::Text("Minimum distance");
-		ImGui::SameLine();
-		if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.1f, 1.0f, 100.0f))
-		{
-			componentTrail->SetMinDistance(minDistance);
-		}
-
-		ImGui::Text("");
-		ImGui::Text("Width");
-		ImGui::SameLine();
-		float width = componentTrail->GetWidth();
-		if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 100.0f))
-		{
-			componentTrail->SetWidth(width);
-		}
-		ImGui::Text("");
 		ImGui::Separator();
 
 		ImGui::Text("Color Gradient");
