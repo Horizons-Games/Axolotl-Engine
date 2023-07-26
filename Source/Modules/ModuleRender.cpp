@@ -531,8 +531,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomBlurTextures[i], 0);
 
@@ -721,7 +721,7 @@ void ModuleRender::KawaseDualFiltering()
 	// Blur bloom with kawase
 	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
 	bool kawaseFrameBuffer = true, firstIteration = true;
-	int kawaseSamples = 8;
+	int kawaseSamples = 10;
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
 	kawaseDownProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
@@ -745,10 +745,10 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseUpProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[!kawaseFrameBuffer]);
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[kawaseFrameBuffer]);
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[!kawaseFrameBuffer]);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
