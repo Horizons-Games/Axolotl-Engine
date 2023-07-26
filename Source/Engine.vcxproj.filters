@@ -606,6 +606,9 @@
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1218,9 +1221,6 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1261,6 +1261,9 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
+      <Filter>Auxiliar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

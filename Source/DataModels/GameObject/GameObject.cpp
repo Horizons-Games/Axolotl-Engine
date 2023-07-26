@@ -204,8 +204,8 @@ void GameObject::SetParent(GameObject* newParent)
 	// since the pointer returned will be "this"
 	std::ignore = parent->UnlinkChild(this);
 
-	ComponentTransform* transform = this->GetComponent<ComponentTransform>();
-	const ComponentTransform* newParentTransform = newParent->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = this->GetComponentInternal<ComponentTransform>();
+	const ComponentTransform* newParentTransform = newParent->GetComponentInternal<ComponentTransform>();
 	if (transform && newParentTransform)
 	{
 		transform->CalculateLocalFromNewGlobal(newParentTransform);
@@ -224,14 +224,14 @@ void GameObject::LinkChild(GameObject* child)
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 
-		ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 		if (transform)
 		{
 			transform->UpdateTransformMatrices(false);
 		}
 		else
 		{
-			ComponentTransform2D* transform2D = child->GetComponent<ComponentTransform2D>();
+			ComponentTransform2D* transform2D = child->GetComponentInternal<ComponentTransform2D>();
 			if (transform2D)
 			{
 				transform2D->CalculateMatrices();
@@ -390,6 +390,22 @@ void GameObject::CopyComponent(Component* component)
 
 	if (newComponent)
 	{
+		Component* referenceBeforeMove = newComponent.get();
+
+		Updatable* updatable = dynamic_cast<Updatable*>(referenceBeforeMove);
+		if (updatable)
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+		else
+		{
+			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
+					static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
+		}
+
 		newComponent->SetOwner(this);
 		components.push_back(std::move(newComponent));
 	}

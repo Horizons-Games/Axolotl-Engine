@@ -50,7 +50,7 @@ void ComponentDirLight::Draw() const
 	}
 	if (IsEnabled())
 	{
-		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		const ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward();
@@ -77,7 +77,7 @@ void ComponentDirLight::Draw() const
 #else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward();
