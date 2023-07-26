@@ -123,8 +123,6 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 
 ModuleRender::ModuleRender() :
 	context(nullptr),
-	frameBuffer(0),
-	renderedTexture(0),
 	depthStencilRenderBuffer(0),
 	bloomActivation(1),
 	toneMappingMode(2)
@@ -183,10 +181,13 @@ bool ModuleRender::Init()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
+	glGenFramebuffers(1, &frameBuffer[0]);
+	glGenTextures(1, &renderedTexture[0]);
 #ifdef ENGINE
-	glGenFramebuffers(1, &frameBuffer);
-	glGenTextures(1, &renderedTexture);
+	glGenFramebuffers(1, &frameBuffer[1]);
+	glGenTextures(1, &renderedTexture[1]);
 #endif // ENGINE
+
 	glGenFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
 	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
@@ -283,9 +284,6 @@ UpdateStatus ModuleRender::Update()
 		DrawQuadtree(loadedScene->GetRootQuadtree());
 	}
 
-	int w, h;
-	SDL_GetWindowSize(window->GetWindow(), &w, &h);
-
 	// -------- DEFERRED GEOMETRY -----------
 
 	// Draw opaque objects
@@ -305,9 +303,9 @@ UpdateStatus ModuleRender::Update()
 
 	// -------- DEFERRED LIGHTING ---------------
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // maybe we should move out this
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	Program* program = moduleProgram->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
@@ -323,12 +321,12 @@ UpdateStatus ModuleRender::Update()
 
 	int width, height;
 
-	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+	SDL_GetWindowSize(window->GetWindow(), &width, &height);
 
 	gBuffer->ReadFrameBuffer();
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 
 	// -------- PRE-FORWARD ----------------------
 
@@ -337,7 +335,7 @@ UpdateStatus ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
+	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), width, height);
 
 	// -------- DEFERRED + FORWARD ---------------
 
@@ -402,39 +400,25 @@ UpdateStatus ModuleRender::Update()
 	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 	// -------- POST EFFECTS ---------------------
 
-	// Blur bloom
-	bool horizontal = true, firstIteration = true;
-	int amount = 10;
-	Program* bloomBlurProgram = moduleProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
-	bloomBlurProgram->Activate();
-	for (auto i = 0; i < amount; i++)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[horizontal]);
-		
-		bloomBlurProgram->BindUniformInt("horizontal", horizontal);
-		
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!horizontal]);
-		
-		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
-		horizontal = !horizontal;
-		if (firstIteration)
-		{
-			firstIteration = false;
-		}
-	}
-	bloomBlurProgram->Deactivate();
+	KawaseDualFiltering();
 
 	// Color correction
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+#ifdef ENGINE
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[1]);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+#else
+	glBindFramebuffer(GL_FRAMEBUFFER, 0); // default_frame_buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+#endif // ENGINE
 
 	Program* colorCorrectionProgram = moduleProgram->GetProgram(ProgramType::COLOR_CORRECTION);
 	colorCorrectionProgram->Activate();
 	
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
+	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
+
 	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
 	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
 
@@ -473,9 +457,11 @@ bool ModuleRender::CleanUp()
 
 	glDeleteBuffers(1, &uboCamera);
 
+	glDeleteFramebuffers(1, &frameBuffer[0]);
+	glDeleteTextures(1, &renderedTexture[0]);
 #ifdef ENGINE
-	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &renderedTexture);
+	glDeleteFramebuffers(1, &frameBuffer[1]);
+	glDeleteTextures(1, &renderedTexture[1]);
 #endif // ENGINE
 	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
 	glDeleteTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
@@ -495,14 +481,14 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
 	gBuffer->InitGBuffer(width, height);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderBuffer);
 
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
+	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -510,19 +496,38 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture[0], 0);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 
+#ifdef ENGINE
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[1]);
+
+	glBindTexture(GL_TEXTURE_2D, renderedTexture[1]);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture[1], 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer auxiliar is not complete!");
+	}
+#endif // ENGINE
+
 	for (unsigned int i = 0; i < BLOOM_BLUR_PING_PONG; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[i]);
-
-		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[i]);
 		
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[i]);
+
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -536,7 +541,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 			LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer bloom blur is not complete!");
 		}
 	}
-	
+		
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -688,11 +693,6 @@ void ModuleRender::BindCameraToProgram(Program* program)
 	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	glActiveTexture(GL_TEXTURE14);
-	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
-	glActiveTexture(GL_TEXTURE15);
-	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[1]);
-
 	program->BindUniformFloat3("viewPos", viewPos);
 
 	program->Deactivate();
@@ -714,6 +714,48 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	program->Deactivate();
+}
+
+void ModuleRender::KawaseDualFiltering()
+{
+	// Blur bloom with kawase
+	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
+	bool kawaseFrameBuffer = true, firstIteration = true;
+	int kawaseSamples = 8;
+	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
+	kawaseDownProgram->Activate();
+	for (auto i = 0; i < kawaseSamples; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
+		if (firstIteration)
+		{
+			firstIteration = false;
+		}
+	}
+	kawaseDownProgram->Deactivate();
+
+	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
+	kawaseUpProgram->Activate();
+	for (auto i = 0; i < kawaseSamples; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[!kawaseFrameBuffer]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[kawaseFrameBuffer]);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
+	}
+	kawaseUpProgram->Deactivate();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
