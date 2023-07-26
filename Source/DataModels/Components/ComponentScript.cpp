@@ -306,6 +306,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 
 	if (script == nullptr)
 	{
+		LOG_WARNING("Script {} unable to be constructed", constructName);
 		return;
 	}
 
@@ -398,7 +399,6 @@ void ComponentScript::InternalLoad(const Json& meta)
 			{
 				std::string valueName = field["name"];
 				Json vectorElements = field["vectorElements"];
-				LOG_DEBUG("{}", vectorElements.Size());
 				std::optional<Field<std::vector<std::any>>> vectorField =
 					script->GetField<std::vector<std::any>>(valueName);
 				if (!vectorField)

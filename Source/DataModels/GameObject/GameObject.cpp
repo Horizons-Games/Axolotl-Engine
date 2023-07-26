@@ -147,19 +147,26 @@ void GameObject::Load(const Json& meta)
 		ComponentType type = GetTypeByName(jsonComponent["type"]);
 
 		if (type == ComponentType::UNKNOWN)
+		{
 			continue;
-		Component* component;
+		}
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
+			CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 		}
 		else
 		{
-			component = CreateComponent(type);
+			CreateComponent(type);
 		}
+	}
+}
 
-		component->Load(jsonComponent);
+void GameObject::LoadComponents(const Json& jsonComponents)
+{
+	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
+	{
+		components[i]->Load(jsonComponents[i]["Component"]);
 	}
 }
 
