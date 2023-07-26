@@ -230,9 +230,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 4.3042919628533127e-7,
-                            "localPos_Y": -1.0,
-                            "localPos_Z": 3.952947054131073e-7,
+                            "localPos_X": 4.159226136835059e-7,
+                            "localPos_Y": 2.0559122562408447,
+                            "localPos_Z": 3.01865291595459,
                             "localRot_X": -90.00001525878906,
                             "localRot_Y": -0.00002231179314549081,
                             "localRot_Z": -179.99998474121094,
@@ -258,33 +258,34 @@
                             "active": true,
                             "removed": true
                         }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginL",
-                "tag": "",
-                "uid": 2354890888242977287,
-                "parentUID": 4430577212557804531,
-                "enabled": true,
-                "static": false,
-                "Components": [
+                    },
                     {
                         "Component": {
-                            "type": "Component_Transform",
+                            "type": "Component_RigidBody",
                             "active": true,
-                            "removed": false,
-                            "localPos_X": -0.637825071811676,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.109311580657959,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.24999985098838806,
+                            "boxSize_Y": 0.4375,
+                            "boxSize_Z": 0.24999979138374329,
+                            "radius": 4.499998569488525,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -4.351974780547607e-9,
+                            "rbPos_Y": 0.9167737364768982,
+                            "rbPos_Z": 0.9055957794189453
                         }
                     }
                 ]
@@ -438,19 +439,19 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "BulletOriginGO",
-                                    "value": 2354890888242977287,
-                                    "type": 2
-                                },
-                                {
                                     "name": "BulletPrefab",
                                     "value": 14288243020694277961,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 0.20000000298023224,
+                                    "value": 15.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "LaserParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -475,7 +476,12 @@
                                 {
                                     "name": "IsImmortal",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
+                                },
+                                {
+                                    "name": "EnemyParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -3722,34 +3728,6 @@
                             "assetPathMesh": "Assets/Meshes/Venomite_Soldier.Sphere.002_0.mesh",
                             "materialUID": 1519239028450570977,
                             "assetPathMaterial": "Assets/Materials/Venomite_SoldierBody_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "BulletOriginR",
-                "tag": "",
-                "uid": 3508979104029647175,
-                "parentUID": 4430577212557804531,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.6380000114440918,
-                            "localPos_Y": 2.4103293418884277,
-                            "localPos_Z": 3.109311580657959,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]
