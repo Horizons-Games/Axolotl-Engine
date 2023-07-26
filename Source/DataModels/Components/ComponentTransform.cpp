@@ -2,7 +2,6 @@
 
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
-#include "ComponentParticleSystem.h"
 
 #include "Application.h"
 #include "Scene/Scene.h"

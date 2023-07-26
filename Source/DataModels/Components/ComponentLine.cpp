@@ -152,8 +152,9 @@ void ComponentLine::UpdateBuffers()
 
 void ComponentLine::Render()
 {
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-	if (App->GetModule<ModuleCamera>()->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 #ifdef ENGINE
 		//Draw the BoundingBox of ComponentLine
@@ -199,14 +200,15 @@ void ComponentLine::ModelMatrix(Program* program)
 {
 	if (childGameObject)
 	{
-		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+		ModuleCamera* camera = App->GetModule<ModuleCamera>();
+		const float4x4& view = camera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = camera->GetCamera()->GetProjectionMatrix();
 
 		float3 globalPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 		float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 		float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
-		float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
+		float3 centerCamera = (camera->GetCamera()->GetPosition() - middlePoint).Normalized();
 		float3 xAxis = childGlobalPosition - globalPosition;
 		float3 normalized = (childGlobalPosition - globalPosition).Normalized();
 		float3 yAxis = centerCamera.Cross(normalized);

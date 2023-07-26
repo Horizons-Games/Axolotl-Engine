@@ -147,15 +147,16 @@ void ComponentParticleSystem::Draw() const
 
 void ComponentParticleSystem::Render()
 {
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-	if (IsEnabled() &&	App->GetModule<ModuleCamera>()->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+	if (IsEnabled() &&	camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
 
 		program->Activate();
 
-		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+		const float4x4& view = camera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = camera->GetCamera()->GetProjectionMatrix();
 
 		program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
 		program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);

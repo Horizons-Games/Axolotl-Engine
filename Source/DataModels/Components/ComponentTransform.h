@@ -4,7 +4,6 @@
 
 #include "Math/Quat.h"
 #include "Math/float4x4.h"
-#include "Math/float3x4.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "Geometry/AABB.h"
