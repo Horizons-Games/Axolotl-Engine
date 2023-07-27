@@ -353,7 +353,7 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 {
 	for (GameObject* go : gameObjects)
 	{
-		if (go->GetComponent<ComponentAnimation>() != nullptr)
+		if (go->GetComponentInternal<ComponentAnimation>() != nullptr)
 		{
 			GameObject* rootGo = go;
 
@@ -369,7 +369,7 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
-	if (object->GetParent() == nullptr || object->GetComponent<ComponentTransform>() == nullptr)
+	if (object->GetParent() == nullptr || object->GetComponentInternal<ComponentTransform>() == nullptr)
 	{
 		return;
 	}
@@ -383,7 +383,7 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 
 void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 {
-	if (object->GetParent() == nullptr || object->GetComponent<ComponentTransform>() == nullptr)
+	if (object->GetParent() == nullptr || object->GetComponentInternal<ComponentTransform>() == nullptr)
 	{
 		return;
 	}

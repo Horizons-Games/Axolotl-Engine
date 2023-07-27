@@ -600,6 +600,9 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
@@ -1247,7 +1250,10 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>

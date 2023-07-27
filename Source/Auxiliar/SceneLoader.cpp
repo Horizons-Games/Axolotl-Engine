@@ -110,17 +110,17 @@ void EndJsonLoad(std::vector<GameObject*>&& loadedObjects)
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
-		ComponentCanvas* canvas = obj->GetComponent<ComponentCanvas>();
+		ComponentCanvas* canvas = obj->GetComponentInternal<ComponentCanvas>();
 		if (canvas != nullptr)
 		{
 			loadedCanvas.push_back(canvas);
 		}
-		Component* button = obj->GetComponent<ComponentButton>();
+		Component* button = obj->GetComponentInternal<ComponentButton>();
 		if (button != nullptr)
 		{
 			loadedInteractable.push_back(button);
 		}
-		Component* particle = obj->GetComponent<ComponentParticleSystem>();
+		Component* particle = obj->GetComponentInternal<ComponentParticleSystem>();
 		if (particle != nullptr)
 		{
 			loadedParticle.push_back(static_cast<ComponentParticleSystem*>(particle));
@@ -134,14 +134,14 @@ void EndJsonLoad(std::vector<GameObject*>&& loadedObjects)
 				directionalLight = obj;
 			}
 		}
-		if (obj->GetComponent<ComponentTransform>() != nullptr)
+		if (obj->GetComponentInternal<ComponentTransform>() != nullptr)
 		{
 			// Quadtree treatment
 			moduleScene->AddGameObject(obj);
 		}
 
-		ComponentTransform* transform = obj->GetComponent<ComponentTransform>();
-		ComponentRigidBody* rigidBody = obj->GetComponent<ComponentRigidBody>();
+		ComponentTransform* transform = obj->GetComponentInternal<ComponentTransform>();
+		ComponentRigidBody* rigidBody = obj->GetComponentInternal<ComponentRigidBody>();
 
 		if (rigidBody)
 		{
@@ -151,7 +151,7 @@ void EndJsonLoad(std::vector<GameObject*>&& loadedObjects)
 		}
 	}
 
-	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponent<ComponentTransform>();
+	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
 	mainTransform->UpdateTransformMatrices();
 
 	moduleScene->SetSceneRootAnimObjects(loadedObjects);

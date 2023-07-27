@@ -111,7 +111,7 @@ WindowHierarchy::DrawHierarchyResultCode WindowHierarchy::DrawRecursiveHierarchy
 
 	if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
 	{
-		if (gameObject->GetComponent<ComponentTransform>() != nullptr)
+		if (gameObject->GetComponentInternal<ComponentTransform>() != nullptr)
 		{
 			if (ImGui::MenuItem("Create Empty child"))
 			{
