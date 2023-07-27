@@ -453,8 +453,18 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 		mesh->Load();
 
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
 		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		//set the origin to translate and scale the BoundingBox
+		transform->SetOriginScaling(transform->GetLocalAABB().HalfSize());
+		transform->SetOriginCenter(transform->GetLocalAABB().CenterPoint());
+
+		//Apply the BoundingBox modification
+		float3 translation = transform->GetBBPos();
+		float3 scaling = transform->GetBBScale();
+		transform->TranslateLocalAABB(translation);
+		transform->ScaleLocalAABB(scaling);
+		transform->CalculateBoundingBoxes();
+
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
 
 		InitBones();

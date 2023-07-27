@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "ComponentParticleSystem.h"
+#include "ComponentTransform.h"
 #include "ModuleScene.h"
 
 #include "Camera/Camera.h"
@@ -133,6 +134,12 @@ void ComponentParticleSystem::Draw() const
 		{
 			instance->DrawDD();
 			//instance->SimulateParticles();
+			//Draw the BoundingBox of ComponentParticle
+			ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+			if (transform->IsDrawBoundingBoxes())
+			{
+				App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+			}
 		}
 #endif //ENGINE
 	}
@@ -140,14 +147,16 @@ void ComponentParticleSystem::Draw() const
 
 void ComponentParticleSystem::Render()
 {
-	if (IsEnabled())
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	if (IsEnabled() &&	camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
 
 		program->Activate();
 
-		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+		const float4x4& view = camera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = camera->GetCamera()->GetProjectionMatrix();
 
 		program->BindUniformFloat4x4(0, reinterpret_cast<const float*>(&proj), true);
 		program->BindUniformFloat4x4(1, reinterpret_cast<const float*>(&view), true);
@@ -193,6 +202,17 @@ void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticle
 	{
 		InitEmitterInstances();
 	}
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	//set the origin to translate and scale the BoundingBox
+	transform->SetOriginScaling({0.5,0.5,0.5});
+	transform->SetOriginCenter({ 0.0, 0.0, 0.0 });
+
+	//Apply the BoundingBox modification
+	float3 translation = transform->GetBBPos();
+	float3 scaling = transform->GetBBScale();
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scaling);
+	transform->CalculateBoundingBoxes();
 }
 
 void ComponentParticleSystem::CheckEmitterInstances(bool forceRecalculate)

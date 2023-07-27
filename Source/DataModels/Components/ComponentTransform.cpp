@@ -14,13 +14,17 @@ ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
 	pos(float3::zero),
 	rot(Quat::identity),
 	sca(float3::one),
+	bbPos(float3::zero),
+	bbSca(float3::one),
+	originScaling({ 0.5f, 0.5f, 0.5f }),
+	originCenter({ 0.5f, 0.5f, 0.5f }),
 	globalPos(float3::zero),
 	globalRot(Quat::identity),
 	globalSca(float3::one),
 	rotXYZ(float3::zero),
 	localMatrix(float4x4::identity),
 	globalMatrix(float4x4::identity),
-	localAABB({ { 0, 0, 0 }, { 0, 0, 0 } }),
+	localAABB({ { 0, 0, 0 }, { 1, 1, 1 } }),
 	encapsuledAABB(localAABB),
 	objectOBB({ localAABB }),
 	drawBoundingBoxes(false)
@@ -32,6 +36,8 @@ ComponentTransform::ComponentTransform(const ComponentTransform& componentTransf
 	pos(componentTransform.GetPosition()),
 	rot(componentTransform.GetRotation()),
 	sca(componentTransform.GetScale()),
+	bbPos(componentTransform.GetBBPos()),
+	bbSca(componentTransform.GetBBScale()),
 	globalPos(componentTransform.GetGlobalPosition()),
 	globalRot(componentTransform.GetGlobalRotation()),
 	globalSca(componentTransform.GetGlobalScale()),
@@ -61,6 +67,19 @@ void ComponentTransform::InternalSave(Json& meta)
 	meta["localSca_X"] = static_cast<float>(sca.x);
 	meta["localSca_Y"] = static_cast<float>(sca.y);
 	meta["localSca_Z"] = static_cast<float>(sca.z);
+	//Use this when you want to save ANY old scene with new boundingBox Value
+	//if (bbSca.x == 0.0f && bbSca.y == 0.0f && bbSca.z == 0.0f)
+	//{
+	//	bbSca = { 1.0f,1.0f,1.0f };
+	//}
+
+	meta["boudingBoxSca_X"] = static_cast<float>(bbSca.x);
+	meta["boudingBoxSca_Y"] = static_cast<float>(bbSca.y);
+	meta["boudingBoxSca_Z"] = static_cast<float>(bbSca.z);
+
+	meta["boudingBoxPos_X"] = static_cast<float>(bbPos.x);
+	meta["boudingBoxPos_Y"] = static_cast<float>(bbPos.y);
+	meta["boudingBoxPos_Z"] = static_cast<float>(bbPos.z);
 }
 
 void ComponentTransform::InternalLoad(const Json& meta)
@@ -78,6 +97,15 @@ void ComponentTransform::InternalLoad(const Json& meta)
 	sca.x = static_cast<float>(meta["localSca_X"]);
 	sca.y = static_cast<float>(meta["localSca_Y"]);
 	sca.z = static_cast<float>(meta["localSca_Z"]);
+
+	bbSca.x = static_cast<float>(meta["boudingBoxSca_X"]);
+	bbSca.y = static_cast<float>(meta["boudingBoxSca_Y"]);
+	bbSca.z = static_cast<float>(meta["boudingBoxSca_Z"]);
+
+	bbPos.x = static_cast<float>(meta["boudingBoxPos_X"]);
+	bbPos.y = static_cast<float>(meta["boudingBoxPos_Y"]);
+	bbPos.z = static_cast<float>(meta["boudingBoxPos_Z"]);
+
 
 	CalculateMatrices();
 }
@@ -218,4 +246,24 @@ void ComponentTransform::CalculateLocalFromNewGlobal(const ComponentTransform* n
 	localMatrix = newTransformFrom->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 	localMatrix.Decompose(pos, rot, sca);
 	rotXYZ = RadToDeg(rot.ToEulerXYZ());
+}
+
+void ComponentTransform::ScaleLocalAABB(float3& scaling)
+{
+	bbSca = scaling;
+	float3 center = localAABB.CenterPoint();
+
+	localAABB.minPoint = center - bbSca.Mul(originScaling);
+	localAABB.maxPoint = center + bbSca.Mul(originScaling);
+
+}
+
+void ComponentTransform::TranslateLocalAABB(float3& translation)
+{
+	bbPos = translation;
+	float3 halfsize = localAABB.HalfSize();
+
+	localAABB.minPoint = (originCenter - halfsize) + bbPos;
+	localAABB.maxPoint = (originCenter + halfsize) + bbPos;
+
 }
