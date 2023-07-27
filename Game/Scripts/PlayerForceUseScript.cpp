@@ -21,7 +21,6 @@
 
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 
@@ -47,8 +46,8 @@ void PlayerForceUseScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	currentTimeForce = maxTimeForce;
 
-	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
-	playerManagerScript = owner->GetParent()->GetComponent<PlayerManagerScript>();
+	rotationHorizontalScript = owner->GetComponent<PlayerRotationScript>();
+	playerManagerScript = owner->GetComponent<PlayerManagerScript>();
 	moveScript = owner->GetComponent<PlayerMoveScript>();
 
 	input = App->GetModule<ModuleInput>();
@@ -138,10 +137,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->DisableRotationController();
 		rigidBody->SetStatic(objectStaticness);
 
+		/*
 		if (rotationHorizontalScript)
 		{
 			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
 		}
+		*/
 
 		if (rotationVerticalScript)
 		{
