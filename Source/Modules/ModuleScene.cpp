@@ -90,7 +90,7 @@ bool ModuleScene::Start()
 
 UpdateStatus ModuleScene::PreUpdate()
 {
-	if (!IsLoading())
+	if (IsLoading())
 	{
 		return UpdateStatus::UPDATE_CONTINUE;
 	}
@@ -129,7 +129,7 @@ UpdateStatus ModuleScene::PreUpdate()
 
 UpdateStatus ModuleScene::Update()
 {
-	if (!IsLoading())
+	if (IsLoading())
 	{
 		return UpdateStatus::UPDATE_CONTINUE;
 	}
@@ -160,7 +160,7 @@ UpdateStatus ModuleScene::Update()
 
 UpdateStatus ModuleScene::PostUpdate()
 {
-	if (!IsLoading())
+	if (IsLoading())
 	{
 		if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 		{
