@@ -50,7 +50,7 @@ private:
 	PlayerManagerScript* playerManagerScript;
 	PlayerMoveScript* moveScript;
 	float3 offsetFromPickedPoint;
-	float3 pickedForward;
+	Quat pickedRotation;
 
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;

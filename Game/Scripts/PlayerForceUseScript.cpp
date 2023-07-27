@@ -82,7 +82,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 				objectStaticness = rigidBody->IsStatic();
 				rigidBody->SetStatic(false);
 				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
-				pickedForward = transform->GetGlobalForward();
+				pickedRotation = hittedTransform->GetGlobalRotation();
 
 
 				if (distancePointGameObjectAttached > maxDistanceForce)
@@ -180,17 +180,40 @@ void PlayerForceUseScript::Update(float deltaTime)
 			distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 		}
+		// Get next rotation of game object
+		Quat targetRotation =
+			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
+				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
+
+		// Set rotation
+		hittedRigidBody->SetRotationTarget(targetRotation);
+
+		/*
+		targetRotation= hittedTransform->GetGlobalRotation();
+		float anglechanged = pickedRotation.AngleBetween(targetRotation);
+		
+		LOG_DEBUG("CurrentRot: x:{} y:{} z:{}", targetRotation.x, targetRotation.y, targetRotation.z);
+		LOG_DEBUG("PickedRot: x:{} y:{} z:{}", pickedRotation.x, pickedRotation.y, pickedRotation.z);
+		LOG_DEBUG("Angle: {}", anglechanged);
+
+		float anglechanged = pickedRotation.ToEulerXYZ().AngleBetween(targetRotationXYZ);
+		float3 OffsetAfterRotation = float3(  offsetFromPickedPoint.x * math::Cos(anglechanged) - offsetFromPickedPoint.z * math::Sin(anglechanged)
+											, offsetFromPickedPoint.y
+											, offsetFromPickedPoint.z* math::Cos(anglechanged) + offsetFromPickedPoint.x * math::Sin(anglechanged)
+											);
+		*/
 		// Get next position of the gameObject
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
+		nextPosition += offsetFromPickedPoint;
 
 		nextPosition.y = hittedTransform->GetGlobalPosition().y;
 
 		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
 		
-		if (std::abs(currentDistance.x) > 1.5f && std::abs(currentDistance.z) > 1.5f && currentTimeForce < 14.5f)
+		if (std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f)
 		{
 			breakForce = true;
 			currentTimeForce = 10;
@@ -201,19 +224,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2 * deltaTime;
 
 
-		// Get next rotation of game object
-		Quat targetRotation =
-			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
-				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
 
-		
-		btRigidBody* rigidBody = hittedRigidBody->GetRigidBody();
 
 		// Set position
 		hittedRigidBody->SetPositionTarget(nextPosition);
 
-		// Set rotation
-		hittedRigidBody->SetRotationTarget(targetRotation);
 
 
 		currentTimeForce -= deltaTime;
