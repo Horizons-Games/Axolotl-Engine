@@ -44,6 +44,7 @@ private:
 	bool breakForce;
 
     std::string tag;
+	std::string tag2;
 	
 	PlayerRotationScript* rotationHorizontalScript;
 	CameraControllerScript* rotationVerticalScript;
