@@ -16,7 +16,7 @@ public:
 	WindowComponentMeshRenderer(ComponentMeshRenderer* component);
 	~WindowComponentMeshRenderer() override;
 
-	std::shared_ptr<ResourceMaterial>& GetMaterial() const;
+	std::shared_ptr<ResourceMaterial> GetMaterial() const;
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& material);
 	void MaterialChanged();
 
