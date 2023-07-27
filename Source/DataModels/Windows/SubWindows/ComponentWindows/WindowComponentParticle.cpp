@@ -15,7 +15,7 @@
 #include "ModuleScene.h"
 
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
-	ComponentWindow("Particle System", component), 
+	ComponentWindow("PARTICLE SYSTEM", component), 
 	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
 {
 }
@@ -56,7 +56,7 @@ void WindowComponentParticle::DrawWindowContents()
 		}
 		ImGui::SameLine();
 		bool playAtStart = component->GetPlayAtStart();
-		if (ImGui::Checkbox("Play a start", &playAtStart))
+		if (ImGui::Checkbox("Play at start", &playAtStart))
 		{
 			component->SetPlayAtStart(playAtStart);
 		}

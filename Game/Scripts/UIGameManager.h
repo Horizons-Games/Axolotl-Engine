@@ -27,8 +27,6 @@ public:
 	void ActiveSliderUIPwrUP(float time);
 	void DisableUIPwrUP();
 
-	void ActivateMissionImage();
-
 	void ModifySliderHealthValue();
 
 	void SetMaxPowerUpTime(float maxPowerUpTime);
@@ -47,6 +45,8 @@ private:
 	float differencePowerUpTime = 0.0f;
 	float maxSliderValue = 0.0f;
 
+	int selectedPositon = -1;
+
 	GameObject* mainMenuObject;
 	GameObject* hudCanvasObject;
 	GameObject* sliderHudHealthBixFront;
@@ -56,16 +56,6 @@ private:
 	GameObject* attackPwrUpObject;
 	GameObject* defensePwrUpObject;
 	GameObject* speedPwrUpObject;
-
-	GameObject* mission01;
-	GameObject* mission02;
-	GameObject* mission03;
-	GameObject* mission04;
-
-	GameObject* text01;
-	GameObject* text02;
-	GameObject* text03;
-	GameObject* text04;
 
 	ComponentPlayer* player;
 	ModuleInput* input;
@@ -78,7 +68,6 @@ private:
 	ComponentSlider* componentSliderDefensePwrUp;
 	ComponentSlider* componentSliderSpeedPwrUp;
 	HealthSystem* healthSystemClass;
-
 
 };
 

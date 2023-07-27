@@ -27,10 +27,9 @@ void PlayerDeathScript::Start()
 
 void PlayerDeathScript::ManagePlayerDeath() const
 {
-	DisablePlayerActions();
 
 #ifndef ENGINE
-	if (loseSceneName != "" && !componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "Death")
+	if (loseSceneName != "" && !componentAnimation->isPlaying() && componentAnimation->GetActualStateName() == "BixDying")
 	{
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
 	}
@@ -39,6 +38,8 @@ void PlayerDeathScript::ManagePlayerDeath() const
 	{
 		LOG_VERBOSE("Player is dead");
 	}
+
+	DisablePlayerActions();
 }
 
 void PlayerDeathScript::DisablePlayerActions() const
@@ -48,7 +49,10 @@ void PlayerDeathScript::DisablePlayerActions() const
 
 	for (ComponentScript* script : gameObjectScripts)
 	{
-		script->Disable();
+		if (script->GetConstructName() != "PlayerDeathScript")
+		{
+			script->Disable();
+		}
 	}
 
 	GameObject::GameObjectView children = owner->GetChildren();

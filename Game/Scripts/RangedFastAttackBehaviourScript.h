@@ -7,6 +7,7 @@ class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
 class Scene;
+class ComponentParticleSystem;
 
 class RangedFastAttackBehaviourScript : public Script
 {
@@ -35,10 +36,12 @@ private:
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
+	ComponentParticleSystem* particleSystem;
 
 	ComponentTransform* bulletOrigin;
 	GameObject* bulletOriginGO;
 	GameObject* bulletPrefab;
+	GameObject* LaserParticleSystem;
 	float bulletVelocity;
 
 	Scene* loadedScene;

@@ -14,6 +14,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/RangedFastAttackBullet.h"
 
@@ -21,7 +22,7 @@
 
 REGISTERCLASS(RangedFastAttackBehaviourScript);
 
-RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), 
+RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), lastAttackTime(0.f), LaserParticleSystem(nullptr),
 	audioSource(nullptr),
 	animation(nullptr), transform(nullptr), bulletOriginGO(nullptr), bulletOrigin(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
@@ -31,6 +32,7 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	REGISTER_FIELD(bulletOriginGO, GameObject*);
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
+	REGISTER_FIELD(LaserParticleSystem, GameObject*)
 }
 
 void RangedFastAttackBehaviourScript::Start()
@@ -45,6 +47,11 @@ void RangedFastAttackBehaviourScript::Start()
 	{
 		bulletOrigin = bulletOriginGO->GetComponent<ComponentTransform>();
 	}
+
+	if (LaserParticleSystem)
+	{
+		particleSystem = LaserParticleSystem->GetComponent<ComponentParticleSystem>();
+	}
 }
 
 void RangedFastAttackBehaviourScript::StartAttack()
@@ -55,7 +62,11 @@ void RangedFastAttackBehaviourScript::StartAttack()
 
 void RangedFastAttackBehaviourScript::PerformAttack()
 {
-	
+	if (particleSystem)
+	{
+		particleSystem->Play();
+	}
+
 	animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
@@ -73,7 +84,7 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
 	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
 	script->SetConstuctor("RangedFastAttackBullet");
-	script->GetScript()->SetGameObject(bullet);
+	script->GetScript()->SetOwner(bullet);
 	script->GetScript()->SetApplication(App);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line

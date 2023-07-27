@@ -34,7 +34,7 @@ WindowInspector::WindowInspector() :
 
 	auto gameObjectDoesNotHaveComponent = []<typename C>(GameObject* gameObject)
 	{
-		return gameObject->GetComponent<C>() == nullptr;
+		return gameObject->GetComponentInternal<C>() == nullptr;
 	};
 
 	actions.push_back(AddComponentAction("Create Mesh Renderer Component",
@@ -68,7 +68,7 @@ WindowInspector::WindowInspector() :
 						   isNotALight,
 						   ComponentFunctionality::GRAPHICS));
 
-	actions.push_back(AddComponentAction("Create Particle Component",
+	actions.push_back(AddComponentAction("Create Particle System Component",
 		std::bind(&WindowInspector::AddComponentParticle, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{

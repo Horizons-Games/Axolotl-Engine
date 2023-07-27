@@ -15,6 +15,32 @@
 
 #include "ComponentRigidBody.h"
 
+namespace
+{
+// helper method to handle exception and validity state of the component
+// this logic is the same for all the method of component script, so we can just encapsulate it here
+template<typename Fun>
+void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript* script, Fun&& scriptMethod)
+{
+	try
+	{
+		if (scriptFailedState)
+		{
+			return;
+		}
+		scriptMethod();
+	}
+	catch (const ComponentNotFoundException& exception)
+	{
+		LOG_ERROR("Error during execution of script {}, owned by {}. Error message: {}",
+				  script->GetConstructName(),
+				  script->GetOwner(),
+				  exception.what());
+		scriptFailedState = true;
+	}
+}
+} // namespace
+
 ComponentScript::ComponentScript(bool active, GameObject* owner) :
 	Component(ComponentType::SCRIPT, active, owner, true),
 	script(nullptr)
@@ -27,70 +53,115 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (!initialized && GetOwner()->IsActive() && ScriptCanBeCalled())
-	{
-		script->Init();
-		initialized = true;
-	}
+	failed = false;
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (!initialized && GetOwner()->IsActive() && ScriptCanBeCalled())
+										  {
+											  script->Init();
+											  initialized = true;
+										  }
+									  });
 }
 
 void ComponentScript::Start()
 {
-	if (!started && IsEnabled() && ScriptCanBeCalled())
-	{
-		script->Start();
-		started = true;
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (!started && IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->Start();
+											  started = true;
+										  }
+									  });
 }
 
 void ComponentScript::PreUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->PreUpdate(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->PreUpdate(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::Update()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->Update(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->Update(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::PostUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->PostUpdate(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->PostUpdate(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->OnCollisionEnter(other);
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this, &other]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->OnCollisionEnter(other);
+										  }
+									  });
 }
 void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->OnCollisionExit(other);
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this, &other]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->OnCollisionExit(other);
+										  }
+									  });
 }
 
 void ComponentScript::CleanUp()
 {
-	// Call CleanUp regardless if the script is active or not
-	if (script)
-	{
-		script->CleanUp();
-	}
-	started = false;
-	initialized = false;
+	// reset the failed state again, so even if the script had an error during its execution, try to clean up
+	failed = false;
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  // Call CleanUp regardless if the script is active or not
+										  if (script)
+										  {
+											  script->CleanUp();
+										  }
+										  started = false;
+										  initialized = false;
+									  });
+	// reset the failed state again in case there was an error during cleanup
+	failed = true;
 }
 
 bool ComponentScript::ScriptCanBeCalled() const
@@ -122,7 +193,24 @@ void ComponentScript::InternalSave(Json& meta)
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
-			case FieldType::VECTOR3:
+
+			case FieldType::STRING:
+			{
+				field["name"] = std::get<Field<std::string>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<std::string>>(enumAndValue.second).getter().c_str();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				field["name"] = std::get<Field<bool>>(enumAndValue.second).name.c_str();
+				field["value"] = std::get<Field<bool>>(enumAndValue.second).getter();
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
+			case FieldType::FLOAT3:
 			{
 				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
 				field["name"] = fieldInstance.name.c_str();
@@ -130,14 +218,6 @@ void ComponentScript::InternalSave(Json& meta)
 				field["value x"] = fieldValue[0];
 				field["value y"] = fieldValue[1];
 				field["value z"] = fieldValue[2];
-				field["type"] = static_cast<int>(enumAndValue.first);
-				break;
-			}
-
-			case FieldType::STRING:
-			{
-				field["name"] = std::get<Field<std::string>>(enumAndValue.second).name.c_str();
-				field["value"] = std::get<Field<std::string>>(enumAndValue.second).getter().c_str();
 				field["type"] = static_cast<int>(enumAndValue.first);
 				break;
 			}
@@ -159,11 +239,56 @@ void ComponentScript::InternalSave(Json& meta)
 				break;
 			}
 
-			case FieldType::BOOLEAN:
+			case FieldType::VECTOR:
 			{
-				field["name"] = std::get<Field<bool>>(enumAndValue.second).name.c_str();
-				field["value"] = std::get<Field<bool>>(enumAndValue.second).getter();
-				field["type"] = static_cast<int>(enumAndValue.first);
+				Json vectorElements = fields[index];
+
+				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
+				vectorElements["name"] = vectorField.name.c_str();
+				vectorElements["type"] = static_cast<int>(enumAndValue.first);
+				Json vectorElementsWithName = vectorElements["vectorElements"];
+				vectorElements["innerType"] = static_cast<int>(vectorField.innerType);
+
+				std::vector<std::any> vectorValue = vectorField.getter();
+
+				for (int i = 0; i < vectorValue.size(); ++i)
+				{
+					switch (vectorField.innerType)
+					{
+						case FieldType::FLOAT:
+							vectorElementsWithName[i]["value"] = std::any_cast<float>(vectorValue[i]);
+							break;
+
+						case FieldType::STRING:
+							vectorElementsWithName[i]["value"] = std::any_cast<std::string>(vectorValue[i]).c_str();
+							break;
+
+						case FieldType::BOOLEAN:
+							vectorElementsWithName[i]["value"] = std::any_cast<bool>(vectorValue[i]);
+							break;
+
+						case FieldType::GAMEOBJECT:
+
+							if (std::any_cast<GameObject*>(vectorValue[i]) != nullptr)
+							{
+								vectorElementsWithName[i]["value"] =
+									std::any_cast<GameObject*>(vectorValue[i])->GetUID();
+							}
+							else
+							{
+								vectorElementsWithName[i]["value"] = 0;
+							}
+
+							break;
+
+						case FieldType::FLOAT3:
+							vectorElementsWithName[i]["value x"] = std::any_cast<float3>(vectorValue[i])[0];
+							vectorElementsWithName[i]["value y"] = std::any_cast<float3>(vectorValue[i])[1];
+							vectorElementsWithName[i]["value z"] = std::any_cast<float3>(vectorValue[i])[2];
+							break;
+					}
+				}
+
 				break;
 			}
 
@@ -185,8 +310,9 @@ void ComponentScript::InternalLoad(const Json& meta)
 	}
 
 	script->SetApplication(App.get());
-	script->SetGameObject(GetOwner());
+	script->SetOwner(GetOwner());
 	Json fields = meta["fields"];
+
 	for (unsigned int i = 0; i < fields.Size(); ++i)
 	{
 		Json field = fields[i];
@@ -203,22 +329,22 @@ void ComponentScript::InternalLoad(const Json& meta)
 				}
 				break;
 			}
-			case FieldType::VECTOR3:
-			{
-				std::string valueName = field["name"];
-				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
-				if (optField)
-				{
-					float3 vec3(field["value x"], field["value y"], field["value z"]);
-					optField.value().setter(vec3);
-				}
-				break;
-			}
 
 			case FieldType::STRING:
 			{
 				std::string valueName = field["name"];
 				std::optional<Field<std::string>> optField = script->GetField<std::string>(valueName);
+				if (optField)
+				{
+					optField.value().setter(field["value"]);
+				}
+				break;
+			}
+
+			case FieldType::BOOLEAN:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -256,14 +382,89 @@ void ComponentScript::InternalLoad(const Json& meta)
 				break;
 			}
 
-			case FieldType::BOOLEAN:
+			case FieldType::FLOAT3:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
+				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
 				if (optField)
 				{
-					optField.value().setter(field["value"]);
+					float3 vec3(field["value x"], field["value y"], field["value z"]);
+					optField.value().setter(vec3);
 				}
+				break;
+			}
+
+			case FieldType::VECTOR:
+			{
+				std::string valueName = field["name"];
+				Json vectorElements = field["vectorElements"];
+				LOG_DEBUG("{}", vectorElements.Size());
+				std::optional<Field<std::vector<std::any>>> vectorField =
+					script->GetField<std::vector<std::any>>(valueName);
+				if (!vectorField)
+				{
+					continue;
+				}
+				std::vector<std::any> vectorCase;
+
+				for (unsigned int j = 0; j < vectorElements.Size(); ++j)
+				{
+					FieldType innerFieldType = static_cast<FieldType>(static_cast<int>(field["innerType"]));
+
+					switch (innerFieldType)
+					{
+						case FieldType::FLOAT:
+
+							vectorCase.push_back((float) vectorElements[j]["value"]);
+
+							break;
+
+						case FieldType::STRING:
+
+							vectorCase.push_back((std::string) vectorElements[j]["value"]);
+
+							break;
+
+						case FieldType::BOOLEAN:
+
+							vectorCase.push_back((bool) vectorElements[j]["value"]);
+
+							break;
+
+						case FieldType::GAMEOBJECT:
+						{
+							UID fieldUID = (UID) vectorElements[j]["value"];
+							if (fieldUID != 0)
+							{
+								UID newFieldUID;
+								if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+								{
+									vectorCase.push_back((GameObject*) App->GetModule<ModuleScene>()
+															 ->GetLoadedScene()
+															 ->SearchGameObjectByID(newFieldUID));
+								}
+								else
+								{
+									vectorCase.push_back((GameObject*) App->GetModule<ModuleScene>()
+															 ->GetLoadedScene()
+															 ->SearchGameObjectByID(fieldUID));
+								}
+							}
+							else
+							{
+								vectorCase.push_back((GameObject*) nullptr);
+							}
+
+							break;
+						}
+						case FieldType::FLOAT3:
+							vectorCase.push_back(float3(vectorElements[j]["value x"],
+														vectorElements[j]["value y"],
+														vectorElements[j]["value z"]));
+							break;
+					}
+				}
+				vectorField.value().setter(vectorCase);
 				break;
 			}
 
@@ -275,7 +476,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 
 void ComponentScript::SignalEnable()
 {
-	if (App->IsOnPlayMode())
+	if (App->IsOnPlayMode() && !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		Init();
 		Start();

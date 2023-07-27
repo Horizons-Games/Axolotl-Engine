@@ -94,7 +94,7 @@ void ComponentMeshRenderer::UpdatePalette()
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
+					skinPalette[i] = boneNode->GetComponentInternal<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
 									 bindBones[i].transform;
 				}
 				else
@@ -122,7 +122,7 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	if (transform == nullptr)
 	{
 		return;
@@ -180,7 +180,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-	const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+	const float4x4& model = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
 	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
@@ -348,7 +348,7 @@ void ComponentMeshRenderer::DrawHighlight() const
 		program->Activate();
 		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-		const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+		const float4x4& model = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		GLint programInUse;
 
@@ -452,7 +452,7 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	{
 		mesh->Load();
 
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
@@ -615,6 +615,16 @@ void ComponentMeshRenderer::SetSmoothness(float smoothness)
 void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 {
 	this->material->SetNormalStrength(normalStrength);
+}
+
+void ComponentMeshRenderer::SetTiling(const float2& tiling)
+{
+	this->material->SetTiling(tiling);
+}
+
+void ComponentMeshRenderer::SetOffset(const float2& offset)
+{
+	this->material->SetOffset(offset);
 }
 
 // Default shader attributes (setters)

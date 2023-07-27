@@ -1,0 +1,10 @@
+{
+    "UID": 13967932120956259720,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/star_02.png"
+    ],
+    "ConfigEmitters": [
+        true
+    ]
+}

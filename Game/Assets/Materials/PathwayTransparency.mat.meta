@@ -1,9 +1,16 @@
 {
     "UID": 8830370389468480032,
     "Type": "Materials",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "",
+    "EmissiveAssetPath": "",
+    "shaderType": 0,
     "diffuseColor_x": 0.8235294222831726,
     "diffuseColor_y": 0.6823529601097107,
     "diffuseColor_z": 1.0,
+    "diffuseColor_w": 0.3921568691730499,
     "specularColor_x": 0.5,
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
@@ -11,9 +18,8 @@
     "smoothness": 0.5,
     "metalness": 0.0,
     "isTransparent": true,
-    "DiffuseAssetPath": "",
-    "NormalAssetPath": "",
-    "OcclusionAssetPath": "",
-    "SpecularAssetPath": "",
-    "EmissiveAssetPath": ""
+    "tilingx": 1.0,
+    "tilingy": 1.0,
+    "offsetx": 0.0,
+    "offsety": 0.0
 }
