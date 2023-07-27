@@ -39,8 +39,8 @@ void RangedFastAttackBullet::Start()
 	float3 forward = parentTransform->GetGlobalForward();
 	forward.Normalize();
 
-	btRigidBody* btRb = rigidBody->GetRigidBody();
-	btRb->setLinearVelocity(
+	btRigidBody* btRigidbody = rigidBody->GetRigidBody();
+	btRigidbody->setLinearVelocity(
 		btVector3(
 			forward.x,
 			0,

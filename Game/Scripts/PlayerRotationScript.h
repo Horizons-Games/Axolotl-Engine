@@ -36,5 +36,5 @@ private:
 
 	PlayerForceUseScript* forceScript;
 	ComponentRigidBody* rigidBody;
-	btRigidBody* btRb;
+	btRigidBody* btRigidbody;
 };

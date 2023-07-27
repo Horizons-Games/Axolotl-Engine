@@ -33,3 +33,13 @@ private:
 	ComponentAudioSource* componentAudio;
 };
 
+
+inline bool PlayerJumpScript::GetCanJump() const
+{
+	return canJump;
+}
+
+inline void PlayerJumpScript::SetCanJump(bool canJump)
+{
+	this->canJump = canJump;
+}

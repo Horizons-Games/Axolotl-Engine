@@ -20,7 +20,10 @@ class btRigidBody;
 enum class PlayerActions
 {
     IDLE,
-    WALKING
+    WALKING,
+	JUMPING,
+	DASHING,
+	ATTACKING
 };
 
 enum MovementFlag
@@ -44,15 +47,18 @@ public:
     void Move(float deltaTime);
 	void MoveRotate(const float3& targetDirection, float deltaTime);
 
-	bool GetIsParalized() const;
-	void SetIsParalized(bool isParalized);
+	bool GetIsParalyzed() const;
+	void SetIsParalyzed(bool isParalyzed);
+
+	PlayerActions GetPlayerState() const;
+	void SetPlayerState(PlayerActions playerState);
 
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;
     ComponentAnimation* componentAnimation;
     PlayerActions playerState;
-	bool isParalized;
+	bool isParalyzed;
 
     float dashForce;
     float nextDash;
@@ -63,7 +69,7 @@ private:
 	PlayerForceUseScript* forceScript;
 
 	ComponentRigidBody* rigidBody;
-	btRigidBody* btRb;
+	btRigidBody* btRigidbody;
 
 	Camera* camera;
 	Frustum cameraFrustum;
@@ -72,3 +78,24 @@ private:
 	int previousMovements;
 	int currentMovements;
 };
+
+
+inline bool PlayerMoveScript::GetIsParalyzed() const
+{
+	return isParalyzed;
+}
+
+inline void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
+{
+	this->isParalyzed = isParalyzed;
+}
+
+inline PlayerActions PlayerMoveScript::GetPlayerState() const
+{
+	return playerState;
+}
+
+inline void PlayerMoveScript::SetPlayerState(PlayerActions playerState)
+{
+	this->playerState = playerState;
+}
