@@ -82,4 +82,5 @@ void PlayerDeathScript::DisablePlayerActions() const
 
 	ComponentRigidBody* playerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	playerRigidBody->SetIsKinematic(true);
+	playerRigidBody->SetUpMobility();
 }

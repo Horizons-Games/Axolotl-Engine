@@ -62,4 +62,5 @@ void EnemyDeathScript::DisableEnemyActions() const
 	enemyRigidBody->DisableRotationController();
 
 	enemyRigidBody->SetIsKinematic(true);
+	enemyRigidBody->SetUpMobility();
 }
