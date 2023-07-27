@@ -84,8 +84,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
 				pickedRotation = hittedTransform->GetGlobalRotation();
 
-				offset = hittedTransform->GetGlobalPosition() - hit.hitPoint;
-
 				if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
 				{
 					rigidBody->SetIsTrigger(true);
