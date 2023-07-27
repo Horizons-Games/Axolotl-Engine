@@ -169,7 +169,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash && (GetPlayerState() == PlayerActions::IDLE || GetPlayerState() == PlayerActions::WALKING))
+	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash /*&& (GetPlayerState() == PlayerActions::IDLE || GetPlayerState() == PlayerActions::WALKING)*/)
 	{
 		if (!isDashing)
 		{
@@ -182,7 +182,20 @@ void PlayerMoveScript::Move(float deltaTime)
 			//{
 			//	movement /= 2;
 			//}
-			if (movement.isZero())
+
+			Quat rotation = componentTransform->GetGlobalRotation();
+			float3 dashDirection = float3::unitZ;
+
+			dashDirection = rotation.Mul(dashDirection);
+			dashDirection.y = 0.0f;
+			dashDirection.Normalize();
+
+			float3 dashImpulse = dashDirection * dashForce;
+
+			btRigidbody->setLinearVelocity({ dashImpulse.x * 0.3f, 0.0f, dashImpulse.z * 0.3f });
+			btRigidbody->applyCentralImpulse({ dashImpulse.x, 0.0f, dashImpulse.z });
+
+			/*if (movement.isZero())
 			{
 				btVector3 hardcodedMovement = btVector3(0.f, 0.f, 5.f);
 				btRigidbody->setLinearVelocity(hardcodedMovement * 0.3f);
@@ -191,7 +204,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			else {
 				btRigidbody->setLinearVelocity(movement * 0.3f);
 				btRigidbody->applyCentralImpulse(movement.normalized() * dashForce);
-			}
+			}*/
 			isDashing = true;
 			SetPlayerState(PlayerActions::DASHING);
 		}
