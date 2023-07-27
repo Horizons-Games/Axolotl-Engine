@@ -263,8 +263,8 @@ void ComponentLine::InternalSave(Json& meta)
 		assetPath = lineTexture->GetAssetsPath();
 	}
 
-	meta["materialUID"] = static_cast<UID>(uid);
-	meta["assetPathMaterial"] = assetPath.c_str();
+	meta["textureUID"] = static_cast<UID>(uid);
+	meta["assetPathTexture"] = assetPath.c_str();
 
 	if (childGameObject)
 	{
@@ -303,7 +303,10 @@ void ComponentLine::InternalLoad(const Json& meta)
 							static_cast<float>(jsonColors[i]["color_a"])));
 	}
 	gradient->refreshCache();
-	std::string path = meta["assetPathMaterial"];
+
+
+#ifdef ENGINE
+	std::string path = meta["assetPathTexture"];
 	bool materialExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 
 	if (materialExists)
@@ -316,6 +319,16 @@ void ComponentLine::InternalLoad(const Json& meta)
 			SetLineTexture(lineTexture);
 		}
 	}
+#else
+	UID uidTexture = meta["textureUID"];
+	std::shared_ptr<ResourceTexture> resourceTexture =
+		App->GetModule<ModuleResources>()->SearchResource<ResourceTexture>(uidTexture);
+
+	if (resourceTexture)
+	{
+		SetLineTexture(lineTexture);
+	}
+#endif // ENGINE
 
 	UID endpoint = meta["EndPoint"];
 
