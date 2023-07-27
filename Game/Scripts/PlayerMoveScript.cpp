@@ -15,6 +15,7 @@
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
+#include <AxoLog.h>
 
 REGISTERCLASS(PlayerMoveScript);
 
@@ -53,7 +54,6 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 	{
 		Move(deltaTime);
 	}
-	
 }
 
 void PlayerMoveScript::Move(float deltaTime)
@@ -169,7 +169,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash /*&& (GetPlayerState() == PlayerActions::IDLE || GetPlayerState() == PlayerActions::WALKING)*/)
+	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash && (GetPlayerState() == PlayerActions::IDLE || GetPlayerState() == PlayerActions::WALKING))
 	{
 		if (!isDashing)
 		{
@@ -184,27 +184,20 @@ void PlayerMoveScript::Move(float deltaTime)
 			//}
 
 			Quat rotation = componentTransform->GetGlobalRotation();
-			float3 dashDirection = float3::unitZ;
+			float3 dashDirection(0.f, 0.f, 1.f);
 
 			dashDirection = rotation.Mul(dashDirection);
 			dashDirection.y = 0.0f;
-			dashDirection.Normalize();
 
-			float3 dashImpulse = dashDirection * dashForce;
+			float3 dashImpulse = dashDirection.Normalized() * dashForce;
 
-			btRigidbody->setLinearVelocity({ dashImpulse.x * 0.3f, 0.0f, dashImpulse.z * 0.3f });
-			btRigidbody->applyCentralImpulse({ dashImpulse.x, 0.0f, dashImpulse.z });
+			// Cast impulse and direction from float3 to btVector3
+			btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
+			btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
 
-			/*if (movement.isZero())
-			{
-				btVector3 hardcodedMovement = btVector3(0.f, 0.f, 5.f);
-				btRigidbody->setLinearVelocity(hardcodedMovement * 0.3f);
-				btRigidbody->applyCentralImpulse(hardcodedMovement.normalized() * dashForce);
-			}
-			else {
-				btRigidbody->setLinearVelocity(movement * 0.3f);
-				btRigidbody->applyCentralImpulse(movement.normalized() * dashForce);
-			}*/
+			btRigidbody->setLinearVelocity(btDashDirection);
+			btRigidbody->applyCentralImpulse(btDashImpulse);
+
 			isDashing = true;
 			SetPlayerState(PlayerActions::DASHING);
 		}

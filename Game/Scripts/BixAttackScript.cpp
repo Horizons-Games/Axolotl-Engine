@@ -27,7 +27,6 @@
 #include <set>
 
 #include "AxoLog.h"
-#include "PlayerMoveScript.h"
 
 REGISTERCLASS(BixAttackScript);
 
@@ -65,6 +64,7 @@ void BixAttackScript::Update(float deltaTime)
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	animation->SetParameter("IsAttacking", false);
+
 	CheckCombo();
 }
 

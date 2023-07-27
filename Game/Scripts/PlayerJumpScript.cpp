@@ -10,7 +10,6 @@
 #include "Components/ComponentScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
-#include "PlayerMoveScript.h"
 
 REGISTERCLASS(PlayerJumpScript);
 
