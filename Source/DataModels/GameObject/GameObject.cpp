@@ -224,7 +224,7 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 	newParent->LinkChild(this);
 
-	(parent->IsActive() && parent->IsEnabled()) ? Activate() : Deactivate();
+	newParent->IsActive() ? Activate() : Deactivate();
 }
 
 void GameObject::LinkChild(GameObject* child)

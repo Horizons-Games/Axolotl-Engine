@@ -55,7 +55,6 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
 {
 	script->SetApplication(App.get());
-	script->SetOwner(GetOwner());
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
@@ -242,6 +241,15 @@ void ComponentScript::CleanUp()
 									  });
 	// reset the failed state again in case there was an error during cleanup
 	failed = true;
+}
+
+void ComponentScript::SetOwner(GameObject* owner)
+{
+	Component::SetOwner(owner);
+	if (script)
+	{
+		script->SetOwner(owner);
+	}
 }
 
 bool ComponentScript::ScriptCanBeCalled() const

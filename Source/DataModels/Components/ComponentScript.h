@@ -32,6 +32,8 @@ public:
 	void SetScript(IScript* script);
 	IScript* GetScript() const;
 
+	void SetOwner(GameObject* owner) override;
+
 private:
 	bool ScriptCanBeCalled() const;
 
