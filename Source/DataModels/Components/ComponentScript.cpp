@@ -55,7 +55,6 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
 {
 	script->SetApplication(App.get());
-	script->SetOwner(GetOwner());
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
@@ -244,6 +243,15 @@ void ComponentScript::CleanUp()
 	failed = true;
 }
 
+void ComponentScript::SetOwner(GameObject* owner)
+{
+	Component::SetOwner(owner);
+	if (script)
+	{
+		script->SetOwner(owner);
+	}
+}
+
 bool ComponentScript::ScriptCanBeCalled() const
 {
 	return script && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling();
@@ -381,17 +389,17 @@ void ComponentScript::InternalSave(Json& meta)
 
 void ComponentScript::InternalLoad(const Json& meta)
 {
-	constructName = meta["constructName"];
-	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
-
+	// Don't call InstantiateScript from here, since that's not the expected behaviour
+	// For more detail, see comment in InstantiateScript
 	if (script == nullptr)
 	{
-		LOG_WARNING("Script {} unable to be constructed", constructName);
+		LOG_ERROR("Trying to load ComponentScript owned by {} without a Script instance; expected one of type {}. Did "
+				  "you forget to call InstantiateScript?",
+				  GetOwner(),
+				  static_cast<std::string>(meta["constructName"]));
 		return;
 	}
 
-	script->SetApplication(App.get());
-	script->SetOwner(GetOwner());
 	Json fields = meta["fields"];
 
 	for (unsigned int i = 0; i < fields.Size(); ++i)
@@ -561,4 +569,19 @@ void ComponentScript::SignalEnable()
 		Init();
 		Start();
 	}
+}
+
+void ComponentScript::InstantiateScript(const Json& jsonComponent)
+{
+	constructName = jsonComponent["constructName"];
+	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
+
+	if (script == nullptr)
+	{
+		LOG_ERROR("Script {} unable to be constructed", constructName);
+		return;
+	}
+
+	script->SetApplication(App.get());
+	script->SetOwner(GetOwner());
 }

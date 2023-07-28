@@ -155,6 +155,11 @@ void GameObject::Load(const Json& meta)
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
 			CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
 		}
+		else if (type == ComponentType::SCRIPT)
+		{
+			ComponentScript* newComponent = CreateComponent<ComponentScript>();
+			newComponent->InstantiateScript(jsonComponent);
+		}
 		else
 		{
 			CreateComponent(type);
@@ -219,7 +224,7 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 	newParent->LinkChild(this);
 
-	(parent->IsActive() && parent->IsEnabled()) ? Activate() : Deactivate();
+	newParent->IsActive() ? Activate() : Deactivate();
 }
 
 void GameObject::LinkChild(GameObject* child)
