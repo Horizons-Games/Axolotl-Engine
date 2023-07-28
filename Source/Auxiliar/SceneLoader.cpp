@@ -294,7 +294,7 @@ void StartHierarchyLoad(Json&& gameObjectsJson)
 		}
 		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 		{
-			std::jthread hierarchyLoadThread = std::jthread(&EndHierarchyLoad);
+			std::thread hierarchyLoadThread = std::thread(&EndHierarchyLoad);
 			hierarchyLoadThread.detach();
 		}
 		else
@@ -354,7 +354,7 @@ void StartJsonLoad(Json&& sceneJson)
 		Json gameObjects = sceneJson["GameObjects"];
 		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 		{
-			std::jthread hierarchyLoadThread = std::jthread(&StartHierarchyLoad, std::move(gameObjects));
+			std::thread hierarchyLoadThread = std::thread(&StartHierarchyLoad, std::move(gameObjects));
 			hierarchyLoadThread.detach();
 		}
 		else
@@ -453,7 +453,7 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 		App->GetModule<ModuleScene>()->GetLoadedScene()->AddPendingAction(
 			[]
 			{
-				std::jthread startLoadThread = std::jthread(&StartLoadScene);
+				std::thread startLoadThread = std::thread(&StartLoadScene);
 				startLoadThread.detach();
 			});
 	}
