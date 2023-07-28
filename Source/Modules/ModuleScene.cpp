@@ -527,11 +527,21 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	mantainCurrentHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
 							: loadedScene->SetSceneGameObjects(gameObjects);
 
+	// Load will, amongst other things, instantiate the components
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
 
 		gameObjects[i]->Load(jsonGameObject);
+	}
+
+	// Once all components are instantiated, load them
+	// we do this in two steps because some scripts expect a game object to have a given component
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonComponents = jsonGameObjects[i]["GameObject"]["Components"];
+
+		gameObjects[i]->LoadComponents(jsonComponents);
 	}
 
 	for (GameObject* gameObject : gameObjects)
