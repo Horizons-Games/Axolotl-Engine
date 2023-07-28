@@ -2300,7 +2300,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": -2.491287887096405e-8,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
@@ -23582,9 +23582,9 @@
                             "radius": 8.0,
                             "factor": 1.0,
                             "height": 2.0,
-                            "rbPos_X": 0.00036548488424159586,
+                            "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": -16.348968505859375
+                            "rbPos_Z": -16.1989688873291
                         }
                     },
                     {
@@ -23629,12 +23629,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.000002420158125460148,
+                            "localPos_X": 0.07978557795286179,
                             "localPos_Y": 1.5,
-                            "localPos_Z": 2.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": -0.000022311794964480214,
-                            "localRot_Z": -179.99998474121094,
+                            "localPos_Z": 2.5,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 0.25,
                             "localSca_Y": 0.2500000298023224,
                             "localSca_Z": 0.2500000298023224
@@ -23682,9 +23682,9 @@
                             "radius": 0.10000000149011612,
                             "factor": 0.5,
                             "height": 0.10000000149011612,
-                            "rbPos_X": 0.00036548488424159586,
+                            "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": -16.348970413208008
+                            "rbPos_Z": -16.198970794677734
                         }
                     },
                     {

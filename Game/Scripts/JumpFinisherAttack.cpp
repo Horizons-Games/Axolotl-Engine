@@ -56,8 +56,6 @@ void JumpFinisherAttack::ShootForceBullet()
 	// Duplicate force bullet
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
 		DuplicateGameObject(forceAttackBullet->GetName(), forceAttackBullet, owner);
-	newForceBullet->SetName("aaaaaaaa");
-	newForceBullet->GetComponent<JumpFinisherAttackBullet>()->Start();
 
 	// Launch it in front of Allura
 }

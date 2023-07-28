@@ -42,9 +42,8 @@ void JumpFinisherAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	if (!other->GetOwner()->CompareTag("Player"))
 	{
 		forceArea->PushEnemies();
+		DestroyBullet();
 	}
-
-	DestroyBullet();
 }
 
 void JumpFinisherAttackBullet::InitializeBullet()
@@ -70,10 +69,7 @@ void JumpFinisherAttackBullet::InitializeBullet()
 
 void JumpFinisherAttackBullet::DestroyBullet()
 {
-	if (this->GetOwner()->IsEnabled())
-	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
-	}
+	//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 
 void JumpFinisherAttackBullet::SetBulletVelocity(float nVelocity)
