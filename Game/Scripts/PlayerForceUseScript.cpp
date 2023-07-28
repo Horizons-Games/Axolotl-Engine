@@ -31,7 +31,7 @@ REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 	gameObjectAttachedParent(nullptr), tag("Forceable"), tag2("ForceableDoors"), distancePointGameObjectAttached(0.0f),
-	maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
+	maxDistanceForce(20.0f), minDistanceForce(0.5f), maxTimeForce(20.0f), isForceActive(false),
 	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
 	playerManagerScript(nullptr)
 {
