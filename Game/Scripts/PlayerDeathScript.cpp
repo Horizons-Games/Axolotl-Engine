@@ -59,21 +59,14 @@ void PlayerDeathScript::DisablePlayerActions() const
 		}
 	}
 
+	// We have to disable also those scripts that are present on the children of the player
 	GameObject::GameObjectView children = owner->GetChildren();
 
 	for (const GameObject* child : children)
 	{
-		// In order to get the force and vertical rotation scripts to work
-		// We have to disable also those scripts that are present on the player camera
+		std::vector<ComponentScript*> childScripts = child->GetComponents<ComponentScript>();
 
-		if (!child->GetComponent<ComponentCamera>())
-		{
-			continue;
-		}
-
-		std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
-
-		for (ComponentScript* script : cameraScripts)
+		for (ComponentScript* script : childScripts)
 		{
 			script->Disable();
 		}
