@@ -68,11 +68,14 @@ void JumpFinisherAttackBullet::InitializeBullet()
 			forward.z) * bulletVelocity);
 
 	originTime = SDL_GetTicks() / 1000.0f;
+
+	//forceArea = owner->GetChildren().front()->GetComponent<JumpFinisherArea>();
+	//forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->Enable();
 }
 
 void JumpFinisherAttackBullet::DestroyBullet() const
 {
-	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 
 void JumpFinisherAttackBullet::SetBulletVelocity(float nVelocity)

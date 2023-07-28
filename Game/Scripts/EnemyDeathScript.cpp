@@ -10,15 +10,12 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
-#include "../Scripts/EntityDetection.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), 
-	entityDetectionScript(nullptr)
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false)
 {
 	REGISTER_FIELD(activePowerUp, GameObject*); // this should be a vector of powerUps
-	REGISTER_FIELD(entityDetectionScript, EntityDetection*);
 }
 
 void EnemyDeathScript::Update(float deltaTime)
@@ -94,12 +91,6 @@ void EnemyDeathScript::DisableEnemyActions()
 
 void EnemyDeathScript::DespawnEnemy() const
 {
-	// Update the enemiesInTheArea from the EntityDetection script so a NullRef is not triggered
-	std::vector<ComponentTransform*> updatedEntitiesVector = entityDetectionScript->GetEnemiesInTheArea();
-	updatedEntitiesVector.erase(std::remove(updatedEntitiesVector.begin(), updatedEntitiesVector.end(), 
-		owner->GetComponent<ComponentTransform>()), 
-		updatedEntitiesVector.end());
-	entityDetectionScript->SetEnemiesIntheArea(updatedEntitiesVector);
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	owner->Disable();
 }
