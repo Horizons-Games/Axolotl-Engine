@@ -33,6 +33,7 @@ private:
 	JumpFinisherArea* forceArea;
 
 	float bulletVelocity;
+	float bulletHeightForce;
 	float originTime;
 	float bulletLifeTime;
 };

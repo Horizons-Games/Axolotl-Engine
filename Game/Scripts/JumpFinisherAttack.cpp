@@ -13,7 +13,7 @@
 
 REGISTERCLASS(JumpFinisherAttack);
 
-JumpFinisherAttack::JumpFinisherAttack() : Script(), cooldown(6.0f), currentCooldown(0.0f), input(nullptr)
+JumpFinisherAttack::JumpFinisherAttack() : Script(), cooldown(3.0f), currentCooldown(0.0f), input(nullptr)
 {
 	REGISTER_FIELD(cooldown, float);
 	REGISTER_FIELD(forceArea, JumpFinisherArea*);
@@ -56,6 +56,4 @@ void JumpFinisherAttack::ShootForceBullet()
 	// Duplicate force bullet
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
 		DuplicateGameObject(forceAttackBullet->GetName(), forceAttackBullet, owner);
-
-	// Launch it in front of Allura
 }

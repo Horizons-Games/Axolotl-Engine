@@ -1091,7 +1091,7 @@
                             "fields": [
                                 {
                                     "name": "Cooldown",
-                                    "value": 6.0,
+                                    "value": 3.0,
                                     "type": 0
                                 },
                                 {
@@ -23698,6 +23698,16 @@
                                     "name": "ForceArea",
                                     "value": 8166282151556450443,
                                     "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "BulletHeightForce",
+                                    "value": 1.600000023841858,
+                                    "type": 0
                                 }
                             ]
                         }

@@ -14,9 +14,11 @@
 REGISTERCLASS(JumpFinisherAttackBullet);
 
 JumpFinisherAttackBullet::JumpFinisherAttackBullet() : Script(), forceArea(nullptr), bulletLifeTime(10.0f), 
-	originTime(0.0f), rigidBody(nullptr), parentTransform(nullptr), bulletVelocity(0.2f)
+	originTime(0.0f), rigidBody(nullptr), parentTransform(nullptr), bulletVelocity(5.0f), bulletHeightForce(1.6f)
 {
 	REGISTER_FIELD(forceArea, JumpFinisherArea*);
+	REGISTER_FIELD(bulletVelocity, float);
+	REGISTER_FIELD(bulletHeightForce, float); // Note that this will be multiplied by the bulletVelocity when launched
 }
 
 void JumpFinisherAttackBullet::Start()
@@ -57,11 +59,12 @@ void JumpFinisherAttackBullet::InitializeBullet()
 	float3 forward = parentTransform->GetGlobalForward();
 	forward.Normalize();
 
+	// Launch the bullet parabolically in front of Allura
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setLinearVelocity(
 		btVector3(
 			forward.x,
-			0,
+			bulletHeightForce,
 			forward.z) * bulletVelocity);
 
 	originTime = SDL_GetTicks() / 1000.0f;
@@ -69,7 +72,7 @@ void JumpFinisherAttackBullet::InitializeBullet()
 
 void JumpFinisherAttackBullet::DestroyBullet()
 {
-	//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 
 void JumpFinisherAttackBullet::SetBulletVelocity(float nVelocity)
