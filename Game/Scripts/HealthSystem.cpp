@@ -24,7 +24,18 @@ void HealthSystem::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentParticleSystem = enemyParticleSystem->GetComponent<ComponentParticleSystem>();
-	componentParticleSystem = owner->GetComponent<ComponentParticleSystem>();
+
+	//--- This was done because in the gameplay scene there is no particle system
+	try
+	{
+		componentParticleSystem = owner->GetComponent<ComponentParticleSystem>();
+	}
+
+	catch (const ComponentNotFoundException&)
+	{
+		componentParticleSystem = nullptr;
+	}
+	//---
 
 	// Check that the currentHealth is always less or equal to maxHealth
 	if (maxHealth < currentHealth)

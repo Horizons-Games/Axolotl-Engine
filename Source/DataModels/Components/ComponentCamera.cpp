@@ -41,7 +41,7 @@ ComponentCamera::~ComponentCamera()
 void ComponentCamera::Update()
 {
 	float deltaTime = App->GetDeltaTime();
-	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
 	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
 
 	Quat rotation = trans->GetGlobalRotation();

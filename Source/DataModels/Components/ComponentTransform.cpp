@@ -90,7 +90,7 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
+		ComponentTransform* parentTransform = parent->GetComponentInternal<ComponentTransform>();
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
@@ -106,7 +106,7 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::RecalculateLocalMatrix()
 {
 	globalMatrix = float4x4::FromTRS(globalPos, globalRot, globalSca);
-	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponent<ComponentTransform>();
+	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponentInternal<ComponentTransform>();
 	localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 	localMatrix.Decompose(localPos, localRot, localSca);
 	rotXYZ = RadToDeg(localRot.ToEulerXYZ());
@@ -121,7 +121,7 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 
 	if (parent != root)
 	{
-		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
+		ComponentTransform* parentTransform = parent->GetComponentInternal<ComponentTransform>();
 
 		return parentTransform->CalculatePaletteGlobalMatrix().Mul(localMatrix);
 	}
@@ -148,7 +148,7 @@ void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
+		ComponentTransform* childTransform = child->GetComponentInternal<ComponentTransform>();
 
 		if (childTransform)
 		{

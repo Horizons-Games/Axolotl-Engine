@@ -15,10 +15,115 @@
 
 #include "ComponentRigidBody.h"
 
+namespace
+{
+// helper method to handle exception and validity state of the component
+// this logic is the same for all the method of component script, so we can just encapsulate it here
+template<typename Fun>
+void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript* script, Fun&& scriptMethod)
+{
+	try
+	{
+		if (scriptFailedState)
+		{
+			return;
+		}
+		scriptMethod();
+	}
+	catch (const ComponentNotFoundException& exception)
+	{
+		LOG_ERROR("Error during execution of script {}, owned by {}. Error message: {}",
+				  script->GetConstructName(),
+				  script->GetOwner(),
+				  exception.what());
+		scriptFailedState = true;
+	}
+}
+} // namespace
+
 ComponentScript::ComponentScript(bool active, GameObject* owner) :
 	Component(ComponentType::SCRIPT, active, owner, true),
 	script(nullptr)
 {
+}
+
+ComponentScript::ComponentScript(const ComponentScript& other) :
+	Component(other),
+	constructName(other.constructName),
+	initialized(other.initialized),
+	started(other.started),
+	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
+{
+	script->SetApplication(App.get());
+	for (const TypeFieldPair& typeFieldPair : script->GetFields())
+	{
+		switch (typeFieldPair.first)
+		{
+			case FieldType::FLOAT:
+			{
+				const Field<float>& field = std::get<Field<float>>(typeFieldPair.second);
+				std::optional<Field<float>> optField = other.GetScript()->GetField<float>(field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::STRING:
+			{
+				const Field<std::string>& field = std::get<Field<std::string>>(typeFieldPair.second);
+				std::optional<Field<std::string>> optField = other.GetScript()->GetField<std::string>(field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::BOOLEAN:
+			{
+				const Field<bool>& field = std::get<Field<bool>>(typeFieldPair.second);
+				std::optional<Field<bool>> optField = other.GetScript()->GetField<bool>(field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::FLOAT3:
+			{
+				const Field<float3>& field = std::get<Field<float3>>(typeFieldPair.second);
+				std::optional<Field<float3>> optField = other.GetScript()->GetField<float3>(field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::GAMEOBJECT:
+			{
+				const Field<GameObject*>& field = std::get<Field<GameObject*>>(typeFieldPair.second);
+				std::optional<Field<GameObject*>> optField = other.GetScript()->GetField<GameObject*>(field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::VECTOR:
+			{
+				const VectorField& field = std::get<VectorField>(typeFieldPair.second);
+				std::optional<Field<std::vector<std::any>>> optField =
+					other.GetScript()->GetField<std::vector<std::any>>(field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			default:
+				break;
+		}
+	}
 }
 
 ComponentScript::~ComponentScript()
@@ -27,70 +132,124 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Init()
 {
-	if (!initialized && GetOwner()->IsActive() && ScriptCanBeCalled())
-	{
-		script->Init();
-		initialized = true;
-	}
+	failed = false;
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (!initialized && GetOwner()->IsActive() && ScriptCanBeCalled())
+										  {
+											  script->Init();
+											  initialized = true;
+										  }
+									  });
 }
 
 void ComponentScript::Start()
 {
-	if (!started && IsEnabled() && ScriptCanBeCalled())
-	{
-		script->Start();
-		started = true;
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (!started && IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->Start();
+											  started = true;
+										  }
+									  });
 }
 
 void ComponentScript::PreUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->PreUpdate(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->PreUpdate(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::Update()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->Update(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->Update(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::PostUpdate()
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->PostUpdate(App->GetDeltaTime());
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->PostUpdate(App->GetDeltaTime());
+										  }
+									  });
 }
 
 void ComponentScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->OnCollisionEnter(other);
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this, &other]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->OnCollisionEnter(other);
+										  }
+									  });
 }
 void ComponentScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (IsEnabled() && ScriptCanBeCalled())
-	{
-		script->OnCollisionExit(other);
-	}
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this, &other]
+									  {
+										  if (IsEnabled() && ScriptCanBeCalled())
+										  {
+											  script->OnCollisionExit(other);
+										  }
+									  });
 }
 
 void ComponentScript::CleanUp()
 {
-	// Call CleanUp regardless if the script is active or not
+	// reset the failed state again, so even if the script had an error during its execution, try to clean up
+	failed = false;
+	RunScriptMethodAndHandleException(failed,
+									  this,
+									  [this]
+									  {
+										  // Call CleanUp regardless if the script is active or not
+										  if (script)
+										  {
+											  script->CleanUp();
+										  }
+										  started = false;
+										  initialized = false;
+									  });
+	// reset the failed state again in case there was an error during cleanup
+	failed = true;
+}
+
+void ComponentScript::SetOwner(GameObject* owner)
+{
+	Component::SetOwner(owner);
 	if (script)
 	{
-		script->CleanUp();
+		script->SetOwner(owner);
 	}
-	started = false;
-	initialized = false;
 }
 
 bool ComponentScript::ScriptCanBeCalled() const
@@ -230,16 +389,17 @@ void ComponentScript::InternalSave(Json& meta)
 
 void ComponentScript::InternalLoad(const Json& meta)
 {
-	constructName = meta["constructName"];
-	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
-
+	// Don't call InstantiateScript from here, since that's not the expected behaviour
+	// For more detail, see comment in InstantiateScript
 	if (script == nullptr)
 	{
+		LOG_ERROR("Trying to load ComponentScript owned by {} without a Script instance; expected one of type {}. Did "
+				  "you forget to call InstantiateScript?",
+				  GetOwner(),
+				  static_cast<std::string>(meta["constructName"]));
 		return;
 	}
 
-	script->SetApplication(App.get());
-	script->SetOwner(GetOwner());
 	Json fields = meta["fields"];
 
 	for (unsigned int i = 0; i < fields.Size(); ++i)
@@ -327,7 +487,6 @@ void ComponentScript::InternalLoad(const Json& meta)
 			{
 				std::string valueName = field["name"];
 				Json vectorElements = field["vectorElements"];
-				LOG_DEBUG("{}", vectorElements.Size());
 				std::optional<Field<std::vector<std::any>>> vectorField =
 					script->GetField<std::vector<std::any>>(valueName);
 				if (!vectorField)
@@ -410,4 +569,19 @@ void ComponentScript::SignalEnable()
 		Init();
 		Start();
 	}
+}
+
+void ComponentScript::InstantiateScript(const Json& jsonComponent)
+{
+	constructName = jsonComponent["constructName"];
+	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
+
+	if (script == nullptr)
+	{
+		LOG_ERROR("Script {} unable to be constructed", constructName);
+		return;
+	}
+
+	script->SetApplication(App.get());
+	script->SetOwner(GetOwner());
 }

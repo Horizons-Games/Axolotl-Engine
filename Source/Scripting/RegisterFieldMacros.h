@@ -100,7 +100,7 @@ std::pair<FieldType, Field<GameObject*>> CreateField(const std::string& name,
 		},
 		[setter](GameObject* value)
 		{
-			setter(value ? value->GetComponent<std::remove_pointer_t<Comp>>() : nullptr);
+			setter(value ? value->GetComponentInternal<std::remove_pointer_t<Comp>>() : nullptr);
 		});
 	return std::make_pair(FieldType::GAMEOBJECT, field);
 }

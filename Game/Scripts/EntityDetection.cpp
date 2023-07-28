@@ -166,3 +166,13 @@ GameObject* EntityDetection::GetEnemySelected() const
 		return nullptr;
 	}
 }
+
+const std::vector<ComponentTransform*>& EntityDetection::GetEnemiesInTheArea() const
+{
+	return enemiesInTheArea;
+}
+
+void EntityDetection::SetEnemiesIntheArea(const std::vector<ComponentTransform*>& newEnemies)
+{
+	enemiesInTheArea = newEnemies;
+}
