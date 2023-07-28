@@ -16498,7 +16498,7 @@
                                 },
                                 {
                                     "name": "MeleeAttackDistance",
-                                    "value": 2.0,
+                                    "value": 1.5,
                                     "type": 0
                                 },
                                 {
@@ -20155,7 +20155,7 @@
                                 },
                                 {
                                     "name": "MeleeAttackDistance",
-                                    "value": 2.0,
+                                    "value": 1.5,
                                     "type": 0
                                 },
                                 {
