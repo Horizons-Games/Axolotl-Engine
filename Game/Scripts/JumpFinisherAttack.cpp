@@ -51,7 +51,7 @@ void JumpFinisherAttack::Update(float deltaTime)
 	}
 }
 
-void JumpFinisherAttack::ShootForceBullet()
+void JumpFinisherAttack::ShootForceBullet() const
 {
 	// Duplicate force bullet
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
