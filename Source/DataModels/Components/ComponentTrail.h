@@ -25,6 +25,14 @@ struct Vertex
 	float2 uv;
 };
 
+struct Curve
+{
+	float3 a;
+	float3 b;
+	float3 c;
+	float3 d;
+};
+
 class ComponentTrail : public Component, public Updatable, public Drawable
 {
 public:
@@ -68,6 +76,10 @@ private:
 
 	void InsertPoint(float3 position, Quat rotation);
 
+	void CalculateExtraPoints(float3& p0, const Point& p1, const Point& p2, float3& p3);
+
+	const Curve& CatmullRomCentripetal(float3 p0, float3 p1, float3 p2, float3 p3);
+
 	void BindCamera(Program* program);
 
 	GLuint vao;
@@ -86,6 +98,7 @@ private:
 	float duration;
 	float minDistance;
 	float width;
+	int catmunPoints;
 
 	// render properties
 	ImGradient* gradient;

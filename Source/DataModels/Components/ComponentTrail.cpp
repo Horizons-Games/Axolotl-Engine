@@ -27,10 +27,11 @@
 
 #include "debugdraw.h"
 
+#define ALPHA_CENTR 0.5f
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
 maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ADDITIVE),
-onPlay(false)
+onPlay(true), catmunPoints(5)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -215,7 +216,7 @@ void ComponentTrail::CreateBuffers()
 
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	unsigned maxTriangles = (maxSamplers - 1) * 2;
+	unsigned maxTriangles = (maxSamplers - 1 + catmunPoints) * 2;
 	GLuint maxIndices = maxTriangles * 3;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 
@@ -223,7 +224,7 @@ void ComponentTrail::CreateBuffers()
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	int numVertices = maxSamplers * 2;
+	int numVertices = (maxSamplers + catmunPoints) * 2;
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // pos
@@ -241,6 +242,7 @@ void ComponentTrail::CreateBuffers()
 void ComponentTrail::RedoBuffers()
 {
 	bool sizeChanged = false;
+	int totalCatmunPoints = catmunPoints * (points.size() - 1);
 
 	if (maxSamplers < static_cast<int>(points.size()))
 	{
@@ -251,14 +253,14 @@ void ComponentTrail::RedoBuffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	if (sizeChanged)
 	{
-		unsigned maxTriangles = (maxSamplers - 1) * 2;
+		unsigned maxTriangles = (maxSamplers - 1 + totalCatmunPoints) * 2;
 		GLuint maxIndices = maxTriangles * 3;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 	}
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	unsigned int index_idx = 0;
-	for (int i = 0; i < maxSamplers - 1; i++)
+	for (int i = 0; i < (maxSamplers - 1) + totalCatmunPoints; i++)
 	{
 		indices[index_idx++] = 0 + 2 * i;
 		indices[index_idx++] = 2 + 2 * i;
@@ -273,33 +275,67 @@ void ComponentTrail::RedoBuffers()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	if (sizeChanged)
 	{
-		int numVertices = maxSamplers * 2;
+		int numVertices = (maxSamplers + totalCatmunPoints) * 2;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
 	}
 
 	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	float steps = 1.0f / float(points.size());
+	float steps = 1.0f / static_cast<float>(points.size() + totalCatmunPoints);
+	float stepsCatmun = 1.0f / static_cast<float>(catmunPoints + 1);
 	float3 color;
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
+		int posInMemory = 2 * i * (1 + catmunPoints);
+
 		Point p = points[i];
 
 		// pos
 		float3 dirPerpendicular = (p.rotation * float3::unitY) * width;
 		float3 vertex = p.centerPosition + dirPerpendicular;
-		vertexData[i * 2].position = vertex;
+		vertexData[posInMemory].position = vertex;
 		vertex = p.centerPosition - dirPerpendicular;
-		vertexData[i * 2 + 1].position = vertex;
+		vertexData[posInMemory + 1].position = vertex;
 
 		// uv
-		vertexData[i * 2].uv = float2(steps * static_cast<float>(i), 1.0f);
-		vertexData[i * 2 + 1].uv = float2(steps * static_cast<float>(i), 0.0f);
+		vertexData[posInMemory].uv = float2(steps * static_cast<float>(i), 1.0f);
+		vertexData[posInMemory + 1].uv = float2(steps * static_cast<float>(i), 0.0f);
 
 		// color
 		gradient->getColorAt(steps * i, color.ptr());
-		vertexData[i * 2].color = float4(color, p.life / duration);
-		vertexData[i * 2 + 1].color = float4(color, p.life / duration);
+		vertexData[posInMemory].color = float4(color, p.life / duration);
+		vertexData[posInMemory + 1].color = float4(color, p.life / duration);
+
+		if (i != points.size() - 1)
+		{
+			float3 p0, p3;
+			Point p2 = points[i + 1];
+			CalculateExtraPoints(p0, p, p2, p3);
+			Curve curve = CatmullRomCentripetal(p0, p.centerPosition, p2.centerPosition, p3);
+			for (int j = 1; j <= catmunPoints; j++)
+			{
+				float lambda = stepsCatmun * j;
+				float3 pointCatmun = curve.a * lambda * lambda * lambda + curve.b * lambda * lambda + curve.c * lambda
+					+ curve.d;
+				Quat rotationPoint = p.rotation.Lerp(p2.rotation, lambda);
+
+				// pos
+				dirPerpendicular = (rotationPoint * float3::unitY) * width;
+				vertex = p.centerPosition + dirPerpendicular;
+				vertexData[posInMemory + 2 + j * 2].position = vertex;
+				vertex = p.centerPosition - dirPerpendicular;
+				vertexData[posInMemory + 2 + j * 2 + 1].position = vertex;
+
+				// uv
+				vertexData[posInMemory + 2 + j * 2].uv = float2(steps * static_cast<float>(i), 1.0f);
+				vertexData[posInMemory + 2 + j * 2 + 1].uv = float2(steps * static_cast<float>(i), 0.0f);
+
+				// color
+				gradient->getColorAt(steps * i, color.ptr());
+				vertexData[posInMemory + 2 + j * 2].color = float4(color, p.life / duration);
+				vertexData[posInMemory + 2 + j * 2 + 1].color = float4(color, p.life / duration);
+			}
+		}
 		//if (blendingMode == BlendingMode::ADDITIVE)
 		//{
 		//	// Additive alpha lerp to black
@@ -344,6 +380,37 @@ void ComponentTrail::InsertPoint(float3 position, Quat rotation)
 	nPoint.life = duration;
 
 	points.push_back(nPoint);
+}
+
+void ComponentTrail::CalculateExtraPoints(float3& p0, const Point& p1, const Point& p2, float3& p3)
+{
+	// Calculate the reflected point p0 with the point p2 and p0 as a surface
+	float3 dir = p1.centerPosition - p2.centerPosition;
+	float3 normal = (p1.rotation * float3::unitY).Normalized();
+	p0 = dir - 2 * (dir.Dot(normal)) * normal;
+	// Calculate now p3
+	dir = p2.centerPosition - p1.centerPosition;
+	normal = (p2.rotation * float3::unitY).Normalized();
+	p3 = dir - 2 * (dir.Dot(normal)) * normal;
+}
+
+const Curve& ComponentTrail::CatmullRomCentripetal(float3 p0, float3 p1, float3 p2, float3 p3)
+{
+	float t0 = 0.0f;
+	float t1 = t0 + pow(p0.Distance(p1), ALPHA_CENTR);
+	float t2 = t1 + pow(p1.Distance(p2), ALPHA_CENTR);
+	float t3 = t2 + pow(p2.Distance(p3), ALPHA_CENTR);
+	
+	float3 m1 = (t2 - t1) *	((p1 - p0) / (t1 - t0) - (p2 - p0) / (t2 - t0) + (p2 - p1) / (t2 - t1));
+	float3 m2 = (t2 - t1) * ((p2 - p1) / (t2 - t1) - (p3 - p1) / (t3 - t1) + (p3 - p2) / (t3 - t2));
+	
+	Curve curve;
+	curve.a = 2.0f * (p1 - p2) + m1 + m2;
+	curve.b = -3.0f * (p1 - p2) - m1 - m1 - m2;
+	curve.c = m1;
+	curve.d = p1;
+
+	return curve;
 }
 
 void ComponentTrail::BindCamera(Program* program)
