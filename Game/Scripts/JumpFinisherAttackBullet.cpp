@@ -70,7 +70,7 @@ void JumpFinisherAttackBullet::InitializeBullet()
 	originTime = SDL_GetTicks() / 1000.0f;
 }
 
-void JumpFinisherAttackBullet::DestroyBullet()
+void JumpFinisherAttackBullet::DestroyBullet() const
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

@@ -25,7 +25,7 @@ public:
 
 private:
 	void InitializeBullet();
-	void DestroyBullet();
+	void DestroyBullet() const;
 
 	ComponentTransform* parentTransform;
 	ComponentRigidBody* rigidBody;
