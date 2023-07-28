@@ -277,6 +277,11 @@
                                     "name": "ActivePowerUp",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "EntityDetectionScript",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }

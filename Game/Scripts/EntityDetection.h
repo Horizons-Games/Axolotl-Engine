@@ -22,6 +22,9 @@ public:
 
 	GameObject* GetEnemySelected() const;
 
+	const std::vector<ComponentTransform*>& GetEnemiesInTheArea() const;
+	void SetEnemiesIntheArea(const std::vector<ComponentTransform*>& newEnemies);
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;

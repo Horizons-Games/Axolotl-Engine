@@ -5,18 +5,28 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class EntityDetection;
+
 class EnemyDeathScript : public Script
 {
 public:
 	EnemyDeathScript();
 	~EnemyDeathScript() override = default;
 
-	void ManageEnemyDeath() const;
+	void Update(float deltaTime) override;
+
+	void ManageEnemyDeath();
 
 private:
 	GameObject* RequestPowerUp() const;
-	void DisableEnemyActions() const;
+	void DisableEnemyActions();
+	void DespawnEnemy() const;
 
 	// Once we have vectors, this should be a vector of powerUps ready to be activated in the PowerUpsManagerScript
 	GameObject* activePowerUp;
+
+	float despawnTimer;
+	bool startDespawnTimer;
+
+	EntityDetection* entityDetectionScript;
 };
