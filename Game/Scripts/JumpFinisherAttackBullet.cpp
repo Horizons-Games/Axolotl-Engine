@@ -69,13 +69,15 @@ void JumpFinisherAttackBullet::InitializeBullet()
 
 	originTime = SDL_GetTicks() / 1000.0f;
 
-	//forceArea = owner->GetChildren().front()->GetComponent<JumpFinisherArea>();
-	//forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->Enable();
+	// Set the forceArea as the new child duplicated and set it to trigger
+	forceArea = owner->GetChildren().front()->GetComponent<JumpFinisherArea>();
+	forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->Enable();
+	forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->SetIsTrigger(true);
 }
 
 void JumpFinisherAttackBullet::DestroyBullet() const
 {
-	//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 
 void JumpFinisherAttackBullet::SetBulletVelocity(float nVelocity)

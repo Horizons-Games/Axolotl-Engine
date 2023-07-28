@@ -10546,11 +10546,6 @@
                                     "name": "ActivePowerUp",
                                     "value": 11306440819102867434,
                                     "type": 2
-                                },
-                                {
-                                    "name": "EntityDetectionScript",
-                                    "value": 12448675388407140002,
-                                    "type": 2
                                 }
                             ]
                         }
@@ -13487,11 +13482,6 @@
                                 {
                                     "name": "ActivePowerUp",
                                     "value": 1375892197173359520,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "EntityDetectionScript",
-                                    "value": 12448675388407140002,
                                     "type": 2
                                 }
                             ]
@@ -16694,11 +16684,6 @@
                                 {
                                     "name": "ActivePowerUp",
                                     "value": 10105264902335347340,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "EntityDetectionScript",
-                                    "value": 12448675388407140002,
                                     "type": 2
                                 }
                             ]
@@ -20357,11 +20342,6 @@
                                     "name": "ActivePowerUp",
                                     "value": 10078801361813198795,
                                     "type": 2
-                                },
-                                {
-                                    "name": "EntityDetectionScript",
-                                    "value": 12448675388407140002,
-                                    "type": 2
                                 }
                             ]
                         }
@@ -23559,7 +23539,7 @@
                 "tag": "",
                 "uid": 8166282151556450443,
                 "parentUID": 14250011793920983639,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -23584,7 +23564,7 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
