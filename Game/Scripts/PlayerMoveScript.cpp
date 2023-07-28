@@ -21,7 +21,7 @@ REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false)
+	dashForce(20000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
@@ -190,6 +190,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			dashDirection.y = 0.0f;
 
 			float3 dashImpulse = dashDirection.Normalized() * dashForce;
+			dashImpulse.Normalized();
 
 			// Cast impulse and direction from float3 to btVector3
 			btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
