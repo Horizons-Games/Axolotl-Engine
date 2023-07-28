@@ -1,20 +1,42 @@
 #include "StdAfx.h"
 #include "EnemyDeathScript.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/EntityDetection.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script()
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), 
+	entityDetectionScript(nullptr)
 {
 	REGISTER_FIELD(activePowerUp, GameObject*); // this should be a vector of powerUps
+	REGISTER_FIELD(entityDetectionScript, EntityDetection*);
 }
 
-void EnemyDeathScript::ManageEnemyDeath() const
+void EnemyDeathScript::Update(float deltaTime)
+{
+	if (!startDespawnTimer)
+	{
+		return;
+	}
+
+	despawnTimer -= deltaTime;
+
+	if (despawnTimer <= 0.0f)
+	{
+		DespawnEnemy();
+	}
+}
+
+void EnemyDeathScript::ManageEnemyDeath()
 {
 	GameObject* newPowerUp = RequestPowerUp();
 
@@ -47,17 +69,37 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 	return nullptr;
 }
 
-void EnemyDeathScript::DisableEnemyActions() const
+void EnemyDeathScript::DisableEnemyActions()
 {
 	// Once the player is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
 	{
-		script->Disable();
+		if (script->GetConstructName() != "EnemyDeathScript")
+		{
+			script->Disable();
+		}
 	}
 
 	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
 	enemyRigidBody->DisablePositionController();
 	enemyRigidBody->DisableRotationController();
+
+	enemyRigidBody->SetIsKinematic(true);
+	enemyRigidBody->SetUpMobility();
+
+	startDespawnTimer = true;
+}
+
+void EnemyDeathScript::DespawnEnemy() const
+{
+	// Update the enemiesInTheArea from the EntityDetection script so a NullRef is not triggered
+	std::vector<ComponentTransform*> updatedEntitiesVector = entityDetectionScript->GetEnemiesInTheArea();
+	updatedEntitiesVector.erase(std::remove(updatedEntitiesVector.begin(), updatedEntitiesVector.end(), 
+		owner->GetComponent<ComponentTransform>()), 
+		updatedEntitiesVector.end());
+	entityDetectionScript->SetEnemiesIntheArea(updatedEntitiesVector);
+
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

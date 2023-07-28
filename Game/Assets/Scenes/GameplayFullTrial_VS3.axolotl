@@ -10514,10 +10514,10 @@
                             "isKinematic": false,
                             "isTrigger": false,
                             "drawCollider": true,
-                            "mass": 100.0,
+                            "mass": 10000.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
+                            "restitution": 0.10000000149011612,
                             "currentShape": 1,
                             "usePositionController": true,
                             "useRotationController": true,
@@ -10545,6 +10545,11 @@
                                 {
                                     "name": "ActivePowerUp",
                                     "value": 11306440819102867434,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EntityDetectionScript",
+                                    "value": 12448675388407140002,
                                     "type": 2
                                 }
                             ]
@@ -13451,10 +13456,10 @@
                             "isKinematic": false,
                             "isTrigger": false,
                             "drawCollider": true,
-                            "mass": 100.0,
+                            "mass": 10000.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
+                            "restitution": 0.10000000149011612,
                             "currentShape": 1,
                             "usePositionController": true,
                             "useRotationController": true,
@@ -13482,6 +13487,11 @@
                                 {
                                     "name": "ActivePowerUp",
                                     "value": 1375892197173359520,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EntityDetectionScript",
+                                    "value": 12448675388407140002,
                                     "type": 2
                                 }
                             ]
@@ -16483,10 +16493,10 @@
                             "isKinematic": false,
                             "isTrigger": false,
                             "drawCollider": true,
-                            "mass": 100.0,
+                            "mass": 10000.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
+                            "restitution": 0.10000000149011612,
                             "currentShape": 1,
                             "usePositionController": true,
                             "useRotationController": true,
@@ -16518,7 +16528,7 @@
                                 },
                                 {
                                     "name": "MeleeAttackDistance",
-                                    "value": 2.0,
+                                    "value": 1.5,
                                     "type": 0
                                 },
                                 {
@@ -16684,6 +16694,11 @@
                                 {
                                     "name": "ActivePowerUp",
                                     "value": 10105264902335347340,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EntityDetectionScript",
+                                    "value": 12448675388407140002,
                                     "type": 2
                                 }
                             ]
@@ -20140,10 +20155,10 @@
                             "isKinematic": false,
                             "isTrigger": false,
                             "drawCollider": true,
-                            "mass": 100.0,
+                            "mass": 10000.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
+                            "restitution": 0.10000000149011612,
                             "currentShape": 1,
                             "usePositionController": true,
                             "useRotationController": true,
@@ -20175,7 +20190,7 @@
                                 },
                                 {
                                     "name": "MeleeAttackDistance",
-                                    "value": 2.0,
+                                    "value": 1.5,
                                     "type": 0
                                 },
                                 {
@@ -20341,6 +20356,11 @@
                                 {
                                     "name": "ActivePowerUp",
                                     "value": 10078801361813198795,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EntityDetectionScript",
+                                    "value": 12448675388407140002,
                                     "type": 2
                                 }
                             ]
