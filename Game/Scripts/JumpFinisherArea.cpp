@@ -23,6 +23,9 @@ JumpFinisherArea::JumpFinisherArea() : Script(), force(10.0f), stunTime(3.0f), f
 void JumpFinisherArea::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	rigidBody->Enable();
+	rigidBody->SetIsTrigger(true);
+
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 }
 

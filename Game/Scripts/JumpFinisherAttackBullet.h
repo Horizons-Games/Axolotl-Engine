@@ -23,6 +23,9 @@ public:
 
 	void SetBulletVelocity(float velocity);
 
+	void SetForceArea(JumpFinisherArea* newForceArea);
+	JumpFinisherArea* GetForceArea() const;
+
 private:
 	void InitializeBullet();
 	void DestroyBullet() const;
