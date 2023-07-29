@@ -53,6 +53,9 @@ public:
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
 
+	bool GetCanJump() const;
+	void SetCanJump(bool canJump);
+
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;
@@ -74,6 +77,14 @@ private:
 	Camera* camera;
 	Frustum cameraFrustum;
 	ModuleInput* input;
+
+	void Jump(float deltatime);
+
+	float jumpParameter;
+	int jumps;
+	int jumpReset;
+	bool canDoubleJump;
+	bool canJump;
 
 	int previousMovements;
 	int currentMovements;
@@ -98,4 +109,15 @@ inline PlayerActions PlayerMoveScript::GetPlayerState() const
 inline void PlayerMoveScript::SetPlayerState(PlayerActions playerState)
 {
 	this->playerState = playerState;
+}
+
+
+inline bool PlayerMoveScript::GetCanJump() const
+{
+	return canJump;
+}
+
+inline void PlayerMoveScript::SetCanJump(bool canJump)
+{
+	this->canJump = canJump;
 }
