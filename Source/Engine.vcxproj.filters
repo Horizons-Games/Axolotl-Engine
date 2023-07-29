@@ -606,6 +606,12 @@
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ComboManager.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
@@ -1255,6 +1261,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EntityDetection.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ComboManager.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIComboManager.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\RegisterFieldMacros.h">
       <Filter>Scripting</Filter>

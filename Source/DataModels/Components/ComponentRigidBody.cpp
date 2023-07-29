@@ -29,8 +29,10 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	currentShape = Shape::BOX;
 	motionState = std::make_unique<btDefaultMotionState>(startTransform);
 	shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
-	rigidBody = std::make_unique<btRigidBody>(100.f, motionState.get(), shape.get());
 
+	btRigidBody::btRigidBodyConstructionInfo inforb(100.f, motionState.get(), shape.get());
+	inforb.m_friction = 0.0f;
+	rigidBody = std::make_unique<btRigidBody>(inforb);
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
@@ -65,8 +67,9 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	transform = toCopy.transform;
 
 	motionState = std::unique_ptr<btDefaultMotionState>(new btDefaultMotionState(*toCopy.motionState.get()));
-
-	rigidBody = std::make_unique<btRigidBody>(toCopy.mass, motionState.get(), toCopy.shape.get());
+	btRigidBody::btRigidBodyConstructionInfo inforb(toCopy.mass, motionState.get(), toCopy.shape.get());
+	inforb.m_friction = 0.0f;
+	rigidBody = std::make_unique<btRigidBody>(inforb);
 
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
