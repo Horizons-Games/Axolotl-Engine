@@ -72,7 +72,7 @@ void JumpFinisherAttackBullet::InitializeBullet()
 
 void JumpFinisherAttackBullet::DestroyBullet() const
 {
-	//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 
 void JumpFinisherAttackBullet::SetBulletVelocity(float nVelocity)
