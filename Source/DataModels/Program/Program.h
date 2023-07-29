@@ -31,6 +31,8 @@ public:
 	void BindUniformFloat(const int location, const float data);
 	void BindUniformInt(const std::string& name, int value);
 	void BindUniformInt(const int location, int value);
+	void BindUniformInt2(const std::string& name, int value1, int value2);
+	void BindUniformInt2(const int location, int value1, int value2);
 	void BindUniformBlock(const std::string& name, const unsigned value);
 	void BindUniformBlock(const int blockIndex, const unsigned value);
 	void BindShaderStorageBlock(const std::string& name, const unsigned value);
@@ -133,6 +135,16 @@ inline void Program::BindUniformInt(const std::string& name, int value)
 inline void Program::BindUniformInt(const int location, int value)
 {
 	glUniform1i(location, value);
+}
+
+inline void Program::BindUniformInt2(const std::string& name, int value1, int value2)
+{
+	glUniform2i(glGetUniformLocation(id, name.c_str()), value1, value2);
+}
+
+inline void Program::BindUniformInt2(const int location, int value1, int value2)
+{
+	glUniform2i(location, value1, value2);
 }
 
 inline void Program::BindUniformBlock(const std::string& name, const unsigned value)

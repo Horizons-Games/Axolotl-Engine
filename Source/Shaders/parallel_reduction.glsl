@@ -1,7 +1,7 @@
 #version 460
 
-uniform sampler2D inTexture;
-uniform writeonly image2D outImage;
+layout(binding = 0) uniform sampler2D inTexture;
+uniform layout(binding=0, rgba8) writeonly image2D outImage;
 uniform ivec2 inSize;
 
 layout(local_size_x = 8, local_size_y = 4, local_size_z = 1) in;

@@ -55,6 +55,7 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
+	void ParallelReduction(Program* program, int width, int height);
 	void RenderShadowMap(const GameObject* light);
 
 private:
@@ -99,6 +100,7 @@ private:
 	GLuint depthStencilRenderBuffer;
 	GLuint shadowMapBuffer;
 	GLuint gShadowMap;
+	GLuint parallelReductionTexture;
 
 	bool renderShadows;
 

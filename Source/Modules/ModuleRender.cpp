@@ -139,6 +139,14 @@ ModuleRender::~ModuleRender()
 	delete gBuffer;
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
+
+	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteTextures(1, &renderedTexture);
+
+	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
+
+	glDeleteFramebuffers(1, &shadowMapBuffer);
+	glDeleteTextures(1, &gShadowMap);
 }
 
 bool ModuleRender::Init()
@@ -195,6 +203,8 @@ bool ModuleRender::Init()
 	glGenFramebuffers(1, &shadowMapBuffer);
 	glGenTextures(1, &gShadowMap);
 
+	glGenTextures(1, &parallelReductionTexture);
+
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
@@ -237,6 +247,8 @@ UpdateStatus ModuleRender::Update()
 	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
+	const ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
+
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
@@ -275,21 +287,15 @@ UpdateStatus ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
-	// -------- SHADOW MAP --------
-	if (renderShadows)
-	{
-		RenderShadowMap(loadedScene->GetDirectionalLight());
-	}
-
 	// Bind camera and cubemap info to the shaders
-	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
-	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
-	BindCubemapToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPECULAR));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_METALLIC));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::G_SPECULAR));
-	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT));
+	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
+	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
@@ -312,9 +318,21 @@ UpdateStatus ModuleRender::Update()
 		glDisable(GL_STENCIL_TEST);
 	}
 
+	// -------- SHADOW MAP --------
+	if (renderShadows)
+	{
+		// ---- PARALLEL REDUCTION ----
+		Program* shadowProgram = modProgram->GetProgram(ProgramType::PARALLEL_REDUCTION);
+		ParallelReduction(shadowProgram, w, h);
+
+		RenderShadowMap(loadedScene->GetDirectionalLight());
+	}
+
 	// -------- DEFERRED LIGHTING ---------------
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
@@ -346,7 +364,6 @@ UpdateStatus ModuleRender::Update()
 	program->Deactivate();
 
 	int width, height;
-
 	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
 
 	gBuffer->ReadFrameBuffer();
@@ -389,6 +406,7 @@ UpdateStatus ModuleRender::Update()
 
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
+		glStencilMask(0x00); // disable writing to the stencil buffer 
 		glDisable(GL_STENCIL_TEST);
 	}
 
@@ -504,6 +522,10 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glBindTexture(GL_TEXTURE_2D, parallelReductionTexture);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height);
+	glBindTexture(GL_TEXTURE_2D, 0); //Unbind the texture
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
@@ -611,6 +633,32 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 		DrawQuadtree(quadtree->GetFrontRightNode());
 	}
 #endif // ENGINE
+}
+
+void ModuleRender::ParallelReduction(Program* program, int width, int height)
+{
+	program->Activate();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gBuffer->GetDepthTexture());
+
+	//Use the texture as an image
+	glBindImageTexture(0, parallelReductionTexture, 0, 0, 0, GL_WRITE_ONLY, GL_RGBA8);
+
+	program->BindUniformInt2("inSize", width, height);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Parallel Reduction"),
+		"ComputeShader - Parallel Reduction");
+
+	unsigned int numGroupsX = (width + (8 - 1)) / 8;
+	unsigned int numGroupsY = (height + (4 - 1)) / 4;
+	glDispatchCompute(numGroupsX, numGroupsY, 1);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glPopDebugGroup();
+
+	program->Deactivate();
 }
 
 void ModuleRender::RenderShadowMap(const GameObject* light)
