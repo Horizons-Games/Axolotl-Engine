@@ -36,10 +36,14 @@ void ActivationLogic::Start()
 	componentRigidBody = nullptr;
 	for (GameObject* child : owner->GetChildren())
 	{
-		componentRigidBody = child->GetComponent<ComponentRigidBody>();
-		if (componentRigidBody != nullptr)
+		try
 		{
-			break;
+			componentRigidBody = child->GetComponent<ComponentRigidBody>();
+			break; // No exception means component found
+		}
+		catch (const ComponentNotFoundException&)
+		{
+			continue; // Exception means component was nullptr
 		}
 	}
 	assert(componentRigidBody);
@@ -53,12 +57,15 @@ void ActivationLogic::Update(float deltaTime)
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
-	{
+	try {
+		other->GetOwner()->GetComponent<ComponentPlayer>();
 		componentAnimation->SetParameter("IsActive", true);
 		componentRigidBody->Disable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 	}
+	catch(const ComponentNotFoundException){
+	}
+	
 }
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
