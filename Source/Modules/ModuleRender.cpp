@@ -203,7 +203,9 @@ bool ModuleRender::Init()
 	glGenFramebuffers(1, &shadowMapBuffer);
 	glGenTextures(1, &gShadowMap);
 
-	glGenTextures(1, &parallelReductionTexture);
+	glGenTextures(1, &parallelReductionInTexture);
+	glGenTextures(1, &parallelReductionOutTexture);
+
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
@@ -291,11 +293,8 @@ UpdateStatus ModuleRender::Update()
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
@@ -323,10 +322,14 @@ UpdateStatus ModuleRender::Update()
 	{
 		// ---- PARALLEL REDUCTION ----
 		Program* shadowProgram = modProgram->GetProgram(ProgramType::PARALLEL_REDUCTION);
-		ParallelReduction(shadowProgram, w, h);
+		float2 minMax = ParallelReduction(shadowProgram, w, h);
 
-		RenderShadowMap(loadedScene->GetDirectionalLight());
+		RenderShadowMap(loadedScene->GetDirectionalLight(), minMax);
 	}
+
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
 
 	// -------- DEFERRED LIGHTING ---------------
 
@@ -523,8 +526,11 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	glBindTexture(GL_TEXTURE_2D, parallelReductionTexture);
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height);
+	glBindTexture(GL_TEXTURE_2D, parallelReductionInTexture);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
+	glBindTexture(GL_TEXTURE_2D, parallelReductionOutTexture);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
+
 	glBindTexture(GL_TEXTURE_2D, 0); //Unbind the texture
 }
 
@@ -635,40 +641,80 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 #endif // ENGINE
 }
 
-void ModuleRender::ParallelReduction(Program* program, int width, int height)
+float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 {
 	program->Activate();
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Parallel Reduction"),
+		"ComputeShader - Parallel Reduction");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gBuffer->GetDepthTexture());
 
 	//Use the texture as an image
-	glBindImageTexture(0, parallelReductionTexture, 0, 0, 0, GL_WRITE_ONLY, GL_RGBA8);
+	glBindImageTexture(0, parallelReductionInTexture, 0, false, 0, GL_WRITE_ONLY, GL_RG32F);
 
 	program->BindUniformInt2("inSize", width, height);
 
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Parallel Reduction"),
-		"ComputeShader - Parallel Reduction");
-
 	unsigned int numGroupsX = (width + (8 - 1)) / 8;
 	unsigned int numGroupsY = (height + (4 - 1)) / 4;
+
 	glDispatchCompute(numGroupsX, numGroupsY, 1);
+	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+	GLuint srcTexture = parallelReductionInTexture; 
+	GLuint dstTexture = parallelReductionOutTexture;
+
+	while (numGroupsX > 1 || numGroupsY > 1)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, srcTexture);
+
+		//Use the texture as an image
+		glBindImageTexture(0, dstTexture, 0, false, 0, GL_WRITE_ONLY, GL_RG32F);
+
+		program->BindUniformInt2("inSize", numGroupsX, numGroupsY);
+
+		numGroupsX = (numGroupsX + (8 - 1)) / 8;
+		numGroupsY = (numGroupsY + (4 - 1)) / 4;
+
+		glDispatchCompute(numGroupsX, numGroupsY, 1);
+		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+		std::swap(srcTexture, dstTexture);
+	}
+
+	float2 minMax(0.0f, 0.0f);
+	glGetTextureSubImage(srcTexture, 0, 0, 0, 0, 1, 1, 1, GL_RG, GL_FLOAT, sizeof(float2), &minMax);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glPopDebugGroup();
 
 	program->Deactivate();
+
+	return minMax;
 }
 
-void ModuleRender::RenderShadowMap(const GameObject* light)
+void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax)
 {
 	// Get light position
 	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
 	const float3& lightPos = lightTransform->GetGlobalPosition();
 
 	// Compute camera frustrum bounding sphere
-	const math::Frustum* cameraFrustum = App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum();
+	math::Frustum* cameraFrustum = new Frustum(*App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum());
+
+	// SDSM: Final near an far distances
+	float n = cameraFrustum->NearPlaneDistance();
+	float f = cameraFrustum->FarPlaneDistance();
+	float T = -(n + f) / (f - n);
+	float S = (-2 * f * n) / (f - n);
+	float distMin = S / (T + minMax[0]);
+	float distMax = S / (T + minMax[1]);
+
+	//cameraFrustum->SetViewPlaneDistances(distMin, distMax);
+
 	math::vec corners[8];
 	cameraFrustum->GetCornerPoints(corners);
 
@@ -708,6 +754,8 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	std::vector<GameObject*> objectsInFrustum =
 		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
 
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Shadow Mapping"), "Shadow Mapping");
+
 	// Program binding
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_MAPPING);
 	program->Activate();
@@ -728,6 +776,8 @@ void ModuleRender::RenderShadowMap(const GameObject* light)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	program->Deactivate();
+
+	glPopDebugGroup();
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)
