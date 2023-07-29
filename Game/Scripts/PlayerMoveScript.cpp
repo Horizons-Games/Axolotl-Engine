@@ -87,12 +87,14 @@ void PlayerMoveScript::Jump(float deltatime)
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
 				componentAnimation->SetParameter("IsJumping", true);
+				SetPlayerState(PlayerActions::JUMPING);
 			}
 
 			if (canDoubleJump && jumps == 0)
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsDoubleJumping", true);
+				SetPlayerState(PlayerActions::DOUBLEJUMPING);
 			}
 		}
 
@@ -113,7 +115,6 @@ void PlayerMoveScript::Jump(float deltatime)
 		}
 	}
 }
-
 
 void PlayerMoveScript::Move(float deltaTime)
 {
@@ -149,6 +150,13 @@ void PlayerMoveScript::Move(float deltaTime)
 		currentMovements |= MovementFlag::W_DOWN;
 	}
 
+	// Left
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	{
+		totalDirection += -cameraFrustum.WorldRight().Normalized();
+		currentMovements |= MovementFlag::A_DOWN;
+	}
+
 	// Back
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
@@ -161,13 +169,6 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		totalDirection += cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::D_DOWN;
-	}
-
-	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
-	{
-		totalDirection += -cameraFrustum.WorldRight().Normalized();
-		currentMovements |= MovementFlag::A_DOWN;
 	}
 
 	if (previousMovements ^ currentMovements)
@@ -207,6 +208,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		{
 			componentAnimation->SetParameter("IsDashing", true);
 			componentAnimation->SetParameter("IsRunning", false);
+			SetPlayerState(PlayerActions::DASHING);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 
@@ -232,7 +234,6 @@ void PlayerMoveScript::Move(float deltaTime)
 			btRigidbody->applyCentralImpulse(btDashImpulse);
 
 			isDashing = true;
-			SetPlayerState(PlayerActions::DASHING);
 		}
 
 		canDash = false;

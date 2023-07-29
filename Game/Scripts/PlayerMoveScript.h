@@ -22,6 +22,7 @@ enum class PlayerActions
     IDLE,
     WALKING,
 	JUMPING,
+	DOUBLEJUMPING,
 	DASHING,
 	ATTACKING
 };
