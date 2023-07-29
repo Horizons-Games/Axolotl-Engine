@@ -76,7 +76,7 @@ void PlayerMoveScript::Jump(float deltatime)
 		btVector3 movement(0, 1, 0);
 		float3 direction = float3::zero;
 
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
+		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
 		{
 			btRigidbody->applyCentralImpulse(movement.normalized() * jumpParameter);
 			jumps--;

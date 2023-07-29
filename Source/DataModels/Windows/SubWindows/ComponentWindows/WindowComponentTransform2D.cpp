@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-#include "ComponentWindows/WindowComponentTransform2D.h"
+#include "WindowComponentTransform2D.h"
 #include "Application.h"
 #include "ModuleInput.h"
 #include "Components/UI/ComponentTransform2D.h"
