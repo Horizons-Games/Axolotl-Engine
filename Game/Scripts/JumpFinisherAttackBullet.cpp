@@ -59,6 +59,16 @@ void JumpFinisherAttackBullet::InitializeBullet()
 	float3 forward = parentTransform->GetGlobalForward();
 	forward.Normalize();
 
+	// Duplicate force area
+	GameObject* forceAreaGameObject = forceArea->GetOwner();
+	GameObject* newForceAreaGameObject = App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject(forceAreaGameObject->GetName(), forceAreaGameObject, owner);
+
+	// Set up new force area in the field
+	forceArea = newForceAreaGameObject->GetComponent<JumpFinisherArea>();
+	forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->Enable();
+	forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->SetIsTrigger(true);
+
 	// Launch the bullet parabolically in front of Allura
 	btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setLinearVelocity(
@@ -68,11 +78,6 @@ void JumpFinisherAttackBullet::InitializeBullet()
 			forward.z) * bulletVelocity);
 
 	originTime = SDL_GetTicks() / 1000.0f;
-
-	// Set the forceArea as the new child duplicated and set it to trigger
-	forceArea = owner->GetChildren().front()->GetComponent<JumpFinisherArea>();
-	forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->Enable();
-	forceArea->GetOwner()->GetComponent<ComponentRigidBody>()->SetIsTrigger(true);
 }
 
 void JumpFinisherAttackBullet::DestroyBullet() const

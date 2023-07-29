@@ -55,5 +55,5 @@ void JumpFinisherAttack::ShootForceBullet() const
 {
 	// Duplicate force bullet
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
-		DuplicateGameObject(forceAttackBullet->GetName(), forceAttackBullet, owner);
+		DuplicateGameObject(forceAttackBullet->GetName(), forceAttackBullet, forceAttackBullet->GetParent());
 }

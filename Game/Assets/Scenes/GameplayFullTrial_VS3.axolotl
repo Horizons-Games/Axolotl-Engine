@@ -6723,10 +6723,10 @@
         },
         {
             "GameObject": {
-                "name": "Force area",
+                "name": "Bix Force Area",
                 "tag": "",
                 "uid": 5796801568389261786,
-                "parentUID": 1326767777895378518,
+                "parentUID": 18194237604426018883,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -7701,10 +7701,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 319.5044250488281,
-                            "worldAABB_min_y": 186.18194580078125,
-                            "worldAABB_max_x": 422.4955749511719,
-                            "worldAABB_max_y": 217.29183959960938
+                            "worldAABB_min_x": 299.2662658691406,
+                            "worldAABB_min_y": 188.64077758789063,
+                            "worldAABB_max_x": 395.7337341308594,
+                            "worldAABB_max_y": 217.78009033203125
                         }
                     },
                     {
@@ -7826,10 +7826,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 319.5044250488281,
-                            "worldAABB_min_y": 225.10292053222656,
-                            "worldAABB_max_x": 422.4955749511719,
-                            "worldAABB_max_y": 256.21282958984375
+                            "worldAABB_min_x": 299.2662658691406,
+                            "worldAABB_min_y": 225.09640502929688,
+                            "worldAABB_max_x": 395.7337341308594,
+                            "worldAABB_max_y": 254.2357177734375
                         }
                     },
                     {
@@ -8027,10 +8027,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 319.5044250488281,
-                            "worldAABB_min_y": 264.0238952636719,
-                            "worldAABB_max_x": 422.4955749511719,
-                            "worldAABB_max_y": 295.1338195800781
+                            "worldAABB_min_x": 299.2662658691406,
+                            "worldAABB_min_y": 261.5520324707031,
+                            "worldAABB_max_x": 395.7337341308594,
+                            "worldAABB_max_y": 290.6913757324219
                         }
                     },
                     {
@@ -8152,10 +8152,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 319.5044250488281,
-                            "worldAABB_min_y": 302.9448547363281,
-                            "worldAABB_max_x": 422.4955749511719,
-                            "worldAABB_max_y": 334.0547790527344
+                            "worldAABB_min_x": 299.2662658691406,
+                            "worldAABB_min_y": 298.0076599121094,
+                            "worldAABB_max_x": 395.7337341308594,
+                            "worldAABB_max_y": 327.1470031738281
                         }
                     },
                     {
@@ -8580,10 +8580,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 628.0404663085938,
-                            "worldAABB_min_y": 39.74749755859375,
-                            "worldAABB_max_x": 671.3237915039063,
-                            "worldAABB_max_y": 50.568328857421875
+                            "worldAABB_min_x": 588.2589721679688,
+                            "worldAABB_min_y": 51.4818229675293,
+                            "worldAABB_max_x": 628.8005981445313,
+                            "worldAABB_max_y": 61.61723709106445
                         }
                     },
                     {
@@ -9115,10 +9115,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 167.2996368408203,
-                            "worldAABB_min_y": 32.612335205078125,
-                            "worldAABB_max_x": 176.9611053466797,
-                            "worldAABB_max_y": 55.799835205078125
+                            "worldAABB_min_x": 156.70249938964844,
+                            "worldAABB_min_y": 44.798614501953125,
+                            "worldAABB_max_x": 165.75196838378906,
+                            "worldAABB_max_y": 66.51736450195313
                         }
                     },
                     {
@@ -9342,10 +9342,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 162.62774658203125,
-                            "worldAABB_min_y": 32.612152099609375,
-                            "worldAABB_max_x": 172.28921508789063,
-                            "worldAABB_max_y": 55.799652099609375
+                            "worldAABB_min_x": 152.3265380859375,
+                            "worldAABB_min_y": 44.79844665527344,
+                            "worldAABB_max_x": 161.37600708007813,
+                            "worldAABB_max_y": 66.51719665527344
                         }
                     },
                     {
@@ -9607,10 +9607,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 622.777587890625,
-                            "worldAABB_min_y": 360.26043701171875,
-                            "worldAABB_max_x": 632.4390869140625,
-                            "worldAABB_max_y": 383.44793701171875
+                            "worldAABB_min_x": 583.3294067382813,
+                            "worldAABB_min_y": 351.69268798828125,
+                            "worldAABB_max_x": 592.3788452148438,
+                            "worldAABB_max_y": 373.41143798828125
                         }
                     },
                     {
@@ -9834,10 +9834,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 667.7738647460938,
-                            "worldAABB_min_y": 360.26043701171875,
-                            "worldAABB_max_x": 677.4353637695313,
-                            "worldAABB_max_y": 383.44793701171875
+                            "worldAABB_min_x": 625.4755859375,
+                            "worldAABB_min_y": 351.69268798828125,
+                            "worldAABB_max_x": 634.5250244140625,
+                            "worldAABB_max_y": 373.41143798828125
                         }
                     },
                     {
@@ -10061,10 +10061,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 668.0609741210938,
-                            "worldAABB_min_y": 360.26043701171875,
-                            "worldAABB_max_x": 677.7224731445313,
-                            "worldAABB_max_y": 383.44793701171875
+                            "worldAABB_min_x": 625.7444458007813,
+                            "worldAABB_min_y": 351.69268798828125,
+                            "worldAABB_max_x": 634.7938842773438,
+                            "worldAABB_max_y": 373.41143798828125
                         }
                     },
                     {
@@ -10288,10 +10288,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 698.2610473632813,
-                            "worldAABB_min_y": 360.26043701171875,
-                            "worldAABB_max_x": 707.9225463867188,
-                            "worldAABB_max_y": 383.44793701171875
+                            "worldAABB_min_x": 654.0316772460938,
+                            "worldAABB_min_y": 351.69268798828125,
+                            "worldAABB_max_x": 663.0811157226563,
+                            "worldAABB_max_y": 373.41143798828125
                         }
                     },
                     {
@@ -24233,10 +24233,10 @@
         },
         {
             "GameObject": {
-                "name": "Bullet Force Area",
+                "name": "Allura Force Area",
                 "tag": "",
                 "uid": 15263240110637120713,
-                "parentUID": 12036860183511074008,
+                "parentUID": 18194237604426018883,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -24245,15 +24245,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.000029575970984296873,
-                            "localRot_X": 0.0,
+                            "localPos_X": 0.07978557795286179,
+                            "localPos_Y": 1.5,
+                            "localPos_Z": 50.03166198730469,
+                            "localRot_X": -9.256631912521766e-26,
                             "localRot_Y": -4.07110976874403e-12,
-                            "localRot_Z": 179.99996948242188,
-                            "localSca_X": 4.0,
-                            "localSca_Y": 4.0,
-                            "localSca_Z": 4.0
+                            "localRot_Z": 179.9999542236328,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.0000001192092896
                         }
                     },
                     {
@@ -24262,7 +24262,7 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": false,
+                            "isTrigger": true,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -24315,10 +24315,10 @@
         },
         {
             "GameObject": {
-                "name": "Allura Force Bullet",
+                "name": "Allura Bullet",
                 "tag": "",
                 "uid": 12036860183511074008,
-                "parentUID": 1326767777895378518,
+                "parentUID": 18194237604426018883,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -24329,7 +24329,7 @@
                             "removed": false,
                             "localPos_X": 0.07978557795286179,
                             "localPos_Y": 1.5,
-                            "localPos_Z": 50.031646728515625,
+                            "localPos_Z": 50.03165054321289,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -24408,6 +24408,34 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Jump Finisher Objects",
+                "tag": "",
+                "uid": 18194237604426018883,
+                "parentUID": 1326767777895378518,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
