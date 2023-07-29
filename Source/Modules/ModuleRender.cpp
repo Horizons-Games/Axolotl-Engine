@@ -713,7 +713,7 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	float distMin = S / (T + minMax[0]);
 	float distMax = S / (T + minMax[1]);
 
-	//cameraFrustum->SetViewPlaneDistances(distMin, distMax);
+	cameraFrustum->SetViewPlaneDistances(distMin, distMax);
 
 	math::vec corners[8];
 	cameraFrustum->GetCornerPoints(corners);
