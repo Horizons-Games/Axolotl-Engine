@@ -11,6 +11,7 @@ WindowInput::WindowInput() : SubWindow("Input")
 WindowInput::~WindowInput()
 {
 }
+
 void WindowInput::DrawWindowContents()
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
