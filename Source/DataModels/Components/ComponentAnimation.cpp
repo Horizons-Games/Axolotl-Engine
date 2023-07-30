@@ -84,12 +84,12 @@ void ComponentAnimation::Update()
 
 						if (controller->GetTransform(&child->GetName()[0], pos, rot))
 						{
-							ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+							ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 							transform->SetPosition(pos);
 							transform->SetRotation(rot);
 						}
 					}
-					owner->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
+					owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
 				}
 				else if (state->resource && state->loop)
 				{
@@ -108,7 +108,7 @@ void ComponentAnimation::Update()
 			{
 				controller->Stop();
 				LoadModelTransform(owner);
-				owner->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
+				owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
 			}
 		}
 	}
@@ -124,12 +124,12 @@ void ComponentAnimation::Draw() const
 
 void ComponentAnimation::DrawBones(GameObject* parent) const
 {
-	ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
+	ComponentTransform* parentTransform = parent->GetComponentInternal<ComponentTransform>();
 
 	GameObject::GameObjectView children = parent->GetChildren();
 	for (GameObject* child : children)
 	{
-		ComponentTransform* childTransform = child->GetComponent<ComponentTransform>();
+		ComponentTransform* childTransform = child->GetComponentInternal<ComponentTransform>();
 		dd::line(childTransform->GetGlobalPosition(), parentTransform->GetGlobalPosition(), dd::colors::Blue);
 		dd::axisTriad(childTransform->GetGlobalMatrix(), 0.1f, 2.0f);
 
@@ -181,7 +181,7 @@ void ComponentAnimation::InternalLoad(const Json& meta)
 
 void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
 {
-	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 
 	defaultPosition[gameObject] = transform->GetLocalMatrix();
 
@@ -193,7 +193,7 @@ void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
 
 void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 {
-	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 
 	float3 position;
 	float3 scale;
