@@ -45,7 +45,7 @@ void ActivationLogic::Start()
 		}
 	}
 	assert(componentRigidBody);
-	//componentRigidBody->Disable();
+	componentRigidBody->Disable();
 }
 
 void ActivationLogic::Update(float deltaTime)
