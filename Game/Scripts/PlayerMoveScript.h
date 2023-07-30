@@ -56,6 +56,7 @@ public:
 
 	bool GetCanJump() const;
 	void SetCanJump(bool canJump);
+	bool IsGrounded() const;
 
 private:
     ComponentTransform* componentTransform;
@@ -80,6 +81,7 @@ private:
 	ModuleInput* input;
 
 	void CheckGround();
+
 	void Jump(float deltatime);
 
 	float jumpParameter;
@@ -94,10 +96,6 @@ private:
 	int groundedCount;
 	float coyoteTime;
 	float coyoteTimerCount;
-
-    float jumpParameter;
-    bool canDoubleJump;
-	bool canJump;
 
 	int previousMovements;
 	int currentMovements;
@@ -135,7 +133,7 @@ inline void PlayerMoveScript::SetCanJump(bool canJump)
 	this->canJump = canJump;
 }
 
-inline bool PlayerMoveScript::IsGrounded()
+inline bool PlayerMoveScript::IsGrounded() const
 {
 	return grounded;
 }

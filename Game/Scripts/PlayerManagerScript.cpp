@@ -18,13 +18,12 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 
 void PlayerManagerScript::Start()
 {
-	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 }
 
-bool PlayerManagerScript::isGrounded()
+bool PlayerManagerScript::IsGrounded() const
 {
-	return jumpManager->isGrounded();
+	return movementManager->IsGrounded();
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
@@ -62,12 +61,7 @@ void PlayerManagerScript::IncreasePlayerSpeed(float speedIncrease)
 	playerSpeed += speedIncrease;
 }
 
-PlayerJumpScript* PlayerManagerScript::GetJumpManager()
-{
-	return jumpManager;
-}
-
-PlayerMoveScript* PlayerManagerScript::GetMovementManager()
+PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 {
 	return movementManager;
 }

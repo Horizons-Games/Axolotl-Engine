@@ -14,7 +14,6 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/EntityDetection.h"
 
 #include "GameObject/GameObject.h"
@@ -116,7 +115,7 @@ void BixAttackScript::Update(float deltaTime)
 	comboSystem->CheckSpecial(deltaTime);
 	if (IsAttackAvailable())
 	{
-		AttackType attackType = comboSystem->CheckAttackInput(!playerManager->isGrounded());
+		AttackType attackType = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
 		switch (attackType)
 		{
 		case AttackType::SOFTNORMAL:
