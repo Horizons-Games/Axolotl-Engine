@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "RuntimeInclude.h"
+
+RUNTIME_MODIFIABLE_INCLUDE;
 
 // This script handles the activation of the doors
 
@@ -8,7 +11,7 @@ class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentRigidBody;
 class ComponentScript;
-class UIGameStates;
+class UIGameManager;
 class HealthSystem;
 
 // Little fix until we could check if an audio is being reproduced
@@ -44,7 +47,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
-	UIGameStates* uiGameStatesClass;
+	UIGameManager* UIGameManagerClass;
 	HealthSystem* playerHealthSystem;
 	GameObject* setGameStateObject;
 	GameObject* setPlayer;

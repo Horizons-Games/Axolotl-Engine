@@ -1,0 +1,953 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "lights_VS3",
+                "tag": "",
+                "uid": 5457140795048261378,
+                "parentUID": 0,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 0.20000000298023224
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 6613241383893671849,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 10.103829383850098,
+                            "localPos_Z": 2.65077915173606e-7,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 0.48235294222831726,
+                            "color_light_Y": 0.5372549295425415,
+                            "color_light_Z": 0.5764706134796143,
+                            "intensity": 0.14000000059604645,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "VS3_Cantina_Lights",
+                "tag": "",
+                "uid": 15122229129142975858,
+                "parentUID": 5457140795048261378,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bar_AreaLight_L",
+                "tag": "",
+                "uid": 13793976972812020721,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 100.89482116699219,
+                            "localPos_Y": -7.820647716522217,
+                            "localPos_Z": 34.1788444519043,
+                            "localRot_X": 89.99996185302734,
+                            "localRot_Y": 0.00046274528722278774,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 1.9782934188842773,
+                            "localSca_Y": 0.00009999999747378752,
+                            "localSca_Z": 2.4058408737182617
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 8.579999923706055,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.00009999999747378752,
+                            "height": 26.56999969482422,
+                            "attRadius": 3.740000009536743
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bar_AreaLight_R",
+                "tag": "",
+                "uid": 15918685715389631028,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 100.850830078125,
+                            "localPos_Y": -7.756505489349365,
+                            "localPos_Z": 30.438817977905273,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 8.579999923706055,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.0,
+                            "height": 26.56999969482422,
+                            "attRadius": 3.740000009536743
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Bar_R",
+                "tag": "",
+                "uid": 7747832141523453031,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 86.38365173339844,
+                            "localPos_Y": -7.399290561676025,
+                            "localPos_Z": 30.920888900756836,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 7.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 5.260000228881836,
+                            "innerAngle": 0.5340707302093506,
+                            "outerAngle": 0.764454185962677
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Bar_L",
+                "tag": "",
+                "uid": 13594362287270433309,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 86.55310821533203,
+                            "localPos_Y": -7.454326629638672,
+                            "localPos_Z": 33.61659622192383,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 7.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 5.260000228881836,
+                            "innerAngle": 0.5358160734176636,
+                            "outerAngle": 0.7539822459220886
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Bar_C",
+                "tag": "",
+                "uid": 4987301729382919210,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 85.74174499511719,
+                            "localPos_Y": -7.496274948120117,
+                            "localPos_Z": 32.38662338256836,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 7.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 5.0,
+                            "innerAngle": 0.5340707302093506,
+                            "outerAngle": 0.764454185962677
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bar_AreaLight_L_Low",
+                "tag": "",
+                "uid": 5665707971071881325,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 100.67518615722656,
+                            "localPos_Y": -9.232086181640625,
+                            "localPos_Z": 35.137001037597656,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 2.9800000190734863,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.0,
+                            "height": 26.75,
+                            "attRadius": 2.430000066757202
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bar_AreaLight_R_Low",
+                "tag": "",
+                "uid": 4019404545824668525,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 99.61267852783203,
+                            "localPos_Y": -9.182106018066406,
+                            "localPos_Z": 30.09317398071289,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 2.9800000190734863,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.0,
+                            "height": 26.75,
+                            "attRadius": 2.430000066757202
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Vip_2",
+                "tag": "",
+                "uid": 14046035874356620910,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 80.3375015258789,
+                            "localPos_Y": -0.9023690223693848,
+                            "localPos_Z": 14.155247688293457,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 95.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 12.350000381469727,
+                            "innerAngle": 0.3176499307155609,
+                            "outerAngle": 0.7225663065910339
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Vip_1",
+                "tag": "",
+                "uid": 9926958329421878945,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 92.0158920288086,
+                            "localPos_Y": -0.9020000100135803,
+                            "localPos_Z": 14.114999771118164,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 95.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 12.350000381469727,
+                            "innerAngle": 0.3176499307155609,
+                            "outerAngle": 0.7225663065910339
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Vip_3",
+                "tag": "",
+                "uid": 8098513614226391682,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 68.08760070800781,
+                            "localPos_Y": -0.902000904083252,
+                            "localPos_Z": 23.407360076904297,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 95.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 12.350000381469727,
+                            "innerAngle": 0.3176499307155609,
+                            "outerAngle": 0.7225663065910339
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Vip_4",
+                "tag": "",
+                "uid": 1587413025994004144,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 68.08799743652344,
+                            "localPos_Y": -0.9020008444786072,
+                            "localPos_Z": 35.05708312988281,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 95.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 12.350000381469727,
+                            "innerAngle": 0.3176499307155609,
+                            "outerAngle": 0.7225663065910339
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Scenario_Yellow",
+                "tag": "",
+                "uid": 16575735452995289428,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 89.53402709960938,
+                            "localPos_Y": -1.508357048034668,
+                            "localPos_Z": 64.76074981689453,
+                            "localRot_X": 140.43885803222656,
+                            "localRot_Y": -33.42719650268555,
+                            "localRot_Z": 53.23418045043945,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.8788927793502808,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 0.5882352590560913,
+                            "intensity": 120.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 25.0,
+                            "innerAngle": 0.22689279913902283,
+                            "outerAngle": 0.3508111834526062
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Scenario_Pink",
+                "tag": "",
+                "uid": 3508785218734050161,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 90.23403930664063,
+                            "localPos_Y": 1.2112393379211426,
+                            "localPos_Z": 43.294044494628906,
+                            "localRot_X": 49.55062484741211,
+                            "localRot_Y": -30.675443649291992,
+                            "localRot_Z": -45.752864837646484,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.7185865640640259,
+                            "color_light_Y": 0.10668972879648209,
+                            "color_light_Z": 0.906862735748291,
+                            "intensity": 120.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 25.0,
+                            "innerAngle": 0.1727875918149948,
+                            "outerAngle": 0.3473204970359802
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Spot_Scenario_Center",
+                "tag": "",
+                "uid": 2676018227089780618,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 94.09766387939453,
+                            "localPos_Y": -1.5805063247680664,
+                            "localPos_Z": 53.48089599609375,
+                            "localRot_X": 90.00022888183594,
+                            "localRot_Y": -64.1369857788086,
+                            "localRot_Z": 90.00022888183594,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 0.6517205238342285,
+                            "color_light_Y": 0.936274528503418,
+                            "color_light_Z": 0.8944282531738281,
+                            "intensity": 125.0,
+                            "lightType": "LightType_Spot",
+                            "radius": 22.43000030517578,
+                            "innerAngle": 0.22689279913902283,
+                            "outerAngle": 0.30717796087265015
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "AreaLight_Table_1",
+                "tag": "",
+                "uid": 7726951078365459366,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 92.41190338134766,
+                            "localPos_Y": -9.165842056274414,
+                            "localPos_Z": 48.51679992675781,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 2.0199999809265137,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.1599999964237213,
+                            "height": 0.38999998569488525,
+                            "attRadius": 4.789999961853027
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "AreaLight_Table_2",
+                "tag": "",
+                "uid": 3370683775378448578,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 92.52800750732422,
+                            "localPos_Y": -9.116000175476074,
+                            "localPos_Z": 61.033546447753906,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 2.0199999809265137,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.1599999964237213,
+                            "height": 0.38999998569488525,
+                            "attRadius": 4.789999961853027
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "AreaLight_Table_3",
+                "tag": "",
+                "uid": 10376875247052087268,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 101.99202728271484,
+                            "localPos_Y": -9.116000175476074,
+                            "localPos_Z": 60.495697021484375,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 2.0199999809265137,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.1599999964237213,
+                            "height": 0.38999998569488525,
+                            "attRadius": 4.789999961853027
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "AreaLight_Table_4",
+                "tag": "",
+                "uid": 6184021968563060211,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 102.50733184814453,
+                            "localPos_Y": -9.116000175476074,
+                            "localPos_Z": 48.52688980102539,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 2.0199999809265137,
+                            "lightType": "LightType_Area",
+                            "areaType": "AreaType_Tube",
+                            "shapeRadius": 0.1599999964237213,
+                            "height": 0.38999998569488525,
+                            "attRadius": 4.789999961853027
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Point_Light_Center",
+                "tag": "",
+                "uid": 15922399969269068782,
+                "parentUID": 15122229129142975858,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 97.43952941894531,
+                            "localPos_Y": -8.526646614074707,
+                            "localPos_Z": 54.45610427856445,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 13.100000381469727,
+                            "lightType": "LightType_Point",
+                            "radius": 12.5
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -4925.0,
+                "y": -83.71807098388672,
+                "z": -4925.0
+            },
+            "MaxPoint": {
+                "x": 7875.0,
+                "y": 19587.66796875,
+                "z": 7875.0
+            }
+        }
+    },
+    "Skybox": {
+        "skyboxUID": 4377575066284441384,
+        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 992078593789236745,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    }
+}

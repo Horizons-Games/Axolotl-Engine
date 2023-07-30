@@ -29,6 +29,8 @@ void WindowComponentCamera::DrawWindowContents()
 		EFrustumMode frustumMode = asCamera->GetCamera()->GetFrustumMode();
 		int frustumModeAsNumber = static_cast<int>(frustumMode);
 		float frustumOffset = asCamera->GetCamera()->GetFrustumOffset();
+		float kpPosition = asCamera->GetCamera()->GetKpPosition();
+		float kpRotation = asCamera->GetCamera()->GetKpRotation();
 
 		ImGui::Text("Draw Frustum");
 		ImGui::SameLine();
@@ -38,9 +40,15 @@ void WindowComponentCamera::DrawWindowContents()
 			"Frustum Mode\n(single select)", &frustumModeAsNumber, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
 		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
 
+		ImGui::SliderFloat("Kp Position", &kpPosition, 1.0f, 10.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::SliderFloat("Kp Rotation", &kpRotation, 1.0f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+
 		asCamera->GetCamera()->SetIsDrawFrustum(drawFrustum);
 		EFrustumMode newFrustumMode = static_cast<EFrustumMode>(frustumModeAsNumber);
 		asCamera->GetCamera()->SetFrustumMode(newFrustumMode);
 		asCamera->GetCamera()->SetFrustumOffset(frustumOffset);
+
+		asCamera->GetCamera()->SetKpPosition(kpPosition);
+		asCamera->GetCamera()->SetKpRotation(kpRotation);
 	}
 }

@@ -150,10 +150,17 @@ void WindowConsole::DrawConsole()
 												   return severityFilters[logLine.severity];
 											   });
 
+	// Define the position from which text will start to wrap, which will be the end of the console window
+	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
+
 	for (const AxoLog::LogLine& logLine : linesFiltered)
 	{
 		ImGui::TextColored(severityColors[logLine.severity], logLine.ToSimpleString().c_str());
+		// Add spacing between each line
+		ImGui::Dummy(ImVec2(0.0f, 0.5f));
 	}
+
+	ImGui::PopTextWrapPos();
 
 	if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
 	{

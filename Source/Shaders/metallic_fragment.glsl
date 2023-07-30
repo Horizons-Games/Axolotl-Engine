@@ -14,12 +14,19 @@ struct Material {
     int has_diffuse_map;        //16 //4       
     int has_normal_map;         //20 //4
     int has_metallic_map;       //24 //4
-    float smoothness;           //28 //4
-    float metalness;            //32 //4
-    float normal_strength;      //36 //4
-    sampler2D diffuse_map;      //40 //8
-    sampler2D normal_map;       //48 //8
-    sampler2D metallic_map;     //56 //8 --> 64
+    int has_emissive_map;       //28 //4
+    float smoothness;           //32 //4
+    float metalness;            //36 //4
+    float normal_strength;      //40 //4
+    sampler2D diffuse_map;      //48 //8
+    sampler2D normal_map;       //56 //8
+    sampler2D metallic_map;     //64 //8 
+    sampler2D emissive_map;     //72 //8 -->80
+};
+
+struct Tiling {
+    vec2 tiling;                //0  //8
+    vec2 offset;                //8  //8 --> 16
 };
 
 layout(std140, binding=1) uniform Directional
@@ -54,6 +61,10 @@ readonly layout(std430, binding=5) buffer AreaLightsTube
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 12) buffer Tilings {
+    Tiling tilings[];
 };
 
 // IBL
@@ -273,6 +284,9 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 void main()
 {
     Material material = materials[InstanceIndex];
+    Tiling tiling = tilings[InstanceIndex];
+
+    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
 
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
@@ -284,7 +298,7 @@ void main()
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1)
     {
-        textureMat = texture(material.diffuse_map, TexCoord);
+        textureMat = texture(material.diffuse_map, newTexCoord);
     }
     textureMat = pow(textureMat, gammaCorrection); // sRGB textures to linear space
     
@@ -301,7 +315,7 @@ void main()
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(material.normal_map, TexCoord).rgb;
+        norm = texture(material.normal_map, newTexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -310,7 +324,7 @@ void main()
     norm = normalize(norm);
   
     // Metallic
-    vec4 colorMetallic = texture(material.metallic_map, TexCoord);
+    vec4 colorMetallic = texture(material.metallic_map, newTexCoord);
     float metalnessMask = material.has_metallic_map * colorMetallic.r + (1 - material.has_metallic_map) * 
         material.metalness;
 
@@ -352,7 +366,12 @@ void main()
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, 
         numLevels_IBL) * cubemap_intensity;
     vec3 color = ambient + Lo;
-    //vec3 color = ambient;
+    
+    //Emissive
+    if (material.has_emissive_map == 1) 
+    {
+        color += vec3(texture(material.emissive_map, newTexCoord));
+    }
     
 	//hdr rendering
     color = color / (color + vec3(1.0));

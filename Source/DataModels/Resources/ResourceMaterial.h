@@ -5,6 +5,29 @@ class ResourceTexture;
 
 struct LoadOptionsMaterial
 {
+	float4 diffuseColor;
+	float3 specularColor;
+	float normalStrength;
+	float smoothness;
+	float metalness;
+	bool isTransparent;
+	float2 tiling;
+	float2 offset;
+
+	unsigned int shaderType; //This is a special option because it's both load and import option
+
+	LoadOptionsMaterial() : 
+		diffuseColor(float4(1.0f, 1.0f, 0.0f, 1.0f)),
+		specularColor(float3(0.5f, 0.3f, 0.5f)),
+		normalStrength(1.0f),
+		smoothness(0.5f),
+		metalness(0.0f),
+		isTransparent(false),
+		tiling(float2(1.0f)),
+		offset(float2(0.0f)),
+		shaderType(0)
+	{
+	}
 };
 
 class ResourceMaterial : virtual public Resource
@@ -15,6 +38,7 @@ public:
 					 const std::string& assetsPath,
 					 const std::string& libraryPath);
 	virtual ~ResourceMaterial() override;
+	void CopyValues(const ResourceMaterial& rhs);
 
 	ResourceType GetType() const override;
 
@@ -24,11 +48,26 @@ public:
 	void SaveLoadOptions(Json& meta) override;
 	void LoadLoadOptions(Json& meta) override;
 
-	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
-	const std::shared_ptr<ResourceTexture>& GetNormal() const;
-	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
-	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
-	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+	// Resources with child resources like this, their children are part of the load options
+	// because their path is a load option provided by the asset and editable in the engine
+	void SavePaths(Json& meta, const std::vector<std::string>& pathTextures = std::vector<std::string>());
+	void LoadPaths(Json& meta);
+
+	std::shared_ptr<ResourceTexture> GetDiffuse() const;
+	std::shared_ptr<ResourceTexture> GetNormal() const;
+	std::shared_ptr<ResourceTexture> GetOcclusion() const;
+	std::shared_ptr<ResourceTexture> GetMetallic() const;
+	std::shared_ptr<ResourceTexture> GetSpecular() const;
+	std::shared_ptr<ResourceTexture> GetEmission() const;
+
+	bool HasDiffuse();
+	bool HasNormal();
+	bool HasOcclusion();
+	bool HasSpecular();
+	bool HasMetallic();
+	bool HasEmissive();
+
+	LoadOptionsMaterial& GetLoadOptions();
 	const float4& GetDiffuseColor() const;
 	const float3& GetSpecularColor() const;
 	const float& GetNormalStrength() const;
@@ -36,20 +75,16 @@ public:
 	const float& GetMetalness() const;
 	const bool& IsTransparent() const;
 	const unsigned int& GetShaderType() const;
+	const float2& GetTiling() const;
+	const float2& GetOffset() const;
 
-	bool HasDiffuse();
-	bool HasNormal();
-	bool HasOcclusion();
-	bool HasSpecular();
-	bool HasMetallic();
-
-	LoadOptionsMaterial& GetLoadOptions();
-
+	void SetLoadOptions(LoadOptionsMaterial& options);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetOcclusion(const std::shared_ptr<ResourceTexture>& occlusion);
 	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetEmission(const std::shared_ptr<ResourceTexture>& emission);
 	void SetDiffuseColor(const float4& diffuseColor);
 	void SetSpecularColor(const float3& specularColor);
 	void SetNormalStrength(const float normalStrength);
@@ -57,26 +92,22 @@ public:
 	void SetMetalness(const float metalness);
 	void SetTransparent(const bool isTransparent);
 	void SetShaderType(const unsigned int shaderType);
+	void SetTiling(const float2& tiling);
+	void SetOffset(const float2& offset);
 
 protected:
 	void InternalLoad() override{};
 	void InternalUnload() override{};
 
 private:
+	bool CheckAssetPath(std::string& assetPath);
+	
 	std::shared_ptr<ResourceTexture> diffuse;
 	std::shared_ptr<ResourceTexture> normal;
 	std::shared_ptr<ResourceTexture> occlusion;
 	std::shared_ptr<ResourceTexture> specular;
 	std::shared_ptr<ResourceTexture> metallic;
-
-	float4 diffuseColor;
-	float4 oldDiffuseColor;
-	float3 specularColor;
-	float normalStrength;
-	float smoothness;
-	float metalness;
-	bool isTransparent;
-	unsigned int shaderType;
+	std::shared_ptr<ResourceTexture> emission;
 
 	LoadOptionsMaterial loadOptions;
 };
@@ -86,64 +117,79 @@ inline ResourceType ResourceMaterial::GetType() const
 	return ResourceType::Material;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetDiffuse() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetDiffuse() const
 {
 	return diffuse;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetNormal() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetNormal() const
 {
 	return normal;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetOcclusion() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetOcclusion() const
 {
 	return occlusion;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetMetallic() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetMetallic() const
 {
 	return metallic;
 }
 
-inline const std::shared_ptr<ResourceTexture>& ResourceMaterial::GetSpecular() const
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetSpecular() const
 {
 	return specular;
 }
 
+inline std::shared_ptr<ResourceTexture> ResourceMaterial::GetEmission() const
+{
+	return emission;
+}
+
 inline const float4& ResourceMaterial::GetDiffuseColor() const
 {
-	return diffuseColor;
+	return loadOptions.diffuseColor;
 }
 
 inline const float3& ResourceMaterial::GetSpecularColor() const
 {
-	return specularColor;
+	return loadOptions.specularColor;
 }
 
 inline const float& ResourceMaterial::GetNormalStrength() const
 {
-	return normalStrength;
+	return loadOptions.normalStrength;
 }
 
 inline const float& ResourceMaterial::GetSmoothness() const
 {
-	return smoothness;
+	return loadOptions.smoothness;
 }
 
 inline const float& ResourceMaterial::GetMetalness() const
 {
-	return metalness;
+	return loadOptions.metalness;
 }
 
 inline const bool& ResourceMaterial::IsTransparent() const
 {
-	return isTransparent;
+	return loadOptions.isTransparent;
 }
 
 inline const unsigned int& ResourceMaterial::GetShaderType() const
 {
-	return shaderType;
+	return loadOptions.shaderType;
+}
+
+inline const float2& ResourceMaterial::GetTiling() const
+{
+	return loadOptions.tiling;
+}
+
+inline const float2& ResourceMaterial::GetOffset() const
+{
+	return loadOptions.offset;
 }
 
 inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
@@ -176,6 +222,16 @@ inline bool ResourceMaterial::HasMetallic()
 	return metallic != nullptr;
 }
 
+inline bool ResourceMaterial::HasEmissive()
+{
+	return emission != nullptr;
+}
+
+inline void ResourceMaterial::SetLoadOptions(LoadOptionsMaterial& options)
+{
+	loadOptions = options;
+}
+
 inline void ResourceMaterial::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
 {
 	this->diffuse = diffuse;
@@ -201,37 +257,60 @@ inline void ResourceMaterial::SetSpecular(const std::shared_ptr<ResourceTexture>
 	this->specular = specular;
 }
 
+inline void ResourceMaterial::SetEmission(const std::shared_ptr<ResourceTexture>& emission)
+{
+	this->emission = emission;
+}
+
+
 inline void ResourceMaterial::SetDiffuseColor(const float4& diffuseColor)
 {
-	this->diffuseColor = diffuseColor;
+	this->loadOptions.diffuseColor = diffuseColor;
 }
 
 inline void ResourceMaterial::SetSpecularColor(const float3& specularColor)
 {
-	this->specularColor = specularColor;
+	this->loadOptions.specularColor = specularColor;
 }
 
 inline void ResourceMaterial::SetNormalStrength(const float normalStrength)
 {
-	this->normalStrength = normalStrength;
+	this->loadOptions.normalStrength = normalStrength;
 }
 
 inline void ResourceMaterial::SetSmoothness(const float smoothness)
 {
-	this->smoothness = smoothness;
+	this->loadOptions.smoothness = smoothness;
 }
 
 inline void ResourceMaterial::SetMetalness(const float metalness)
 {
-	this->metalness = metalness;
+	this->loadOptions.metalness = metalness;
 }
 
 inline void ResourceMaterial::SetTransparent(const bool isTransparent)
 {
-	this->isTransparent = isTransparent;
+	this->loadOptions.isTransparent = isTransparent;
 }
 
 inline void ResourceMaterial::SetShaderType(const unsigned int shaderType)
 {
-	this->shaderType = shaderType;
+	if (shaderType > 1)
+	{
+		this->loadOptions.shaderType = 0;
+	}
+	else
+	{
+		this->loadOptions.shaderType = shaderType;
+	}
+}
+
+inline void ResourceMaterial::SetTiling(const float2& tiling)
+{
+	this->loadOptions.tiling = tiling;
+}
+
+inline void ResourceMaterial::SetOffset(const float2& offset)
+{
+	this->loadOptions.offset = offset;
 }

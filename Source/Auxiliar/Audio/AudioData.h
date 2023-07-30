@@ -9,6 +9,9 @@ namespace NPC
 namespace DRON
 {
 static const wchar_t* SHOT_01 = L"sfx_dron_shot_01";
+static const wchar_t* TIMER = L"sfx_dron_death_timer";
+static const wchar_t* STOP_TIMER = L"sfx_dron_death_timer_stop";
+static const wchar_t* EXPLOSION = L"sfx_drone_death_explosion";
 static const wchar_t* SHOT_IMPACT_01 = L"sfx_dron_shot_impact_01";
 static const wchar_t* PATROL = L"sfx_dron_patrol";
 static const wchar_t* ALERT = L"sfx_dron_alert";
@@ -26,8 +29,6 @@ namespace SEWERS
 {
 static const wchar_t* BIGDOOR_OPEN = L"sfx_bigDoor_open";
 static const wchar_t* BIGDOOR_CLOSE = L"sfx_bigDoor_close";
-static const wchar_t* AMBIENT = L"sewers_ambient";
-static const wchar_t* STOP_AMBIENT = L"sewers_ambient_stop";
 } // namespace SEWERS
 namespace CANTINA
 {

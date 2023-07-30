@@ -177,6 +177,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength()
@@ -199,6 +200,13 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.metallic_map = texture->GetHandle();
 			}
+
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
+			}
+			
 			metallicMaterialData[i] = newMaterial;
 		}
 
@@ -211,6 +219,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
+				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				static_cast<uint64_t>(resourceMaterial->GetNormalStrength())
@@ -233,6 +242,13 @@ void GeometryBatch::FillMaterial()
 			{
 				newMaterial.specular_map = texture->GetHandle();
 			}
+			
+			texture = resourceMaterial->GetEmission();
+			if (texture)
+			{
+				newMaterial.emissive_map = texture->GetHandle();
+			}
+			
 			specularMaterialData[i] = newMaterial;
 		}
 	}
@@ -440,6 +456,16 @@ void GeometryBatch::CreateVAO()
 		glBufferStorage(GL_SHADER_STORAGE_BUFFER, perInstances.size() * sizeof(PerInstance), nullptr, createFlags);
 	}
 
+	//Tiling
+	if (tilingBuffer == 0)
+	{
+		glGenBuffers(1, &tilingBuffer);
+	}
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer, 0, count * sizeof(Tiling));
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, count * sizeof(Tiling), nullptr, createFlags);
+
+	tilingData = static_cast<Tiling*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, count * sizeof(Tiling), mapFlags));
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
@@ -450,6 +476,7 @@ void GeometryBatch::ClearBuffer()
 	glDeleteBuffers(1, &indirectBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
+	glDeleteBuffers(1, &tilingBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }
@@ -621,6 +648,7 @@ void GeometryBatch::BindBatch(bool selected)
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPalette, palettes[frame]);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer);
 
 	WaitBuffer();
 	
@@ -718,13 +746,20 @@ void GeometryBatch::BindBatch(bool selected)
 				unsigned int instanceIndex = objectIndexes[component];
 				unsigned int paletteIndex = paletteIndexes[component];
 
-				transformData[frame][instanceIndex] = component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+				transformData[frame][instanceIndex] = 
+					component->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 				
 				if (component->GetMesh()->GetNumBones() > 0)
 				{
 					memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 						&component->GetPalette()[0],
 						perInstances[paletteIndex].numBones * sizeof(float4x4));
+				}
+				
+				if (component->GetMaterial())
+				{
+					Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
 				//do a for for all the instaces existing
@@ -751,15 +786,21 @@ void GeometryBatch::BindBatch(bool selected)
 			unsigned int paletteIndex = paletteIndexes[component];
 
 			transformData[frame][instanceIndex] =
-				component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+				component->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 			if (component->GetMesh()->GetNumBones() > 0)
 			{
-				std::vector<float4x4> palettes = component->GetPalette();
+				//std::vector<float4x4> palettes = component->GetPalette();
 
 				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 					&component->GetPalette()[0],
 					perInstances[paletteIndex].numBones * sizeof(float4x4));
+			}
+
+			if (component->GetMaterial())
+			{
+				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 
 			//do a for for all the instaces existing
@@ -861,6 +902,7 @@ void GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &bonesBuffer);
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
+	glDeleteBuffers(1, &tilingBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }

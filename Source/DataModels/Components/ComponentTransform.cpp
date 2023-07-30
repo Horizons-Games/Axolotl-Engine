@@ -90,7 +90,7 @@ void ComponentTransform::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
+		ComponentTransform* parentTransform = parent->GetComponentInternal<ComponentTransform>();
 
 		// Set global matrix
 		globalMatrix = parentTransform->GetGlobalMatrix().Mul(localMatrix);
@@ -106,7 +106,7 @@ void ComponentTransform::CalculateMatrices()
 void ComponentTransform::RecalculateLocalMatrix()
 {
 	globalMatrix = float4x4::FromTRS(globalPos, globalRot, globalSca);
-	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponent<ComponentTransform>();
+	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponentInternal<ComponentTransform>();
 	localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
 	localMatrix.Decompose(pos, rot, sca);
 	rotXYZ = RadToDeg(rot.ToEulerXYZ());
@@ -121,7 +121,7 @@ const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 
 	if (parent != root)
 	{
-		ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
+		ComponentTransform* parentTransform = parent->GetComponentInternal<ComponentTransform>();
 
 		return parentTransform->CalculatePaletteGlobalMatrix().Mul(localMatrix);
 	}
@@ -143,14 +143,13 @@ void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 		}
 	}
 	
-
 	if (GetOwner()->GetChildren().empty())
 		return;
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
 		ComponentTransform* childTransform = 
-			child->GetComponent<ComponentTransform>();
+			child->GetComponentInternal<ComponentTransform>();
 
 		if(childTransform)
 		{
@@ -188,6 +187,7 @@ void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightCo
 				loadedScene->RenderSpotLights();
 			}
 			break;
+
 		case LightType::AREA:
 			if (translationModified || rotationModified)
 			{

@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/Cantina_PathwayFloor_DefaultMaterial_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Cantina_PathwayFloor_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/Cantina_PathwayFloor_DefaultMaterial_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/Cantina_PathwayFloor_DefaultMaterial_Emission.png"
+}

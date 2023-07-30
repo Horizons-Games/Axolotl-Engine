@@ -100,30 +100,31 @@ UpdateStatus ModulePhysics::PreUpdate()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
+struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
+{
+	bool collisionDetected;
+	std::vector<const btCollisionObject*> othersRigidBody;
+
+	ContactResultCallback() : collisionDetected(false)
+	{
+	}
+
+	virtual btScalar addSingleResult(btManifoldPoint& cp,
+									 const btCollisionObjectWrapper* colObj0Wrap,
+									 int partId0,
+									 int index0,
+									 const btCollisionObjectWrapper* colObj1Wrap,
+									 int partId1,
+									 int index1)
+	{
+		collisionDetected = true;
+		othersRigidBody.push_back(colObj1Wrap->getCollisionObject());
+		return 0;
+	}
+};
+
 void ModulePhysics::ManageCollisions()
 {
-	struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
-	{
-		bool collisionDetected;
-		std::vector<const btCollisionObject*> othersRigidBody;
-
-		ContactResultCallback() : collisionDetected(false)
-		{
-		}
-
-		virtual btScalar addSingleResult(btManifoldPoint& cp,
-										 const btCollisionObjectWrapper* colObj0Wrap,
-										 int partId0,
-										 int index0,
-										 const btCollisionObjectWrapper* colObj1Wrap,
-										 int partId1,
-										 int index1)
-		{
-			collisionDetected = true;
-			othersRigidBody.push_back(colObj1Wrap->getCollisionObject());
-			return 0;
-		}
-	};
 
 	btCollisionObjectArray collisionArray = dynamicsWorld->getCollisionObjectArray();
 	for (int i = 0; i < collisionArray.size(); i++)
@@ -154,7 +155,7 @@ void ModulePhysics::ManageCollisions()
 						if (collisions.find(key) == collisions.end())
 						{
 							rb->OnCollisionEnter(other);
-							other->OnCollisionEnter(rb);
+							//other->OnCollisionEnter(rb);
 						}
 						else
 						{
@@ -186,7 +187,6 @@ void ModulePhysics::ManageCollisions()
 		if (!result.collisionDetected)
 		{
 			rb->OnCollisionExit(other);
-			other->OnCollisionExit(rb);
 			it = collisions.erase(it);
 		}
 		else
@@ -266,4 +266,23 @@ void GLDebugDrawer::reportErrorWarning(const char* warningString)
 void GLDebugDrawer::draw3dText(const btVector3& location, const char* textString)
 {
 	dd::screenText(textString, reinterpret_cast<ddVec3_In>(location), dd::colors::White, 1, 100);
+}
+
+void ModulePhysics::GetCollisions(ComponentRigidBody* rb, std::vector<ComponentRigidBody*>& collisions, std::string tag)
+{
+	btCollisionObject* obj = rb->GetRigidBody();
+	ContactResultCallback result;
+	dynamicsWorld->contactTest(obj, result);
+
+	if (result.collisionDetected)
+	{
+		for (int j = 0; j < result.othersRigidBody.size(); j++)
+		{
+			ComponentRigidBody* other = static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
+			if (tag.empty() || tag == other->GetOwner()->GetTag())
+			{
+				collisions.push_back(other);
+			}
+		}
+	}
 }

@@ -445,7 +445,7 @@ std::shared_ptr<ResourceMaterial>
 {
 	aiString file;
 
-	std::vector<std::string> pathTextures(4);
+	std::vector<std::string> pathTextures(5);
 
 	if (material->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 	{
@@ -483,7 +483,7 @@ std::shared_ptr<ResourceMaterial>
 		}
 	}
 
-	if (material->GetTexture(aiTextureType_SPECULAR, 0, &file) == AI_SUCCESS)
+	if (material->GetTexture(aiTextureType_METALNESS, 0, &file) == AI_SUCCESS)
 	{
 		std::string specularPath = "";
 
@@ -495,19 +495,32 @@ std::shared_ptr<ResourceMaterial>
 		}
 	}
 
-	char* fileBuffer{};
-	unsigned int size = 0;
+	if (material->GetTexture(aiTextureType_EMISSIVE, 0, &file) == AI_SUCCESS)
+	{
+		std::string emissivePath = "";
 
-	App->GetModule<ModuleFileSystem>()->SaveInfoMaterial(pathTextures, fileBuffer, size);
+		CheckPathMaterial(filePath, file, emissivePath);
+
+		if (emissivePath != "")
+		{
+			pathTextures[4] = emissivePath;
+		}
+	}
+
+	rapidjson::Document doc;
+	Json mat(doc, doc);
+	std::shared_ptr<ResourceMaterial> resourceMaterial;
+	resourceMaterial->SavePaths(mat, pathTextures);
+
 	std::string name = material->GetName().C_Str();
 	std::string materialPath = MATERIAL_PATH + App->GetModule<ModuleFileSystem>()->GetFileName(filePath) + name + "_" +
 							   std::to_string(iteration) + MATERIAL_EXTENSION;
+	rapidjson::StringBuffer buffer;
+	mat.toBuffer(buffer);
 
-	App->GetModule<ModuleFileSystem>()->Save(materialPath.c_str(), fileBuffer, size);
-	std::shared_ptr<ResourceMaterial> resourceMaterial =
+	App->GetModule<ModuleFileSystem>()->Save(materialPath.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+	resourceMaterial =
 		std::dynamic_pointer_cast<ResourceMaterial>(App->GetModule<ModuleResources>()->ImportResource(materialPath));
-
-	delete fileBuffer;
 
 	return resourceMaterial;
 }

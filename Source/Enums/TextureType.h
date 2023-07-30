@@ -6,5 +6,6 @@ enum class TextureType
 	NORMAL,
 	OCCLUSION,
 	METALLIC,
-	SPECULAR
+	SPECULAR,
+	EMISSION
 };

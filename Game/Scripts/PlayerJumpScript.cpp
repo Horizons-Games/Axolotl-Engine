@@ -14,16 +14,16 @@
 REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoubleJump(false) , jumpReset(0), 
-	componentAnimation(nullptr), jumps(0), componentAudio(nullptr)
+	componentAnimation(nullptr), jumps(0), componentAudio(nullptr), canJump(true)
 {
 	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(canDoubleJump, bool);
+	REGISTER_FIELD(canJump, bool);
 }
 
 void PlayerJumpScript::Start()
 {
 	canDoubleJump ? jumps = 2 : jumps = 1;
-
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 }
@@ -35,6 +35,8 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 
 void PlayerJumpScript::Jump(float deltatime)
 {
+	if (canJump) 
+	{
 	float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
 	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 	const ModuleInput* input = App->GetModule<ModuleInput>();
@@ -78,4 +80,15 @@ void PlayerJumpScript::Jump(float deltatime)
 
 		componentAnimation->SetParameter("IsDoubleJumping", false);
 	}
+	}
+}
+
+bool PlayerJumpScript::GetCanJump() const
+{
+	return canJump;
+}
+
+void PlayerJumpScript::SetCanJump(bool canJump)
+{
+	this->canJump = canJump;
 }

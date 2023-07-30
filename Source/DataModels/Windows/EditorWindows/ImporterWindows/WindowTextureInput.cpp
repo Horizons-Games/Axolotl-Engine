@@ -16,23 +16,26 @@ WindowTextureInput::WindowTextureInput(WindowComponentMeshRenderer* material, Te
 
 	switch (textureType)
 	{
-		case TextureType::DIFFUSE:
-			title = "Load Diffuse";
-			break;
-		case TextureType::NORMAL:
-			title = "Load Normal";
-			break;
-		case TextureType::OCCLUSION:
-			title = "Load Occlusion";
-			break;
-		case TextureType::METALLIC:
-			title = "Load Metallic";
-			break;
-		case TextureType::SPECULAR:
-			title = "Load Specular";
-			break;
-		default:
-			break;
+	case TextureType::DIFFUSE:
+		title = "Load Diffuse";
+		break;
+	case TextureType::NORMAL:
+		title = "Load Normal";
+		break;
+	case TextureType::OCCLUSION:
+		title = "Load Occlusion";
+		break;
+	case TextureType::METALLIC:
+		title = "Load Metallic";
+		break;
+	case TextureType::SPECULAR:
+		title = "Load Specular";
+		break;
+	case TextureType::EMISSION:
+		title = "Load Emission";
+		break;
+	default:
+		break;
 	}
 	filters = "Image files (*.png *.gif *.jpg *.jpeg *.dds *.tif *.tga){.png,.gif,.jpg,.jpeg,.dds,.tif,.tga}";
 	startPath = "Assets/Textures";
@@ -43,24 +46,27 @@ WindowTextureInput::~WindowTextureInput()
 
 void WindowTextureInput::DoThisIfOk()
 {
-	if (windowComponent)
+	std::shared_ptr<ResourceMaterial> material = windowComponent->GetMaterial();
+	if (material)
 	{
 		this->isLoading = false;
 		std::string filePath = std::string(fileDialogImporter.GetFilePathName());
 		std::shared_ptr<ResourceTexture> texture =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceTexture>(filePath);
 
+		windowComponent->MaterialChanged();
+
 		switch (textureType)
 		{
 			case TextureType::DIFFUSE:
 
-				windowComponent->SetDiffuse(texture);
+				material->SetDiffuse(texture);
 
 				break;
 
 			case TextureType::NORMAL:
 
-				windowComponent->SetNormal(texture);
+				material->SetNormal(texture);
 
 				break;
 			case TextureType::OCCLUSION:
@@ -69,13 +75,18 @@ void WindowTextureInput::DoThisIfOk()
 
 			case TextureType::METALLIC:
 
-				windowComponent->SetMetallic(texture);
+				material->SetMetallic(texture);
 
 				break;
 
 			case TextureType::SPECULAR:
 
-				windowComponent->SetSpecular(texture);
+				material->SetSpecular(texture);
+
+				break;
+			case TextureType::EMISSION:
+
+				material->SetEmission(texture);
 
 				break;
 		}

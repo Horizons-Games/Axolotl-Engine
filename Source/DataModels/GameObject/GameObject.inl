@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Auxiliar/ComponentNotFoundException.h"
+
 template<typename C>
 C* GameObject::CreateComponent()
 {
@@ -7,14 +9,25 @@ C* GameObject::CreateComponent()
 }
 
 template<typename C>
-C* GameObject::GetComponent() const
+C* GameObject::GetComponentInternal() const
 {
 	auto firstElement = std::ranges::find_if(components,
 											 [](const std::unique_ptr<Component>& comp)
 											 {
-												 return comp->GetType() == ComponentToEnum<C>::value;
+												 return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
 											 });
 	return firstElement != std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
+}
+
+template<typename C>
+C* GameObject::GetComponent() const
+{
+	C* internalResult = GetComponentInternal<C>();
+	if (internalResult == nullptr)
+	{
+		throw ComponentNotFoundException("Component of type " + std::string(typeid(C).name()) + " not found");
+	}
+	return internalResult;
 }
 
 template<typename C>
@@ -24,7 +37,7 @@ std::vector<C*> GameObject::GetComponents() const
 							  std::views::filter(
 								  [](const std::unique_ptr<Component>& comp)
 								  {
-									  return comp->GetType() == ComponentToEnum<C>::value;
+									  return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
 								  }) |
 							  std::views::transform(
 								  [](const std::unique_ptr<Component>& comp)
@@ -37,7 +50,7 @@ std::vector<C*> GameObject::GetComponents() const
 template<typename C>
 bool GameObject::RemoveComponent()
 {
-	return RemoveComponent(GetComponent<C>());
+	return RemoveComponent(GetComponentInternal<C>());
 }
 
 template<typename C>
@@ -47,15 +60,16 @@ bool GameObject::RemoveComponents()
 										 std::end(components),
 										 [](const std::unique_ptr<Component>& comp)
 										 {
-											 return comp->GetType() == ComponentToEnum<C>::value;
+											 return comp == nullptr || comp->GetType() == ComponentToEnum<C>::value;
 										 });
 	components.erase(removeIfResult, std::end(components));
 	return removeIfResult != std::end(components);
 }
 
 template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
-S* GameObject::GetComponent()
+S* GameObject::GetComponentInternal()
 {
+	// GetComponents already makes sure the objects returned are not null
 	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
 	auto componentWithScript = std::ranges::find_if(componentScripts,
 													[](const ComponentScript* component)
@@ -67,8 +81,20 @@ S* GameObject::GetComponent()
 }
 
 template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
+S* GameObject::GetComponent()
+{
+	S* internalResult = GetComponentInternal<S>();
+	if (internalResult == nullptr)
+	{
+		throw ComponentNotFoundException("Script of type " + std::string(typeid(S).name()) + " not found");
+	}
+	return internalResult;
+}
+
+template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
 std::vector<S*> GameObject::GetComponents()
 {
+	// GetComponents already makes sure the objects returned are not null
 	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
 	auto filteredScripts = componentScripts |
 						   std::views::transform(

@@ -64,6 +64,7 @@ ComponentSpotLight::ComponentSpotLight(
 ComponentSpotLight::~ComponentSpotLight()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	if (currentScene)
 	{
 		currentScene->UpdateSceneSpotLights();
@@ -77,14 +78,14 @@ void ComponentSpotLight::Draw() const
 #ifdef ENGINE
 		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
-		IsEnabled() && !App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
+		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawSpotLight();
 #endif // ENGINE
 
 	if (!canDrawLight)
 	{
 		return;
 	}
-	const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	const ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	float3 position = transform->GetGlobalPosition();
 	float3 forward = transform->GetGlobalForward().Normalized();
@@ -93,24 +94,28 @@ void ComponentSpotLight::Draw() const
 	dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
 }
 
+void ComponentSpotLight::OnTransformChanged()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->UpdateSceneSpotLight(this);
+	currentScene->RenderSpotLight(this);
+}
+
 void ComponentSpotLight::SignalEnable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
+
+	currentScene->UpdateSceneSpotLights();
+	currentScene->RenderSpotLights();
 }
 
 void ComponentSpotLight::SignalDisable()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (currentScene)
-	{
-		currentScene->UpdateSceneSpotLights();
-		currentScene->RenderSpotLights();
-	}
+
+	currentScene->UpdateSceneSpotLights();
+	currentScene->RenderSpotLights();
 }
 
 void ComponentSpotLight::InternalSave(Json& meta)

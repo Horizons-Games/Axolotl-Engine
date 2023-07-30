@@ -46,9 +46,12 @@ public:
 	void SetNormal(const std::shared_ptr<ResourceTexture>& normal);
 	void SetMetallic(const std::shared_ptr<ResourceTexture>& metallic);
 	void SetSpecular(const std::shared_ptr<ResourceTexture>& specular);
+	void SetEmissive(const std::shared_ptr<ResourceTexture>& emissive);
 	void SetShaderType(unsigned int shaderType);
 	void SetSmoothness(float smoothness);
 	void SetNormalStrength(float normalStrength);
+	void SetTiling(const float2& tiling);
+	void SetOffset(const float2& offset);
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
@@ -82,15 +85,15 @@ public:
 
 	const bool IsTransparent() const;
 
-	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
+	std::shared_ptr<ResourceTexture> GetDiffuse() const;
 
-	const std::shared_ptr<ResourceTexture>& GetNormal() const;
+	std::shared_ptr<ResourceTexture> GetNormal() const;
 
-	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
+	std::shared_ptr<ResourceTexture> GetOcclusion() const;
 
-	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
+	std::shared_ptr<ResourceTexture> GetMetallic() const;
 
-	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+	std::shared_ptr<ResourceTexture> GetSpecular() const;
 
 	const std::vector<float4x4>& GetPalette() const;
 

@@ -12,6 +12,7 @@
 #include "DataModels/Components/ComponentLight.h"
 #include "DataModels/Components/ComponentMeshCollider.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
+#include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
@@ -22,6 +23,8 @@
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
+#include "DataModels/Components/ComponentCameraSample.h"
+#include "DataModels/Components/UI/ComponentSlider.h"
 
 #include "Application.h"
 
@@ -144,19 +147,31 @@ void GameObject::Load(const Json& meta)
 		ComponentType type = GetTypeByName(jsonComponent["type"]);
 
 		if (type == ComponentType::UNKNOWN)
+		{
 			continue;
-		Component* component;
+		}
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			component = CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
+			CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
+		}
+		else if (type == ComponentType::SCRIPT)
+		{
+			ComponentScript* newComponent = CreateComponent<ComponentScript>();
+			newComponent->InstantiateScript(jsonComponent);
 		}
 		else
 		{
-			component = CreateComponent(type);
+			CreateComponent(type);
 		}
+	}
+}
 
-		component->Load(jsonComponent);
+void GameObject::LoadComponents(const Json& jsonComponents)
+{
+	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
+	{
+		components[i]->Load(jsonComponents[i]["Component"]);
 	}
 }
 
@@ -201,15 +216,15 @@ void GameObject::SetParent(GameObject* newParent)
 	// since the pointer returned will be "this"
 	std::ignore = parent->UnlinkChild(this);
 
-	ComponentTransform* transform = this->GetComponent<ComponentTransform>();
-	const ComponentTransform* newParentTransform = newParent->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = this->GetComponentInternal<ComponentTransform>();
+	const ComponentTransform* newParentTransform = newParent->GetComponentInternal<ComponentTransform>();
 	if (transform && newParentTransform)
 	{
 		transform->CalculateLocalFromNewGlobal(newParentTransform);
 	}
 	newParent->LinkChild(this);
 
-	(parent->IsActive() && parent->IsEnabled()) ? Activate() : Deactivate();
+	newParent->IsActive() ? Activate() : Deactivate();
 }
 
 void GameObject::LinkChild(GameObject* child)
@@ -221,14 +236,14 @@ void GameObject::LinkChild(GameObject* child)
 		child->parent = this;
 		child->active = (IsActive() && IsEnabled());
 
-		ComponentTransform* transform = child->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 		if (transform)
 		{
 			transform->UpdateTransformMatrices(false);
 		}
 		else
 		{
-			ComponentTransform2D* transform2D = child->GetComponent<ComponentTransform2D>();
+			ComponentTransform2D* transform2D = child->GetComponentInternal<ComponentTransform2D>();
 			if (transform2D)
 			{
 				transform2D->CalculateMatrices();
@@ -292,6 +307,12 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::CAMERA:
 		{
 			newComponent = std::make_unique<ComponentCamera>(static_cast<ComponentCamera&>(*component));
+			break;
+		}
+
+		case ComponentType::CAMERASAMPLE:
+		{
+			newComponent = std::make_unique<ComponentCameraSample>(static_cast<ComponentCameraSample&>(*component));
 			break;
 		}
 
@@ -364,6 +385,14 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::ANIMATION:
 		{
 			newComponent = std::make_unique<ComponentAnimation>(*static_cast<ComponentAnimation*>(component));
+			break;
+		}
+
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
+				static_cast<ComponentParticleSystem*>(newComponent.get()));
 			break;
 		}
 
@@ -491,6 +520,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::CAMERASAMPLE:
+		{
+			newComponent = std::make_unique<ComponentCameraSample>(true, this);
+			break;
+		}
+
 		case ComponentType::LIGHT:
 		{
 			newComponent = std::make_unique<ComponentLight>(true, this);
@@ -538,6 +573,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::SLIDER:
+		{
+			newComponent = std::make_unique<ComponentSlider>(true, this);
+			break;
+		}
+
+
 		case ComponentType::AUDIOSOURCE:
 		{
 			newComponent = std::make_unique<ComponentAudioSource>(true, this);
@@ -561,6 +603,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentScript>(true, this);
 			break;
 		}
+
+		case ComponentType::PARTICLE:
+		{
+			newComponent = std::make_unique<ComponentParticleSystem>(true, this);
+			break;
+		}
+		
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
@@ -580,6 +629,14 @@ Component* GameObject::CreateComponent(ComponentType type)
 		if (updatable)
 		{
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+		else
+		{
+			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
 		}
 
 		components.push_back(std::move(newComponent));
@@ -628,9 +685,20 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 				scene->UpdateSceneSpotLights();
 				scene->RenderSpotLights();
 				break;
+
 			case LightType::AREA:
-				scene->UpdateSceneAreaLights();
-				scene->RenderAreaLights();
+				switch (areaType)
+				{
+				case AreaType::SPHERE:
+					scene->UpdateSceneAreaSpheres();
+					scene->RenderAreaSpheres();
+					break;
+
+				case AreaType::TUBE:
+					scene->UpdateSceneAreaTubes();
+					scene->RenderAreaTubes();
+					break;
+				}
 				break;
 		}
 
@@ -652,7 +720,15 @@ bool GameObject::RemoveComponent(const Component* component)
 	{
 		return false;
 	}
+
+	if (component->GetType() == ComponentType::PARTICLE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
+			static_cast<const ComponentParticleSystem*>(component));
+	}
+
 	components.erase(removeIfResult, std::end(components));
+
 	return true;
 }
 
