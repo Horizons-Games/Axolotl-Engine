@@ -615,6 +615,7 @@
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="LightFinisherAttackScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1113,9 +1114,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
@@ -1277,6 +1275,8 @@
     <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="LightFinisherAttackScript.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
