@@ -22,7 +22,9 @@ LightFinisherAttackScript::LightFinisherAttackScript()
 	bulletVelocity(15.0f),
 	stunTime(2.0f),
 	enemyDetection(nullptr),
-	enemyDetectionObject(nullptr)
+	enemyDetectionObject(nullptr),
+	currentCooldown(0.0f),
+	cooldown(2.0f)
 {
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
@@ -38,9 +40,18 @@ void LightFinisherAttackScript::Start()
 
 void LightFinisherAttackScript::Update(float deltaTime)
 {
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_N) != KeyState::IDLE) // Bix jump finisher
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_N) != KeyState::IDLE && currentCooldown <= 0) // Bix jump finisher
 	{
-		PerformAttack();
+		if(PerformAttack())
+			currentCooldown = cooldown;
+	}
+	else
+	{
+		if (currentCooldown > 0)
+		{
+			currentCooldown -= deltaTime;
+			currentCooldown = std::max(0.0f, currentCooldown);
+		}
 	}
 }
 
@@ -51,6 +62,7 @@ bool LightFinisherAttackScript::PerformAttack()
 		return false;
 	}
 	
+	LOG_DEBUG("Bullet shot");
 	//animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet

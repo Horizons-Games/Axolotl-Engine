@@ -10,6 +10,7 @@
 #include "Components/ComponentScript.h"
 
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/EnemyClass.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -27,14 +28,18 @@ LightAttackBullet::LightAttackBullet() :
 
 void LightAttackBullet::Start()
 {
-	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
 
-	//enemyTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	//audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	rigidBody->Enable();
-	rigidBody->SetPositionTarget(owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	rigidBody->SetDefaultPosition();
 	rigidBody->SetKpForce(velocity);
+}
+
+void LightAttackBullet::Update(float deltaTime)
+{
+	rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
 }
 
 void LightAttackBullet::SetBulletVelocity(float nVelocity)
@@ -64,10 +69,10 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		HealthSystem* playerHealthScript = enemy->GetComponent<HealthSystem>();
 		playerHealthScript->TakeDamage(damageAttack);
-	}
-
-	//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
-	DestroyBullet();
+		DestroyBullet();
+		enemy->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
+		//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+	}	
 }
 
 void LightAttackBullet::DestroyBullet()

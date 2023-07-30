@@ -3,6 +3,7 @@
 
 class ComponentTransform;
 class ComponentAudioSource;
+class ComponentRigidBody;
 
 class LightAttackBullet : public Script
 {
@@ -11,6 +12,7 @@ public:
 	~LightAttackBullet() override = default;
 
 	void Start() override;
+	void Update(float deltaTime) override;
 
 	void SetBulletVelocity(float nVelocity);
 	void SetStunTime(float nStunTime);
@@ -26,4 +28,5 @@ private:
 
 	GameObject* enemy;
 	ComponentAudioSource* audioSource;
+	ComponentRigidBody* rigidBody;
 };

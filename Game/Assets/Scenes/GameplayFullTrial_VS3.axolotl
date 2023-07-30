@@ -1161,12 +1161,12 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 1.0499999523162842,
                                     "type": 0
                                 },
                                 {
                                     "name": "StunTime",
-                                    "value": 2.0,
+                                    "value": 8.850000381469727,
                                     "type": 0
                                 },
                                 {
@@ -10553,7 +10553,7 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 25.799999237060547,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -24389,11 +24389,11 @@
                     {
                         "Component": {
                             "type": "Component_RigidBody",
-                            "active": false,
+                            "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": false,
-                            "drawCollider": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
                             "mass": 1.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -24404,9 +24404,9 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": 0.0,
-                            "boxSize_X": 0.07499995827674866,
-                            "boxSize_Y": 0.1312500238418579,
-                            "boxSize_Z": 0.07499995082616806,
+                            "boxSize_X": 0.24999985098838806,
+                            "boxSize_Y": 0.4375000596046448,
+                            "boxSize_Z": 0.24999982118606567,
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
