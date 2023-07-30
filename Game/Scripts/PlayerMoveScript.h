@@ -79,6 +79,7 @@ private:
 	Frustum cameraFrustum;
 	ModuleInput* input;
 
+	void CheckGround();
 	void Jump(float deltatime);
 
 	float jumpParameter;
@@ -86,6 +87,16 @@ private:
 	int jumps;
 	int jumpReset;
 	bool canDoubleJump;
+	bool canJump;
+
+	bool grounded;
+	bool doubleJumpAvailable;
+	int groundedCount;
+	float coyoteTime;
+	float coyoteTimerCount;
+
+    float jumpParameter;
+    bool canDoubleJump;
 	bool canJump;
 
 	int previousMovements;
@@ -122,4 +133,9 @@ inline bool PlayerMoveScript::GetCanJump() const
 inline void PlayerMoveScript::SetCanJump(bool canJump)
 {
 	this->canJump = canJump;
+}
+
+inline bool PlayerMoveScript::IsGrounded()
+{
+	return grounded;
 }

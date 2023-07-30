@@ -21,8 +21,8 @@ REGISTERCLASS(PlayerMoveScript);
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
 	dashForce(20000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false),
-	jumpParameter(2000.0f), isJumping(false), canDoubleJump(false), jumpReset(0), jumps(0), canJump(true)
-
+	jumpParameter(2000.0f), isJumping(false), canDoubleJump(false), jumpReset(0), jumps(0), canJump(true), rigidbody(nullptr),
+	coyoteTime(0.4f), groundedCount(0), grounded(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
@@ -30,6 +30,10 @@ PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(canDoubleJump, bool);
 	REGISTER_FIELD(canJump, bool);
+	REGISTER_FIELD(coyoteTime, float);
+	REGISTER_FIELD(grounded, bool);
+	REGISTER_FIELD(coyoteTimerCount, float);
+	REGISTER_FIELD(doubleJumpAvailable, bool);
 }
 
 
@@ -40,8 +44,9 @@ void PlayerMoveScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	forceScript = owner->GetComponent<PlayerForceUseScript>();
-
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	//Avoid Y rotation on player this should go on movement not here but
+	rigidbody->GetRigidBody()->setAngularFactor(btVector3(1.0f, 0.0f, 1.0f));
 	btRigidbody = rigidBody->GetRigidBody();
 
 	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
@@ -60,6 +65,12 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 	{
 		Move(deltaTime);
 	}
+	if (!grounded && coyoteTimerCount > 0.0f)
+	{
+		coyoteTimerCount -= deltaTime;
+	}
+
+	CheckGround();
 	Jump(deltaTime);
 }
 
@@ -76,43 +87,30 @@ void PlayerMoveScript::Jump(float deltatime)
 		btVector3 movement(0, 1, 0);
 		float3 direction = float3::zero;
 
-		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && (grounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
 		{
-			isJumping = true;
+			btVector3 velocity = btRigidbody->getLinearVelocity();
+			velocity.setY(0.0f);
+			btRigidbody->setLinearVelocity(velocity);
 			btRigidbody->applyCentralImpulse(movement.normalized() * jumpParameter);
-			jumps--;
-			jumpReset = 0;
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 
-			if ((canDoubleJump && jumps == 1) || (!canDoubleJump && jumps == 0))
+			if (grounded || coyoteTimerCount > 0.0f)
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
 				componentAnimation->SetParameter("IsJumping", true);
 				SetPlayerState(PlayerActions::JUMPING);
+				grounded = false;
+				coyoteTimerCount = 0.0f;
 			}
-
-			if (canDoubleJump && jumps == 0)
+			else
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
+				componentAnimation->SetParameter("IsJumping", true);
 				componentAnimation->SetParameter("IsDoubleJumping", true);
 				SetPlayerState(PlayerActions::DOUBLEJUMPING);
+				doubleJumpAvailable = false;
 			}
-		}
-
-		btVector3 currentVelocity = btRigidbody->getLinearVelocity();
-
-		if (currentVelocity.getY() < -0.1 && jumpReset == 0)
-		{
-			jumpReset = 1;
-
-			componentAnimation->SetParameter("IsJumping", false);
-		}
-		else if (currentVelocity.getY() > -0.1 && jumpReset == 1)
-		{
-			jumpReset = 0;
-			canDoubleJump ? jumps = 2 : jumps = 1;
-
-			componentAnimation->SetParameter("IsDoubleJumping", false);
 		}
 	}
 }
