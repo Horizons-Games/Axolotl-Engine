@@ -33,24 +33,9 @@ void WindowConsole::DrawWindowContents()
 {
 	consoleContents.insert(std::end(consoleContents), std::begin(logContext->logLines), std::end(logContext->logLines));
 	logContext->logLines.clear();
-	LimitConsoleContents();
 
 	DrawOptionsMenu();
 	DrawConsole();
-}
-
-void WindowConsole::LimitConsoleContents()
-{
-	size_t consoleLines = consoleContents.size();
-	size_t maxConsoleLines = consoleLineLengths[selectedMaxLinesIndex];
-	if (maxConsoleLines < consoleLines)
-	{
-		auto contentsBegin = std::begin(consoleContents);
-		// the first parameter of std::advance is an input/output one
-		// meaning it will be modified by the method
-		std::advance(contentsBegin, consoleLines - maxConsoleLines);
-		consoleContents.erase(std::begin(consoleContents), contentsBegin);
-	}
 }
 
 void WindowConsole::DrawOptionsMenu()
@@ -105,11 +90,11 @@ void WindowConsole::DrawMaxLengthSelection()
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	float buttonWidth = ImGui::CalcTextSize("XXX").x + style.FramePadding.x * 2.0f;
-	float buttonContainerWidth  = (buttonWidth + style.ItemSpacing.x) * numButtons;
+	float buttonContainerWidth = (buttonWidth + style.ItemSpacing.x) * numButtons;
 
 	float textWidth = ImGui::CalcTextSize(limitText).x + style.FramePadding.x * 2.0f;
 
-	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - buttonContainerWidth  - textWidth);
+	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - buttonContainerWidth - textWidth);
 
 	ImGui::TextUnformatted(limitText);
 	ImGui::SameLine();
@@ -144,11 +129,15 @@ void WindowConsole::DrawMaxLengthSelection()
 
 void WindowConsole::DrawConsole()
 {
-	auto linesFiltered = consoleContents | std::views::filter(
-											   [this](const AxoLog::LogLine& logLine)
-											   {
-												   return severityFilters[logLine.severity];
-											   });
+	auto linesFiltered = consoleContents |
+						 std::views::filter(
+							 [this](const AxoLog::LogLine& logLine)
+							 {
+								 return severityFilters[logLine.severity];
+							 }) |
+						 // Reverse to take the last N elements, then reverse again to maintain line order
+						 std::views::reverse | std::views::take(consoleLineLengths[selectedMaxLinesIndex]) |
+						 std::views::reverse;
 
 	// Define the position from which text will start to wrap, which will be the end of the console window
 	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
