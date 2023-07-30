@@ -11,6 +11,7 @@ class ComponentScript : public Component, public Updatable
 {
 public:
 	ComponentScript(bool active, GameObject* owner);
+	ComponentScript(const ComponentScript& other);
 
 	~ComponentScript() override;
 
@@ -31,6 +32,8 @@ public:
 	void SetScript(IScript* script);
 	IScript* GetScript() const;
 
+	void SetOwner(GameObject* owner) override;
+
 private:
 	bool ScriptCanBeCalled() const;
 
@@ -38,6 +41,11 @@ private:
 	void InternalLoad(const Json& meta) override;
 
 	void SignalEnable() override;
+
+public:
+	// When loading a Script, it's possible that it expects to find one in a given game object (when it has that Script as a Field)
+	// thats why we need to instantiate them all before loading
+	void InstantiateScript(const Json& jsonComponent);
 
 private:
 	// This will be managed by the runtime library

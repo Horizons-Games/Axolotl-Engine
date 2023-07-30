@@ -79,7 +79,7 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 
 	Quat orientationOffset = Quat::identity;
 
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01))
+	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01f))
 	{
 		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
 		orientationOffset = rot * transform->GetGlobalRotation();

@@ -108,7 +108,6 @@ void WindowComponentScript::DrawWindowContents()
 
 	ImGui::NewLine();
 
-	std::vector<const char*> constructors = App->GetScriptFactory()->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(component);
 
 	if (!script)
@@ -125,6 +124,13 @@ void WindowComponentScript::DrawWindowContents()
 
 	if (!scriptObject)
 	{
+		std::vector<const char*> constructors = App->GetScriptFactory()->GetConstructors();
+		std::sort(std::begin(constructors),
+				  std::end(constructors),
+				  [](const char* c1, const char* c2)
+				  {
+					  return strcmp(c1, c2) < 0;
+				  });
 		if (ImGui::ListBox(
 				finalLabel.c_str(), &currentItem, constructors.data(), static_cast<int>(constructors.size()), 5))
 		{

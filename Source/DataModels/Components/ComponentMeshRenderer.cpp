@@ -695,28 +695,27 @@ const bool ComponentMeshRenderer::IsTransparent() const
 	return material->IsTransparent();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetDiffuse() const
 {
 	return material->GetDiffuse();
-	;
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetNormal() const
 {
 	return material->GetNormal();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetOcclusion() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetOcclusion() const
 {
 	return material->GetOcclusion();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetMetallic() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetMetallic() const
 {
 	return material->GetMetallic();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetSpecular() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetSpecular() const
 {
 	return material->GetSpecular();
 }
