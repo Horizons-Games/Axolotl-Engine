@@ -153,7 +153,7 @@ void DebugGame::GodCamera() const
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-	if (!playerMoveScript->GetIsParalyzed() && playerMoveScript->GetCanJump())
+	if (!playerMoveScript->IsParalyzed() && playerMoveScript->CanJump())
 	{
 		playerMoveScript->SetIsParalyzed(true);
 		playerMoveScript->SetCanJump(false);
@@ -163,7 +163,7 @@ void DebugGame::GodCamera() const
 		LOG_VERBOSE("GOD CAMERA ACTIVATED");
 	}
 
-	else if (playerMoveScript->GetIsParalyzed() && !playerMoveScript->GetCanJump())
+	else if (playerMoveScript->IsParalyzed() && !playerMoveScript->CanJump())
 	{
 		playerMoveScript->SetIsParalyzed(false);
 		playerMoveScript->SetCanJump(true);

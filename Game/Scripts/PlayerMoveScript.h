@@ -48,13 +48,13 @@ public:
     void Move(float deltaTime);
 	void MoveRotate(const float3& targetDirection, float deltaTime);
 
-	bool GetIsParalyzed() const;
+	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
 
-	bool GetCanJump() const;
+	bool CanJump() const;
 	void SetCanJump(bool canJump);
 	bool IsGrounded() const;
 
@@ -102,7 +102,7 @@ private:
 };
 
 
-inline bool PlayerMoveScript::GetIsParalyzed() const
+inline bool PlayerMoveScript::IsParalyzed() const
 {
 	return isParalyzed;
 }
@@ -123,7 +123,7 @@ inline void PlayerMoveScript::SetPlayerState(PlayerActions playerState)
 }
 
 
-inline bool PlayerMoveScript::GetCanJump() const
+inline bool PlayerMoveScript::CanJump() const
 {
 	return canJump;
 }
