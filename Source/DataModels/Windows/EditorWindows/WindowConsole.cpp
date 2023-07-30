@@ -5,7 +5,7 @@
 namespace
 {
 const std::vector<size_t> consoleLineLengths{ 10U, 25U, 50U, 100U };
-size_t selectedMaxLinesIndex = 2U;
+std::optional<size_t> selectedMaxLinesIndex = std::nullopt;
 } // namespace
 
 WindowConsole::WindowConsole() : EditorWindow("Console")
@@ -85,6 +85,7 @@ void WindowConsole::DrawMaxLengthSelection()
 {
 	int numButtons = static_cast<int>(consoleLineLengths.size());
 	const char* limitText = "Limit console lines:";
+	const char* noLimitButtonText = "No limit";
 
 	// Align the buttons to the right
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -92,9 +93,12 @@ void WindowConsole::DrawMaxLengthSelection()
 	float buttonWidth = ImGui::CalcTextSize("XXX").x + style.FramePadding.x * 2.0f;
 	float buttonContainerWidth = (buttonWidth + style.ItemSpacing.x) * numButtons;
 
+	float noLimitButtonWidth = ImGui::CalcTextSize(noLimitButtonText).x + style.FramePadding.x * 2.0f;
+	float noLimitButtonContainerWidth = noLimitButtonWidth + style.ItemSpacing.x;
+
 	float textWidth = ImGui::CalcTextSize(limitText).x + style.FramePadding.x * 2.0f;
 
-	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - buttonContainerWidth - textWidth);
+	ImGui::SetCursorPosX(ImGui::GetWindowWidth() - noLimitButtonContainerWidth - buttonContainerWidth - textWidth);
 
 	ImGui::TextUnformatted(limitText);
 	ImGui::SameLine();
@@ -104,7 +108,7 @@ void WindowConsole::DrawMaxLengthSelection()
 		ImGui::PushID(i);
 
 		// store the condition in case it changes during draw
-		bool selected = i == selectedMaxLinesIndex;
+		bool selected = selectedMaxLinesIndex.has_value() && i == selectedMaxLinesIndex.value();
 		if (selected)
 		{
 			ImVec4 activeColor = ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive);
@@ -125,6 +129,25 @@ void WindowConsole::DrawMaxLengthSelection()
 
 		ImGui::SameLine();
 	}
+
+	// store the condition in case it changes during draw
+	bool selected = !selectedMaxLinesIndex.has_value();
+
+	if (selected)
+	{
+		ImVec4 activeColor = ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive);
+		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
+	}
+
+	if (ImGui::Button(noLimitButtonText, ImVec2(noLimitButtonWidth, 0)))
+	{
+		selectedMaxLinesIndex = std::nullopt;
+	}
+
+	if (selected)
+	{
+		ImGui::PopStyleColor();
+	}
 }
 
 void WindowConsole::DrawConsole()
@@ -136,7 +159,8 @@ void WindowConsole::DrawConsole()
 								 return severityFilters[logLine.severity];
 							 }) |
 						 // Reverse to take the last N elements, then reverse again to maintain line order
-						 std::views::reverse | std::views::take(consoleLineLengths[selectedMaxLinesIndex]) |
+						 std::views::reverse |
+						 std::views::take(consoleLineLengths[selectedMaxLinesIndex.value_or(consoleContents.size())]) |
 						 std::views::reverse;
 
 	// Define the position from which text will start to wrap, which will be the end of the console window
