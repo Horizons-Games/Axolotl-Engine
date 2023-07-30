@@ -282,15 +282,25 @@ void StartHierarchyLoad(Json&& gameObjectsJson)
 	currentLoadingConfig->mantainCurrentScene ? loadedScene->AddSceneGameObjects(gameObjects)
 											  : loadedScene->SetSceneGameObjects(gameObjects);
 
-	// GameObject::Load may call OpenGL methods, which can only be called from the main thread
+	// Load will, amongst other things, instantiate the components
+	for (unsigned int i = 0; i < gameObjectsJson.Size(); ++i)
+	{
+		Json jsonGameObject = gameObjectsJson[i]["GameObject"];
+
+		gameObjects[i]->Load(jsonGameObject);
+	}
+
+	// Component::Load may call OpenGL methods, which can only be called from the main thread
 	// that's why we'll push this to the pendingActions queue, so it's executed on the main thread
 	auto loadObjectThenFinishHierarchyLoad = [gameObjectsJson]()
 	{
+		// Once all components are instantiated, load them
+		// we do this in two steps because some scripts expect a game object to have a given component
 		for (unsigned int i = 0; i < gameObjectsJson.Size(); ++i)
 		{
-			Json jsonGameObject = gameObjectsJson[i]["GameObject"];
+			Json jsonComponents = gameObjectsJson[i]["GameObject"]["Components"];
 
-			gameObjects[i]->Load(jsonGameObject);
+			gameObjects[i]->LoadComponents(jsonComponents);
 		}
 		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 		{
