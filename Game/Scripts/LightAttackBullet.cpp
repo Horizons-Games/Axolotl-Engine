@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "LightAttackBullet.h"
 
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 
@@ -26,8 +29,15 @@ void LightAttackBullet::Update(float deltaTime)
 {
 }
 
-void LightAttackBullet::SetBulletVelocity(float velocity)
+void LightAttackBullet::SetBulletVelocity(float nVelocity)
 {
+	velocity = nVelocity;
+
+}
+
+void LightAttackBullet::SetEnemy(GameObject* nEnemy)
+{
+	enemy = nEnemy;
 }
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
@@ -43,10 +53,11 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		playerHealthScript->TakeDamage(damageAttack);
 	}
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+	//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 	DestroyBullet();
 }
 
 void LightAttackBullet::DestroyBullet()
 {
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

@@ -13,7 +13,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetBulletVelocity(float velocity);
+	void SetBulletVelocity(float nVelocity);
+	void SetEnemy(GameObject* nEnemy);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
