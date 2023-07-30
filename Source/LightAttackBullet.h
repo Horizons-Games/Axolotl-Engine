@@ -1,16 +1,15 @@
 #pragma once
-
-#include "Scripting\Script.h"
+#include "Script.h"
 
 class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
 
-class RangedFastAttackBullet : public Script
+class LightAttackBullet : public Script
 {
 public:
-	RangedFastAttackBullet();
-	~RangedFastAttackBullet() override = default;
+	LightAttackBullet();
+	~LightAttackBullet() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
