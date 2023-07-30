@@ -6,10 +6,14 @@
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentTransform.h"
+#include "Components/ComponentScript.h"
 
 #include "../Scripts/HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
+
+REGISTERCLASS(LightAttackBullet);
 
 LightAttackBullet::LightAttackBullet() :
 	Script(),
@@ -23,16 +27,25 @@ LightAttackBullet::LightAttackBullet() :
 
 void LightAttackBullet::Start()
 {
-}
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 
-void LightAttackBullet::Update(float deltaTime)
-{
+	//enemyTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	//audioSource = owner->GetComponent<ComponentAudioSource>();
+
+	rigidBody->Enable();
+	rigidBody->SetPositionTarget(owner->GetParent()->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	rigidBody->SetKpForce(velocity);
 }
 
 void LightAttackBullet::SetBulletVelocity(float nVelocity)
 {
 	velocity = nVelocity;
 
+}
+
+void LightAttackBullet::SetStunTime(float nStunTime)
+{
+	stunTime = nStunTime;
 }
 
 void LightAttackBullet::SetEnemy(GameObject* nEnemy)

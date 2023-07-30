@@ -11,9 +11,9 @@ public:
 	~LightAttackBullet() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 
 	void SetBulletVelocity(float nVelocity);
+	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
 
 private:

@@ -2,6 +2,7 @@
 #include "Script.h"
 
 class Scene;
+class EntityDetection;
 
 class LightFinisherAttackScript : public Script
 {
@@ -11,12 +12,16 @@ public:
 	~LightFinisherAttackScript() override = default;
 
 	void Start() override;
+	void Update(float deltaTime) override;
 
-	void PerformAttack();
+	bool PerformAttack();
 
 private:
 	GameObject* bulletPrefab;
-	float bulletVelocity;
+	float bulletVelocity;	
+	float stunTime;
 
 	Scene* loadedScene;
+	EntityDetection* enemyDetection;
+	GameObject* enemyDetectionObject;
 };

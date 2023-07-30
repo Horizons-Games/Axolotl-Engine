@@ -4,24 +4,53 @@
 #include "Application.h"
 
 #include "Scripting/ScriptFactory.h"
+#include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentScript.h"
 
-LightFinisherAttackScript::LightFinisherAttackScript()
+#include "../Scripts/LightAttackBullet.h"
+#include "../Scripts/EntityDetection.h"
+
+REGISTERCLASS(LightFinisherAttackScript);
+
+LightFinisherAttackScript::LightFinisherAttackScript() 
+	: Script(), 
+	loadedScene(nullptr), 
+	bulletPrefab(nullptr),
+	bulletVelocity(15.0f),
+	stunTime(2.0f),
+	enemyDetection(nullptr),
+	enemyDetectionObject(nullptr)
 {
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
+	REGISTER_FIELD(stunTime, float);
+	REGISTER_FIELD(enemyDetectionObject, GameObject*);
 }
 
 void LightFinisherAttackScript::Start()
 {
+	enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 }
 
-void LightFinisherAttackScript::PerformAttack()
+void LightFinisherAttackScript::Update(float deltaTime)
 {
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_N) != KeyState::IDLE) // Bix jump finisher
+	{
+		PerformAttack();
+	}
+}
+
+bool LightFinisherAttackScript::PerformAttack()
+{
+	if (!enemyDetection->GetEnemySelected())
+	{
+		return false;
+	}
+	
 	//animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
@@ -29,15 +58,19 @@ void LightFinisherAttackScript::PerformAttack()
 
 	// Attack the DroneFastBullet script to the new bullet to give it its logic
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
-	script->SetConstuctor("RangedFastAttackBullet");
+	script->SetScript(App->GetScriptFactory()->ConstructScript("LightAttackBullet"));
+	script->SetConstuctor("LightAttackBullet");
 	script->GetScript()->SetOwner(bullet);
 	script->GetScript()->SetApplication(App);
 
-	//bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
+	bullet->GetComponent<LightAttackBullet>()->SetBulletVelocity(bulletVelocity);
+	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
+	bullet->GetComponent<LightAttackBullet>()->SetStunTime(stunTime);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
 
 	//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+
+	return true;
 }

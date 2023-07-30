@@ -615,8 +615,12 @@
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
-    <ClCompile Include="LightFinisherAttackScript.cpp" />
-    <ClCompile Include="LightAttackBullet.cpp" />
+    <ClCompile Include="..\Game\Scripts\LightAttackBullet.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1277,8 +1281,12 @@
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="LightFinisherAttackScript.h" />
-    <ClInclude Include="LightAttackBullet.h" />
+    <ClInclude Include="..\Game\Scripts\LightAttackBullet.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\LightFinisherAttackScript.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
