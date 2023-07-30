@@ -131,7 +131,7 @@ void ComponentAreaLight::Draw() const
 		return;
 	}
 
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 
 	switch (areaType)

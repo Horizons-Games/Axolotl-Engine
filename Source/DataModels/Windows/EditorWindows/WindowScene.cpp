@@ -153,7 +153,7 @@ void WindowScene::DrawGuizmo()
 
 		float4x4 viewMat = float4x4::identity;
 
-		ComponentTransform* focusedTransform = focusedObject->GetComponent<ComponentTransform>();
+		ComponentTransform* focusedTransform = focusedObject->GetComponentInternal<ComponentTransform>();
 
 		// Guizmo 3D
 		if (focusedTransform != nullptr)
@@ -183,7 +183,7 @@ void WindowScene::DrawGuizmo()
 
 				if (parent != nullptr)
 				{
-					const ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
+					const ComponentTransform* parentTransform = parent->GetComponentInternal<ComponentTransform>();
 
 					inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
 				}
@@ -220,7 +220,7 @@ void WindowScene::DrawGuizmo()
 		//Guizmo 2D
 		else
 		{
-			ComponentTransform2D* focusedTransform2D = focusedObject->GetComponent<ComponentTransform2D>();
+			ComponentTransform2D* focusedTransform2D = focusedObject->GetComponentInternal<ComponentTransform2D>();
 			ImGuizmo::SetOrthographic(true);
 			float4x4 projMat = camera->GetOrthoProjectionMatrix().Transposed();
 			float4x4 modelMatrix = focusedTransform2D->GetGlobalMatrix().Transposed();

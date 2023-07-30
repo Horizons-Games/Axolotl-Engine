@@ -50,7 +50,7 @@ void ModulePlayer::SetPlayer(GameObject* newPlayer)
 	player = newPlayer;
 	if (player)
 	{
-		componentPlayer = player->GetComponent<ComponentPlayer>();
+		componentPlayer = player->GetComponentInternal<ComponentPlayer>();
 	}
 }
 

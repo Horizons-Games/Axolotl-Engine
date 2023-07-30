@@ -41,7 +41,7 @@ void WindowComponentCamera::DrawWindowContents()
 		ImGui::SliderFloat("Frustum Offset", &frustumOffset, -2.f, 2.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
 
 		ImGui::SliderFloat("Kp Position", &kpPosition, 1.0f, 10.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
-		ImGui::SliderFloat("Kp Rotation", &kpRotation, 1.0f, 10.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::SliderFloat("Kp Rotation", &kpRotation, 1.0f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
 		asCamera->GetCamera()->SetIsDrawFrustum(drawFrustum);
 		EFrustumMode newFrustumMode = static_cast<EFrustumMode>(frustumModeAsNumber);

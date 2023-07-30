@@ -177,6 +177,7 @@ UpdateStatus ModuleScene::PostUpdate()
 
 bool ModuleScene::CleanUp()
 {
+	App->GetModule<ModuleEditor>()->RefreshInspector();
 	loadedScene = nullptr;
 	return true;
 }
@@ -367,6 +368,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	if (!mantainActualScene)
 	{
+		App->GetModule<ModuleEditor>()->RefreshInspector();
 		loadedScene.reset();
 		loadedScene = std::make_unique<Scene>();
 
@@ -401,17 +403,17 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
-		ComponentCanvas* canvas = obj->GetComponent<ComponentCanvas>();
+		ComponentCanvas* canvas = obj->GetComponentInternal<ComponentCanvas>();
 		if (canvas != nullptr)
 		{
 			loadedCanvas.push_back(canvas);
 		}
-		Component* button = obj->GetComponent<ComponentButton>();
+		Component* button = obj->GetComponentInternal<ComponentButton>();
 		if (button != nullptr)
 		{
 			loadedInteractable.push_back(button);
 		}
-		Component* particle = obj->GetComponent<ComponentParticleSystem>();
+		Component* particle = obj->GetComponentInternal<ComponentParticleSystem>();
 		if (particle != nullptr)
 		{
 			loadedParticle.push_back(static_cast<ComponentParticleSystem*>(particle));
@@ -425,14 +427,14 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 				directionalLight = obj;
 			}
 		}
-		if (obj->GetComponent<ComponentTransform>() != nullptr)
+		if (obj->GetComponentInternal<ComponentTransform>() != nullptr)
 		{
 			// Quadtree treatment
 			AddGameObject(obj);
 		}
 
-		ComponentTransform* transform = obj->GetComponent<ComponentTransform>();
-		ComponentRigidBody* rigidBody = obj->GetComponent<ComponentRigidBody>();
+		ComponentTransform* transform = obj->GetComponentInternal<ComponentTransform>();
+		ComponentRigidBody* rigidBody = obj->GetComponentInternal<ComponentRigidBody>();
 
 		if (rigidBody)
 		{
@@ -442,12 +444,11 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		}
 	}
 
-	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponent<ComponentTransform>();
+	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
 	mainTransform->UpdateTransformMatrices();
 
 	SetSceneRootAnimObjects(loadedObjects);
 	selectedGameObject = loadedScene->GetRoot();
-	App->GetModule<ModuleEditor>()->RefreshInspector();
 
 	if (!mantainActualScene)
 	{
@@ -474,7 +475,7 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 {
 	for (GameObject* go : gameObjects)
 	{
-		if (go->GetComponent<ComponentAnimation>() != nullptr)
+		if (go->GetComponentInternal<ComponentAnimation>() != nullptr)
 		{
 			GameObject* rootGo = go;
 
@@ -527,11 +528,21 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 	mantainCurrentHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
 							: loadedScene->SetSceneGameObjects(gameObjects);
 
+	// Load will, amongst other things, instantiate the components
 	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
 
 		gameObjects[i]->Load(jsonGameObject);
+	}
+
+	// Once all components are instantiated, load them
+	// we do this in two steps because some scripts expect a game object to have a given component
+	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
+	{
+		Json jsonComponents = jsonGameObjects[i]["GameObject"]["Components"];
+
+		gameObjects[i]->LoadComponents(jsonComponents);
 	}
 
 	for (GameObject* gameObject : gameObjects)
@@ -590,7 +601,7 @@ std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGa
 
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 {
-	if (object->GetParent() == nullptr || object->GetComponent<ComponentTransform>() == nullptr)
+	if (object->GetParent() == nullptr || object->GetComponentInternal<ComponentTransform>() == nullptr)
 	{
 		return;
 	}
@@ -604,7 +615,7 @@ void ModuleScene::AddGameObjectAndChildren(GameObject* object)
 
 void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 {
-	if (object->GetParent() == nullptr || object->GetComponent<ComponentTransform>() == nullptr)
+	if (object->GetParent() == nullptr || object->GetComponentInternal<ComponentTransform>() == nullptr)
 	{
 		return;
 	}

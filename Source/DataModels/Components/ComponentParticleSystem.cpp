@@ -213,7 +213,7 @@ void ComponentParticleSystem::CheckEmitterInstances(bool forceRecalculate)
 void ComponentParticleSystem::InitEmitterInstances()
 {
 	emitters.reserve(resource->GetNumEmitters());
-	for(int i = 0; i < resource->GetNumEmitters(); ++i)
+	for(unsigned int i = 0; i < resource->GetNumEmitters(); ++i)
 	{
 		CreateEmitterInstance(resource->GetEmitter(i));
 	}

@@ -469,7 +469,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 					gameObjectsInFrustrum.insert(gameObject);
@@ -483,7 +483,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 					gameObjectsInFrustrum.insert(gameObject);
@@ -516,7 +516,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 	// If an object doesn't have transform component it doesn't need to draw
 	if (transform == nullptr)
 	{
@@ -525,10 +525,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		ComponentMeshRenderer* mesh = gameObject->GetComponent<ComponentMeshRenderer>();
+		ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
 		{
-			const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+			const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 			float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 			gameObjectsInFrustrum.insert(gameObject);
@@ -628,7 +628,7 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	const ComponentMeshRenderer* material = gameObject->GetComponent<ComponentMeshRenderer>();
+	const ComponentMeshRenderer* material = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->IsTransparent())
