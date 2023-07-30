@@ -75,6 +75,7 @@ void EntityDetection::DrawDetectionLines()
 void EntityDetection::SelectEnemy()
 {
 	enemySelected = nullptr;
+	float angleActualSelected;
 
 	for (ComponentTransform* enemy : enemiesInTheArea)
 	{
@@ -99,15 +100,14 @@ void EntityDetection::SelectEnemy()
 			color = dd::colors::Red;
 #endif // ENGINE
 
-			if (enemySelected == nullptr)
+			bool inFrontOfActualSelected = 
+				angle == angleActualSelected && originPosition.Distance(enemy->GetGlobalPosition()) < 
+				originPosition.Distance(enemySelected->GetGlobalPosition());
+
+			if (enemySelected == nullptr || angle < angleActualSelected || inFrontOfActualSelected)
 			{
 				enemySelected = enemy;
-			}
-			//enemy is closer than the currently selected one
-			else if (originPosition.Distance(enemy->GetGlobalPosition()) <
-				originPosition.Distance(enemySelected->GetGlobalPosition()))
-			{
-				enemySelected = enemy;
+				angleActualSelected = angle;
 			}
 		}
 
