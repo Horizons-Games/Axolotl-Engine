@@ -36,18 +36,16 @@ void ActivationLogic::Start()
 	componentRigidBody = nullptr;
 	for (GameObject* child : owner->GetChildren())
 	{
-		try
-		{
+		try {
 			componentRigidBody = child->GetComponent<ComponentRigidBody>();
-			break; // No exception means component found
+			LOG_VERBOSE("{} has Component Rigid Body", child->GetName());
 		}
-		catch (const ComponentNotFoundException&)
-		{
-			continue; // Exception means component was nullptr
+		catch (const ComponentNotFoundException&) {
+			LOG_WARNING("{} has not Component Rigid Body", child->GetName());
 		}
 	}
 	assert(componentRigidBody);
-	componentRigidBody->Disable();
+	//componentRigidBody->Disable();
 }
 
 void ActivationLogic::Update(float deltaTime)
@@ -57,26 +55,21 @@ void ActivationLogic::Update(float deltaTime)
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	try {
-		other->GetOwner()->GetComponent<ComponentPlayer>();
+	LOG_VERBOSE("{} enter in CollisionEnter", other->GetOwner()->GetName());
+	if (other->GetOwner()->GetTag() == "Player") {
 		componentAnimation->SetParameter("IsActive", true);
 		componentRigidBody->Disable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-	}
-	catch(const ComponentNotFoundException){
-	}
-	
+	}	
 }
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
-	try {
-		other->GetOwner()->GetComponent<ComponentPlayer>();
+	LOG_VERBOSE("{} enter in CollisionExit",other->GetOwner()->GetName());
+	if (other->GetOwner()->GetTag() == "Player") {
 		componentAnimation->SetParameter("IsActive", false);
 		//Until the trigger works 100% of the time better cross a closed door than be closed forever
 		//componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
-	}
-	catch (const ComponentNotFoundException) {
 	}
 }
