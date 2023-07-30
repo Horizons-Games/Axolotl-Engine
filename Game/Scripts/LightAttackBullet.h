@@ -1,7 +1,6 @@
 #pragma once
 #include "Script.h"
 
-class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
 
@@ -21,12 +20,9 @@ private:
 	void DestroyBullet();
 
 	float velocity;
-	float bulletLifeTime;
+	float stunTime;
 	float damageAttack;
-	float rayAttackSize;
-	float originTime;
 
-	ComponentRigidBody* rigidBody;
-	ComponentTransform* parentTransform;
+	GameObject* enemy;
 	ComponentAudioSource* audioSource;
 };
