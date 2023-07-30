@@ -30,7 +30,14 @@ UIMissionTrigger::~UIMissionTrigger()
 
 void UIMissionTrigger::Start()
 {
-	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
+	try {
+		player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
+	}
+	catch (const ComponentNotFoundException&)
+	{
+		LOG_WARNING("{} have not ComponentPlayer", owner->GetName());
+	}
+	
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 	
 	if (missionLevel != nullptr)
@@ -58,8 +65,8 @@ void UIMissionTrigger::Update(float deltaTime)
 
 void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
-	{
+	try {
+		other->GetOwner()->GetComponent<ComponentPlayer>();
 		if (!wasInside)
 		{
 			if (lastMissionLevel != nullptr)
@@ -80,13 +87,14 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 			wasInside = true;
 		}
 	}
+	catch (const ComponentNotFoundException&)
+	{
+		LOG_WARNING("{} have not ComponentPlayer", other->GetOwner()->GetName());
+	}
 }
 
 void UIMissionTrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
-	{
-	}
 }
 
 void UIMissionTrigger::DisableTextBox(float time)

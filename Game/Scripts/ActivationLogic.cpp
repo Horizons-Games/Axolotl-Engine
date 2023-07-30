@@ -70,11 +70,13 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
-	{
+	try {
+		other->GetOwner()->GetComponent<ComponentPlayer>();
 		componentAnimation->SetParameter("IsActive", false);
 		//Until the trigger works 100% of the time better cross a closed door than be closed forever
 		//componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+	}
+	catch (const ComponentNotFoundException) {
 	}
 }

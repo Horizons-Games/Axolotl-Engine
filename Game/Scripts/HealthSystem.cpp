@@ -1,5 +1,6 @@
 #include "HealthSystem.h"
 
+#include "AxoLog.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
@@ -24,7 +25,13 @@ void HealthSystem::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentParticleSystem = enemyParticleSystem->GetComponent<ComponentParticleSystem>();
-	componentParticleSystem = owner->GetComponent<ComponentParticleSystem>();
+	try {
+		componentParticleSystem = owner->GetComponent<ComponentParticleSystem>();
+	}
+	catch (const ComponentNotFoundException&) {
+		LOG_WARNING("{} not have ComponentParticleSystem", owner->GetName());
+	}
+	
 
 	// Check that the currentHealth is always less or equal to maxHealth
 	if (maxHealth < currentHealth)
@@ -81,11 +88,16 @@ void HealthSystem::TakeDamage(float damage)
 		}
 
 		componentAnimation->SetParameter("IsTakingDamage", true);
-
-		if (componentParticleSystem)
-		{
-			componentParticleSystem->Play();
+		try {
+			if (componentParticleSystem)
+			{
+				componentParticleSystem->Play();
+			}
 		}
+		catch (const ComponentNotFoundException&) {
+			LOG_WARNING("{} not have ComponentParticleSystem", owner->GetName());
+		}
+		
 		//componentParticleSystem->Pause();
 	}
 }

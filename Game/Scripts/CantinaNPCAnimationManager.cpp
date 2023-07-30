@@ -1,6 +1,7 @@
 #include "CantinaNPCAnimationManager.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
+#include "AxoLog.h"
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(CantinaNPCAnimationManager);
@@ -13,7 +14,13 @@ CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), audio(nullp
 
 void CantinaNPCAnimationManager::Start()
 {
-	audio = owner->GetComponent<ComponentAudioSource>();
+	try {
+		audio = owner->GetComponent<ComponentAudioSource>();
+	}
+	catch (const ComponentNotFoundException&)
+	{
+		LOG_WARNING("{} have not Component Audio Source", owner->GetName());
+	}
 
 	animation = owner->GetComponent<ComponentAnimation>();
 }
