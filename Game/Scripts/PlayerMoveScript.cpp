@@ -22,7 +22,7 @@ REGISTERCLASS(PlayerMoveScript);
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
 	dashForce(20000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false),
-	jumpParameter(2000.0f), canDoubleJump(false), jumpReset(0), jumps(0), canJump(true)
+	jumpParameter(2000.0f), isJumping(false), canDoubleJump(false), jumpReset(0), jumps(0), canJump(true)
 
 {
 	REGISTER_FIELD(dashForce, float);
@@ -68,6 +68,7 @@ void PlayerMoveScript::Jump(float deltatime)
 {
 	if (canJump)
 	{
+		isJumping = jumps < 2;
 		float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
 		const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
 		const ModuleInput* input = App->GetModule<ModuleInput>();
@@ -78,6 +79,7 @@ void PlayerMoveScript::Jump(float deltatime)
 
 		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
 		{
+			isJumping = true;
 			btRigidbody->applyCentralImpulse(movement.normalized() * jumpParameter);
 			jumps--;
 			jumpReset = 0;
@@ -186,7 +188,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		if (GetPlayerState() != PlayerActions::WALKING)
+		if (GetPlayerState() != PlayerActions::WALKING && !isDashing && !isJumping)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsRunning", true);
@@ -202,7 +204,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN && canDash && (GetPlayerState() == PlayerActions::IDLE || GetPlayerState() == PlayerActions::WALKING))
+	if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN && canDash)
 	{
 		if (!isDashing)
 		{

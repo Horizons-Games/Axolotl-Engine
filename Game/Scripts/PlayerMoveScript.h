@@ -82,6 +82,7 @@ private:
 	void Jump(float deltatime);
 
 	float jumpParameter;
+	bool isJumping;
 	int jumps;
 	int jumpReset;
 	bool canDoubleJump;
