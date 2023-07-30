@@ -75,7 +75,7 @@ void EntityDetection::DrawDetectionLines()
 void EntityDetection::SelectEnemy()
 {
 	enemySelected = nullptr;
-	float angleActualSelected;
+	float angleActualSelected = 0;
 
 	for (ComponentTransform* enemy : enemiesInTheArea)
 	{
