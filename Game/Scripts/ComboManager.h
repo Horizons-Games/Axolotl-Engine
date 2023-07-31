@@ -26,7 +26,7 @@ public:
 	int GetcomboCount() const;
 
 	void CheckSpecial(float deltaTime);
-	bool isSpecialActivated() const;
+	bool IsSpecialActivated() const;
 	AttackType CheckAttackInput(bool jumping);
 	void SuccessfulAttack(float specialCount, AttackType type);
 
@@ -49,3 +49,8 @@ private:
 	float comboTime;
 	float actualComboTimer;
 };
+
+inline bool ComboManager::IsSpecialActivated() const
+{
+	return specialActivated;
+}

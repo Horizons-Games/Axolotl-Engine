@@ -84,7 +84,6 @@ private:
 	int currentMovements;
 };
 
-
 inline bool PlayerMoveScript::IsParalyzed() const
 {
 	return isParalyzed;

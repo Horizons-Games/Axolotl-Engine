@@ -142,7 +142,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN && canDash)
+	if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN && canDash && GetPlayerState() != PlayerActions::ATTACKING)
 	{
 		if (!isDashing)
 		{

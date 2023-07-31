@@ -30,8 +30,10 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	bool GetIsDeathTouched() const;
+	bool IsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);
+	bool IsAttacking() const;
+	void SetIsAttacking(bool isAttacking);
 
 private:
 	void Start() override;
@@ -71,3 +73,28 @@ private:
 	PlayerManagerScript* playerManager;
 	AttackCombo attackComboPhase;
 };
+
+inline void BixAttackScript::SetIsAttacking(bool isAttaking)
+{
+	this->isAttacking = isAttacking;
+}
+
+inline bool BixAttackScript::IsAttacking() const
+{
+	return isAttacking;
+}
+
+inline bool BixAttackScript::IsDeathTouched() const
+{
+	return isDeathTouched;
+}
+
+inline void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
+{
+	this->isDeathTouched = isDeathTouched;
+}
+
+inline bool BixAttackScript::IsAttackAvailable() const
+{
+	return !isAttacking;
+}

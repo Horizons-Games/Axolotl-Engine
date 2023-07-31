@@ -70,7 +70,6 @@ void HealthSystem::Update(float deltaTime)
 	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
-
 	}
 }
 
@@ -99,34 +98,4 @@ void HealthSystem::TakeDamage(float damage)
 		}
 		//componentParticleSystem->Pause();
 	}
-}
-
-void HealthSystem::HealLife(float amountHealed)
-{
-	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
-}
-
-bool HealthSystem::EntityIsAlive() const
-{
-	return currentHealth > 0;
-}
-
-float HealthSystem::GetMaxHealth() const
-{
-	return maxHealth;
-}
-
-bool HealthSystem::GetIsImmortal() const
-{
-	return isImmortal;
-}
-
-void HealthSystem::SetIsImmortal(bool isImmortal)
-{
-	this->isImmortal = isImmortal;
-}
-
-float HealthSystem::GetCurrentHealth() const
-{
-	return currentHealth;
 }
