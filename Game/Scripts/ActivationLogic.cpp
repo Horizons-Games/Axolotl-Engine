@@ -55,7 +55,6 @@ void ActivationLogic::Update(float deltaTime)
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	LOG_VERBOSE("{} enter in CollisionEnter", other->GetOwner()->GetName());
 	if (other->GetOwner()->GetTag() == "Player") {
 		componentAnimation->SetParameter("IsActive", true);
 		componentRigidBody->Disable();
@@ -65,11 +64,10 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
-	LOG_VERBOSE("{} enter in CollisionExit",other->GetOwner()->GetName());
 	if (other->GetOwner()->GetTag() == "Player") {
 		componentAnimation->SetParameter("IsActive", false);
 		//Until the trigger works 100% of the time better cross a closed door than be closed forever
-		//componentRigidBody->Enable();
+		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 }

@@ -13460,7 +13460,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 3.567974090576172,
+                            "localPos_X": 3.5681304931640625,
                             "localPos_Y": 2.0779378414154053,
                             "localPos_Z": 1.150747299194336,
                             "localRot_X": -180.0,
@@ -44496,9 +44496,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.01305389404296875,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.000011444091796875,
+                            "localPos_X": 0.0130615234375,
+                            "localPos_Y": -0.000003814697265625,
+                            "localPos_Z": 0.0000152587890625,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -45140,10 +45140,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 515.0,
-                            "worldAABB_min_y": 277.5,
-                            "worldAABB_max_x": 515.0,
-                            "worldAABB_max_y": 277.5
+                            "worldAABB_min_x": 614.0,
+                            "worldAABB_min_y": 161.5,
+                            "worldAABB_max_x": 614.0,
+                            "worldAABB_max_y": 161.5
                         }
                     },
                     {
@@ -45235,10 +45235,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45273,10 +45273,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -45326,10 +45326,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45364,10 +45364,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45402,10 +45402,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45440,10 +45440,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -45493,10 +45493,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45531,10 +45531,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -45584,10 +45584,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45622,10 +45622,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 426.3541564941406,
-                            "worldAABB_min_y": 140.88414001464844,
-                            "worldAABB_max_x": 603.6458129882813,
-                            "worldAABB_max_y": 184.82164001464844
+                            "worldAABB_min_x": 562.4097290039063,
+                            "worldAABB_min_y": 81.99202728271484,
+                            "worldAABB_max_x": 665.5902709960938,
+                            "worldAABB_max_y": 107.56285858154297
                         }
                     },
                     {
@@ -45675,10 +45675,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 225.88211059570313,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 267.2501525878906
+                            "worldAABB_min_x": 528.7755126953125,
+                            "worldAABB_min_y": 281.75665283203125,
+                            "worldAABB_max_x": 699.2244873046875,
+                            "worldAABB_max_y": 333.24310302734375
                         }
                     },
                     {
@@ -45800,10 +45800,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 277.6368713378906,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 319.0049133300781
+                            "worldAABB_min_x": 528.7755126953125,
+                            "worldAABB_min_y": 346.17034912109375,
+                            "worldAABB_max_x": 699.2244873046875,
+                            "worldAABB_max_y": 397.65679931640625
                         }
                     },
                     {
@@ -45925,10 +45925,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45963,10 +45963,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46001,10 +46001,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 329.3916320800781,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 370.7596740722656
+                            "worldAABB_min_x": 528.7755126953125,
+                            "worldAABB_min_y": 410.58404541015625,
+                            "worldAABB_max_x": 699.2244873046875,
+                            "worldAABB_max_y": 462.07049560546875
                         }
                     },
                     {
@@ -46126,10 +46126,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 381.1463928222656,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 422.5144348144531
+                            "worldAABB_min_x": 528.7755126953125,
+                            "worldAABB_min_y": 474.99774169921875,
+                            "worldAABB_max_x": 699.2244873046875,
+                            "worldAABB_max_y": 526.4841918945313
                         }
                     },
                     {
@@ -46251,10 +46251,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 225.88214111328125,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 267.2502136230469
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 131.45933532714844,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 155.53480529785156
                         }
                     },
                     {
@@ -46304,10 +46304,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 277.6368713378906,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 319.0049133300781
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 161.57965087890625,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 185.65512084960938
                         }
                     },
                     {
@@ -46357,10 +46357,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 329.3916320800781,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 370.7596740722656
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 191.69998168945313,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 215.77545166015625
                         }
                     },
                     {
@@ -46410,10 +46410,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 381.1463928222656,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 422.5144348144531
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 221.82032775878906,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 245.8957977294922
                         }
                     },
                     {
@@ -46463,10 +46463,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46501,10 +46501,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -46554,10 +46554,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 856.7968139648438,
-                            "worldAABB_min_y": 31.16242790222168,
-                            "worldAABB_max_x": 914.3523559570313,
-                            "worldAABB_max_y": 45.55131530761719
+                            "worldAABB_min_x": 1039.3985595703125,
+                            "worldAABB_min_y": 39.409603118896484,
+                            "worldAABB_max_x": 1111.0318603515625,
+                            "worldAABB_max_y": 57.317935943603516
                         }
                     },
                     {
@@ -46679,10 +46679,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -46732,10 +46732,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46770,10 +46770,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46808,10 +46808,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 33.71699523925781,
-                            "worldAABB_min_y": 66.69509887695313,
-                            "worldAABB_max_x": 183.51560974121094,
-                            "worldAABB_max_y": 110.11871337890625
+                            "worldAABB_min_x": 333.9019470214844,
+                            "worldAABB_min_y": 38.815345764160156,
+                            "worldAABB_max_x": 421.0820617675781,
+                            "worldAABB_max_y": 64.08710479736328
                         }
                     },
                     {
@@ -46861,10 +46861,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1021.291748046875,
-                            "worldAABB_min_y": 23.381938934326172,
-                            "worldAABB_max_x": 1316.007080078125,
-                            "worldAABB_max_y": 103.03471374511719
+                            "worldAABB_min_x": 908.6527099609375,
+                            "worldAABB_min_y": 13.607868194580078,
+                            "worldAABB_max_x": 1080.171630859375,
+                            "worldAABB_max_y": 59.964351654052734
                         }
                     },
                     {
@@ -46931,10 +46931,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 90.95840454101563,
-                            "worldAABB_min_y": -14.29770278930664,
-                            "worldAABB_max_x": 193.73617553710938,
-                            "worldAABB_max_y": 88.48007202148438
+                            "worldAABB_min_x": 367.21539306640625,
+                            "worldAABB_min_y": -8.321012496948242,
+                            "worldAABB_max_x": 427.03021240234375,
+                            "worldAABB_max_y": 51.493804931640625
                         }
                     },
                     {
@@ -46983,10 +46983,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 33.27436828613281,
-                            "worldAABB_min_y": 6.12938117980957,
-                            "worldAABB_max_x": 251.4202117919922,
-                            "worldAABB_max_y": 68.05299377441406
+                            "worldAABB_min_x": 333.6443176269531,
+                            "worldAABB_min_y": 3.5671825408935547,
+                            "worldAABB_max_x": 460.6012878417969,
+                            "worldAABB_max_y": 39.60560607910156
                         }
                     },
                     {
@@ -47036,10 +47036,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 122.8009033203125,
-                            "worldAABB_min_y": 42.53493881225586,
-                            "worldAABB_max_x": 234.82867431640625,
-                            "worldAABB_max_y": 52.81271743774414
+                            "worldAABB_min_x": 385.7471923828125,
+                            "worldAABB_min_y": 24.754558563232422,
+                            "worldAABB_max_x": 450.9453125,
+                            "worldAABB_max_y": 30.736042022705078
                         }
                     },
                     {
@@ -47089,10 +47089,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 244.131591796875,
-                            "worldAABB_min_y": 21.674518585205078,
-                            "worldAABB_max_x": 256.97882080078125,
-                            "worldAABB_max_y": 52.50785446166992
+                            "worldAABB_min_x": 276.878662109375,
+                            "worldAABB_min_y": 27.600982666015625,
+                            "worldAABB_max_x": 292.86822509765625,
+                            "worldAABB_max_y": 65.97598266601563
                         }
                     },
                     {
@@ -47158,10 +47158,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 90.95843505859375,
-                            "worldAABB_min_y": -14.297931671142578,
-                            "worldAABB_max_x": 193.7362060546875,
-                            "worldAABB_max_y": 88.47984313964844
+                            "worldAABB_min_x": 367.2154541015625,
+                            "worldAABB_min_y": -8.321134567260742,
+                            "worldAABB_max_x": 427.0302734375,
+                            "worldAABB_max_y": 51.493682861328125
                         }
                     },
                     {
@@ -47210,10 +47210,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 39.569541931152344,
-                            "worldAABB_min_y": 24.243736267089844,
-                            "worldAABB_max_x": 245.12509155273438,
-                            "worldAABB_max_y": 49.93817901611328
+                            "worldAABB_min_x": 337.30804443359375,
+                            "worldAABB_min_y": 14.109420776367188,
+                            "worldAABB_max_x": 456.93768310546875,
+                            "worldAABB_max_y": 29.063125610351563
                         }
                     },
                     {
@@ -47263,10 +47263,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 122.801025390625,
-                            "worldAABB_min_y": 42.53457260131836,
-                            "worldAABB_max_x": 234.82879638671875,
-                            "worldAABB_max_y": 52.81235122680664
+                            "worldAABB_min_x": 385.74725341796875,
+                            "worldAABB_min_y": 24.75436019897461,
+                            "worldAABB_max_x": 450.94537353515625,
+                            "worldAABB_max_y": 30.735843658447266
                         }
                     },
                     {
@@ -47316,10 +47316,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 237.919189453125,
-                            "worldAABB_min_y": 21.67428970336914,
-                            "worldAABB_max_x": 250.76641845703125,
-                            "worldAABB_max_y": 52.507625579833984
+                            "worldAABB_min_x": 269.146728515625,
+                            "worldAABB_min_y": 27.6007080078125,
+                            "worldAABB_max_x": 285.13629150390625,
+                            "worldAABB_max_y": 65.9757080078125
                         }
                     },
                     {
@@ -47385,10 +47385,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -47423,10 +47423,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -47475,10 +47475,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47528,10 +47528,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47581,10 +47581,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 849.7986450195313,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 862.6458129882813,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 1030.6885986328125,
+                            "worldAABB_min_y": 569.8541870117188,
+                            "worldAABB_max_x": 1046.6781005859375,
+                            "worldAABB_max_y": 608.2291870117188
                         }
                     },
                     {
@@ -47650,10 +47650,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -47702,10 +47702,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47755,10 +47755,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47808,10 +47808,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 909.6320190429688,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 922.4791870117188,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 1105.1568603515625,
+                            "worldAABB_min_y": 569.8541870117188,
+                            "worldAABB_max_x": 1121.1463623046875,
+                            "worldAABB_max_y": 608.2291870117188
                         }
                     },
                     {
@@ -47877,10 +47877,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -47929,10 +47929,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47982,10 +47982,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -48035,10 +48035,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 910.0137939453125,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 922.8609619140625,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 1105.6319580078125,
+                            "worldAABB_min_y": 569.8541870117188,
+                            "worldAABB_max_x": 1121.6214599609375,
+                            "worldAABB_max_y": 608.2291870117188
                         }
                     },
                     {
@@ -48104,10 +48104,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -48156,10 +48156,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -48209,10 +48209,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -48262,10 +48262,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 950.1719970703125,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 963.0191650390625,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 1155.6126708984375,
+                            "worldAABB_min_y": 569.8541870117188,
+                            "worldAABB_max_x": 1171.6021728515625,
+                            "worldAABB_max_y": 608.2291870117188
                         }
                     },
                     {
@@ -48362,7 +48362,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": true,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -63717,9 +63717,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 3.891021728515625,
-                            "localPos_Y": 5.3830885887146,
-                            "localPos_Z": 1.1172869205474854,
+                            "localPos_X": 19.941967010498047,
+                            "localPos_Y": 4.074533939361572,
+                            "localPos_Z": 8.4716796875,
                             "localRot_X": 7.076775654612455e-27,
                             "localRot_Y": -1.618977540428334e-19,
                             "localRot_Z": -179.99998474121094,
@@ -63756,9 +63756,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 3.891021728515625,
-                            "localPos_Y": -2.414698362350464,
-                            "localPos_Z": 0.23002243041992188,
+                            "localPos_X": 14.189805030822754,
+                            "localPos_Y": 5.242096424102783,
+                            "localPos_Z": 0.23001360893249512,
                             "localRot_X": -1.260537110708825e-25,
                             "localRot_Y": 6.474014367146941e-19,
                             "localRot_Z": -179.99996948242188,
@@ -64007,7 +64007,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": true,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -64329,9 +64329,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -8.884984970092773,
-                            "localPos_Y": 1.6982510089874268,
-                            "localPos_Z": 1.0715491771697998,
+                            "localPos_X": 8.269715309143066,
+                            "localPos_Y": 2.1616783142089844,
+                            "localPos_Z": 2.1961722373962402,
                             "localRot_X": -1.0146368337529688e-12,
                             "localRot_Y": -1.5214572494665762e-13,
                             "localRot_Z": 14.222267150878906,
@@ -66767,7 +66767,7 @@
                                 },
                                 {
                                     "name": "Player",
-                                    "value": 6881608640479900681,
+                                    "value": 6675139992278688552,
                                     "type": 2
                                 },
                                 {
@@ -66803,9 +66803,286 @@
         },
         {
             "GameObject": {
+                "name": "Warehouse",
+                "tag": "",
+                "uid": 1750799863589749677,
+                "parentUID": 16729985481922543205,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -70.25017547607422,
+                            "localPos_Y": 2.8596749305725098,
+                            "localPos_Z": 5.130421161651611,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 7.656000137329102,
+                            "positionOffsetX": -4.0,
+                            "positionOffsetY": 2.4000000953674316,
+                            "positionOffsetZ": 4.0,
+                            "positionFixedX": 0.0,
+                            "positionFixedY": 0.0,
+                            "positionFixedZ": 0.0,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": 0.0,
+                            "isSampleFocusEnabled": false,
+                            "isSampleFixedEnabled": false,
+                            "positionX": -70.25017547607422,
+                            "positionY": 2.8596749305725098,
+                            "positionZ": 5.130421161651611
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MainAreaFloor",
+                "tag": "",
+                "uid": 15123666375491941544,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -53.69932174682617,
+                            "localPos_Y": -0.4051990509033203,
+                            "localPos_Z": -8.340874671936035,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 10.0,
+                            "boxSize_Y": 5.5,
+                            "boxSize_Z": 19.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -53.69932174682617,
+                            "rbPos_Y": -5.405359268188477,
+                            "rbPos_Z": -8.340874671936035
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MainAreaRight",
+                "tag": "",
+                "uid": 2972283121779386295,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -42.42582702636719,
+                            "localPos_Y": 22.020219802856445,
+                            "localPos_Z": 4.308749198913574,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": -2.0,
+                            "boxSize_Y": 21.5,
+                            "boxSize_Z": 27.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -40.425506591796875,
+                            "rbPos_Y": 22.020219802856445,
+                            "rbPos_Z": 11.308624267578125
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MainAreaFront",
+                "tag": "",
+                "uid": 11170070715329906690,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -42.42582702636719,
+                            "localPos_Y": 22.020219802856445,
+                            "localPos_Z": -8.340874671936035,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": -2.0,
+                            "boxSize_Y": 21.5,
+                            "boxSize_Z": 27.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -42.42582702636719,
+                            "rbPos_Y": 22.020219802856445,
+                            "rbPos_Z": -8.340874671936035
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MainAreaLeft",
+                "tag": "",
+                "uid": 7489301648988946482,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -42.42582702636719,
+                            "localPos_Y": 22.020219802856445,
+                            "localPos_Z": -27.548128128051758,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0000001192092896
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": -2.0,
+                            "boxSize_Y": 21.5,
+                            "boxSize_Z": 27.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -42.42582702636719,
+                            "rbPos_Y": 22.020219802856445,
+                            "rbPos_Z": -27.548128128051758
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "BixPrefab",
                 "tag": "Player",
-                "uid": 6881608640479900681,
+                "uid": 6675139992278688552,
                 "parentUID": 15187250038281708079,
                 "enabled": true,
                 "static": false,
@@ -66815,12 +67092,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -69.36304473876953,
-                            "localPos_Y": 0.7512681484222412,
-                            "localPos_Z": 23.20728874206543,
-                            "localRot_X": -180.0,
-                            "localRot_Y": -0.8143761157989502,
-                            "localRot_Z": -180.0,
+                            "localPos_X": -68.86930084228516,
+                            "localPos_Y": 0.9537575244903564,
+                            "localPos_Z": 29.645910263061523,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 180.0,
                             "localSca_X": 0.5000000596046448,
                             "localSca_Y": 0.5,
                             "localSca_Z": 0.5000000596046448
@@ -66869,9 +67146,9 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -69.36304473876953,
-                            "rbPos_Y": 1.613595724105835,
-                            "rbPos_Z": 23.20728874206543
+                            "rbPos_X": -68.86930084228516,
+                            "rbPos_Y": 1.8160851001739502,
+                            "rbPos_Z": 29.645910263061523
                         }
                     },
                     {
@@ -66900,27 +67177,27 @@
                                 },
                                 {
                                     "name": "AnimationGO",
-                                    "value": 6881608640479900681,
+                                    "value": 6675139992278688552,
                                     "type": 2
                                 },
                                 {
                                     "name": "Ray1GO",
-                                    "value": 5517761117202023023,
+                                    "value": 13030859921763183765,
                                     "type": 2
                                 },
                                 {
                                     "name": "Ray2GO",
-                                    "value": 5064826452061100036,
+                                    "value": 16054969389112792595,
                                     "type": 2
                                 },
                                 {
                                     "name": "Ray3GO",
-                                    "value": 7811284005857683292,
+                                    "value": 4579389926346814906,
                                     "type": 2
                                 },
                                 {
                                     "name": "Ray4GO",
-                                    "value": 15310722078864266255,
+                                    "value": 8082447581904738533,
                                     "type": 2
                                 }
                             ]
@@ -66950,7 +67227,7 @@
                                 },
                                 {
                                     "name": "EnemyParticleSystem",
-                                    "value": 12332547975856550371,
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -67041,6 +67318,21 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
+                            "constructName": "InteractWithPowerUpScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 12332547975856550371,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
                             "constructName": "PlayerDeathScript",
                             "fields": [
                                 {
@@ -67103,8 +67395,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 17872802900822455333,
-                "parentUID": 6881608640479900681,
+                "uid": 3106854257264333749,
+                "parentUID": 6675139992278688552,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67131,8 +67423,8 @@
             "GameObject": {
                 "name": "Head bone shape",
                 "tag": "",
-                "uid": 8689951489527851577,
-                "parentUID": 17872802900822455333,
+                "uid": 12693763714009207023,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67159,8 +67451,8 @@
             "GameObject": {
                 "name": "Neck bone shape",
                 "tag": "",
-                "uid": 1198356855240284915,
-                "parentUID": 17872802900822455333,
+                "uid": 269272755563143574,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67187,8 +67479,8 @@
             "GameObject": {
                 "name": "Hair bone shape",
                 "tag": "",
-                "uid": 11834713342942471148,
-                "parentUID": 17872802900822455333,
+                "uid": 17330029862538630247,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67215,8 +67507,8 @@
             "GameObject": {
                 "name": "Toe L bone shape  ",
                 "tag": "",
-                "uid": 17995915239074343043,
-                "parentUID": 17872802900822455333,
+                "uid": 756137189576550569,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67243,8 +67535,8 @@
             "GameObject": {
                 "name": "Master bone shape",
                 "tag": "",
-                "uid": 15161838153169470831,
-                "parentUID": 17872802900822455333,
+                "uid": 2045813870544445371,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67271,8 +67563,8 @@
             "GameObject": {
                 "name": "Ik leg R bone shape",
                 "tag": "",
-                "uid": 14458932087455663085,
-                "parentUID": 17872802900822455333,
+                "uid": 1631923271025246931,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67299,8 +67591,8 @@
             "GameObject": {
                 "name": "Ik leg L bone shape ",
                 "tag": "",
-                "uid": 1437390400509471682,
-                "parentUID": 17872802900822455333,
+                "uid": 11980949653994908794,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67327,8 +67619,8 @@
             "GameObject": {
                 "name": "Arm bone shape",
                 "tag": "",
-                "uid": 3712200346224490350,
-                "parentUID": 17872802900822455333,
+                "uid": 8976553599540360886,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67355,8 +67647,8 @@
             "GameObject": {
                 "name": "Body IK bone shape",
                 "tag": "",
-                "uid": 8788720997277076923,
-                "parentUID": 17872802900822455333,
+                "uid": 14117187844815534053,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67383,8 +67675,8 @@
             "GameObject": {
                 "name": "Shoulders bone shape",
                 "tag": "",
-                "uid": 9316405685998513051,
-                "parentUID": 17872802900822455333,
+                "uid": 9307806260627789801,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67411,8 +67703,8 @@
             "GameObject": {
                 "name": "wrist bone shape",
                 "tag": "",
-                "uid": 3153858141853777552,
-                "parentUID": 17872802900822455333,
+                "uid": 1596118173203851427,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67439,8 +67731,8 @@
             "GameObject": {
                 "name": "claw BL bone shape",
                 "tag": "",
-                "uid": 3614662286154499922,
-                "parentUID": 17872802900822455333,
+                "uid": 4642634482877648069,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67467,8 +67759,8 @@
             "GameObject": {
                 "name": "claw TL bone shape",
                 "tag": "",
-                "uid": 7196918986605688401,
-                "parentUID": 17872802900822455333,
+                "uid": 15091214748234667334,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67495,8 +67787,8 @@
             "GameObject": {
                 "name": "claw TR bone shape",
                 "tag": "",
-                "uid": 5369402311803652057,
-                "parentUID": 17872802900822455333,
+                "uid": 6987770144401972477,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67523,8 +67815,8 @@
             "GameObject": {
                 "name": "claw BR bone shape",
                 "tag": "",
-                "uid": 6898049967248861461,
-                "parentUID": 17872802900822455333,
+                "uid": 11951603891722482998,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67551,8 +67843,8 @@
             "GameObject": {
                 "name": "hand L bone shape",
                 "tag": "",
-                "uid": 15666479726316386262,
-                "parentUID": 17872802900822455333,
+                "uid": 16733338486176827651,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67579,8 +67871,8 @@
             "GameObject": {
                 "name": "Claw MTR bone shape",
                 "tag": "",
-                "uid": 6504861791332435065,
-                "parentUID": 17872802900822455333,
+                "uid": 17836310995659841235,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67607,8 +67899,8 @@
             "GameObject": {
                 "name": "Claw MBR bone shape ",
                 "tag": "",
-                "uid": 1372535242093051919,
-                "parentUID": 17872802900822455333,
+                "uid": 13372978489381294183,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67635,8 +67927,8 @@
             "GameObject": {
                 "name": "Claw MTL bone shape",
                 "tag": "",
-                "uid": 16198910819077093954,
-                "parentUID": 17872802900822455333,
+                "uid": 5545184202576922089,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67663,8 +67955,8 @@
             "GameObject": {
                 "name": "Claw MBL bone shape ",
                 "tag": "",
-                "uid": 18030347556957014504,
-                "parentUID": 17872802900822455333,
+                "uid": 15854467233456977427,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67691,8 +67983,8 @@
             "GameObject": {
                 "name": "Body top bone shape",
                 "tag": "",
-                "uid": 8695809129564493202,
-                "parentUID": 17872802900822455333,
+                "uid": 16872951513055283893,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67719,8 +68011,8 @@
             "GameObject": {
                 "name": "Arm ik pole bone shape",
                 "tag": "",
-                "uid": 10636959330743429529,
-                "parentUID": 17872802900822455333,
+                "uid": 13591993431063818092,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67747,8 +68039,8 @@
             "GameObject": {
                 "name": "Arm IK bone shape",
                 "tag": "",
-                "uid": 18047358490354242101,
-                "parentUID": 17872802900822455333,
+                "uid": 706454224881377693,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67775,8 +68067,8 @@
             "GameObject": {
                 "name": "Toe R bone shape ",
                 "tag": "",
-                "uid": 18099321116826991017,
-                "parentUID": 17872802900822455333,
+                "uid": 7404655751565058564,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67803,8 +68095,8 @@
             "GameObject": {
                 "name": "hand R bone shape",
                 "tag": "",
-                "uid": 14573800752979627586,
-                "parentUID": 17872802900822455333,
+                "uid": 14252345968045392037,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67831,8 +68123,8 @@
             "GameObject": {
                 "name": "Arm BR bone shape",
                 "tag": "",
-                "uid": 16840474001710708751,
-                "parentUID": 17872802900822455333,
+                "uid": 2482785687020300612,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67859,8 +68151,8 @@
             "GameObject": {
                 "name": "Arm BL bone shape",
                 "tag": "",
-                "uid": 15459109194901875287,
-                "parentUID": 17872802900822455333,
+                "uid": 14683297557627766586,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67887,8 +68179,8 @@
             "GameObject": {
                 "name": "Leg TR bone shape",
                 "tag": "",
-                "uid": 9218976469110181652,
-                "parentUID": 17872802900822455333,
+                "uid": 10996435134483155630,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67915,8 +68207,8 @@
             "GameObject": {
                 "name": "Leg TL bone shape",
                 "tag": "",
-                "uid": 10362344436088288670,
-                "parentUID": 17872802900822455333,
+                "uid": 47573910031754841,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67943,8 +68235,8 @@
             "GameObject": {
                 "name": "Leg BR bone shape",
                 "tag": "",
-                "uid": 4065523273334119080,
-                "parentUID": 17872802900822455333,
+                "uid": 1413510111775606733,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67971,8 +68263,8 @@
             "GameObject": {
                 "name": "Leg BL bone shape",
                 "tag": "",
-                "uid": 16993849613136242213,
-                "parentUID": 17872802900822455333,
+                "uid": 179588273925003932,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -67999,8 +68291,8 @@
             "GameObject": {
                 "name": "Foot L bone shape",
                 "tag": "",
-                "uid": 341257655041740900,
-                "parentUID": 17872802900822455333,
+                "uid": 12792418732235247613,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68027,8 +68319,8 @@
             "GameObject": {
                 "name": "Foot R bone shape",
                 "tag": "",
-                "uid": 1849051005787460667,
-                "parentUID": 17872802900822455333,
+                "uid": 5559288362541667855,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68055,8 +68347,8 @@
             "GameObject": {
                 "name": "Center of mass 2 bone shape",
                 "tag": "",
-                "uid": 5915090350899323210,
-                "parentUID": 17872802900822455333,
+                "uid": 3716750306179872369,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68083,8 +68375,8 @@
             "GameObject": {
                 "name": "Center of mass  bone shape",
                 "tag": "",
-                "uid": 11846108326743057292,
-                "parentUID": 17872802900822455333,
+                "uid": 16688424203778623033,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68111,8 +68403,8 @@
             "GameObject": {
                 "name": "S Leg BL bone shape",
                 "tag": "",
-                "uid": 10427487489775463427,
-                "parentUID": 17872802900822455333,
+                "uid": 5279368131797291792,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68139,8 +68431,8 @@
             "GameObject": {
                 "name": "S Leg BR bone shape",
                 "tag": "",
-                "uid": 11386697377171396454,
-                "parentUID": 17872802900822455333,
+                "uid": 2136945655615703382,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68167,8 +68459,8 @@
             "GameObject": {
                 "name": "Toe S L bone shape ",
                 "tag": "",
-                "uid": 5959014503279363572,
-                "parentUID": 17872802900822455333,
+                "uid": 14297138227661025075,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68195,8 +68487,8 @@
             "GameObject": {
                 "name": "Toe S R bone shape",
                 "tag": "",
-                "uid": 16006343708308197591,
-                "parentUID": 17872802900822455333,
+                "uid": 7482242025836245095,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68223,8 +68515,8 @@
             "GameObject": {
                 "name": "Circle",
                 "tag": "",
-                "uid": 5247842661484818126,
-                "parentUID": 17872802900822455333,
+                "uid": 2702120640031306295,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68251,8 +68543,8 @@
             "GameObject": {
                 "name": "Torso",
                 "tag": "",
-                "uid": 8878713917601430917,
-                "parentUID": 17872802900822455333,
+                "uid": 4677794148618579914,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68279,8 +68571,8 @@
             "GameObject": {
                 "name": "Bix.Torso_0",
                 "tag": "",
-                "uid": 16844313554771162967,
-                "parentUID": 8878713917601430917,
+                "uid": 7281650566920221129,
+                "parentUID": 4677794148618579914,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68318,8 +68610,8 @@
             "GameObject": {
                 "name": "Arm.L",
                 "tag": "",
-                "uid": 6747816787914415585,
-                "parentUID": 17872802900822455333,
+                "uid": 11209033858388613305,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68346,8 +68638,8 @@
             "GameObject": {
                 "name": "Bix.ArmL_0",
                 "tag": "",
-                "uid": 17452862050573298237,
-                "parentUID": 6747816787914415585,
+                "uid": 5880367785582736007,
+                "parentUID": 11209033858388613305,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68385,8 +68677,8 @@
             "GameObject": {
                 "name": "Belt",
                 "tag": "",
-                "uid": 8744147089331004179,
-                "parentUID": 17872802900822455333,
+                "uid": 17848952890205930330,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68413,8 +68705,8 @@
             "GameObject": {
                 "name": "Bix.Belt_0",
                 "tag": "",
-                "uid": 7851622905217389542,
-                "parentUID": 8744147089331004179,
+                "uid": 9135716996650416646,
+                "parentUID": 17848952890205930330,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68452,8 +68744,8 @@
             "GameObject": {
                 "name": "Pierna.L",
                 "tag": "",
-                "uid": 3615421808228562921,
-                "parentUID": 17872802900822455333,
+                "uid": 1357074700911287232,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68480,8 +68772,8 @@
             "GameObject": {
                 "name": "Bix.LegL_0",
                 "tag": "",
-                "uid": 4086397387535969970,
-                "parentUID": 3615421808228562921,
+                "uid": 2238006576709223311,
+                "parentUID": 1357074700911287232,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68519,8 +68811,8 @@
             "GameObject": {
                 "name": "Armature",
                 "tag": "",
-                "uid": 4869037067715501077,
-                "parentUID": 17872802900822455333,
+                "uid": 14724627313694441613,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68547,8 +68839,8 @@
             "GameObject": {
                 "name": "Master Bone",
                 "tag": "",
-                "uid": 6677916929537447928,
-                "parentUID": 4869037067715501077,
+                "uid": 5410218872850017663,
+                "parentUID": 14724627313694441613,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68575,8 +68867,8 @@
             "GameObject": {
                 "name": "Master Bone_end",
                 "tag": "",
-                "uid": 4650393193450021709,
-                "parentUID": 6677916929537447928,
+                "uid": 17024635347779271469,
+                "parentUID": 5410218872850017663,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68603,8 +68895,8 @@
             "GameObject": {
                 "name": "Center of Mass 2",
                 "tag": "",
-                "uid": 9270530273796503250,
-                "parentUID": 4869037067715501077,
+                "uid": 17782499488916454443,
+                "parentUID": 14724627313694441613,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68631,8 +68923,8 @@
             "GameObject": {
                 "name": "Center of Mass",
                 "tag": "",
-                "uid": 18293385217677288685,
-                "parentUID": 9270530273796503250,
+                "uid": 12334096091538158845,
+                "parentUID": 17782499488916454443,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68659,8 +68951,8 @@
             "GameObject": {
                 "name": "Torso.IK",
                 "tag": "",
-                "uid": 2089123680773903473,
-                "parentUID": 18293385217677288685,
+                "uid": 14396877786544671198,
+                "parentUID": 12334096091538158845,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68687,8 +68979,8 @@
             "GameObject": {
                 "name": "Leg Top.L",
                 "tag": "",
-                "uid": 14396459307097439636,
-                "parentUID": 2089123680773903473,
+                "uid": 11871265236150851379,
+                "parentUID": 14396877786544671198,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68715,8 +69007,8 @@
             "GameObject": {
                 "name": "Leg Bottom.L",
                 "tag": "",
-                "uid": 13885739378875480388,
-                "parentUID": 14396459307097439636,
+                "uid": 2491261708266034400,
+                "parentUID": 11871265236150851379,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68743,8 +69035,8 @@
             "GameObject": {
                 "name": "Foot.L",
                 "tag": "",
-                "uid": 1499874198001634787,
-                "parentUID": 13885739378875480388,
+                "uid": 9200819174342892884,
+                "parentUID": 2491261708266034400,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68771,8 +69063,8 @@
             "GameObject": {
                 "name": "Toe.L",
                 "tag": "",
-                "uid": 11130144272039420688,
-                "parentUID": 1499874198001634787,
+                "uid": 5806003060676384548,
+                "parentUID": 9200819174342892884,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68799,8 +69091,8 @@
             "GameObject": {
                 "name": "Toe.L_end",
                 "tag": "",
-                "uid": 2106338498920967576,
-                "parentUID": 11130144272039420688,
+                "uid": 17516210171607760165,
+                "parentUID": 5806003060676384548,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68827,8 +69119,8 @@
             "GameObject": {
                 "name": "Leg Top.R",
                 "tag": "",
-                "uid": 3629109177722851036,
-                "parentUID": 2089123680773903473,
+                "uid": 15834189551739487851,
+                "parentUID": 14396877786544671198,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68855,8 +69147,8 @@
             "GameObject": {
                 "name": "Leg Bottom.R",
                 "tag": "",
-                "uid": 13768083222965587856,
-                "parentUID": 3629109177722851036,
+                "uid": 17751015849768742665,
+                "parentUID": 15834189551739487851,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68883,8 +69175,8 @@
             "GameObject": {
                 "name": "Foot.R",
                 "tag": "",
-                "uid": 13705893493699753895,
-                "parentUID": 13768083222965587856,
+                "uid": 14068388506188612247,
+                "parentUID": 17751015849768742665,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68911,8 +69203,8 @@
             "GameObject": {
                 "name": "Toe.R",
                 "tag": "",
-                "uid": 103344063885111475,
-                "parentUID": 13705893493699753895,
+                "uid": 14571433009349421362,
+                "parentUID": 14068388506188612247,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68939,8 +69231,8 @@
             "GameObject": {
                 "name": "Toe.R_end",
                 "tag": "",
-                "uid": 15812766385847802885,
-                "parentUID": 103344063885111475,
+                "uid": 7972224765943876777,
+                "parentUID": 14571433009349421362,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68967,8 +69259,8 @@
             "GameObject": {
                 "name": "Torso.B",
                 "tag": "",
-                "uid": 5641268893899154625,
-                "parentUID": 2089123680773903473,
+                "uid": 7068786290487691280,
+                "parentUID": 14396877786544671198,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -68995,8 +69287,8 @@
             "GameObject": {
                 "name": "Torso.T",
                 "tag": "",
-                "uid": 15922478897573970683,
-                "parentUID": 5641268893899154625,
+                "uid": 13779490163134823919,
+                "parentUID": 7068786290487691280,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69023,8 +69315,8 @@
             "GameObject": {
                 "name": "Neck",
                 "tag": "",
-                "uid": 12602261595834711149,
-                "parentUID": 15922478897573970683,
+                "uid": 15782345378293509293,
+                "parentUID": 13779490163134823919,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69051,8 +69343,8 @@
             "GameObject": {
                 "name": "Head",
                 "tag": "",
-                "uid": 16612220232812617002,
-                "parentUID": 12602261595834711149,
+                "uid": 6893703077144883056,
+                "parentUID": 15782345378293509293,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69079,8 +69371,8 @@
             "GameObject": {
                 "name": "Hair",
                 "tag": "",
-                "uid": 9720324524100444373,
-                "parentUID": 16612220232812617002,
+                "uid": 9292695282269228746,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69107,8 +69399,8 @@
             "GameObject": {
                 "name": "Hair_end",
                 "tag": "",
-                "uid": 9746670616672220786,
-                "parentUID": 9720324524100444373,
+                "uid": 4858671210715094757,
+                "parentUID": 9292695282269228746,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69135,8 +69427,8 @@
             "GameObject": {
                 "name": "Eye Target",
                 "tag": "",
-                "uid": 5792679694226776455,
-                "parentUID": 16612220232812617002,
+                "uid": 10078153592133275837,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69163,8 +69455,8 @@
             "GameObject": {
                 "name": "Eye Target_end",
                 "tag": "",
-                "uid": 15442261664934646053,
-                "parentUID": 5792679694226776455,
+                "uid": 10972198397220349225,
+                "parentUID": 10078153592133275837,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69191,8 +69483,8 @@
             "GameObject": {
                 "name": "Eye base",
                 "tag": "",
-                "uid": 7652010940996039519,
-                "parentUID": 16612220232812617002,
+                "uid": 4361075874312867630,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69219,8 +69511,8 @@
             "GameObject": {
                 "name": "Eye base_end",
                 "tag": "",
-                "uid": 689687981197992785,
-                "parentUID": 7652010940996039519,
+                "uid": 6784709126967905624,
+                "parentUID": 4361075874312867630,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69247,8 +69539,8 @@
             "GameObject": {
                 "name": "Mouth Target",
                 "tag": "",
-                "uid": 6854887651495078612,
-                "parentUID": 16612220232812617002,
+                "uid": 15672303423529967446,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69275,8 +69567,8 @@
             "GameObject": {
                 "name": "Mouth Target_end",
                 "tag": "",
-                "uid": 3557069442822524529,
-                "parentUID": 6854887651495078612,
+                "uid": 12432593941114143573,
+                "parentUID": 15672303423529967446,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69303,8 +69595,8 @@
             "GameObject": {
                 "name": "Mouth base",
                 "tag": "",
-                "uid": 1870748992975850639,
-                "parentUID": 16612220232812617002,
+                "uid": 6402943018528706305,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69331,8 +69623,8 @@
             "GameObject": {
                 "name": "Mouth base_end",
                 "tag": "",
-                "uid": 5920378707823315040,
-                "parentUID": 1870748992975850639,
+                "uid": 2871905011416290808,
+                "parentUID": 6402943018528706305,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69359,8 +69651,8 @@
             "GameObject": {
                 "name": "Eye Target.001",
                 "tag": "",
-                "uid": 13051923216836157489,
-                "parentUID": 16612220232812617002,
+                "uid": 14513296315890859883,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69387,8 +69679,8 @@
             "GameObject": {
                 "name": "Eye Target.001_end",
                 "tag": "",
-                "uid": 13327608208132364491,
-                "parentUID": 13051923216836157489,
+                "uid": 11771630008579207796,
+                "parentUID": 14513296315890859883,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69415,8 +69707,8 @@
             "GameObject": {
                 "name": "Eye disp;ay",
                 "tag": "",
-                "uid": 10038113157191701170,
-                "parentUID": 16612220232812617002,
+                "uid": 9342842950560071556,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69443,8 +69735,8 @@
             "GameObject": {
                 "name": "Eye disp;ay_end",
                 "tag": "",
-                "uid": 5209616316077896987,
-                "parentUID": 10038113157191701170,
+                "uid": 13380904951201056692,
+                "parentUID": 9342842950560071556,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69471,8 +69763,8 @@
             "GameObject": {
                 "name": "Mouth display",
                 "tag": "",
-                "uid": 9103676371560759851,
-                "parentUID": 16612220232812617002,
+                "uid": 413346677861082964,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69499,8 +69791,8 @@
             "GameObject": {
                 "name": "Mouth display_end",
                 "tag": "",
-                "uid": 18430488624991196976,
-                "parentUID": 9103676371560759851,
+                "uid": 1370574577459909103,
+                "parentUID": 413346677861082964,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69527,8 +69819,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.2",
                 "tag": "",
-                "uid": 9367201786645770000,
-                "parentUID": 16612220232812617002,
+                "uid": 4485811618951608097,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69555,8 +69847,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.1",
                 "tag": "",
-                "uid": 18192886299634020287,
-                "parentUID": 9367201786645770000,
+                "uid": 7205867832496500539,
+                "parentUID": 4485811618951608097,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69583,8 +69875,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.1_end",
                 "tag": "",
-                "uid": 16428110893735795075,
-                "parentUID": 18192886299634020287,
+                "uid": 9513625586105506692,
+                "parentUID": 7205867832496500539,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69611,8 +69903,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.3",
                 "tag": "",
-                "uid": 4747446365537896536,
-                "parentUID": 9367201786645770000,
+                "uid": 2953646953209928002,
+                "parentUID": 4485811618951608097,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69639,8 +69931,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.3_end",
                 "tag": "",
-                "uid": 13530506204736376987,
-                "parentUID": 4747446365537896536,
+                "uid": 16536597849677359880,
+                "parentUID": 2953646953209928002,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69667,8 +69959,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.2",
                 "tag": "",
-                "uid": 8528811283358632330,
-                "parentUID": 16612220232812617002,
+                "uid": 11734810367105334553,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69695,8 +69987,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.1",
                 "tag": "",
-                "uid": 17357540411735161494,
-                "parentUID": 8528811283358632330,
+                "uid": 14587262841069570190,
+                "parentUID": 11734810367105334553,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69723,8 +70015,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.1_end",
                 "tag": "",
-                "uid": 437423792722204928,
-                "parentUID": 17357540411735161494,
+                "uid": 16895136904819508641,
+                "parentUID": 14587262841069570190,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69751,8 +70043,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.3",
                 "tag": "",
-                "uid": 5121114339556582034,
-                "parentUID": 8528811283358632330,
+                "uid": 16511238323319245138,
+                "parentUID": 11734810367105334553,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69779,8 +70071,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.3_end",
                 "tag": "",
-                "uid": 13216571356399404422,
-                "parentUID": 5121114339556582034,
+                "uid": 5620174436717291275,
+                "parentUID": 16511238323319245138,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69807,8 +70099,8 @@
             "GameObject": {
                 "name": "PigTail.L",
                 "tag": "",
-                "uid": 7101764622098477309,
-                "parentUID": 16612220232812617002,
+                "uid": 5091544575279694486,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69835,8 +70127,8 @@
             "GameObject": {
                 "name": "PigTail.L.011",
                 "tag": "",
-                "uid": 4629859146353397676,
-                "parentUID": 7101764622098477309,
+                "uid": 11722477238697853170,
+                "parentUID": 5091544575279694486,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69863,8 +70155,8 @@
             "GameObject": {
                 "name": "PigTail.L.009",
                 "tag": "",
-                "uid": 13556295162521192773,
-                "parentUID": 4629859146353397676,
+                "uid": 12323899184289473699,
+                "parentUID": 11722477238697853170,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69891,8 +70183,8 @@
             "GameObject": {
                 "name": "PigTail.L.001",
                 "tag": "",
-                "uid": 3594749888774588861,
-                "parentUID": 13556295162521192773,
+                "uid": 2180062748847642453,
+                "parentUID": 12323899184289473699,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69919,8 +70211,8 @@
             "GameObject": {
                 "name": "PigTail.L.010",
                 "tag": "",
-                "uid": 4273522951450380028,
-                "parentUID": 3594749888774588861,
+                "uid": 2625615397399185153,
+                "parentUID": 2180062748847642453,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69947,8 +70239,8 @@
             "GameObject": {
                 "name": "PigTail.L.002",
                 "tag": "",
-                "uid": 1311873249917914007,
-                "parentUID": 4273522951450380028,
+                "uid": 18404549043920633147,
+                "parentUID": 2625615397399185153,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -69975,8 +70267,8 @@
             "GameObject": {
                 "name": "PigTail.L.003",
                 "tag": "",
-                "uid": 1741867749578000254,
-                "parentUID": 1311873249917914007,
+                "uid": 9789985182909520323,
+                "parentUID": 18404549043920633147,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70003,8 +70295,8 @@
             "GameObject": {
                 "name": "PigTail.L.004",
                 "tag": "",
-                "uid": 13113465519820816068,
-                "parentUID": 1741867749578000254,
+                "uid": 15803168585891545123,
+                "parentUID": 9789985182909520323,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70031,8 +70323,8 @@
             "GameObject": {
                 "name": "PigTail.L.005",
                 "tag": "",
-                "uid": 8799378084033032640,
-                "parentUID": 13113465519820816068,
+                "uid": 16370682905994719837,
+                "parentUID": 15803168585891545123,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70059,8 +70351,8 @@
             "GameObject": {
                 "name": "PigTail.L.006",
                 "tag": "",
-                "uid": 1509481356051949572,
-                "parentUID": 8799378084033032640,
+                "uid": 15772404107301033327,
+                "parentUID": 16370682905994719837,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70087,8 +70379,8 @@
             "GameObject": {
                 "name": "PigTail.L.007",
                 "tag": "",
-                "uid": 5390424935182109330,
-                "parentUID": 1509481356051949572,
+                "uid": 15996628084848554655,
+                "parentUID": 15772404107301033327,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70115,8 +70407,8 @@
             "GameObject": {
                 "name": "PigTail.L.008",
                 "tag": "",
-                "uid": 14837307834788993805,
-                "parentUID": 5390424935182109330,
+                "uid": 3268693127777046686,
+                "parentUID": 15996628084848554655,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70143,8 +70435,8 @@
             "GameObject": {
                 "name": "PigTail.L.008_end",
                 "tag": "",
-                "uid": 11253009819940942354,
-                "parentUID": 14837307834788993805,
+                "uid": 17065248505448837398,
+                "parentUID": 3268693127777046686,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70171,8 +70463,8 @@
             "GameObject": {
                 "name": "PigTail.R",
                 "tag": "",
-                "uid": 4710303488731212797,
-                "parentUID": 16612220232812617002,
+                "uid": 899238650171374440,
+                "parentUID": 6893703077144883056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70199,8 +70491,8 @@
             "GameObject": {
                 "name": "PigTail.R.011",
                 "tag": "",
-                "uid": 11017414075105802080,
-                "parentUID": 4710303488731212797,
+                "uid": 10162284232470865627,
+                "parentUID": 899238650171374440,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70227,8 +70519,8 @@
             "GameObject": {
                 "name": "PigTail.R.009",
                 "tag": "",
-                "uid": 15486505270304211922,
-                "parentUID": 11017414075105802080,
+                "uid": 4580030268477977532,
+                "parentUID": 10162284232470865627,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70255,8 +70547,8 @@
             "GameObject": {
                 "name": "PigTail.R.001",
                 "tag": "",
-                "uid": 9698882188104552951,
-                "parentUID": 15486505270304211922,
+                "uid": 5463235456505604900,
+                "parentUID": 4580030268477977532,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70283,8 +70575,8 @@
             "GameObject": {
                 "name": "PigTail.R.010",
                 "tag": "",
-                "uid": 4967540568951550066,
-                "parentUID": 9698882188104552951,
+                "uid": 6263050104589266742,
+                "parentUID": 5463235456505604900,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70311,8 +70603,8 @@
             "GameObject": {
                 "name": "PigTail.R.002",
                 "tag": "",
-                "uid": 214669580396713269,
-                "parentUID": 4967540568951550066,
+                "uid": 12788010954710821657,
+                "parentUID": 6263050104589266742,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70339,8 +70631,8 @@
             "GameObject": {
                 "name": "PigTail.R.003",
                 "tag": "",
-                "uid": 3851943954120285922,
-                "parentUID": 214669580396713269,
+                "uid": 4310377518275282179,
+                "parentUID": 12788010954710821657,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70367,8 +70659,8 @@
             "GameObject": {
                 "name": "PigTail.R.004",
                 "tag": "",
-                "uid": 11123622594348733000,
-                "parentUID": 3851943954120285922,
+                "uid": 9861338520154640575,
+                "parentUID": 4310377518275282179,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70395,8 +70687,8 @@
             "GameObject": {
                 "name": "PigTail.R.005",
                 "tag": "",
-                "uid": 13087079063403981271,
-                "parentUID": 11123622594348733000,
+                "uid": 108529355482686913,
+                "parentUID": 9861338520154640575,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70423,8 +70715,8 @@
             "GameObject": {
                 "name": "PigTail.R.006",
                 "tag": "",
-                "uid": 5386221344364035384,
-                "parentUID": 13087079063403981271,
+                "uid": 2949678363285709588,
+                "parentUID": 108529355482686913,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70451,8 +70743,8 @@
             "GameObject": {
                 "name": "PigTail.R.007",
                 "tag": "",
-                "uid": 17462138799531848590,
-                "parentUID": 5386221344364035384,
+                "uid": 12055439858344819365,
+                "parentUID": 2949678363285709588,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70479,8 +70771,8 @@
             "GameObject": {
                 "name": "PigTail.R.008",
                 "tag": "",
-                "uid": 17292444675758079097,
-                "parentUID": 17462138799531848590,
+                "uid": 16988739628792171690,
+                "parentUID": 12055439858344819365,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70507,8 +70799,8 @@
             "GameObject": {
                 "name": "PigTail.R.008_end",
                 "tag": "",
-                "uid": 5081922911534060370,
-                "parentUID": 17292444675758079097,
+                "uid": 16772873771980324489,
+                "parentUID": 16988739628792171690,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70535,8 +70827,8 @@
             "GameObject": {
                 "name": "Shoulder.L",
                 "tag": "",
-                "uid": 17317894115444002976,
-                "parentUID": 15922478897573970683,
+                "uid": 10241383074932038790,
+                "parentUID": 13779490163134823919,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70563,8 +70855,8 @@
             "GameObject": {
                 "name": "Shoulder.L_end",
                 "tag": "",
-                "uid": 7484067926817295096,
-                "parentUID": 17317894115444002976,
+                "uid": 18399495404279782580,
+                "parentUID": 10241383074932038790,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70591,8 +70883,8 @@
             "GameObject": {
                 "name": "Arm Top.L",
                 "tag": "",
-                "uid": 13910409687502015216,
-                "parentUID": 15922478897573970683,
+                "uid": 17833515465787087842,
+                "parentUID": 13779490163134823919,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70619,8 +70911,8 @@
             "GameObject": {
                 "name": "Arm Bottom.L",
                 "tag": "",
-                "uid": 4943525024763894262,
-                "parentUID": 13910409687502015216,
+                "uid": 2904725838856252610,
+                "parentUID": 17833515465787087842,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70647,8 +70939,8 @@
             "GameObject": {
                 "name": "Wrist.L",
                 "tag": "",
-                "uid": 6693983986830387106,
-                "parentUID": 4943525024763894262,
+                "uid": 14131707749883332169,
+                "parentUID": 2904725838856252610,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70675,8 +70967,8 @@
             "GameObject": {
                 "name": "Hand.L",
                 "tag": "",
-                "uid": 17647668263443948400,
-                "parentUID": 6693983986830387106,
+                "uid": 15532459412774161373,
+                "parentUID": 14131707749883332169,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70703,8 +70995,8 @@
             "GameObject": {
                 "name": "Claw Top 1.L",
                 "tag": "",
-                "uid": 660605527826496293,
-                "parentUID": 17647668263443948400,
+                "uid": 7341574548379896580,
+                "parentUID": 15532459412774161373,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70731,8 +71023,8 @@
             "GameObject": {
                 "name": "Claw Top 2.L",
                 "tag": "",
-                "uid": 2762360440143870911,
-                "parentUID": 660605527826496293,
+                "uid": 11851940476892810343,
+                "parentUID": 7341574548379896580,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70759,8 +71051,8 @@
             "GameObject": {
                 "name": "Claw Top 2.L_end",
                 "tag": "",
-                "uid": 15201955381746267800,
-                "parentUID": 2762360440143870911,
+                "uid": 7017435220062538301,
+                "parentUID": 11851940476892810343,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70787,8 +71079,8 @@
             "GameObject": {
                 "name": "Claw Bottom 1.L",
                 "tag": "",
-                "uid": 9934629160283457139,
-                "parentUID": 17647668263443948400,
+                "uid": 6538687193600122807,
+                "parentUID": 15532459412774161373,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70815,8 +71107,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.L",
                 "tag": "",
-                "uid": 18116820359759695744,
-                "parentUID": 9934629160283457139,
+                "uid": 4380613799816021261,
+                "parentUID": 6538687193600122807,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70843,8 +71135,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.L_end",
                 "tag": "",
-                "uid": 14197964086946937451,
-                "parentUID": 18116820359759695744,
+                "uid": 15687092026904620494,
+                "parentUID": 4380613799816021261,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70871,8 +71163,8 @@
             "GameObject": {
                 "name": "Shoulder.R",
                 "tag": "",
-                "uid": 731151482577895094,
-                "parentUID": 15922478897573970683,
+                "uid": 629549567717608948,
+                "parentUID": 13779490163134823919,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70899,8 +71191,8 @@
             "GameObject": {
                 "name": "Shoulder.R_end",
                 "tag": "",
-                "uid": 5139652503146771099,
-                "parentUID": 731151482577895094,
+                "uid": 1634818171259796525,
+                "parentUID": 629549567717608948,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70927,8 +71219,8 @@
             "GameObject": {
                 "name": "Arm Top.R",
                 "tag": "",
-                "uid": 15967508461446940587,
-                "parentUID": 15922478897573970683,
+                "uid": 1940671572072855653,
+                "parentUID": 13779490163134823919,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70955,8 +71247,8 @@
             "GameObject": {
                 "name": "Arm Bottom.R",
                 "tag": "",
-                "uid": 1254519484051408495,
-                "parentUID": 15967508461446940587,
+                "uid": 3842499594329990832,
+                "parentUID": 1940671572072855653,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -70983,8 +71275,8 @@
             "GameObject": {
                 "name": "Wrist.R",
                 "tag": "",
-                "uid": 14683668889643495709,
-                "parentUID": 1254519484051408495,
+                "uid": 13989844164371802048,
+                "parentUID": 3842499594329990832,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71011,8 +71303,8 @@
             "GameObject": {
                 "name": "Hand.R",
                 "tag": "",
-                "uid": 7862456341771899976,
-                "parentUID": 14683668889643495709,
+                "uid": 7107114921980339251,
+                "parentUID": 13989844164371802048,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71039,8 +71331,8 @@
             "GameObject": {
                 "name": "Claw Top 1.R",
                 "tag": "",
-                "uid": 14518468248531457134,
-                "parentUID": 7862456341771899976,
+                "uid": 17144575809995867201,
+                "parentUID": 7107114921980339251,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71067,8 +71359,8 @@
             "GameObject": {
                 "name": "LightSaberOn",
                 "tag": "",
-                "uid": 17126124183459741783,
-                "parentUID": 14518468248531457134,
+                "uid": 1439176128911559492,
+                "parentUID": 17144575809995867201,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71095,8 +71387,8 @@
             "GameObject": {
                 "name": "Bix.Mesh.003_0",
                 "tag": "",
-                "uid": 2571050062393116690,
-                "parentUID": 17126124183459741783,
+                "uid": 13791210701408346932,
+                "parentUID": 1439176128911559492,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71134,8 +71426,8 @@
             "GameObject": {
                 "name": "Bix.Mesh.003_1",
                 "tag": "",
-                "uid": 288381602074837544,
-                "parentUID": 17126124183459741783,
+                "uid": 14459695658468969444,
+                "parentUID": 1439176128911559492,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71173,8 +71465,8 @@
             "GameObject": {
                 "name": "blaster1",
                 "tag": "",
-                "uid": 1281901953167731099,
-                "parentUID": 14518468248531457134,
+                "uid": 4034051106544532115,
+                "parentUID": 17144575809995867201,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -71201,8 +71493,8 @@
             "GameObject": {
                 "name": "Bix.blaster1_0",
                 "tag": "",
-                "uid": 2866999751096604903,
-                "parentUID": 1281901953167731099,
+                "uid": 10878995357260456604,
+                "parentUID": 4034051106544532115,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -71240,8 +71532,8 @@
             "GameObject": {
                 "name": "Claw Top 2.R",
                 "tag": "",
-                "uid": 5333858222731674397,
-                "parentUID": 14518468248531457134,
+                "uid": 6018456369008863262,
+                "parentUID": 17144575809995867201,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71268,8 +71560,8 @@
             "GameObject": {
                 "name": "Claw Top 2.R_end",
                 "tag": "",
-                "uid": 8546749156886197854,
-                "parentUID": 5333858222731674397,
+                "uid": 1137461686777069699,
+                "parentUID": 6018456369008863262,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71296,8 +71588,8 @@
             "GameObject": {
                 "name": "Claw Bottom 1.R",
                 "tag": "",
-                "uid": 1287158066390820641,
-                "parentUID": 7862456341771899976,
+                "uid": 10568183649774360574,
+                "parentUID": 7107114921980339251,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71324,8 +71616,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.R",
                 "tag": "",
-                "uid": 14748388080713960308,
-                "parentUID": 1287158066390820641,
+                "uid": 14227788888964373929,
+                "parentUID": 10568183649774360574,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71352,8 +71644,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.R_end",
                 "tag": "",
-                "uid": 16403809996165972954,
-                "parentUID": 14748388080713960308,
+                "uid": 8050860905812645452,
+                "parentUID": 14227788888964373929,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71380,8 +71672,8 @@
             "GameObject": {
                 "name": "Foot IK.L",
                 "tag": "",
-                "uid": 2632432585117895941,
-                "parentUID": 18293385217677288685,
+                "uid": 5516870934448473393,
+                "parentUID": 12334096091538158845,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71408,8 +71700,8 @@
             "GameObject": {
                 "name": "Knee IK.L",
                 "tag": "",
-                "uid": 10391057790450193430,
-                "parentUID": 2632432585117895941,
+                "uid": 9948902870017500656,
+                "parentUID": 5516870934448473393,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71436,8 +71728,8 @@
             "GameObject": {
                 "name": "Knee IK.L_end",
                 "tag": "",
-                "uid": 4911679323017030888,
-                "parentUID": 10391057790450193430,
+                "uid": 7539675224856583812,
+                "parentUID": 9948902870017500656,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71464,8 +71756,8 @@
             "GameObject": {
                 "name": "Foot IK.R",
                 "tag": "",
-                "uid": 12711229387425658555,
-                "parentUID": 18293385217677288685,
+                "uid": 14520900909592240952,
+                "parentUID": 12334096091538158845,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71492,8 +71784,8 @@
             "GameObject": {
                 "name": "Knee IK.R",
                 "tag": "",
-                "uid": 6237191561258100406,
-                "parentUID": 12711229387425658555,
+                "uid": 14995641626694124441,
+                "parentUID": 14520900909592240952,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71520,8 +71812,8 @@
             "GameObject": {
                 "name": "Knee IK.R_end",
                 "tag": "",
-                "uid": 2691146408957484819,
-                "parentUID": 6237191561258100406,
+                "uid": 6238920074013132705,
+                "parentUID": 14995641626694124441,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71548,8 +71840,8 @@
             "GameObject": {
                 "name": "IK pole.L",
                 "tag": "",
-                "uid": 17649532667755719776,
-                "parentUID": 18293385217677288685,
+                "uid": 5643513680742653786,
+                "parentUID": 12334096091538158845,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71576,8 +71868,8 @@
             "GameObject": {
                 "name": "IK pole.L_end",
                 "tag": "",
-                "uid": 794688081576293574,
-                "parentUID": 17649532667755719776,
+                "uid": 17945354372574814990,
+                "parentUID": 5643513680742653786,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71604,8 +71896,8 @@
             "GameObject": {
                 "name": "Arm IK.L",
                 "tag": "",
-                "uid": 10800722926173476019,
-                "parentUID": 18293385217677288685,
+                "uid": 5779935044224865471,
+                "parentUID": 12334096091538158845,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71632,8 +71924,8 @@
             "GameObject": {
                 "name": "Arm IK.L_end",
                 "tag": "",
-                "uid": 12174830593190568419,
-                "parentUID": 10800722926173476019,
+                "uid": 17058678630146735516,
+                "parentUID": 5779935044224865471,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71660,8 +71952,8 @@
             "GameObject": {
                 "name": "IK pole.R",
                 "tag": "",
-                "uid": 14941670971100045076,
-                "parentUID": 18293385217677288685,
+                "uid": 10732144336000095880,
+                "parentUID": 12334096091538158845,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71688,8 +71980,8 @@
             "GameObject": {
                 "name": "IK pole.R_end",
                 "tag": "",
-                "uid": 14330357056447928350,
-                "parentUID": 14941670971100045076,
+                "uid": 17178907731288726292,
+                "parentUID": 10732144336000095880,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71716,8 +72008,8 @@
             "GameObject": {
                 "name": "Arm IK.R",
                 "tag": "",
-                "uid": 12056493950236780607,
-                "parentUID": 18293385217677288685,
+                "uid": 4891524525761488404,
+                "parentUID": 12334096091538158845,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71744,8 +72036,8 @@
             "GameObject": {
                 "name": "Arm IK.R_end",
                 "tag": "",
-                "uid": 3585842110235084401,
-                "parentUID": 12056493950236780607,
+                "uid": 3319530489603015547,
+                "parentUID": 4891524525761488404,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71772,8 +72064,8 @@
             "GameObject": {
                 "name": "Arm.R",
                 "tag": "",
-                "uid": 10697977660351358545,
-                "parentUID": 17872802900822455333,
+                "uid": 12267769186705589423,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71800,8 +72092,8 @@
             "GameObject": {
                 "name": "Bix.ArmR_0",
                 "tag": "",
-                "uid": 6510517436535394872,
-                "parentUID": 10697977660351358545,
+                "uid": 6781184756905170057,
+                "parentUID": 12267769186705589423,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71839,8 +72131,8 @@
             "GameObject": {
                 "name": "Pierna.R",
                 "tag": "",
-                "uid": 17128143427835581509,
-                "parentUID": 17872802900822455333,
+                "uid": 16235772493870560405,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71867,8 +72159,8 @@
             "GameObject": {
                 "name": "Bix.LegR_0",
                 "tag": "",
-                "uid": 10572474163278356186,
-                "parentUID": 17128143427835581509,
+                "uid": 13872770582796814010,
+                "parentUID": 16235772493870560405,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71906,8 +72198,8 @@
             "GameObject": {
                 "name": "eyes",
                 "tag": "",
-                "uid": 15616264734851633168,
-                "parentUID": 17872802900822455333,
+                "uid": 9822574251746751054,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71934,8 +72226,8 @@
             "GameObject": {
                 "name": "Bix.eyes_0",
                 "tag": "",
-                "uid": 13629380091921737812,
-                "parentUID": 15616264734851633168,
+                "uid": 3286828439511957598,
+                "parentUID": 9822574251746751054,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -71973,8 +72265,8 @@
             "GameObject": {
                 "name": "ninjago mouths final",
                 "tag": "",
-                "uid": 12969394656378759132,
-                "parentUID": 17872802900822455333,
+                "uid": 4565099789128896842,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72001,8 +72293,8 @@
             "GameObject": {
                 "name": "Bix.ninjago mouths final_0",
                 "tag": "",
-                "uid": 15121250687907497382,
-                "parentUID": 12969394656378759132,
+                "uid": 306600417210963681,
+                "parentUID": 4565099789128896842,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72040,8 +72332,8 @@
             "GameObject": {
                 "name": "Eye_brow_Face_Rig",
                 "tag": "",
-                "uid": 9323864677814080648,
-                "parentUID": 17872802900822455333,
+                "uid": 916751133094113882,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72068,8 +72360,8 @@
             "GameObject": {
                 "name": "Bix.Eye_brow_Face_Rig.002_0",
                 "tag": "",
-                "uid": 15709103932966516006,
-                "parentUID": 9323864677814080648,
+                "uid": 9546374376491308798,
+                "parentUID": 916751133094113882,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72107,8 +72399,8 @@
             "GameObject": {
                 "name": "Eye_brow_Face_Rig.001",
                 "tag": "",
-                "uid": 15950124353794159615,
-                "parentUID": 17872802900822455333,
+                "uid": 15614385614675814727,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72135,8 +72427,8 @@
             "GameObject": {
                 "name": "Bix.Eye_brow_Face_Rig.003_0",
                 "tag": "",
-                "uid": 8226922193454503883,
-                "parentUID": 15950124353794159615,
+                "uid": 3241326438199661542,
+                "parentUID": 15614385614675814727,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72174,8 +72466,8 @@
             "GameObject": {
                 "name": "Hat",
                 "tag": "",
-                "uid": 13533497462259644948,
-                "parentUID": 17872802900822455333,
+                "uid": 3360052321445345243,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72202,8 +72494,8 @@
             "GameObject": {
                 "name": "Bix.Hat_0",
                 "tag": "",
-                "uid": 2104982724684066320,
-                "parentUID": 13533497462259644948,
+                "uid": 13079002971858905197,
+                "parentUID": 3360052321445345243,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72241,8 +72533,8 @@
             "GameObject": {
                 "name": "Glasses",
                 "tag": "",
-                "uid": 2220387578850284198,
-                "parentUID": 17872802900822455333,
+                "uid": 14867316637857351828,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72269,8 +72561,8 @@
             "GameObject": {
                 "name": "Bix.Glasses_0",
                 "tag": "",
-                "uid": 16773424997774138749,
-                "parentUID": 2220387578850284198,
+                "uid": 2352485951748698893,
+                "parentUID": 14867316637857351828,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72308,8 +72600,8 @@
             "GameObject": {
                 "name": "Cabeza",
                 "tag": "",
-                "uid": 9466488791410592873,
-                "parentUID": 17872802900822455333,
+                "uid": 5330522263958598613,
+                "parentUID": 3106854257264333749,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72336,8 +72628,8 @@
             "GameObject": {
                 "name": "Bix.Head.001_0",
                 "tag": "",
-                "uid": 9542378991829359188,
-                "parentUID": 9466488791410592873,
+                "uid": 8551716118495982167,
+                "parentUID": 5330522263958598613,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72375,8 +72667,8 @@
             "GameObject": {
                 "name": "LightSaberOff",
                 "tag": "",
-                "uid": 4590015500357269363,
-                "parentUID": 17872802900822455333,
+                "uid": 7054955463182802780,
+                "parentUID": 3106854257264333749,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -72403,8 +72695,8 @@
             "GameObject": {
                 "name": "Bix.Mesh.004_0",
                 "tag": "",
-                "uid": 323759295304664692,
-                "parentUID": 4590015500357269363,
+                "uid": 15810083320270812036,
+                "parentUID": 7054955463182802780,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72442,8 +72734,8 @@
             "GameObject": {
                 "name": "Plane",
                 "tag": "",
-                "uid": 12750779566580027609,
-                "parentUID": 17872802900822455333,
+                "uid": 3517192430448893340,
+                "parentUID": 3106854257264333749,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -72470,8 +72762,8 @@
             "GameObject": {
                 "name": "Bix.Plane_0",
                 "tag": "",
-                "uid": 4999456216732674176,
-                "parentUID": 12750779566580027609,
+                "uid": 13397513269775741037,
+                "parentUID": 3517192430448893340,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -72509,8 +72801,8 @@
             "GameObject": {
                 "name": "RaycastsAttack",
                 "tag": "",
-                "uid": 14910652515658143309,
-                "parentUID": 6881608640479900681,
+                "uid": 17921482696648634912,
+                "parentUID": 6675139992278688552,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72537,8 +72829,8 @@
             "GameObject": {
                 "name": "Ray1",
                 "tag": "",
-                "uid": 5517761117202023023,
-                "parentUID": 14910652515658143309,
+                "uid": 13030859921763183765,
+                "parentUID": 17921482696648634912,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72565,8 +72857,8 @@
             "GameObject": {
                 "name": "Ray2",
                 "tag": "",
-                "uid": 5064826452061100036,
-                "parentUID": 14910652515658143309,
+                "uid": 16054969389112792595,
+                "parentUID": 17921482696648634912,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72593,8 +72885,8 @@
             "GameObject": {
                 "name": "Ray3",
                 "tag": "",
-                "uid": 7811284005857683292,
-                "parentUID": 14910652515658143309,
+                "uid": 4579389926346814906,
+                "parentUID": 17921482696648634912,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72621,8 +72913,8 @@
             "GameObject": {
                 "name": "Ray4",
                 "tag": "",
-                "uid": 15310722078864266255,
-                "parentUID": 14910652515658143309,
+                "uid": 8082447581904738533,
+                "parentUID": 17921482696648634912,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72649,8 +72941,8 @@
             "GameObject": {
                 "name": "Force area",
                 "tag": "",
-                "uid": 11939813848394560171,
-                "parentUID": 6881608640479900681,
+                "uid": 15967971122166884935,
+                "parentUID": 6675139992278688552,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72694,9 +72986,9 @@
                             "radius": 8.0,
                             "factor": 1.0,
                             "height": 2.0,
-                            "rbPos_X": -69.36304473876953,
-                            "rbPos_Y": 0.7512681484222412,
-                            "rbPos_Z": 23.20728874206543
+                            "rbPos_X": -68.86930084228516,
+                            "rbPos_Y": 0.9537575244903564,
+                            "rbPos_Z": 29.645910263061523
                         }
                     },
                     {
@@ -72736,8 +73028,8 @@
             "GameObject": {
                 "name": "Area Light",
                 "tag": "",
-                "uid": 12702651585621121274,
-                "parentUID": 17126124183459741783,
+                "uid": 11669274481603511546,
+                "parentUID": 1439176128911559492,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72778,10 +73070,10 @@
         },
         {
             "GameObject": {
-                "name": "Warehouse",
+                "name": "futuristic_building_2.Sphere_0",
                 "tag": "",
-                "uid": 1750799863589749677,
-                "parentUID": 16729985481922543205,
+                "uid": 1602408433083348114,
+                "parentUID": 11895195469551643074,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -72790,12 +73082,51 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -70.25017547607422,
-                            "localPos_Y": 2.8596749305725098,
-                            "localPos_Z": 5.130421161651611,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localPos_X": 4.614932060241699,
+                            "localPos_Y": -9.192939758300781,
+                            "localPos_Z": 3.7382402420043945,
+                            "localRot_X": -1.0146358579710135e-12,
+                            "localRot_Y": -1.5215574026422596e-13,
+                            "localRot_Z": 14.222269058227539,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14177223285250935125,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building_2.Sphere_0.mesh",
+                            "materialUID": 11924061051500889765,
+                            "assetPathMaterial": "Assets/Materials/futuristic_building_2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building.Sphere_0",
+                "tag": "",
+                "uid": 12055115988089863974,
+                "parentUID": 8669742484945713939,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.438790321350098,
+                            "localPos_Y": 6.6905975341796875,
+                            "localPos_Z": 5.556231498718262,
+                            "localRot_X": -1.6255423119974885e-25,
+                            "localRot_Y": 5.178263337940414e-19,
+                            "localRot_Z": -179.9999542236328,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -72803,23 +73134,364 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_CameraSample",
+                            "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "influenceRadius": 7.656000137329102,
-                            "positionOffsetX": -4.0,
-                            "positionOffsetY": 2.4000000953674316,
-                            "positionOffsetZ": 4.0,
-                            "positionFixedX": 0.0,
-                            "positionFixedY": 0.0,
-                            "positionFixedZ": 0.0,
-                            "focusOffsetX": 0.0,
-                            "focusOffsetY": 0.0,
-                            "isSampleFocusEnabled": false,
-                            "isSampleFixedEnabled": false,
-                            "positionX": -70.25017547607422,
-                            "positionY": 2.8596749305725098,
-                            "positionZ": 5.130421161651611
+                            "meshUID": 13346464446665686363,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building.Sphere_0.mesh",
+                            "materialUID": 2868084361586372929,
+                            "assetPathMaterial": "Assets/Materials/futuristic_buildingDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building.Sphere_0",
+                "tag": "",
+                "uid": 11588634212130756129,
+                "parentUID": 8669742484945713939,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.891021728515625,
+                            "localPos_Y": -2.414698362350464,
+                            "localPos_Z": 0.23002243041992188,
+                            "localRot_X": -8.127711559987442e-26,
+                            "localRot_Y": 2.589131668970207e-19,
+                            "localRot_Z": -179.9999542236328,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13346464446665686363,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building.Sphere_0.mesh",
+                            "materialUID": 2868084361586372929,
+                            "assetPathMaterial": "Assets/Materials/futuristic_buildingDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building_2.Sphere_0",
+                "tag": "",
+                "uid": 9741196589629677627,
+                "parentUID": 11895195469551643074,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.466185569763184,
+                            "localPos_Y": -3.7463669776916504,
+                            "localPos_Z": 4.3263373374938965,
+                            "localRot_X": -1.0146358579710135e-12,
+                            "localRot_Y": -1.5215574026422596e-13,
+                            "localRot_Z": 14.222269058227539,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14177223285250935125,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building_2.Sphere_0.mesh",
+                            "materialUID": 11924061051500889765,
+                            "assetPathMaterial": "Assets/Materials/futuristic_building_2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building.Sphere_0",
+                "tag": "",
+                "uid": 11398618440982511879,
+                "parentUID": 8669742484945713939,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 17.069011688232422,
+                            "localPos_Y": 4.724100112915039,
+                            "localPos_Z": 4.0940704345703125,
+                            "localRot_X": -8.127711559987442e-26,
+                            "localRot_Y": 2.589131668970207e-19,
+                            "localRot_Z": -179.9999542236328,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13346464446665686363,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building.Sphere_0.mesh",
+                            "materialUID": 2868084361586372929,
+                            "assetPathMaterial": "Assets/Materials/futuristic_buildingDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building.Sphere_0",
+                "tag": "",
+                "uid": 10303626722589044163,
+                "parentUID": 8669742484945713939,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.891021728515625,
+                            "localPos_Y": 5.3830885887146,
+                            "localPos_Z": 1.1172864437103271,
+                            "localRot_X": 1.5761325330519153e-26,
+                            "localRot_Y": -8.094887055906816e-20,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13346464446665686363,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building.Sphere_0.mesh",
+                            "materialUID": 2868084361586372929,
+                            "assetPathMaterial": "Assets/Materials/futuristic_buildingDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building_2.Sphere_0",
+                "tag": "",
+                "uid": 12618072782376518944,
+                "parentUID": 11895195469551643074,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.452410697937012,
+                            "localPos_Y": -0.7450505495071411,
+                            "localPos_Z": 4.326336860656738,
+                            "localRot_X": -1.0146350990294928e-12,
+                            "localRot_Y": -1.521607546992737e-13,
+                            "localRot_Z": 14.222269058227539,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14177223285250935125,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building_2.Sphere_0.mesh",
+                            "materialUID": 11924061051500889765,
+                            "assetPathMaterial": "Assets/Materials/futuristic_building_2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building_2.Sphere_0",
+                "tag": "",
+                "uid": 2910666337311296658,
+                "parentUID": 11895195469551643074,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -9.13077163696289,
+                            "localPos_Y": 2.6679959297180176,
+                            "localPos_Z": 1.0715491771697998,
+                            "localRot_X": -1.0146350990294928e-12,
+                            "localRot_Y": -1.521607546992737e-13,
+                            "localRot_Z": 14.222269058227539,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14177223285250935125,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building_2.Sphere_0.mesh",
+                            "materialUID": 11924061051500889765,
+                            "assetPathMaterial": "Assets/Materials/futuristic_building_2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building.Sphere_0",
+                "tag": "",
+                "uid": 8519962204410070517,
+                "parentUID": 8669742484945713939,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 19.941967010498047,
+                            "localPos_Y": -0.08923766016960144,
+                            "localPos_Z": 4.064624786376953,
+                            "localRot_X": 1.5761325330519153e-26,
+                            "localRot_Y": -8.094887055906816e-20,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13346464446665686363,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building.Sphere_0.mesh",
+                            "materialUID": 2868084361586372929,
+                            "assetPathMaterial": "Assets/Materials/futuristic_buildingDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building.Sphere_0",
+                "tag": "",
+                "uid": 11779785989874238518,
+                "parentUID": 8669742484945713939,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.165533065795898,
+                            "localPos_Y": -7.6106791496276855,
+                            "localPos_Z": 5.879092216491699,
+                            "localRot_X": 4.06199579389063e-26,
+                            "localRot_Y": -1.293973495618333e-19,
+                            "localRot_Z": -179.9999542236328,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13346464446665686363,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building.Sphere_0.mesh",
+                            "materialUID": 2868084361586372929,
+                            "assetPathMaterial": "Assets/Materials/futuristic_buildingDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building.Sphere_0",
+                "tag": "",
+                "uid": 5560397496871717813,
+                "parentUID": 8669742484945713939,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.43879508972168,
+                            "localPos_Y": -1.4474256038665771,
+                            "localPos_Z": 2.4313747882843018,
+                            "localRot_X": 8.124921580832805e-26,
+                            "localRot_Y": -2.5882432252935366e-19,
+                            "localRot_Z": -179.9999542236328,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13346464446665686363,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building.Sphere_0.mesh",
+                            "materialUID": 2868084361586372929,
+                            "assetPathMaterial": "Assets/Materials/futuristic_buildingDefaultMaterial_0.mat"
                         }
                     }
                 ]
