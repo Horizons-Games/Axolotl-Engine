@@ -4,37 +4,33 @@
 #include <concepts>
 #include <ranges>
 
-#include "Scripting/IScript.h"
-
 // The parameter name must be the exact name of the field inside the class
-#define REGISTER_FIELD(name, Type)                                                  \
-	axo::scripting::detail::fields::CreateAndAddField(this,                         \
-													  #name,                        \
-													  std::function<Type(void)>(    \
-														  [this]()                  \
-														  {                         \
-															  return this->##name;  \
-														  }),                       \
-													  std::function<void(Type)>(    \
-														  [this](Type value)        \
-														  {                         \
-															  this->##name = value; \
-														  }));
+#define REGISTER_FIELD(name, Type)                                                            \
+	this->AddMember(axo::scripting::detail::fields::CreateField(#name,                        \
+																std::function<Type(void)>(    \
+																	[this]()                  \
+																	{                         \
+																		return this->##name;  \
+																	}),                       \
+																std::function<void(Type)>(    \
+																	[this](Type value)        \
+																	{                         \
+																		this->##name = value; \
+																	})));
 
 // The parameter Name must be one such that Get{Name} and Set{Name} functions exist as members of the class
-#define REGISTER_FIELD_WITH_ACCESSORS(Name, Type)                                 \
-	axo::scripting::detail::fields::CreateAndAddField(this,                       \
-													  #Name,                      \
-													  std::function<Type(void)>(  \
-														  [this]()                \
-														  {                       \
-															  return Get##Name(); \
-														  }),                     \
-													  std::function<void(Type)>(  \
-														  [this](Type value)      \
-														  {                       \
-															  Set##Name(value);   \
-														  }));
+#define REGISTER_FIELD_WITH_ACCESSORS(Name, Type)                                           \
+	this->AddMember(axo::scripting::detail::fields::CreateField(#Name,                      \
+																std::function<Type(void)>(  \
+																	[this]()                \
+																	{                       \
+																		return Get##Name(); \
+																	}),                     \
+																std::function<void(Type)>(  \
+																	[this](Type value)      \
+																	{                       \
+																		Set##Name(value);   \
+																	})));
 
 namespace axo::scripting::detail
 {
@@ -73,10 +69,9 @@ concept IsComponentOrScript = std::is_base_of<Component, std::remove_pointer_t<T
 
 // vector overload
 template<typename Type>
-void CreateAndAddField(IScript* fieldOwner,
-					   const std::string& name,
-					   const std::function<std::vector<Type>(void)>& getter,
-					   const std::function<void(std::vector<Type>)>& setter)
+TypeFieldPair CreateField(const std::string& name,
+						  const std::function<std::vector<Type>(void)>& getter,
+						  const std::function<void(std::vector<Type>)>& setter)
 {
 	if constexpr (IsComponentOrScript<Type>)
 	{
@@ -106,7 +101,7 @@ void CreateAndAddField(IScript* fieldOwner,
 				setter(std::vector<Type>(std::begin(transformedVector), std::end(transformedVector)));
 			},
 			FieldType::GAMEOBJECT);
-		fieldOwner->AddMember(std::make_pair(FieldType::VECTOR, field));
+		return std::make_pair(FieldType::VECTOR, field);
 	}
 	else
 	{
@@ -123,16 +118,15 @@ void CreateAndAddField(IScript* fieldOwner,
 				setter(AnyToType<Type>(value));
 			},
 			TypeToEnum<Type>::value);
-		fieldOwner->AddMember(std::make_pair(FieldType::VECTOR, field));
+		return std::make_pair(FieldType::VECTOR, field);
 	}
 }
 
 // default overload, works for non-vector types
 template<typename Type>
-void CreateAndAddField(IScript* fieldOwner,
-					   const std::string& name,
-					   const std::function<Type(void)>& getter,
-					   const std::function<void(Type)>& setter)
+TypeFieldPair CreateField(const std::string& name,
+						  const std::function<Type(void)>& getter,
+						  const std::function<void(Type)>& setter)
 {
 	if constexpr (IsComponentOrScript<Type>)
 	{
@@ -147,12 +141,12 @@ void CreateAndAddField(IScript* fieldOwner,
 			{
 				setter(value ? value->GetComponent<std::remove_pointer_t<Type>>() : nullptr);
 			});
-		fieldOwner->AddMember(std::make_pair(FieldType::GAMEOBJECT, field));
+		return std::make_pair(FieldType::GAMEOBJECT, field);
 	}
 	else
 	{
 		Field<Type> field(name, getter, setter);
-		fieldOwner->AddMember(std::make_pair(TypeToEnum<Type>::value, field));
+		return std::make_pair(TypeToEnum<Type>::value, field);
 	}
 }
 

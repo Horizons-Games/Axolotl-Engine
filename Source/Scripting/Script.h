@@ -34,8 +34,8 @@ public:
 
 	void Serialize(ISimpleSerializer* pSerializer) override;
 
-public:
-	void AddMember(TypeFieldPair&& member) override;
+protected:
+	void AddMember(TypeFieldPair&& member);
 
 protected:
 	GameObject* owner;
