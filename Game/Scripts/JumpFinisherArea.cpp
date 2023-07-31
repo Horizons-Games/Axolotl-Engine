@@ -1,9 +1,6 @@
 #include "StdAfx.h"
-#include "PlayerForceAttackScript.h"
+#include "JumpFinisherArea.h"
 
-#include "ModuleInput.h"
-
-#include "Components/Component.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
@@ -11,74 +8,55 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
 
-REGISTERCLASS(PlayerForceAttackScript);
+REGISTERCLASS(JumpFinisherArea);
 
-PlayerForceAttackScript::PlayerForceAttackScript() : Script(), force(10.0f), stunTime(3.0f), coolDown(6.0f), 
-	currentCoolDown(0.0f), forceDamage(10.0f)
+JumpFinisherArea::JumpFinisherArea() : Script(), force(10.0f), stunTime(3.0f), forceDamage(10.0f),
+	parentTransform(nullptr), rigidBody(nullptr)
 {
 	enemiesInTheArea.reserve(10);
 
 	REGISTER_FIELD(force, float);
 	REGISTER_FIELD(stunTime, float);
-	REGISTER_FIELD(coolDown, float);
 	REGISTER_FIELD(forceDamage, float);
-
 }
 
-PlayerForceAttackScript::~PlayerForceAttackScript()
+void JumpFinisherArea::Start()
 {
-}
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	rigidBody->Enable();
+	rigidBody->SetIsTrigger(true);
 
-void PlayerForceAttackScript::Start()
-{
-	input = App->GetModule<ModuleInput>();
-	rigidBody =	owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 }
 
-void PlayerForceAttackScript::Update(float deltaTime)
+void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
-
-	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCoolDown <= 0)
-	{
-		currentCoolDown = coolDown;
-		PushEnemies();
-	}
-	else
-	{
-		if (currentCoolDown > 0) 
-		{
-			currentCoolDown -= deltaTime;
-			currentCoolDown = std::max(0.0f, currentCoolDown);
-		}
-	}
 }
 
-void PlayerForceAttackScript::OnCollisionEnter(ComponentRigidBody* other)
+void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Enemy")
+	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner());
 	}
 }
 
-void PlayerForceAttackScript::OnCollisionExit(ComponentRigidBody* other)
+void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 {
 	enemiesInTheArea.erase(
 		std::remove_if(
 			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const GameObject* gameObject)
-		{
-			return gameObject == other->GetOwner();
-		}
+			{
+				return gameObject == other->GetOwner();
+			}
 		),
 		std::end(enemiesInTheArea));
 }
 
-void PlayerForceAttackScript::PushEnemies()
+void JumpFinisherArea::PushEnemies()
 {
-	const ComponentTransform* transform =
-		owner->GetComponent<ComponentTransform>();
+	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
 		it++)
@@ -107,8 +85,7 @@ void PlayerForceAttackScript::PushEnemies()
 		EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
 		enemyScript->SetStunnedTime(stunTime);
 
-		HealthSystem* enemyHealthScript =
-			(*it)->GetComponent<HealthSystem>();
+		HealthSystem* enemyHealthScript = (*it)->GetComponent<HealthSystem>();
 
 		enemyHealthScript->TakeDamage(forceDamage);
 	}

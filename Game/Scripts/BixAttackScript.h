@@ -13,6 +13,7 @@ class ComponentAnimation;
 class EntityDetection;
 class ComboManager;
 
+class EntityDetection;
 class PlayerManagerScript;
 
 enum class AttackCombo
@@ -57,13 +58,16 @@ private:
 
 	bool isDeathTouched;
 
+	ModuleInput* input;
+
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
+
 	GameObject* animationGO;
-	EntityDetection* enemyDetection;
 	GameObject* enemyDetectionObject;
 
+	EntityDetection* enemyDetection;
 	ComboManager* comboSystem;
 	float comboCountHeavy;
 	float comboCountSoft;
@@ -71,6 +75,7 @@ private:
 	float attackHeavy;
 
 	PlayerManagerScript* playerManager;
+
 	AttackCombo attackComboPhase;
 };
 

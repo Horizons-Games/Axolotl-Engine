@@ -16,10 +16,12 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+
 	void SetBulletVelocity(float velocity);
 
 private:
-	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void InitializeBullet();
 	void DestroyBullet();
 
 	float velocity;

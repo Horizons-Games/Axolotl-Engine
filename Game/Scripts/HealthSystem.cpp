@@ -2,7 +2,6 @@
 
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
-#include "Components/ComponentCamera.h"
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PlayerDeathScript.h"
@@ -12,7 +11,8 @@
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), isImmortal(false), enemyParticleSystem(nullptr)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
+	isImmortal(false), enemyParticleSystem(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
