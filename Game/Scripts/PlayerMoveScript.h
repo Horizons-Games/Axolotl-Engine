@@ -11,10 +11,11 @@ class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
+class ComponentRigidBody;
 
 class PlayerManagerScript;
+class PlayerJumpScript;
 class PlayerForceUseScript;
-class ComponentRigidBody;
 class btRigidBody;
 
 enum class PlayerActions
@@ -53,10 +54,7 @@ public:
 
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
-
-	bool CanJump() const;
-	void SetCanJump(bool canJump);
-	bool IsGrounded() const;
+	PlayerJumpScript* GetJumpScript() const;
 
 private:
     ComponentTransform* componentTransform;
@@ -79,23 +77,8 @@ private:
 	Camera* camera;
 	Frustum cameraFrustum;
 	ModuleInput* input;
-
-	void CheckGround();
-
-	void Jump(float deltatime);
-
-	float jumpParameter;
-	bool isJumping;
-	int jumps;
-	int jumpReset;
-	bool canDoubleJump;
-	bool canJump;
-
-	bool grounded;
-	bool doubleJumpAvailable;
-	int groundedCount;
-	float coyoteTime;
-	float coyoteTimerCount;
+	
+	PlayerJumpScript* jumpScript;
 
 	int previousMovements;
 	int currentMovements;
@@ -122,18 +105,7 @@ inline void PlayerMoveScript::SetPlayerState(PlayerActions playerState)
 	this->playerState = playerState;
 }
 
-
-inline bool PlayerMoveScript::CanJump() const
+inline PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
 {
-	return canJump;
-}
-
-inline void PlayerMoveScript::SetCanJump(bool canJump)
-{
-	this->canJump = canJump;
-}
-
-inline bool PlayerMoveScript::IsGrounded() const
-{
-	return grounded;
+	return jumpScript;
 }

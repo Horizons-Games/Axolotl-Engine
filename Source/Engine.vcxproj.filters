@@ -615,6 +615,9 @@
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Jump</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1275,6 +1278,9 @@
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
+      <Filter>UserScripts\Gameplay\Player\Jump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1429,6 +1435,9 @@
     </Filter>
     <Filter Include="UserScripts\Graphics">
       <UniqueIdentifier>{fca70cf2-3a20-410d-9019-42e680fad56c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Jump">
+      <UniqueIdentifier>{4896dd16-ae40-4f76-a122-20d5acd08007}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

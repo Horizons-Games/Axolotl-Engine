@@ -3,6 +3,7 @@
 
 #include "Components/ComponentScript.h"
 
+#include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 
@@ -18,12 +19,13 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 
 void PlayerManagerScript::Start()
 {
+	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 }
 
 bool PlayerManagerScript::IsGrounded() const
 {
-	return movementManager->IsGrounded();
+	return jumpManager->IsGrounded();
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
@@ -59,6 +61,11 @@ void PlayerManagerScript::IncreasePlayerDefense(float defenseIncrease)
 void PlayerManagerScript::IncreasePlayerSpeed(float speedIncrease)
 {
 	playerSpeed += speedIncrease;
+}
+
+PlayerJumpScript* PlayerManagerScript::GetJumpManager() const
+{
+	return jumpManager;
 }
 
 PlayerMoveScript* PlayerManagerScript::GetMovementManager() const

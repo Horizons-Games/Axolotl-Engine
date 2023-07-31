@@ -1,7 +1,5 @@
-#include "StdAfx.h"
 #include "PlayerMoveScript.h"
 
-#include "Application.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "Camera/Camera.h"
@@ -12,37 +10,23 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
-#include "Components/ComponentRigidBody.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
+#include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
-
-#include "MathGeoLib/Include/Geometry/Ray.h"
-#include "Physics/Physics.h"
-#include "DebugDraw.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-	dashForce(20000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false),
-	jumpParameter(2000.0f), isJumping(false), canDoubleJump(false), jumpReset(0), jumps(0), canJump(true), rigidBody(nullptr),
-	coyoteTime(0.4f), groundedCount(0), grounded(false)
+	dashForce(20000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
 	REGISTER_FIELD(isParalyzed, bool);
-	REGISTER_FIELD(jumpParameter, float);
-	REGISTER_FIELD(canDoubleJump, bool);
-	REGISTER_FIELD(canJump, bool);
-	REGISTER_FIELD(coyoteTime, float);
-	REGISTER_FIELD(grounded, bool);
-	REGISTER_FIELD(coyoteTimerCount, float);
-	REGISTER_FIELD(doubleJumpAvailable, bool);
 }
-
 
 void PlayerMoveScript::Start()
 {
@@ -52,8 +36,7 @@ void PlayerMoveScript::Start()
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	forceScript = owner->GetComponent<PlayerForceUseScript>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	//Avoid Y rotation on player this should go on movement not here but
-	rigidBody->GetRigidBody()->setAngularFactor(btVector3(1.0f, 0.0f, 1.0f));
+	jumpScript = owner->GetComponent<PlayerJumpScript>();
 	btRigidbody = rigidBody->GetRigidBody();
 
 	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
@@ -61,7 +44,6 @@ void PlayerMoveScript::Start()
 
 	cameraFrustum = *camera->GetFrustum();
 
-	canDoubleJump ? jumps = 2 : jumps = 1;
 	previousMovements = 0;
 	currentMovements = 0;
 }
@@ -71,82 +53,6 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 	if (!forceScript->IsForceActive())
 	{
 		Move(deltaTime);
-	}
-	if (!grounded && coyoteTimerCount > 0.0f)
-	{
-		coyoteTimerCount -= deltaTime;
-	}
-
-	CheckGround();
-	Jump(deltaTime);
-}
-
-void PlayerMoveScript::CheckGround()
-{
-	RaycastHit hit;
-	btVector3 minPoint, maxPoint;
-	rigidBody->GetRigidBody()->getAabb(minPoint, maxPoint);
-	btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
-	float3 origin = float3((maxPoint.getX() + minPoint.getX()) / 2.0f, minPoint.getY(), (maxPoint.getZ() + minPoint.getZ()) / 2.0f);
-	Ray ray(origin, -(rigidBody->GetOwnerTransform()->GetGlobalUp()));
-	LineSegment line(ray, 0.01f);
-
-	if (Physics::RaycastFirst(line, owner))
-	{
-		grounded = true;
-		isJumping = false;
-		componentAnimation->SetParameter("IsJumping", false);
-		componentAnimation->SetParameter("IsDoubleJumping", false);
-		doubleJumpAvailable = true;
-		coyoteTimerCount = 0.0f;
-	}
-	else
-	{
-		if (grounded)
-		{
-			grounded = false;
-			coyoteTimerCount = coyoteTime;
-		}
-	}
-}
-
-void PlayerMoveScript::Jump(float deltatime)
-{
-	if (canJump)
-	{
-		float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
-		const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
-		const ModuleInput* input = App->GetModule<ModuleInput>();
-		btRigidBody* btRigidbody = rigidBody->GetRigidBody();
-
-		btVector3 movement(0, 1, 0);
-		float3 direction = float3::zero;
-
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && (grounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
-		{
-			btVector3 velocity = btRigidbody->getLinearVelocity();
-			velocity.setY(0.0f);
-			btRigidbody->setLinearVelocity(velocity);
-			btRigidbody->applyCentralImpulse(movement.normalized() * jumpParameter);
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			isJumping = true;
-			componentAnimation->SetParameter("IsJumping", true);
-
-			if (grounded || coyoteTimerCount > 0.0f)
-			{
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
-				SetPlayerState(PlayerActions::JUMPING);
-				grounded = false;
-				coyoteTimerCount = 0.0f;
-			}
-			else
-			{
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
-				componentAnimation->SetParameter("IsDoubleJumping", true);
-				SetPlayerState(PlayerActions::DOUBLEJUMPING);
-				doubleJumpAvailable = false;
-			}
-		}
 	}
 }
 
@@ -220,7 +126,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		if (GetPlayerState() != PlayerActions::WALKING && !isDashing && !isJumping)
+		if (GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded())
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsRunning", true);

@@ -13,6 +13,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/BixAttackScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/GameManager.h"
@@ -45,6 +46,7 @@ void DebugGame::Start()
 	playerHealthSystem = player->GetComponent<HealthSystem>();
 	playerAttackScript = player->GetComponent<BixAttackScript>();
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
+	playerJumpScript = player->GetComponent<PlayerJumpScript>();
 	playerRotationScript = player->GetComponent<PlayerRotationScript>();
 
 	//Teleport Start
@@ -153,20 +155,20 @@ void DebugGame::GodCamera() const
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-	if (!playerMoveScript->IsParalyzed() && playerMoveScript->CanJump())
+	if (!playerMoveScript->IsParalyzed() && playerJumpScript->CanJump())
 	{
 		playerMoveScript->SetIsParalyzed(true);
-		playerMoveScript->SetCanJump(false);
+		playerJumpScript->SetCanJump(false);
 		
 		camera->SetSelectedPosition(1);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
 		LOG_VERBOSE("GOD CAMERA ACTIVATED");
 	}
 
-	else if (playerMoveScript->IsParalyzed() && !playerMoveScript->CanJump())
+	else if (playerMoveScript->IsParalyzed() && !playerJumpScript->CanJump())
 	{
 		playerMoveScript->SetIsParalyzed(false);
-		playerMoveScript->SetCanJump(true);
+		playerJumpScript->SetCanJump(true);
 		
 		camera->SetSelectedPosition(0);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());

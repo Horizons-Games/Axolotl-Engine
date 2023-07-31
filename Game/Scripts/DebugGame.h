@@ -8,6 +8,7 @@ class ComponentTransform;
 class ComponentRigidBody;
 class BixAttackScript;
 class PlayerMoveScript;
+class PlayerJumpScript;
 class PlayerRotationScript;
 class ModuleInput;
 
@@ -44,6 +45,7 @@ private:
 	HealthSystem* playerHealthSystem;
 	BixAttackScript* playerAttackScript;
 	PlayerMoveScript* playerMoveScript;
+	PlayerJumpScript* playerJumpScript;
 	PlayerRotationScript* playerRotationScript;
 	GameObject* setGodCamera;
 
