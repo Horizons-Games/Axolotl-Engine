@@ -117,7 +117,7 @@
                             "removed": true,
                             "static": false,
                             "mouse": false,
-                            "actualPlayer": true
+                            "actualPlayer": false
                         }
                     },
                     {
@@ -451,6 +451,36 @@
                                 {
                                     "name": "ForceAttackBullet",
                                     "value": 5438634526918240499,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "LightFinisherAttackScript",
+                            "fields": [
+                                {
+                                    "name": "BulletPrefab",
+                                    "value": 3383078941631095388,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "StunTime",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "EnemyDetectionObject",
+                                    "value": 11074501752128975196,
                                     "type": 2
                                 }
                             ]
@@ -6374,6 +6404,163 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EnemyDetectionLightAttack",
+                "tag": "",
+                "uid": 11074501752128975196,
+                "parentUID": 3648467155209216193,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -47.531646728515625,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 1.0,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 10.0,
+                            "factor": 1.0,
+                            "height": 2.0,
+                            "rbPos_X": 0.0003662109375,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": -14.259493827819824
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "EntityDetection",
+                            "fields": [
+                                {
+                                    "name": "Player",
+                                    "value": 3648467155209216193,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "InteractionAngle",
+                                    "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "InteractionOffset",
+                                    "value": 1.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bullet",
+                "tag": "",
+                "uid": 3383078941631095388,
+                "parentUID": 3648467155209216193,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.000004235072992742062,
+                            "localPos_Y": 2.401170492172241,
+                            "localPos_Z": 3.4521641731262207,
+                            "localRot_X": -90.00001525878906,
+                            "localRot_Y": -0.00004963254104950465,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.24999985098838806,
+                            "boxSize_Y": 0.4375000596046448,
+                            "boxSize_Z": 0.24999982118606567,
+                            "radius": 4.499998569488525,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0003674814652185887,
+                            "rbPos_Y": 0.7203511595726013,
+                            "rbPos_Z": 1.035649299621582
                         }
                     }
                 ]
