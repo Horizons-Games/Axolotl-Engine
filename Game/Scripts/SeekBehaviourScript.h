@@ -29,8 +29,3 @@ private:
 	ComponentRigidBody* ownerRigidBody;
 	ComponentTransform* ownerTransform;
 };
-
-inline GameObject* SeekBehaviourScript::GetTarget() const
-{
-	return target;
-}

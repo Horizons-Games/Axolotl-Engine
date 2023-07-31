@@ -57,3 +57,8 @@ void SeekBehaviourScript::RotateToTarget() const
 
 	ownerRigidBody->SetRotationTarget(errorRotation);
 }
+
+GameObject* SeekBehaviourScript::GetTarget() const
+{
+	return target;
+}
