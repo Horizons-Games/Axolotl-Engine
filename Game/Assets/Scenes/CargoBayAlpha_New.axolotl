@@ -6211,7 +6211,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -6.684717178344727,
+                            "localPos_X": -6.684715270996094,
                             "localPos_Y": 0.48472392559051514,
                             "localPos_Z": 0.058681488037109375,
                             "localRot_X": 0.0,
@@ -14438,8 +14438,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 10.131704330444336,
-                            "localPos_Y": 0.48472386598587036,
-                            "localPos_Z": 2.964130401611328,
+                            "localPos_Y": 0.48472392559051514,
+                            "localPos_Z": 2.9641380310058594,
                             "localRot_X": -180.0,
                             "localRot_Y": -90.0,
                             "localRot_Z": -180.0,
@@ -23709,8 +23709,8 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": -0.25897216796875,
+                            "localPos_X": 0.003448486328125,
+                            "localPos_Y": 22.692230224609375,
                             "localPos_Z": 2.9097213745117188,
                             "localRot_X": 0.0,
                             "localRot_Y": 180.0,
@@ -45140,10 +45140,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 515.0,
-                            "worldAABB_min_y": 277.5,
-                            "worldAABB_max_x": 515.0,
-                            "worldAABB_max_y": 277.5
+                            "worldAABB_min_x": 614.0,
+                            "worldAABB_min_y": 161.5,
+                            "worldAABB_max_x": 614.0,
+                            "worldAABB_max_y": 161.5
                         }
                     },
                     {
@@ -45235,10 +45235,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45273,10 +45273,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -45326,10 +45326,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45364,10 +45364,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45402,10 +45402,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45440,10 +45440,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -45493,10 +45493,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45531,10 +45531,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -45584,10 +45584,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45622,10 +45622,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 426.3541564941406,
-                            "worldAABB_min_y": 140.88414001464844,
-                            "worldAABB_max_x": 603.6458129882813,
-                            "worldAABB_max_y": 184.82164001464844
+                            "worldAABB_min_x": 562.4097290039063,
+                            "worldAABB_min_y": 81.99202728271484,
+                            "worldAABB_max_x": 665.5902709960938,
+                            "worldAABB_max_y": 107.56285858154297
                         }
                     },
                     {
@@ -45675,10 +45675,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 225.88211059570313,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 267.2501525878906
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 131.4593048095703,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 155.53477478027344
                         }
                     },
                     {
@@ -45800,10 +45800,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 277.6368713378906,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 319.0049133300781
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 161.57965087890625,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 185.65512084960938
                         }
                     },
                     {
@@ -45925,10 +45925,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -45963,10 +45963,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46001,10 +46001,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 329.3916320800781,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 370.7596740722656
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 191.69998168945313,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 215.77545166015625
                         }
                     },
                     {
@@ -46126,10 +46126,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 381.1463928222656,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 422.5144348144531
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 221.82032775878906,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 245.8957977294922
                         }
                     },
                     {
@@ -46251,10 +46251,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 225.88214111328125,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 267.2502136230469
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 131.45933532714844,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 155.53480529785156
                         }
                     },
                     {
@@ -46304,10 +46304,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 277.6368713378906,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 319.0049133300781
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 161.57965087890625,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 185.65512084960938
                         }
                     },
                     {
@@ -46357,10 +46357,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 329.3916320800781,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 370.7596740722656
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 191.69998168945313,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 215.77545166015625
                         }
                     },
                     {
@@ -46410,10 +46410,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 446.5242919921875,
-                            "worldAABB_min_y": 381.1463928222656,
-                            "worldAABB_max_x": 583.4757080078125,
-                            "worldAABB_max_y": 422.5144348144531
+                            "worldAABB_min_x": 574.1483764648438,
+                            "worldAABB_min_y": 221.82032775878906,
+                            "worldAABB_max_x": 653.8516235351563,
+                            "worldAABB_max_y": 245.8957977294922
                         }
                     },
                     {
@@ -46463,10 +46463,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46501,10 +46501,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -46554,10 +46554,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 856.7968139648438,
-                            "worldAABB_min_y": 31.16242790222168,
-                            "worldAABB_max_x": 914.3523559570313,
-                            "worldAABB_max_y": 45.55131530761719
+                            "worldAABB_min_x": 812.9195556640625,
+                            "worldAABB_min_y": 18.135976791381836,
+                            "worldAABB_max_x": 846.4158935546875,
+                            "worldAABB_max_y": 26.51004981994629
                         }
                     },
                     {
@@ -46679,10 +46679,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.666656494140625,
+                            "worldAABB_min_x": 326.8888854980469,
                             "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1008.3333740234375,
-                            "worldAABB_max_y": 555.0
+                            "worldAABB_max_x": 901.111083984375,
+                            "worldAABB_max_y": 323.0
                         }
                     },
                     {
@@ -46732,10 +46732,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46770,10 +46770,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -46808,10 +46808,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 33.71699523925781,
-                            "worldAABB_min_y": 66.69509887695313,
-                            "worldAABB_max_x": 183.51560974121094,
-                            "worldAABB_max_y": 110.11871337890625
+                            "worldAABB_min_x": 333.9019470214844,
+                            "worldAABB_min_y": 38.815345764160156,
+                            "worldAABB_max_x": 421.0820617675781,
+                            "worldAABB_max_y": 64.08710479736328
                         }
                     },
                     {
@@ -46861,10 +46861,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1021.291748046875,
-                            "worldAABB_min_y": 23.381938934326172,
-                            "worldAABB_max_x": 1316.007080078125,
-                            "worldAABB_max_y": 103.03471374511719
+                            "worldAABB_min_x": 908.6527099609375,
+                            "worldAABB_min_y": 13.607868194580078,
+                            "worldAABB_max_x": 1080.171630859375,
+                            "worldAABB_max_y": 59.964351654052734
                         }
                     },
                     {
@@ -46931,10 +46931,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 90.95840454101563,
-                            "worldAABB_min_y": -14.29770278930664,
-                            "worldAABB_max_x": 193.73617553710938,
-                            "worldAABB_max_y": 88.48007202148438
+                            "worldAABB_min_x": 367.21539306640625,
+                            "worldAABB_min_y": -8.321012496948242,
+                            "worldAABB_max_x": 427.03021240234375,
+                            "worldAABB_max_y": 51.493804931640625
                         }
                     },
                     {
@@ -46983,10 +46983,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 33.27436828613281,
-                            "worldAABB_min_y": 6.12938117980957,
-                            "worldAABB_max_x": 251.4202117919922,
-                            "worldAABB_max_y": 68.05299377441406
+                            "worldAABB_min_x": 333.6443176269531,
+                            "worldAABB_min_y": 3.5671825408935547,
+                            "worldAABB_max_x": 460.6012878417969,
+                            "worldAABB_max_y": 39.60560607910156
                         }
                     },
                     {
@@ -47036,10 +47036,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 122.8009033203125,
-                            "worldAABB_min_y": 42.53493881225586,
-                            "worldAABB_max_x": 234.82867431640625,
-                            "worldAABB_max_y": 52.81271743774414
+                            "worldAABB_min_x": 385.7471923828125,
+                            "worldAABB_min_y": 24.754558563232422,
+                            "worldAABB_max_x": 450.9453125,
+                            "worldAABB_max_y": 30.736042022705078
                         }
                     },
                     {
@@ -47089,10 +47089,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 244.131591796875,
-                            "worldAABB_min_y": 21.674518585205078,
-                            "worldAABB_max_x": 256.97882080078125,
-                            "worldAABB_max_y": 52.50785446166992
+                            "worldAABB_min_x": 456.3594665527344,
+                            "worldAABB_min_y": 12.61417293548584,
+                            "worldAABB_max_x": 463.8363342285156,
+                            "worldAABB_max_y": 30.558616638183594
                         }
                     },
                     {
@@ -47158,10 +47158,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 90.95843505859375,
-                            "worldAABB_min_y": -14.297931671142578,
-                            "worldAABB_max_x": 193.7362060546875,
-                            "worldAABB_max_y": 88.47984313964844
+                            "worldAABB_min_x": 367.2154541015625,
+                            "worldAABB_min_y": -8.321134567260742,
+                            "worldAABB_max_x": 427.0302734375,
+                            "worldAABB_max_y": 51.493682861328125
                         }
                     },
                     {
@@ -47210,10 +47210,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 39.569541931152344,
-                            "worldAABB_min_y": 24.243736267089844,
-                            "worldAABB_max_x": 245.12509155273438,
-                            "worldAABB_max_y": 49.93817901611328
+                            "worldAABB_min_x": 337.30804443359375,
+                            "worldAABB_min_y": 14.109420776367188,
+                            "worldAABB_max_x": 456.93768310546875,
+                            "worldAABB_max_y": 29.063125610351563
                         }
                     },
                     {
@@ -47263,10 +47263,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 122.801025390625,
-                            "worldAABB_min_y": 42.53457260131836,
-                            "worldAABB_max_x": 234.82879638671875,
-                            "worldAABB_max_y": 52.81235122680664
+                            "worldAABB_min_x": 385.74725341796875,
+                            "worldAABB_min_y": 24.75436019897461,
+                            "worldAABB_max_x": 450.94537353515625,
+                            "worldAABB_max_y": 30.735843658447266
                         }
                     },
                     {
@@ -47316,10 +47316,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 237.919189453125,
-                            "worldAABB_min_y": 21.67428970336914,
-                            "worldAABB_max_x": 250.76641845703125,
-                            "worldAABB_max_y": 52.507625579833984
+                            "worldAABB_min_x": 452.74395751953125,
+                            "worldAABB_min_y": 12.61405086517334,
+                            "worldAABB_max_x": 460.2208251953125,
+                            "worldAABB_max_y": 30.558494567871094
                         }
                     },
                     {
@@ -47385,10 +47385,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 463.6111145019531,
-                            "worldAABB_min_y": 226.11111450195313,
-                            "worldAABB_max_x": 566.388916015625,
-                            "worldAABB_max_y": 328.8888854980469
+                            "worldAABB_min_x": 584.0925903320313,
+                            "worldAABB_min_y": 131.59259033203125,
+                            "worldAABB_max_x": 643.9074096679688,
+                            "worldAABB_max_y": 191.40740966796875
                         }
                     }
                 ]
@@ -47423,10 +47423,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -47475,10 +47475,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47528,10 +47528,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47581,10 +47581,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 849.7986450195313,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 862.6458129882813,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 808.8468017578125,
+                            "worldAABB_min_y": 266.1759338378906,
+                            "worldAABB_max_x": 816.3236083984375,
+                            "worldAABB_max_y": 284.1203918457031
                         }
                     },
                     {
@@ -47650,10 +47650,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -47702,10 +47702,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47755,10 +47755,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47808,10 +47808,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 909.6320190429688,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 922.4791870117188,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 843.668701171875,
+                            "worldAABB_min_y": 266.1759338378906,
+                            "worldAABB_max_x": 851.1455078125,
+                            "worldAABB_max_y": 284.1203918457031
                         }
                     },
                     {
@@ -47877,10 +47877,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -47929,10 +47929,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -47982,10 +47982,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -48035,10 +48035,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 910.0137939453125,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 922.8609619140625,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 843.890869140625,
+                            "worldAABB_min_y": 266.1759338378906,
+                            "worldAABB_max_x": 851.36767578125,
+                            "worldAABB_max_y": 284.1203918457031
                         }
                     },
                     {
@@ -48104,10 +48104,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 804.8333129882813,
-                            "worldAABB_min_y": 421.3888854980469,
-                            "worldAABB_max_x": 907.6111450195313,
-                            "worldAABB_max_y": 524.1666870117188
+                            "worldAABB_min_x": 782.6777954101563,
+                            "worldAABB_min_y": 245.24075317382813,
+                            "worldAABB_max_x": 842.4926147460938,
+                            "worldAABB_max_y": 305.0555725097656
                         }
                     },
                     {
@@ -48156,10 +48156,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -48209,10 +48209,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 795.5833129882813,
-                            "worldAABB_min_y": 412.1388854980469,
-                            "worldAABB_max_x": 916.8611450195313,
-                            "worldAABB_max_y": 533.4166870117188
+                            "worldAABB_min_x": 777.29443359375,
+                            "worldAABB_min_y": 239.857421875,
+                            "worldAABB_max_x": 847.8759765625,
+                            "worldAABB_max_y": 310.43890380859375
                         }
                     },
                     {
@@ -48262,10 +48262,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 950.1719970703125,
-                            "worldAABB_min_y": 457.3611145019531,
-                            "worldAABB_max_x": 963.0191650390625,
-                            "worldAABB_max_y": 488.1944274902344
+                            "worldAABB_min_x": 867.2623291015625,
+                            "worldAABB_min_y": 266.1759338378906,
+                            "worldAABB_max_x": 874.7391357421875,
+                            "worldAABB_max_y": 284.1203918457031
                         }
                     },
                     {
@@ -48332,7 +48332,7 @@
         },
         {
             "GameObject": {
-                "name": "Ground",
+                "name": "MaintenanceGroundCollider",
                 "tag": "",
                 "uid": 2354518731527130767,
                 "parentUID": 13949816033080031337,
@@ -48362,7 +48362,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": true,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -48373,9 +48373,9 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 4.0,
+                            "boxSize_X": 4.5,
                             "boxSize_Y": 3.0,
-                            "boxSize_Z": 20.0,
+                            "boxSize_Z": 27.0,
                             "radius": 3.464101552963257,
                             "factor": 0.5,
                             "height": 2.0,
@@ -51941,7 +51941,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": -0.015625,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -52101,9 +52101,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -41.98085021972656,
-                            "localPos_Y": 2.4032418727874756,
-                            "localPos_Z": -1.7647366523742676,
+                            "localPos_X": -41.66990661621094,
+                            "localPos_Y": 2.416048526763916,
+                            "localPos_Z": -1.4487488269805908,
                             "localRot_X": 0.0,
                             "localRot_Y": 90.0,
                             "localRot_Z": 90.0,
@@ -52140,7 +52140,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -41.98085021972656,
+                            "localPos_X": -41.69134521484375,
                             "localPos_Y": 2.4032418727874756,
                             "localPos_Z": 22.584442138671875,
                             "localRot_X": 90.0,
@@ -52179,7 +52179,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -41.98085021972656,
+                            "localPos_X": -41.65597152709961,
                             "localPos_Y": 2.4032418727874756,
                             "localPos_Z": 14.724528312683105,
                             "localRot_X": 90.0,
@@ -52218,9 +52218,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -41.98085021972656,
+                            "localPos_X": -41.65764617919922,
                             "localPos_Y": 2.4032418727874756,
-                            "localPos_Z": 6.29667854309082,
+                            "localPos_Z": 6.627422332763672,
                             "localRot_X": 90.0,
                             "localRot_Y": 90.0,
                             "localRot_Z": 0.0,
@@ -55810,7 +55810,7 @@
                             "removed": false,
                             "localPos_X": 566.910888671875,
                             "localPos_Y": 0.0,
-                            "localPos_Z": -4.625648498535156,
+                            "localPos_Z": -4.625640869140625,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -63226,403 +63226,6 @@
             "GameObject": {
                 "name": "Sewers_Door",
                 "tag": "",
-                "uid": 7295538279784518410,
-                "parentUID": 11261590167426083770,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -36.3588981628418,
-                            "localPos_Y": 0.3463533818721771,
-                            "localPos_Z": 4.866064071655273,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 90.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.3800000250339508,
-                            "localSca_Y": 0.3799999952316284,
-                            "localSca_Z": 0.3800000250339508
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "RootNode",
-                "tag": "",
-                "uid": 4578730607963105841,
-                "parentUID": 7295538279784518410,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Armature.001",
-                "tag": "",
-                "uid": 1262575946067545407,
-                "parentUID": 4578730607963105841,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.03651418164372444,
-                            "localPos_Y": 2.651883602142334,
-                            "localPos_Z": -0.2312466949224472,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 0.6859999895095825,
-                            "localSca_Y": 0.6859999895095825,
-                            "localSca_Z": 0.6859999895095825
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bone",
-                "tag": "",
-                "uid": 5780678255162236099,
-                "parentUID": 1262575946067545407,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.01694955863058567,
-                            "localPos_Y": -1.5254691479646545e-16,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 90.00000762939453,
-                            "localRot_Y": 0.00000853773599374108,
-                            "localRot_Z": 89.99999237060547,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bone_end",
-                "tag": "",
-                "uid": 6284787405534278686,
-                "parentUID": 5780678255162236099,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 3.1119699478149414,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bone.001",
-                "tag": "",
-                "uid": 15116982448852449599,
-                "parentUID": 1262575946067545407,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.000024133018087013625,
-                            "localRot_Y": -0.3951369524002075,
-                            "localRot_Z": -90.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Bone.001_end",
-                "tag": "",
-                "uid": 2365168100573924615,
-                "parentUID": 15116982448852449599,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 3.163662910461426,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DoorFrameLow",
-                "tag": "",
-                "uid": 14985003683534117095,
-                "parentUID": 4578730607963105841,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Sewers_Door.Cube.005_0",
-                "tag": "",
-                "uid": 1248012977644253381,
-                "parentUID": 14985003683534117095,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 273990002451909912,
-                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
-                            "materialUID": 1254595067635176042,
-                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DoorFace1Low",
-                "tag": "",
-                "uid": 2464482286086954351,
-                "parentUID": 4578730607963105841,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Sewers_Door.Cube.013_0",
-                "tag": "",
-                "uid": 2572601107799213650,
-                "parentUID": 2464482286086954351,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 8095936708231646096,
-                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
-                            "materialUID": 17339762849788395001,
-                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "DoorFace2Low",
-                "tag": "",
-                "uid": 5172737296164809016,
-                "parentUID": 4578730607963105841,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Sewers_Door.Cube.018_0",
-                "tag": "",
-                "uid": 8857825205269265442,
-                "parentUID": 5172737296164809016,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 5444897470412059444,
-                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
-                            "materialUID": 17339762849788395001,
-                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Sewers_Door",
-                "tag": "",
                 "uid": 9666053857209694788,
                 "parentUID": 11261590167426083770,
                 "enabled": true,
@@ -64021,7 +63624,7 @@
                 "name": "futuristic_building",
                 "tag": "",
                 "uid": 994144398561879967,
-                "parentUID": 15187250038281708079,
+                "parentUID": 14393523532892841179,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -64033,9 +63636,9 @@
                             "localPos_X": 36.242454528808594,
                             "localPos_Y": 19.196582794189453,
                             "localPos_Z": 3.426689386367798,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 0.07999999821186066,
                             "localSca_Y": 0.07999999821186066,
                             "localSca_Z": 0.07999999821186066
@@ -64117,9 +63720,9 @@
                             "localPos_X": 3.891021728515625,
                             "localPos_Y": 5.3830885887146,
                             "localPos_Z": 1.1172869205474854,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 180.0,
+                            "localRot_X": 7.076775654612455e-27,
+                            "localRot_Y": -1.618977540428334e-19,
+                            "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -64156,9 +63759,9 @@
                             "localPos_X": 3.891021728515625,
                             "localPos_Y": -2.414698362350464,
                             "localPos_Z": 0.23002243041992188,
-                            "localRot_X": 1.0606876205367985e-27,
-                            "localRot_Y": -2.426570516076106e-20,
-                            "localRot_Z": -179.99998474121094,
+                            "localRot_X": -1.260537110708825e-25,
+                            "localRot_Y": 6.474014367146941e-19,
+                            "localRot_Z": -179.99996948242188,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -70208,7 +69811,7 @@
                             "active": true,
                             "removed": true,
                             "isKinematic": false,
-                            "isTrigger": true,
+                            "isTrigger": false,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -70303,6 +69906,2829 @@
                             "shapeRadius": 0.03999999910593033,
                             "height": 0.8500000238418579,
                             "attRadius": 2.2200000286102295
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorPrefab",
+                "tag": "",
+                "uid": 9603806846029182941,
+                "parentUID": 15187250038281708079,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -64.15498352050781,
+                            "localPos_Y": 0.6914129853248596,
+                            "localPos_Z": 5.925925254821777,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.550000011920929,
+                            "localSca_Y": 0.550000011920929,
+                            "localSca_Z": 0.550000011920929
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 0.10000000149011612
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door",
+                "tag": "",
+                "uid": 10104218965545317807,
+                "parentUID": 9603806846029182941,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0000001192092896
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 15968547123337228130,
+                            "assetPathState": "Assets/StateMachine/DoorState.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 4.5,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": -1.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -66.65499877929688,
+                            "rbPos_Y": 2.690999984741211,
+                            "rbPos_Z": 7.426000118255615
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 9069651719702080789,
+                "parentUID": 10104218965545317807,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature.001",
+                "tag": "",
+                "uid": 9803583252066107495,
+                "parentUID": 9069651719702080789,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.03651418164372444,
+                            "localPos_Y": 2.651883602142334,
+                            "localPos_Z": -0.2312466949224472,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.6859999895095825,
+                            "localSca_Y": 0.6859999895095825,
+                            "localSca_Z": 0.6859999895095825
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 8074951439572781859,
+                "parentUID": 9803583252066107495,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.01694955863058567,
+                            "localPos_Y": -1.5254691479646545e-16,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.00000853773599374108,
+                            "localRot_Z": 89.99999237060547,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 12274346894527392110,
+                "parentUID": 8074951439572781859,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.1119699478149414,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001",
+                "tag": "",
+                "uid": 14992548338271558091,
+                "parentUID": 9803583252066107495,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.000024133018087013625,
+                            "localRot_Y": -0.3951369524002075,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone.001_end",
+                "tag": "",
+                "uid": 9815811761842373801,
+                "parentUID": 14992548338271558091,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 3.163662910461426,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFrameLow",
+                "tag": "",
+                "uid": 12249477943939847221,
+                "parentUID": 9069651719702080789,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.005_0",
+                "tag": "",
+                "uid": 3414679431413049326,
+                "parentUID": 12249477943939847221,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 273990002451909912,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.005_0.mesh",
+                            "materialUID": 1254595067635176042,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace1Low",
+                "tag": "",
+                "uid": 12161604748252733541,
+                "parentUID": 9069651719702080789,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.013_0",
+                "tag": "",
+                "uid": 17446715469528633639,
+                "parentUID": 12161604748252733541,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 8095936708231646096,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.013_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorFace2Low",
+                "tag": "",
+                "uid": 6056476619817234100,
+                "parentUID": 9069651719702080789,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sewers_Door.Cube.018_0",
+                "tag": "",
+                "uid": 14275176203496590528,
+                "parentUID": 6056476619817234100,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5444897470412059444,
+                            "assetPathMesh": "Assets/Meshes/Sewers_Door.Cube.018_0.mesh",
+                            "materialUID": 17339762849788395001,
+                            "assetPathMaterial": "Assets/Materials/Sewers_DoorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 17115860889914469585,
+                "parentUID": 10104218965545317807,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.8000001907348633,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 4.0,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": 0.5,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -64.15498352050781,
+                            "rbPos_Y": 2.2314131259918213,
+                            "rbPos_Z": 5.925925254821777
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cable",
+                "tag": "",
+                "uid": 7644233118461153134,
+                "parentUID": 15600107052431984385,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 60.924583435058594,
+                            "localPos_Y": 3.067498207092285,
+                            "localPos_Z": -13.449922561645508,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 7.41204309463501,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0000004768371582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17022517207980588013,
+                            "assetPathMesh": "Assets/Meshes/Cable.BezierCurve_0.mesh",
+                            "materialUID": 15124594047840578314,
+                            "assetPathMaterial": "Assets/Materials/Cable.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cables",
+                "tag": "",
+                "uid": 15600107052431984385,
+                "parentUID": 4025433957163275227,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cable",
+                "tag": "",
+                "uid": 1143425113921324020,
+                "parentUID": 15600107052431984385,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -66.52376556396484,
+                            "localPos_Y": 1.5480788946151733,
+                            "localPos_Z": 39.97730255126953,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 0.30157914757728577,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0000003576278687
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17022517207980588013,
+                            "assetPathMesh": "Assets/Meshes/Cable.BezierCurve_0.mesh",
+                            "materialUID": 15124594047840578314,
+                            "assetPathMaterial": "Assets/Materials/Cable.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cable",
+                "tag": "",
+                "uid": 3377136699975078640,
+                "parentUID": 15600107052431984385,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 60.924583435058594,
+                            "localPos_Y": 14.244436264038086,
+                            "localPos_Z": -13.449922561645508,
+                            "localRot_X": -180.0,
+                            "localRot_Y": 89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 7.412042140960693,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17022517207980588013,
+                            "assetPathMesh": "Assets/Meshes/Cable.BezierCurve_0.mesh",
+                            "materialUID": 15124594047840578314,
+                            "assetPathMaterial": "Assets/Materials/Cable.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MaintenanceWallCollider",
+                "tag": "",
+                "uid": 7913365217732089129,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -73.94023895263672,
+                            "localPos_Y": 3.2653250694274902,
+                            "localPos_Z": 29.445682525634766,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.7763482332229614,
+                            "localSca_Y": 0.4255344569683075,
+                            "localSca_Z": 0.5297127366065979
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.0,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": 18.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -73.94023895263672,
+                            "rbPos_Y": 2.765000104904175,
+                            "rbPos_Z": 14.946000099182129
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MaintenanceWallCollider",
+                "tag": "",
+                "uid": 11706122464678595413,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -64.75381469726563,
+                            "localPos_Y": 3.2653250694274902,
+                            "localPos_Z": 29.445682525634766,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.7763482332229614,
+                            "localSca_Y": 0.4255344569683075,
+                            "localSca_Z": 0.5297127366065979
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.0,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": 26.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -64.75381469726563,
+                            "rbPos_Y": 3.2653250694274902,
+                            "rbPos_Z": 16.445999145507813
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MaintenanceWallCollider",
+                "tag": "",
+                "uid": 16113900771741547821,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -69.27192687988281,
+                            "localPos_Y": 3.2653250694274902,
+                            "localPos_Z": 38.61788558959961,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.7763482332229614,
+                            "localSca_Y": 0.4255344569683075,
+                            "localSca_Z": 0.5297127366065979
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 5.5,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": -0.5,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -69.27192687988281,
+                            "rbPos_Y": 3.2653250694274902,
+                            "rbPos_Z": 38.61788558959961
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MaintenanceWallCollider",
+                "tag": "",
+                "uid": 12420072111270599413,
+                "parentUID": 13949816033080031337,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -69.27192687988281,
+                            "localPos_Y": 2.563366413116455,
+                            "localPos_Z": -2.0774776935577393,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.7763482332229614,
+                            "localSca_Y": 0.4255344569683075,
+                            "localSca_Z": 0.5297127366065979
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 5.5,
+                            "boxSize_Y": 2.5,
+                            "boxSize_Z": -0.5,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -69.27192687988281,
+                            "rbPos_Y": 2.563366413116455,
+                            "rbPos_Z": -2.0774776935577393
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 14393523532892841179,
+                "parentUID": 4025433957163275227,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building_2",
+                "tag": "",
+                "uid": 7301614010413637533,
+                "parentUID": 14393523532892841179,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 123.43976593017578,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -22.754043579101563,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.07999999821186066,
+                            "localSca_Y": 0.07999999821186066,
+                            "localSca_Z": 0.07999999821186066
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 6249801751497652200,
+                "parentUID": 7301614010413637533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Sphere",
+                "tag": "",
+                "uid": 11895195469551643074,
+                "parentUID": 6249801751497652200,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 383.441650390625,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 132.29989624023438,
+                            "localSca_Y": 132.29989624023438,
+                            "localSca_Z": 159.045166015625
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_building_2.Sphere_0",
+                "tag": "",
+                "uid": 6713241244376256475,
+                "parentUID": 11895195469551643074,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.884984970092773,
+                            "localPos_Y": 1.6982510089874268,
+                            "localPos_Z": 1.0715491771697998,
+                            "localRot_X": -1.0146368337529688e-12,
+                            "localRot_Y": -1.5214572494665762e-13,
+                            "localRot_Z": 14.222267150878906,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14177223285250935125,
+                            "assetPathMesh": "Assets/Meshes/futuristic_building_2.Sphere_0.mesh",
+                            "materialUID": 11924061051500889765,
+                            "assetPathMaterial": "Assets/Materials/futuristic_building_2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 1099621302478976977,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.259002685546875,
+                            "localPos_Z": 2.9097213745117188,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956122765085,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 4725334149553360037,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0148468017578125,
+                            "localPos_Y": -370.80401611328125,
+                            "localPos_Z": 2.909637451171875,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956122765085,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 12014272326612832220,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00006103515625,
+                            "localPos_Y": -22.2635498046875,
+                            "localPos_Z": 2.9096832275390625,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 7003049202334507010,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00006103515625,
+                            "localPos_Y": -44.69451904296875,
+                            "localPos_Z": 2.9096755981445313,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 15066012355353649775,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0002899169921875,
+                            "localPos_Y": -68.78720092773438,
+                            "localPos_Z": 2.9096755981445313,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 6094063303909769507,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.003326416015625,
+                            "localPos_Y": -91.56060791015625,
+                            "localPos_Z": 2.9096755981445313,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 7708955494213387698,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00592041015625,
+                            "localPos_Y": -115.07673645019531,
+                            "localPos_Z": 2.90966796875,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 13142916221506030478,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0061187744140625,
+                            "localPos_Y": -137.5591278076172,
+                            "localPos_Z": 2.90966796875,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 15129781944860336373,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -64.66715240478516,
+                            "localPos_Y": -161.59747314453125,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": 180.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 8154041649225386038,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0061798095703125,
+                            "localPos_Y": -184.7112579345703,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 3896715151247851085,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00787353515625,
+                            "localPos_Y": -207.942138671875,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 172300347022852874,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0096588134765625,
+                            "localPos_Y": -230.72328186035156,
+                            "localPos_Z": 2.9096527099609375,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 11331818073013965372,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.010284423828125,
+                            "localPos_Y": -254.1873779296875,
+                            "localPos_Z": 2.9096527099609375,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 14503451649182650451,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.010284423828125,
+                            "localPos_Y": -277.47003173828125,
+                            "localPos_Z": 2.9096527099609375,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 10747537659141553580,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.010284423828125,
+                            "localPos_Y": -301.0218200683594,
+                            "localPos_Z": 2.9096450805664063,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 14310689059423635491,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.010345458984375,
+                            "localPos_Y": -323.9714660644531,
+                            "localPos_Z": 2.9096450805664063,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 12798943713683114349,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.012451171875,
+                            "localPos_Y": -347.1504211425781,
+                            "localPos_Z": 2.9096450805664063,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 11657133907113046082,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0061798095703125,
+                            "localPos_Y": -161.58541870117188,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -0.000005008956577512436,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 3246794156256098841,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -20.378921508789063,
+                            "localPos_Y": -161.58950805664063,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 3288447611367700915,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -42.18717956542969,
+                            "localPos_Y": -161.59251403808594,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 17199500250569129239,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": 23.5068359375,
+                            "localPos_Z": 2.9096832275390625,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 1301654476947424387,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -88.07275390625,
+                            "localPos_Y": -161.60244750976563,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.000000238418579,
+                            "localSca_Y": 1.000000238418579,
+                            "localSca_Z": 1.0000004768371582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 10948984485100857839,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -110.9395751953125,
+                            "localPos_Y": -161.60464477539063,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.000000238418579,
+                            "localSca_Y": 1.000000238418579,
+                            "localSca_Z": 1.0000004768371582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 18198169056990239654,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -134.48416137695313,
+                            "localPos_Y": -161.60638427734375,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.000000238418579,
+                            "localSca_Y": 1.000000238418579,
+                            "localSca_Z": 1.0000004768371582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 11225627060505940549,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -157.60682678222656,
+                            "localPos_Y": -161.60763549804688,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.000000238418579,
+                            "localSca_Y": 1.000000238418579,
+                            "localSca_Z": 1.0000004768371582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 1101420369282632294,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -180.483154296875,
+                            "localPos_Y": -161.6101837158203,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99998474121094,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.000000238418579,
+                            "localSca_Y": 1.000000238418579,
+                            "localSca_Z": 1.0000004768371582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 7631506906187795309,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -203.94911193847656,
+                            "localPos_Y": -161.6134490966797,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 4.07110976874403e-12,
+                            "localRot_Z": 90.00001525878906,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 12662783834583176646,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.69940185546875,
+                            "localPos_Y": -370.4391174316406,
+                            "localPos_Z": 2.909637451171875,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 5.742908844037386e-20,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 3402934604975678659,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.70387268066406,
+                            "localPos_Y": -103.204833984375,
+                            "localPos_Z": 2.90966796875,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 5.742908844037386e-20,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 7853970743548700160,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -79.72805786132813,
+                            "localPos_Z": 2.9096755981445313,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 5.742908844037386e-20,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 10042882577506445457,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -57.411285400390625,
+                            "localPos_Z": 2.9096755981445313,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 5.742908844037386e-20,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 1759201182160762573,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -33.26910400390625,
+                            "localPos_Z": 2.9096755981445313,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 5.742908844037386e-20,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 17453371964124285664,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -21.27203369140625,
+                            "localPos_Z": 2.9096832275390625,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 5.742908844037386e-20,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 10577810925219093573,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": 0.37799072265625,
+                            "localPos_Z": 2.9096832275390625,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 5.742908844037386e-20,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 12328669570425104785,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -126.71296691894531,
+                            "localPos_Z": 2.90966796875,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 2481198805871498900,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -150.11376953125,
+                            "localPos_Z": 2.90966796875,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 13474257811533250856,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -173.55421447753906,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 15751366446165171112,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -185.54983520507813,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 11216300644629081813,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -207.27552795410156,
+                            "localPos_Z": 2.9096603393554688,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 5988095847605420997,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -231.23719787597656,
+                            "localPos_Z": 2.9096527099609375,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 6175416255131912046,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -254.46543884277344,
+                            "localPos_Z": 2.9096527099609375,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 53501891873497013,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.703857421875,
+                            "localPos_Y": -277.6134948730469,
+                            "localPos_Z": 2.9096527099609375,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 11747507484718564775,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.70387268066406,
+                            "localPos_Y": -300.2025146484375,
+                            "localPos_Z": 2.9096450805664063,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 15283234193264097151,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.70216369628906,
+                            "localPos_Y": -324.13482666015625,
+                            "localPos_Z": 2.9096450805664063,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv1_CargoBay_RunWay2.Plane_0",
+                "tag": "",
+                "uid": 14108621284719201050,
+                "parentUID": 6027072155000300080,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -226.6995391845703,
+                            "localPos_Y": -347.8125,
+                            "localPos_Z": 2.9096450805664063,
+                            "localRot_X": -179.99996948242188,
+                            "localRot_Y": 1.0596050522424452e-19,
+                            "localRot_Z": -2.035554613321472e-13,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0000001192092896,
+                            "localSca_Z": 1.000000238418579
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15977380284995518079,
+                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Plane_0.mesh",
+                            "materialUID": 11672608962265971492,
+                            "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Material.001_0.mat"
                         }
                     }
                 ]
