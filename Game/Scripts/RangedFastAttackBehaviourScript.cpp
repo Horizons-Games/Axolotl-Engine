@@ -66,7 +66,7 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
-	// Attack the DroneFastBullet script to the new bullet to give it its logic
+	// Attach the RangedFastAttackBullet script to the new bullet to give it its logic
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
 	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
 	script->SetConstuctor("RangedFastAttackBullet");
@@ -77,7 +77,6 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
-
 
 	lastAttackTime = SDL_GetTicks() / 1000.0f;
 	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);

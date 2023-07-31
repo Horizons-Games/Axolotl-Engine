@@ -503,9 +503,6 @@
     <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClCompile>
@@ -620,6 +617,15 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\JumpFinisherAttackBullet.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\JumpFinisherArea.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\JumpFinisherAttack.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1138,9 +1144,6 @@
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
-      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
@@ -1277,6 +1280,7 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
@@ -1286,6 +1290,15 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\LightFinisherAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\JumpFinisherAttackBullet.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\JumpFinisherArea.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\JumpFinisherAttack.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1441,6 +1454,18 @@
     </Filter>
     <Filter Include="UserScripts\Graphics">
       <UniqueIdentifier>{fca70cf2-3a20-410d-9019-42e680fad56c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers">
+      <UniqueIdentifier>{95956bcd-4590-450a-bfa6-c241526da8d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher">
+      <UniqueIdentifier>{f3f3b7da-35e8-433d-a186-ad371f8f6b14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher">
+      <UniqueIdentifier>{44e2eb3a-410c-463a-bcc8-4a5b8b69005e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher">
+      <UniqueIdentifier>{62400d05-b28f-42d0-8554-b11dc997773a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
