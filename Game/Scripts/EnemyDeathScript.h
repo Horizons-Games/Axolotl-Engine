@@ -5,8 +5,6 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class EntityDetection;
-
 class EnemyDeathScript : public Script
 {
 public:
@@ -27,6 +25,4 @@ private:
 
 	float despawnTimer;
 	bool startDespawnTimer;
-
-	EntityDetection* entityDetectionScript;
 };

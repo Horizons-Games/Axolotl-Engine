@@ -48,7 +48,6 @@ BixAttackScript::BixAttackScript() : Script(),
 
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(enemyDetectionObject, GameObject*);
-	//--Provisional
 }
 
 void BixAttackScript::Start()
