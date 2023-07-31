@@ -481,6 +481,9 @@
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="Scripting\Script.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>

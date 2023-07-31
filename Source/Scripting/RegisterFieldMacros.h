@@ -4,29 +4,29 @@
 #include <ranges>
 
 // The parameter name must be the exact name of the field inside the class
-#define REGISTER_FIELD(name, Type)                                             \
-	this->members.push_back(axo::scripting::detail::fields::CreateField<Type>( \
-		#name,                                                                 \
-		[this]()                                                               \
-		{                                                                      \
-			return this->##name;                                               \
-		},                                                                     \
-		[this](Type value)                                                     \
-		{                                                                      \
-			this->##name = value;                                              \
+#define REGISTER_FIELD(name, Type)                                     \
+	this->AddMember(axo::scripting::detail::fields::CreateField<Type>( \
+		#name,                                                         \
+		[this]()                                                       \
+		{                                                              \
+			return this->##name;                                       \
+		},                                                             \
+		[this](Type value)                                             \
+		{                                                              \
+			this->##name = value;                                      \
 		}));
 
 // The parameter Name must be one such that Get{Name} and Set{Name} functions exist as members of the class
-#define REGISTER_FIELD_WITH_ACCESSORS(Name, Type)                              \
-	this->members.push_back(axo::scripting::detail::fields::CreateField<Type>( \
-		#Name,                                                                 \
-		[this]()                                                               \
-		{                                                                      \
-			return Get##Name();                                                \
-		},                                                                     \
-		[this](Type value)                                                     \
-		{                                                                      \
-			Set##Name(value);                                                  \
+#define REGISTER_FIELD_WITH_ACCESSORS(Name, Type)                      \
+	this->AddMember(axo::scripting::detail::fields::CreateField<Type>( \
+		#Name,                                                         \
+		[this]()                                                       \
+		{                                                              \
+			return Get##Name();                                        \
+		},                                                             \
+		[this](Type value)                                             \
+		{                                                              \
+			Set##Name(value);                                          \
 		}));
 
 namespace axo::scripting::detail
