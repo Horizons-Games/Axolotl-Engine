@@ -301,28 +301,31 @@ void WindowComponentScript::DrawWindowContents()
 
 				std::vector<std::any> vectorValue = vectorField.getter();
 
-				ImVec2 startingPos = ImGui::GetCursorPos();
-
-				ImGui::Text(vectorField.name.c_str());
-				ImGui::SameLine();
-				if (ImGui::Button(("+##" + vectorField.name).c_str()))
 				{
-					vectorValue.emplace_back();
-				}
-				ImGui::SameLine();
-				if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
-				{
-					vectorValue.pop_back();
-				}
+					ImVec2 startingPos = ImGui::GetCursorScreenPos();
 
-				widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
+					ImGui::Text(vectorField.name.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button(("+##" + vectorField.name).c_str()))
+					{
+						vectorValue.emplace_back();
+					}
+					ImGui::SameLine();
+					if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
+					{
+						vectorValue.pop_back();
+					}
+
+					widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
+				}
 
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
 					ImGui::Indent();
+					ImVec2 startingPos = ImGui::GetCursorScreenPos();
 					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
 					// add the rect of each field
-					widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+					widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
 					ImGui::Unindent();
 				}
 
