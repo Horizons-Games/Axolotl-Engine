@@ -22,7 +22,6 @@ LightFinisherAttackScript::LightFinisherAttackScript()
 	bulletVelocity(15.0f),
 	stunTime(2.0f),
 	enemyDetection(nullptr),
-	//enemyDetectionObject(nullptr),
 	currentCooldown(0.0f),
 	cooldown(2.0f)
 {
@@ -34,7 +33,6 @@ LightFinisherAttackScript::LightFinisherAttackScript()
 
 void LightFinisherAttackScript::Start()
 {
-	//enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 }
 

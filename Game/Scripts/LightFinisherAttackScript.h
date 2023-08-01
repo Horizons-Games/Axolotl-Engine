@@ -25,5 +25,4 @@ private:
 
 	Scene* loadedScene;
 	EntityDetection* enemyDetection;
-	//GameObject* enemyDetectionObject;
 };
