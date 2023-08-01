@@ -22,19 +22,19 @@ LightFinisherAttackScript::LightFinisherAttackScript()
 	bulletVelocity(15.0f),
 	stunTime(2.0f),
 	enemyDetection(nullptr),
-	enemyDetectionObject(nullptr),
+	//enemyDetectionObject(nullptr),
 	currentCooldown(0.0f),
 	cooldown(2.0f)
 {
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(stunTime, float);
-	REGISTER_FIELD(enemyDetectionObject, GameObject*);
+	REGISTER_FIELD(enemyDetection, EntityDetection*);
 }
 
 void LightFinisherAttackScript::Start()
 {
-	enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
+	//enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 }
 

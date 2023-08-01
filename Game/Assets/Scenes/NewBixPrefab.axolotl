@@ -479,7 +479,7 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "EnemyDetectionObject",
+                                    "name": "EnemyDetection",
                                     "value": 11074501752128975196,
                                     "type": 2
                                 }
