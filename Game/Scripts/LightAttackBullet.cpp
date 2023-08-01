@@ -34,7 +34,6 @@ void LightAttackBullet::Start()
 
 	rigidBody->Enable();
 	rigidBody->SetDefaultPosition();
-	rigidBody->SetKpForce(velocity);
 }
 
 void LightAttackBullet::Update(float deltaTime)
@@ -45,7 +44,7 @@ void LightAttackBullet::Update(float deltaTime)
 void LightAttackBullet::SetBulletVelocity(float nVelocity)
 {
 	velocity = nVelocity;
-
+	rigidBody->SetKpForce(velocity);
 }
 
 void LightAttackBullet::SetStunTime(float nStunTime)

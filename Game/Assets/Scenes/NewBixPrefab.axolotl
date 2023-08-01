@@ -6519,7 +6519,7 @@
                     {
                         "Component": {
                             "type": "Component_MeshRenderer",
-                            "active": true,
+                            "active": false,
                             "removed": true,
                             "meshUID": 3457435429278227001,
                             "assetPathMesh": "Assets/Meshes/Capsule.mesh",
@@ -6561,6 +6561,15 @@
                             "rbPos_X": 0.0003674814652185887,
                             "rbPos_Y": 0.7203511595726013,
                             "rbPos_Z": 1.035649299621582
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "LightAttackBullet",
+                            "fields": null
                         }
                     }
                 ]

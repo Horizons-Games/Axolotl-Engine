@@ -69,19 +69,10 @@ bool LightFinisherAttackScript::PerformAttack()
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
-	// Attack the DroneFastBullet script to the new bullet to give it its logic
-	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-	script->SetScript(App->GetScriptFactory()->ConstructScript("LightAttackBullet"));
-	script->SetConstuctor("LightAttackBullet");
-	script->GetScript()->SetOwner(bullet);
-	script->GetScript()->SetApplication(App);
-
 	bullet->GetComponent<LightAttackBullet>()->SetBulletVelocity(bulletVelocity);
 	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
 	bullet->GetComponent<LightAttackBullet>()->SetStunTime(stunTime);
 
-	// Once the engine automatically runs the Start() for newly created objects, delete this line
-	script->Start();
 
 	//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
 

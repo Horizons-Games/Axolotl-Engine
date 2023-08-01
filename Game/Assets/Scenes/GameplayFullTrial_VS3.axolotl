@@ -24624,6 +24624,15 @@
                             "rbPos_Y": 0.7203463315963745,
                             "rbPos_Z": -13.513319969177246
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "LightAttackBullet",
+                            "fields": null
+                        }
                     }
                 ]
             }
