@@ -91,8 +91,16 @@ void WindowComponentTrail::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 
 			float width = componentTrail->GetWidth();
-			if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 100.0f))
+			if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 25.0f))
 			{
+				if (width > 25.f)
+				{
+					width = 25.f;
+				}
+				else if (width < 1.f)
+				{
+					width = 1.f;
+				}
 				componentTrail->SetWidth(width);
 			}
 
