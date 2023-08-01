@@ -33,6 +33,7 @@ public:
 
 	bool IsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);
+
 	bool IsAttacking() const;
 	void SetIsAttacking(bool isAttacking);
 

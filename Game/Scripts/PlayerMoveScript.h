@@ -16,16 +16,14 @@ class ComponentRigidBody;
 class PlayerManagerScript;
 class PlayerJumpScript;
 class PlayerForceUseScript;
+class BixAttackScript;
 class btRigidBody;
 
 enum class PlayerActions
 {
     IDLE,
     WALKING,
-	JUMPING,
-	DOUBLEJUMPING,
 	DASHING,
-	ATTACKING
 };
 
 enum MovementFlag
@@ -79,6 +77,7 @@ private:
 	ModuleInput* input;
 	
 	PlayerJumpScript* jumpScript;
+	BixAttackScript* bixAttackScript;
 
 	int previousMovements;
 	int currentMovements;

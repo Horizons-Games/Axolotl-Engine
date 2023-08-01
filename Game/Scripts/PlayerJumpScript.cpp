@@ -103,7 +103,6 @@ void PlayerJumpScript::Jump(float deltatime)
 			btRb->setLinearVelocity(velocity);
 			btRb->applyCentralImpulse(movement.normalized() * jumpParameter);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			moveScript->SetPlayerState(PlayerActions::JUMPING);
 			componentAnimation->SetParameter("IsJumping", true);
 			isJumping = true;
 
@@ -117,7 +116,6 @@ void PlayerJumpScript::Jump(float deltatime)
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsDoubleJumping", true);
-				moveScript->SetPlayerState(PlayerActions::DOUBLEJUMPING);
 				doubleJumpAvailable = false;
 			}
 		}

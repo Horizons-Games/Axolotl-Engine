@@ -14,8 +14,10 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/PlayerJumpScript.h"
+#include "../Scripts/BixAttackScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
+#include <AxoLog.h>
 
 REGISTERCLASS(PlayerMoveScript);
 
@@ -37,6 +39,7 @@ void PlayerMoveScript::Start()
 	forceScript = owner->GetComponent<PlayerForceUseScript>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	jumpScript = owner->GetComponent<PlayerJumpScript>();
+	bixAttackScript = owner->GetComponent<BixAttackScript>();
 	btRigidbody = rigidBody->GetRigidBody();
 
 	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
@@ -126,7 +129,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		if (GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded())
+		if (GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && !bixAttackScript->IsAttacking())
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsRunning", true);
@@ -142,7 +145,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN && canDash && GetPlayerState() != PlayerActions::ATTACKING)
+	if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN && canDash && !bixAttackScript->IsAttacking())
 	{
 		if (!isDashing)
 		{

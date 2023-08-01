@@ -116,8 +116,6 @@ void BixAttackScript::Update(float deltaTime)
 	if (IsAttackAvailable())
 	{
 		AttackType attackType = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
-		PlayerMoveScript* moveScript = playerManager->GetMovementManager();
-		moveScript->SetPlayerState(PlayerActions::ATTACKING);
 
 		switch (attackType)
 		{
@@ -152,6 +150,7 @@ void BixAttackScript::NormalAttack(bool heavy)
 	//Activate visuals and audios
 	//ActivateAnimationCombo();
 	animation->SetParameter("IsAttacking", true);
+
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects

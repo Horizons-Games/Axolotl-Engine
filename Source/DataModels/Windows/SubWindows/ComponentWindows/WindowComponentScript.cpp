@@ -24,7 +24,7 @@ const float doubleClickTimeFrameInS = .5f;
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
 	// This could be converted to uppercase using a lambda expression, std::transform and std::upper, 
 	// but the script name is more readable inside the engine in camelCase
-	ComponentWindow(component->GetConstructName(), component),
+	ComponentWindow("SCRIPT " + component->GetConstructName(), component),
 	windowUID(UniqueID::GenerateUID())
 {
 }
