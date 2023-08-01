@@ -114,6 +114,7 @@ inline const float ComponentTrail::GetDuration() const
 inline void ComponentTrail::SetDuration(float duration)
 {
 	this->duration = duration;
+	points.clear();
 }
 
 inline const float ComponentTrail::GetMinDistance() const
@@ -124,6 +125,7 @@ inline const float ComponentTrail::GetMinDistance() const
 inline void ComponentTrail::SetMinDistance(float minDistance)
 {
 	this->minDistance = minDistance;
+	points.clear();
 }
 
 inline const float ComponentTrail::GetWidth() const
@@ -134,6 +136,7 @@ inline const float ComponentTrail::GetWidth() const
 inline void ComponentTrail::SetWidth(float width)
 {
 	this->width = width;
+	points.clear();
 }
 
 inline std::shared_ptr<ResourceTexture> ComponentTrail::GetTexture() const
@@ -144,6 +147,7 @@ inline std::shared_ptr<ResourceTexture> ComponentTrail::GetTexture() const
 inline void ComponentTrail::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
 {
 	this->texture = texture;
+	points.clear();
 }
 
 inline ImGradient* ComponentTrail::GetGradient()
@@ -154,6 +158,7 @@ inline ImGradient* ComponentTrail::GetGradient()
 inline void ComponentTrail::SetGradient(ImGradient* gradient)
 {
 	this->gradient = gradient;
+	points.clear();
 }
 
 inline bool ComponentTrail::IsOnPlay()
@@ -164,6 +169,7 @@ inline bool ComponentTrail::IsOnPlay()
 inline void ComponentTrail::SetOnPlay(bool onPlay)
 {
 	this->onPlay = onPlay;
+	points.clear();
 }
 
 inline BlendingMode ComponentTrail::GetBlendingMode()
@@ -174,4 +180,5 @@ inline BlendingMode ComponentTrail::GetBlendingMode()
 inline void ComponentTrail::SetBlendingMode(BlendingMode mode)
 {
 	blendingMode = mode;
+	points.clear();
 }

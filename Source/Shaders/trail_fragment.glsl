@@ -15,8 +15,7 @@ out vec4 outColor;
 void main()
 {
 	vec4 diffuse = texture(diffuseTex, TexCoord);
-    diffuse = SRGBA(diffuse);
-
+	diffuse = SRGBA(diffuse);
 
 	vec4 color = hasTexture * diffuse * fragColor + (1 - hasTexture) * fragColor;
 
