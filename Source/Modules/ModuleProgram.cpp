@@ -81,6 +81,10 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
+
+	programs.push_back(CreateProgram("shadow_map_vertex.glsl", "shadow_map_fragment.glsl", "ShadowMapping"));
+
+	programs.push_back(CreateProgram("parallel_reduction.glsl", "ParallelReduction"));
 	
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_down_fragment.glsl", "KawaseDown"));
 	
@@ -90,10 +94,6 @@ bool ModuleProgram::Start()
 	
 	programs.push_back(
 		CreateProgram("render_clip_space_vertex.glsl", "color_correction_fragment.glsl", "ColorCorrection"));
-
-	programs.push_back(CreateProgram("shadow_map_vertex.glsl", "shadow_map_fragment.glsl", "ShadowMapping"));
-
-	programs.push_back(CreateProgram("parallel_reduction.glsl", "ParallelReduction"));
 
 	return true;
 }
