@@ -230,7 +230,7 @@ bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObje
 
 bool Physics::HasIntersection(const LineSegment& ray, GameObject* go, float& nearDistance, float& farDistance)
 {
-	ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 	if (transform)
 	{
 		bool hit = ray.Intersects(transform->GetEncapsuledAABB(), nearDistance, farDistance);
@@ -350,7 +350,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 	{
 		const GameObject* actualGameObject = hitGameObject.second;
 
-		ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponent<ComponentMeshRenderer>();
+		ComponentMeshRenderer* componentMeshRenderer = actualGameObject->GetComponentInternal<ComponentMeshRenderer>();
 
 		if (!componentMeshRenderer)
 		{
@@ -363,7 +363,7 @@ void Physics::GetRaycastHitInfo(const std::map<float, const GameObject*>& hitGam
 			continue;
 		}
 
-		const float4x4& gameObjectModelMatrix = actualGameObject->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+		const float4x4& gameObjectModelMatrix = actualGameObject->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		const std::vector<Triangle>& meshTriangles = goMeshAsShared->RetrieveTriangles(gameObjectModelMatrix);
 

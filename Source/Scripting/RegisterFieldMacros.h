@@ -91,7 +91,7 @@ TypeFieldPair CreateField(std::string&& name,
 					std::views::transform(
 						[](GameObject* gameObject)
 						{
-							return gameObject ? gameObject->GetComponent<std::remove_pointer_t<Type>>() : nullptr;
+							return gameObject ? gameObject->GetComponentInternal<std::remove_pointer_t<Type>>() : nullptr;
 						});
 				setter(std::vector<Type>(std::begin(transformedVector), std::end(transformedVector)));
 			},
@@ -130,7 +130,7 @@ TypeFieldPair CreateField(std::string&& name, std::function<Type(void)>&& getter
 			},
 			[setter](GameObject* value)
 			{
-				setter(value ? value->GetComponent<std::remove_pointer_t<Type>>() : nullptr);
+				setter(value ? value->GetComponentInternal<std::remove_pointer_t<Type>>() : nullptr);
 			});
 		return std::make_pair(FieldType::GAMEOBJECT, field);
 	}
