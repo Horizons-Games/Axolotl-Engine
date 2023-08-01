@@ -43,6 +43,8 @@ public:
 	void Save(Json& json);
 	void Load(const Json& meta);
 
+	void LoadComponents(const Json& jsonComponents);
+
 	void Draw() const;
 
 	void InitNewEmptyGameObject(bool is3D = true);
@@ -96,6 +98,9 @@ public:
 	S* GetComponent();
 	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
 	std::vector<S*> GetComponents();
+
+	template<typename C>
+	bool HasComponent() const;
 
 	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 
