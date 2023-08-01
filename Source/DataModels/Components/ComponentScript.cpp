@@ -24,7 +24,7 @@ std::optional<Field<T>> GetField(IScript* script, const std::string& name)
 	{
 		if (TypeToEnum<T>::value == enumAndType.first)
 		{
-			Field<T> field = std::get<Field<T>>(enumAndType.second);
+			const Field<T>& field = std::get<Field<T>>(enumAndType.second);
 			if (field.name == name)
 			{
 				return field;
@@ -41,7 +41,7 @@ inline std::optional<Field<std::vector<std::any>>> GetField(IScript* script, con
 	{
 		if (FieldType::VECTOR == enumAndType.first)
 		{
-			VectorField field = std::get<VectorField>(enumAndType.second);
+			const VectorField& field = std::get<VectorField>(enumAndType.second);
 			if (field.name == name)
 			{
 				return field;
@@ -147,7 +147,7 @@ void ComponentScript::InternalSave(Json& meta)
 	}
 
 	int index = 0;
-	for (TypeFieldPair enumAndValue : script->GetFields())
+	for (const TypeFieldPair& enumAndValue : script->GetFields())
 	{
 		Json field = fields[index];
 		FieldType type = enumAndValue.first;
@@ -179,7 +179,7 @@ void ComponentScript::InternalSave(Json& meta)
 
 			case FieldType::FLOAT3:
 			{
-				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
+				const Field<float3>& fieldInstance = std::get<Field<float3>>(enumAndValue.second);
 				field["name"] = fieldInstance.name.c_str();
 				float3 fieldValue = fieldInstance.getter();
 				field["value x"] = fieldValue[0];
@@ -193,9 +193,10 @@ void ComponentScript::InternalSave(Json& meta)
 			{
 				field["name"] = std::get<Field<GameObject*>>(enumAndValue.second).name.c_str();
 
-				if (std::get<Field<GameObject*>>(enumAndValue.second).getter() != nullptr)
+				GameObject* fieldValue = std::get<Field<GameObject*>>(enumAndValue.second).getter();
+				if (fieldValue != nullptr)
 				{
-					field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter()->GetUID();
+					field["value"] = fieldValue->GetUID();
 				}
 				else
 				{
@@ -210,7 +211,7 @@ void ComponentScript::InternalSave(Json& meta)
 			{
 				Json vectorElements = fields[index];
 
-				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
+				const VectorField& vectorField = std::get<VectorField>(enumAndValue.second);
 				vectorElements["name"] = vectorField.name.c_str();
 				vectorElements["type"] = static_cast<int>(enumAndValue.first);
 				Json vectorElementsWithName = vectorElements["vectorElements"];

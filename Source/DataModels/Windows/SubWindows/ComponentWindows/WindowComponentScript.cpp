@@ -187,7 +187,7 @@ void WindowComponentScript::DrawWindowContents()
 		{
 			case FieldType::FLOAT:
 			{
-				Field<float> floatField = std::get<Field<float>>(member);
+				const Field<float>& floatField = std::get<Field<float>>(member);
 				float value = floatField.getter();
 
 				label = floatField.name;
@@ -202,7 +202,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::FLOAT3:
 			{
-				Field<float3> float3Field = std::get<Field<float3>>(member);
+				const Field<float3>& float3Field = std::get<Field<float3>>(member);
 				float3 value = float3Field.getter();
 
 				float3Field.setter(DrawFloat3Field(value, float3Field.name.c_str()));
@@ -214,7 +214,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::STRING:
 			{
-				Field<std::string> stringField = std::get<Field<std::string>>(member);
+				const Field<std::string>& stringField = std::get<Field<std::string>>(member);
 				std::string value = stringField.getter();
 
 				label = stringField.name;
@@ -229,7 +229,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::BOOLEAN:
 			{
-				Field<bool> booleanField = std::get<Field<bool>>(member);
+				const Field<bool>& booleanField = std::get<Field<bool>>(member);
 				bool value = booleanField.getter();
 
 				label = booleanField.name;
@@ -244,7 +244,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::GAMEOBJECT:
 			{
-				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
+				const Field<GameObject*>& gameObjectField = std::get<Field<GameObject*>>(member);
 				GameObject* value = gameObjectField.getter();
 
 				GameObject* draggedObject = DrawGameObjectField(value, gameObjectField.name);
@@ -258,7 +258,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::VECTOR:
 			{
-				VectorField vectorField = std::get<VectorField>(member);
+				const VectorField& vectorField = std::get<VectorField>(member);
 
 				std::function<std::any(std::any&, const std::string&)> elementDrawer =
 					[this, &vectorField](std::any& value, const std::string& name) -> std::any
