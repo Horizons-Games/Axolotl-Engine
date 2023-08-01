@@ -42,8 +42,10 @@ void LightFinisherAttackScript::Update(float deltaTime)
 {
 	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_N) != KeyState::IDLE && currentCooldown <= 0) // Bix jump finisher
 	{
-		if(PerformAttack())
+		if (PerformAttack())
+		{
 			currentCooldown = cooldown;
+		}
 	}
 	else
 	{
@@ -62,7 +64,6 @@ bool LightFinisherAttackScript::PerformAttack()
 		return false;
 	}
 	
-	LOG_DEBUG("Bullet shot");
 	//animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
