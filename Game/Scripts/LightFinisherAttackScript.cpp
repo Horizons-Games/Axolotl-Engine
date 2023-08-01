@@ -40,20 +40,16 @@ void LightFinisherAttackScript::Start()
 
 void LightFinisherAttackScript::Update(float deltaTime)
 {
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_N) != KeyState::IDLE && currentCooldown <= 0) // Bix jump finisher
+	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_N) != KeyState::IDLE 
+		&& currentCooldown <= 0
+		&& PerformAttack()) // Bix jump finisher
 	{
-		if (PerformAttack())
-		{
-			currentCooldown = cooldown;
-		}
+		currentCooldown = cooldown;
 	}
-	else
+	else if (currentCooldown > 0)
 	{
-		if (currentCooldown > 0)
-		{
-			currentCooldown -= deltaTime;
-			currentCooldown = std::max(0.0f, currentCooldown);
-		}
+		currentCooldown -= deltaTime;
+		currentCooldown = std::max(0.0f, currentCooldown);
 	}
 }
 
