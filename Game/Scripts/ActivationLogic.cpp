@@ -36,10 +36,12 @@ void ActivationLogic::Start()
 	componentRigidBody = nullptr;
 	for (GameObject* child : owner->GetChildren())
 	{
-		componentRigidBody = child->GetComponent<ComponentRigidBody>();
-		if (componentRigidBody != nullptr)
-		{
-			break;
+		try {
+			componentRigidBody = child->GetComponent<ComponentRigidBody>();
+			LOG_VERBOSE("{} has Component Rigid Body", child->GetName());
+		}
+		catch (const ComponentNotFoundException&) {
+			LOG_WARNING("{} has not Component Rigid Body", child->GetName());
 		}
 	}
 	assert(componentRigidBody);
@@ -53,21 +55,19 @@ void ActivationLogic::Update(float deltaTime)
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
-	{
+	if (other->GetOwner()->GetTag() == "Player") {
 		componentAnimation->SetParameter("IsActive", true);
 		componentRigidBody->Disable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-	}
+	}	
 }
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
-	{
+	if (other->GetOwner()->GetTag() == "Player") {
 		componentAnimation->SetParameter("IsActive", false);
 		//Until the trigger works 100% of the time better cross a closed door than be closed forever
-		//componentRigidBody->Enable();
+		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 }
