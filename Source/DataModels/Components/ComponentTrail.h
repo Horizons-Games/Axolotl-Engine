@@ -52,6 +52,9 @@ public:
 	const float GetWidth() const;
 	void SetWidth(float width);
 
+	const int GetCatmunPoints();
+	void SetCatmunPoints(int numSamplers);
+
 	std::shared_ptr<ResourceTexture> GetTexture() const;
 	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
 
@@ -136,6 +139,17 @@ inline const float ComponentTrail::GetWidth() const
 inline void ComponentTrail::SetWidth(float width)
 {
 	this->width = width;
+	points.clear();
+}
+
+inline const int ComponentTrail::GetCatmunPoints()
+{
+	return catmunPoints;
+}
+
+inline void ComponentTrail::SetCatmunPoints(int numSamplers)
+{
+	catmunPoints = numSamplers;
 	points.clear();
 }
 

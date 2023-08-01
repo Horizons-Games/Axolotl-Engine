@@ -91,7 +91,7 @@ void WindowComponentTrail::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 
 			float width = componentTrail->GetWidth();
-			if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 100.0f))
+			if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 25.0f))
 			{
 				componentTrail->SetWidth(width);
 			}
@@ -146,6 +146,27 @@ void WindowComponentTrail::DrawWindowContents()
 
 				ImGui::EndCombo();
 			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Catmun Samplers");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			
+			int numCatmun = componentTrail->GetCatmunPoints();
+			if (ImGui::DragInt("##Catmun", &numCatmun, 1.f, 0.0f, 20.0f))
+			{
+				if (numCatmun > 20)
+				{
+					numCatmun = 20;
+				}
+				else if (numCatmun < 0)
+				{
+					numCatmun = 0;
+				}
+				componentTrail->SetCatmunPoints(numCatmun);
+			}
+
 			ImGui::EndTable();
 		}
 

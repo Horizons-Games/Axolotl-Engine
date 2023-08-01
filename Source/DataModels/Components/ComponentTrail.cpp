@@ -30,8 +30,8 @@
 #define ALPHA_CENTR 0.5f
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
-maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ADDITIVE),
-onPlay(true), catmunPoints(5)
+maxSamplers(64), duration(25.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ADDITIVE),
+onPlay(true), catmunPoints(10)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -70,6 +70,7 @@ void ComponentTrail::Render()
 	}
 
 	RedoBuffers();
+	int totalCatmunPoints = catmunPoints * (static_cast<int>(points.size()) - 1);
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRAIL);
 	program->Activate();
@@ -105,7 +106,8 @@ void ComponentTrail::Render()
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glDrawElements(GL_TRIANGLES, (points.size() - 1) * 2 * 3, GL_UNSIGNED_INT, nullptr);
+	int size = (static_cast<int>(points.size()) - 1 + totalCatmunPoints) * 2 * 3;
+	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, nullptr);
 	program->Deactivate();
 
 	glDepthMask(GL_TRUE);
@@ -144,6 +146,7 @@ void ComponentTrail::InternalSave(Json& meta)
 	meta["duration"] = static_cast<float>(duration);
 	meta["minDistance"] = static_cast<float>(minDistance);
 	meta["width"] = static_cast<float>(width);
+	meta["catmunPoints"] = static_cast<int>(catmunPoints);
 	meta["numberOfMarks"] = static_cast<int>(gradient->getMarks().size());
 	
 	std::list<ImGradientMark*> marks = gradient->getMarks();
@@ -176,6 +179,8 @@ void ComponentTrail::InternalLoad(const Json& meta)
 	duration = static_cast<float>(meta["duration"]);
 	minDistance = static_cast<float>(meta["minDistance"]);
 	width = static_cast<float>(meta["width"]);
+	catmunPoints = static_cast<int>(meta["catmunPoints"]);
+
 	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);
 	
 	gradient->getMarks().clear();
@@ -211,12 +216,14 @@ void ComponentTrail::InternalLoad(const Json& meta)
 
 void ComponentTrail::CreateBuffers()
 {
+	int totalCatmunPoints = catmunPoints * (maxSamplers - 1);
+
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	unsigned maxTriangles = (maxSamplers - 1 + catmunPoints) * 2;
+	unsigned maxTriangles = (maxSamplers - 1 + totalCatmunPoints) * 2;
 	GLuint maxIndices = maxTriangles * 3;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 
@@ -224,9 +231,9 @@ void ComponentTrail::CreateBuffers()
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	int numVertices = (maxSamplers + catmunPoints) * 2;
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
-
+	int numVertices = (maxSamplers + totalCatmunPoints) * 2;
+	glBufferData(GL_ARRAY_BUFFER, vertexsSize * numVertices, nullptr, GL_STATIC_DRAW);
+	
 	glEnableVertexAttribArray(0); // pos
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexsSize, (void*)0);
 
@@ -242,7 +249,7 @@ void ComponentTrail::CreateBuffers()
 void ComponentTrail::RedoBuffers()
 {
 	bool sizeChanged = false;
-	int totalCatmunPoints = catmunPoints * (points.size() - 1);
+	int totalCatmunPoints = catmunPoints * (static_cast<int>(points.size()) - 1);
 
 	if (maxSamplers < static_cast<int>(points.size()))
 	{
@@ -260,7 +267,7 @@ void ComponentTrail::RedoBuffers()
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	unsigned int index_idx = 0;
-	for (int i = 0; i < (maxSamplers - 1) + totalCatmunPoints; i++)
+	for (int i = 0; i < (points.size() - 1) + totalCatmunPoints; i++)
 	{
 		indices[index_idx++] = 0 + 2 * i;
 		indices[index_idx++] = 2 + 2 * i;
@@ -287,6 +294,7 @@ void ComponentTrail::RedoBuffers()
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
 		int posInMemory = 2 * i * (1 + catmunPoints);
+		float actualStep = static_cast<float>(i) * (1 + catmunPoints);
 
 		Point p = points[i];
 
@@ -298,11 +306,11 @@ void ComponentTrail::RedoBuffers()
 		vertexData[posInMemory + 1].position = vertex;
 
 		// uv
-		vertexData[posInMemory].uv = float2(steps * static_cast<float>(i), 1.0f);
-		vertexData[posInMemory + 1].uv = float2(steps * static_cast<float>(i), 0.0f);
+		vertexData[posInMemory].uv = float2(steps * static_cast<float>(actualStep), 1.0f);
+		vertexData[posInMemory + 1].uv = float2(steps * static_cast<float>(actualStep), 0.0f);
 
 		// color
-		gradient->getColorAt(steps * i, color.ptr());
+		gradient->getColorAt(steps * actualStep, color.ptr());
 		vertexData[posInMemory].color = float4(color, p.life / duration);
 		vertexData[posInMemory + 1].color = float4(color, p.life / duration);
 
@@ -321,19 +329,21 @@ void ComponentTrail::RedoBuffers()
 
 				// pos
 				dirPerpendicular = (rotationPoint * float3::unitY) * width;
-				vertex = p.centerPosition + dirPerpendicular;
-				vertexData[posInMemory + 2 + j * 2].position = vertex;
-				vertex = p.centerPosition - dirPerpendicular;
-				vertexData[posInMemory + 2 + j * 2 + 1].position = vertex;
+				vertex = pointCatmun + dirPerpendicular;
+				vertexData[posInMemory + j * 2].position = vertex;
+				vertex = pointCatmun - dirPerpendicular;
+				vertexData[posInMemory + j * 2 + 1].position = vertex;
+
+				actualStep++;
 
 				// uv
-				vertexData[posInMemory + 2 + j * 2].uv = float2(steps * static_cast<float>(i), 1.0f);
-				vertexData[posInMemory + 2 + j * 2 + 1].uv = float2(steps * static_cast<float>(i), 0.0f);
+				vertexData[posInMemory + j * 2].uv = float2(steps * static_cast<float>(actualStep), 1.0f);
+				vertexData[posInMemory + j * 2 + 1].uv = float2(steps * static_cast<float>(actualStep), 0.0f);
 
 				// color
-				gradient->getColorAt(steps * i, color.ptr());
-				vertexData[posInMemory + 2 + j * 2].color = float4(color, p.life / duration);
-				vertexData[posInMemory + 2 + j * 2 + 1].color = float4(color, p.life / duration);
+				gradient->getColorAt(steps * actualStep, color.ptr());
+				vertexData[posInMemory + j * 2].color = float4(color, p.life / duration);
+				vertexData[posInMemory + j * 2 + 1].color = float4(color, p.life / duration);
 			}
 		}
 		//if (blendingMode == BlendingMode::ADDITIVE)
@@ -384,7 +394,7 @@ void ComponentTrail::InsertPoint(float3 position, Quat rotation)
 
 void ComponentTrail::CalculateExtraPoints(float3& p0, const Point& p1, const Point& p2, float3& p3)
 {
-	// Calculate the reflected point p0 with the point p2 and p0 as a surface
+	// Calculate the reflected point p0 with the point p2 and p1 as a surface
 	float3 dir = p1.centerPosition - p2.centerPosition;
 	float3 normal = (p1.rotation * float3::unitY).Normalized();
 	p0 = dir - 2 * (dir.Dot(normal)) * normal;
