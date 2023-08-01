@@ -16,6 +16,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLine.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -127,9 +128,9 @@ void __stdcall OurOpenGLErrorFunction(GLenum source,
 
 ModuleRender::ModuleRender() :
 	context(nullptr),
-	frameBuffer(0),
-	renderedTexture(0),
-	depthStencilRenderBuffer(0)
+	depthStencilRenderBuffer(0),
+	bloomActivation(1),
+	toneMappingMode(2)
 {
 }
 
@@ -140,8 +141,8 @@ ModuleRender::~ModuleRender()
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
 
-	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &renderedTexture);
+	glDeleteFramebuffers(2, &frameBuffer[0]);
+	glDeleteTextures(2, &renderedTexture[0]);
 
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 
@@ -194,10 +195,15 @@ bool ModuleRender::Init()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
+	glGenFramebuffers(1, &frameBuffer[0]);
+	glGenTextures(1, &renderedTexture[0]);
 #ifdef ENGINE
-	glGenFramebuffers(1, &frameBuffer);
-	glGenTextures(1, &renderedTexture);
+	glGenFramebuffers(1, &frameBuffer[1]);
+	glGenTextures(1, &renderedTexture[1]);
 #endif // ENGINE
+
+	glGenFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
+	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
 	glGenFramebuffers(1, &shadowMapBuffer);
@@ -250,7 +256,6 @@ UpdateStatus ModuleRender::Update()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
 	const ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
-
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
@@ -333,11 +338,11 @@ UpdateStatus ModuleRender::Update()
 
 	// -------- DEFERRED LIGHTING ---------------
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFERRED_LIGHT);
+	Program* program = modProgram->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
 
 	gBuffer->BindTexture();
@@ -362,16 +367,18 @@ UpdateStatus ModuleRender::Update()
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3); // maybe we should move out this
+	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
 	program->Deactivate();
 
 	int width, height;
-	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &width, &height);
+
+	SDL_GetWindowSize(window->GetWindow(), &width, &height);
 
 	gBuffer->ReadFrameBuffer();
-	
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 
 	// -------- PRE-FORWARD ----------------------
 
@@ -380,7 +387,7 @@ UpdateStatus ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
+	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), width, height);
 
 	// -------- DEFERRED + FORWARD ---------------
 
@@ -412,7 +419,6 @@ UpdateStatus ModuleRender::Update()
 		glStencilMask(0x00); // disable writing to the stencil buffer 
 		glDisable(GL_STENCIL_TEST);
 	}
-
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 
@@ -428,7 +434,51 @@ UpdateStatus ModuleRender::Update()
 
 	glDisable(GL_BLEND);
 
+	//ComponentLine
+	glDisable(GL_CULL_FACE);
+
+	//additive blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	for (ComponentLine* lines : loadedScene->GetSceneComponentLines())
+	{
+		lines->Render();
+	}
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	glDisable(GL_BLEND);
+
 	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
+	// -------- POST EFFECTS ---------------------
+
+	KawaseDualFiltering();
+
+	// Color correction
+#ifdef ENGINE
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[1]);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+#else
+	glBindFramebuffer(GL_FRAMEBUFFER, 0); // default_frame_buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+#endif // ENGINE
+
+	Program* colorCorrectionProgram = modProgram->GetProgram(ProgramType::COLOR_CORRECTION);
+	colorCorrectionProgram->Activate();
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
+
+	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
+	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+	colorCorrectionProgram->Deactivate();
+
+	// ---- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{
@@ -462,10 +512,14 @@ bool ModuleRender::CleanUp()
 
 	glDeleteBuffers(1, &uboCamera);
 
+	glDeleteFramebuffers(1, &frameBuffer[0]);
+	glDeleteTextures(1, &renderedTexture[0]);
 #ifdef ENGINE
-	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &renderedTexture);
+	glDeleteFramebuffers(1, &frameBuffer[1]);
+	glDeleteTextures(1, &renderedTexture[1]);
 #endif // ENGINE
+	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
+	glDeleteTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 	return true;
 }
@@ -502,28 +556,67 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		LOG_ERROR("G Framebuffer not complete!");
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderBuffer);
 
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
+	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture[0], 0);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
 	}
 
+#ifdef ENGINE
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[1]);
+
+	glBindTexture(GL_TEXTURE_2D, renderedTexture[1]);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture[1], 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer auxiliar is not complete!");
+	}
+#endif // ENGINE
+
+	for (unsigned int i = 0; i < BLOOM_BLUR_PING_PONG; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[i]);
+		
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[i]);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomBlurTextures[i], 0);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer bloom blur is not complete!");
+		}
+	}
+		
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glBindTexture(GL_TEXTURE_2D, parallelReductionInTexture);
@@ -842,6 +935,48 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	program->Deactivate();
+}
+
+void ModuleRender::KawaseDualFiltering()
+{
+	// Blur bloom with kawase
+	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
+	bool kawaseFrameBuffer = true, firstIteration = true;
+	int kawaseSamples = 8;
+	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
+	kawaseDownProgram->Activate();
+	for (auto i = 0; i < kawaseSamples; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
+		if (firstIteration)
+		{
+			firstIteration = false;
+		}
+	}
+	kawaseDownProgram->Deactivate();
+
+	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
+	kawaseUpProgram->Activate();
+	for (auto i = 0; i < kawaseSamples; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[!kawaseFrameBuffer]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[kawaseFrameBuffer]);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+
+		kawaseFrameBuffer = !kawaseFrameBuffer;
+	}
+	kawaseUpProgram->Deactivate();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)

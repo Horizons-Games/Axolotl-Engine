@@ -30,6 +30,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLine.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSlider.h"
 
 #include "Components/ComponentAnimation.h"
@@ -50,6 +51,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLine.h"
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -111,6 +113,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
+			case ComponentType::LINE:
+				return std::make_unique<WindowComponentLine>(static_cast<ComponentLine*>(component));
 			case ComponentType::LIGHT:
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())

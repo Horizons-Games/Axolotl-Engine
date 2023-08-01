@@ -209,6 +209,16 @@ UpdateStatus ModuleInput::Update()
 		App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
 	}
 
+	if (keysState[SDL_SCANCODE_F1] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->SwitchBloomActivation();
+	}
+
+	if (keysState[SDL_SCANCODE_F2] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->ChangeToneMapping();
+	}
+
 	if (keysState[SDL_SCANCODE_F3] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
 	{
 		App->GetModule<ModuleRender>()->ToggleShadows();
@@ -218,6 +228,7 @@ UpdateStatus ModuleInput::Update()
 	{
 		App->GetModule<ModuleRender>()->ChangeRenderMode();
 	}
+
 #endif
 
 	return UpdateStatus::UPDATE_CONTINUE;

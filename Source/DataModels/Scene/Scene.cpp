@@ -19,6 +19,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentLine.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -452,8 +453,38 @@ void Scene::DestroyGameObject(const GameObject* gameObject)
 			RemoveFatherAndChildren(gameObject);
 			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
 			RemoveGameObjectFromScripts(gameObject);
+			RemoveEndOfLine(gameObject);
+			RemoveComponentLineOfObject(gameObject);
 			delete gameObject->GetParent()->UnlinkChild(gameObject);
 		});
+}
+
+void Scene::RemoveEndOfLine(const GameObject* gameObject)
+{
+	auto componentLine = sceneGameObjects |
+						 std::views::transform(
+							 [](GameObject* gameObject)
+							 {
+								 return gameObject->GetComponent<ComponentLine>();
+							 }) |
+						 std::views::filter(
+							 [gameObject](ComponentLine* component)
+							 {
+								 return component != nullptr && component->GetEnd() == gameObject;
+							 });
+	for (ComponentLine* component : componentLine)
+	{
+		component->SetEnd(nullptr);
+	}
+}
+
+void Scene::RemoveComponentLineOfObject(const GameObject* gameObject)
+{
+	std::erase_if(sceneComponentLines,
+				  [gameObject](ComponentLine* component)
+				  {
+					  return component->GetOwner() == gameObject;
+				  });
 }
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
@@ -1495,6 +1526,11 @@ void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
 {
 	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
+}
+
+void Scene::AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines)
+{
+	sceneComponentLines.insert(std::end(sceneComponentLines), std::begin(componentLines), std::end(componentLines));
 }
 
 void Scene::InitCubemap()

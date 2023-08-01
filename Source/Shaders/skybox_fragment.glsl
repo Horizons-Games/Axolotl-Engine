@@ -1,4 +1,8 @@
-#version 440
+#version 460
+
+#extension GL_ARB_shading_language_include : require
+
+#include "/Common/Functions/pbr_functions.glsl"
 
 out vec4 FragColor;
 
@@ -8,5 +12,5 @@ uniform samplerCube skybox;
 
 void main()
 {    
-    FragColor = texture(skybox, TexCoords);
+    FragColor = SRGBA(texture(skybox, TexCoords));
 }

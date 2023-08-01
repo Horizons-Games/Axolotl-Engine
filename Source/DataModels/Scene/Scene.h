@@ -13,6 +13,7 @@ class Component;
 class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
+class ComponentLine;
 class GameObject;
 class Quadtree;
 class Skybox;
@@ -61,6 +62,10 @@ public:
 									  AreaType areaType = AreaType::NONE);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(const GameObject* gameObject);
+
+	void RemoveComponentLineOfObject(const GameObject* gameObject);
+	void RemoveEndOfLine(const GameObject* gameObject);
+
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
@@ -96,6 +101,7 @@ public:
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
+	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
@@ -109,6 +115,7 @@ public:
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
+	void SetComponentLines(const std::vector<ComponentLine*>& componentLines);
 	void SetDirectionalLight(GameObject* directionalLight);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
@@ -116,6 +123,7 @@ public:
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 	void AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
+	void AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines);
 
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(const GameObject* gameObject);
@@ -123,7 +131,10 @@ public:
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
+	void AddComponentLines(ComponentLine* componentLine);
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
+
+	void RemoveComponentLine(const ComponentLine* componentLine);
 
 	void InitNewEmptyScene();
 	void InitLights();
@@ -151,6 +162,7 @@ private:
 
 	//Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
+	std::vector<ComponentLine*> sceneComponentLines;
 
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
@@ -226,6 +238,11 @@ inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticleSyste
 	return sceneParticleSystems;
 }
 
+inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
+{
+	return sceneComponentLines;
+}
+
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
 {
 	sceneCameras = cameras;
@@ -244,6 +261,11 @@ inline void Scene::SetSceneInteractable(const std::vector<Component*>& interacta
 inline void Scene::SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
 {
 	sceneParticleSystems = particleSystems;
+}
+
+inline void Scene::SetComponentLines(const std::vector<ComponentLine*>& componentLines)
+{
+	sceneComponentLines = componentLines;
 }
 
 inline void Scene::SetDirectionalLight(GameObject* directionalLight)
@@ -290,6 +312,11 @@ inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
 	sceneParticleSystems.push_back(particleSystem);
 }
 
+inline void Scene::AddComponentLines(ComponentLine* componentLine)
+{
+	sceneComponentLines.push_back(componentLine);
+}
+
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
 	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
@@ -299,4 +326,15 @@ inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleS
 			return particle == particleSystem;
 		}),
 							   std::end(sceneParticleSystems));
+}
+
+inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
+{
+	sceneComponentLines.erase(std::remove_if(std::begin(sceneComponentLines),
+		std::end(sceneComponentLines),
+		[&componentLine](ComponentLine* lines)
+		{
+			return lines == componentLine;
+		}),
+		std::end(sceneComponentLines));
 }

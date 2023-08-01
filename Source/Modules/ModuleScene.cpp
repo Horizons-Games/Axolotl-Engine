@@ -176,6 +176,7 @@ UpdateStatus ModuleScene::PostUpdate()
 
 bool ModuleScene::CleanUp()
 {
+	App->GetModule<ModuleEditor>()->RefreshInspector();
 	loadedScene = nullptr;
 	return true;
 }

@@ -31,12 +31,18 @@ WindowComponentScript::~WindowComponentScript()
 
 void WindowComponentScript::DrawWindowContents()
 {
+	// Vector of pairs instead of vector of ImRect, to avoid pulling "imgui_internal.h"
+	std::vector<std::pair<ImVec2, ImVec2>> widgetRects;
+
 	// Store the starting position of the collapsing header
 	ImVec2 headerMinPos = ImGui::GetItemRectMin();
 
 	DrawEnableAndDeleteComponent();
 
-	ImGui::Text("");
+	// add the rect of the enable and delete buttons
+	widgetRects.emplace_back(headerMinPos, ImGui::GetItemRectMax());
+
+	ImGui::NewLine();
 
 	std::vector<const char*> constructors = App->GetScriptFactory()->GetConstructors();
 	ComponentScript* script = static_cast<ComponentScript*>(component);
@@ -85,6 +91,9 @@ void WindowComponentScript::DrawWindowContents()
 	std::string scriptName = script->GetConstructName().c_str();
 	ImGui::Text(scriptName.c_str());
 
+	// add the rect of the script name
+	widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+
 	if (ImGui::GetWindowWidth() > static_cast<float>(scriptName.size()) * 13.0f)
 	{
 		ImGui::SameLine(ImGui::GetWindowWidth() - 120.0f);
@@ -103,6 +112,7 @@ void WindowComponentScript::DrawWindowContents()
 
 		script->SetScript(nullptr);			  // This deletes the script itself
 		script->SetConstuctor(std::string()); // And this makes it so it's also deleted from the serialization
+		return;
 	}
 
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
@@ -213,6 +223,8 @@ void WindowComponentScript::DrawWindowContents()
 			default:
 				break;
 		}
+		// add the rect of each field
+		widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
 	}
 
 	// Store the ending position of the collapsing header
@@ -224,7 +236,15 @@ void WindowComponentScript::DrawWindowContents()
 
 	secondsSinceLastClick += App->GetDeltaTime();
 
-	if (ImGui::IsMouseHoveringRect(headerMinPos, headerMaxPos) && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	bool noWidgetHovered = std::none_of(std::begin(widgetRects),
+										std::end(widgetRects),
+										[](const std::pair<ImVec2, ImVec2>& rect)
+										{
+											return ImGui::IsMouseHoveringRect(rect.first, rect.second);
+										});
+
+	if (noWidgetHovered && ImGui::IsMouseHoveringRect(headerMinPos, headerMaxPos) &&
+		ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
 		if (IsDoubleClicked())
 		{

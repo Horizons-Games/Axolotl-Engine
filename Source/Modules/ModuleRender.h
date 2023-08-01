@@ -7,6 +7,8 @@
 
 #include "FileSystem/UID.h"
 
+#define BLOOM_BLUR_PING_PONG 2
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -39,9 +41,12 @@ public:
 	void UpdateBuffers(unsigned width, unsigned height);
 
 	void SetBackgroundColor(float4 color);
-	void ChangeRenderMode();
-	void ToggleShadows();
 	float4 GetBackgroundColor() const;
+
+	void ChangeRenderMode();
+	void ChangeToneMapping();
+	void SwitchBloomActivation();
+	void ToggleShadows();
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -70,12 +75,21 @@ private:
 		LENGTH
 	};
 
+	enum class ToneMappingMode {
+		NONE = 0,
+		UNCHARTED2 = 1,
+		ACES_FILM = 2,
+		LENGTH
+	};
+
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawHighlight(GameObject* gameObject);
 
 	void BindCameraToProgram(Program* program);
 	void BindCubemapToProgram(Program* program);
+
+	void KawaseDualFiltering();
 
 	void* context;
 
@@ -88,15 +102,24 @@ private:
 	GBuffer* gBuffer;
 
 	unsigned uboCamera;
-	unsigned vbo;
 
 	unsigned modeRender;
+	unsigned toneMappingMode;
+	unsigned bloomActivation;
 	
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
 
-	GLuint frameBuffer;
-	GLuint renderedTexture;
+	// 0: used in game and engine 
+	// 1: only in engine, stores the final result, to avoid writing and reading at the same time
+	GLuint frameBuffer[2];
+	GLuint renderedTexture[2];
+
+	// Ping-pong buffers to kawase dual filtering bloom
+	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG];
+	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
+	
+	// Shadow Mapping buffers and textures
 	GLuint depthStencilRenderBuffer;
 	GLuint shadowMapBuffer;
 	GLuint gShadowMap;
@@ -113,9 +136,24 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 	backgroundColor = color;
 }
 
+inline float4 ModuleRender::GetBackgroundColor() const
+{
+	return backgroundColor;
+}
+
 inline void ModuleRender::ChangeRenderMode()
 {
 	modeRender = (modeRender + 1) % static_cast<int>(ModeRender::LENGTH);
+}
+
+inline void ModuleRender::ChangeToneMapping()
+{
+	toneMappingMode = (toneMappingMode + 1) % static_cast<int>(ToneMappingMode::LENGTH);
+}
+
+inline void ModuleRender::SwitchBloomActivation()
+{
+	bloomActivation = (bloomActivation + 1) % 2;
 }
 
 inline void ModuleRender::ToggleShadows()
@@ -123,14 +161,9 @@ inline void ModuleRender::ToggleShadows()
 	renderShadows = !renderShadows;
 }
 
-inline float4 ModuleRender::GetBackgroundColor() const
-{
-	return backgroundColor;
-}
-
 inline GLuint ModuleRender::GetRenderedTexture() const
 {
-	return renderedTexture;
+	return renderedTexture[1];
 }
 
 inline BatchManager* ModuleRender::GetBatchManager() const
