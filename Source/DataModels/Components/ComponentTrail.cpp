@@ -29,7 +29,7 @@
 
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
-maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ADDITIVE),
+maxSamplers(64), duration(10000.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
 onPlay(false)
 { 
 	points.reserve(maxSamplers);
@@ -143,6 +143,7 @@ void ComponentTrail::InternalSave(Json& meta)
 	meta["duration"] = static_cast<float>(duration);
 	meta["minDistance"] = static_cast<float>(minDistance);
 	meta["width"] = static_cast<float>(width);
+	meta["ratioWidth"] = static_cast<float>(ratioWidth);
 	meta["numberOfMarks"] = static_cast<int>(gradient->getMarks().size());
 	
 	std::list<ImGradientMark*> marks = gradient->getMarks();
@@ -175,6 +176,7 @@ void ComponentTrail::InternalLoad(const Json& meta)
 	duration = static_cast<float>(meta["duration"]);
 	minDistance = static_cast<float>(meta["minDistance"]);
 	width = static_cast<float>(meta["width"]);
+	ratioWidth = static_cast<float>(meta["ratioWidth"]);
 	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);
 	
 	gradient->getMarks().clear();
@@ -286,7 +288,9 @@ void ComponentTrail::RedoBuffers()
 		Point p = points[i];
 
 		// pos
-		float3 dirPerpendicular = (p.rotation * float3::unitY) * width;
+		float ratioLife = p.life / duration;
+		float lerpWidht = Lerp(ratioWidth * width, width, ratioLife);
+		float3 dirPerpendicular = (p.rotation * float3::unitY) * lerpWidht;
 		float3 vertex = p.centerPosition + dirPerpendicular;
 		vertexData[i * 2].position = vertex;
 		vertex = p.centerPosition - dirPerpendicular;

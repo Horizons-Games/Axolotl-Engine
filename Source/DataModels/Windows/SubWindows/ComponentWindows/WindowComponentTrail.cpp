@@ -104,6 +104,26 @@ void WindowComponentTrail::DrawWindowContents()
 				componentTrail->SetWidth(width);
 			}
 
+			float ratioWidht = componentTrail->GetRatioWidth();
+			ImGui::TableNextColumn();
+			ImGui::Text("Ratio width");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+
+			if (ImGui::DragFloat("##RatioWidth", &ratioWidht, 0.1f, 0.f, 1.f))
+			{
+				if (ratioWidht > 1.f)
+				{
+					ratioWidht = 1.f;
+				}
+				else if (ratioWidht < 0.f)
+				{
+					ratioWidht = 0.f;
+				}
+				componentTrail->SetRatioWidth(ratioWidht);
+			}
+
 			ImGui::TableNextColumn();
 			ImGui::Text("Blending");
 			ImGui::TableNextColumn();

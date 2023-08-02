@@ -44,6 +44,9 @@ public:
 	const float GetWidth() const;
 	void SetWidth(float width);
 
+	const float GetRatioWidth() const;
+	void SetRatioWidth(float ratioWidth);
+
 	std::shared_ptr<ResourceTexture> GetTexture() const;
 	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
 
@@ -88,6 +91,7 @@ private:
 	float duration;
 	float minDistance;
 	float width;
+	float ratioWidth; // this value is used to calculate the minimum width that vertex can size
 
 	// render properties
 	ImGradient* gradient;
@@ -125,6 +129,17 @@ inline const float ComponentTrail::GetWidth() const
 inline void ComponentTrail::SetWidth(float width)
 {
 	this->width = width;
+	points.clear();
+}
+
+inline const float ComponentTrail::GetRatioWidth() const
+{
+	return ratioWidth;
+}
+
+inline void ComponentTrail::SetRatioWidth(float ratioWidth)
+{
+	this->ratioWidth = ratioWidth;
 	points.clear();
 }
 

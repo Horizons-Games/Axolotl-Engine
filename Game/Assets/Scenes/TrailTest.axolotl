@@ -23582,6 +23582,7 @@
                             "duration": 2.5,
                             "minDistance": 0.10000000149011612,
                             "width": 1.0,
+                            "ratioWidth": 0.5,
                             "numberOfMarks": 2,
                             "ColorsGradient": [
                                 {
