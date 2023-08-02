@@ -56,6 +56,8 @@ public:
 	BlendingMode GetBlendingMode();
 	void SetBlendingMode(BlendingMode mode);
 
+	void ClearPoints();
+
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -156,7 +158,6 @@ inline bool ComponentTrail::IsOnPlay()
 inline void ComponentTrail::SetOnPlay(bool onPlay)
 {
 	this->onPlay = onPlay;
-	points.clear();
 }
 
 inline BlendingMode ComponentTrail::GetBlendingMode()
@@ -167,5 +168,10 @@ inline BlendingMode ComponentTrail::GetBlendingMode()
 inline void ComponentTrail::SetBlendingMode(BlendingMode mode)
 {
 	blendingMode = mode;
+	points.clear();
+}
+
+inline void ComponentTrail::ClearPoints()
+{
 	points.clear();
 }
