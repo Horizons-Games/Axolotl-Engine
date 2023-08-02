@@ -330,7 +330,7 @@ void ComponentTrail::RedoBuffers()
 			float3 p0, p3;
 			Point p2 = points[i + 1];
 			CalculateExtraPoints(p0, p, p2, p3);
-			Curve curve = CatmullRomCentripetal(p0, p.centerPosition, p2.centerPosition, p3);
+			const Curve curve = CatmullRomCentripetal(p0, p.centerPosition, p2.centerPosition, p3);
 			for (int j = 1; j <= catmunPoints; j++)
 			{
 				float lambda = stepsCatmun * j;
@@ -354,6 +354,11 @@ void ComponentTrail::RedoBuffers()
 
 				// color
 				color = Lerp(initColor, endColor, steps * static_cast<float>(actualStep));
+				//if (blendingMode == BlendingMode::ADDITIVE)
+				//{
+					// additive alpha lerp to black
+					//color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - ratioLife);
+				//}
 				vertexData[posInMemory + j * 2].color = float4(color, ratioLife);
 				vertexData[posInMemory + j * 2 + 1].color = float4(color, ratioLife);
 			}
@@ -411,7 +416,7 @@ void ComponentTrail::CalculateExtraPoints(float3& p0, const Point& p1, const Poi
 	p3 = dir - 2 * (dir.Dot(normal)) * normal;
 }
 
-const Curve& ComponentTrail::CatmullRomCentripetal(float3 p0, float3 p1, float3 p2, float3 p3)
+const Curve ComponentTrail::CatmullRomCentripetal(float3 p0, float3 p1, float3 p2, float3 p3)
 {
 	float t0 = 0.0f;
 	float t1 = t0 + pow(p0.Distance(p1), ALPHA_CENTR);

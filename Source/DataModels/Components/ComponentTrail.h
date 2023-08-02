@@ -86,7 +86,7 @@ private:
 
 	void CalculateExtraPoints(float3& p0, const Point& p1, const Point& p2, float3& p3);
 
-	const Curve& CatmullRomCentripetal(float3 p0, float3 p1, float3 p2, float3 p3);
+	const Curve CatmullRomCentripetal(float3 p0, float3 p1, float3 p2, float3 p3);
 
 	void BindCamera(Program* program);
 
