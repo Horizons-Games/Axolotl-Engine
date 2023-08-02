@@ -35,7 +35,7 @@ WindowInspector::WindowInspector() :
 
 	auto gameObjectDoesNotHaveComponent = []<typename C>(GameObject* gameObject)
 	{
-		return gameObject->GetComponent<C>() == nullptr;
+		return gameObject->GetComponentInternal<C>() == nullptr;
 	};
 
 	actions.push_back(AddComponentAction("Create Mesh Renderer Component",

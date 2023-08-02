@@ -484,6 +484,9 @@
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="Scripting\Script.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -605,6 +608,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp" />
+    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1100,6 +1106,15 @@
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\RegisterFieldMacros.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\VectorField.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts\Basics</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
     </ClInclude>
@@ -1242,6 +1257,15 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h" />
+    <ClInclude Include="Scripting\RegisterFieldMacros.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Reflection\VectorField.h">
+      <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

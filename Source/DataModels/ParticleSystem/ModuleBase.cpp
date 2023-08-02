@@ -36,7 +36,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 	if (instance->GetElapsedTime() <= emitter->GetDuration() || partEmitter->IsLooping())
 	{
 		const GameObject* go = instance->GetOwner()->GetOwner();
-		ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
+		ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponentInternal<ComponentTransform>());
 
 		if (originTransform.IsIdentity())
 		{
@@ -125,7 +125,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 void ModuleBase::DrawDD(EmitterInstance* instance)
 {
 	const GameObject* go = instance->GetOwner()->GetOwner();
-	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponentInternal<ComponentTransform>());
 	float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
 
 	float3 position;
