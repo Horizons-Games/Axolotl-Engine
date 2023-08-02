@@ -81,4 +81,6 @@ private:
 
 	int previousMovements;
 	int currentMovements;
+	
+	void Dash();
 };

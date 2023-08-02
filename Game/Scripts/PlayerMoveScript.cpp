@@ -129,7 +129,9 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		if (GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && !bixAttackScript->IsAttacking())
+		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && !bixAttackScript->IsAttacking();
+		
+		if (playerIsRunning)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsRunning", true);
@@ -159,24 +161,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			//{
 			//	movement /= 2;
 			//}
-
-			Quat rotation = componentTransform->GetGlobalRotation();
-			float3 dashDirection(0.f, 0.f, 1.f);
-
-			dashDirection = rotation.Mul(dashDirection);
-			dashDirection.y = 0.0f;
-
-			float3 dashImpulse = dashDirection.Normalized() * dashForce;
-			dashImpulse.Normalized();
-
-			// Cast impulse and direction from float3 to btVector3
-			btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
-			btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
-
-			btRigidbody->setLinearVelocity(btDashDirection);
-			btRigidbody->applyCentralImpulse(btDashImpulse);
-
-			isDashing = true;
+			Dash();
 		}
 
 		canDash = false;
@@ -268,6 +253,27 @@ void PlayerMoveScript::MoveRotate(const float3& targetDirection, float deltaTime
 
 	btRigidbody->setWorldTransform(worldTransform);
 	btRigidbody->getMotionState()->setWorldTransform(worldTransform);
+}
+
+void PlayerMoveScript::Dash()
+{
+	Quat rotation = componentTransform->GetGlobalRotation();
+	float3 dashDirection(0.f, 0.f, 1.f);
+
+	dashDirection = rotation.Mul(dashDirection);
+	dashDirection.y = 0.0f;
+
+	float3 dashImpulse = dashDirection.Normalized() * dashForce;
+	dashImpulse.Normalized();
+
+	// Cast impulse and direction from float3 to btVector3
+	btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
+	btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
+
+	btRigidbody->setLinearVelocity(btDashDirection);
+	btRigidbody->applyCentralImpulse(btDashImpulse);
+
+	isDashing = true;
 }
 
 bool PlayerMoveScript::IsParalyzed() const
