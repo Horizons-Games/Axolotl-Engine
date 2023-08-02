@@ -30,7 +30,7 @@
 #define ALPHA_CENTR 0.5f
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
-maxSamplers(64), duration(25.f), minDistance(0.1f), width(1.f), blendingMode(BlendingMode::ADDITIVE),
+maxSamplers(64), duration(25.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
 onPlay(true), catmunPoints(10)
 { 
 	points.reserve(maxSamplers);
@@ -147,6 +147,7 @@ void ComponentTrail::InternalSave(Json& meta)
 	meta["minDistance"] = static_cast<float>(minDistance);
 	meta["width"] = static_cast<float>(width);
 	meta["catmunPoints"] = static_cast<int>(catmunPoints);
+	meta["ratioWidth"] = static_cast<float>(ratioWidth);
 	meta["numberOfMarks"] = static_cast<int>(gradient->getMarks().size());
 	
 	std::list<ImGradientMark*> marks = gradient->getMarks();
@@ -179,10 +180,10 @@ void ComponentTrail::InternalLoad(const Json& meta)
 	duration = static_cast<float>(meta["duration"]);
 	minDistance = static_cast<float>(meta["minDistance"]);
 	width = static_cast<float>(meta["width"]);
+	ratioWidth = static_cast<float>(meta["ratioWidth"]);
 	catmunPoints = static_cast<int>(meta["catmunPoints"]);
-
-	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);
 	
+	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);	
 	gradient->getMarks().clear();
 	Json jsonColors = meta["ColorsGradient"];
 	for (int i = 0; i < numberOfMarks; i++)
@@ -288,9 +289,12 @@ void ComponentTrail::RedoBuffers()
 
 	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	float steps = 1.0f / static_cast<float>(points.size() + totalCatmunPoints);
+	float steps = 1.0f / static_cast<float>(points.size() - 1 + totalCatmunPoints);
 	float stepsCatmun = 1.0f / static_cast<float>(catmunPoints + 1);
 	float3 color;
+	std::list<ImGradientMark*> marks = gradient->getMarks();
+	float3 initColor = float3(marks.front()->color);
+	float3 endColor = float3(marks.back()->color);
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
 		int posInMemory = 2 * i * (1 + catmunPoints);
@@ -299,7 +303,9 @@ void ComponentTrail::RedoBuffers()
 		Point p = points[i];
 
 		// pos
-		float3 dirPerpendicular = (p.rotation * float3::unitY) * width;
+		float ratioLife = p.life / duration;
+		float lerpWidht = Lerp(ratioWidth * width, width, ratioLife);
+		float3 dirPerpendicular = (p.rotation * float3::unitY) * lerpWidht;
 		float3 vertex = p.centerPosition + dirPerpendicular;
 		vertexData[posInMemory].position = vertex;
 		vertex = p.centerPosition - dirPerpendicular;
@@ -310,9 +316,14 @@ void ComponentTrail::RedoBuffers()
 		vertexData[posInMemory + 1].uv = float2(steps * static_cast<float>(actualStep), 0.0f);
 
 		// color
-		gradient->getColorAt(steps * actualStep, color.ptr());
-		vertexData[posInMemory].color = float4(color, p.life / duration);
-		vertexData[posInMemory + 1].color = float4(color, p.life / duration);
+		color = Lerp(initColor, endColor, steps * static_cast<float>(actualStep));
+		//if (blendingMode == BlendingMode::ADDITIVE)
+		//{
+			// additive alpha lerp to black
+			//color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - ratioLife);
+		//}
+		vertexData[posInMemory].color = float4(color, ratioLife);
+		vertexData[posInMemory + 1].color = float4(color, ratioLife);
 
 		if (i != points.size() - 1)
 		{
@@ -328,7 +339,8 @@ void ComponentTrail::RedoBuffers()
 				Quat rotationPoint = p.rotation.Lerp(p2.rotation, lambda);
 
 				// pos
-				dirPerpendicular = (rotationPoint * float3::unitY) * width;
+				lerpWidht = Lerp(ratioWidth * width, width, ratioLife);
+				dirPerpendicular = (rotationPoint * float3::unitY) * lerpWidht;
 				vertex = pointCatmun + dirPerpendicular;
 				vertexData[posInMemory + j * 2].position = vertex;
 				vertex = pointCatmun - dirPerpendicular;
@@ -341,16 +353,11 @@ void ComponentTrail::RedoBuffers()
 				vertexData[posInMemory + j * 2 + 1].uv = float2(steps * static_cast<float>(actualStep), 0.0f);
 
 				// color
-				gradient->getColorAt(steps * actualStep, color.ptr());
-				vertexData[posInMemory + j * 2].color = float4(color, p.life / duration);
-				vertexData[posInMemory + j * 2 + 1].color = float4(color, p.life / duration);
+				color = Lerp(initColor, endColor, steps * static_cast<float>(actualStep));
+				vertexData[posInMemory + j * 2].color = float4(color, ratioLife);
+				vertexData[posInMemory + j * 2 + 1].color = float4(color, ratioLife);
 			}
 		}
-		//if (blendingMode == BlendingMode::ADDITIVE)
-		//{
-		//	// Additive alpha lerp to black
-		//	color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - vertexData[i].color.w);
-		//}
 	}
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

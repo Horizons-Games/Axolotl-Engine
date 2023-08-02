@@ -52,6 +52,9 @@ public:
 	const float GetWidth() const;
 	void SetWidth(float width);
 
+	const float GetRatioWidth() const;
+	void SetRatioWidth(float ratioWidth);
+
 	const int GetCatmunPoints();
 	void SetCatmunPoints(int numSamplers);
 
@@ -103,6 +106,7 @@ private:
 	float duration;
 	float minDistance;
 	float width;
+	float ratioWidth; // this value is used to calculate the minimum width that vertex can size
 	int catmunPoints;
 
 	// render properties
@@ -144,6 +148,17 @@ inline void ComponentTrail::SetWidth(float width)
 	points.clear();
 }
 
+inline const float ComponentTrail::GetRatioWidth() const
+{
+	return ratioWidth;
+}
+
+inline void ComponentTrail::SetRatioWidth(float ratioWidth)
+{
+	this->ratioWidth = ratioWidth;
+	points.clear();
+}
+
 inline const int ComponentTrail::GetCatmunPoints()
 {
 	return catmunPoints;
@@ -152,7 +167,6 @@ inline const int ComponentTrail::GetCatmunPoints()
 inline void ComponentTrail::SetCatmunPoints(int numSamplers)
 {
 	catmunPoints = numSamplers;
-	points.clear();
 }
 
 inline std::shared_ptr<ResourceTexture> ComponentTrail::GetTexture() const
