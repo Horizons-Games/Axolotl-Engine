@@ -20,6 +20,7 @@ public:
 	~HeavyFinisherAttack() override = default;
 
 	void PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner);
+	bool IsAttacking();
 
 private:
 	void Start() override;
@@ -50,4 +51,6 @@ private:
 	float damage;
 	float speed;
 	float hitDistance;
+	float maxEnemyHits; //Should be int but can't REGISTER_FIELD ints
+	float countEnemyHits;
 };

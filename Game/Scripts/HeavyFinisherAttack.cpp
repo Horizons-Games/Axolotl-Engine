@@ -30,7 +30,7 @@ REGISTERCLASS(HeavyFinisherAttack);
 HeavyFinisherAttack::HeavyFinisherAttack() : Script(), audioSource(nullptr), transform(nullptr), rigidBody(nullptr),
 mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr), vfx(nullptr),
 returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), rotationVelocity(50.0f),
-loadedScene(nullptr), physics(nullptr)
+loadedScene(nullptr), physics(nullptr), maxEnemyHits(3.0f), countEnemyHits(0.0f)
 {
 	REGISTER_FIELD(returnToPlayer, bool);
 	REGISTER_FIELD(rotateWhileAttacking, bool);
@@ -38,6 +38,7 @@ loadedScene(nullptr), physics(nullptr)
 	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(hitDistance, float);
 	REGISTER_FIELD(rotationVelocity, float);
+	REGISTER_FIELD(maxEnemyHits, float);
 	REGISTER_FIELD(mesh, GameObject*);
 }
 
@@ -47,7 +48,7 @@ void HeavyFinisherAttack::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	vfx = owner->GetComponent<ComponentParticleSystem>();
-	
+
 	mesh->Disable();
 	rigidBody->Disable();
 
@@ -68,11 +69,11 @@ void HeavyFinisherAttack::Update(float deltaTime)
 
 	float3 vecTowardsEnemy = (enemyPos - currentPos).Normalized();
 
-	transform->SetPosition(currentPos + vecTowardsEnemy * speed * deltaTime); //Move attack
+	transform->SetLocalPosition(currentPos + vecTowardsEnemy * speed * deltaTime); //Move attack
 	if (rotateWhileAttacking)
 	{
-		transform->SetRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(rotationVelocity * 10 * deltaTime))
-			* transform->GetRotation());
+		transform->SetLocalRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(rotationVelocity * 10.0f * deltaTime))
+			* transform->GetLocalRotation());
 	}
 	transform->UpdateTransformMatrices();
 
@@ -84,8 +85,24 @@ void HeavyFinisherAttack::Update(float deltaTime)
 			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 			vfx->SetPlayAtStart(true);
 			vfx->Play();
+			countEnemyHits += 1.0f;
 
-			SeekNextEnemy();
+			if (countEnemyHits >= maxEnemyHits)
+			{
+				if (!returnToPlayer)
+				{
+					ResetValues();
+				}
+				else
+				{
+					target = attackOwner;
+					isReturningToOwner = true;
+				}
+			}
+			else
+			{
+				SeekNextEnemy();
+			}
 		}
 		else
 		{
@@ -131,7 +148,7 @@ void HeavyFinisherAttack::SeekNextEnemy()
 		ComponentTransform* enemyTransform = enemy->GetOwner()->GetComponent<ComponentTransform>();
 
 		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive() //If enemy is dead
-			|| (std::find(enemiesAlreadyHit.begin(), enemiesAlreadyHit.end(), enemyTransform) 
+			|| (std::find(enemiesAlreadyHit.begin(), enemiesAlreadyHit.end(), enemyTransform)
 				!= enemiesAlreadyHit.end())) //If enemy already hit
 		{
 			continue; //next enemy
@@ -141,7 +158,7 @@ void HeavyFinisherAttack::SeekNextEnemy()
 		{
 			target = enemyTransform;
 		}
-		else if (currentPos.Distance(enemyTransform->GetGlobalPosition()) 
+		else if (currentPos.Distance(enemyTransform->GetGlobalPosition())
 			< currentPos.Distance(target->GetGlobalPosition())) //Is a closer enemy than the selected
 		{
 			target = enemyTransform;
@@ -163,7 +180,7 @@ void HeavyFinisherAttack::SeekNextEnemy()
 
 void HeavyFinisherAttack::ResetValues()
 {
-	transform->SetPosition(attackOwner->GetGlobalPosition());
+	transform->SetLocalPosition(attackOwner->GetGlobalPosition());
 	transform->UpdateTransformMatrices();
 	owner->SetParent(attackOwner->GetOwner());
 	target = nullptr;
@@ -175,5 +192,13 @@ void HeavyFinisherAttack::ResetValues()
 	enemiesAlreadyHit.clear();
 	enemiesInTheArea.clear();
 
+	countEnemyHits = 0.0f;
+
+	vfx->Stop();
 	mesh->Disable();
+}
+
+bool HeavyFinisherAttack::IsAttacking()
+{
+	return isActivated;
 }
