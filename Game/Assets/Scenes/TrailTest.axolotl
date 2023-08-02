@@ -23586,15 +23586,15 @@
                             "numberOfMarks": 2,
                             "ColorsGradient": [
                                 {
-                                    "color_x": 0.8804347515106201,
-                                    "color_y": 0.0,
+                                    "color_x": 0.12517735362052917,
+                                    "color_y": 0.885869562625885,
                                     "color_z": 0.0,
                                     "color_w": 0.0,
                                     "pos": 0.0
                                 },
                                 {
-                                    "color_x": 1.0,
-                                    "color_y": 1.0,
+                                    "color_x": 0.0,
+                                    "color_y": 0.3804347515106201,
                                     "color_z": 1.0,
                                     "color_w": 0.0,
                                     "pos": 1.0

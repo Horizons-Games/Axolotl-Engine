@@ -281,8 +281,11 @@ void ComponentTrail::RedoBuffers()
 
 	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	float steps = 1.0f / float(points.size());
+	float steps = 1.0f / float(points.size() - 1);
 	float3 color;
+	std::list<ImGradientMark*> marks = gradient->getMarks();
+	float3 initColor = float3(marks.front()->color);
+	float3 endColor = float3(marks.back()->color);
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
 		Point p = points[i];
@@ -301,14 +304,14 @@ void ComponentTrail::RedoBuffers()
 		vertexData[i * 2 + 1].uv = float2(steps * static_cast<float>(i), 0.0f);
 
 		// color
-		gradient->getColorAt(steps * i, color.ptr());
-		vertexData[i * 2].color = float4(color, p.life / duration);
-		vertexData[i * 2 + 1].color = float4(color, p.life / duration);
+		color = Lerp(initColor, endColor, steps * i);
 		//if (blendingMode == BlendingMode::ADDITIVE)
 		//{
-		//	// Additive alpha lerp to black
-		//	color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - vertexData[i].color.w);
+			// additive alpha lerp to black
+			//color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - ratioLife);
 		//}
+		vertexData[i * 2].color = float4(color, ratioLife);
+		vertexData[i * 2 + 1].color = float4(color, ratioLife);
 	}
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
