@@ -36,7 +36,7 @@ BixAttackScript::BixAttackScript() : Script(),
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), animationGO(nullptr), transform(nullptr), currentAttack(AttackType::NONE),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr),
-	heavyFinisherAttack(nullptr)
+	heavyFinisherAttack(nullptr), bixLightSaber(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 
@@ -50,6 +50,7 @@ BixAttackScript::BixAttackScript() : Script(),
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(enemyDetectionObject, GameObject*);
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
+	REGISTER_FIELD(bixLightSaber, GameObject*);
 }
 
 void BixAttackScript::Start()
@@ -83,6 +84,7 @@ void BixAttackScript::Update(float deltaTime)
 				if (!heavyFinisherAttack->IsAttacking())
 				{
 					isAttacking = false;
+					bixLightSaber->Enable();
 				}
 				break;
 			default:
@@ -204,6 +206,7 @@ void BixAttackScript::SoftFinisher()
 
 void BixAttackScript::HeavyFinisher()
 {
+	bixLightSaber->Disable();
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	isAttacking = true;
 	if (enemyAttacked != nullptr)

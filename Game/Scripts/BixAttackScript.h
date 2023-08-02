@@ -76,6 +76,7 @@ private:
 	AttackType currentAttack;
 
 	HeavyFinisherAttack* heavyFinisherAttack;
+	GameObject* bixLightSaber;
 
 	PlayerManagerScript* playerManager;
 
