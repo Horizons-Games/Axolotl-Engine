@@ -175,5 +175,6 @@ void HeavyFinisherAttack::ResetValues()
 	enemiesAlreadyHit.clear();
 	enemiesInTheArea.clear();
 
+	vfx->Stop();
 	mesh->Disable();
 }

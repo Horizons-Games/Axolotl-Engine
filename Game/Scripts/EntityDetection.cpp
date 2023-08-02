@@ -94,7 +94,7 @@ void EntityDetection::SelectEnemy()
 		float dotProduct = vecTowardsEnemy.Dot((playerTransform->GetGlobalPosition() - originPosition).Normalized());
 		angle = math::Abs(math::RadToDeg(angle));
 
-		if (angle < interactionAngle && dotProduct > 0) //Enemy is inside angle and in front of player
+		if (angle < interactionAngle /*&& dotProduct > 0*/) //Enemy is inside angle and in front of player
 		{
 #ifdef ENGINE
 			color = dd::colors::Red;

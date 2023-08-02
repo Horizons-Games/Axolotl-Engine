@@ -11,6 +11,7 @@ class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
 class EntityDetection;
+class HeavyFinisherAttack;
 
 class PlayerManagerScript;
 
@@ -59,4 +60,6 @@ private:
 
 	PlayerManagerScript* playerManager;
 	AttackCombo attackComboPhase;
+	HeavyFinisherAttack* heavyFinisherAttack;
+	GameObject* heavyFinisherAttackGO;
 };

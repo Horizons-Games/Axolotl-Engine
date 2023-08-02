@@ -3,6 +3,8 @@
 #include "Application.h"
 
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Physics/Physics.h"
 
@@ -15,6 +17,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/EntityDetection.h"
+#include "../Scripts/HeavyFinisherAttack.h"
 
 #include "GameObject/GameObject.h"
 
@@ -31,13 +34,13 @@
 REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
-	input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr),
-	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
+input(nullptr), animation(nullptr), animationGO(nullptr), transform(nullptr), heavyFinisherAttack(nullptr), heavyFinisherAttackGO(nullptr),
+playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(enemyDetectionObject, GameObject*);
-	//--Provisional
+	REGISTER_FIELD(heavyFinisherAttackGO, GameObject*);
 }
 
 void BixAttackScript::Start()
@@ -57,6 +60,7 @@ void BixAttackScript::Start()
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 
 	enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
+	heavyFinisherAttack = heavyFinisherAttackGO->GetComponent<HeavyFinisherAttack>();
 }
 
 void BixAttackScript::Update(float deltaTime)
@@ -87,13 +91,15 @@ void BixAttackScript::CheckCollision() const
 		float damageAttack = playerManager->GetPlayerAttack();
 		if (!isDeathTouched)
 		{
-			healthScript->TakeDamage(damageAttack);
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
+			//healthScript->TakeDamage(damageAttack);
+			heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), transform);
+			//audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 		}
 		else
 		{
-			healthScript->TakeDamage(healthScript->GetMaxHealth());
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
+			//healthScript->TakeDamage(healthScript->GetMaxHealth());
+			heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), transform);
+			//audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 		}
 	}
 }
