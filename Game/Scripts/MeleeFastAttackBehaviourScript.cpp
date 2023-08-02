@@ -9,6 +9,8 @@
 
 #include "../MathGeoLib/Include/Geometry/Ray.h"
 
+#include "SDL.h"
+
 #include "debugdraw.h"
 #include <set>
 
