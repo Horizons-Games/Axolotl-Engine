@@ -82,28 +82,3 @@ private:
 	int previousMovements;
 	int currentMovements;
 };
-
-inline bool PlayerMoveScript::IsParalyzed() const
-{
-	return isParalyzed;
-}
-
-inline void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
-{
-	this->isParalyzed = isParalyzed;
-}
-
-inline PlayerActions PlayerMoveScript::GetPlayerState() const
-{
-	return playerState;
-}
-
-inline void PlayerMoveScript::SetPlayerState(PlayerActions playerState)
-{
-	this->playerState = playerState;
-}
-
-inline PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
-{
-	return jumpScript;
-}

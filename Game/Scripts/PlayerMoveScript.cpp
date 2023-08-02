@@ -213,57 +213,84 @@ void PlayerMoveScript::Move(float deltaTime)
 
 void PlayerMoveScript::MoveRotate(const float3& targetDirection, float deltaTime)
 {
-	if (!isDashing)
+	if (isDashing)
 	{
-		btTransform worldTransform = btRigidbody->getWorldTransform();
-		Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), targetDirection, float3::unitY, float3::unitY);
-		Quat rotation = componentTransform->GetGlobalRotation();
-		Quat targetRotation = rot * componentTransform->GetGlobalRotation();
+		return;
+	}
 
-		Quat rotationError = targetRotation * rotation.Normalized().Inverted();
-		rotationError.Normalize();
+	btTransform worldTransform = btRigidbody->getWorldTransform();
+	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), targetDirection, float3::unitY, float3::unitY);
+	Quat rotation = componentTransform->GetGlobalRotation();
+	Quat targetRotation = rot * componentTransform->GetGlobalRotation();
 
-		if (!rotationError.Equals(Quat::identity, 0.05f))
+	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
+	rotationError.Normalize();
+
+	if (!rotationError.Equals(Quat::identity, 0.05f))
+	{
+		float3 axis;
+		float angle;
+		rotationError.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 velocityRotation = axis * angle * playerManager->GetPlayerRotationSpeed();
+		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+		Quat wq_0 = angularVelocityQuat * rotation;
+
+		float deltaValue = 0.5f * deltaTime;
+		Quat deltaRotation = Quat(deltaValue * wq_0.x,
+			deltaValue * wq_0.y,
+			deltaValue * wq_0.z,
+			deltaValue * wq_0.w);
+
+		if (deltaRotation.Length() > rotationError.Length())
 		{
-			float3 axis;
-			float angle;
-			rotationError.ToAxisAngle(axis, angle);
-			axis.Normalize();
-
-			float3 velocityRotation = axis * angle * playerManager->GetPlayerRotationSpeed();
-			Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
-			Quat wq_0 = angularVelocityQuat * rotation;
-
-			float deltaValue = 0.5f * deltaTime;
-			Quat deltaRotation = Quat(deltaValue * wq_0.x,
-				deltaValue * wq_0.y,
-				deltaValue * wq_0.z,
-				deltaValue * wq_0.w);
-
-			if (deltaRotation.Length() > rotationError.Length())
-			{
-				worldTransform.setRotation({ targetRotation.x,
-					targetRotation.y,
-					targetRotation.z,
-					targetRotation.w });
-			}
-
-			else
-			{
-				Quat nextRotation(rotation.x + deltaRotation.x,
-					rotation.y + deltaRotation.y,
-					rotation.z + deltaRotation.z,
-					rotation.w + deltaRotation.w);
-				nextRotation.Normalize();
-
-				worldTransform.setRotation({ nextRotation.x,
-					nextRotation.y,
-					nextRotation.z,
-					nextRotation.w });
-			}
+			worldTransform.setRotation({ targetRotation.x,
+				targetRotation.y,
+				targetRotation.z,
+				targetRotation.w });
 		}
 
-		btRigidbody->setWorldTransform(worldTransform);
-		btRigidbody->getMotionState()->setWorldTransform(worldTransform);
+		else
+		{
+			Quat nextRotation(rotation.x + deltaRotation.x,
+				rotation.y + deltaRotation.y,
+				rotation.z + deltaRotation.z,
+				rotation.w + deltaRotation.w);
+			nextRotation.Normalize();
+
+			worldTransform.setRotation({ nextRotation.x,
+				nextRotation.y,
+				nextRotation.z,
+				nextRotation.w });
+		}
 	}
+
+	btRigidbody->setWorldTransform(worldTransform);
+	btRigidbody->getMotionState()->setWorldTransform(worldTransform);
+}
+
+bool PlayerMoveScript::IsParalyzed() const
+{
+	return isParalyzed;
+}
+
+void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
+{
+	this->isParalyzed = isParalyzed;
+}
+
+PlayerActions PlayerMoveScript::GetPlayerState() const
+{
+	return playerState;
+}
+
+void PlayerMoveScript::SetPlayerState(PlayerActions playerState)
+{
+	this->playerState = playerState;
+}
+
+PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
+{
+	return jumpScript;
 }

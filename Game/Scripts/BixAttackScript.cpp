@@ -234,3 +234,28 @@ void BixAttackScript::ActivateAnimationCombo()
 		}
 	}
 }
+
+void BixAttackScript::SetIsAttacking(bool isAttaking)
+{
+	this->isAttacking = isAttacking;
+}
+
+bool BixAttackScript::IsAttacking() const
+{
+	return isAttacking;
+}
+
+bool BixAttackScript::IsDeathTouched() const
+{
+	return isDeathTouched;
+}
+
+void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
+{
+	this->isDeathTouched = isDeathTouched;
+}
+
+bool BixAttackScript::IsAttackAvailable() const
+{
+	return !isAttacking;
+}

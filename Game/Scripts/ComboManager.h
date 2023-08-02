@@ -49,8 +49,3 @@ private:
 	float comboTime;
 	float actualComboTimer;
 };
-
-inline bool ComboManager::IsSpecialActivated() const
-{
-	return specialActivated;
-}

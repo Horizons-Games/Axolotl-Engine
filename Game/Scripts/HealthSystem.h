@@ -37,33 +37,3 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
 };
-
-inline void HealthSystem::HealLife(float amountHealed)
-{
-	currentHealth = std::min(currentHealth + amountHealed, maxHealth);
-}
-
-inline bool HealthSystem::EntityIsAlive() const
-{
-	return currentHealth > 0;
-}
-
-inline float HealthSystem::GetMaxHealth() const
-{
-	return maxHealth;
-}
-
-inline bool HealthSystem::IsImmortal() const
-{
-	return isImmortal;
-}
-
-inline void HealthSystem::SetIsImmortal(bool isImmortal)
-{
-	this->isImmortal = isImmortal;
-}
-
-inline float HealthSystem::GetCurrentHealth() const
-{
-	return currentHealth;
-}

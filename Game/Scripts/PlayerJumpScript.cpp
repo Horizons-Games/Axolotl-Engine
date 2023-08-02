@@ -122,3 +122,27 @@ void PlayerJumpScript::Jump(float deltatime)
 	}
 }
 
+bool PlayerJumpScript::IsJumping() const
+{
+	return isJumping;
+}
+
+bool PlayerJumpScript::IsGrounded() const
+{
+	return isGrounded;
+}
+
+bool PlayerJumpScript::CanJump() const
+{
+	return canJump;
+}
+
+void PlayerJumpScript::SetCanJump(bool canJump)
+{
+	this->canJump = canJump;
+}
+
+PlayerMoveScript* PlayerJumpScript::GetMovementScript() const
+{
+	return moveScript;
+}

@@ -144,3 +144,8 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		ClearCombo(true);
 	}
 }
+
+bool ComboManager::IsSpecialActivated() const
+{
+	return specialActivated;
+}

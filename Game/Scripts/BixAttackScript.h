@@ -79,28 +79,3 @@ private:
 
 	AttackCombo attackComboPhase;
 };
-
-inline void BixAttackScript::SetIsAttacking(bool isAttaking)
-{
-	this->isAttacking = isAttacking;
-}
-
-inline bool BixAttackScript::IsAttacking() const
-{
-	return isAttacking;
-}
-
-inline bool BixAttackScript::IsDeathTouched() const
-{
-	return isDeathTouched;
-}
-
-inline void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
-{
-	this->isDeathTouched = isDeathTouched;
-}
-
-inline bool BixAttackScript::IsAttackAvailable() const
-{
-	return !isAttacking;
-}

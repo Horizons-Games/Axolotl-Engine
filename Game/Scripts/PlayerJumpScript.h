@@ -49,31 +49,4 @@ private:
 	ComponentAudioSource* componentAudio;
 
 	PlayerMoveScript* moveScript;
-
 };
-
-inline bool PlayerJumpScript::IsJumping() const
-{
-	return isJumping;
-}
-
-inline bool PlayerJumpScript::IsGrounded() const
-{
-	return isGrounded;
-}
-
-inline bool PlayerJumpScript::CanJump() const
-{
-	return canJump;
-}
-
-inline void PlayerJumpScript::SetCanJump(bool canJump)
-{
-	this->canJump = canJump;
-}
-
-
-inline PlayerMoveScript* PlayerJumpScript::GetMovementScript() const
-{
-	return moveScript;
-}

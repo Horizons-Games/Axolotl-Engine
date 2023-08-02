@@ -200,8 +200,7 @@ void DebugGame::BeImmortal() const
 		playerHealthSystem->SetIsImmortal(true);
 		LOG_VERBOSE("Immortal ON");
 	}
-
-	else if (playerHealthSystem->IsImmortal())
+	else
 	{
 		playerHealthSystem->SetIsImmortal(false);
 		LOG_VERBOSE("Immortal OFF");
@@ -215,8 +214,7 @@ void DebugGame::DeathTouch() const
 		playerAttackScript->SetIsDeathTouched(true);
 		LOG_VERBOSE("Death Touch ON");
 	}
-
-	else if (playerAttackScript->IsDeathTouched())
+	else
 	{
 		playerAttackScript->SetIsDeathTouched(false);
 		LOG_VERBOSE("Death Touch OFF");
