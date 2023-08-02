@@ -59,17 +59,11 @@ void LightAttackBullet::SetEnemy(GameObject* nEnemy)
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->IsTrigger())
-	{
-		return;
-	}
-
 	if (other->GetOwner() == enemy)
 	{
-		HealthSystem* playerHealthScript = enemy->GetComponent<HealthSystem>();
-		playerHealthScript->TakeDamage(damageAttack);
-		DestroyBullet();
+		enemy->GetComponent<HealthSystem>()->TakeDamage(damageAttack);
 		enemy->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
+		DestroyBullet();
 		//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 	}	
 }
