@@ -7,12 +7,16 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
 class ComponentAudioSource;
+class ComponentRigidBody;
+class GameObject;
 
 class PlayerJumpScript : public Script
 {
 public:
     PlayerJumpScript();
 	~PlayerJumpScript() override = default;
+
+	bool isGrounded();
 
     void Start() override;
 	void PreUpdate(float deltaTime) override;
@@ -21,11 +25,18 @@ public:
 	void SetCanJump(bool canJump);
 
 private:
+	void CheckGround();
 	void Jump(float deltatime);
+	
+	bool grounded;
+	bool doubleJumpAvailable;
+	bool jumping;
+	int groundedCount;
+	ComponentRigidBody* rigidbody;
+	float coyoteTime;
+	float coyoteTimerCount;
 
     float jumpParameter;
-    int jumps;
-    int jumpReset;
     bool canDoubleJump;
 	bool canJump;
 

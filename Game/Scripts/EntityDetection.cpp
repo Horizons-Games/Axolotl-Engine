@@ -129,7 +129,7 @@ void EntityDetection::SelectEnemy()
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Enemy")
+	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}

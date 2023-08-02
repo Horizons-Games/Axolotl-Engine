@@ -10,12 +10,15 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
+#include "Components/ComponentRigidBody.h"
 
-#include "AxoLog.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(PlayerDeathScript);
 
-PlayerDeathScript::PlayerDeathScript() : Script(), loseSceneName("00_LoseScene_VS3"), componentAnimation(nullptr)
+PlayerDeathScript::PlayerDeathScript() : Script(), loseSceneName("00_LoseScene_VS3"), componentAnimation(nullptr),
+	componentAudioSource(nullptr)
 {
 	REGISTER_FIELD(loseSceneName, std::string);
 }
@@ -23,6 +26,7 @@ PlayerDeathScript::PlayerDeathScript() : Script(), loseSceneName("00_LoseScene_V
 void PlayerDeathScript::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 }
 
 void PlayerDeathScript::ManagePlayerDeath() const
@@ -39,6 +43,7 @@ void PlayerDeathScript::ManagePlayerDeath() const
 		LOG_VERBOSE("Player is dead");
 	}
 
+	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 	DisablePlayerActions();
 }
 
@@ -55,23 +60,20 @@ void PlayerDeathScript::DisablePlayerActions() const
 		}
 	}
 
+	// We have to disable also those scripts that are present on the children of the player
 	GameObject::GameObjectView children = owner->GetChildren();
 
 	for (const GameObject* child : children)
 	{
-		// In order to get the force and vertical rotation scripts to work
-		// We have to disable also those scripts that are present on the player camera
+		std::vector<ComponentScript*> childScripts = child->GetComponents<ComponentScript>();
 
-		if (!child->GetComponent<ComponentCamera>())
-		{
-			continue;
-		}
-
-		std::vector<ComponentScript*> cameraScripts = child->GetComponents<ComponentScript>();
-
-		for (ComponentScript* script : cameraScripts)
+		for (ComponentScript* script : childScripts)
 		{
 			script->Disable();
 		}
 	}
+
+	ComponentRigidBody* playerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	playerRigidBody->SetIsKinematic(true);
+	playerRigidBody->SetUpMobility();
 }
