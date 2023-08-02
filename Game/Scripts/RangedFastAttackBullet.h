@@ -5,7 +5,6 @@
 class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
-class Scene;
 
 class RangedFastAttackBullet : public Script
 {
@@ -18,7 +17,7 @@ public:
 
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
-	void SetBulletVelocity(float velocity);
+	void SetBulletVelocity(float nVelocity);
 
 private:
 	void InitializeBullet();

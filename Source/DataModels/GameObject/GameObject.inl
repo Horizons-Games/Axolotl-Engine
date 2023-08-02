@@ -109,3 +109,9 @@ std::vector<S*> GameObject::GetComponents()
 							   });
 	return std::vector<S*>(std::begin(filteredScripts), std::end(filteredScripts));
 }
+
+template<typename C>
+inline bool GameObject::HasComponent() const
+{
+	return GetComponentInternal<C>() != nullptr;
+}
