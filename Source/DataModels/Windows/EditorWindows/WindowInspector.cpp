@@ -8,6 +8,7 @@
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAnimation.h"
@@ -304,6 +305,9 @@ void WindowInspector::InspectSelectedResource()
 			case ResourceType::Texture:
 				DrawTextureOptions();
 				break;
+			case ResourceType::SkyBox:
+				DrawSkyboxOptions();
+				break;
 			default:
 				break;
 		}
@@ -325,6 +329,27 @@ void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource)
 				break;
 			default:
 				break;
+		}
+	}
+}
+
+
+void WindowInspector::DrawSkyboxOptions()
+{
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(resource.lock());
+	std::vector < std::shared_ptr<ResourceTexture> > textures = resourceSkybox->GetTextures();
+	
+	const std::string names[] = { "Right", "Left","Top","Bottom","Back", "Front" };
+	for (size_t i = 0; i < textures.size(); i++)
+	{
+		ImGui::Text(names[i].c_str());
+		ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),
+						ImVec2(100, 100));
+		ImGui::SameLine();
+		const char* name = ("See Resource of " + names[i]).c_str();
+		if (ImGui::Button(name))
+		{
+			resource = textures[i];
 		}
 	}
 }

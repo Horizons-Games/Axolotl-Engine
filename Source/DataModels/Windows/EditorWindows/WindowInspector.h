@@ -34,6 +34,7 @@ private:
 	void InitTextureImportOptions();
 	void InitTextureLoadOptions();
 	void DrawTextureOptions();
+	void DrawSkyboxOptions();
 
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
