@@ -14,6 +14,7 @@ public:
 
 	void SaveOptions(Json& json) const;
 	void LoadOptions(Json& json);
+	std::shared_ptr<ResourceCubemap> GetCubemapResource() const;
 
 	void DebugNSight(); // DEBUG purpouse
 
