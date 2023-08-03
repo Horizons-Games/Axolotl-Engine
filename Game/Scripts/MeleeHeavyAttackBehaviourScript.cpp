@@ -84,7 +84,7 @@ ExplosionState MeleeHeavyAttackBehaviourScript::IsExploted() const
 
 void MeleeHeavyAttackBehaviourScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Player")
+	if (other->GetOwner()->CompareTag("Player"))
 	{
 		targetPlayer = other->GetOwner();
 	}
@@ -92,7 +92,7 @@ void MeleeHeavyAttackBehaviourScript::OnCollisionEnter(ComponentRigidBody* other
 
 void MeleeHeavyAttackBehaviourScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Player")
+	if (other->GetOwner()->CompareTag("Player"))
 	{
 		targetPlayer = nullptr;
 	}
