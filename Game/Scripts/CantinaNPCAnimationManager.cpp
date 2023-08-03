@@ -14,12 +14,13 @@ CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), audio(nullp
 
 void CantinaNPCAnimationManager::Start()
 {
-	try {
+	try
+	{
 		audio = owner->GetComponent<ComponentAudioSource>();
 	}
-	catch (const ComponentNotFoundException&)
+	catch (const ComponentNotFoundException& e)
 	{
-		LOG_WARNING("{} have not Component Audio Source", owner->GetName());
+		LOG_ERROR("{} expected to have a Component, but didn't. Must be fixed!!!! Error: {}", owner, e.what());
 	}
 
 	animation = owner->GetComponent<ComponentAnimation>();
