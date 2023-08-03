@@ -5,8 +5,19 @@
 #include "Application.h"
 #include "Modules/ModuleInput.h"
 
+namespace
+{
+const std::map<SDL_GameControllerButton, SDL_Scancode> gamepadMapping = {
+	{ SDL_CONTROLLER_BUTTON_A, SDL_SCANCODE_SPACE },
+	{ SDL_CONTROLLER_BUTTON_B, SDL_SCANCODE_Q },
+	{ SDL_CONTROLLER_BUTTON_X, SDL_SCANCODE_V },
+	{ SDL_CONTROLLER_BUTTON_Y, SDL_SCANCODE_LSHIFT },
+};
+}
+
 ComponentPlayerInput::ComponentPlayerInput(bool enabled, GameObject* owner) :
-	Component(ComponentType::PLAYERINPUT, enabled, owner, true)
+	Component(ComponentType::PLAYERINPUT, enabled, owner, true),
+	gamepadMapping(::gamepadMapping)
 {
 }
 
