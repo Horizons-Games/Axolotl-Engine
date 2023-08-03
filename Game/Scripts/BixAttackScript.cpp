@@ -172,6 +172,8 @@ void BixAttackScript::NormalAttack(bool heavy)
 
 void BixAttackScript::JumpAttack()
 {
+	animation->SetParameter("IsAttacking", true);
+
 	if (comboSystem->isSpecialActivated()) 
 	{
 		comboSystem->SuccessfulAttack(-20, AttackType::JUMPATTACK);
