@@ -171,16 +171,12 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 
 GameObject* EntityDetection::GetEnemySelected(float distanceFilter)
 {
-	if (enemySelected != nullptr)
+	if (enemySelected != nullptr && distanceFilter != 0 && distanceFilter < rigidBody->GetRadius())
 	{
-		if (distanceFilter != 0 && distanceFilter < rigidBody->GetRadius()) 
-		{
-			SelectEnemy(distanceFilter);
-		}
-		return enemySelected->GetOwner();
+		SelectEnemy(distanceFilter);
 	}
-	else
-	{
-		return nullptr;
-	}
+		
+	if(enemySelected != nullptr) return enemySelected->GetOwner();
+
+	return nullptr;
 }
