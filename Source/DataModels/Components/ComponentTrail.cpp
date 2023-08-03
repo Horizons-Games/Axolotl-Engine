@@ -317,11 +317,11 @@ void ComponentTrail::RedoBuffers()
 
 		// color
 		color = Lerp(initColor, endColor, steps * static_cast<float>(actualStep));
-		//if (blendingMode == BlendingMode::ADDITIVE)
-		//{
+		if (blendingMode == BlendingMode::ADDITIVE)
+		{
 			// additive alpha lerp to black
-			//color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - ratioLife);
-		//}
+			color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - ratioLife);
+		}
 		vertexData[posInMemory].color = float4(color, ratioLife);
 		vertexData[posInMemory + 1].color = float4(color, ratioLife);
 
@@ -354,11 +354,11 @@ void ComponentTrail::RedoBuffers()
 
 				// color
 				color = Lerp(initColor, endColor, steps * static_cast<float>(actualStep));
-				//if (blendingMode == BlendingMode::ADDITIVE)
-				//{
+				if (blendingMode == BlendingMode::ADDITIVE)
+				{
 					// additive alpha lerp to black
-					//color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - ratioLife);
-				//}
+					color = color.Lerp(float3(0.0f, 0.0f, 0.0f), 1.0f - ratioLife);
+				}
 				vertexData[posInMemory + j * 2].color = float4(color, ratioLife);
 				vertexData[posInMemory + j * 2 + 1].color = float4(color, ratioLife);
 			}
@@ -374,6 +374,11 @@ void ComponentTrail::UpdateLife()
 	for (int i = 0; i < points.size(); i++)
 	{
 		points[i].life -= timePassed;
+
+		if (points[i].life < 0.0f)
+		{
+			points[i].life = 0.0f;
+		}
 	}
 
 	for (int i = 0; i < points.size(); i++)

@@ -747,7 +747,7 @@ void GeometryBatch::BindBatch(bool selected)
 				unsigned int paletteIndex = paletteIndexes[component];
 
 				transformData[frame][instanceIndex] = 
-					component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+					component->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 				
 				if (component->GetMesh()->GetNumBones() > 0)
 				{
@@ -786,7 +786,7 @@ void GeometryBatch::BindBatch(bool selected)
 			unsigned int paletteIndex = paletteIndexes[component];
 
 			transformData[frame][instanceIndex] =
-				component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+				component->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 			if (component->GetMesh()->GetNumBones() > 0)
 			{

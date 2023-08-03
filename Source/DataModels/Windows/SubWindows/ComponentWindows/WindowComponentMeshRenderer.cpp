@@ -43,7 +43,7 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 	ResetMaterialValues();
 }
 
-std::shared_ptr<ResourceMaterial>& WindowComponentMeshRenderer::GetMaterial() const
+std::shared_ptr<ResourceMaterial> WindowComponentMeshRenderer::GetMaterial() const
 {
 	std::shared_ptr<ResourceMaterial> materialResource = static_cast<ComponentMeshRenderer*>(component)->GetMaterial();
 	return materialResource;
@@ -231,7 +231,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				for (unsigned int i = 0; i < renderModes.size(); ++i)
 				{
-					const bool isSelected = materialResource->IsTransparent() == i;
+					const bool isSelected = static_cast<int>(materialResource->IsTransparent()) == i;
 
 					if (ImGui::Selectable(renderModes[i].c_str(), isSelected))
 					{

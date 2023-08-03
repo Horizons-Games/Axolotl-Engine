@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "Application.h"
 #include "AnimatedTexture.h"
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"

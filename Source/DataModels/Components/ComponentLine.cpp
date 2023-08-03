@@ -152,35 +152,47 @@ void ComponentLine::UpdateBuffers()
 
 void ComponentLine::Render()
 {
-
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
-	if (childGameObject != nullptr)
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		program->Activate();
-		ModelMatrix(program);
-		UpdateBuffers();
-
-		program->BindUniformFloat2("offset", offset);
-		program->BindUniformFloat2("tiling", tiling);
-		program->BindUniformFloat("time", time);
-
-		glActiveTexture(GL_TEXTURE0);
-		if (lineTexture)
+#ifdef ENGINE
+		//Draw the BoundingBox of ComponentLine
+		if (transform->IsDrawBoundingBoxes() && !App->IsOnPlayMode())
 		{
-			lineTexture->Load();
-			glBindTexture(GL_TEXTURE_2D, lineTexture->GetGlTexture());
-			program->BindUniformInt("hasTexture", 1);
+			App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
 		}
-		else
-		{
-			program->BindUniformInt("hasTexture", 0);
-		}
+#endif //ENGINE
 
-		glBindVertexArray(lineVAO);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
-		program->Deactivate();
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::COMPONENT_LINE);
+		if (childGameObject != nullptr)
+		{
+			program->Activate();
+			ModelMatrix(program);
+			UpdateBuffers();
+
+			program->BindUniformFloat2("offset", offset);
+			program->BindUniformFloat2("tiling", tiling);
+			program->BindUniformFloat("time", time);
+
+			glActiveTexture(GL_TEXTURE0);
+			if (lineTexture)
+			{
+				lineTexture->Load();
+				glBindTexture(GL_TEXTURE_2D, lineTexture->GetGlTexture());
+				program->BindUniformInt("hasTexture", 1);
+			}
+			else
+			{
+				program->BindUniformInt("hasTexture", 0);
+			}
+
+			glBindVertexArray(lineVAO);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 2 + 2 * numTiles);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindVertexArray(0);
+			program->Deactivate();
+		}
 	}
 }
 
@@ -188,14 +200,15 @@ void ComponentLine::ModelMatrix(Program* program)
 {
 	if (childGameObject)
 	{
-		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+		ModuleCamera* camera = App->GetModule<ModuleCamera>();
+		const float4x4& view = camera->GetCamera()->GetViewMatrix();
+		const float4x4& proj = camera->GetCamera()->GetProjectionMatrix();
 
 		float3 globalPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 		float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 		float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
-		float3 centerCamera = (App->GetModule<ModuleCamera>()->GetCamera()->GetPosition() - middlePoint).Normalized();
+		float3 centerCamera = (camera->GetCamera()->GetPosition() - middlePoint).Normalized();
 		float3 xAxis = childGlobalPosition - globalPosition;
 		float3 normalized = (childGlobalPosition - globalPosition).Normalized();
 		float3 yAxis = centerCamera.Cross(normalized);
