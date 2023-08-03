@@ -6,7 +6,6 @@
 #include "FileSystem/ModuleResources.h"
 #include "Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "Resources/ResourceMaterial.h"
-#include "Skybox/Skybox.h"
 
 WindowMaterialInput::WindowMaterialInput(WindowComponentMeshRenderer* window) :
 	WindowFileBrowser(), windowComponentMeshRenderer(window)
