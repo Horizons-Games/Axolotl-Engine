@@ -337,19 +337,45 @@ void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource)
 void WindowInspector::DrawSkyboxOptions()
 {
 	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(resource.lock());
-	std::vector < std::shared_ptr<ResourceTexture> > textures = resourceSkybox->GetTextures();
-	
-	const std::string names[] = { "Right", "Left","Top","Bottom","Back", "Front" };
-	for (size_t i = 0; i < textures.size(); i++)
+	if (resourceSkybox->GetTextures().size() > 0)
 	{
-		ImGui::Text(names[i].c_str());
-		ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),
-						ImVec2(100, 100));
+		ImGui::Text("Current skybox:");
 		ImGui::SameLine();
-		const char* name = ("See Resource of " + names[i]).c_str();
-		if (ImGui::Button(name))
+		ImGui::Text(resourceSkybox->GetAssetsPath().c_str());
+		ImGui::SameLine();
+		if (ImGui::Button("Remove skybox"))
 		{
-			resource = textures[i];
+			/*std::vector<std::shared_ptr<ResourceTexture>> textures = resourceSkybox->GetTextures();
+			textures[0].reset();
+			textures[1].reset();*/
+			resourceSkybox->Unload();
+			resourceSkybox->SetChanged(true);
+			// resource.
+			// resource.reset();
+		}
+		else
+		{
+			std::vector<std::shared_ptr<ResourceTexture>> textures = resourceSkybox->GetTextures();
+
+			const std::string names[] = { "Right", "Left", "Top", "Bottom", "Back", "Front" };
+			for (size_t i = 0; i < textures.size(); i++)
+			{
+				ImGui::Text(names[i].c_str());
+				ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),
+							 ImVec2(100, 100));
+				ImGui::SameLine();
+				const char* name = ("See Resource of " + names[i]).c_str();
+				if (ImGui::Button(name))
+				{
+					resource = textures[i];
+				}
+			}
+		}
+	}
+	else
+	{
+		if (ImGui::Button("Load skybox"))
+		{
 		}
 	}
 }

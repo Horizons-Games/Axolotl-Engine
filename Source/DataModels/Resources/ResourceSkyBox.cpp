@@ -62,7 +62,14 @@ void ResourceSkyBox::InternalLoad()
 void ResourceSkyBox::InternalUnload()
 {
 	// this will keep the capacity to 6
+	textures[0]->Unload();
+	textures[1]->Unload();
+	textures[2]->Unload();
+	textures[3]->Unload();
+	textures[4]->Unload();
+	textures[5]->Unload();
 	textures.clear();
+
 	glDeleteTextures(1, &glTexture);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
