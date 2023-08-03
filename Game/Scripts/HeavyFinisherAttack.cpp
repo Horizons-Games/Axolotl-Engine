@@ -64,12 +64,6 @@ void HeavyFinisherAttack::Update(float deltaTime)
 		return;
 	}
 
-	if (!attackHasTarget)
-	{
-		int size = enemiesInTheArea.size();
-		LOG_DEBUG("num enemies in area heavy attack: {}", size);
-	}
-
 	if (attackHasTarget)
 	{
 		MoveToEnemy(deltaTime);
