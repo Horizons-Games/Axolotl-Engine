@@ -147,7 +147,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_V) == KeyState::DOWN && canDash && !bixAttackScript->IsAttacking())
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && !bixAttackScript->IsAttacking())
 	{
 		if (!isDashing)
 		{
