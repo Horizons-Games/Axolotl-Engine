@@ -6,6 +6,7 @@
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Resources/ResourceSkyBox.h"
+#include "Skybox/Skybox.h"
 
 ComponentSkybox::ComponentSkybox(bool active, GameObject* owner) : 
 	Component(ComponentType::SKYBOX, active, owner, true)

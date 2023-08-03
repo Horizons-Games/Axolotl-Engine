@@ -7,6 +7,7 @@
 #include "Resources/ResourceSkyBox.h"
 #include "WindowSkyboxInput.h"
 #include "Defines/ExtensionDefines.h"
+#include "Skybox/Skybox.h"
 
 
 WindowSkyboxInput::WindowSkyboxInput() : WindowFileBrowser()

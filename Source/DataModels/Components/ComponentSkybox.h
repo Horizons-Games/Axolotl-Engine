@@ -1,6 +1,7 @@
 #pragma once
 #include "Components/Component.h"
-#include "Skybox/Skybox.h"
+
+class Skybox;
 
 class ComponentSkybox : public Component
 {

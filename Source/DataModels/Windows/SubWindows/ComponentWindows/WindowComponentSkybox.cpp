@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
+#include "Skybox/Skybox.h"
 
 WindowComponentSkybox::WindowComponentSkybox(ComponentSkybox* component) : 
 	ComponentWindow("SKYBOX", component),
