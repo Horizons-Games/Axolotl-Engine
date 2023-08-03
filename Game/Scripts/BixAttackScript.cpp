@@ -81,8 +81,9 @@ void BixAttackScript::Update(float deltaTime)
 		switch (currentAttack)
 		{
 			case AttackType::HEAVYFINISHER:
-				if (!heavyFinisherAttack->IsAttacking())
+				if (!heavyFinisherAttack->IsAttacking()) //Heavy Finisher Attack has finished
 				{
+					animation->SetParameter("HeavyFinisherExit", true);
 					isAttacking = false;
 					bixLightSaber->Enable();
 				}
@@ -208,11 +209,17 @@ void BixAttackScript::HeavyFinisher()
 {
 	bixLightSaber->Disable();
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
+	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
 	if (enemyAttacked != nullptr)
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
 			GetOwner()->GetComponent<ComponentTransform>());
+		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+	}
+	else
+	{
+		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
 		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
 	}
 }

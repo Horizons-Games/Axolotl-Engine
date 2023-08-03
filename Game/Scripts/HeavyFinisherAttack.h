@@ -20,13 +20,20 @@ public:
 	~HeavyFinisherAttack() override = default;
 
 	void PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner);
+	void PerformEmptyHeavyFinisher(ComponentTransform* attackOwner);
 	bool IsAttacking();
 
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void OnCollisionExit(ComponentRigidBody* other) override;
+
+	void MoveToEnemy(float deltaTime);
+	void MoveForward(float deltaTime);
 	void SeekNextEnemy();
+	void HitEnemy();
 	void ResetValues();
 
 	ComponentAudioSource* audioSource;
@@ -39,8 +46,10 @@ private:
 	ComponentTransform* attackOwner;
 	bool isActivated;
 	bool isReturningToOwner;
+	bool attackHasTarget;
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	std::vector<ComponentTransform*> enemiesAlreadyHit;
+	float3 emptyAttackTargetPos;
 
 	ModulePhysics* physics;
 	Scene* loadedScene;
@@ -53,4 +62,5 @@ private:
 	float hitDistance;
 	float maxEnemyHits; //Should be int but can't REGISTER_FIELD ints
 	float countEnemyHits;
+	float defaultThrowDistance; //Distance for when the attack does not have an initial target
 };

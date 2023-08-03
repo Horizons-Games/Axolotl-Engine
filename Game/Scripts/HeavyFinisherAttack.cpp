@@ -28,9 +28,10 @@
 REGISTERCLASS(HeavyFinisherAttack);
 
 HeavyFinisherAttack::HeavyFinisherAttack() : Script(), audioSource(nullptr), transform(nullptr), rigidBody(nullptr),
-mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackOwner(nullptr), vfx(nullptr),
-returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), rotationVelocity(50.0f),
-loadedScene(nullptr), physics(nullptr), maxEnemyHits(3.0f), countEnemyHits(0.0f)
+mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackHasTarget(false), attackOwner(nullptr),
+vfx(nullptr), returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), 
+rotationVelocity(50.0f), loadedScene(nullptr), physics(nullptr), maxEnemyHits(3.0f), countEnemyHits(0.0f),
+defaultThrowDistance(10.0f)
 {
 	REGISTER_FIELD(returnToPlayer, bool);
 	REGISTER_FIELD(rotateWhileAttacking, bool);
@@ -63,7 +64,24 @@ void HeavyFinisherAttack::Update(float deltaTime)
 		return;
 	}
 
+	if (!attackHasTarget)
+	{
+		int size = enemiesInTheArea.size();
+		LOG_DEBUG("num enemies in area heavy attack: {}", size);
+	}
 
+	if (attackHasTarget)
+	{
+		MoveToEnemy(deltaTime);
+	}
+	else
+	{
+		MoveForward(deltaTime);
+	}
+}
+
+void HeavyFinisherAttack::MoveToEnemy(float deltaTime) 
+{
 	float3 currentPos = transform->GetGlobalPosition();
 	float3 enemyPos = target->GetGlobalPosition();
 
@@ -81,11 +99,7 @@ void HeavyFinisherAttack::Update(float deltaTime)
 	{
 		if (!isReturningToOwner)
 		{
-			target->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damage);
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
-			vfx->SetPlayAtStart(true);
-			vfx->Play();
-			countEnemyHits += 1.0f;
+			HitEnemy();
 
 			if (countEnemyHits >= maxEnemyHits)
 			{
@@ -111,10 +125,68 @@ void HeavyFinisherAttack::Update(float deltaTime)
 	}
 }
 
+void HeavyFinisherAttack::MoveForward(float deltaTime)
+{
+	float3 currentPos = transform->GetGlobalPosition();
+
+	float3 vecForward = (emptyAttackTargetPos - currentPos).Normalized();
+
+	transform->SetLocalPosition(currentPos + vecForward * speed * deltaTime); //Move attack
+	if (rotateWhileAttacking)
+	{
+		transform->SetLocalRotation(Quat::RotateAxisAngle(float3::unitY, math::DegToRad(rotationVelocity * 10.0f * deltaTime))
+			* transform->GetLocalRotation());
+	}
+	transform->UpdateTransformMatrices();
+	rigidBody->UpdateRigidBody();
+
+	bool enemyHitten = false;
+	for (ComponentTransform* enemy : enemiesInTheArea)
+	{
+		if (currentPos.Distance(enemy->GetGlobalPosition()) < hitDistance)
+		{
+			target = enemy;
+			HitEnemy();
+			enemyHitten = true;
+			SeekNextEnemy();
+			attackHasTarget = true;
+			
+			break;
+		}
+	}
+
+	if (!enemyHitten)
+	{
+		if (currentPos.Distance(emptyAttackTargetPos) < hitDistance) //Attack gets to target
+		{
+			target = attackOwner;
+			isReturningToOwner = true;
+			attackHasTarget = true;
+			rigidBody->Disable();
+			if (!returnToPlayer)
+			{
+				ResetValues();
+			}
+		}
+	}
+}
+
+void HeavyFinisherAttack::HitEnemy()
+{
+	target->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damage);
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
+	vfx->SetPlayAtStart(true);
+	vfx->Play();
+	enemiesAlreadyHit.push_back(target);
+	countEnemyHits += 1.0f;
+}
+
 void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner)
 {
 	this->target = target;
 	this->attackOwner = attackOwner;
+
+	attackHasTarget = true;
 
 	mesh->Enable();
 	rigidBody->Disable();
@@ -125,9 +197,33 @@ void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, Compo
 	isActivated = true;
 }
 
+void HeavyFinisherAttack::PerformEmptyHeavyFinisher(ComponentTransform* attackOwner)
+{
+	this->attackOwner = attackOwner;
+
+	emptyAttackTargetPos = attackOwner->GetGlobalPosition() + attackOwner->GetGlobalForward().Normalized() * defaultThrowDistance;
+
+	attackHasTarget = false;
+
+	mesh->Enable();
+	rigidBody->Enable();
+
+	owner->SetParent(loadedScene->GetRoot());
+
+	std::vector<ComponentRigidBody*> collisions;
+	physics->GetCollisions(rigidBody, collisions, "Enemy"); //Get enemies inside the collider
+
+	for (ComponentRigidBody* enemy : collisions)
+	{
+		enemiesInTheArea.push_back(enemy->GetOwner()->GetComponent<ComponentTransform>());
+	}
+
+	isReturningToOwner = false;
+	isActivated = true;
+}
+
 void HeavyFinisherAttack::SeekNextEnemy()
 {
-	enemiesAlreadyHit.push_back(target);
 	target = nullptr;
 
 	rigidBody->Enable();
@@ -135,11 +231,6 @@ void HeavyFinisherAttack::SeekNextEnemy()
 
 	std::vector<ComponentRigidBody*> collisions;
 	physics->GetCollisions(rigidBody, collisions, "Enemy"); //Get enemies inside the collider
-
-	if (collisions.empty())
-	{
-		return;
-	}
 
 	float3 currentPos = transform->GetGlobalPosition();
 
@@ -188,6 +279,7 @@ void HeavyFinisherAttack::ResetValues()
 
 	isActivated = false;
 	isReturningToOwner = false;
+	attackHasTarget = false;
 
 	enemiesAlreadyHit.clear();
 	enemiesInTheArea.clear();
@@ -196,6 +288,31 @@ void HeavyFinisherAttack::ResetValues()
 
 	vfx->Stop();
 	mesh->Disable();
+}
+
+void HeavyFinisherAttack::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (attackHasTarget)
+	{
+		return;
+	}
+
+	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
+	{
+		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
+	}
+}
+
+void HeavyFinisherAttack::OnCollisionExit(ComponentRigidBody* other)
+{
+	enemiesInTheArea.erase(
+		std::remove_if(
+			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentTransform* transform)
+			{
+				return transform == other->GetOwner()->GetComponent<ComponentTransform>();
+			}
+		),
+		std::end(enemiesInTheArea));
 }
 
 bool HeavyFinisherAttack::IsAttacking()
