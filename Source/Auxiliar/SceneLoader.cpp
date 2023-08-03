@@ -60,7 +60,7 @@ std::map<UID, UID> uidMap;
 
 //////////////////////////////////////////////////////////////////
 
-void FinishProcessAndInvokeCallback()
+void CleanupAndInvokeCallback()
 {
 	// clear the document
 	rapidjson::Document().Swap(doc).SetObject();
@@ -73,7 +73,7 @@ void FinishProcessAndInvokeCallback()
 
 //////////////////////////////////////////////////////////////////
 
-void EndLoadScene()
+void OnLoadedScene()
 {
 #ifndef ENGINE
 	ModulePlayer* player = App->GetModule<ModulePlayer>();
@@ -89,12 +89,12 @@ void EndLoadScene()
 
 	LOG_VERBOSE("Finished load of scene {}", currentLoadingConfig->scenePath.value());
 
-	FinishProcessAndInvokeCallback();
+	CleanupAndInvokeCallback();
 }
 
 //////////////////////////////////////////////////////////////////
 
-void EndJsonLoad(std::vector<GameObject*>&& loadedObjects)
+void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 {
 	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
 	Scene* loadedScene = moduleScene->GetLoadedScene();
@@ -180,15 +180,15 @@ void EndJsonLoad(std::vector<GameObject*>&& loadedObjects)
 	// if no document was set, the user is creating a new scene. finish the process
 	if (!currentLoadingConfig->doc.has_value())
 	{
-		EndLoadScene();
+		OnLoadedScene();
 		return;
 	}
-	FinishProcessAndInvokeCallback();
+	CleanupAndInvokeCallback();
 }
 
 //////////////////////////////////////////////////////////////////
 
-void EndHierarchyLoad()
+void OnHierarchyLoaded()
 {
 	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
@@ -245,7 +245,7 @@ void EndHierarchyLoad()
 	gameObjects.clear();
 	gameObjectMap.clear();
 
-	EndJsonLoad(std::move(loadedObjects));
+	OnJsonLoaded(std::move(loadedObjects));
 }
 
 //////////////////////////////////////////////////////////////////
@@ -304,12 +304,12 @@ void StartHierarchyLoad(Json&& gameObjectsJson)
 		}
 		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 		{
-			std::thread hierarchyLoadThread = std::thread(&EndHierarchyLoad);
+			std::thread hierarchyLoadThread = std::thread(&OnHierarchyLoaded);
 			hierarchyLoadThread.detach();
 		}
 		else
 		{
-			EndHierarchyLoad();
+			OnHierarchyLoaded();
 		}
 	};
 

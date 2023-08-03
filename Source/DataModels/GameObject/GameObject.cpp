@@ -42,7 +42,7 @@
 
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :
-	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
+	GameObject(name, nullptr, uid, true, true, StateOfSelection::NOT_SELECTED, false)
 {
 }
 
@@ -56,7 +56,7 @@ GameObject::GameObject(const std::string& name, GameObject* parent) :
 			   UniqueID::GenerateUID(),
 			   true,
 			   (parent->IsEnabled() && parent->IsActive()),
-			   StateOfSelection::NO_SELECTED,
+			   StateOfSelection::NOT_SELECTED,
 			   false)
 {
 	this->parent->LinkChild(this);
@@ -68,7 +68,7 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   UniqueID::GenerateUID(),
 			   true,
 			   true,
-			   StateOfSelection::NO_SELECTED,
+			   StateOfSelection::NOT_SELECTED,
 			   gameObject.staticObject,
 			   gameObject.tag)
 {

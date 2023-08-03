@@ -29,10 +29,10 @@ void WindowLoadScene::DoThisIfOk()
 	App->GetModule<ModuleScene>()->LoadSceneAsync(filePath,
 												  [currentTime]()
 												  {
-													  float duration =
+													  long long duration =
 														  std::chrono::duration_cast<std::chrono::seconds>(
 															  std::chrono::system_clock::now() - currentTime)
 															  .count();
-													  LOG_DEBUG("Scene Loaded! Took {} seconds", duration);
+													  LOG_DEBUG("Scene Loaded! Took {} seconds", static_cast<int>(duration));
 												  });
 }

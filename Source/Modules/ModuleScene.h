@@ -69,12 +69,12 @@ private:
 	rapidjson::Document tmpDoc;
 	std::map<UID, UID> uidMap;
 
-	std::mutex setSceneMutex;
+	std::mutex loadedSceneMutex;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const
 {
-	std::scoped_lock(setSceneMutex);
+	std::scoped_lock(loadedSceneMutex);
 	return loadedScene.get();
 }
 

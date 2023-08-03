@@ -194,7 +194,7 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
-	std::scoped_lock(setSceneMutex);
+	std::scoped_lock(loadedSceneMutex);
 	loadedScene = std::move(newScene);
 	selectedGameObject = loadedScene->GetRoot();
 }
@@ -204,7 +204,7 @@ void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 	if (selectedGameObject)
 	{
 		AddGameObjectAndChildren(selectedGameObject);
-		selectedGameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+		selectedGameObject->SetStateOfSelection(StateOfSelection::NOT_SELECTED);
 	}
 	selectedGameObject = gameObject;
 	selectedGameObject->SetStateOfSelection(StateOfSelection::SELECTED);
