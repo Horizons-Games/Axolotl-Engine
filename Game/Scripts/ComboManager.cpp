@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ComboManager.h"
 
+#include "Application.h"
+
 #include "Components/ComponentScript.h"
 #include "Modules/ModuleInput.h"
 #include "UIComboManager.h"
