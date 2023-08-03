@@ -173,10 +173,17 @@ GameObject* EntityDetection::GetEnemySelected(float distanceFilter)
 {
 	if (enemySelected != nullptr && distanceFilter != 0 && distanceFilter < rigidBody->GetRadius())
 	{
+		if (originPosition.Distance(enemySelected->GetGlobalPosition()) <= distanceFilter) 
+		{
+			return enemySelected->GetOwner();
+		}
 		SelectEnemy(distanceFilter);
+		if (enemySelected != nullptr) return enemySelected->GetOwner();
 	}
-		
-	if(enemySelected != nullptr) return enemySelected->GetOwner();
+	else 
+	{
+		return enemySelected->GetOwner();
+	}
 
 	return nullptr;
 }
