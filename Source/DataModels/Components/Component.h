@@ -116,6 +116,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Script";
 		case ComponentType::CUBEMAP:
 			return "Component_Cubemap";
+		case ComponentType::SKYBOX:
+			return "Component_Skybox";
 		case ComponentType::PARTICLE:
 			return "Component_Particle";
 		default:
@@ -222,6 +224,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Cubemap")
 	{
 		return ComponentType::CUBEMAP;
+	}
+	if (typeName == "Component_Skybox")
+	{
+		return ComponentType::SKYBOX;
 	}
 
 	return ComponentType::UNKNOWN;

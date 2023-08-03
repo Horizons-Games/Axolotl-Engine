@@ -22,7 +22,8 @@ enum class ComponentType
 	SCRIPT,
 	BREAKABLE,
 	PARTICLE,
-	CUBEMAP
+	CUBEMAP,
+	SKYBOX
 };
 
 class ComponentAnimation;
@@ -32,6 +33,7 @@ class ComponentBreakable;
 class ComponentCamera;
 class ComponentCameraSample;
 class ComponentCubemap;
+class ComponentSkybox;
 class ComponentLight;
 class ComponentMeshCollider;
 class ComponentMeshRenderer;
@@ -92,6 +94,12 @@ template<>
 struct ComponentToEnum<ComponentCubemap>
 {
 	const static ComponentType value = ComponentType::CUBEMAP;
+};
+
+template<>
+struct ComponentToEnum<ComponentSkybox>
+{
+	const static ComponentType value = ComponentType::SKYBOX;
 };
 
 template<>

@@ -18,6 +18,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCubemap.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentPlayer.h"
 
 #include "Components/UI/ComponentSlider.h"
@@ -1202,6 +1203,11 @@ void Scene::InitNewEmptyScene()
 
 	std::shared_ptr<ResourceSkyBox> resourceSkybox =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
+
+	if (root->GetComponentInternal<ComponentSkybox>() == nullptr)
+	{
+		root->CreateComponent<ComponentSkybox>();
+	}
 
 	if (resourceSkybox)
 	{
