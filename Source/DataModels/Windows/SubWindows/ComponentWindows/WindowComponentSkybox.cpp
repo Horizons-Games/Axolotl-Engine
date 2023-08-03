@@ -3,6 +3,9 @@
 #include "Components/ComponentSkybox.h"
 #include "Resources/ResourceSkyBox.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowSkyboxInput.h"
+#include "Application.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 WindowComponentSkybox::WindowComponentSkybox(ComponentSkybox* component) : 
 	ComponentWindow("SKYBOX", component),
@@ -21,6 +24,7 @@ void WindowComponentSkybox::DrawWindowContents()
 	ComponentSkybox* sky = static_cast<ComponentSkybox*>(component);
 	ImGui::Text("Path:");
 	ImGui::SameLine();
-	ImGui::Text(sky->GetSkybox()->GetSkyboxResource()->GetAssetsPath().c_str());
+	ImGui::Text(
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetSkybox()->GetSkyboxResource()->GetAssetsPath().c_str());
 	skyboxInput->DrawWindowContents();
 }
