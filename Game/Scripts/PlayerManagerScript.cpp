@@ -51,3 +51,8 @@ void PlayerManagerScript::IncreasePlayerSpeed(float speedIncrease)
 {
 	playerSpeed += speedIncrease;
 }
+
+void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
+{
+	this->playerSpeed = playerSpeed;
+}

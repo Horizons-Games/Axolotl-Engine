@@ -22,21 +22,14 @@ void TriggerSewersMusic::Start()
 
 void TriggerSewersMusic::OnCollisionEnter(ComponentRigidBody* other)
 {
-
-	try {
-		other->GetOwner()->GetComponent<ComponentPlayer>();
-		if (!isMusicTriggered)
-		{
-			AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::SEWERS);
-			AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
-			componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
-
-			componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
-			isMusicTriggered = true;
-		}
-	}
-	catch (const ComponentNotFoundException&)
+	if (other->GetOwner()->CompareTag("Player") && !isMusicTriggered)
 	{
-		LOG_WARNING("{} have not ComponentPlayer", other->GetOwner()->GetName());
+		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::SEWERS);
+		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
+		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
+								  AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+
+		componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
+		isMusicTriggered = true;
 	}
 }
