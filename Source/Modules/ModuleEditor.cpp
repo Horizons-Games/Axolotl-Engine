@@ -264,7 +264,7 @@ void ModuleEditor::DrawLoadingPopUp()
 #ifdef ENGINE
 	bool gameCompiling = builder::Compiling();
 	bool zipping = builder::Zipping();
-	bool loadingScene = loader::IsLoading();
+	bool loadingScene = mainMenu->IsLoadingScene();
 	bool drawLoading = gameCompiling || zipping || loadingScene;
 	if (gameCompiling)
 	{

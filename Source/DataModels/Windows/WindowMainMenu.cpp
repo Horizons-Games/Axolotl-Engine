@@ -222,6 +222,11 @@ void WindowMainMenu::ShortcutSave()
 	}
 }
 
+bool WindowMainMenu::IsLoadingScene() const
+{
+	return loadScene->IsLoadingScene();
+}
+
 void WindowMainMenu::DrawBuildGameMenu()
 {
 	ImGui::MenuItem("Build", nullptr, &showBuild);
