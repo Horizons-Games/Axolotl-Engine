@@ -418,8 +418,8 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				float intensityBloom = materialResource->GetIntensityBloom();
 				ImGui::Text("Bloom Intensity");
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(80.0f);
-				if (ImGui::DragFloat("##IntensityBloom", &intensityBloom, 0.05f, 0.05f, 1.f))
+				ImGui::SetNextItemWidth(60.0f);
+				if (ImGui::DragFloat("##IntensityBloom", &intensityBloom, 0.05f, 0.05f, 1.f, "%.2f"))
 				{
 					if (intensityBloom > 1.f)
 					{
