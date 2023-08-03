@@ -19,7 +19,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 
 	btTransform startTransform;
 	startTransform.setIdentity();
-	transform = GetOwner()->GetComponent<ComponentTransform>();
+	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
 	radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 	factor = 0.5f;
@@ -143,7 +143,7 @@ void ComponentRigidBody::Update()
 		btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
 		float3 centerPoint = transform->GetLocalAABB().CenterPoint();
 		btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
-		float3 newPos = { pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() };
+		float3 newPos = { pos.x(), pos.y(), pos.z()};
 		newPos -= float3(translation.x(), translation.y(), translation.z());
 		transform->SetGlobalPosition(newPos);
 		transform->RecalculateLocalMatrix();
@@ -177,7 +177,7 @@ void ComponentRigidBody::Update()
 void ComponentRigidBody::SetOwner(GameObject* owner)
 {
 	Component::SetOwner(owner);
-	transform = GetOwner()->GetComponent<ComponentTransform>();
+	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 }
 
 void ComponentRigidBody::UpdateRigidBody()

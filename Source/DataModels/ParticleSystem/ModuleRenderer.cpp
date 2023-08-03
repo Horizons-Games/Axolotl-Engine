@@ -214,7 +214,7 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 
 			case Alignment::LOCAL:
 				ComponentTransform* objectTransform = 
-					instance->GetOwner()->GetOwner()->GetComponent<ComponentTransform>();
+					instance->GetOwner()->GetOwner()->GetComponentInternal<ComponentTransform>();
 				float4x4 originTransform = 
 					static_cast<ModuleBase*>(emitter->GetModule(ModuleType::BASE))->GetOriginTranform();
 				float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);

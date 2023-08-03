@@ -85,15 +85,15 @@ public:
 
 	const bool IsTransparent() const;
 
-	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
+	std::shared_ptr<ResourceTexture> GetDiffuse() const;
 
-	const std::shared_ptr<ResourceTexture>& GetNormal() const;
+	std::shared_ptr<ResourceTexture> GetNormal() const;
 
-	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
+	std::shared_ptr<ResourceTexture> GetOcclusion() const;
 
-	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
+	std::shared_ptr<ResourceTexture> GetMetallic() const;
 
-	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+	std::shared_ptr<ResourceTexture> GetSpecular() const;
 
 	const std::vector<float4x4>& GetPalette() const;
 
