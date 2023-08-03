@@ -315,7 +315,7 @@ void Scene::RemoveEndOfLine(const GameObject* gameObject)
 						 std::views::transform(
 							 [](GameObject* gameObject)
 							 {
-								 return gameObject->GetComponent<ComponentLine>();
+								 return gameObject->GetComponentInternal<ComponentLine>();
 							 }) |
 						 std::views::filter(
 							 [gameObject](ComponentLine* component)
