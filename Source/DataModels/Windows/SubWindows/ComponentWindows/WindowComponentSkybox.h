@@ -2,6 +2,7 @@
 #include "Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 class ComponentSkybox;
+class WindowSkyboxInput;
 
 class WindowComponentSkybox : public ComponentWindow
 {
@@ -11,4 +12,7 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+
+private:
+	std::unique_ptr <WindowSkyboxInput> skyboxInput;
 };

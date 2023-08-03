@@ -2,8 +2,11 @@
 #include "WindowComponentSkybox.h"
 #include "Components/ComponentSkybox.h"
 #include "Resources/ResourceSkyBox.h"
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowSkyboxInput.h"
 
-WindowComponentSkybox::WindowComponentSkybox(ComponentSkybox* component) : ComponentWindow("SKYBOX", component)
+WindowComponentSkybox::WindowComponentSkybox(ComponentSkybox* component) : 
+	ComponentWindow("SKYBOX", component),
+	skyboxInput(std::make_unique<WindowSkyboxInput>())
 {
 }
 
@@ -19,5 +22,5 @@ void WindowComponentSkybox::DrawWindowContents()
 	ImGui::Text("Path:");
 	ImGui::SameLine();
 	ImGui::Text(sky->GetSkybox()->GetSkyboxResource()->GetAssetsPath().c_str());
-	ImGui::Button("Change Skybox");
+	skyboxInput->DrawWindowContents();
 }
