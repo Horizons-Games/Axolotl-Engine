@@ -213,41 +213,8 @@ UpdateStatus ModuleInput::Update()
 			case SDL_JOYAXISMOTION: 
 				if (controller)
 				{
-					int axis = sdlEvent.jaxis.axis;
-					Sint16 axisValue = sdlEvent.jaxis.value;
-					switch (axis)
-					{
-						case 0:
-							if (axisValue < -3200) 
-							{
-								LOG_DEBUG("JOYSTICK LEFT");
-							}
-							else if (axisValue > 3200)
-							{
-								LOG_DEBUG("JOYSTICK RIGHT");
-							}
-							else
-							{
-							}
-							break;
-
-						case 1:
-							if (axisValue < -3200)
-							{
-								LOG_DEBUG("JOYSTICK DOWN");
-							}
-							else if (axisValue > 3200)
-							{
-								LOG_DEBUG("JOYSTICK UP");
-							}
-							else
-							{
-							}
-							break;
-
-						default:
-							break;
-					}
+					axis = sdlEvent.jaxis.axis;
+					axisValue = sdlEvent.jaxis.value;
 				}
 				break;
 

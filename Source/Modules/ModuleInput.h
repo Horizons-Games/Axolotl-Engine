@@ -27,6 +27,9 @@ public:
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
+	int GetAxis() const;
+	Sint16 GetAxisValue() const;
+
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
 	KeyState GetGamepadButton(int gamepadButton) const;
@@ -68,6 +71,9 @@ private:
 
 	bool mouseWheelScrolled;
 	bool inFocus;
+
+	int axis;
+	Sint16 axisValue;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -207,4 +213,14 @@ inline bool ModuleInput::IsMouseWheelScrolled() const
 inline KeyState ModuleInput::operator[](SDL_Scancode index)
 {
 	return keysState[index];
+}
+
+inline int ModuleInput::GetAxis() const
+{
+	return axis;
+}
+
+inline Sint16 ModuleInput::GetAxisValue() const
+{
+	return axisValue;
 }
