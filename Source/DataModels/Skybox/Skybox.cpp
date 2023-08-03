@@ -80,3 +80,8 @@ void Skybox::LoadOptions(Json& json)
 	skyboxRes = App->GetModule<ModuleResources>()->SearchResource<ResourceSkyBox>(resUID);
 #endif // ENGINE
 }
+
+std::shared_ptr<ResourceSkyBox> Skybox::GetSkyboxResource() const
+{
+	return skyboxRes;
+}

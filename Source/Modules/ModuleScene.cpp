@@ -12,11 +12,13 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Skybox/Skybox.h"
@@ -68,6 +70,7 @@ bool ModuleScene::Start()
 	{
 #ifdef ENGINE
 		loadedScene = CreateEmptyScene();
+		loadedScene->GetRoot()->GetComponent<ComponentSkybox>()->SetSkybox(loadedScene->GetSkybox());
 #else // GAME MODE
 		char* buffer;
 		const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();

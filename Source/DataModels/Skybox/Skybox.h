@@ -13,6 +13,7 @@ public:
 	void Draw() const;
 	void SaveOptions(Json& json) const;
 	void LoadOptions(Json& json);
+	std::shared_ptr<ResourceSkyBox> GetSkyboxResource() const;
 
 private:
 	std::shared_ptr<ResourceSkyBox> skyboxRes;
