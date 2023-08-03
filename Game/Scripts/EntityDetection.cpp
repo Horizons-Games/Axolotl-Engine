@@ -21,11 +21,13 @@
 REGISTERCLASS(EntityDetection);
 
 EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr), player(nullptr),
-interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr), interactionOffset(1.0f)
+interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr), interactionOffset(1.0f),
+angleThresholdEnemyIntersection(1.0f)
 {
 	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(interactionAngle, float);
 	REGISTER_FIELD(interactionOffset, float);
+	REGISTER_FIELD(angleThresholdEnemyIntersection, float);
 }
 
 void EntityDetection::Start()
@@ -72,14 +74,23 @@ void EntityDetection::DrawDetectionLines()
 	dd::line(originPosition, originPosition + magnitude * vecForward.Normalized(), dd::colors::IndianRed);
 }
 
-void EntityDetection::SelectEnemy()
+void EntityDetection::SelectEnemy(float distanceFilter)
 {
 	enemySelected = nullptr;
 	float angleActualSelected = 0;
+	bool actualIsSpecialTarget = false;
 
 	for (ComponentTransform* enemy : enemiesInTheArea)
 	{
-		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive())
+		bool insideDistanceFilter = true;
+		if (distanceFilter != 0) 
+		{
+			insideDistanceFilter = originPosition.Distance(enemy->GetGlobalPosition()) <= distanceFilter;
+		}
+
+		bool equalPriorityLevel = !actualIsSpecialTarget || enemy->GetOwner()->GetTag() == "PriorityTarget";
+
+		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive() || !equalPriorityLevel || !insideDistanceFilter)
 			continue;
 
 		float3 vecForward = playerTransform->GetGlobalForward().Normalized();
@@ -100,14 +111,18 @@ void EntityDetection::SelectEnemy()
 			color = dd::colors::Red;
 #endif // ENGINE
 
+			float minActualThresholdAngle = (angleActualSelected - angleThresholdEnemyIntersection);
+			float maxActualThresholdAngle = (angleActualSelected + angleThresholdEnemyIntersection);
+
 			bool inFrontOfActualSelected = 
-				angle == angleActualSelected && originPosition.Distance(enemy->GetGlobalPosition()) < 
+				angle <= maxActualThresholdAngle && originPosition.Distance(enemy->GetGlobalPosition()) < 
 				originPosition.Distance(enemySelected->GetGlobalPosition());
 
-			if (enemySelected == nullptr || angle < angleActualSelected || inFrontOfActualSelected)
+			if (enemySelected == nullptr || angle < minActualThresholdAngle || inFrontOfActualSelected)
 			{
 				enemySelected = enemy;
 				angleActualSelected = angle;
+				actualIsSpecialTarget = enemySelected->GetOwner()->GetTag() == "PriorityTarget";
 			}
 		}
 
@@ -128,7 +143,7 @@ void EntityDetection::SelectEnemy()
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
+	if (other->GetOwner()->GetTag() == "Enemy" || other->GetOwner()->GetTag() == "PriorityTarget" && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}
@@ -154,10 +169,14 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 
 
 
-GameObject* EntityDetection::GetEnemySelected() const
+GameObject* EntityDetection::GetEnemySelected(float distanceFilter)
 {
 	if (enemySelected != nullptr)
 	{
+		if (distanceFilter != 0 && distanceFilter < rigidBody->GetRadius()) 
+		{
+			SelectEnemy(distanceFilter);
+		}
 		return enemySelected->GetOwner();
 	}
 	else

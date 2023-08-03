@@ -20,14 +20,14 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
-	GameObject* GetEnemySelected() const;
+	GameObject* GetEnemySelected(float distanceFilter = 0.0f);
 
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
 	void DrawDetectionLines();
-	void SelectEnemy();
+	void SelectEnemy(float distanceFilter = 0.0f);
 
 	ModuleInput* input;
 
@@ -37,6 +37,7 @@ private:
 
 	float interactionAngle;
 	float interactionOffset;
+	float angleThresholdEnemyIntersection;
 
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	ComponentTransform* enemySelected;
