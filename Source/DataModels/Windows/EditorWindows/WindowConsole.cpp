@@ -152,6 +152,8 @@ void WindowConsole::DrawMaxLengthSelection()
 
 void WindowConsole::DrawConsole()
 {
+	size_t linesToDraw =
+		selectedMaxLinesIndex.has_value() ? consoleLineLengths[selectedMaxLinesIndex.value()] : consoleContents.size();
 	auto linesFiltered = consoleContents |
 						 std::views::filter(
 							 [this](const AxoLog::LogLine& logLine)
@@ -159,9 +161,7 @@ void WindowConsole::DrawConsole()
 								 return severityFilters[logLine.severity];
 							 }) |
 						 // Reverse to take the last N elements, then reverse again to maintain line order
-						 std::views::reverse |
-						 std::views::take(consoleLineLengths[selectedMaxLinesIndex.value_or(consoleContents.size())]) |
-						 std::views::reverse;
+						 std::views::reverse | std::views::take(linesToDraw) | std::views::reverse;
 
 	// Define the position from which text will start to wrap, which will be the end of the console window
 	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
