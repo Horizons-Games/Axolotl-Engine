@@ -31,7 +31,7 @@
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
 maxSamplers(64), duration(25.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
-onPlay(true), catmunPoints(10)
+onPlay(false), catmunPoints(10)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
