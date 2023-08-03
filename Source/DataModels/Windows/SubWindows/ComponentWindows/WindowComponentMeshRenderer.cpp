@@ -20,6 +20,9 @@
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
+#define BLOOM_MAX_VALUE 5.f
+#define BLOOM_MIN_VALUE 0.05f
+
 const std::vector<std::string> WindowComponentMeshRenderer::shaderTypes = { "Default", "Specular" };
 const std::vector<std::string> WindowComponentMeshRenderer::renderModes = { "Opaque", "Transparent" };
 
@@ -419,15 +422,15 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				ImGui::Text("Bloom Intensity");
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(60.0f);
-				if (ImGui::DragFloat("##IntensityBloom", &intensityBloom, 0.05f, 0.05f, 1.f, "%.2f"))
+				if (ImGui::DragFloat("##IntensityBloom", &intensityBloom, 0.05f, BLOOM_MIN_VALUE, BLOOM_MAX_VALUE, "%.2f"))
 				{
-					if (intensityBloom > 1.f)
+					if (intensityBloom > BLOOM_MAX_VALUE)
 					{
-						intensityBloom = 1.f;
+						intensityBloom = BLOOM_MAX_VALUE;
 					}
-					else if (intensityBloom < 0.05f)
+					else if (intensityBloom < BLOOM_MIN_VALUE)
 					{
-						intensityBloom = 0.05f;
+						intensityBloom = BLOOM_MIN_VALUE;
 					}
 					materialResource->SetIntensityBloom(intensityBloom);
 					updateMaterials = true;
