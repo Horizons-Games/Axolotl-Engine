@@ -30,7 +30,7 @@ void ComponentMeshCollider::InternalLoad(const Json& meta)
 
 bool ComponentMeshCollider::Move(Direction direction, float size, float stepSize)
 {
-	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = trans->GetPosition();
 
 	math::vec points[8];
@@ -56,7 +56,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 {
 	float sectionMove = distance / (float) steps;
 
-	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = trans->GetPosition();
 
 	math::vec points[8];

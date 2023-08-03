@@ -20,6 +20,8 @@ public:
 	void IncreasePlayerDefense(float defenseIncrease);
 	void IncreasePlayerSpeed(float speedIncrease);
 
+	void SetPlayerSpeed(float playerSpeed);
+
 private:
 	float playerAttack;
 	float playerDefense;

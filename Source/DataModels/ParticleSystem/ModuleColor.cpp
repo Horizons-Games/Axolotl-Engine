@@ -68,12 +68,12 @@ void ModuleColor::DrawImGui()
 			ImGui::Text("Init value");
 			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(80.0f);
-			ImGui::DragFloat("##initAlpha", &initAlpha, 0.01, 0.0f, 1.0f, "%.2f");
+			ImGui::DragFloat("##initAlpha", &initAlpha, 0.01f, 0.0f, 1.0f, "%.2f");
 			ImGui::TableNextColumn();
 			ImGui::Text("End value");
 			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(80.0f);
-			ImGui::DragFloat("##endAlpha", &endAlpha, 0.01, 0.0f, 1.0f, "%.2f");
+			ImGui::DragFloat("##endAlpha", &endAlpha, 0.01f, 0.0f, 1.0f, "%.2f");
 			
 			ImGui::EndTable();
 		}

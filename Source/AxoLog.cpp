@@ -131,7 +131,7 @@ bool AxoLog::Format(std::string& format, bool arg) const
 
 bool AxoLog::Format(std::string& format, const GameObject* arg) const
 {
-	return Format(format, arg->GetName());
+	return Format(format, arg != nullptr ? arg->GetName() : "NULL");
 }
 
 bool AxoLog::Format(std::string& format, unsigned long long arg) const
@@ -139,9 +139,13 @@ bool AxoLog::Format(std::string& format, unsigned long long arg) const
 	return Format(format, std::to_string(arg));
 }
 
-bool AxoLog::Format(std::string& format, const Resource* arg) const
+bool AxoLog::Format(std::string& format, const std::shared_ptr<Resource>& arg) const
 {
-	return Format(format, arg->GetUID());
+	if (arg)
+	{
+		return Format(format, arg->GetUID());
+	}
+	return Format(format, "NULL");
 }
 
 bool AxoLog::Format(std::string& format, const unsigned char* arg) const
