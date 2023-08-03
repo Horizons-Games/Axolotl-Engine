@@ -43,6 +43,8 @@ public:
 	void Save(Json& json);
 	void Load(const Json& meta);
 
+	void Render() const;
+	
 	void LoadComponents(const Json& jsonComponents);
 
 	void Draw() const;

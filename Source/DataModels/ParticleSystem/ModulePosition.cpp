@@ -8,8 +8,6 @@
 
 #include "Modules/ModuleCamera.h"
 
-#include <algorithm>
-
 ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(ModuleType::POSITION, emitter)
 {
 }

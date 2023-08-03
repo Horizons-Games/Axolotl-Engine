@@ -606,6 +606,15 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentTrail.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTrail.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTrailTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp" />
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
@@ -1254,6 +1263,18 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentTrail.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTrail.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTrailTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\BlendingType.h">
+      <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h" />

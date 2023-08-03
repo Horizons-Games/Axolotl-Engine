@@ -5,6 +5,8 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Functions/srgba_functions.glsl"
+
 #include "/Common/Structs/lights.glsl"
 
 struct Material {

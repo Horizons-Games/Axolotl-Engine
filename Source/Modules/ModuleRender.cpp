@@ -397,7 +397,11 @@ UpdateStatus ModuleRender::Update()
 	glCullFace(GL_FRONT);
 	glDisable(GL_BLEND);
 
-	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
+	for (const GameObject* go : gameObjectsInFrustrum)
+	{
+		go->Render();
+	}
+
 	// -------- POST EFFECTS ---------------------
 
 	KawaseDualFiltering();

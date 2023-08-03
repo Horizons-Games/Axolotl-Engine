@@ -19,6 +19,7 @@
 #include "DataModels/Components/ComponentScript.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/ComponentTrail.h"
 #include "DataModels/Components/ComponentLine.h"
 #include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/UI/ComponentButton.h"
@@ -173,6 +174,17 @@ void GameObject::LoadComponents(const Json& jsonComponents)
 	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 	{
 		components[i]->Load(jsonComponents[i]["Component"]);
+	}
+}
+
+void GameObject::Render() const
+{
+	for (const std::unique_ptr<Component>& component : components)
+	{
+		if (component->IsEnabled())
+		{
+			component->Render();
+		}
 	}
 }
 
@@ -404,6 +416,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::TRAIL:
+		{
+			newComponent = std::make_unique<ComponentTrail>(*static_cast<ComponentTrail*>(component));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -615,6 +633,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::PARTICLE:
 		{
 			newComponent = std::make_unique<ComponentParticleSystem>(true, this);
+			break;
+		}
+
+		case ComponentType::TRAIL:
+		{
+			newComponent = std::make_unique<ComponentTrail>(true, this);
 			break;
 		}
 		
