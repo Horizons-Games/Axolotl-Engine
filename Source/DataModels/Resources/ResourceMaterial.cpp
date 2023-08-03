@@ -93,6 +93,10 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	loadOptions.offset.x = static_cast<float>(meta["offsetx"]);
 	loadOptions.offset.y = static_cast<float>(meta["offsety"]);
 	loadOptions.intensityBloom = static_cast<float>(meta["intensityBloom"]);
+	if (loadOptions.intensityBloom == 0.f)
+	{
+		loadOptions.intensityBloom = 1.f;
+	}
 }
 
 void ResourceMaterial::SavePaths(Json& meta, const std::vector<std::string>& pathTextures)
