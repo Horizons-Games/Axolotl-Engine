@@ -6,6 +6,8 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
+class ComponentMeshCollider;
+class ComponentAnimation;
 
 // This script is just to show how to instantiate/use the different types of variables
 
@@ -43,6 +45,9 @@ public:
 
 	DefaultScript* GetScript() const;
 	void SetScript(DefaultScript* script);
+	
+	const std::vector<ComponentAnimation*>& GetAnimations() const;
+	void SetAnimations(const std::vector<ComponentAnimation*>& animations);
 
 private:
 	float value;
@@ -56,5 +61,7 @@ private:
 	GameObject* character;
 	ComponentTransform* transform;
 	DefaultScript* script;
+	std::vector<ComponentMeshCollider*> colliders;
+	std::vector<ComponentAnimation*> animations;
 	bool check;
 };

@@ -12,6 +12,7 @@ protected:
 
 private:
 	void DrawOptionsMenu();
+	void DrawMaxLengthSelection();
 	void DrawConsole();
 
 	std::vector<AxoLog::LogLine> consoleContents;

@@ -92,7 +92,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 			if (playerManagerScript)
 			{
 				lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
-				playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
+				playerManagerScript->SetPlayerSpeed(lastMoveSpeed / 2.0f);
 			}
 
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
@@ -113,7 +113,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		if (playerManagerScript)
 		{
-			playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed);
+			playerManagerScript->SetPlayerSpeed(lastMoveSpeed);
 			rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
 			rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}

@@ -43,11 +43,6 @@ void SeekBehaviourScript::DisableRotation() const
 	ownerRigidBody->DisableRotationController();
 }
 
-GameObject* SeekBehaviourScript::GetTarget() const
-{
-	return target;
-}
-
 void SeekBehaviourScript::RotateToTarget() const
 {
 	Quat errorRotation =
@@ -61,4 +56,9 @@ void SeekBehaviourScript::RotateToTarget() const
 #endif // DEBUG
 
 	ownerRigidBody->SetRotationTarget(errorRotation);
+}
+
+GameObject* SeekBehaviourScript::GetTarget() const
+{
+	return target;
 }

@@ -26,7 +26,6 @@ public:
 
 	void SetHorizontalSensitivity(float sensitivity);
 	void SetVerticalSensitivity(float sensitivity);
-
 private:
     void Rotation(float deltaTime);
 	bool canRotate;
