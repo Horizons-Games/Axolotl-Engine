@@ -86,8 +86,8 @@ void ComponentAnimation::Update()
 						if (controller->GetTransform(&child->GetName()[0], pos, rot))
 						{
 							ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
-							transform->SetPosition(pos);
-							transform->SetRotation(rot);
+							transform->SetLocalPosition(pos);
+							transform->SetLocalRotation(rot);
 						}
 					}
 					owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
@@ -265,9 +265,9 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 	Quat rot;
 
 	defaultPosition[gameObject].Decompose(position, rot, scale);
-	transform->SetPosition(position);
-	transform->SetRotation(rot);
-	transform->SetScale(scale);
+	transform->SetLocalPosition(position);
+	transform->SetLocalRotation(rot);
+	transform->SetLocalScale(scale);
 
 	for (GameObject* children : gameObject->GetChildren())
 	{

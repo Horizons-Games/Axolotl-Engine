@@ -15,7 +15,7 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/PlayerManagerScript.h"
-#include "PlayerForceUseScript.h"
+#include "../Scripts/PlayerForceUseScript.h"
 
 REGISTERCLASS(PlayerMoveScript);
 

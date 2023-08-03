@@ -27,7 +27,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ActivatePowerUp(const float3& position);
+	void ActivatePowerUp(GameObject* newParent);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
