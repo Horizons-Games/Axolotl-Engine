@@ -415,6 +415,24 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				ImGui::Image((void*) (intptr_t) materialResource->GetEmission()->GetGlTexture(),
 					ImVec2(100, 100));
 
+				float intensityBloom = materialResource->GetIntensityBloom();
+				ImGui::Text("Bloom Intensity");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(80.0f);
+				if (ImGui::DragFloat("##IntensityBloom", &intensityBloom, 0.05f, 0.f, 1.f))
+				{
+					if (intensityBloom > 1.f)
+					{
+						intensityBloom = 1.f;
+					}
+					else if (intensityBloom < 0.f)
+					{
+						intensityBloom = 0.f;
+					}
+					materialResource->SetIntensityBloom(intensityBloom);
+					updateMaterials = true;
+				}
+
 				if (ImGui::Button("Remove Texture Emission"))
 				{
 					materialResource->GetEmission()->Unload();

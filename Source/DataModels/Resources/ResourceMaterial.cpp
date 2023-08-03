@@ -36,6 +36,7 @@ void ResourceMaterial::CopyValues(const ResourceMaterial& rhs)
 	this->SetSpecular(rhs.GetSpecular());
 	this->SetMetallic(rhs.GetMetallic());
 	this->SetEmission(rhs.GetEmission());
+	this->SetIntensityBloom(rhs.GetIntensityBloom());
 }
 
 void ResourceMaterial::SaveLoadOptions(Json& meta)
@@ -58,6 +59,7 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["tilingy"] = static_cast<float>(loadOptions.tiling.y);
 	meta["offsetx"] = static_cast<float>(loadOptions.offset.x);
 	meta["offsety"] = static_cast<float>(loadOptions.offset.y);
+	meta["intensityBloom"] = static_cast<float>(loadOptions.intensityBloom);
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -90,6 +92,7 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	}
 	loadOptions.offset.x = static_cast<float>(meta["offsetx"]);
 	loadOptions.offset.y = static_cast<float>(meta["offsety"]);
+	loadOptions.intensityBloom = static_cast<float>(meta["intensityBloom"]);
 }
 
 void ResourceMaterial::SavePaths(Json& meta, const std::vector<std::string>& pathTextures)
