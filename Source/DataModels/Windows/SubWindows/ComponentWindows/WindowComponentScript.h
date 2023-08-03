@@ -3,8 +3,13 @@
 #include "ComponentWindow.h"
 
 #include "FileSystem/UID.h"
+#include "GameObject/GameObject.h"
 
 class ComponentScript;
+namespace math
+{
+class float3;
+}
 
 class WindowComponentScript : public ComponentWindow
 {
@@ -14,10 +19,15 @@ public:
 
 protected:
 	void DrawWindowContents() override;
-	int current_item = 0;
 
 private:
 	void ChangeScript(ComponentScript* newScript, const char* selectedScript);
+
+	std::string DrawStringField(std::string& value, const std::string& name);
+	bool DrawBoolField(bool& value, const std::string& name);
+	float DrawFloatField(float& value, const std::string& name);
+	math::float3 DrawFloat3Field(math::float3& value, const std::string& name);
+	GameObject* DrawGameObjectField(GameObject* value, const std::string& name);
 
 	void OpenCreateNewScriptPopUp();
 	void AddNewScriptToProject(const std::string& scriptName);
@@ -28,4 +38,5 @@ private:
 
 	float secondsSinceLastClick = 0;
 	UID windowUID;
+	int currentItem = 0;
 };

@@ -10,7 +10,10 @@ class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
+class EntityDetection;
+class ComboManager;
 
+class EntityDetection;
 class PlayerManagerScript;
 
 enum class AttackCombo
@@ -35,41 +38,41 @@ private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void PerformAttack();
-	void CheckCombo();
+	void NormalAttack(bool heavy);
+	void JumpAttack();
+	void SoftFinisher();
+	void HeavyFinisher();
+
+	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
+	void ActivateAnimationCombo();
 
 	bool IsAttackAvailable() const;
-	void CheckCollision() const;
 
+	bool isAttacking;
 	float attackCooldown;
-	float lastAttackTime;
+	float attackCooldownCounter;
+	float comboInitTimer;
+	float comboNormalAttackTimer;
 
 	bool isDeathTouched;
 
+	ModuleInput* input;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
+
 	GameObject* animationGO;
+	GameObject* enemyDetectionObject;
 
-	ModuleInput* input;
-
-	//Provisional
-	std::vector<Ray> rays;
-
-	GameObject* ray1GO;
-	GameObject* ray2GO;
-	GameObject* ray3GO;
-	GameObject* ray4GO;
-
-	ComponentTransform* ray1Transform;
-	ComponentTransform* ray2Transform;
-	ComponentTransform* ray3Transform;
-	ComponentTransform* ray4Transform;
-
-	float rayAttackSize;
-	//--Provisional
+	EntityDetection* enemyDetection;
+	ComboManager* comboSystem;
+	float comboCountHeavy;
+	float comboCountSoft;
+	float attackSoft;
+	float attackHeavy;
 
 	PlayerManagerScript* playerManager;
+
 	AttackCombo attackComboPhase;
 };

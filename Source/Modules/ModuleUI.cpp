@@ -120,7 +120,7 @@ void ModuleUI::RecalculateCanvasSizeAndScreenFactor()
 
 	for (Component* interactable : loadedScene->GetSceneInteractable())
 	{
-		ComponentTransform2D* transform = interactable->GetOwner()->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* transform = interactable->GetOwner()->GetComponentInternal<ComponentTransform2D>();
 		transform->CalculateWorldBoundingBox();
 	}
 }
@@ -179,7 +179,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		}
 		else if (button->IsEnabled())
 		{
-			const ComponentTransform2D* transform = button->GetOwner()->GetComponent<ComponentTransform2D>();
+			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
 			AABB2D aabb2d = transform->GetWorldAABB();
 

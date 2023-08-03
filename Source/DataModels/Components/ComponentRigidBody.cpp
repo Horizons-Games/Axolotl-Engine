@@ -19,8 +19,8 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 
 	btTransform startTransform;
 	startTransform.setIdentity();
-	transform = GetOwner()->GetComponent<ComponentTransform>();
-	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetLocalScale());
 	radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();
 	factor = 0.5f;
 	// WIP set proper default value
@@ -29,8 +29,10 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	currentShape = Shape::BOX;
 	motionState = std::make_unique<btDefaultMotionState>(startTransform);
 	shape = std::make_unique<btBoxShape>(btVector3{ boxSize.x, boxSize.y, boxSize.z });
-	rigidBody = std::make_unique<btRigidBody>(100.f, motionState.get(), shape.get());
 
+	btRigidBody::btRigidBodyConstructionInfo inforb(100.f, motionState.get(), shape.get());
+	inforb.m_friction = 0.0f;
+	rigidBody = std::make_unique<btRigidBody>(inforb);
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
@@ -65,8 +67,9 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	transform = toCopy.transform;
 
 	motionState = std::unique_ptr<btDefaultMotionState>(new btDefaultMotionState(*toCopy.motionState.get()));
-
-	rigidBody = std::make_unique<btRigidBody>(toCopy.mass, motionState.get(), toCopy.shape.get());
+	btRigidBody::btRigidBodyConstructionInfo inforb(toCopy.mass, motionState.get(), toCopy.shape.get());
+	inforb.m_friction = 0.0f;
+	rigidBody = std::make_unique<btRigidBody>(inforb);
 
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
@@ -177,7 +180,7 @@ void ComponentRigidBody::Update()
 void ComponentRigidBody::SetOwner(GameObject* owner)
 {
 	Component::SetOwner(owner);
-	transform = GetOwner()->GetComponent<ComponentTransform>();
+	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 }
 
 void ComponentRigidBody::UpdateRigidBody()
@@ -394,7 +397,7 @@ void ComponentRigidBody::SetDefaultSize(Shape resetShape)
 	switch (resetShape)
 	{
 		case Shape::BOX:
-			boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetScale());
+			boxSize = transform->GetLocalAABB().HalfSize().Mul(transform->GetLocalScale());
 			break;
 		case Shape::SPHERE:
 			radius = transform->GetLocalAABB().MinimalEnclosingSphere().Diameter();

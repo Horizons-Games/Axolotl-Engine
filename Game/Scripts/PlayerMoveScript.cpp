@@ -1,5 +1,6 @@
 #include "PlayerMoveScript.h"
 
+#include "Application.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
 #include "Camera/Camera.h"
@@ -14,7 +15,7 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/PlayerManagerScript.h"
-#include "PlayerForceUseScript.h"
+#include "../Scripts/PlayerForceUseScript.h"
 
 REGISTERCLASS(PlayerMoveScript);
 

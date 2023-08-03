@@ -46,7 +46,7 @@ void ModulePlayer::SetPlayer(GameObject* newPlayer)
 		componentPlayer->SetActualPlayer(false);
 	}
 	player = newPlayer;
-	if (player) componentPlayer = player->GetComponent<ComponentPlayer>();
+	if (player) componentPlayer = player->GetComponentInternal<ComponentPlayer>();
 }
 
 Camera* ModulePlayer::GetCameraPlayer()

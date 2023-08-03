@@ -15,7 +15,7 @@
 #include "ModuleScene.h"
 
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
-	ComponentWindow("Particle System", component), 
+	ComponentWindow("PARTICLE SYSTEM", component), 
 	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
 {
 }
@@ -56,7 +56,7 @@ void WindowComponentParticle::DrawWindowContents()
 		}
 		ImGui::SameLine();
 		bool playAtStart = component->GetPlayAtStart();
-		if (ImGui::Checkbox("Play a start", &playAtStart))
+		if (ImGui::Checkbox("Play at start", &playAtStart))
 		{
 			component->SetPlayAtStart(playAtStart);
 		}
@@ -246,9 +246,9 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				{
 					radius = MAX_RADIUS;
 				}
-				else if (radius < 0.01)
+				else if (radius < 0.01f)
 				{
-					radius = 0.01;
+					radius = 0.01f;
 				}
 				emitter->SetRadius(radius);
 			}
