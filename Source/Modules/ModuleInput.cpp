@@ -122,7 +122,6 @@ UpdateStatus ModuleInput::Update()
 			ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 		}
 #endif
-	
 
 		switch (sdlEvent.type)
 		{
@@ -203,58 +202,6 @@ UpdateStatus ModuleInput::Update()
 					gamepadState[sdlEvent.cbutton.button] = KeyState::DOWN;
 				}
 				break;
-					/*switch (sdlEvent.cbutton.button)
-					{
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A:
-							LOG_DEBUG("A PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_B:
-							LOG_DEBUG("B PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_X:
-							LOG_DEBUG("X PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_Y:
-							LOG_DEBUG("Y PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_BACK:
-							LOG_DEBUG("BACK PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-							LOG_DEBUG("DOWN PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-							LOG_DEBUG("LEFT PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-							LOG_DEBUG("RIGHT PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_UP:
-							LOG_DEBUG("UP PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_RIGHTSTICK:
-							LOG_DEBUG("RIGHT STICK PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-							LOG_DEBUG("RIGHT SHOULDER PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_LEFTSTICK:
-							LOG_DEBUG("LEFT STICK PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
-							LOG_DEBUG("LEFT SHOULDER PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_GUIDE:
-							LOG_DEBUG("GUIDE PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_START:
-							LOG_DEBUG("START PRESSED");
-							break;
-						case SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_TOUCHPAD:
-							LOG_DEBUG("TOUCHPAD PRESSED");
-							break;
-					}
-				break;*/
 
 			case SDL_CONTROLLERBUTTONUP:
 				if (controller && sdlEvent.cdevice.which == GetControllerInstanceID(controller))
