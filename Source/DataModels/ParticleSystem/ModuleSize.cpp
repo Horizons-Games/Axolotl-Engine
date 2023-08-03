@@ -8,7 +8,7 @@
 
 ModuleSize::ModuleSize(ParticleEmitter* emitter) :
 	ParticleModule(ModuleType::SIZE, emitter),
-	random(true), sizeOverTime(float2(0.001, 0.01))
+	random(true), sizeOverTime(float2(0.001f, 0.01f))
 {
 }
 
@@ -56,7 +56,7 @@ void ModuleSize::DrawImGui()
 		ImGui::SetNextItemWidth(165.0f);
 		if (random)
 		{
-			if (ImGui::DragFloat2("##sliderSizeOverTime", &sizeOverTime[0], 1.0f, 0.0f, MAX_SIZE, "%.3f"))
+			if (ImGui::DragFloat2("##sliderSizeOverTime", &sizeOverTime[0], 1.0f, 0.0f, MAX_SIZE_OVER_TIME, "%.3f"))
 			{
 				if (sizeOverTime.x > sizeOverTime.y)
 				{
@@ -71,9 +71,9 @@ void ModuleSize::DrawImGui()
 				{
 					sizeOverTime.y = sizeOverTime.x;
 				}
-				else if (sizeOverTime.y > MAX_SIZE)
+				else if (sizeOverTime.y > MAX_SIZE_OVER_TIME)
 				{
-					sizeOverTime.y = MAX_SIZE;
+					sizeOverTime.y = MAX_SIZE_OVER_TIME;
 				}
 			}
 		}
@@ -81,9 +81,9 @@ void ModuleSize::DrawImGui()
 		{
 			if (ImGui::InputFloat("##inputSizeOverTime", &sizeOverTime.x, 0.001f, 0.01f, "%.3f"))
 			{
-				if (sizeOverTime.x > MAX_SIZE)
+				if (sizeOverTime.x > MAX_SIZE_OVER_TIME)
 				{
-					sizeOverTime.x = MAX_SIZE;
+					sizeOverTime.x = MAX_SIZE_OVER_TIME;
 				}
 				else if (sizeOverTime.x < 0.0f)
 				{

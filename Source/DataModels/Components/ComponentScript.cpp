@@ -39,12 +39,125 @@ void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript*
 		scriptFailedState = true;
 	}
 }
+
+template<typename T>
+std::optional<Field<T>> GetField(IScript* script, const std::string& name)
+{
+	for (const TypeFieldPair& enumAndType : script->GetFields())
+	{
+		if (TypeToEnum<T>::value == enumAndType.first)
+		{
+			const Field<T>& field = std::get<Field<T>>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
+		}
+	}
+	return std::nullopt;
+}
+
+template<>
+inline std::optional<Field<std::vector<std::any>>> GetField(IScript* script, const std::string& name)
+{
+	for (const TypeFieldPair& enumAndType : script->GetFields())
+	{
+		if (FieldType::VECTOR == enumAndType.first)
+		{
+			const VectorField& field = std::get<VectorField>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
+		}
+	}
+	return std::nullopt;
+}
+
 } // namespace
 
 ComponentScript::ComponentScript(bool active, GameObject* owner) :
 	Component(ComponentType::SCRIPT, active, owner, true),
 	script(nullptr)
 {
+}
+
+ComponentScript::ComponentScript(const ComponentScript& other) :
+	Component(other),
+	constructName(other.constructName),
+	initialized(other.initialized),
+	started(other.started),
+	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
+{
+	for (const TypeFieldPair& typeFieldPair : script->GetFields())
+	{
+		switch (typeFieldPair.first)
+		{
+			case FieldType::FLOAT:
+			{
+				const Field<float>& field = std::get<Field<float>>(typeFieldPair.second);
+				std::optional<Field<float>> optField = GetField<float>(other.GetScript(), field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::STRING:
+			{
+				const Field<std::string>& field = std::get<Field<std::string>>(typeFieldPair.second);
+				std::optional<Field<std::string>> optField = GetField<std::string>(other.GetScript(), field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::BOOLEAN:
+			{
+				const Field<bool>& field = std::get<Field<bool>>(typeFieldPair.second);
+				std::optional<Field<bool>> optField = GetField<bool>(other.GetScript(), field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::FLOAT3:
+			{
+				const Field<float3>& field = std::get<Field<float3>>(typeFieldPair.second);
+				std::optional<Field<float3>> optField = GetField<float3>(other.GetScript(), field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::GAMEOBJECT:
+			{
+				const Field<GameObject*>& field = std::get<Field<GameObject*>>(typeFieldPair.second);
+				std::optional<Field<GameObject*>> optField = GetField<GameObject*>(other.GetScript(), field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			case FieldType::VECTOR:
+			{
+				const VectorField& field = std::get<VectorField>(typeFieldPair.second);
+				std::optional<Field<std::vector<std::any>>> optField =
+					GetField<std::vector<std::any>>(other.GetScript(), field.name);
+				if (optField.has_value())
+				{
+					field.setter(optField->getter());
+				}
+				break;
+			}
+			default:
+				break;
+		}
+	}
 }
 
 ComponentScript::~ComponentScript()
@@ -164,6 +277,15 @@ void ComponentScript::CleanUp()
 	failed = true;
 }
 
+void ComponentScript::SetOwner(GameObject* owner)
+{
+	Component::SetOwner(owner);
+	if (script)
+	{
+		script->SetOwner(owner);
+	}
+}
+
 bool ComponentScript::ScriptCanBeCalled() const
 {
 	return script && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling();
@@ -180,7 +302,7 @@ void ComponentScript::InternalSave(Json& meta)
 	}
 
 	int index = 0;
-	for (TypeFieldPair enumAndValue : script->GetFields())
+	for (const TypeFieldPair& enumAndValue : script->GetFields())
 	{
 		Json field = fields[index];
 		FieldType type = enumAndValue.first;
@@ -212,7 +334,7 @@ void ComponentScript::InternalSave(Json& meta)
 
 			case FieldType::FLOAT3:
 			{
-				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
+				const Field<float3>& fieldInstance = std::get<Field<float3>>(enumAndValue.second);
 				field["name"] = fieldInstance.name.c_str();
 				float3 fieldValue = fieldInstance.getter();
 				field["value x"] = fieldValue[0];
@@ -226,9 +348,10 @@ void ComponentScript::InternalSave(Json& meta)
 			{
 				field["name"] = std::get<Field<GameObject*>>(enumAndValue.second).name.c_str();
 
-				if (std::get<Field<GameObject*>>(enumAndValue.second).getter() != nullptr)
+				GameObject* fieldValue = std::get<Field<GameObject*>>(enumAndValue.second).getter();
+				if (fieldValue != nullptr)
 				{
-					field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter()->GetUID();
+					field["value"] = fieldValue->GetUID();
 				}
 				else
 				{
@@ -243,7 +366,7 @@ void ComponentScript::InternalSave(Json& meta)
 			{
 				Json vectorElements = fields[index];
 
-				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
+				const VectorField& vectorField = std::get<VectorField>(enumAndValue.second);
 				vectorElements["name"] = vectorField.name.c_str();
 				vectorElements["type"] = static_cast<int>(enumAndValue.first);
 				Json vectorElementsWithName = vectorElements["vectorElements"];
@@ -301,16 +424,17 @@ void ComponentScript::InternalSave(Json& meta)
 
 void ComponentScript::InternalLoad(const Json& meta)
 {
-	constructName = meta["constructName"];
-	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
-
+	// Don't call InstantiateScript from here, since that's not the expected behaviour
+	// For more detail, see comment in InstantiateScript
 	if (script == nullptr)
 	{
+		LOG_ERROR("Trying to load ComponentScript owned by {} without a Script instance; expected one of type {}. Did "
+				  "you forget to call InstantiateScript?",
+				  GetOwner(),
+				  static_cast<std::string>(meta["constructName"]));
 		return;
 	}
 
-	script->SetApplication(App.get());
-	script->SetOwner(GetOwner());
 	Json fields = meta["fields"];
 
 	for (unsigned int i = 0; i < fields.Size(); ++i)
@@ -322,7 +446,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::FLOAT:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<float>> optField = script->GetField<float>(valueName);
+				std::optional<Field<float>> optField = GetField<float>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -333,7 +457,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::STRING:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<std::string>> optField = script->GetField<std::string>(valueName);
+				std::optional<Field<std::string>> optField = GetField<std::string>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -344,7 +468,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::BOOLEAN:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
+				std::optional<Field<bool>> optField = GetField<bool>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -355,7 +479,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::GAMEOBJECT:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<GameObject*>> optField = script->GetField<GameObject*>(valueName);
+				std::optional<Field<GameObject*>> optField = GetField<GameObject*>(script, valueName);
 				if (optField)
 				{
 					UID fieldUID = field["value"];
@@ -385,7 +509,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::FLOAT3:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
+				std::optional<Field<float3>> optField = GetField<float3>(script, valueName);
 				if (optField)
 				{
 					float3 vec3(field["value x"], field["value y"], field["value z"]);
@@ -398,9 +522,8 @@ void ComponentScript::InternalLoad(const Json& meta)
 			{
 				std::string valueName = field["name"];
 				Json vectorElements = field["vectorElements"];
-				LOG_DEBUG("{}", vectorElements.Size());
 				std::optional<Field<std::vector<std::any>>> vectorField =
-					script->GetField<std::vector<std::any>>(valueName);
+					GetField<std::vector<std::any>>(script, valueName);
 				if (!vectorField)
 				{
 					continue;
@@ -481,4 +604,18 @@ void ComponentScript::SignalEnable()
 		Init();
 		Start();
 	}
+}
+
+void ComponentScript::InstantiateScript(const Json& jsonComponent)
+{
+	constructName = jsonComponent["constructName"];
+	script = App->GetScriptFactory()->ConstructScript(constructName.c_str());
+
+	if (script == nullptr)
+	{
+		LOG_ERROR("Script {} unable to be constructed", constructName);
+		return;
+	}
+
+	script->SetOwner(GetOwner());
 }

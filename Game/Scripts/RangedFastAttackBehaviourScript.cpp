@@ -85,7 +85,6 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
 	script->SetConstuctor("RangedFastAttackBullet");
 	script->GetScript()->SetOwner(bullet);
-	script->GetScript()->SetApplication(App);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();

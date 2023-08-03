@@ -34,7 +34,7 @@
 #define DEFAULT_RADIUS 0.5
 #define DEFAULT_MAX_PARTICLES 50
 
-#define CONE_HEIGHT 1.5
+#define CONE_HEIGHT 1.5f
 
 class ResourceTexture;
 class EmitterInstance;
