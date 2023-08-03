@@ -43,8 +43,8 @@ void PlayerForceUseScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	currentTimeForce = maxTimeForce;
 
-	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
-	playerManagerScript = owner->GetParent()->GetComponent<PlayerManagerScript>();
+	rotationHorizontalScript = owner->GetComponent<PlayerRotationScript>();
+	playerManagerScript = owner->GetComponent<PlayerManagerScript>();
 	moveScript = owner->GetComponent<PlayerMoveScript>();
 
 	input = App->GetModule<ModuleInput>();
