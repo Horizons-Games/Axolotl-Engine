@@ -128,7 +128,7 @@ void EntityDetection::SelectEnemy()
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Enemy")
+	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}
@@ -164,14 +164,4 @@ GameObject* EntityDetection::GetEnemySelected() const
 	{
 		return nullptr;
 	}
-}
-
-const std::vector<ComponentTransform*>& EntityDetection::GetEnemiesInTheArea() const
-{
-	return enemiesInTheArea;
-}
-
-void EntityDetection::SetEnemiesIntheArea(const std::vector<ComponentTransform*>& newEnemies)
-{
-	enemiesInTheArea = newEnemies;
 }

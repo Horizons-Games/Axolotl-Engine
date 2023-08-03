@@ -28,25 +28,7 @@ RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nul
 
 void RangedFastAttackBullet::Start()
 {
-	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-	audioSource = owner->GetComponent<ComponentAudioSource>();
-
-	rigidBody->Enable();
-	rigidBody->SetDefaultPosition();
-	rigidBody->SetDrawCollider(false);
-
-	float3 forward = parentTransform->GetGlobalForward();
-	forward.Normalize();
-
-	btRigidBody* btRb = rigidBody->GetRigidBody();
-	btRb->setLinearVelocity(
-		btVector3(
-			forward.x,
-			0,
-			forward.z) * velocity);
-
-	originTime = SDL_GetTicks() / 1000.0f;
+	InitializeBullet();
 }
 
 void RangedFastAttackBullet::Update(float deltaTime)
@@ -72,6 +54,29 @@ void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
 	DestroyBullet();
+}
+
+void RangedFastAttackBullet::InitializeBullet()
+{
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
+
+	rigidBody->Enable();
+	rigidBody->SetDefaultPosition();
+	rigidBody->SetDrawCollider(false);
+
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+	btRb->setLinearVelocity(
+		btVector3(
+			forward.x,
+			0,
+			forward.z) * velocity);
+
+	originTime = SDL_GetTicks() / 1000.0f;
 }
 
 void RangedFastAttackBullet::DestroyBullet()
