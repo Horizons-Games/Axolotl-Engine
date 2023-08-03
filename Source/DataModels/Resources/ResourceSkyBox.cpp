@@ -8,8 +8,6 @@
 
 #include "AxoLog.h"
 
-#include "Application.h"
-#include "ModuleResources.h"
 
 ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 							   const std::string& fileName,
