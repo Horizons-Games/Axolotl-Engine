@@ -184,12 +184,14 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 }
 
 
-GameObject* EntityDetection::GetEnemySelected()
+GameObject* EntityDetection::GetEnemySelected() const
 {
-	if (enemySelected == nullptr)
+	if (enemySelected != nullptr)
+	{
+		return enemySelected->GetOwner();
+	}
+	else
 	{
 		return nullptr;
 	}
-
-	return enemySelected->GetOwner();
 }

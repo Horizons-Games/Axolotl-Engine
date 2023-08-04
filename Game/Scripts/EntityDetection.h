@@ -22,7 +22,7 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
-	GameObject* GetEnemySelected();
+	GameObject* GetEnemySelected() const;
 
 private:
 	void Start() override;
