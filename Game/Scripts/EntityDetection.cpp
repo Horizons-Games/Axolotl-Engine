@@ -64,7 +64,7 @@ void EntityDetection::DrawDetectionLines(float distanceFilter)
 {
 	float magnitude = rigidBody->GetRadius() * rigidBody->GetFactor();
 
-	dd::circle(originPosition, float3(0, 1, 0), dd::colors::IndianRed, distanceFilter,20);
+	dd::circle(originPosition, float3(0, 1, 0), dd::colors::DarkRed, distanceFilter,20);
 
 	//Forward line
 	float3 vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(interactionAngle)) * vecForward;
@@ -88,7 +88,9 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 		bool insideDistanceFilter = true;
 		if (distanceFilter != 0)
 		{
-			insideDistanceFilter = originPosition.Distance(enemy->GetGlobalPosition()) <= distanceFilter;
+			float3 enemyPosition = enemy->GetGlobalPosition();
+			enemyPosition.y = originPosition.y;
+			insideDistanceFilter = originPosition.Distance(enemyPosition) <= distanceFilter;
 		}
 
 		bool equalPriorityLevel = !actualIsSpecialTarget || enemy->GetOwner()->GetTag() == "PriorityTarget";
