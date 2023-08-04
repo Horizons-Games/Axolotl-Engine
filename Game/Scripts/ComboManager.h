@@ -25,6 +25,8 @@ public:
 
 	int GetcomboCount() const;
 
+	bool NextIsSpecialAttack() const;
+
 	void CheckSpecial(float deltaTime);
 	bool isSpecialActivated() const;
 	AttackType CheckAttackInput(bool jumping);
