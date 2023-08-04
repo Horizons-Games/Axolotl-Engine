@@ -213,7 +213,7 @@ UpdateStatus ModuleInput::Update()
 			case SDL_JOYAXISMOTION: 
 				if (controller)
 				{
-					axis = sdlEvent.jaxis.axis;
+					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.jaxis.axis);
 					axisValue = sdlEvent.jaxis.value;
 				}
 				break;

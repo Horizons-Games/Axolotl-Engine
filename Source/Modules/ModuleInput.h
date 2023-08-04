@@ -27,8 +27,8 @@ public:
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
-	int GetAxis() const;
-	Sint16 GetAxisValue() const;
+	SDL_GameControllerAxis GetJoystickAxis() const;
+	Sint16 GetJoystickAxisValue() const;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -76,7 +76,7 @@ private:
 	bool mouseWheelScrolled;
 	bool inFocus;
 
-	int axis;
+	SDL_GameControllerAxis axis;
 	Sint16 axisValue;
 
 	struct SDLSurfaceDestroyer
@@ -224,12 +224,12 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 	return keysState[index];
 }
 
-inline int ModuleInput::GetAxis() const
+inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
 {
 	return axis;
 }
 
-inline Sint16 ModuleInput::GetAxisValue() const
+inline Sint16 ModuleInput::GetJoystickAxisValue() const
 {
 	return axisValue;
 }

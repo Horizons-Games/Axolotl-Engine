@@ -7,7 +7,7 @@
 
 namespace
 {
-const std::map<SDL_GameControllerButton, SDL_Scancode> gamepadMapping = {
+const std::map<SDL_GameControllerButton, SDL_Scancode> defaultGamepadMapping = {
 	{ SDL_CONTROLLER_BUTTON_A, SDL_SCANCODE_SPACE },
 	{ SDL_CONTROLLER_BUTTON_B, SDL_SCANCODE_Q },
 	{ SDL_CONTROLLER_BUTTON_X, SDL_SCANCODE_V },
@@ -17,7 +17,7 @@ const std::map<SDL_GameControllerButton, SDL_Scancode> gamepadMapping = {
 
 ComponentPlayerInput::ComponentPlayerInput(bool enabled, GameObject* owner) :
 	Component(ComponentType::PLAYERINPUT, enabled, owner, true),
-	gamepadMapping(::gamepadMapping)
+	gamepadMapping(defaultGamepadMapping)
 {
 }
 
