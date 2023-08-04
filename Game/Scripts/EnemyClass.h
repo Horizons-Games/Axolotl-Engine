@@ -20,6 +20,6 @@ public:
 protected:
 	bool stunned;
 	float timeStunned;
-	GameObject* particleGO;
+	GameObject* particleTargetGO;
 	ComponentParticleSystem* particleTarget;
 };

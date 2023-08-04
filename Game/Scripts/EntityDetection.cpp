@@ -147,8 +147,8 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 
 	if (lastenemySelected != enemySelected) 
 	{
-		VisualParticle(false, lastenemySelected->GetOwner());
-		VisualParticle(true, enemySelected->GetOwner());
+		if (lastenemySelected != nullptr) VisualParticle(false, lastenemySelected->GetOwner());
+		if (enemySelected != nullptr) VisualParticle(true, enemySelected->GetOwner());
 	}
 }
 

@@ -4,7 +4,7 @@
 
 EnemyClass::EnemyClass() : stunned(false), timeStunned(0.0f)
 {
-	REGISTER_FIELD(particleGO, GameObject*);
+	REGISTER_FIELD(particleTargetGO, GameObject*);
 }
 
 EnemyClass::~EnemyClass()
@@ -13,7 +13,7 @@ EnemyClass::~EnemyClass()
 
 void EnemyClass::Init() 
 {
-	particleTarget = particleGO->GetComponent<ComponentParticleSystem>();
+	particleTarget = particleTargetGO->GetComponent<ComponentParticleSystem>();
 }
 
 void EnemyClass::VisualTarget(bool activate)
