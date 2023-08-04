@@ -258,10 +258,7 @@ void PlayerMoveScript::MoveRotate(const float3& targetDirection, float deltaTime
 void PlayerMoveScript::Dash()
 {
 	Quat rotation = componentTransform->GetGlobalRotation();
-	float3 dashDirection(0.f, 0.f, 1.f);
-
-	dashDirection = rotation.Mul(dashDirection);
-	dashDirection.y = 0.0f;
+	float3 dashDirection = componentTransform->GetGlobalForward();
 
 	float3 dashImpulse = dashDirection.Normalized() * dashForce;
 	dashImpulse.Normalized();
