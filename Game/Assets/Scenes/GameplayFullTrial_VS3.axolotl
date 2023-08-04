@@ -24513,7 +24513,7 @@
         },
         {
             "GameObject": {
-                "name": "Bullet",
+                "name": "Light Attack Bullet",
                 "tag": "",
                 "uid": 5072350967789751086,
                 "parentUID": 1326767777895378518,

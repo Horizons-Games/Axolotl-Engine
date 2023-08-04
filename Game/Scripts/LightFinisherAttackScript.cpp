@@ -38,12 +38,6 @@ void LightFinisherAttackScript::Start()
 
 void LightFinisherAttackScript::ThrowStunItem()
 {
-	// No target is found
-	if (!enemyDetection->GetEnemySelected())
-	{
-		return;
-	}
-	
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 

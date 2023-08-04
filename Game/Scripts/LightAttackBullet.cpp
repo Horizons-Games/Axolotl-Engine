@@ -40,7 +40,10 @@ void LightAttackBullet::Start()
 
 void LightAttackBullet::Update(float deltaTime)
 {
-	rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	if (enemy != nullptr)
+	{
+		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	}
 }
 
 void LightAttackBullet::SetBulletVelocity(float nVelocity)
@@ -61,13 +64,18 @@ void LightAttackBullet::SetEnemy(GameObject* nEnemy)
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner() == enemy)
+	if (other->GetOwner()->CompareTag("Enemy"))
 	{
 		enemy->GetComponent<HealthSystem>()->TakeDamage(damageAttack);
 		enemy->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
 		DestroyBullet();
 		//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
-	}	
+	}
+
+	else if (!other->IsTrigger() && !other->GetOwner()->CompareTag("Player"))
+	{
+		DestroyBullet();
+	}
 }
 
 void LightAttackBullet::DestroyBullet()
