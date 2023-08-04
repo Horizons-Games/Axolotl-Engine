@@ -26,6 +26,7 @@ public:
 	bool isGrounded();
 	PlayerJumpScript* GetJumpManager();
 	PlayerMoveScript* GetMovementManager();
+	void SetPlayerSpeed(float playerSpeed);
 
 private:
 	void Start() override;

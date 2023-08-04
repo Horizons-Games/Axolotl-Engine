@@ -72,3 +72,8 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager()
 {
 	return movementManager;
 }
+
+void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
+{
+	this->playerSpeed = playerSpeed;
+}

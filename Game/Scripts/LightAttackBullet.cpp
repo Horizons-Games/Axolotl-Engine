@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "LightAttackBullet.h"
 
+#include "Application.h"
+
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
