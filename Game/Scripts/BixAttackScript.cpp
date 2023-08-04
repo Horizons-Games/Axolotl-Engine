@@ -141,12 +141,12 @@ void BixAttackScript::Update(float deltaTime)
 		{
 			case AttackType::SOFTNORMAL:
 				LOG_DEBUG("NormalAttack Soft");
-				NormalAttack(false);
+				NormalAttack();
 				break;
 
 			case AttackType::HEAVYNORMAL:
 				LOG_DEBUG("NormalAttack Heavy");
-				NormalAttack(true); // This should be a different kind of attack
+				NormalAttack(); // This should be a different kind of attack
 				break;
 
 			case AttackType::JUMPNORMAL:
@@ -181,6 +181,7 @@ void BixAttackScript::UpdateEnemyDetection()
 	{
 		enemyDetection->UpdateEnemyDetection();
 	}
+
 	else
 	{
 		enemyDetection->UpdateEnemyDetection(normalAttackDistance);
@@ -255,8 +256,6 @@ void BixAttackScript::JumpFinisher()
 	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 
 	comboSystem->SuccessfulAttack(-35, AttackType::HEAVYFINISHER);
-
-	LOG_VERBOSE("JUMP FINISHER!!!!!!");
 }
 
 void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 

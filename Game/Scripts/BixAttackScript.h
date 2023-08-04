@@ -44,7 +44,7 @@ private:
 	void UpdateEnemyDetection();
 
 	void NormalAttack();
-	void JumpAttack();
+	void NormalJumpAttack();
 	void LightFinisher();
 	void HeavyFinisher();
 	void JumpFinisher();
