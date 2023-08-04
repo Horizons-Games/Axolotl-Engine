@@ -18,6 +18,7 @@
 #include "../Scripts/EntityDetection.h"
 #include "../Scripts/JumpFinisherAttack.h"
 #include "../Scripts/JumpFinisherArea.h"
+#include "../Scripts/LightFinisherAttackScript.h"
 
 #include "GameObject/GameObject.h"
 
@@ -37,7 +38,8 @@ REGISTERCLASS(BixAttackScript);
 BixAttackScript::BixAttackScript() : Script(), 
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr),
-	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr)
+	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
+	lightFinisherScript(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 	REGISTER_FIELD(comboCountHeavy, float);
@@ -62,7 +64,9 @@ void BixAttackScript::Start()
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	comboSystem = owner->GetComponent<ComboManager>();
+
 	jumpFinisherScript = owner->GetComponent<JumpFinisherAttack>();
+	lightFinisherScript = owner->GetComponent<LightFinisherAttackScript>();
 }
 
 void BixAttackScript::Update(float deltaTime)
@@ -187,6 +191,8 @@ void BixAttackScript::NormalJumpAttack()
 
 void BixAttackScript::LightFinisher()
 {
+	lightFinisherScript->ThrowStunItem();
+
 	comboSystem->SuccessfulAttack(-20, AttackType::LIGHTFINISHER);
 }
 

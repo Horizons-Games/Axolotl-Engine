@@ -16,6 +16,7 @@ class ComboManager;
 class EntityDetection;
 class PlayerManagerScript;
 class JumpFinisherAttack;
+class LightFinisherAttackScript;
 
 enum class AttackCombo
 {
@@ -78,4 +79,5 @@ private:
 	PlayerManagerScript* playerManager;
 
 	JumpFinisherAttack* jumpFinisherScript;
+	LightFinisherAttackScript* lightFinisherScript;
 };
