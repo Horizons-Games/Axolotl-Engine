@@ -95,8 +95,11 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 
 		bool equalPriorityLevel = !actualIsSpecialTarget || enemy->GetOwner()->GetTag() == "PriorityTarget";
 
-		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive() || !equalPriorityLevel || !insideDistanceFilter)
+		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive() || 
+			!equalPriorityLevel || !insideDistanceFilter)
+		{
 			continue;
+		}
 
 		float3 vecForward = playerTransform->GetGlobalForward().Normalized();
 		float3 vecTowardsEnemy = (enemy->GetGlobalPosition() - originPosition).Normalized();
@@ -147,8 +150,14 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 
 	if (lastenemySelected != enemySelected) 
 	{
-		if (lastenemySelected != nullptr) VisualParticle(false, lastenemySelected->GetOwner());
-		if (enemySelected != nullptr) VisualParticle(true, enemySelected->GetOwner());
+		if (lastenemySelected != nullptr)
+		{
+			VisualParticle(false, lastenemySelected->GetOwner());
+		}
+		if (enemySelected != nullptr)
+		{
+			VisualParticle(true, enemySelected->GetOwner());
+		}
 	}
 }
 
