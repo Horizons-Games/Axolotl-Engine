@@ -1,6 +1,5 @@
 #include "StdAfx.h"
-
-#include "ModuleResources.h"
+#include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Components/ComponentSkybox.h"
