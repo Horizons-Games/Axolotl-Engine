@@ -11,7 +11,7 @@ enum class AttackType
 	SOFTNORMAL,
 	HEAVYNORMAL,
 	JUMPNORMAL,
-	SOFTFINISHER,
+	LIGHTFINISHER,
 	HEAVYFINISHER,
 	JUMPFINISHER
 };
@@ -27,7 +27,7 @@ public:
 
 	void Start() override;
 
-	int GetcomboCount() const;
+	float GetcomboCount() const;
 
 	void CheckSpecial(float deltaTime);
 	bool IsSpecialActivated() const;
@@ -42,10 +42,10 @@ private:
 
 	ModuleInput* input;
 	bool specialActivated;
-	int specialCount;
+	float specialCount;
 	float maxSpecialCount;
-	int comboCount;
-	int maxComboCount;
+	float comboCount;
+	float maxComboCount;
 
 	float comboTime;
 	float actualComboTimer;

@@ -41,7 +41,7 @@ private:
 
 	void NormalAttack(bool heavy);
 	void NormalJumpAttack();
-	void SoftFinisher();
+	void LightFinisher();
 	void HeavyFinisher();
 	void JumpFinisher();
 

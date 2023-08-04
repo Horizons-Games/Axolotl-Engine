@@ -129,9 +129,9 @@ void BixAttackScript::Update(float deltaTime)
 				NormalJumpAttack();
 				break;
 
-			case AttackType::SOFTFINISHER:
+			case AttackType::LIGHTFINISHER:
 				LOG_DEBUG("Special Soft");
-				SoftFinisher();
+				LightFinisher();
 				break;
 
 			case AttackType::HEAVYFINISHER:
@@ -162,7 +162,7 @@ void BixAttackScript::NormalAttack(bool heavy)
 	if(enemyAttacked != nullptr)
 	{
 		LOG_DEBUG("Enemy hitted");
-		int comboCount = heavy ? comboCountHeavy : comboCountSoft;
+		float comboCount = heavy ? comboCountHeavy : comboCountSoft;
 		float attack = heavy ? attackHeavy : attackSoft;
 		AttackType type = heavy ? AttackType::HEAVYNORMAL : AttackType::SOFTNORMAL;
 		comboSystem->SuccessfulAttack(comboCount, type);
@@ -185,18 +185,14 @@ void BixAttackScript::NormalJumpAttack()
 	comboSystem->SuccessfulAttack(20, AttackType::JUMPNORMAL);
 }
 
-void BixAttackScript::SoftFinisher()
+void BixAttackScript::LightFinisher()
 {
-	comboSystem->SuccessfulAttack(-20, AttackType::SOFTFINISHER);
-
-	LOG_VERBOSE("SOFT FINISHER!!!!!!");
+	comboSystem->SuccessfulAttack(-20, AttackType::LIGHTFINISHER);
 }
 
 void BixAttackScript::HeavyFinisher()
 {
 	comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
-
-	LOG_VERBOSE("HEAVY FINISHER!!!!!!");
 }
 
 void BixAttackScript::JumpFinisher()

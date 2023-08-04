@@ -12,14 +12,14 @@ REGISTERCLASS(ComboManager);
 ComboManager::ComboManager() : Script(), 
 	input(nullptr), 
 	specialActivated(false), 
-	specialCount(0),
-	maxSpecialCount(100),
-	comboCount(0), 
-	maxComboCount(3),
+	specialCount(0.0f),
+	maxSpecialCount(100.0f),
+	comboCount(0.0f), 
+	maxComboCount(3.0f),
 	uiComboManager(nullptr),
 	comboManagerUIReference(nullptr),
-	comboTime(10),
-	actualComboTimer(0)
+	comboTime(10.0f),
+	actualComboTimer(0.0f)
 {
 	REGISTER_FIELD(comboManagerUIReference, GameObject*);
 	REGISTER_FIELD(comboTime, float);
@@ -33,12 +33,12 @@ void ComboManager::Start()
 	if (comboManagerUIReference)
 	{
 		uiComboManager = comboManagerUIReference->GetComponent<UIComboManager>();
-		maxSpecialCount = uiComboManager->GetMaxComboBarValue();
+		maxSpecialCount = static_cast<float>(uiComboManager->GetMaxComboBarValue());
 		uiComboManager->SetComboBarValue(specialCount);
 	}
 }
 
-int ComboManager::GetcomboCount() const
+float ComboManager::GetcomboCount() const
 {
 	return comboCount;
 }
@@ -67,7 +67,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
-			specialCount = std::max(0.0f, specialCount - (5 * deltaTime));
+			specialCount = std::max(0.0f, specialCount - (5.0f * deltaTime));
 
 			if (uiComboManager)
 			{
@@ -115,7 +115,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 	{
 		if (specialActivated && comboCount == maxComboCount - 1)
 		{
-			return AttackType::SOFTFINISHER;
+			return AttackType::LIGHTFINISHER;
 		}
 
 		return AttackType::SOFTNORMAL;
@@ -161,7 +161,7 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 			uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
 		}
 
-		else if (type == AttackType::SOFTNORMAL || type == AttackType::SOFTFINISHER)
+		else if (type == AttackType::SOFTNORMAL || type == AttackType::LIGHTFINISHER)
 		{
 			uiComboManager->AddInputVisuals(InputVisualType::SOFT);
 		}
