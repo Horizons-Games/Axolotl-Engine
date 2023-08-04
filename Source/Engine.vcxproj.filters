@@ -603,6 +603,9 @@
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceTextureVideo.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1251,6 +1254,9 @@
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="DataModels\Resources\ResourceTextureVideo.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
