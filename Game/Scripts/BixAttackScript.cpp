@@ -179,6 +179,9 @@ void BixAttackScript::NormalAttack(bool heavy)
 
 void BixAttackScript::NormalJumpAttack()
 {
+	jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
+	//jumpFinisherScript->ShootForceBullet(); // Allura jumping attack, placed it here for now
+
 	comboSystem->SuccessfulAttack(20, AttackType::JUMPNORMAL);
 }
 
