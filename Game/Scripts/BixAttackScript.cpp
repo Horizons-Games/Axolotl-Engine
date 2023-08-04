@@ -36,41 +36,33 @@ REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), 
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
-	animation(nullptr), animationGO(nullptr), transform(nullptr),
-	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr),
-	jumpFinisherScript(nullptr)
+	animation(nullptr), transform(nullptr),
+	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
-
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountSoft, float);
+
 	REGISTER_FIELD(attackSoft, float);
 	REGISTER_FIELD(attackHeavy, float);
 	REGISTER_FIELD(isAttacking, bool);
 	//REGISTER_FIELD(attackCooldown, float);
 
-	REGISTER_FIELD(animationGO, GameObject*);
-	REGISTER_FIELD(enemyDetectionObject, GameObject*);
-	REGISTER_FIELD(jumpFinisherScript, JumpFinisherAttack*);
+	REGISTER_FIELD(enemyDetection, EntityDetection*);
 }
 
 void BixAttackScript::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
-	if (animationGO)
-	{
-		animation = animationGO->GetComponent<ComponentAnimation>();
-	}
+	animation = owner->GetComponent<ComponentAnimation>();
 
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
-
-	enemyDetection = enemyDetectionObject->GetComponent<EntityDetection>();
-
 	comboSystem = owner->GetComponent<ComboManager>();
+	jumpFinisherScript = owner->GetComponent<JumpFinisherAttack>();
 }
 
 void BixAttackScript::Update(float deltaTime)

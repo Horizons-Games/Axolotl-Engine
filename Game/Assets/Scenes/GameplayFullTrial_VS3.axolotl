@@ -905,18 +905,8 @@
                                     "type": 5
                                 },
                                 {
-                                    "name": "AnimationGO",
-                                    "value": 1326767777895378518,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "EnemyDetectionObject",
+                                    "name": "EnemyDetection",
                                     "value": 12448675388407140002,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "JumpFinisherScript",
-                                    "value": 1326767777895378518,
                                     "type": 2
                                 }
                             ]
