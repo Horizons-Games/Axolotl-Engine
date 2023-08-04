@@ -71,7 +71,6 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
 	script->SetConstuctor("RangedFastAttackBullet");
 	script->GetScript()->SetOwner(bullet);
-	script->GetScript()->SetApplication(App);
 
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
 

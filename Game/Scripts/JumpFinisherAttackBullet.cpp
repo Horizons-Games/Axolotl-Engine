@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "JumpFinisherAttackBullet.h"
 
+#include "Application.h"
+
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Physics/Physics.h"
@@ -10,6 +12,8 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/JumpFinisherArea.h"
+
+#include "SDL/include/SDL.h"
 
 REGISTERCLASS(JumpFinisherAttackBullet);
 

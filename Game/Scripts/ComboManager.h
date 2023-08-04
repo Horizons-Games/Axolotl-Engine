@@ -16,6 +16,7 @@ enum class AttackType
 };
 
 class UIComboManager;
+class ModuleInput;
 
 class ComboManager : public Script
 {

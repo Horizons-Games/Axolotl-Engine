@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "JumpFinisherAttack.h"
 
+#include "Application.h"
+
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
