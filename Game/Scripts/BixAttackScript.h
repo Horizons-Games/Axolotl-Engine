@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "../Scripts/ComboManager.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -12,6 +13,7 @@ class ComponentTransform;
 class ComponentAnimation;
 class EntityDetection;
 class ComboManager;
+class HeavyFinisherAttack;
 
 class EntityDetection;
 class PlayerManagerScript;
@@ -38,7 +40,7 @@ private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void NormalAttack(bool heavy);
+	void NormalAttack();
 	void JumpAttack();
 	void SoftFinisher();
 	void HeavyFinisher();
@@ -71,6 +73,10 @@ private:
 	float comboCountSoft;
 	float attackSoft;
 	float attackHeavy;
+	AttackType currentAttack;
+
+	HeavyFinisherAttack* heavyFinisherAttack;
+	GameObject* bixLightSaber;
 
 	PlayerManagerScript* playerManager;
 
