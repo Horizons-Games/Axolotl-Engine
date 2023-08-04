@@ -39,9 +39,10 @@ private:
 	void Update(float deltaTime) override;
 
 	void NormalAttack(bool heavy);
-	void JumpAttack();
+	void NormalJumpAttack();
 	void SoftFinisher();
 	void HeavyFinisher();
+	void JumpFinisher();
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ActivateAnimationCombo();

@@ -103,7 +103,12 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 	if (jumping && (leftClick || rightClick))
 	{
-		return AttackType::JUMPATTACK;
+		if (specialActivated && comboCount == maxComboCount - 1)
+		{
+			return AttackType::JUMPFINISHER;
+		}
+
+		return AttackType::JUMPNORMAL;
 	}
 
 	if (leftClick)
@@ -162,7 +167,7 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		}
 	}
 
-	if (comboCount == 3 || type == AttackType::JUMPATTACK) 
+	if (comboCount == 3 || type == AttackType::JUMPNORMAL) 
 	{
 		ClearCombo(true);
 	}

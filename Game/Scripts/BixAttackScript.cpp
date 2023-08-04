@@ -124,11 +124,11 @@ void BixAttackScript::Update(float deltaTime)
 			break;
 		case AttackType::HEAVYNORMAL:
 			LOG_DEBUG("NormalAttack Heavy");
-			NormalAttack(true);
+			NormalAttack(true); // This should be a different kind of attack
 			break;
-		case AttackType::JUMPATTACK:
+		case AttackType::JUMPNORMAL:
 			LOG_DEBUG("JumpAttack");
-			JumpAttack();
+			NormalJumpAttack();
 			break;
 		case AttackType::SOFTFINISHER:
 			LOG_DEBUG("Special Soft");
@@ -137,6 +137,10 @@ void BixAttackScript::Update(float deltaTime)
 		case AttackType::HEAVYFINISHER:
 			LOG_DEBUG("Special Heavy");
 			HeavyFinisher();
+			break;
+		case AttackType::JUMPFINISHER:
+			LOG_DEBUG("Special Jump");
+			JumpFinisher();
 			break;
 		default:
 			break;
@@ -170,26 +174,30 @@ void BixAttackScript::NormalAttack(bool heavy)
 	//attackCooldownCounter = attackCooldown;
 }
 
-void BixAttackScript::JumpAttack()
+void BixAttackScript::NormalJumpAttack()
 {
-	if (comboSystem->IsSpecialActivated()) 
-	{
-		comboSystem->SuccessfulAttack(-20, AttackType::JUMPATTACK);
-	}
-	else
-	{
-		comboSystem->SuccessfulAttack(20, AttackType::JUMPATTACK);
-	}
+	comboSystem->SuccessfulAttack(20, AttackType::JUMPNORMAL);
 }
 
 void BixAttackScript::SoftFinisher()
 {
 	comboSystem->SuccessfulAttack(-20, AttackType::SOFTFINISHER);
+
+	LOG_VERBOSE("SOFT FINISHER!!!!!!");
 }
 
 void BixAttackScript::HeavyFinisher()
 {
 	comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+
+	LOG_VERBOSE("HEAVY FINISHER!!!!!!");
+}
+
+void BixAttackScript::JumpFinisher()
+{
+	comboSystem->SuccessfulAttack(-35, AttackType::HEAVYFINISHER);
+
+	LOG_VERBOSE("JUMP FINISHER!!!!!!");
 }
 
 void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 
