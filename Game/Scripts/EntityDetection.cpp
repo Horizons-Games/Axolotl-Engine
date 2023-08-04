@@ -9,6 +9,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 #include "GameObject/GameObject.h"
+#include "../Scripts/EnemyClass.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -77,6 +78,7 @@ void EntityDetection::DrawDetectionLines(float distanceFilter)
 
 void EntityDetection::SelectEnemy(float distanceFilter)
 {
+	ComponentTransform* lastenemySelected = enemySelected;
 	enemySelected = nullptr;
 	float angleActualSelected = 0;
 	bool actualIsSpecialTarget = false;
@@ -140,6 +142,17 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 		dd::arrow(originPosition, enemySelected->GetGlobalPosition(), dd::colors::Red, 0.1f);
 	}
 #endif // ENGINE
+
+	if (lastenemySelected != enemySelected) 
+	{
+		VisualParticle(false, lastenemySelected->GetOwner());
+		VisualParticle(true, enemySelected->GetOwner());
+	}
+}
+
+void EntityDetection::VisualParticle(bool activate, GameObject* enemy) 
+{
+	enemy->GetComponent<EnemyClass>()->VisualTarget(activate);
 }
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
@@ -154,6 +167,7 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 {
 	if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
 	{
+		VisualParticle(false, enemySelected->GetOwner());
 		enemySelected = nullptr;
 	}
 

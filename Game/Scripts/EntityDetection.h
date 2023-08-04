@@ -30,6 +30,8 @@ private:
 	void DrawDetectionLines(float distanceFilter);
 	void SelectEnemy(float distanceFilter);
 
+	void VisualParticle(bool activate, GameObject* enemy);
+
 	ModuleInput* input;
 
 	GameObject* player;
