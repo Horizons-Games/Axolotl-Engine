@@ -36,7 +36,7 @@ BixAttackScript::BixAttackScript() : Script(),
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), animationGO(nullptr), transform(nullptr), currentAttack(AttackType::NONE),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr),
-	heavyFinisherAttack(nullptr), bixLightSaber(nullptr)
+	normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 
@@ -44,6 +44,8 @@ BixAttackScript::BixAttackScript() : Script(),
 	REGISTER_FIELD(comboCountSoft, float);
 	REGISTER_FIELD(attackSoft, float);
 	REGISTER_FIELD(attackHeavy, float);
+	REGISTER_FIELD(normalAttackDistance, float);
+
 	REGISTER_FIELD(isAttacking, bool);
 	//REGISTER_FIELD(attackCooldown, float);
 
@@ -130,6 +132,9 @@ void BixAttackScript::Update(float deltaTime)
 	}*/
 
 	comboSystem->CheckSpecial(deltaTime);
+
+	UpdateEnemyDetection();
+
 	if (IsAttackAvailable())
 	{
 		currentAttack = comboSystem->CheckAttackInput(!playerManager->isGrounded());
@@ -158,6 +163,18 @@ void BixAttackScript::Update(float deltaTime)
 		default:
 			break;
 		}
+	}
+}
+
+void BixAttackScript::UpdateEnemyDetection()
+{
+	if (comboSystem->NextIsSpecialAttack())
+	{
+		enemyDetection->UpdateEnemyDetection();
+	}
+	else
+	{
+		enemyDetection->UpdateEnemyDetection(normalAttackDistance);
 	}
 }
 

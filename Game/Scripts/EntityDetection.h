@@ -17,6 +17,8 @@ public:
 	EntityDetection();
 	~EntityDetection() override = default;
 
+	void UpdateEnemyDetection(float distanceFilter = 0.0f);
+
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
@@ -24,10 +26,11 @@ public:
 
 private:
 	void Start() override;
-	void Update(float deltaTime) override;
 
-	void DrawDetectionLines();
-	void SelectEnemy();
+	void DrawDetectionLines(float distanceFilter);
+	void SelectEnemy(float distanceFilter);
+
+	void VisualParticle(bool activate, GameObject* enemy);
 
 	ModuleInput* input;
 
@@ -37,6 +40,7 @@ private:
 
 	float interactionAngle;
 	float interactionOffset;
+	float angleThresholdEnemyIntersection;
 
 	std::vector<ComponentTransform*> enemiesInTheArea;
 	ComponentTransform* enemySelected;

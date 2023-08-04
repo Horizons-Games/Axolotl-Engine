@@ -40,6 +40,8 @@ private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void UpdateEnemyDetection();
+
 	void NormalAttack();
 	void JumpAttack();
 	void SoftFinisher();
@@ -73,6 +75,7 @@ private:
 	float comboCountSoft;
 	float attackSoft;
 	float attackHeavy;
+	float normalAttackDistance;
 	AttackType currentAttack;
 
 	HeavyFinisherAttack* heavyFinisherAttack;

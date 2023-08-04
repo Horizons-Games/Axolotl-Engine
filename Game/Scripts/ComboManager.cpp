@@ -47,6 +47,11 @@ int ComboManager::GetcomboCount() const
 	return comboCount;
 }
 
+bool ComboManager::NextIsSpecialAttack() const
+{
+	return specialActivated && comboCount == maxComboCount - 1;
+}
+
 void ComboManager::CheckSpecial(float deltaTime)
 {
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
