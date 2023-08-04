@@ -2,7 +2,7 @@
 
 #include "Cubemap/Cubemap.h"
 #include "Defines/ExtensionDefines.h"
-#include "ModuleResources.h"
+#include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 #include "Resources/ResourceCubemap.h"
 #include "Components/ComponentCubemap.h"
