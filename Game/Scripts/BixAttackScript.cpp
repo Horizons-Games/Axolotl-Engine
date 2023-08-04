@@ -16,6 +16,8 @@
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/EntityDetection.h"
+#include "../Scripts/JumpFinisherAttack.h"
+#include "../Scripts/JumpFinisherArea.h"
 
 #include "GameObject/GameObject.h"
 
@@ -35,7 +37,8 @@ REGISTERCLASS(BixAttackScript);
 BixAttackScript::BixAttackScript() : Script(), 
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), animationGO(nullptr), transform(nullptr),
-	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
+	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr),
+	jumpFinisherScript(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 
@@ -48,6 +51,7 @@ BixAttackScript::BixAttackScript() : Script(),
 
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(enemyDetectionObject, GameObject*);
+	REGISTER_FIELD(jumpFinisherScript, JumpFinisherAttack*);
 }
 
 void BixAttackScript::Start()
@@ -202,6 +206,9 @@ void BixAttackScript::HeavyFinisher()
 
 void BixAttackScript::JumpFinisher()
 {
+	jumpFinisherScript->PerformGroundSmash(); // Bix jumping finisher
+	//jumpFinisherScript->ShootForceBullet(); // Allura jumping finisher, placed it here for now
+
 	comboSystem->SuccessfulAttack(-35, AttackType::HEAVYFINISHER);
 
 	LOG_VERBOSE("JUMP FINISHER!!!!!!");

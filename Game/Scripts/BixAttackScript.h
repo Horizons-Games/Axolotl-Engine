@@ -10,11 +10,12 @@ class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
-class EntityDetection;
-class ComboManager;
 
 class EntityDetection;
+class ComboManager;
+class EntityDetection;
 class PlayerManagerScript;
+class JumpFinisherAttack;
 
 enum class AttackCombo
 {
@@ -72,8 +73,9 @@ private:
 	float comboCountSoft;
 	float attackSoft;
 	float attackHeavy;
+	AttackCombo attackComboPhase;
 
 	PlayerManagerScript* playerManager;
 
-	AttackCombo attackComboPhase;
+	JumpFinisherAttack* jumpFinisherScript;
 };

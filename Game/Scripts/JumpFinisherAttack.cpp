@@ -29,31 +29,21 @@ void JumpFinisherAttack::Start()
 
 void JumpFinisherAttack::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCooldown <= 0) // Bix jump finisher
+	if (currentCooldown > 0.0f)
 	{
-		currentCooldown = cooldown;
-		//JumpFinisherArea* forceAreaComponent = forceArea->GetComponent<JumpFinisherArea>();
-		//forceAreaComponent->PushEnemies();
-		forceArea->PushEnemies();
-	}
-
-	else if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE && currentCooldown <= 0) // Allura jump finisher
-	{
-		currentCooldown = cooldown;
-		ShootForceBullet();
-	}
-
-	else
-	{
-		if (currentCooldown > 0)
-		{
-			currentCooldown -= deltaTime;
-			currentCooldown = std::max(0.0f, currentCooldown);
-		}
+		currentCooldown -= deltaTime;
+		currentCooldown = std::max(0.0f, currentCooldown);
 	}
 }
 
-void JumpFinisherAttack::ShootForceBullet() const
+void JumpFinisherAttack::PerformGroundSmash()
+{
+	forceArea->PushEnemies();
+
+	currentCooldown = cooldown;
+}
+
+void JumpFinisherAttack::ShootForceBullet()
 {
 	// Duplicate force bullet
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
@@ -69,4 +59,6 @@ void JumpFinisherAttack::ShootForceBullet() const
 
 	// Set up new force area in the new bullet script field
 	newForceBulletScript->SetForceArea(newForceAreaGameObject->GetComponent<JumpFinisherArea>());
+
+	currentCooldown = cooldown;
 }

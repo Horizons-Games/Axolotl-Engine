@@ -19,7 +19,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 	
-	void ShootForceBullet() const;
+	void ShootForceBullet();
+	void PerformGroundSmash();
 
 private:
 	ModuleInput* input;
