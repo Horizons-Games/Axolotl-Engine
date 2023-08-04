@@ -26,6 +26,7 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentVideo.h"
 #include "Components/UI/ComponentTransform2D.h"
 
 #include "DataModels/Cubemap/Cubemap.h"
@@ -204,6 +205,9 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 	{
 		case ComponentType::IMAGE:
 			gameObject->CreateComponent<ComponentImage>();
+			break;
+		case ComponentType::VIDEO:
+			gameObject->CreateComponent<ComponentVideo>();
 			break;
 		case ComponentType::BUTTON:
 			gameObject->CreateComponent<ComponentImage>();

@@ -606,6 +606,9 @@
     <ClCompile Include="DataModels\Resources\ResourceTextureVideo.cpp">
       <Filter>DataModels\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentVideo.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1256,6 +1259,9 @@
     <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="DataModels\Resources\ResourceTextureVideo.h">
       <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentVideo.h">
+      <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
