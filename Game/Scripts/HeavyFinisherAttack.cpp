@@ -30,7 +30,7 @@ REGISTERCLASS(HeavyFinisherAttack);
 HeavyFinisherAttack::HeavyFinisherAttack() : Script(), audioSource(nullptr), transform(nullptr), rigidBody(nullptr),
 mesh(nullptr), target(nullptr), isActivated(false), isReturningToOwner(false), attackHasTarget(false), attackOwner(nullptr),
 vfx(nullptr), returnToPlayer(false), rotateWhileAttacking(true), damage(10.0f), speed(12.0f), hitDistance(1.0f), 
-rotationVelocity(50.0f), loadedScene(nullptr), physics(nullptr), maxEnemyHits(3.0f), countEnemyHits(0.0f),
+rotationVelocity(50.0f), loadedScene(nullptr), physics(nullptr), maxEnemyHits(3.0f),
 defaultThrowDistance(10.0f)
 {
 	REGISTER_FIELD(returnToPlayer, bool);
@@ -95,7 +95,7 @@ void HeavyFinisherAttack::MoveToEnemy(float deltaTime)
 		{
 			HitEnemy();
 
-			if (countEnemyHits >= maxEnemyHits)
+			if (enemiesAlreadyHit.size() >= maxEnemyHits)
 			{
 				if (!returnToPlayer)
 				{
@@ -134,14 +134,14 @@ void HeavyFinisherAttack::MoveForward(float deltaTime)
 	transform->UpdateTransformMatrices();
 	rigidBody->UpdateRigidBody();
 
-	bool enemyHitten = false;
+	bool enemyHit = false;
 	for (ComponentTransform* enemy : enemiesInTheArea)
 	{
 		if (currentPos.Distance(enemy->GetGlobalPosition()) < hitDistance)
 		{
 			target = enemy;
 			HitEnemy();
-			enemyHitten = true;
+			enemyHit = true;
 			SeekNextEnemy();
 			attackHasTarget = true;
 			
@@ -149,7 +149,7 @@ void HeavyFinisherAttack::MoveForward(float deltaTime)
 		}
 	}
 
-	if (!enemyHitten)
+	if (!enemyHit)
 	{
 		if (currentPos.Distance(emptyAttackTargetPos) < hitDistance) //Attack gets to target
 		{
@@ -172,7 +172,6 @@ void HeavyFinisherAttack::HitEnemy()
 	vfx->SetPlayAtStart(true);
 	vfx->Play();
 	enemiesAlreadyHit.push_back(target);
-	countEnemyHits += 1.0f;
 }
 
 void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner)
@@ -233,8 +232,8 @@ void HeavyFinisherAttack::SeekNextEnemy()
 		ComponentTransform* enemyTransform = enemy->GetOwner()->GetComponent<ComponentTransform>();
 
 		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive() //If enemy is dead
-			|| (std::find(enemiesAlreadyHit.begin(), enemiesAlreadyHit.end(), enemyTransform)
-				!= enemiesAlreadyHit.end())) //If enemy already hit
+			|| (std::any_of(enemiesAlreadyHit.begin(), enemiesAlreadyHit.end(), 
+				[&enemyTransform](const ComponentTransform* other) { return other == enemyTransform; }))) //If enemy already hit
 		{
 			continue; //next enemy
 		}
@@ -278,8 +277,6 @@ void HeavyFinisherAttack::ResetValues()
 	enemiesAlreadyHit.clear();
 	enemiesInTheArea.clear();
 
-	countEnemyHits = 0.0f;
-
 	vfx->Stop();
 	mesh->Disable();
 }
@@ -291,7 +288,7 @@ void HeavyFinisherAttack::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
+	if (other->GetOwner()->CompareTag("Enemy") && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}

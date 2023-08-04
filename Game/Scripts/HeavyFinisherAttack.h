@@ -61,6 +61,5 @@ private:
 	float speed;
 	float hitDistance;
 	float maxEnemyHits; //Should be int but can't REGISTER_FIELD ints
-	float countEnemyHits;
 	float defaultThrowDistance; //Distance for when the attack does not have an initial target
 };
