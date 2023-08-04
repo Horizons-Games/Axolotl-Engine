@@ -29,17 +29,13 @@ ComboManager::ComboManager() : Script(),
 void ComboManager::Start()
 {
 	input = App->GetModule<ModuleInput>();
-	if(comboManagerUIReference)
+
+	if (comboManagerUIReference)
 	{
 		uiComboManager = comboManagerUIReference->GetComponent<UIComboManager>();
 		maxSpecialCount = uiComboManager->GetMaxComboBarValue();
 		uiComboManager->SetComboBarValue(specialCount);
 	}
-}
-
-void ComboManager::Update(float deltaTime)
-{
-	
 }
 
 int ComboManager::GetcomboCount() const
@@ -52,7 +48,12 @@ void ComboManager::CheckSpecial(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
-		if(uiComboManager) uiComboManager->SetActivateSpecial(true);
+
+		if (uiComboManager)
+		{
+			uiComboManager->SetActivateSpecial(true);
+		}
+
 		ClearCombo(false);
 	}
 
@@ -63,12 +64,18 @@ void ComboManager::CheckSpecial(float deltaTime)
 			ClearCombo(false);
 			actualComboTimer = comboTime;
 		}
+
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
 			specialCount = std::max(0.0f, specialCount - (5 * deltaTime));
-			if (uiComboManager) uiComboManager->SetComboBarValue(specialCount);
+
+			if (uiComboManager)
+			{
+				uiComboManager->SetComboBarValue(specialCount);
+			}
 		}
 	}
+
 	else
 	{
 		actualComboTimer -= deltaTime;
@@ -84,7 +91,7 @@ void ComboManager::ClearCombo(bool finisher)
 	comboCount = 0;
 }
 
-bool ComboManager::isSpecialActivated() const
+bool ComboManager::IsSpecialActivated() const
 {
 	return specialActivated;
 }
@@ -105,6 +112,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 		{
 			return AttackType::SOFTFINISHER;
 		}
+
 		return AttackType::SOFTNORMAL;
 	}
 
@@ -114,6 +122,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 		{
 			return AttackType::HEAVYFINISHER;
 		}
+
 		return AttackType::HEAVYNORMAL;
 	}
 
@@ -122,14 +131,20 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
-	if(specialCount < 0 || !specialActivated)
+	if (specialCount < 0 || !specialActivated)
 	{
 		this->specialCount = std::max(0.0f, std::min(this->specialCount + specialCount, maxSpecialCount));
+
 		if (this->specialCount <= 0.0f && specialActivated)
 		{
 			specialActivated = false;
 		}
-		if (uiComboManager) uiComboManager->SetComboBarValue(this->specialCount);
+
+		if (uiComboManager)
+		{
+			uiComboManager->SetComboBarValue(this->specialCount);
+		}
+
 		actualComboTimer = comboTime;
 	}
 
@@ -140,6 +155,7 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		{
 			uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
 		}
+
 		else if (type == AttackType::SOFTNORMAL || type == AttackType::SOFTFINISHER)
 		{
 			uiComboManager->AddInputVisuals(InputVisualType::SOFT);

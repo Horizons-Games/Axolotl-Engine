@@ -24,17 +24,16 @@ public:
 	ComboManager();
 	~ComboManager() override = default;
 
+	void Start() override;
+
 	int GetcomboCount() const;
 
 	void CheckSpecial(float deltaTime);
-	bool isSpecialActivated() const;
+	bool IsSpecialActivated() const;
 	AttackType CheckAttackInput(bool jumping);
 	void SuccessfulAttack(float specialCount, AttackType type);
 
 private:
-	void Start() override;
-	void Update(float deltaTime) override;
-
 	void ClearCombo(bool finisher);
 
 	GameObject* comboManagerUIReference;

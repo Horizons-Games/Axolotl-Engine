@@ -172,7 +172,7 @@ void BixAttackScript::NormalAttack(bool heavy)
 
 void BixAttackScript::JumpAttack()
 {
-	if (comboSystem->isSpecialActivated()) 
+	if (comboSystem->IsSpecialActivated()) 
 	{
 		comboSystem->SuccessfulAttack(-20, AttackType::JUMPATTACK);
 	}
