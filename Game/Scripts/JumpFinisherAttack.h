@@ -17,16 +17,12 @@ public:
 	~JumpFinisherAttack() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 	
 	void ShootForceBullet();
 	void PerformGroundSmash();
 
 private:
 	ModuleInput* input;
-
-	float cooldown;
-	float currentCooldown;
 
 	JumpFinisherArea* forceArea;
 	GameObject* forceAttackBullet;

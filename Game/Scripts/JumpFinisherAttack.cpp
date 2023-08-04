@@ -16,9 +16,8 @@
 
 REGISTERCLASS(JumpFinisherAttack);
 
-JumpFinisherAttack::JumpFinisherAttack() : Script(), cooldown(3.0f), currentCooldown(0.0f), input(nullptr)
+JumpFinisherAttack::JumpFinisherAttack() : Script(), input(nullptr)
 {
-	REGISTER_FIELD(cooldown, float);
 	REGISTER_FIELD(forceArea, JumpFinisherArea*);
 	REGISTER_FIELD(forceAttackBullet, GameObject*);
 }
@@ -28,23 +27,12 @@ void JumpFinisherAttack::Start()
 	input = App->GetModule<ModuleInput>();
 }
 
-void JumpFinisherAttack::Update(float deltaTime)
-{
-	if (currentCooldown > 0.0f)
-	{
-		currentCooldown -= deltaTime;
-		currentCooldown = std::max(0.0f, currentCooldown);
-	}
-}
-
 void JumpFinisherAttack::PerformGroundSmash()
 {
 	ComponentRigidBody* ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	btRigidBody* ownerBulletRigidBody = ownerRigidBody->GetRigidBody();
 	ownerBulletRigidBody->setLinearVelocity(btVector3(0.0f, -30.0f, 0.0f));
 	forceArea->PushEnemies();
-
-	currentCooldown = cooldown;
 }
 
 void JumpFinisherAttack::ShootForceBullet()
@@ -63,6 +51,4 @@ void JumpFinisherAttack::ShootForceBullet()
 
 	// Set up new force area in the new bullet script field
 	newForceBulletScript->SetForceArea(newForceAreaGameObject->GetComponent<JumpFinisherArea>());
-
-	currentCooldown = cooldown;
 }
