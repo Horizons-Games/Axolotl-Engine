@@ -2,6 +2,12 @@
 
 #include "ComponentVideo.h"
 
+
+ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
+	Component(ComponentType::VIDEO, active, owner, true)
+{
+}
+
 ComponentVideo::~ComponentVideo()
 {
 }
