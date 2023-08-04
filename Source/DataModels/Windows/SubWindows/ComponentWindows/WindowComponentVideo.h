@@ -2,7 +2,8 @@
 #include "ComponentWindow.h"
 
 class ComponentVideo;
-class WindowSpriteInput;
+class WindowVideoInput;
+
 
 class WindowComponentVideo : public ComponentWindow
 {
@@ -13,4 +14,6 @@ public:
 protected:
 	void DrawWindowContents() override;
 
+private:
+	std::unique_ptr<WindowVideoInput> inputVideo;
 };

@@ -1,19 +1,19 @@
 #include "StdAfx.h"
-#include "ResourceTextureVideo.h"
+#include "ResourceVideo.h"
 
 
-ResourceTextureVideo::ResourceTextureVideo(UID resourceUID,
+ResourceVideo::ResourceVideo(UID resourceUID,
 										   const std::string& fileName,
 										   const std::string& assetsPath,
 										   const std::string& libraryPath)
 {
 }
 
-ResourceTextureVideo::~ResourceTextureVideo()
+ResourceVideo::~ResourceVideo()
 {
 }
 
-ResourceType ResourceTextureVideo::GetType() const
+ResourceType ResourceVideo::GetType() const
 {
 	return ResourceType();
 }

@@ -19,6 +19,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentVideo.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
@@ -54,6 +55,7 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentVideo.h"
 #include "Components/UI/ComponentTransform2D.h"
 
 #include "Commands/CommandComponentEnabled.h"
@@ -93,6 +95,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentSlider>(static_cast<ComponentSlider*>(component));
 			case ComponentType::IMAGE:
 				return std::make_unique<WindowComponentImage>(static_cast<ComponentImage*>(component));
+			case ComponentType::VIDEO:
+				return std::make_unique<WindowComponentVideo>(static_cast<ComponentVideo*>(component));
 			case ComponentType::BUTTON:
 				return std::make_unique<WindowComponentButton>(static_cast<ComponentButton*>(component));
 			case ComponentType::RIGIDBODY:
