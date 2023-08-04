@@ -118,32 +118,38 @@ void BixAttackScript::Update(float deltaTime)
 		AttackType attackType = comboSystem->CheckAttackInput(!playerManager->isGrounded());
 		switch (attackType)
 		{
-		case AttackType::SOFTNORMAL:
-			LOG_DEBUG("NormalAttack Soft");
-			NormalAttack(false);
-			break;
-		case AttackType::HEAVYNORMAL:
-			LOG_DEBUG("NormalAttack Heavy");
-			NormalAttack(true); // This should be a different kind of attack
-			break;
-		case AttackType::JUMPNORMAL:
-			LOG_DEBUG("JumpAttack");
-			NormalJumpAttack();
-			break;
-		case AttackType::SOFTFINISHER:
-			LOG_DEBUG("Special Soft");
-			SoftFinisher();
-			break;
-		case AttackType::HEAVYFINISHER:
-			LOG_DEBUG("Special Heavy");
-			HeavyFinisher();
-			break;
-		case AttackType::JUMPFINISHER:
-			LOG_DEBUG("Special Jump");
-			JumpFinisher();
-			break;
-		default:
-			break;
+			case AttackType::SOFTNORMAL:
+				LOG_DEBUG("NormalAttack Soft");
+				NormalAttack(false);
+				break;
+
+			case AttackType::HEAVYNORMAL:
+				LOG_DEBUG("NormalAttack Heavy");
+				NormalAttack(true); // This should be a different kind of attack
+				break;
+
+			case AttackType::JUMPNORMAL:
+				LOG_DEBUG("JumpAttack");
+				NormalJumpAttack();
+				break;
+
+			case AttackType::SOFTFINISHER:
+				LOG_DEBUG("Special Soft");
+				SoftFinisher();
+				break;
+
+			case AttackType::HEAVYFINISHER:
+				LOG_DEBUG("Special Heavy");
+				HeavyFinisher();
+				break;
+
+			case AttackType::JUMPFINISHER:
+				LOG_DEBUG("Special Jump");
+				JumpFinisher();
+				break;
+
+			default:
+				break;
 		}
 	}
 }
@@ -151,7 +157,7 @@ void BixAttackScript::Update(float deltaTime)
 void BixAttackScript::NormalAttack(bool heavy) 
 {
 	//Activate visuals and audios
-	//ActivateAnimationCombo();
+	//ActivateAnimationCombo(); // TODO: Fix this animation system
 	animation->SetParameter("IsAttacking", true);
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
@@ -166,6 +172,7 @@ void BixAttackScript::NormalAttack(bool heavy)
 		comboSystem->SuccessfulAttack(comboCount, type);
 		DamageEnemy(enemyAttacked, attack);
 	}
+
 	else 
 	{
 		LOG_DEBUG("Fail attack");
@@ -219,30 +226,30 @@ bool BixAttackScript::IsAttackAvailable() const
 void BixAttackScript::ActivateAnimationCombo()
 {
 	// Attack, starting the combo
-	if (animation) 
+	switch (attackComboPhase)
 	{
-		switch (attackComboPhase)
-		{
 		case AttackCombo::IDLE:
 			attackComboPhase = AttackCombo::FIRST_ATTACK;
 			animation->SetParameter("IsAttacking", true);
 			comboNormalAttackTimer = 0.2f;
 			break;
+
 		case AttackCombo::FIRST_ATTACK:
 			attackComboPhase = AttackCombo::SECOND_ATTACK;
 			animation->SetParameter("IsAttacking", false);
 			animation->SetParameter("IsAttacking_2", true);
 			comboNormalAttackTimer = 0.2f;
 			break;
+
 		case AttackCombo::SECOND_ATTACK:
 			attackComboPhase = AttackCombo::THIRD_ATTACK;
 			animation->SetParameter("IsAttacking_2", false);
 			animation->SetParameter("IsAttacking_3", true);
 			comboNormalAttackTimer = 0.0f;
 			break;
+
 		default:
 			break;
-		}
 	}
 }
 
