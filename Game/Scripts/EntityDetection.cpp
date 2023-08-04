@@ -40,10 +40,9 @@ void EntityDetection::Start()
 	rigidBody->SetKpForce(50);
 }
 
-void EntityDetection::Update(float deltaTime)
+void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 {
 	rigidBody->SetPositionTarget(playerTransform->GetGlobalPosition());
-
 
 	vecForward = playerTransform->GetGlobalForward();
 	originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
@@ -54,15 +53,17 @@ void EntityDetection::Update(float deltaTime)
 	}
 
 #ifdef ENGINE
-	DrawDetectionLines();
+	DrawDetectionLines(distanceFilter);
 #endif // ENGINE
-	
-	SelectEnemy();
+
+	SelectEnemy(distanceFilter);
 }
 
-void EntityDetection::DrawDetectionLines()
+void EntityDetection::DrawDetectionLines(float distanceFilter)
 {
 	float magnitude = rigidBody->GetRadius() * rigidBody->GetFactor();
+
+	dd::circle(originPosition, float3(0, 1, 0), dd::colors::IndianRed, distanceFilter,20);
 
 	//Forward line
 	float3 vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(interactionAngle)) * vecForward;
@@ -83,7 +84,7 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 	for (ComponentTransform* enemy : enemiesInTheArea)
 	{
 		bool insideDistanceFilter = true;
-		if (distanceFilter != 0) 
+		if (distanceFilter != 0)
 		{
 			insideDistanceFilter = originPosition.Distance(enemy->GetGlobalPosition()) <= distanceFilter;
 		}
@@ -154,7 +155,6 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 	if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
 	{
 		enemySelected = nullptr;
-		SelectEnemy();
 	}
 
 	enemiesInTheArea.erase(
@@ -168,22 +168,12 @@ void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 }
 
 
-
-GameObject* EntityDetection::GetEnemySelected(float distanceFilter)
+GameObject* EntityDetection::GetEnemySelected()
 {
-	if (enemySelected != nullptr && distanceFilter != 0 && distanceFilter < rigidBody->GetRadius())
+	if (enemySelected == nullptr)
 	{
-		if (originPosition.Distance(enemySelected->GetGlobalPosition()) <= distanceFilter) 
-		{
-			return enemySelected->GetOwner();
-		}
-		SelectEnemy(distanceFilter);
-		if (enemySelected != nullptr) return enemySelected->GetOwner();
-	}
-	else 
-	{
-		return enemySelected->GetOwner();
+		return nullptr;
 	}
 
-	return nullptr;
+	return enemySelected->GetOwner();
 }
