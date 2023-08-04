@@ -19,6 +19,7 @@
 #include "../Scripts/JumpFinisherAttack.h"
 #include "../Scripts/JumpFinisherArea.h"
 #include "../Scripts/LightFinisherAttackScript.h"
+#include "../Scripts/HeavyFinisherAttack.h"
 
 #include "GameObject/GameObject.h"
 
@@ -31,7 +32,6 @@
 #include <set>
 
 #include "AxoLog.h"
-#include "ComboManager.h"
 
 REGISTERCLASS(BixAttackScript);
 
@@ -39,7 +39,7 @@ BixAttackScript::BixAttackScript() : Script(),
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
-	lightFinisherScript(nullptr)
+	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 	REGISTER_FIELD(comboCountHeavy, float);
@@ -47,10 +47,14 @@ BixAttackScript::BixAttackScript() : Script(),
 
 	REGISTER_FIELD(attackSoft, float);
 	REGISTER_FIELD(attackHeavy, float);
+	REGISTER_FIELD(normalAttackDistance, float);
+
 	REGISTER_FIELD(isAttacking, bool);
 	//REGISTER_FIELD(attackCooldown, float);
 
 	REGISTER_FIELD(enemyDetection, EntityDetection*);
+	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
+	REGISTER_FIELD(bixLightSaber, GameObject*);
 }
 
 void BixAttackScript::Start()
@@ -75,11 +79,25 @@ void BixAttackScript::Update(float deltaTime)
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
 	if (isAttacking) 
 	{
-		if (animation && !animation->isPlaying()) 
+		switch (currentAttack)
 		{
-			isAttacking = false;
-			animation->SetParameter("IsAttacking", false);
+			case AttackType::HEAVYFINISHER:
+				if (!heavyFinisherAttack->IsAttacking()) //Heavy Finisher Attack has finished
+				{
+					animation->SetParameter("HeavyFinisherExit", true);
+					isAttacking = false;
+					bixLightSaber->Enable();
+				}
+				break;
+			default:
+				if (animation && !animation->isPlaying())
+				{
+					isAttacking = false;
+					animation->SetParameter("IsAttacking", false);
+				}
+				break;
 		}
+		
 	}
 
 	/*if(isAttacking)
@@ -113,10 +131,13 @@ void BixAttackScript::Update(float deltaTime)
 	}*/
 
 	comboSystem->CheckSpecial(deltaTime);
+
+	UpdateEnemyDetection();
+
 	if (IsAttackAvailable())
 	{
-		AttackType attackType = comboSystem->CheckAttackInput(!playerManager->isGrounded());
-		switch (attackType)
+		currentAttack = comboSystem->CheckAttackInput(!playerManager->isGrounded());
+		switch (currentAttack)
 		{
 			case AttackType::SOFTNORMAL:
 				LOG_DEBUG("NormalAttack Soft");
@@ -154,7 +175,19 @@ void BixAttackScript::Update(float deltaTime)
 	}
 }
 
-void BixAttackScript::NormalAttack(bool heavy) 
+void BixAttackScript::UpdateEnemyDetection()
+{
+	if (comboSystem->NextIsSpecialAttack())
+	{
+		enemyDetection->UpdateEnemyDetection();
+	}
+	else
+	{
+		enemyDetection->UpdateEnemyDetection(normalAttackDistance);
+	}
+}
+
+void BixAttackScript::NormalAttack() 
 {
 	//Activate visuals and audios
 	//ActivateAnimationCombo(); // TODO: Fix this animation system
@@ -165,6 +198,7 @@ void BixAttackScript::NormalAttack(bool heavy)
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	if(enemyAttacked != nullptr)
 	{
+		bool heavy = (currentAttack == AttackType::HEAVYNORMAL);
 		LOG_DEBUG("Enemy hitted");
 		float comboCount = heavy ? comboCountHeavy : comboCountSoft;
 		float attack = heavy ? attackHeavy : attackSoft;
@@ -198,7 +232,21 @@ void BixAttackScript::LightFinisher()
 
 void BixAttackScript::HeavyFinisher()
 {
-	comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+	bixLightSaber->Disable();
+	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
+	animation->SetParameter("HeavyFinisherInit", true);
+	isAttacking = true;
+	if (enemyAttacked != nullptr)
+	{
+		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
+			GetOwner()->GetComponent<ComponentTransform>());
+		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+	}
+	else
+	{
+		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
+		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+	}
 }
 
 void BixAttackScript::JumpFinisher()

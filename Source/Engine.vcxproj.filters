@@ -627,6 +627,9 @@
     <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1299,6 +1302,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\LightAttackBullet.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
