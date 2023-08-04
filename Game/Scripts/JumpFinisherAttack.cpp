@@ -27,15 +27,15 @@ void JumpFinisherAttack::Start()
 	input = App->GetModule<ModuleInput>();
 }
 
-void JumpFinisherAttack::PerformGroundSmash()
+void JumpFinisherAttack::PerformGroundSmash(float pushForce, float stunTime)
 {
 	ComponentRigidBody* ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	btRigidBody* ownerBulletRigidBody = ownerRigidBody->GetRigidBody();
 	ownerBulletRigidBody->setLinearVelocity(btVector3(0.0f, -30.0f, 0.0f));
-	forceArea->PushEnemies();
+	forceArea->PushEnemies(pushForce, stunTime);
 }
 
-void JumpFinisherAttack::ShootForceBullet()
+void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 {
 	// Duplicate force bullet
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
@@ -51,4 +51,8 @@ void JumpFinisherAttack::ShootForceBullet()
 
 	// Set up new force area in the new bullet script field
 	newForceBulletScript->SetForceArea(newForceAreaGameObject->GetComponent<JumpFinisherArea>());
+
+	// Set up values for the bullet effect
+	newForceBulletScript->SetAreaPushForce(pushForce);
+	newForceBulletScript->SetAreaStunTime(stunTime);
 }

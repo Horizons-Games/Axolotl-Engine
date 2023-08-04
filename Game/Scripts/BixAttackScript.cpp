@@ -179,8 +179,8 @@ void BixAttackScript::NormalAttack(bool heavy)
 
 void BixAttackScript::NormalJumpAttack()
 {
-	jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
-	//jumpFinisherScript->ShootForceBullet(); // Allura jumping attack, placed it here for now
+	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
+	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 
 	comboSystem->SuccessfulAttack(20, AttackType::JUMPNORMAL);
 }
@@ -201,8 +201,8 @@ void BixAttackScript::HeavyFinisher()
 
 void BixAttackScript::JumpFinisher()
 {
-	jumpFinisherScript->PerformGroundSmash(); // Bix jumping finisher
-	//jumpFinisherScript->ShootForceBullet(); // Allura jumping finisher, placed it here for now
+	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
+	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 
 	comboSystem->SuccessfulAttack(-35, AttackType::HEAVYFINISHER);
 

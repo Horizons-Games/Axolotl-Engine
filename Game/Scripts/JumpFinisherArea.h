@@ -20,15 +20,11 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
-	void PushEnemies();
+	void PushEnemies(float pushForce, float stunTime);
 
 private:
 	std::vector<GameObject*> enemiesInTheArea;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
-
-	float force;
-	float stunTime;
-	float forceDamage;
 };

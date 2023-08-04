@@ -10,14 +10,9 @@
 
 REGISTERCLASS(JumpFinisherArea);
 
-JumpFinisherArea::JumpFinisherArea() : Script(), force(10.0f), stunTime(3.0f), forceDamage(10.0f),
-	parentTransform(nullptr), rigidBody(nullptr)
+JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr)
 {
 	enemiesInTheArea.reserve(10);
-
-	REGISTER_FIELD(force, float);
-	REGISTER_FIELD(stunTime, float);
-	REGISTER_FIELD(forceDamage, float);
 }
 
 void JumpFinisherArea::Start()
@@ -54,7 +49,7 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 		std::end(enemiesInTheArea));
 }
 
-void JumpFinisherArea::PushEnemies()
+void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
@@ -77,7 +72,7 @@ void JumpFinisherArea::PushEnemies()
 		float3 nextPosition = enemyTransform->GetGlobalPosition() - transform->GetGlobalPosition();
 		nextPosition.Normalize();
 		nextPosition += float3(0, 0.5f, 0);
-		nextPosition *= force;
+		nextPosition *= pushForce;
 
 		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 		enemybtRb->setLinearVelocity(newVelocity);
@@ -86,7 +81,8 @@ void JumpFinisherArea::PushEnemies()
 		enemyScript->SetStunnedTime(stunTime);
 
 		HealthSystem* enemyHealthScript = (*it)->GetComponent<HealthSystem>();
-
-		enemyHealthScript->TakeDamage(forceDamage);
+;
+		// We apply the same damage to the enemies as the push force used to push them
+		enemyHealthScript->TakeDamage(pushForce);
 	}
 }

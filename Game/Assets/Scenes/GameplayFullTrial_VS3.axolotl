@@ -1150,11 +1150,6 @@
                             "constructName": "JumpFinisherAttack",
                             "fields": [
                                 {
-                                    "name": "Cooldown",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
                                     "name": "ForceArea",
                                     "value": 5796801568389261786,
                                     "type": 2
@@ -6806,23 +6801,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "JumpFinisherArea",
-                            "fields": [
-                                {
-                                    "name": "Force",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "StunTime",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ForceDamage",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]
@@ -10605,7 +10584,7 @@
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
-                            "linearDamping": 0.10000000149011612,
+                            "linearDamping": 0.75,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.10000000149011612,
                             "currentShape": 1,
@@ -13542,7 +13521,7 @@
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
-                            "linearDamping": 0.10000000149011612,
+                            "linearDamping": 0.75,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.10000000149011612,
                             "currentShape": 1,
@@ -16574,7 +16553,7 @@
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
-                            "linearDamping": 0.10000000149011612,
+                            "linearDamping": 0.75,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.10000000149011612,
                             "currentShape": 1,
@@ -20231,7 +20210,7 @@
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
-                            "linearDamping": 0.10000000149011612,
+                            "linearDamping": 0.75,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.10000000149011612,
                             "currentShape": 1,
@@ -24316,23 +24295,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "JumpFinisherArea",
-                            "fields": [
-                                {
-                                    "name": "Force",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "StunTime",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ForceDamage",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]

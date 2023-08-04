@@ -18,8 +18,8 @@ public:
 
 	void Start() override;
 	
-	void ShootForceBullet();
-	void PerformGroundSmash();
+	void PerformGroundSmash(float pushForce, float stunTime);
+	void ShootForceBullet(float pushForce, float stunTime);
 
 private:
 	ModuleInput* input;
