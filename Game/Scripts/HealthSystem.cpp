@@ -70,7 +70,6 @@ void HealthSystem::Update(float deltaTime)
 	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
-
 	}
 }
 
@@ -116,7 +115,7 @@ float HealthSystem::GetMaxHealth() const
 	return maxHealth;
 }
 
-bool HealthSystem::GetIsImmortal() const
+bool HealthSystem::IsImmortal() const
 {
 	return isImmortal;
 }

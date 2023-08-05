@@ -155,9 +155,9 @@ void DebugGame::GodCamera() const
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-	if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump())
+	if (!playerMoveScript->IsParalyzed() && playerJumpScript->CanJump())
 	{
-		playerMoveScript->SetIsParalized(true);
+		playerMoveScript->SetIsParalyzed(true);
 		playerJumpScript->SetCanJump(false);
 		
 		camera->SetSelectedPosition(1);
@@ -165,9 +165,9 @@ void DebugGame::GodCamera() const
 		LOG_VERBOSE("GOD CAMERA ACTIVATED");
 	}
 
-	else if (playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump())
+	else if (playerMoveScript->IsParalyzed() && !playerJumpScript->CanJump())
 	{
-		playerMoveScript->SetIsParalized(false);
+		playerMoveScript->SetIsParalyzed(false);
 		playerJumpScript->SetCanJump(true);
 		
 		camera->SetSelectedPosition(0);
@@ -195,13 +195,12 @@ void DebugGame::FillHealth() const
 
 void DebugGame::BeImmortal() const
 {
-	if (!playerHealthSystem->GetIsImmortal()) 
+	if (!playerHealthSystem->IsImmortal()) 
 	{
 		playerHealthSystem->SetIsImmortal(true);
 		LOG_VERBOSE("Immortal ON");
 	}
-
-	else if (playerHealthSystem->GetIsImmortal())
+	else
 	{
 		playerHealthSystem->SetIsImmortal(false);
 		LOG_VERBOSE("Immortal OFF");
@@ -210,13 +209,12 @@ void DebugGame::BeImmortal() const
 
 void DebugGame::DeathTouch() const
 {
-	if (!playerAttackScript->GetIsDeathTouched())
+	if (!playerAttackScript->IsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(true);
 		LOG_VERBOSE("Death Touch ON");
 	}
-
-	else if (playerAttackScript->GetIsDeathTouched())
+	else
 	{
 		playerAttackScript->SetIsDeathTouched(false);
 		LOG_VERBOSE("Death Touch OFF");

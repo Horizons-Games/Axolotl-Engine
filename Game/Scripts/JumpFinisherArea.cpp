@@ -61,11 +61,11 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 		ComponentRigidBody* enemyRigidBody =
 			(*it)->GetComponent<ComponentRigidBody>();
 
-		btRigidBody* enemybtRb = enemyRigidBody->GetRigidBody();
+		btRigidBody* enemybtRigidbody = enemyRigidBody->GetRigidBody();
 		enemyRigidBody->DisablePositionController();
 		enemyRigidBody->DisableRotationController();
-		enemybtRb->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
-		enemybtRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
+		enemybtRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+		enemybtRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
 
 		// Get next position of the gameObject
@@ -75,7 +75,7 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 		nextPosition *= pushForce;
 
 		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
-		enemybtRb->setLinearVelocity(newVelocity);
+		enemybtRigidbody->setLinearVelocity(newVelocity);
 
 		EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
 		enemyScript->SetStunnedTime(stunTime);

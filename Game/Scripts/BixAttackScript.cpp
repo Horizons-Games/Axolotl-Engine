@@ -14,7 +14,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "../Scripts/PlayerJumpScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/EntityDetection.h"
 #include "../Scripts/JumpFinisherAttack.h"
 #include "../Scripts/JumpFinisherArea.h"
@@ -325,4 +325,9 @@ bool BixAttackScript::GetIsDeathTouched() const
 void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
+}
+
+bool BixAttackScript::IsAttackAvailable() const
+{
+	return !isAttacking;
 }

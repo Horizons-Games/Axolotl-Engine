@@ -57,8 +57,8 @@ void PowerUpLogicScript::Update(float deltaTime)
 			ownerRb->SetRotationTarget(errorRotation.Normalized());
 			if (powerUpManagerScript->GetSavedPowerUpType() != PowerUpType::NONE)
 			{
-				btRigidBody* btRb = ownerRb->GetRigidBody();
-				btRb->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
+				btRigidBody* btRigidbody = ownerRb->GetRigidBody();
+				btRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 				isSeeking = false;
 			}
 		}
