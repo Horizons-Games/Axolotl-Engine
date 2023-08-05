@@ -26,7 +26,7 @@ public:
 	float GetMaxComboBarValue() const;
 
 	void SetActivateSpecial(bool activate);
-	void SetComboBarValue(float value);
+	void SetComboBarValue(int value);
 
 	void AddInputVisuals(InputVisualType type);
 

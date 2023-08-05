@@ -1140,7 +1140,7 @@
                             "constructName": "ComboManager",
                             "fields": [
                                 {
-                                    "name": "ComboManagerUIReference",
+                                    "name": "UiComboManager",
                                     "value": 7839789571772863452,
                                     "type": 2
                                 },

@@ -27,7 +27,7 @@ public:
 
 	void Start() override;
 
-	float GetcomboCount() const;
+	int GetComboCount() const;
 
 	bool NextIsSpecialAttack() const;
 
@@ -39,14 +39,13 @@ public:
 private:
 	void ClearCombo(bool finisher);
 
-	GameObject* comboManagerUIReference;
 	UIComboManager* uiComboManager;
 
 	ModuleInput* input;
 	bool specialActivated;
-	float specialCount;
+	int specialCount;
 	float maxSpecialCount;
-	float comboCount;
+	int comboCount;
 	float maxComboCount;
 
 	float comboTime;

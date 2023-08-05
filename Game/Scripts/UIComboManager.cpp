@@ -61,9 +61,9 @@ void UIComboManager::SetActivateSpecial(bool activate)
 	}
 }
 
-void UIComboManager::SetComboBarValue(float value)
+void UIComboManager::SetComboBarValue(int value)
 {
-	comboBar->ModifyCurrentValue(value);
+	comboBar->ModifyCurrentValue(static_cast<float>(value));
 	if (value == 0) 
 	{
 		SetActivateSpecial(false);

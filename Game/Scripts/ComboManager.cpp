@@ -12,16 +12,15 @@ REGISTERCLASS(ComboManager);
 ComboManager::ComboManager() : Script(), 
 	input(nullptr), 
 	specialActivated(false), 
-	specialCount(0.0f),
+	specialCount(0),
 	maxSpecialCount(100.0f),
-	comboCount(0.0f), 
+	comboCount(0), 
 	maxComboCount(3.0f),
 	uiComboManager(nullptr),
-	comboManagerUIReference(nullptr),
 	comboTime(10.0f),
 	actualComboTimer(0.0f)
 {
-	REGISTER_FIELD(comboManagerUIReference, GameObject*);
+	REGISTER_FIELD(uiComboManager, UIComboManager*);
 	REGISTER_FIELD(comboTime, float);
 	REGISTER_FIELD(maxComboCount, float);
 }
@@ -30,15 +29,11 @@ void ComboManager::Start()
 {
 	input = App->GetModule<ModuleInput>();
 
-	if (comboManagerUIReference)
-	{
-		uiComboManager = comboManagerUIReference->GetComponent<UIComboManager>();
-		maxSpecialCount = static_cast<float>(uiComboManager->GetMaxComboBarValue());
-		uiComboManager->SetComboBarValue(specialCount);
-	}
+	maxSpecialCount = static_cast<float>(uiComboManager->GetMaxComboBarValue());
+	uiComboManager->SetComboBarValue(specialCount);
 }
 
-float ComboManager::GetcomboCount() const
+int ComboManager::GetComboCount() const
 {
 	return comboCount;
 }
@@ -72,7 +67,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
-			specialCount = std::max(0.0f, specialCount - (5.0f * deltaTime));
+			specialCount = static_cast<int>(std::max(0.0f, static_cast<float>(specialCount) - (5.0f * deltaTime)));
 
 			if (uiComboManager)
 			{
@@ -143,7 +138,8 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
 	if (specialCount < 0 || !specialActivated)
 	{
-		this->specialCount = std::max(0.0f, std::min(this->specialCount + specialCount, maxSpecialCount));
+		this->specialCount = static_cast<int>(
+			std::max(0.0f, std::min(static_cast<float>(this->specialCount) + specialCount, maxSpecialCount)));
 
 		if (this->specialCount <= 0.0f && specialActivated)
 		{
