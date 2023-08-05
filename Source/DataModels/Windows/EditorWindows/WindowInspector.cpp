@@ -86,7 +86,7 @@ WindowInspector::WindowInspector() :
 		},
 		ComponentFunctionality::GAMEPLAY));
 
-		actions.push_back(AddComponentAction(
+	actions.push_back(AddComponentAction(
 		"Create Player Input Component",
 		std::bind(&WindowInspector::AddComponentPlayerInput, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
