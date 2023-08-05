@@ -170,8 +170,6 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 	else
 	{
-		componentAnimation->SetParameter("IsRolling", false);
-
 		btVector3 currentVelocity = btRigidbody->getLinearVelocity();
 		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 
@@ -194,6 +192,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	if (!canDash && nextDash < SDL_GetTicks())
 	{
 		canDash = true;
+		componentAnimation->SetParameter("IsDashing", false);
 	}
 }
 
