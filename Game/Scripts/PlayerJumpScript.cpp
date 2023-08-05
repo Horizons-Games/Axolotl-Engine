@@ -14,8 +14,6 @@
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Physics/Physics.h"
 
-#include "../Scripts/PlayerMoveScript.h"
-
 #include "DebugDraw.h"
 
 REGISTERCLASS(PlayerJumpScript);
@@ -41,7 +39,6 @@ void PlayerJumpScript::Start()
 	rigidbody->GetRigidBody()->setAngularFactor(btVector3(1.0f, 0.0f, 1.0f));
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
-	moveScript = owner->GetComponent<PlayerMoveScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
@@ -159,9 +156,4 @@ bool PlayerJumpScript::CanJump() const
 void PlayerJumpScript::SetCanJump(bool canJump)
 {
 	this->canJump = canJump;
-}
-
-PlayerMoveScript* PlayerJumpScript::GetMovementScript() const
-{
-	return moveScript;
 }

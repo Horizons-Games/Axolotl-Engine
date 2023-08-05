@@ -10,8 +10,6 @@ class ComponentAudioSource;
 class ComponentRigidBody;
 class GameObject;
 
-class PlayerMoveScript;
-
 class PlayerJumpScript : public Script
 {
 public:
@@ -26,8 +24,6 @@ public:
 
 	bool IsGrounded() const;
 	bool IsJumping() const;
-
-	PlayerMoveScript* GetMovementScript() const;
 
 private:
 	void CheckGround();
@@ -48,5 +44,4 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
 
-	PlayerMoveScript* moveScript;
 };
