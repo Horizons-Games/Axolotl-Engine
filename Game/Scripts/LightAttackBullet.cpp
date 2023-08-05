@@ -66,8 +66,8 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy"))
 	{
-		enemy->GetComponent<HealthSystem>()->TakeDamage(damageAttack);
-		enemy->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
+		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damageAttack);
+		other->GetOwner()->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
 		DestroyBullet();
 		//audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 	}

@@ -186,8 +186,10 @@ void BixAttackScript::NormalJumpAttack()
 
 void BixAttackScript::LightFinisher()
 {
-	lightFinisherScript->ThrowStunItem();
+	animation->SetParameter("LightFinisherAttacking", true);
 	isAttacking = true;
+
+	lightFinisherScript->ThrowStunItem();
 
 	comboSystem->SuccessfulAttack(-20, AttackType::LIGHTFINISHER);
 }
@@ -252,7 +254,11 @@ void BixAttackScript::ResetAttackAnimations()
 			break;	
 
 		case AttackType::LIGHTFINISHER:
-			isAttacking = false;
+			if (!animation->isPlaying())
+			{
+				animation->SetParameter("LightFinisherAttacking", false);
+				isAttacking = false;
+			}
 			break;	
 
 		case AttackType::HEAVYFINISHER:
