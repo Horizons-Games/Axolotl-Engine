@@ -134,7 +134,7 @@ void PlayerJumpScript::Jump(float deltatime)
 				componentAnimation->SetParameter("IsDoubleJumping", true);
 				componentAnimation->SetParameter("IsGrounded", false);
 				doubleJumpAvailable = false;
-				grounded = false;
+				isGrounded = false;
 				coyoteTimerCount = 0.0f;
 			}
 		}
