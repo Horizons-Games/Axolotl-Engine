@@ -46,6 +46,16 @@ void PlayerJumpScript::Start()
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
+	float velocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
+	componentAnimation->SetParameter("IsFalling", velocity);
+
+	if (velocity < -0.001)
+	{
+		componentAnimation->SetParameter("IsJumping", false);
+		componentAnimation->SetParameter("IsDoubleJumping", false);
+
+	}
+
 	if (!isGrounded && coyoteTimerCount > 0.0f)
 	{
 		coyoteTimerCount -= deltaTime;
@@ -63,14 +73,17 @@ void PlayerJumpScript::CheckGround()
 	btVector3 rigidBodyOrigin = rigidbody->GetRigidBodyOrigin();
 	float3 origin = float3((maxPoint.getX() + minPoint.getX()) / 2.0f, minPoint.getY(), (maxPoint.getZ() + minPoint.getZ()) / 2.0f);
 	Ray ray(origin, -(rigidbody->GetOwnerTransform()->GetGlobalUp()));
-	LineSegment line(ray, 0.01f);
+	LineSegment line(ray, 0.001f);
 
-	if (Physics::RaycastFirst(line, owner))
+	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
+
+	if ( Physics::RaycastFirst(line, owner))
 	{
 		isGrounded = true;
 		isJumping = false;
 		componentAnimation->SetParameter("IsJumping", false);
 		componentAnimation->SetParameter("IsDoubleJumping", false);
+		componentAnimation->SetParameter("IsGrounded", true);
 		doubleJumpAvailable = true;
 		coyoteTimerCount = 0.0f;
 	}
@@ -79,6 +92,7 @@ void PlayerJumpScript::CheckGround()
 		if (isGrounded)
 		{
 			isGrounded = false;
+			componentAnimation->SetParameter("IsGrounded", false);
 			coyoteTimerCount = coyoteTime;
 		}
 	}
@@ -109,6 +123,8 @@ void PlayerJumpScript::Jump(float deltatime)
 			if (isGrounded || coyoteTimerCount > 0.0f)
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
+				componentAnimation->SetParameter("IsJumping", true);
+				componentAnimation->SetParameter("IsGrounded", false);
 				isGrounded = false;
 				coyoteTimerCount = 0.0f;
 			}
@@ -116,7 +132,10 @@ void PlayerJumpScript::Jump(float deltatime)
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsDoubleJumping", true);
+				componentAnimation->SetParameter("IsGrounded", false);
 				doubleJumpAvailable = false;
+				grounded = false;
+				coyoteTimerCount = 0.0f;
 			}
 		}
 	}

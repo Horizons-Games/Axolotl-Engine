@@ -153,6 +153,11 @@
                             "constructName": "EnemyDroneScript",
                             "fields": [
                                 {
+                                    "name": "ParticleTargetGO",
+                                    "value": 9240082359144780253,
+                                    "type": 2
+                                },
+                                {
                                     "name": "AttackDistance",
                                     "value": 8.0,
                                     "type": 0
@@ -275,11 +280,6 @@
                             "fields": [
                                 {
                                     "name": "ActivePowerUp",
-                                    "value": 0,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "EntityDetectionScript",
                                     "value": 0,
                                     "type": 2
                                 }
@@ -3069,6 +3069,44 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "TargetParticle",
+                "tag": "",
+                "uid": 9240082359144780253,
+                "parentUID": 48875548050334293,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -1.1299999952316284,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 3999053471174024690,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/DetectParticle.particle",
+                            "playAtStart": false
                         }
                     }
                 ]
