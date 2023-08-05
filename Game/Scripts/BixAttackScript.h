@@ -33,8 +33,11 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	bool GetIsDeathTouched() const;
+	bool IsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);
+
+	bool IsAttacking() const;
+	void SetIsAttacking(bool isAttacking);
 
 private:
 	void Start() override;

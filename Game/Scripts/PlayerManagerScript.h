@@ -23,9 +23,9 @@ public:
 	void IncreasePlayerDefense(float defenseIncrease);
 	void IncreasePlayerSpeed(float speedIncrease);
 
-	bool isGrounded();
-	PlayerJumpScript* GetJumpManager();
-	PlayerMoveScript* GetMovementManager();
+	bool IsGrounded() const;
+	PlayerJumpScript* GetJumpManager() const;
+	PlayerMoveScript* GetMovementManager() const;
 	void SetPlayerSpeed(float playerSpeed);
 
 private:
@@ -37,7 +37,7 @@ private:
 	float playerSpeed;
 	float playerRotationSpeed;
 
-	//All Principal PlayerManagers
-	PlayerJumpScript* jumpManager;
+	// All Principal PlayerManagers
 	PlayerMoveScript* movementManager;
+	PlayerJumpScript* jumpManager;
 };

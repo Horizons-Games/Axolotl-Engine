@@ -25,7 +25,7 @@ public:
 
 	bool EntityIsAlive() const;
 
-	bool GetIsImmortal() const;
+	bool IsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
 	
 private:

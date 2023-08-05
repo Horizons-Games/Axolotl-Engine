@@ -14,7 +14,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "../Scripts/PlayerJumpScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/EntityDetection.h"
 #include "../Scripts/HeavyFinisherAttack.h"
 
@@ -78,7 +78,7 @@ void BixAttackScript::Update(float deltaTime)
 {
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
-	if (isAttacking) 
+	if (isAttacking)
 	{
 		switch (currentAttack)
 		{
@@ -107,7 +107,7 @@ void BixAttackScript::Update(float deltaTime)
 		{
 			isAttacking = false;
 		}
-		else 
+		else
 		{
 			attackCooldownCounter -= deltaTime;
 		}
@@ -118,7 +118,7 @@ void BixAttackScript::Update(float deltaTime)
 		if (comboNormalAttackTimer <= 0.0f)
 		{
 			attackComboPhase = AttackCombo::IDLE;
-			if (animation) 
+			if (animation)
 			{
 				animation->SetParameter("IsAttacking", false);
 				animation->SetParameter("IsAttacking_2", false);
@@ -137,7 +137,7 @@ void BixAttackScript::Update(float deltaTime)
 
 	if (IsAttackAvailable())
 	{
-		currentAttack = comboSystem->CheckAttackInput(!playerManager->isGrounded());
+		currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
 		switch (currentAttack)
 		{
 		case AttackType::SOFTNORMAL:
@@ -183,6 +183,7 @@ void BixAttackScript::NormalAttack()
 	//Activate visuals and audios
 	//ActivateAnimationCombo();
 	animation->SetParameter("IsAttacking", true);
+
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects
@@ -209,7 +210,7 @@ void BixAttackScript::JumpAttack()
 {
 	animation->SetParameter("IsAttacking", true);
 
-	if (comboSystem->isSpecialActivated()) 
+	if (comboSystem->IsSpecialActivated()) 
 	{
 		comboSystem->SuccessfulAttack(-20, AttackType::JUMPATTACK);
 	}
@@ -254,11 +255,6 @@ void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack)
 	}
 }
 
-bool BixAttackScript::IsAttackAvailable() const
-{
-	return !isAttacking;
-}
-
 void BixAttackScript::ActivateAnimationCombo()
 {
 	// Attack, starting the combo
@@ -289,7 +285,17 @@ void BixAttackScript::ActivateAnimationCombo()
 	}
 }
 
-bool BixAttackScript::GetIsDeathTouched() const
+void BixAttackScript::SetIsAttacking(bool isAttaking)
+{
+	this->isAttacking = isAttacking;
+}
+
+bool BixAttackScript::IsAttacking() const
+{
+	return isAttacking;
+}
+
+bool BixAttackScript::IsDeathTouched() const
 {
 	return isDeathTouched;
 }
@@ -297,4 +303,9 @@ bool BixAttackScript::GetIsDeathTouched() const
 void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
+}
+
+bool BixAttackScript::IsAttackAvailable() const
+{
+	return !isAttacking;
 }

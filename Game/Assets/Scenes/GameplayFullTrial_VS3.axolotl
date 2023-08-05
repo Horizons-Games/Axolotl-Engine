@@ -971,7 +971,7 @@
                             "fields": [
                                 {
                                     "name": "DashForce",
-                                    "value": 1000.0,
+                                    "value": 2000.0,
                                     "type": 0
                                 },
                                 {
@@ -980,7 +980,7 @@
                                     "type": 5
                                 },
                                 {
-                                    "name": "IsParalized",
+                                    "name": "IsParalyzed",
                                     "value": false,
                                     "type": 5
                                 }
@@ -1000,7 +1000,7 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "Grounded",
+                                    "name": "IsGrounded",
                                     "value": false,
                                     "type": 5
                                 },

@@ -89,11 +89,6 @@ void ComboManager::ClearCombo(bool finisher)
 	comboCount = 0;
 }
 
-bool ComboManager::isSpecialActivated() const
-{
-	return specialActivated;
-}
-
 AttackType ComboManager::CheckAttackInput(bool jumping)
 {
 	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
@@ -155,4 +150,9 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 	{
 		ClearCombo(true);
 	}
+}
+
+bool ComboManager::IsSpecialActivated() const
+{
+	return specialActivated;
 }
