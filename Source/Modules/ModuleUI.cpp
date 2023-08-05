@@ -45,8 +45,9 @@ UpdateStatus ModuleUI::Update()
 #else
 	float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
 #endif
+	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	bool leftClickDown = App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_L) == KeyState::DOWN;
 
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
@@ -92,9 +93,11 @@ UpdateStatus ModuleUI::PostUpdate()
 	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
+		ModuleInput* input = App->GetModule<ModuleInput>();
+
 		if (button->IsClicked())
 		{
-			if (App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
+			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP || input->GetKey(SDL_SCANCODE_L) == KeyState::UP)
 			{
 #ifndef ENGINE
 				button->OnClicked();
