@@ -188,11 +188,18 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 
+	// Turn off dash animation correctly
+	if (componentAnimation->GetActualStateName() == "BixDashingInit" ||
+		componentAnimation->GetActualStateName() == "BixDashingKeep" ||
+		componentAnimation->GetActualStateName() == "BixDashingEnd")
+	{
+		componentAnimation->SetParameter("IsDashing", false);
+	}
+
 	// Cooldown Dash
 	if (!canDash && nextDash < SDL_GetTicks())
 	{
 		canDash = true;
-		componentAnimation->SetParameter("IsDashing", false);
 	}
 }
 
