@@ -130,7 +130,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && !bixAttackScript->IsAttacking();
+		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
 		
 		if (playerIsRunning)
 		{
@@ -148,7 +148,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && !bixAttackScript->IsAttacking())
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && bixAttackScript->IsAttackAvailable())
 	{
 		if (!isDashing)
 		{

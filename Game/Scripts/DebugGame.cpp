@@ -209,7 +209,7 @@ void DebugGame::BeImmortal() const
 
 void DebugGame::DeathTouch() const
 {
-	if (!playerAttackScript->IsDeathTouched())
+	if (!playerAttackScript->GetIsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(true);
 		LOG_VERBOSE("Death Touch ON");

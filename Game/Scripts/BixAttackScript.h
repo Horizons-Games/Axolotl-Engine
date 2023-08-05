@@ -34,11 +34,10 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	bool IsDeathTouched() const;
+	bool GetIsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);
 
-	bool IsAttacking() const;
-	void SetIsAttacking(bool isAttacking);
+	bool IsAttackAvailable() const;
 
 private:
 	void Start() override;
@@ -58,8 +57,6 @@ private:
 	void ResetAttackAnimations();
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
-
-	bool IsAttackAvailable() const;
 
 	bool isAttacking;
 	float attackCooldown;

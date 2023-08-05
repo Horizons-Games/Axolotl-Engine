@@ -107,7 +107,7 @@ void BixAttackScript::UpdateEnemyDetection()
 
 void BixAttackScript::PerformCombos()
 {
-	currentAttack = comboSystem->CheckAttackInput(!playerManager->isGrounded());
+	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
 	switch (currentAttack)
 	{
 		case AttackType::LIGHTNORMAL:
@@ -325,9 +325,4 @@ bool BixAttackScript::GetIsDeathTouched() const
 void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
-}
-
-bool BixAttackScript::IsAttackAvailable() const
-{
-	return !isAttacking;
 }
