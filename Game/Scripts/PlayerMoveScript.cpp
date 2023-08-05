@@ -157,16 +157,9 @@ void PlayerMoveScript::Move(float deltaTime)
 			SetPlayerState(PlayerActions::DASHING);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
-
-			//if (shiftPressed)
-			//{
-			//	movement /= 2;
-			//}
-			Dash();
 		}
 
-		canDash = false;
-		nextDash = 3000 + static_cast<float>(SDL_GetTicks());
+		nextDash = 1000.0f + static_cast<float>(SDL_GetTicks());
 	}
 	else
 	{
@@ -188,11 +181,24 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 
+	if (componentAnimation->GetActualStateName() == "BixDashingKeep" && canDash)
+	{
+		Dash();
+		canDash = false;
+	}
+
+	// Turn off dash animation correctly
+	if (componentAnimation->GetActualStateName() == "BixDashingInit" ||
+		componentAnimation->GetActualStateName() == "BixDashingKeep" ||
+		componentAnimation->GetActualStateName() == "BixDashingEnd")
+	{
+		componentAnimation->SetParameter("IsDashing", false);
+	}
+
 	// Cooldown Dash
 	if (!canDash && nextDash < SDL_GetTicks())
 	{
 		canDash = true;
-		componentAnimation->SetParameter("IsDashing", false);
 	}
 }
 

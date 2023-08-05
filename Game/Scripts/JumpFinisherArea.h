@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
 class ComponentTransform;
+class ComponentParticleSystem;
 
 class JumpFinisherArea : public Script
 {
@@ -27,4 +28,11 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
+	ComponentParticleSystem* particleSystem;
+
+	bool triggerParticleSystemTimer;
+	float particleSystemTimer;
+	float particleSystemCurrentTimer;
+
+	bool throwableForceArea;
 };
