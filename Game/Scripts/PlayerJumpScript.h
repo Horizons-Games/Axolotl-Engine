@@ -16,31 +16,32 @@ public:
     PlayerJumpScript();
 	~PlayerJumpScript() override = default;
 
-	bool isGrounded();
-
     void Start() override;
 	void PreUpdate(float deltaTime) override;
 
-	bool GetCanJump() const;
+	bool CanJump() const;
 	void SetCanJump(bool canJump);
+
+	bool IsGrounded() const;
+	bool IsJumping() const;
 
 private:
 	void CheckGround();
 	void Jump(float deltatime);
-	
-	bool grounded;
+
+	bool isGrounded;
 	bool doubleJumpAvailable;
-	bool jumping;
+	bool isJumping;
 	int groundedCount;
-	ComponentRigidBody* rigidbody;
 	float coyoteTime;
 	float coyoteTimerCount;
 
-    float jumpParameter;
-    bool canDoubleJump;
+	float jumpParameter;
+	bool canDoubleJump;
 	bool canJump;
 
+	ComponentRigidBody* rigidbody;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
-};
 
+};

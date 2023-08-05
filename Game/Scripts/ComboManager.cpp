@@ -47,6 +47,11 @@ int ComboManager::GetcomboCount() const
 	return comboCount;
 }
 
+bool ComboManager::NextIsSpecialAttack() const
+{
+	return specialActivated && comboCount == maxComboCount - 1;
+}
+
 void ComboManager::CheckSpecial(float deltaTime)
 {
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
@@ -82,11 +87,6 @@ void ComboManager::ClearCombo(bool finisher)
 		uiComboManager->ClearCombo(finisher);
 	}
 	comboCount = 0;
-}
-
-bool ComboManager::isSpecialActivated() const
-{
-	return specialActivated;
 }
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
@@ -150,4 +150,9 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 	{
 		ClearCombo(true);
 	}
+}
+
+bool ComboManager::IsSpecialActivated() const
+{
+	return specialActivated;
 }

@@ -14,8 +14,9 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "../Scripts/PlayerJumpScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/EntityDetection.h"
+#include "../Scripts/HeavyFinisherAttack.h"
 
 #include "GameObject/GameObject.h"
 
@@ -28,14 +29,14 @@
 #include <set>
 
 #include "AxoLog.h"
-#include "ComboManager.h"
 
 REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), 
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
-	animation(nullptr), animationGO(nullptr), transform(nullptr),
-	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr)
+	animation(nullptr), animationGO(nullptr), transform(nullptr), currentAttack(AttackType::NONE),
+	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), enemyDetectionObject(nullptr),
+	normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 
@@ -43,11 +44,15 @@ BixAttackScript::BixAttackScript() : Script(),
 	REGISTER_FIELD(comboCountSoft, float);
 	REGISTER_FIELD(attackSoft, float);
 	REGISTER_FIELD(attackHeavy, float);
+	REGISTER_FIELD(normalAttackDistance, float);
+
 	REGISTER_FIELD(isAttacking, bool);
 	//REGISTER_FIELD(attackCooldown, float);
 
 	REGISTER_FIELD(animationGO, GameObject*);
 	REGISTER_FIELD(enemyDetectionObject, GameObject*);
+	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
+	REGISTER_FIELD(bixLightSaber, GameObject*);
 }
 
 void BixAttackScript::Start()
@@ -73,13 +78,27 @@ void BixAttackScript::Update(float deltaTime)
 {
 	// Provisional here until we have a way to delay a call to a function a certain time
 	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
-	if (isAttacking) 
+	if (isAttacking)
 	{
-		if (animation && !animation->isPlaying()) 
+		switch (currentAttack)
 		{
-			isAttacking = false;
-			animation->SetParameter("IsAttacking", false);
+			case AttackType::HEAVYFINISHER:
+				if (!heavyFinisherAttack->IsAttacking()) //Heavy Finisher Attack has finished
+				{
+					animation->SetParameter("HeavyFinisherExit", true);
+					isAttacking = false;
+					bixLightSaber->Enable();
+				}
+				break;
+			default:
+				if (animation && !animation->isPlaying())
+				{
+					isAttacking = false;
+					animation->SetParameter("IsAttacking", false);
+				}
+				break;
 		}
+		
 	}
 
 	/*if(isAttacking)
@@ -88,7 +107,7 @@ void BixAttackScript::Update(float deltaTime)
 		{
 			isAttacking = false;
 		}
-		else 
+		else
 		{
 			attackCooldownCounter -= deltaTime;
 		}
@@ -99,7 +118,7 @@ void BixAttackScript::Update(float deltaTime)
 		if (comboNormalAttackTimer <= 0.0f)
 		{
 			attackComboPhase = AttackCombo::IDLE;
-			if (animation) 
+			if (animation)
 			{
 				animation->SetParameter("IsAttacking", false);
 				animation->SetParameter("IsAttacking_2", false);
@@ -113,18 +132,21 @@ void BixAttackScript::Update(float deltaTime)
 	}*/
 
 	comboSystem->CheckSpecial(deltaTime);
+
+	UpdateEnemyDetection();
+
 	if (IsAttackAvailable())
 	{
-		AttackType attackType = comboSystem->CheckAttackInput(!playerManager->isGrounded());
-		switch (attackType)
+		currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
+		switch (currentAttack)
 		{
 		case AttackType::SOFTNORMAL:
 			LOG_DEBUG("NormalAttack Soft");
-			NormalAttack(false);
+			NormalAttack();
 			break;
 		case AttackType::HEAVYNORMAL:
 			LOG_DEBUG("NormalAttack Heavy");
-			NormalAttack(true);
+			NormalAttack();
 			break;
 		case AttackType::JUMPATTACK:
 			LOG_DEBUG("JumpAttack");
@@ -144,17 +166,31 @@ void BixAttackScript::Update(float deltaTime)
 	}
 }
 
-void BixAttackScript::NormalAttack(bool heavy) 
+void BixAttackScript::UpdateEnemyDetection()
+{
+	if (comboSystem->NextIsSpecialAttack())
+	{
+		enemyDetection->UpdateEnemyDetection();
+	}
+	else
+	{
+		enemyDetection->UpdateEnemyDetection(normalAttackDistance);
+	}
+}
+
+void BixAttackScript::NormalAttack() 
 {
 	//Activate visuals and audios
 	//ActivateAnimationCombo();
 	animation->SetParameter("IsAttacking", true);
+
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	if(enemyAttacked != nullptr)
 	{
+		bool heavy = (currentAttack == AttackType::HEAVYNORMAL);
 		LOG_DEBUG("Enemy hitted");
 		int comboCount = heavy ? comboCountHeavy : comboCountSoft;
 		float attack = heavy ? attackHeavy : attackSoft;
@@ -172,7 +208,9 @@ void BixAttackScript::NormalAttack(bool heavy)
 
 void BixAttackScript::JumpAttack()
 {
-	if (comboSystem->isSpecialActivated()) 
+	animation->SetParameter("IsAttacking", true);
+
+	if (comboSystem->IsSpecialActivated()) 
 	{
 		comboSystem->SuccessfulAttack(-20, AttackType::JUMPATTACK);
 	}
@@ -189,7 +227,21 @@ void BixAttackScript::SoftFinisher()
 
 void BixAttackScript::HeavyFinisher()
 {
-	comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+	bixLightSaber->Disable();
+	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
+	animation->SetParameter("HeavyFinisherInit", true);
+	isAttacking = true;
+	if (enemyAttacked != nullptr)
+	{
+		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
+			GetOwner()->GetComponent<ComponentTransform>());
+		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+	}
+	else
+	{
+		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
+		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+	}
 }
 
 void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 
@@ -201,11 +253,6 @@ void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack)
 		healthScript->TakeDamage(attack);
 		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 	}
-}
-
-bool BixAttackScript::IsAttackAvailable() const
-{
-	return !isAttacking;
 }
 
 void BixAttackScript::ActivateAnimationCombo()
@@ -238,7 +285,17 @@ void BixAttackScript::ActivateAnimationCombo()
 	}
 }
 
-bool BixAttackScript::GetIsDeathTouched() const
+void BixAttackScript::SetIsAttacking(bool isAttaking)
+{
+	this->isAttacking = isAttacking;
+}
+
+bool BixAttackScript::IsAttacking() const
+{
+	return isAttacking;
+}
+
+bool BixAttackScript::IsDeathTouched() const
 {
 	return isDeathTouched;
 }
@@ -246,4 +303,9 @@ bool BixAttackScript::GetIsDeathTouched() const
 void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
+}
+
+bool BixAttackScript::IsAttackAvailable() const
+{
+	return !isAttacking;
 }
