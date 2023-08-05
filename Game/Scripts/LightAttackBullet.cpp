@@ -50,16 +50,16 @@ void LightAttackBullet::Start()
 
 void LightAttackBullet::Update(float deltaTime)
 {
+	rigidBody->SetKpForce(2.0f);
+
 	if (enemy != nullptr)
 	{
 		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
 	}
+
 	else
 	{
-		if (defaultTargetPos.y == 0)
-		{
-			DestroyBullet();
-		}
+		defaultTargetPos.y -= 0.1f;
 		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
 }

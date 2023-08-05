@@ -167,7 +167,6 @@ void BixAttackScript::LightNormalAttack()
 	isAttacking = true;
 }
 
-// TODO: This should perform a different kind of attack (a "heavy" one), for now, its just the light one duplicated
 void BixAttackScript::HeavyNormalAttack()
 {
 	//Activate visuals and audios
