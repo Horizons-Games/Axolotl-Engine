@@ -25,8 +25,12 @@ private:
 	float velocity;
 	float stunTime;
 	float damageAttack;
+	float maxDistanceBullet;
+
+	float3 defaultTargetPos;
 
 	GameObject* enemy;
 	ComponentAudioSource* audioSource;
 	ComponentRigidBody* rigidBody;
+	ComponentTransform* parentTransform;
 };

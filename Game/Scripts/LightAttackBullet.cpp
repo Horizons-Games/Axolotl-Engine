@@ -24,18 +24,28 @@ LightAttackBullet::LightAttackBullet() :
 	velocity(15.0f),
 	audioSource(nullptr),
 	stunTime(10.0f),
-	damageAttack(10.0f)
+	damageAttack(10.0f),
+	defaultTargetPos(0,0,0),
+	maxDistanceBullet(10.0f)
 {
 }
 
 void LightAttackBullet::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 
 	//audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	rigidBody->Enable();
 	rigidBody->SetDefaultPosition();
+	rigidBody->SetUseRotationController(true);
+
+	defaultTargetPos = parentTransform->GetGlobalForward();
+	defaultTargetPos.Normalize();
+	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
+	defaultTargetPos += parentTransform->GetGlobalPosition();	
+	defaultTargetPos.y = 0;
 }
 
 void LightAttackBullet::Update(float deltaTime)
@@ -43,6 +53,14 @@ void LightAttackBullet::Update(float deltaTime)
 	if (enemy != nullptr)
 	{
 		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	}
+	else
+	{
+		if (defaultTargetPos.y == 0)
+		{
+			DestroyBullet();
+		}
+		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
 }
 
