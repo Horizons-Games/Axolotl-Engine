@@ -17,6 +17,9 @@ public:
 	EntityDetection();
 	~EntityDetection() override = default;
 
+	void Start() override;
+	void Update(float deltaTime) override;
+
 	void UpdateEnemyDetection(float distanceFilter = 0.0f);
 
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -25,8 +28,6 @@ public:
 	GameObject* GetEnemySelected() const;
 
 private:
-	void Start() override;
-
 	void DrawDetectionLines(float distanceFilter);
 	void SelectEnemy(float distanceFilter);
 

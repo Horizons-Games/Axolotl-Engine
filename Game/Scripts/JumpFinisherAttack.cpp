@@ -31,7 +31,7 @@ void JumpFinisherAttack::PerformGroundSmash(float pushForce, float stunTime)
 {
 	ComponentRigidBody* ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	btRigidBody* ownerBulletRigidBody = ownerRigidBody->GetRigidBody();
-	ownerBulletRigidBody->setLinearVelocity(btVector3(0.0f, -30.0f, 0.0f));
+	ownerBulletRigidBody->setLinearVelocity(btVector3(0.0f, -15.0f, 0.0f));
 	forceArea->PushEnemies(pushForce, stunTime);
 }
 

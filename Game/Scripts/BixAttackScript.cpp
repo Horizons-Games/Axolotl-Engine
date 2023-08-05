@@ -175,7 +175,7 @@ void BixAttackScript::NormalAttack()
 
 void BixAttackScript::NormalJumpAttack()
 {
-	animation->SetParameter("JumpAttack", true);
+	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
 
 	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
@@ -243,7 +243,7 @@ void BixAttackScript::ResetAttackAnimations()
 		case AttackType::JUMPNORMAL:
 			if (!animation->isPlaying())
 			{
-				animation->SetParameter("JumpAttack", false);
+				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
 			}
 			break;	

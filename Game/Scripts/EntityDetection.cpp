@@ -41,10 +41,13 @@ void EntityDetection::Start()
 	rigidBody->SetKpForce(50);
 }
 
-void EntityDetection::UpdateEnemyDetection(float distanceFilter)
+void EntityDetection::Update(float deltaTime)
 {
 	rigidBody->SetPositionTarget(playerTransform->GetGlobalPosition());
+}
 
+void EntityDetection::UpdateEnemyDetection(float distanceFilter)
+{
 	vecForward = playerTransform->GetGlobalForward();
 	originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
 
