@@ -110,7 +110,7 @@ void BixAttackScript::PerformCombos()
 	currentAttack = comboSystem->CheckAttackInput(!playerManager->isGrounded());
 	switch (currentAttack)
 	{
-		case AttackType::SOFTNORMAL:
+		case AttackType::LIGHTNORMAL:
 			LOG_DEBUG("NormalAttack Soft");
 			NormalAttack();
 			break;
@@ -160,7 +160,7 @@ void BixAttackScript::NormalAttack()
 		LOG_DEBUG("Enemy hitted");
 		float comboCount = heavy ? comboCountHeavy : comboCountSoft;
 		float attack = heavy ? attackHeavy : attackSoft;
-		AttackType type = heavy ? AttackType::HEAVYNORMAL : AttackType::SOFTNORMAL;
+		AttackType type = heavy ? AttackType::HEAVYNORMAL : AttackType::LIGHTNORMAL;
 		comboSystem->SuccessfulAttack(comboCount, type);
 		DamageEnemy(enemyAttacked, attack);
 	}
@@ -227,7 +227,7 @@ void BixAttackScript::ResetAttackAnimations()
 {
 	switch (currentAttack)
 	{
-		case AttackType::SOFTNORMAL:
+		case AttackType::LIGHTNORMAL:
 			if (!animation->isPlaying())
 			{
 				animation->SetParameter("IsAttacking", false);

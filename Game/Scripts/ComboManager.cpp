@@ -123,7 +123,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 			return AttackType::LIGHTFINISHER;
 		}
 
-		return AttackType::SOFTNORMAL;
+		return AttackType::LIGHTNORMAL;
 	}
 
 	if (rightClick)
@@ -166,9 +166,9 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 			uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
 		}
 
-		else if (type == AttackType::SOFTNORMAL || type == AttackType::LIGHTFINISHER)
+		else if (type == AttackType::LIGHTNORMAL || type == AttackType::LIGHTFINISHER)
 		{
-			uiComboManager->AddInputVisuals(InputVisualType::SOFT);
+			uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
 		}
 	}
 
