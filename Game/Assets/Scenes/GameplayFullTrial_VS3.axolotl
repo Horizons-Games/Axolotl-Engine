@@ -7207,9 +7207,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 351.5,
-                            "worldAABB_min_y": 208.5,
+                            "worldAABB_min_y": 247.5,
                             "worldAABB_max_x": 351.5,
-                            "worldAABB_max_y": 208.5
+                            "worldAABB_max_y": 247.5
                         }
                     },
                     {
@@ -7302,9 +7302,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -7340,9 +7340,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 10.78125,
+                            "worldAABB_min_y": 49.78125,
                             "worldAABB_max_x": 703.0,
-                            "worldAABB_max_y": 406.21875
+                            "worldAABB_max_y": 445.21875
                         }
                     },
                     {
@@ -7393,9 +7393,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -7431,9 +7431,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -7469,9 +7469,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -7507,9 +7507,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 10.78125,
+                            "worldAABB_min_y": 49.78125,
                             "worldAABB_max_x": 703.0,
-                            "worldAABB_max_y": 406.21875
+                            "worldAABB_max_y": 445.21875
                         }
                     },
                     {
@@ -7560,9 +7560,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -7598,9 +7598,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 10.78125,
+                            "worldAABB_min_y": 49.78125,
                             "worldAABB_max_x": 703.0,
-                            "worldAABB_max_y": 406.21875
+                            "worldAABB_max_y": 445.21875
                         }
                     },
                     {
@@ -7651,9 +7651,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -7689,9 +7689,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 288.33984375,
-                            "worldAABB_min_y": 111.16120910644531,
+                            "worldAABB_min_y": 150.16119384765625,
                             "worldAABB_max_x": 414.66015625,
-                            "worldAABB_max_y": 142.4666748046875
+                            "worldAABB_max_y": 181.4666748046875
                         }
                     },
                     {
@@ -7742,9 +7742,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 171.72225952148438,
+                            "worldAABB_min_y": 210.72225952148438,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 201.19699096679688
+                            "worldAABB_max_y": 240.19699096679688
                         }
                     },
                     {
@@ -7867,9 +7867,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 208.59751892089844,
+                            "worldAABB_min_y": 247.59750366210938,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 238.07225036621094
+                            "worldAABB_max_y": 277.0722351074219
                         }
                     },
                     {
@@ -7992,9 +7992,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -8030,9 +8030,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -8068,9 +8068,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 245.4727783203125,
+                            "worldAABB_min_y": 284.4727783203125,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 274.947509765625
+                            "worldAABB_max_y": 313.947509765625
                         }
                     },
                     {
@@ -8193,9 +8193,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 282.3480529785156,
+                            "worldAABB_min_y": 321.3480529785156,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 311.8227844238281
+                            "worldAABB_max_y": 350.8227844238281
                         }
                     },
                     {
@@ -8318,9 +8318,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 171.7222900390625,
+                            "worldAABB_min_y": 210.7222900390625,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 201.197021484375
+                            "worldAABB_max_y": 240.197021484375
                         }
                     },
                     {
@@ -8371,9 +8371,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 208.59751892089844,
+                            "worldAABB_min_y": 247.5975341796875,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 238.07225036621094
+                            "worldAABB_max_y": 277.072265625
                         }
                     },
                     {
@@ -8424,9 +8424,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 245.4727783203125,
+                            "worldAABB_min_y": 284.4727783203125,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 274.947509765625
+                            "worldAABB_max_y": 313.947509765625
                         }
                     },
                     {
@@ -8477,9 +8477,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 302.7110595703125,
-                            "worldAABB_min_y": 282.3480529785156,
+                            "worldAABB_min_y": 321.3480529785156,
                             "worldAABB_max_x": 400.2889404296875,
-                            "worldAABB_max_y": 311.8227844238281
+                            "worldAABB_max_y": 350.8227844238281
                         }
                     },
                     {
@@ -8530,9 +8530,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -8568,9 +8568,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 10.78125,
+                            "worldAABB_min_y": 49.78125,
                             "worldAABB_max_x": 703.0,
-                            "worldAABB_max_y": 406.21875
+                            "worldAABB_max_y": 445.21875
                         }
                     },
                     {
@@ -8621,9 +8621,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 595.0302734375,
-                            "worldAABB_min_y": 32.984493255615234,
+                            "worldAABB_min_y": 71.9844970703125,
                             "worldAABB_max_x": 636.03857421875,
-                            "worldAABB_max_y": 43.236576080322266
+                            "worldAABB_max_y": 82.236572265625
                         }
                     },
                     {
@@ -8746,9 +8746,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 10.78125,
+                            "worldAABB_min_y": 49.78125,
                             "worldAABB_max_x": 703.0,
-                            "worldAABB_max_y": 406.21875
+                            "worldAABB_max_y": 445.21875
                         }
                     },
                     {
@@ -8799,9 +8799,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -8837,9 +8837,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -8875,9 +8875,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 8.58587646484375,
-                            "worldAABB_min_y": 58.301517486572266,
+                            "worldAABB_min_y": 97.30152130126953,
                             "worldAABB_max_x": 115.3173828125,
-                            "worldAABB_max_y": 89.24083709716797
+                            "worldAABB_max_y": 128.2408447265625
                         }
                     },
                     {
@@ -8928,9 +8928,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 712.2328491210938,
-                            "worldAABB_min_y": 27.440898895263672,
+                            "worldAABB_min_y": 66.44090270996094,
                             "worldAABB_max_x": 922.2174682617188,
-                            "worldAABB_max_y": 84.19349670410156
+                            "worldAABB_max_y": 123.19349670410156
                         }
                     },
                     {
@@ -8998,9 +8998,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 49.3703727722168,
-                            "worldAABB_min_y": 0.5941581726074219,
+                            "worldAABB_min_y": 39.59415817260742,
                             "worldAABB_max_x": 122.59953308105469,
-                            "worldAABB_max_y": 73.82331848144531
+                            "worldAABB_max_y": 112.82331848144531
                         }
                     },
                     {
@@ -9050,9 +9050,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 8.2705078125,
-                            "worldAABB_min_y": 15.148454666137695,
+                            "worldAABB_min_y": 54.14845275878906,
                             "worldAABB_max_x": 163.69940185546875,
-                            "worldAABB_max_y": 59.26902770996094
+                            "worldAABB_max_y": 98.26902770996094
                         }
                     },
                     {
@@ -9103,9 +9103,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 72.05815124511719,
-                            "worldAABB_min_y": 41.087398529052734,
+                            "worldAABB_min_y": 80.08739471435547,
                             "worldAABB_max_x": 151.87794494628906,
-                            "worldAABB_max_y": 48.41031265258789
+                            "worldAABB_max_y": 87.41031646728516
                         }
                     },
                     {
@@ -9156,9 +9156,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 158.50625610351563,
-                            "worldAABB_min_y": 26.224365234375,
+                            "worldAABB_min_y": 65.224365234375,
                             "worldAABB_max_x": 167.659912109375,
-                            "worldAABB_max_y": 48.193115234375
+                            "worldAABB_max_y": 87.193115234375
                         }
                     },
                     {
@@ -9225,9 +9225,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 49.3703727722168,
-                            "worldAABB_min_y": 0.5939903259277344,
+                            "worldAABB_min_y": 39.593990325927734,
                             "worldAABB_max_x": 122.59953308105469,
-                            "worldAABB_max_y": 73.82315063476563
+                            "worldAABB_max_y": 112.82315063476563
                         }
                     },
                     {
@@ -9277,9 +9277,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 12.755790710449219,
-                            "worldAABB_min_y": 28.054927825927734,
+                            "worldAABB_min_y": 67.05492401123047,
                             "worldAABB_max_x": 159.214111328125,
-                            "worldAABB_max_y": 46.36221694946289
+                            "worldAABB_max_y": 85.36222076416016
                         }
                     },
                     {
@@ -9330,9 +9330,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 72.05824279785156,
-                            "worldAABB_min_y": 41.08713912963867,
+                            "worldAABB_min_y": 80.0871353149414,
                             "worldAABB_max_x": 151.87803649902344,
-                            "worldAABB_max_y": 48.41005325317383
+                            "worldAABB_max_y": 87.4100570678711
                         }
                     },
                     {
@@ -9383,9 +9383,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 154.07992553710938,
-                            "worldAABB_min_y": 26.224197387695313,
+                            "worldAABB_min_y": 65.22419738769531,
                             "worldAABB_max_x": 163.23358154296875,
-                            "worldAABB_max_y": 48.19294738769531
+                            "worldAABB_max_y": 87.19294738769531
                         }
                     },
                     {
@@ -9452,9 +9452,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 314.8854064941406,
-                            "worldAABB_min_y": 171.8854217529297,
+                            "worldAABB_min_y": 210.8854217529297,
                             "worldAABB_max_x": 388.1145935058594,
-                            "worldAABB_max_y": 245.1145782470703
+                            "worldAABB_max_y": 284.1145935058594
                         }
                     }
                 ]
@@ -9490,9 +9490,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 558.0062866210938,
-                            "worldAABB_min_y": 311.02081298828125,
+                            "worldAABB_min_y": 350.02081298828125,
                             "worldAABB_max_x": 631.2354125976563,
-                            "worldAABB_max_y": 384.25
+                            "worldAABB_max_y": 423.25
                         }
                     },
                     {
@@ -9542,9 +9542,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -9595,9 +9595,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -9648,9 +9648,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 590.0440063476563,
-                            "worldAABB_min_y": 336.6510314941406,
+                            "worldAABB_min_y": 375.6510314941406,
                             "worldAABB_max_x": 599.1976928710938,
-                            "worldAABB_max_y": 358.6197814941406
+                            "worldAABB_max_y": 397.6197814941406
                         }
                     },
                     {
@@ -9717,9 +9717,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 558.0062866210938,
-                            "worldAABB_min_y": 311.02081298828125,
+                            "worldAABB_min_y": 350.02081298828125,
                             "worldAABB_max_x": 631.2354125976563,
-                            "worldAABB_max_y": 384.25
+                            "worldAABB_max_y": 423.25
                         }
                     },
                     {
@@ -9769,9 +9769,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -9822,9 +9822,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -9875,9 +9875,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 632.6752319335938,
-                            "worldAABB_min_y": 336.6510314941406,
+                            "worldAABB_min_y": 375.6510314941406,
                             "worldAABB_max_x": 641.8289184570313,
-                            "worldAABB_max_y": 358.6197814941406
+                            "worldAABB_max_y": 397.6197814941406
                         }
                     },
                     {
@@ -9944,9 +9944,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 558.0062866210938,
-                            "worldAABB_min_y": 311.02081298828125,
+                            "worldAABB_min_y": 350.02081298828125,
                             "worldAABB_max_x": 631.2354125976563,
-                            "worldAABB_max_y": 384.25
+                            "worldAABB_max_y": 423.25
                         }
                     },
                     {
@@ -9996,9 +9996,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -10049,9 +10049,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -10102,9 +10102,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 632.9472045898438,
-                            "worldAABB_min_y": 336.6510314941406,
+                            "worldAABB_min_y": 375.6510314941406,
                             "worldAABB_max_x": 642.1008911132813,
-                            "worldAABB_max_y": 358.6197814941406
+                            "worldAABB_max_y": 397.6197814941406
                         }
                     },
                     {
@@ -10171,9 +10171,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 558.0062866210938,
-                            "worldAABB_min_y": 311.02081298828125,
+                            "worldAABB_min_y": 350.02081298828125,
                             "worldAABB_max_x": 631.2354125976563,
-                            "worldAABB_max_y": 384.25
+                            "worldAABB_max_y": 423.25
                         }
                     },
                     {
@@ -10223,9 +10223,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -10276,9 +10276,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 551.4156494140625,
-                            "worldAABB_min_y": 304.4302062988281,
+                            "worldAABB_min_y": 343.4302062988281,
                             "worldAABB_max_x": 637.8260498046875,
-                            "worldAABB_max_y": 390.8406066894531
+                            "worldAABB_max_y": 429.8406066894531
                         }
                     },
                     {
@@ -10329,9 +10329,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 661.5599975585938,
-                            "worldAABB_min_y": 336.6510314941406,
+                            "worldAABB_min_y": 375.6510314941406,
                             "worldAABB_max_x": 670.7136840820313,
-                            "worldAABB_max_y": 358.6197814941406
+                            "worldAABB_max_y": 397.6197814941406
                         }
                     },
                     {
@@ -23693,9 +23693,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 586.6384887695313,
-                            "worldAABB_min_y": 4.884471893310547,
+                            "worldAABB_min_y": 43.88447189331055,
                             "worldAABB_max_x": 659.8676147460938,
-                            "worldAABB_max_y": 78.11363220214844
+                            "worldAABB_max_y": 117.11363220214844
                         }
                     },
                     {
@@ -23751,9 +23751,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 586.6384887695313,
-                            "worldAABB_min_y": 4.884471893310547,
+                            "worldAABB_min_y": 43.88447189331055,
                             "worldAABB_max_x": 659.8676147460938,
-                            "worldAABB_max_y": 78.11363220214844
+                            "worldAABB_max_y": 117.11363220214844
                         }
                     },
                     {
@@ -23803,9 +23803,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 550.0238647460938,
-                            "worldAABB_min_y": 32.34540939331055,
+                            "worldAABB_min_y": 71.34540557861328,
                             "worldAABB_max_x": 696.4822387695313,
-                            "worldAABB_max_y": 50.6526985168457
+                            "worldAABB_max_y": 89.65270233154297
                         }
                     },
                     {
@@ -23856,9 +23856,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 550.0238647460938,
-                            "worldAABB_min_y": 32.34540939331055,
+                            "worldAABB_min_y": 71.34540557861328,
                             "worldAABB_max_x": 696.4822387695313,
-                            "worldAABB_max_y": 50.6526985168457
+                            "worldAABB_max_y": 89.65270233154297
                         }
                     },
                     {
@@ -23909,9 +23909,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 586.6384887695313,
-                            "worldAABB_min_y": 41.07798385620117,
+                            "worldAABB_min_y": 80.07798767089844,
                             "worldAABB_max_x": 659.8676147460938,
-                            "worldAABB_max_y": 114.30714416503906
+                            "worldAABB_max_y": 153.30714416503906
                         }
                     }
                 ]
@@ -23947,9 +23947,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 633.7797241210938,
-                            "worldAABB_min_y": 41.07798385620117,
+                            "worldAABB_min_y": 80.07798767089844,
                             "worldAABB_max_x": 707.0088500976563,
-                            "worldAABB_max_y": 114.30714416503906
+                            "worldAABB_max_y": 153.30714416503906
                         }
                     }
                 ]
@@ -23985,9 +23985,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 659.409912109375,
-                            "worldAABB_min_y": 66.70819091796875,
+                            "worldAABB_min_y": 105.70819091796875,
                             "worldAABB_max_x": 681.378662109375,
-                            "worldAABB_max_y": 88.67694091796875
+                            "worldAABB_max_y": 127.67694091796875
                         }
                     },
                     {
@@ -24038,9 +24038,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 588.1030883789063,
-                            "worldAABB_min_y": 41.07798385620117,
+                            "worldAABB_min_y": 80.07798767089844,
                             "worldAABB_max_x": 661.3322143554688,
-                            "worldAABB_max_y": 114.30714416503906
+                            "worldAABB_max_y": 153.30714416503906
                         }
                     }
                 ]
@@ -24076,9 +24076,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 613.7332763671875,
-                            "worldAABB_min_y": 66.70819091796875,
+                            "worldAABB_min_y": 105.70819091796875,
                             "worldAABB_max_x": 635.7020263671875,
-                            "worldAABB_max_y": 88.67694091796875
+                            "worldAABB_max_y": 127.67694091796875
                         }
                     },
                     {
@@ -24129,9 +24129,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 542.3348388671875,
-                            "worldAABB_min_y": 41.07798385620117,
+                            "worldAABB_min_y": 80.07798767089844,
                             "worldAABB_max_x": 615.56396484375,
-                            "worldAABB_max_y": 114.30714416503906
+                            "worldAABB_max_y": 153.30714416503906
                         }
                     }
                 ]
@@ -24167,9 +24167,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 567.9650268554688,
-                            "worldAABB_min_y": 66.70819091796875,
+                            "worldAABB_min_y": 105.70819091796875,
                             "worldAABB_max_x": 589.9337768554688,
-                            "worldAABB_max_y": 88.67694091796875
+                            "worldAABB_max_y": 127.67694091796875
                         }
                     },
                     {
@@ -24220,9 +24220,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 605.6780395507813,
-                            "worldAABB_min_y": 60.11756896972656,
+                            "worldAABB_min_y": 99.11756896972656,
                             "worldAABB_max_x": 640.8280639648438,
-                            "worldAABB_max_y": 95.26756286621094
+                            "worldAABB_max_y": 134.26756286621094
                         }
                     },
                     {
@@ -24273,9 +24273,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 605.6780395507813,
-                            "worldAABB_min_y": 60.11756896972656,
+                            "worldAABB_min_y": 99.11756896972656,
                             "worldAABB_max_x": 640.8280639648438,
-                            "worldAABB_max_y": 95.26756286621094
+                            "worldAABB_max_y": 134.26756286621094
                         }
                     },
                     {
@@ -24589,7 +24589,30 @@
                             "active": true,
                             "removed": true,
                             "constructName": "LightAttackBullet",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "ParticleSystemTimer",
+                                    "value": 5.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 1731042919886501754,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/LightFinisherBulletParticles.particle",
+                            "playAtStart": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
