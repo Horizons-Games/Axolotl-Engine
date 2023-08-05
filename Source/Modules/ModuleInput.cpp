@@ -209,12 +209,12 @@ UpdateStatus ModuleInput::Update()
 					gamepadState[sdlEvent.cbutton.button] = KeyState::UP;
 				}
 				break;
-
-			case SDL_JOYAXISMOTION: 
+			
+			case SDL_CONTROLLERAXISMOTION: 
 				if (controller)
 				{
-					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.jaxis.axis);
-					axisValue = sdlEvent.jaxis.value;
+					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
+					axisValue = sdlEvent.caxis.value;
 				}
 				break;
 

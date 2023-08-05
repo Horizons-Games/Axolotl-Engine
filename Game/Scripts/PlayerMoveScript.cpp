@@ -16,6 +16,7 @@
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
+#include <AxoLog.h>
 
 REGISTERCLASS(PlayerMoveScript);
 
@@ -86,7 +87,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	*/
 
 	// Forward
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE || (input->GetJoystickAxis() == SDL_CONTROLLER_AXIS_LEFTY && input->GetJoystickAxisValue() < -8000))
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -100,7 +101,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Back
-	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE || (input->GetJoystickAxis() == SDL_CONTROLLER_AXIS_LEFTY && input->GetJoystickAxisValue() > 8000))
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -113,7 +114,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Right
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE || (input->GetJoystickAxis() == SDL_CONTROLLER_AXIS_LEFTX && input->GetJoystickAxisValue() > 8000))
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -127,7 +128,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE || (input->GetJoystickAxis() == SDL_CONTROLLER_AXIS_LEFTX && input->GetJoystickAxisValue() < -8000))
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -158,7 +159,9 @@ void PlayerMoveScript::Move(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
 		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
 		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
-		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
+		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE &&
+		input->GetJoystickAxisValue() > -8000 &&
+		input->GetJoystickAxisValue() < 8000)
 	{
 		if (playerState == PlayerActions::WALKING)
 		{
@@ -166,7 +169,6 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAnimation->SetParameter("IsRunning", false);
 			playerState = PlayerActions::IDLE;
 		}
-
 	}
 
 	// Dash
