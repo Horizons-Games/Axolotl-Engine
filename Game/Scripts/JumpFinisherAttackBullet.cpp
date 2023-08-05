@@ -77,6 +77,8 @@ void JumpFinisherAttackBullet::InitializeBullet()
 
 void JumpFinisherAttackBullet::DestroyBullet() const
 {
+	// Erase the bullet but leave the force area so the particles can keep playing
+	forceArea->GetOwner()->SetParent(owner->GetParent());
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 

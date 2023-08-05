@@ -6816,7 +6816,18 @@
                             "active": true,
                             "removed": true,
                             "constructName": "JumpFinisherArea",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "ParticleSystemTimer",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ThrowableForceArea",
+                                    "value": false,
+                                    "type": 5
+                                }
+                            ]
                         }
                     },
                     {
@@ -24345,7 +24356,18 @@
                             "active": true,
                             "removed": true,
                             "constructName": "JumpFinisherArea",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "ParticleSystemTimer",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ThrowableForceArea",
+                                    "value": true,
+                                    "type": 5
+                                }
+                            ]
                         }
                     },
                     {
@@ -24447,12 +24469,12 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 5.0,
+                                    "value": 7.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "BulletHeightForce",
-                                    "value": 1.600000023841858,
+                                    "value": 1.25,
                                     "type": 0
                                 }
                             ]

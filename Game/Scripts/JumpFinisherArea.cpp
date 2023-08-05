@@ -1,17 +1,26 @@
 #include "StdAfx.h"
 #include "JumpFinisherArea.h"
 
+#include "Application.h"
+#include "Scene/Scene.h"
+#include "Modules/ModuleScene.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
 
 REGISTERCLASS(JumpFinisherArea);
 
-JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr)
+JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr), particleSystem(nullptr),
+	particleSystemTimer(1.0f), triggerParticleSystemTimer(false), particleSystemCurrentTimer(0.0f), throwableForceArea(false)
 {
+	REGISTER_FIELD(particleSystemTimer, float);
+	REGISTER_FIELD(throwableForceArea, bool);
+
 	enemiesInTheArea.reserve(10);
 }
 
@@ -22,11 +31,35 @@ void JumpFinisherArea::Start()
 	rigidBody->SetIsTrigger(true);
 
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+
+	particleSystem = owner->GetComponent<ComponentParticleSystem>();
+	particleSystem->Enable();
+	particleSystemCurrentTimer = particleSystemTimer;
 }
 
 void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
+
+	if (!triggerParticleSystemTimer)
+	{
+		return;
+	}
+
+	particleSystemCurrentTimer -= deltaTime;
+	if (particleSystemCurrentTimer <= 0.0f)
+	{
+		particleSystemCurrentTimer = particleSystemTimer;
+		triggerParticleSystemTimer = false;
+		particleSystem->Stop();
+
+		if (throwableForceArea)
+		{
+			// If the force area is from a bullet, destroy the area after playing the particle effects
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+		}
+	}
 }
 
 void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
@@ -52,6 +85,8 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+	particleSystem->Play();
+	triggerParticleSystemTimer = true;
 
 	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
 		it++)
