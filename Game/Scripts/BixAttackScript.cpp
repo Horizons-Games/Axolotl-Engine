@@ -112,17 +112,17 @@ void BixAttackScript::PerformCombos()
 	{
 		case AttackType::LIGHTNORMAL:
 			LOG_DEBUG("NormalAttack Soft");
-			NormalAttack();
+			LightNormalAttack();
 			break;
 
 		case AttackType::HEAVYNORMAL:
 			LOG_DEBUG("NormalAttack Heavy");
-			NormalAttack(); // TODO: This should be a different kind of attack (a "heavy" one)
+			HeavyNormalAttack();
 			break;
 
 		case AttackType::JUMPNORMAL:
 			LOG_DEBUG("JumpAttack");
-			NormalJumpAttack();
+			JumpNormalAttack();
 			break;
 
 		case AttackType::LIGHTFINISHER:
@@ -145,35 +145,52 @@ void BixAttackScript::PerformCombos()
 	}
 }
 
-void BixAttackScript::NormalAttack() 
+void BixAttackScript::LightNormalAttack()
 {
 	//Activate visuals and audios
-	//ActivateAnimationCombo(); // TODO: Fix this animation system
-	animation->SetParameter("IsAttacking", true);
+	animation->SetParameter("IsLightAttacking", true);
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	if(enemyAttacked != nullptr)
 	{
-		bool heavy = (currentAttack == AttackType::HEAVYNORMAL);
-		LOG_DEBUG("Enemy hitted");
-		float comboCount = heavy ? comboCountHeavy : comboCountSoft;
-		float attack = heavy ? attackHeavy : attackSoft;
-		AttackType type = heavy ? AttackType::HEAVYNORMAL : AttackType::LIGHTNORMAL;
-		comboSystem->SuccessfulAttack(comboCount, type);
-		DamageEnemy(enemyAttacked, attack);
+		LOG_DEBUG("Enemy hit with light attack");
+		comboSystem->SuccessfulAttack(comboCountSoft, AttackType::LIGHTNORMAL);
+		DamageEnemy(enemyAttacked, attackSoft);
 	}
 
 	else 
 	{
-		LOG_DEBUG("Fail attack");
+		LOG_DEBUG("Fail light attack");
 	}
 	isAttacking = true;
-	//attackCooldownCounter = attackCooldown;
 }
 
-void BixAttackScript::NormalJumpAttack()
+// TODO: This should perform a different kind of attack (a "heavy" one), for now, its just the light one duplicated
+void BixAttackScript::HeavyNormalAttack()
+{
+	//Activate visuals and audios
+	animation->SetParameter("IsHeavyAttacking", true);
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
+
+	//Check collisions and Apply Effects
+	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
+	if (enemyAttacked != nullptr)
+	{
+		LOG_DEBUG("Enemy hit with heavy attack");
+		comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
+		DamageEnemy(enemyAttacked, attackHeavy);
+	}
+
+	else
+	{
+		LOG_DEBUG("Fail heavy attack");
+	}
+	isAttacking = true;
+}
+
+void BixAttackScript::JumpNormalAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
@@ -232,7 +249,7 @@ void BixAttackScript::ResetAttackAnimations()
 		case AttackType::LIGHTNORMAL:
 			if (!animation->isPlaying())
 			{
-				animation->SetParameter("IsAttacking", false);
+				animation->SetParameter("IsLightAttacking", false);
 				isAttacking = false;
 			}
 			break;	
@@ -240,7 +257,7 @@ void BixAttackScript::ResetAttackAnimations()
 		case AttackType::HEAVYNORMAL:
 			if (!animation->isPlaying())
 			{
-				animation->SetParameter("IsAttacking", false);
+				animation->SetParameter("IsHeavyAttacking", false);
 				isAttacking = false;
 			}
 			break;	
@@ -298,36 +315,6 @@ void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack)
 bool BixAttackScript::IsAttackAvailable() const
 {
 	return !isAttacking;
-}
-
-void BixAttackScript::ActivateAnimationCombo()
-{
-	// Attack, starting the combo
-	switch (attackComboPhase)
-	{
-		case AttackCombo::IDLE:
-			attackComboPhase = AttackCombo::FIRST_ATTACK;
-			animation->SetParameter("IsAttacking", true);
-			comboNormalAttackTimer = 0.2f;
-			break;
-
-		case AttackCombo::FIRST_ATTACK:
-			attackComboPhase = AttackCombo::SECOND_ATTACK;
-			animation->SetParameter("IsAttacking", false);
-			animation->SetParameter("IsAttacking_2", true);
-			comboNormalAttackTimer = 0.2f;
-			break;
-
-		case AttackCombo::SECOND_ATTACK:
-			attackComboPhase = AttackCombo::THIRD_ATTACK;
-			animation->SetParameter("IsAttacking_2", false);
-			animation->SetParameter("IsAttacking_3", true);
-			comboNormalAttackTimer = 0.0f;
-			break;
-
-		default:
-			break;
-	}
 }
 
 bool BixAttackScript::GetIsDeathTouched() const

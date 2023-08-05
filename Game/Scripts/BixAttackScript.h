@@ -45,8 +45,9 @@ private:
 
 	void PerformCombos();
 
-	void NormalAttack();
-	void NormalJumpAttack();
+	void LightNormalAttack();
+	void HeavyNormalAttack();
+	void JumpNormalAttack();
 	void LightFinisher();
 	void HeavyFinisher();
 	void JumpFinisher();
@@ -54,7 +55,6 @@ private:
 	void ResetAttackAnimations();
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
-	void ActivateAnimationCombo();
 
 	bool IsAttackAvailable() const;
 
