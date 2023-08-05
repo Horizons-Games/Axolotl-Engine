@@ -117,7 +117,7 @@ void BixAttackScript::PerformCombos()
 
 		case AttackType::HEAVYNORMAL:
 			LOG_DEBUG("NormalAttack Heavy");
-			NormalAttack(); // This should be a different kind of attack (a "heavy" one)
+			NormalAttack(); // TODO: This should be a different kind of attack (a "heavy" one)
 			break;
 
 		case AttackType::JUMPNORMAL:
@@ -214,6 +214,9 @@ void BixAttackScript::HeavyFinisher()
 
 void BixAttackScript::JumpFinisher()
 {
+	animation->SetParameter("IsJumpAttacking", true);
+	isAttacking = true;
+
 	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
 	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 
@@ -263,7 +266,11 @@ void BixAttackScript::ResetAttackAnimations()
 			break;
 
 		case AttackType::JUMPFINISHER:
-			isAttacking = false;
+			if (!animation->isPlaying())
+			{
+				animation->SetParameter("IsJumpAttacking", false);
+				isAttacking = false;
+			}
 			break;
 
 		default:
