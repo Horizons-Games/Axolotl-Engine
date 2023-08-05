@@ -188,7 +188,7 @@ void BixAttackScript::NormalAttack()
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	if(enemyAttacked != nullptr)
+	if(true)
 	{
 		bool heavy = (currentAttack == AttackType::HEAVYNORMAL);
 		LOG_DEBUG("Enemy hitted");
@@ -196,7 +196,7 @@ void BixAttackScript::NormalAttack()
 		float attack = heavy ? attackHeavy : attackSoft;
 		AttackType type = heavy ? AttackType::HEAVYNORMAL : AttackType::SOFTNORMAL;
 		comboSystem->SuccessfulAttack(comboCount, type);
-		DamageEnemy(enemyAttacked, attack);
+		//DamageEnemy(enemyAttacked, attack);
 	}
 	else 
 	{
