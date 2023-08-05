@@ -1,7 +1,6 @@
 #include "CantinaNPCAnimationManager.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
-#include "AxoLog.h"
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(CantinaNPCAnimationManager);
