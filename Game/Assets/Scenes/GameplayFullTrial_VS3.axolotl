@@ -6818,6 +6818,16 @@
                             "constructName": "JumpFinisherArea",
                             "fields": null
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 9097165798578280148,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/JumpFinisherAreaParticles.particle",
+                            "playAtStart": false
+                        }
                     }
                 ]
             }
@@ -24294,7 +24304,7 @@
                             "localPos_Z": 2.0,
                             "localRot_X": -9.256631912521766e-26,
                             "localRot_Y": -4.07110976874403e-12,
-                            "localRot_Z": 179.9999542236328,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0000001192092896,
                             "localSca_Z": 1.0000001192092896
@@ -24336,6 +24346,16 @@
                             "removed": true,
                             "constructName": "JumpFinisherArea",
                             "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 9097165798578280148,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/JumpFinisherAreaParticles.particle",
+                            "playAtStart": false
                         }
                     }
                 ]
