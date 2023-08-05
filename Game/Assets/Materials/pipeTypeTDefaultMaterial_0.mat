@@ -1,7 +1,7 @@
 {
-    "DiffuseAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/Pipesv4_DefaultMaterial_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": ""
 }

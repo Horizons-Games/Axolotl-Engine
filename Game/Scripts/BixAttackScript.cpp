@@ -25,8 +25,6 @@
 
 #include <set>
 
-#include "AxoLog.h"
-
 REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), attackCooldown(0.6f), lastAttackTime(0.f), audioSource(nullptr),
