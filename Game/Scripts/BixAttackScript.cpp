@@ -121,22 +121,22 @@ void BixAttackScript::PerformCombos()
 			break;
 
 		case AttackType::JUMPNORMAL:
-			LOG_DEBUG("JumpAttack");
+			LOG_DEBUG("NormalAttack Jump");
 			JumpNormalAttack();
 			break;
 
 		case AttackType::LIGHTFINISHER:
-			LOG_DEBUG("Special Soft");
+			LOG_DEBUG("Finisher Soft");
 			LightFinisher();
 			break;
 
 		case AttackType::HEAVYFINISHER:
-			LOG_DEBUG("Special Heavy");
+			LOG_DEBUG("Finisher Heavy");
 			HeavyFinisher();
 			break;
 
 		case AttackType::JUMPFINISHER:
-			LOG_DEBUG("Special Jump");
+			LOG_DEBUG("Finisher Jump");
 			JumpFinisher();
 			break;
 
@@ -239,7 +239,7 @@ void BixAttackScript::JumpFinisher()
 	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
 	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 
-	comboSystem->SuccessfulAttack(-35, AttackType::HEAVYFINISHER);
+	comboSystem->SuccessfulAttack(-35, AttackType::JUMPFINISHER);
 }
 
 void BixAttackScript::ResetAttackAnimations()
