@@ -67,6 +67,10 @@ private:
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 	KeyState gamepadState[SDL_CONTROLLER_BUTTON_MAX] = { KeyState::IDLE };
 
+	float keysCooldown[SDL_NUM_SCANCODES] = { 0.25f };
+	float mouseButtonCooldown[NUM_MOUSEBUTTONS] = { 0.25f };
+	float gamepadButtonCooldown[SDL_CONTROLLER_BUTTON_MAX] = { 0.25f };
+
 	float2 mouseWheel;
 	float2 mouseMotion;
 

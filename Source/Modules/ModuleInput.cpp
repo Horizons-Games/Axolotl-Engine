@@ -17,6 +17,11 @@
 	#include "optick.h"
 #endif // DEBUG
 
+namespace
+{
+	const float COOLDOWN_SECONDS = 0.25f;
+} // namespace
+
 ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
 {
 }
@@ -70,7 +75,16 @@ UpdateStatus ModuleInput::Update()
 	{
 		if (keysState[i] == KeyState::DOWN)
 		{
-			keysState[i] = KeyState::REPEAT;
+			keysCooldown[i] -= App->GetDeltaTime();
+			if (keysCooldown[i] <= 0.0f)
+			{
+				keysState[i] = KeyState::REPEAT;
+			}
+		}
+
+		if (keysState[i] == KeyState::IDLE)
+		{
+			keysCooldown[i] = COOLDOWN_SECONDS;
 		}
 
 		if (keysState[i] == KeyState::UP)
@@ -83,7 +97,16 @@ UpdateStatus ModuleInput::Update()
 	{
 		if (mouseButtonState[i] == KeyState::DOWN)
 		{
-			mouseButtonState[i] = KeyState::REPEAT;
+			mouseButtonCooldown[i] -= App->GetDeltaTime();
+			if (mouseButtonCooldown[i] <= 0.0f)
+			{
+				mouseButtonState[i] = KeyState::REPEAT;
+			}
+		}
+
+		if (mouseButtonState[i] == KeyState::IDLE)
+		{
+			mouseButtonCooldown[i] = COOLDOWN_SECONDS;
 		}
 
 		if (mouseButtonState[i] == KeyState::UP)
@@ -96,7 +119,16 @@ UpdateStatus ModuleInput::Update()
 	{
 		if (gamepadState[i] == KeyState::DOWN)
 		{
-			gamepadState[i] = KeyState::REPEAT;
+			gamepadButtonCooldown[i] -= App->GetDeltaTime();
+			if (gamepadButtonCooldown[i] <= 0.0f)
+			{
+				gamepadState[i] = KeyState::REPEAT;
+			}
+		}
+
+		if (gamepadState[i] == KeyState::IDLE)
+		{
+			gamepadButtonCooldown[i] = COOLDOWN_SECONDS;
 		}
 
 		if (gamepadState[i] == KeyState::UP)

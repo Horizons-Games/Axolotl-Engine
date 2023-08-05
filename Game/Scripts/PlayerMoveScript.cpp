@@ -78,15 +78,6 @@ void PlayerMoveScript::Move(float deltaTime)
 		return;
 	}
 
-	// Run
-	/*
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-	{
-		newSpeed *= 2;
-		shiftPressed = true;
-	}
-	*/
-
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE || (input->GetJoystickAxis() == SDL_CONTROLLER_AXIS_LEFTY && input->GetJoystickAxisValue() < -8000))
 	{

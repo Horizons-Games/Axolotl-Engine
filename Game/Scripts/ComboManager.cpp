@@ -91,8 +91,8 @@ void ComboManager::ClearCombo(bool finisher)
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
 {
-	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_L) == KeyState::DOWN;
-	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN;
+	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_O) == KeyState::DOWN;
+	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_P) == KeyState::DOWN;
 
 	if (jumping && (leftClick || rightClick))
 	{
@@ -110,7 +110,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 	if (rightClick)
 	{
-		if (specialActivated && comboCount == maxComboCount -1)
+		if (specialActivated && comboCount == maxComboCount - 1)
 		{
 			return AttackType::HEAVYFINISHER;
 		}
