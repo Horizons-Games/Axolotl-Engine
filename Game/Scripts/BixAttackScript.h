@@ -43,11 +43,15 @@ private:
 
 	void UpdateEnemyDetection();
 
+	void PerformCombos();
+
 	void NormalAttack();
 	void NormalJumpAttack();
 	void LightFinisher();
 	void HeavyFinisher();
 	void JumpFinisher();
+
+	void ResetAttackAnimations();
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ActivateAnimationCombo();

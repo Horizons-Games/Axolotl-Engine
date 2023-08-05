@@ -75,103 +75,20 @@ void BixAttackScript::Start()
 
 void BixAttackScript::Update(float deltaTime)
 {
-	// Provisional here until we have a way to delay a call to a function a certain time
-	// This should go inside the PerformAttack() function but delay setting it to false by 2 seconds or smth like that
-	if (isAttacking) 
-	{
-		switch (currentAttack)
-		{
-			case AttackType::HEAVYFINISHER:
-				if (!heavyFinisherAttack->IsAttacking()) //Heavy Finisher Attack has finished
-				{
-					animation->SetParameter("HeavyFinisherExit", true);
-					isAttacking = false;
-					bixLightSaber->Enable();
-				}
-				break;
-			default:
-				if (animation && !animation->isPlaying())
-				{
-					isAttacking = false;
-					animation->SetParameter("IsAttacking", false);
-				}
-				break;
-		}
-		
-	}
-
-	/*if(isAttacking)
-	{
-		if (attackCooldownCounter <= 0.0f)
-		{
-			isAttacking = false;
-		}
-		else 
-		{
-			attackCooldownCounter -= deltaTime;
-		}
-	}
-
-	if (attackComboPhase != AttackCombo::IDLE && !isAttacking)
-	{
-		if (comboNormalAttackTimer <= 0.0f)
-		{
-			attackComboPhase = AttackCombo::IDLE;
-			if (animation) 
-			{
-				animation->SetParameter("IsAttacking", false);
-				animation->SetParameter("IsAttacking_2", false);
-				animation->SetParameter("IsAttacking_3", false);
-			}
-		}
-		else
-		{
-			comboNormalAttackTimer -= deltaTime;
-		}
-	}*/
-
-	comboSystem->CheckSpecial(deltaTime);
-
+	// Mark the enemy that is going to be attacked
 	UpdateEnemyDetection();
+
+	// Check if the special was activated
+	comboSystem->CheckSpecial(deltaTime);
 
 	if (IsAttackAvailable())
 	{
-		currentAttack = comboSystem->CheckAttackInput(!playerManager->isGrounded());
-		switch (currentAttack)
-		{
-			case AttackType::SOFTNORMAL:
-				LOG_DEBUG("NormalAttack Soft");
-				NormalAttack();
-				break;
+		PerformCombos();
+	}
 
-			case AttackType::HEAVYNORMAL:
-				LOG_DEBUG("NormalAttack Heavy");
-				NormalAttack(); // This should be a different kind of attack
-				break;
-
-			case AttackType::JUMPNORMAL:
-				LOG_DEBUG("JumpAttack");
-				NormalJumpAttack();
-				break;
-
-			case AttackType::LIGHTFINISHER:
-				LOG_DEBUG("Special Soft");
-				LightFinisher();
-				break;
-
-			case AttackType::HEAVYFINISHER:
-				LOG_DEBUG("Special Heavy");
-				HeavyFinisher();
-				break;
-
-			case AttackType::JUMPFINISHER:
-				LOG_DEBUG("Special Jump");
-				JumpFinisher();
-				break;
-
-			default:
-				break;
-		}
+	else
+	{
+		ResetAttackAnimations();
 	}
 }
 
@@ -185,6 +102,46 @@ void BixAttackScript::UpdateEnemyDetection()
 	else
 	{
 		enemyDetection->UpdateEnemyDetection(normalAttackDistance);
+	}
+}
+
+void BixAttackScript::PerformCombos()
+{
+	currentAttack = comboSystem->CheckAttackInput(!playerManager->isGrounded());
+	switch (currentAttack)
+	{
+		case AttackType::SOFTNORMAL:
+			LOG_DEBUG("NormalAttack Soft");
+			NormalAttack();
+			break;
+
+		case AttackType::HEAVYNORMAL:
+			LOG_DEBUG("NormalAttack Heavy");
+			NormalAttack(); // This should be a different kind of attack (a "heavy" one)
+			break;
+
+		case AttackType::JUMPNORMAL:
+			LOG_DEBUG("JumpAttack");
+			NormalJumpAttack();
+			break;
+
+		case AttackType::LIGHTFINISHER:
+			LOG_DEBUG("Special Soft");
+			LightFinisher();
+			break;
+
+		case AttackType::HEAVYFINISHER:
+			LOG_DEBUG("Special Heavy");
+			HeavyFinisher();
+			break;
+
+		case AttackType::JUMPFINISHER:
+			LOG_DEBUG("Special Jump");
+			JumpFinisher();
+			break;
+
+		default:
+			break;
 	}
 }
 
@@ -218,6 +175,9 @@ void BixAttackScript::NormalAttack()
 
 void BixAttackScript::NormalJumpAttack()
 {
+	animation->SetParameter("JumpAttack", true);
+	isAttacking = true;
+
 	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
 	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 
@@ -227,6 +187,7 @@ void BixAttackScript::NormalJumpAttack()
 void BixAttackScript::LightFinisher()
 {
 	lightFinisherScript->ThrowStunItem();
+	isAttacking = true;
 
 	comboSystem->SuccessfulAttack(-20, AttackType::LIGHTFINISHER);
 }
@@ -235,6 +196,7 @@ void BixAttackScript::HeavyFinisher()
 {
 	bixLightSaber->Disable();
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
+	animation->SetParameter("HeavyFinisherExit", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
 	if (enemyAttacked != nullptr)
@@ -256,6 +218,57 @@ void BixAttackScript::JumpFinisher()
 	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 
 	comboSystem->SuccessfulAttack(-35, AttackType::HEAVYFINISHER);
+}
+
+void BixAttackScript::ResetAttackAnimations()
+{
+	switch (currentAttack)
+	{
+		case AttackType::SOFTNORMAL:
+			if (!animation->isPlaying())
+			{
+				animation->SetParameter("IsAttacking", false);
+				isAttacking = false;
+			}
+			break;	
+
+		case AttackType::HEAVYNORMAL:
+			if (!animation->isPlaying())
+			{
+				animation->SetParameter("IsAttacking", false);
+				isAttacking = false;
+			}
+			break;	
+
+		case AttackType::JUMPNORMAL:
+			if (!animation->isPlaying())
+			{
+				animation->SetParameter("JumpAttack", false);
+				isAttacking = false;
+			}
+			break;	
+
+		case AttackType::LIGHTFINISHER:
+			isAttacking = false;
+			break;	
+
+		case AttackType::HEAVYFINISHER:
+			if (!heavyFinisherAttack->IsAttacking()) // Heavy Finisher attack has finished
+			{
+				animation->SetParameter("HeavyFinisherInit", false);
+				animation->SetParameter("HeavyFinisherExit", true);
+				bixLightSaber->Enable();
+				isAttacking = false;
+			}
+			break;
+
+		case AttackType::JUMPFINISHER:
+			isAttacking = false;
+			break;
+
+		default:
+			break;
+	}
 }
 
 void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 
