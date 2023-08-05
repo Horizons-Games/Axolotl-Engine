@@ -158,6 +158,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 		return ComponentType::PLAYER;
 	}
 
+	if (typeName == "Component_PlayerInput")
+	{
+		return ComponentType::PLAYERINPUT;
+	}
+
 	if (typeName == "Component_Canvas")
 	{
 		return ComponentType::CANVAS;

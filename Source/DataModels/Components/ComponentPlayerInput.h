@@ -11,6 +11,9 @@ public:
 
 	void Update() override;
 
+	void InternalSave(Json& meta) override;
+	void InternalLoad(const Json& meta) override;
+
 private:
 	std::map<SDL_GameControllerButton, SDL_Scancode> gamepadMapping;
 };

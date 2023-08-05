@@ -38,3 +38,11 @@ void ComponentPlayerInput::Update()
 		input->SetKey(keyboardButton, input->GetGamepadButton(gamepadButton));
 	}
 }
+
+void ComponentPlayerInput::InternalSave(Json& meta)
+{
+}
+
+void ComponentPlayerInput::InternalLoad(const Json& meta)
+{
+}

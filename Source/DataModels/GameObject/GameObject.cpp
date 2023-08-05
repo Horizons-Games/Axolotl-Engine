@@ -331,7 +331,7 @@ void GameObject::CopyComponent(Component* component)
 
 		case ComponentType::PLAYERINPUT:
 		{
-		//	newComponent = std::make_unique<ComponentPlayerInput>(static_cast<ComponentPlayerInput&>(*component));
+			newComponent = std::make_unique<ComponentPlayerInput>(static_cast<ComponentPlayerInput&>(*component));
 			break;
 		}
 
@@ -563,7 +563,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 
 		case ComponentType::PLAYERINPUT:
 		{
-		//	newComponent = std::make_unique<ComponentPlayerInput>(true, this);
+			newComponent = std::make_unique<ComponentPlayerInput>(true, this);
 			break;
 		}
 
