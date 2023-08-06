@@ -29,7 +29,8 @@ ModuleInput::ModuleInput() :
 	mousePosY(0),
 	keysCooldown{ COOLDOWN_SECONDS },
 	mouseButtonCooldown{ COOLDOWN_SECONDS },
-	gamepadButtonCooldown{ COOLDOWN_SECONDS }
+	gamepadButtonCooldown{ COOLDOWN_SECONDS },
+	direction{ Direction::NONE, Direction::NONE }
 {
 }
 
@@ -254,6 +255,37 @@ UpdateStatus ModuleInput::Update()
 				{
 					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
 					axisValue = sdlEvent.caxis.value;
+					if (axis == SDL_CONTROLLER_AXIS_LEFTX)
+					{
+						if (axisValue > 3200)
+						{
+							direction.first = Direction::RIGHT;
+						}
+						else if (axisValue < -3200)
+						{
+							direction.first = Direction::LEFT;	
+						}
+						else
+						{
+							direction.first = Direction::NONE;
+						}
+					}
+					
+					if (axis == SDL_CONTROLLER_AXIS_LEFTY)
+					{
+						if (axisValue < -3200)
+						{
+							direction.second = Direction::FORWARD;
+						}
+						else if (axisValue > 3200)
+						{
+							direction.second = Direction::BACK;
+						}					
+						else
+						{
+							direction.second = Direction::NONE;
+						}
+					}
 				}
 				break;
 
