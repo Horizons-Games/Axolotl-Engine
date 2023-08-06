@@ -30,7 +30,7 @@ void ModuleSize::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				if (particle.sizeOverTime == -1.0f)
 				{

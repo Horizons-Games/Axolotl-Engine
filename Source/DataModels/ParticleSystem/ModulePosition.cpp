@@ -38,12 +38,12 @@ void ModulePosition::Update(EmitterInstance* instance)
 
 		particle.lifespan -= dt;
 
-		if (particle.lifespan <= 0.0f)
+		if (particle.lifespan <= 0.000f)
 		{
-			particle.lifespan = 0.0f;
+			particle.lifespan = 0.000f;
 		}
 
-		if (particle.lifespan > 0.0f)
+		if (!particle.dead)
 		{
 			float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 
