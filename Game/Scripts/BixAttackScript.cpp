@@ -316,7 +316,7 @@ bool BixAttackScript::IsAttackAvailable() const
 	return !isAttacking;
 }
 
-bool BixAttackScript::GetIsDeathTouched() const
+bool BixAttackScript::IsDeathTouched() const
 {
 	return isDeathTouched;
 }

@@ -34,7 +34,7 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	bool GetIsDeathTouched() const;
+	bool IsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);
 
 	bool IsAttackAvailable() const;
