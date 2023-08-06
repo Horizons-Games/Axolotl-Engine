@@ -263,10 +263,13 @@ void BixAttackScript::ResetAttackAnimations()
 
 		case AttackType::JUMPNORMAL:
 		case AttackType::JUMPFINISHER:
-			if (animation->GetActualStateName() != "BixJumpAttack" && !animation->IsPlaying())
+			if (animation->GetActualStateName() == "BixJumpAttackRecovery" && !animation->IsPlaying())
+			{
+				isAttacking = false;
+			}
+			else if (animation->GetActualStateName() == "BixJumpAttack")
 			{
 				animation->SetParameter("IsJumpAttacking", false);
-				isAttacking = false;
 			}
 			break;	
 
