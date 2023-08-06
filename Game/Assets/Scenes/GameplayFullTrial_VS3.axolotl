@@ -6819,7 +6819,7 @@
                             "fields": [
                                 {
                                     "name": "ParticleSystemTimer",
-                                    "value": 1.0,
+                                    "value": 0.5,
                                     "type": 0
                                 },
                                 {
@@ -24359,7 +24359,7 @@
                             "fields": [
                                 {
                                     "name": "ParticleSystemTimer",
-                                    "value": 1.0,
+                                    "value": 0.5,
                                     "type": 0
                                 },
                                 {
