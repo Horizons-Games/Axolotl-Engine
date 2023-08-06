@@ -246,7 +246,7 @@ void BixAttackScript::ResetAttackAnimations()
 	switch (currentAttack)
 	{
 		case AttackType::LIGHTNORMAL:
-			if (!animation->isPlaying())
+			if (!animation->IsPlaying())
 			{
 				animation->SetParameter("IsLightAttacking", false);
 				isAttacking = false;
@@ -254,7 +254,7 @@ void BixAttackScript::ResetAttackAnimations()
 			break;	
 
 		case AttackType::HEAVYNORMAL:
-			if (!animation->isPlaying())
+			if (!animation->IsPlaying())
 			{
 				animation->SetParameter("IsHeavyAttacking", false);
 				isAttacking = false;
@@ -262,7 +262,8 @@ void BixAttackScript::ResetAttackAnimations()
 			break;	
 
 		case AttackType::JUMPNORMAL:
-			if (!animation->isPlaying())
+		case AttackType::JUMPFINISHER:
+			if (animation->GetActualStateName() == "BixJumpAttackRecovery" && !animation->IsPlaying())
 			{
 				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
@@ -270,7 +271,7 @@ void BixAttackScript::ResetAttackAnimations()
 			break;	
 
 		case AttackType::LIGHTFINISHER:
-			if (!animation->isPlaying())
+			if (!animation->IsPlaying())
 			{
 				animation->SetParameter("LightFinisherAttacking", false);
 				isAttacking = false;
@@ -283,14 +284,6 @@ void BixAttackScript::ResetAttackAnimations()
 				animation->SetParameter("HeavyFinisherInit", false);
 				animation->SetParameter("HeavyFinisherExit", true);
 				bixLightSaber->Enable();
-				isAttacking = false;
-			}
-			break;
-
-		case AttackType::JUMPFINISHER:
-			if (!animation->isPlaying())
-			{
-				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
 			}
 			break;
