@@ -3,6 +3,7 @@
 #include "Modules/ModuleInput.h"
 
 #include "Application.h"
+#include "AxoLog.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleRender.h"
@@ -11,7 +12,6 @@
 #include "Scene/Scene.h"
 #include "Windows/WindowMainMenu.h"
 #include "imgui_impl_sdl.h"
-#include "AxoLog.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -19,10 +19,17 @@
 
 namespace
 {
-	const float COOLDOWN_SECONDS = 0.25f;
+const float COOLDOWN_SECONDS = 0.25f;
 } // namespace
 
-ModuleInput::ModuleInput() : mouseWheel(float2::zero), mouseMotion(float2::zero), mousePosX(0), mousePosY(0)
+ModuleInput::ModuleInput() :
+	mouseWheel(float2::zero),
+	mouseMotion(float2::zero),
+	mousePosX(0),
+	mousePosY(0),
+	keysCooldown{ COOLDOWN_SECONDS },
+	mouseButtonCooldown{ COOLDOWN_SECONDS },
+	gamepadButtonCooldown{ COOLDOWN_SECONDS }
 {
 }
 
@@ -241,8 +248,8 @@ UpdateStatus ModuleInput::Update()
 					gamepadState[sdlEvent.cbutton.button] = KeyState::UP;
 				}
 				break;
-			
-			case SDL_CONTROLLERAXISMOTION: 
+
+			case SDL_CONTROLLERAXISMOTION:
 				if (controller)
 				{
 					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
