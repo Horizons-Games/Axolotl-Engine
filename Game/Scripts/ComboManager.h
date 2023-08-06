@@ -33,7 +33,7 @@ public:
 
 	void CheckSpecial(float deltaTime);
 	AttackType CheckAttackInput(bool jumping);
-	void SuccessfulAttack(int specialCount, AttackType type);
+	void SuccessfulAttack(float specialCount, AttackType type);
 	bool IsSpecialActivated() const;
 
 private:
@@ -43,8 +43,8 @@ private:
 
 	ModuleInput* input;
 	bool specialActivated;
-	int specialCount;
-	int maxSpecialCount;
+	float specialCount;
+	float maxSpecialCount;
 	int comboCount;
 	float maxComboCount;
 

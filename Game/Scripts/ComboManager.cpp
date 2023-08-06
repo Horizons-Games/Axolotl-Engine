@@ -12,8 +12,8 @@ REGISTERCLASS(ComboManager);
 ComboManager::ComboManager() : Script(), 
 	input(nullptr), 
 	specialActivated(false), 
-	specialCount(0),
-	maxSpecialCount(100),
+	specialCount(0.0f),
+	maxSpecialCount(100.0f),
 	comboCount(0), 
 	maxComboCount(3.0f),
 	uiComboManager(nullptr),
@@ -31,7 +31,7 @@ void ComboManager::Start()
 
 	if (uiComboManager)
 	{
-		maxSpecialCount = static_cast<int>(uiComboManager->GetMaxComboBarValue());
+		maxSpecialCount = uiComboManager->GetMaxComboBarValue();
 		uiComboManager->SetComboBarValue(specialCount);
 	}
 }
@@ -70,7 +70,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
-			specialCount = std::max(0, specialCount - 5 * static_cast<int>(deltaTime));
+			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
 
 			if (uiComboManager)
 			{
@@ -132,12 +132,12 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 	return AttackType::NONE;
 }
 
-void ComboManager::SuccessfulAttack(int specialCount, AttackType type)
+void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
 	if (specialCount < 0 || !specialActivated)
 	{
 		this->specialCount = 
-			std::clamp(this->specialCount + specialCount, 0, static_cast<int>(maxSpecialCount));
+			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
 
 		if (this->specialCount <= 0.0f && specialActivated)
 		{

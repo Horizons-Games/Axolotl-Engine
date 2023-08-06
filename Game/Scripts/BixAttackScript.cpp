@@ -156,7 +156,7 @@ void BixAttackScript::LightNormalAttack()
 	if(enemyAttacked != nullptr)
 	{
 		LOG_DEBUG("Enemy hit with light attack");
-		comboSystem->SuccessfulAttack(static_cast<int>(comboCountSoft), AttackType::LIGHTNORMAL);
+		comboSystem->SuccessfulAttack(comboCountSoft, AttackType::LIGHTNORMAL);
 		DamageEnemy(enemyAttacked, attackSoft);
 	}
 
@@ -178,7 +178,7 @@ void BixAttackScript::HeavyNormalAttack()
 	if (enemyAttacked != nullptr)
 	{
 		LOG_DEBUG("Enemy hit with heavy attack");
-		comboSystem->SuccessfulAttack(static_cast<int>(comboCountHeavy), AttackType::HEAVYNORMAL);
+		comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
 		DamageEnemy(enemyAttacked, attackHeavy);
 	}
 
@@ -197,7 +197,7 @@ void BixAttackScript::JumpNormalAttack()
 	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
 	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 
-	comboSystem->SuccessfulAttack(20, AttackType::JUMPNORMAL);
+	comboSystem->SuccessfulAttack(20.0f, AttackType::JUMPNORMAL);
 }
 
 void BixAttackScript::LightFinisher()
@@ -207,7 +207,7 @@ void BixAttackScript::LightFinisher()
 
 	lightFinisherScript->ThrowStunItem();
 
-	comboSystem->SuccessfulAttack(-20, AttackType::LIGHTFINISHER);
+	comboSystem->SuccessfulAttack(-20.0f, AttackType::LIGHTFINISHER);
 }
 
 void BixAttackScript::HeavyFinisher()
@@ -221,12 +221,12 @@ void BixAttackScript::HeavyFinisher()
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
 			GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-50.0f, AttackType::HEAVYFINISHER);
 	}
 	else
 	{
 		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-50, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-50.0f, AttackType::HEAVYFINISHER);
 	}
 }
 
@@ -238,7 +238,7 @@ void BixAttackScript::JumpFinisher()
 	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
 	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 
-	comboSystem->SuccessfulAttack(-35, AttackType::JUMPFINISHER);
+	comboSystem->SuccessfulAttack(-35.0f, AttackType::JUMPFINISHER);
 }
 
 void BixAttackScript::ResetAttackAnimations()
