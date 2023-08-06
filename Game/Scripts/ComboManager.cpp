@@ -29,7 +29,7 @@ void ComboManager::Start()
 {
 	input = App->GetModule<ModuleInput>();
 
-	maxSpecialCount = static_cast<float>(uiComboManager->GetMaxComboBarValue());
+	maxSpecialCount = static_cast<int>(uiComboManager->GetMaxComboBarValue());
 	uiComboManager->SetComboBarValue(specialCount);
 }
 
@@ -67,7 +67,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
-			specialCount = static_cast<int>(std::max(0.0f, static_cast<float>(specialCount) - (5.0f * deltaTime)));
+			specialCount = std::max(0, specialCount - 5 * static_cast<int>(deltaTime));
 
 			if (uiComboManager)
 			{
@@ -133,8 +133,8 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
 	if (specialCount < 0 || !specialActivated)
 	{
-		this->specialCount = static_cast<int>(
-			std::max(0.0f, std::min(static_cast<float>(this->specialCount) + specialCount, maxSpecialCount)));
+		this->specialCount = 
+			std::clamp(this->specialCount + static_cast<int>(specialCount), 0, static_cast<int>(maxSpecialCount));
 
 		if (this->specialCount <= 0.0f && specialActivated)
 		{
