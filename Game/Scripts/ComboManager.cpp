@@ -29,8 +29,11 @@ void ComboManager::Start()
 {
 	input = App->GetModule<ModuleInput>();
 
-	maxSpecialCount = static_cast<int>(uiComboManager->GetMaxComboBarValue());
-	uiComboManager->SetComboBarValue(specialCount);
+	if (uiComboManager)
+	{
+		maxSpecialCount = static_cast<int>(uiComboManager->GetMaxComboBarValue());
+		uiComboManager->SetComboBarValue(specialCount);
+	}
 }
 
 int ComboManager::GetComboCount() const
