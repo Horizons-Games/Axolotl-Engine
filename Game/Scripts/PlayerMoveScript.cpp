@@ -146,7 +146,7 @@ void PlayerMoveScript::Move(float deltaTime)
 
 		movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 	}
-
+	
 	// Dash
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && bixAttackScript->IsAttackAvailable())
 	{
@@ -159,10 +159,12 @@ void PlayerMoveScript::Move(float deltaTime)
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 		}
 
-		nextDash = 1000.0f + static_cast<float>(SDL_GetTicks());
+		nextDash = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
 	}
+
 	else
 	{
+		nextDash -= deltaTime;
 		btVector3 currentVelocity = btRigidbody->getLinearVelocity();
 		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 
@@ -196,7 +198,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Cooldown Dash
-	if (!canDash && nextDash < SDL_GetTicks())
+	if (!canDash && nextDash <= 0.0f)
 	{
 		canDash = true;
 	}
