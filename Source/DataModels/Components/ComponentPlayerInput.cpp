@@ -7,14 +7,11 @@
 
 namespace
 {
-const std::map<SDL_GameControllerButton, SDL_Scancode> defaultGamepadMapping = {
+const std::map<SDL_GameControllerButton, std::variant<SDL_Scancode, Uint8>> defaultGamepadMapping = {
 	{ SDL_CONTROLLER_BUTTON_A, SDL_SCANCODE_SPACE },
-	// O has to be used everywhere as left mouse button
-	// and P as right mouse button
-	// because this map cannot hold mouse buttons
-	{ SDL_CONTROLLER_BUTTON_B, SDL_SCANCODE_O },
+	{ SDL_CONTROLLER_BUTTON_B, static_cast<Uint8>(SDL_BUTTON_LEFT) },
 	{ SDL_CONTROLLER_BUTTON_X, SDL_SCANCODE_E },
-	{ SDL_CONTROLLER_BUTTON_Y, SDL_SCANCODE_P },
+	{ SDL_CONTROLLER_BUTTON_Y, static_cast<Uint8>(SDL_BUTTON_RIGHT) },
 	{ SDL_CONTROLLER_BUTTON_BACK, SDL_SCANCODE_M },
 	{ SDL_CONTROLLER_BUTTON_GUIDE, SDL_SCANCODE_ESCAPE },
 	{ SDL_CONTROLLER_BUTTON_START, SDL_SCANCODE_ESCAPE },
@@ -53,9 +50,17 @@ void ComponentPlayerInput::Update()
 		return;
 	}
 	ModuleInput* input = App->GetModule<ModuleInput>();
-	for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
+	for (const auto& [gamepadButton, keyboardButton] : defaultGamepadMapping)
 	{
-		input->SetKey(keyboardButton, input->GetGamepadButton(gamepadButton));
+		if (std::holds_alternative<SDL_Scancode>(keyboardButton))
+		{
+			input->SetKey(std::get<SDL_Scancode>(keyboardButton), input->GetGamepadButton(gamepadButton));
+		}
+		else if (std::holds_alternative<Uint8>(keyboardButton))
+		{
+			Uint8 mouseButton = std::get<Uint8>(keyboardButton);
+			input->SetMouseButton(mouseButton, input->GetGamepadButton(gamepadButton));
+		}
 	}
 }
 

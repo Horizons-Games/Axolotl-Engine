@@ -47,7 +47,7 @@ UpdateStatus ModuleUI::Update()
 #endif
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_O) == KeyState::DOWN;
+	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
 
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
@@ -97,7 +97,7 @@ UpdateStatus ModuleUI::PostUpdate()
 
 		if (button->IsClicked())
 		{
-			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP || input->GetKey(SDL_SCANCODE_O) == KeyState::UP)
+			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
 			{
 #ifndef ENGINE
 				button->OnClicked();
