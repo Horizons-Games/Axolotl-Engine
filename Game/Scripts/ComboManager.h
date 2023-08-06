@@ -44,7 +44,7 @@ private:
 	ModuleInput* input;
 	bool specialActivated;
 	int specialCount;
-	float maxSpecialCount;
+	int maxSpecialCount;
 	int comboCount;
 	float maxComboCount;
 
