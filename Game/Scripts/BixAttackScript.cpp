@@ -156,7 +156,7 @@ void BixAttackScript::LightNormalAttack()
 	if(enemyAttacked != nullptr)
 	{
 		LOG_DEBUG("Enemy hit with light attack");
-		comboSystem->SuccessfulAttack(comboCountSoft, AttackType::LIGHTNORMAL);
+		comboSystem->SuccessfulAttack(static_cast<int>(comboCountSoft), AttackType::LIGHTNORMAL);
 		DamageEnemy(enemyAttacked, attackSoft);
 	}
 
@@ -178,7 +178,7 @@ void BixAttackScript::HeavyNormalAttack()
 	if (enemyAttacked != nullptr)
 	{
 		LOG_DEBUG("Enemy hit with heavy attack");
-		comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
+		comboSystem->SuccessfulAttack(static_cast<int>(comboCountHeavy), AttackType::HEAVYNORMAL);
 		DamageEnemy(enemyAttacked, attackHeavy);
 	}
 

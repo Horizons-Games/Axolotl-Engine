@@ -33,7 +33,7 @@ public:
 
 	void CheckSpecial(float deltaTime);
 	AttackType CheckAttackInput(bool jumping);
-	void SuccessfulAttack(float specialCount, AttackType type);
+	void SuccessfulAttack(int specialCount, AttackType type);
 	bool IsSpecialActivated() const;
 
 private:

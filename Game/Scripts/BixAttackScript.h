@@ -77,8 +77,8 @@ private:
 
 	EntityDetection* enemyDetection;
 	ComboManager* comboSystem;
-	float comboCountHeavy;
 	float comboCountSoft;
+	float comboCountHeavy;
 	float attackSoft;
 	float attackHeavy;
 

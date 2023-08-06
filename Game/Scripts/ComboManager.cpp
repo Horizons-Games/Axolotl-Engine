@@ -129,12 +129,12 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 	return AttackType::NONE;
 }
 
-void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
+void ComboManager::SuccessfulAttack(int specialCount, AttackType type)
 {
 	if (specialCount < 0 || !specialActivated)
 	{
 		this->specialCount = 
-			std::clamp(this->specialCount + static_cast<int>(specialCount), 0, static_cast<int>(maxSpecialCount));
+			std::clamp(this->specialCount + specialCount, 0, static_cast<int>(maxSpecialCount));
 
 		if (this->specialCount <= 0.0f && specialActivated)
 		{
