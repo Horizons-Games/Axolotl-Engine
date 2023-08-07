@@ -49,7 +49,7 @@ void main()
     if (bloomActivation == 1)
     {
         vec4 bloomColor = texture(bloomBlur, TexCoord);
-        float intensity = bloomColor.a;
+        float intensity = bloomColor.a * 5;
         hdrColor += bloomColor.rgb * intensity; // additive blending
     }
     

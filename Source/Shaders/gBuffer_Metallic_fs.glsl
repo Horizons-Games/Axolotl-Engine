@@ -98,6 +98,6 @@ void main()
     gEmissive= vec4(0.0);
     if (material.has_emissive_map == 1) 
     {
-        gEmissive = vec4(texture(material.emissive_map, newTexCoord).rgb, material.intensityBloom);
+        gEmissive = vec4(texture(material.emissive_map, newTexCoord).rgb, material.intensityBloom / 5);
     }
 }
