@@ -5,10 +5,13 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class GameObject;
+
 class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentRigidBody;
-class GameObject;
+
+class BixAttackScript;
 
 class PlayerJumpScript : public Script
 {
@@ -44,4 +47,5 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
 
+	BixAttackScript* attackScript;
 };

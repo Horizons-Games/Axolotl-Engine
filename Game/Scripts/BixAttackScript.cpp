@@ -39,7 +39,8 @@ BixAttackScript::BixAttackScript() : Script(),
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
-	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr)
+	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr),
+	isJumpAttacking(false)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 	REGISTER_FIELD(comboCountHeavy, float);
@@ -193,6 +194,7 @@ void BixAttackScript::JumpNormalAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
+	isJumpAttacking = true;
 
 	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
 	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
@@ -234,6 +236,7 @@ void BixAttackScript::JumpFinisher()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
+	isJumpAttacking = true;
 
 	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
 	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
@@ -266,10 +269,21 @@ void BixAttackScript::ResetAttackAnimations()
 			if (animation->GetActualStateName() == "BixJumpAttackRecovery" && !animation->IsPlaying())
 			{
 				isAttacking = false;
+				isJumpAttacking = false;
 			}
 			else if (animation->GetActualStateName() == "BixJumpAttack")
 			{
 				animation->SetParameter("IsJumpAttacking", false);
+			}
+			// There are some times in which the animations happen so quick and the first if is not entered,
+			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
+			// jumping and moving if the first if is not entered
+			else if (animation->GetActualStateName() == "BixIdle" ||
+				animation->GetActualStateName() == "BixIdle2" ||
+				animation->GetActualStateName() == "BixIdle3")
+			{
+				isAttacking = false;
+				isJumpAttacking = false;
 			}
 			break;	
 
@@ -310,6 +324,11 @@ void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack)
 bool BixAttackScript::IsAttackAvailable() const
 {
 	return !isAttacking;
+}
+
+bool BixAttackScript::IsPerfomingJumpAttack() const
+{
+	return isJumpAttacking;
 }
 
 bool BixAttackScript::IsDeathTouched() const

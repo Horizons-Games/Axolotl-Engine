@@ -38,6 +38,7 @@ public:
 	void SetIsDeathTouched(bool isDeathTouch);
 
 	bool IsAttackAvailable() const;
+	bool IsPerfomingJumpAttack() const;
 
 private:
 	void Start() override;
@@ -59,6 +60,7 @@ private:
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 
 	bool isAttacking;
+	bool isJumpAttacking;
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;

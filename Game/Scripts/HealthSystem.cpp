@@ -4,15 +4,15 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
 
+#include "../Scripts/BixAttackScript.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 
-
 REGISTERCLASS(HealthSystem);
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-	isImmortal(false), enemyParticleSystem(nullptr)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -42,6 +42,8 @@ void HealthSystem::Start()
 	{
 		maxHealth = currentHealth;
 	}
+
+	attackScript = owner->GetComponent<BixAttackScript>();
 }
 
 void HealthSystem::Update(float deltaTime)
@@ -75,7 +77,7 @@ void HealthSystem::Update(float deltaTime)
 
 void HealthSystem::TakeDamage(float damage)
 {
-	if (!isImmortal) 
+	if (!isImmortal && !attackScript->IsPerfomingJumpAttack()) 
 	{
 		if (owner->CompareTag("Player"))
 		{

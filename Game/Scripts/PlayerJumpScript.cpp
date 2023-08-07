@@ -10,6 +10,8 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 
+#include "../Scripts/BixAttackScript.h"
+
 #include "Auxiliar/Audio/AudioData.h"
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Physics/Physics.h"
@@ -20,7 +22,7 @@ REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
-coyoteTime(0.4f), groundedCount(0), isGrounded(false)
+coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr)
 {
 	REGISTER_FIELD(coyoteTime, float);
 	REGISTER_FIELD(isGrounded, bool);
@@ -39,6 +41,8 @@ void PlayerJumpScript::Start()
 	rigidbody->GetRigidBody()->setAngularFactor(btVector3(1.0f, 0.0f, 1.0f));
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
+
+	attackScript = owner->GetComponent<BixAttackScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
@@ -97,7 +101,7 @@ void PlayerJumpScript::CheckGround()
 
 void PlayerJumpScript::Jump(float deltatime)
 {
-	if (canJump)
+	if (canJump && !attackScript->IsPerfomingJumpAttack())
 	{
 		float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
 		const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
