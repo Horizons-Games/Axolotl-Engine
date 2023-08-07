@@ -28,6 +28,8 @@
 
 #include <set>
 
+#include "AxoLog.h"
+
 REGISTERCLASS(BixAttackScript);
 
 BixAttackScript::BixAttackScript() : Script(), 
