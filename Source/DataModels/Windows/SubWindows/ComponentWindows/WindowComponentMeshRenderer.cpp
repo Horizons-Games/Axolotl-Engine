@@ -74,11 +74,11 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 	{
 		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 0, 0));
 	}
-	ImGui::BeginChild("##Window");
+	ImGui::PushID("##Window");
 	DrawEnableAndDeleteComponent();
 
 	// used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
-	ImGui::Text("");
+	ImGui::NewLine();
 
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
@@ -161,7 +161,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 	}
 
-	ImGui::EndChild();
+	ImGui::PopID();
 	ImGui::PopStyleColor();
 }
 
