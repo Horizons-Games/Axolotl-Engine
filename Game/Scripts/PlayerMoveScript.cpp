@@ -18,7 +18,8 @@
 #include "../Scripts/BixAttackScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
-#include <AxoLog.h>
+
+#include "AxoLog.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
