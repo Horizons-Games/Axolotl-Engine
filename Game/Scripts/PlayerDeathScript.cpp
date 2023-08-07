@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "PlayerDeathScript.h"
-#include "AxoLog.h"
 
 #ifndef ENGINE
 	#include "Application.h"
@@ -10,8 +9,6 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentAnimation.h"
-
-#include "AxoLog.h"
 
 REGISTERCLASS(PlayerDeathScript);
 
