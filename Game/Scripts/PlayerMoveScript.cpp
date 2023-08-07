@@ -276,10 +276,12 @@ void PlayerMoveScript::Dash()
 		dashImpulse.x = -dashForce;
 	}
 
-	if (dashDirection.z > 0.5f) {
+	if (dashDirection.z > 0.5f)
+	{
 		dashImpulse.z = dashForce;
 	}
-	else if (dashDirection.z < -0.5f) {
+	else if (dashDirection.z < -0.5f)
+	{
 		dashImpulse.z = -dashForce;
 	}
 
