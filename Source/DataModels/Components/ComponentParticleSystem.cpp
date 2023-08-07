@@ -45,6 +45,8 @@ ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& 
 
 ComponentParticleSystem::~ComponentParticleSystem()
 {
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(this);
+
 	ClearEmitters();
 }
 
