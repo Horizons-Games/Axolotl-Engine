@@ -44,7 +44,10 @@ void HealthSystem::Start()
 		maxHealth = currentHealth;
 	}
 
-	attackScript = owner->GetComponent<BixAttackScript>();
+	if (owner->CompareTag("Player"))
+	{
+		attackScript = owner->GetComponent<BixAttackScript>();
+	}
 }
 
 void HealthSystem::Update(float deltaTime)
@@ -78,9 +81,9 @@ void HealthSystem::Update(float deltaTime)
 
 void HealthSystem::TakeDamage(float damage)
 {
-	if (!isImmortal && !attackScript->IsPerfomingJumpAttack()) 
+	if (!isImmortal) 
 	{
-		if (owner->CompareTag("Player"))
+		if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);

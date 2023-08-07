@@ -112,32 +112,32 @@ void BixAttackScript::PerformCombos()
 	switch (currentAttack)
 	{
 		case AttackType::LIGHTNORMAL:
-			LOG_DEBUG("NormalAttack Soft");
+			LOG_VERBOSE("Normal Attack Soft");
 			LightNormalAttack();
 			break;
 
 		case AttackType::HEAVYNORMAL:
-			LOG_DEBUG("NormalAttack Heavy");
+			LOG_VERBOSE("Normal Attack Heavy");
 			HeavyNormalAttack();
 			break;
 
 		case AttackType::JUMPNORMAL:
-			LOG_DEBUG("NormalAttack Jump");
+			LOG_VERBOSE("Normal Attack Jump");
 			JumpNormalAttack();
 			break;
 
 		case AttackType::LIGHTFINISHER:
-			LOG_DEBUG("Finisher Soft");
+			LOG_VERBOSE("Finisher Soft");
 			LightFinisher();
 			break;
 
 		case AttackType::HEAVYFINISHER:
-			LOG_DEBUG("Finisher Heavy");
+			LOG_VERBOSE("Finisher Heavy");
 			HeavyFinisher();
 			break;
 
 		case AttackType::JUMPFINISHER:
-			LOG_DEBUG("Finisher Jump");
+			LOG_VERBOSE("Finisher Jump");
 			JumpFinisher();
 			break;
 
@@ -156,14 +156,14 @@ void BixAttackScript::LightNormalAttack()
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	if(enemyAttacked != nullptr)
 	{
-		LOG_DEBUG("Enemy hit with light attack");
+		LOG_VERBOSE("Enemy hit with light attack");
 		comboSystem->SuccessfulAttack(comboCountSoft, AttackType::LIGHTNORMAL);
 		DamageEnemy(enemyAttacked, attackSoft);
 	}
 
 	else 
 	{
-		LOG_DEBUG("Fail light attack");
+		LOG_VERBOSE("Fail light attack");
 	}
 	isAttacking = true;
 }
@@ -178,14 +178,14 @@ void BixAttackScript::HeavyNormalAttack()
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	if (enemyAttacked != nullptr)
 	{
-		LOG_DEBUG("Enemy hit with heavy attack");
+		LOG_VERBOSE("Enemy hit with heavy attack");
 		comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
 		DamageEnemy(enemyAttacked, attackHeavy);
 	}
 
 	else
 	{
-		LOG_DEBUG("Fail heavy attack");
+		LOG_VERBOSE("Fail heavy attack");
 	}
 	isAttacking = true;
 }
