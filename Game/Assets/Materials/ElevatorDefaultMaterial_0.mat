@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/elevator (2)_Elevator_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/elevator (2)_Elevator_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/elevator (2)_Elevator_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/elevator (2)_Elevator_Emission.png"
+}

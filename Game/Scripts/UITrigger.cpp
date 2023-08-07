@@ -89,7 +89,7 @@ void UITrigger::Update(float deltaTime)
 
 void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	if (other->GetOwner()->CompareTag("Player"))
 	{
 		onTriggerState = true;
 	}
@@ -97,7 +97,7 @@ void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	if (other->GetOwner()->CompareTag("Player"))
 	{
 		onTriggerState = false;
 	}

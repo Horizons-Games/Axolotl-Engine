@@ -1,7 +1,7 @@
 {
-    "DiffuseAssetPath": "Assets/Textures/FloorGrid1_DefaultMaterial_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/FloorGrid1_DefaultMaterial_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/FloorGrid1_DefaultMaterial_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": ""
 }

@@ -26,12 +26,13 @@ void TriggerSewersMusicExit::Start()
 
 void TriggerSewersMusicExit::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	if (other->GetOwner()->CompareTag("Player"))
 	{
 		triggerSewersMusicScript->isMusicTriggered = false;
 
 		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::CANTINA);
 		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
-		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
+								  AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 	}
 }

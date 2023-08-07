@@ -1,5 +1,6 @@
 #include "HealthSystem.h"
 
+#include "AxoLog.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
@@ -91,12 +92,12 @@ void HealthSystem::TakeDamage(float damage)
 		}
 
 		componentAnimation->SetParameter("IsTakingDamage", true);
-
 		if (componentParticleSystem)
 		{
 			componentParticleSystem->Play();
 		}
-		//componentParticleSystem->Pause();
+
+		// componentParticleSystem->Pause();
 	}
 }
 
