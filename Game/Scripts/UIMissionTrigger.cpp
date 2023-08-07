@@ -30,7 +30,7 @@ UIMissionTrigger::~UIMissionTrigger()
 
 void UIMissionTrigger::Start()
 {
-	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
+	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();	
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 	
 	if (missionLevel != nullptr)
@@ -58,35 +58,29 @@ void UIMissionTrigger::Update(float deltaTime)
 
 void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	if (other->GetOwner()->CompareTag("Player") && !wasInside)
 	{
-		if (!wasInside)
+		if (lastMissionLevel != nullptr)
 		{
-			if (lastMissionLevel != nullptr)
-			{
-				missionImageDisplacementExit->SetMovingToEnd(false);
-				missionImageDisplacementExit->MoveImageToStarPosition();
-			}
-			else if (missionLevel != nullptr)
-			{
-				missionImageDisplacement->SetMovingToEnd(true);
-				missionImageDisplacement->MoveImageToEndPosition();
-			}
-
-			if (textBox != nullptr)
-			{
-				textBox->Enable();
-			}
-			wasInside = true;
+			missionImageDisplacementExit->SetMovingToEnd(false);
+			missionImageDisplacementExit->MoveImageToStarPosition();
 		}
+		else if (missionLevel != nullptr)
+		{
+			missionImageDisplacement->SetMovingToEnd(true);
+			missionImageDisplacement->MoveImageToEndPosition();
+		}
+
+		if (textBox != nullptr)
+		{
+			textBox->Enable();
+		}
+		wasInside = true;
 	}
 }
 
 void UIMissionTrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
-	{
-	}
 }
 
 void UIMissionTrigger::DisableTextBox(float time)
