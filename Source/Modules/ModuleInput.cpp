@@ -30,7 +30,7 @@ ModuleInput::ModuleInput() :
 	keysCooldown{ COOLDOWN_SECONDS },
 	mouseButtonCooldown{ COOLDOWN_SECONDS },
 	gamepadButtonCooldown{ COOLDOWN_SECONDS },
-	direction{ Direction::NONE, Direction::NONE }
+	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
 {
 }
 
@@ -259,15 +259,15 @@ UpdateStatus ModuleInput::Update()
 					{
 						if (axisValue > 3200)
 						{
-							direction.first = Direction::RIGHT;
+							direction.horizontalMovement = JoystickHorizontalDirection::RIGHT;
 						}
 						else if (axisValue < -3200)
 						{
-							direction.first = Direction::LEFT;	
+							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;	
 						}
 						else
 						{
-							direction.first = Direction::NONE;
+							direction.horizontalMovement = JoystickHorizontalDirection::NONE;
 						}
 					}
 					
@@ -275,15 +275,15 @@ UpdateStatus ModuleInput::Update()
 					{
 						if (axisValue < -3200)
 						{
-							direction.second = Direction::FORWARD;
+							direction.verticalMovement = JoystickVerticalDirection::FORWARD;
 						}
 						else if (axisValue > 3200)
 						{
-							direction.second = Direction::BACK;
+							direction.verticalMovement = JoystickVerticalDirection::BACK;
 						}					
 						else
 						{
-							direction.second = Direction::NONE;
+							direction.verticalMovement = JoystickVerticalDirection::NONE;
 						}
 					}
 				}

@@ -17,13 +17,24 @@ enum class KeyState
 	REPEAT
 };
 
-enum class Direction
+enum class JoystickHorizontalDirection
 {
 	LEFT,
 	RIGHT,
+	NONE
+};
+
+enum class JoystickVerticalDirection
+{
 	FORWARD,
 	BACK,
 	NONE
+};
+
+struct JoystickMovement
+{
+	JoystickHorizontalDirection horizontalMovement;
+	JoystickVerticalDirection verticalMovement;
 };
 
 class ModuleInput : public Module
@@ -51,7 +62,7 @@ public:
 	SDL_GameController* FindController();
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
-	std::pair<Direction, Direction> GetDirection() const;
+	JoystickMovement GetDirection() const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
@@ -89,7 +100,7 @@ private:
 	int mousePosX;
 	int mousePosY;
 
-	std::pair<Direction, Direction> direction;
+	JoystickMovement direction;
 
 	bool mouseWheelScrolled;
 	bool inFocus;
@@ -247,7 +258,7 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 	return keysState[index];
 }
 
-inline std::pair<Direction, Direction> ModuleInput::GetDirection() const
+inline JoystickMovement ModuleInput::GetDirection() const
 {
 	return direction;
 }

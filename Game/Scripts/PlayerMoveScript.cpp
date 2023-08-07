@@ -79,28 +79,28 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Forward
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE || input->GetDirection().second == Direction::FORWARD)
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE || input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
 	{
 		totalDirection += cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::W_DOWN;
 	}
 
 	// Back
-	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE || input->GetDirection().second == Direction::BACK)
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE || input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
 	{
 		totalDirection += -cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE || input->GetDirection().first == Direction::RIGHT)
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE || input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT)
 	{
 		totalDirection += cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE || input->GetDirection().first == Direction::LEFT)
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE || input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -149,8 +149,8 @@ void PlayerMoveScript::Move(float deltaTime)
 		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
 		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
 		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE &&
-		input->GetDirection().first == Direction::NONE &&
-		input->GetDirection().second == Direction::NONE)
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::NONE &&
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::NONE)
 	{
 		if (playerState == PlayerActions::WALKING)
 		{
