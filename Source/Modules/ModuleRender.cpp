@@ -13,6 +13,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentSkybox.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -612,11 +613,26 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 {
 	program->Activate();
 
+	ComponentSkybox* sky = App->GetModule<ModuleScene>()->GetLoadedScene()
+		->GetRoot()->GetComponentInternal<ComponentSkybox>();
+
 	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
-	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+	if (sky->GetUseCubeMap())
+	{
+		Cubemap* skyCubemap = sky->GetCubemap();
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetPrefiltered());
+	}
+	else
+	{
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+		
+	}
 	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 

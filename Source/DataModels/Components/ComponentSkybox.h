@@ -2,6 +2,7 @@
 #include "Components/Component.h"
 
 class Skybox;
+class Cubemap;
 
 class ComponentSkybox : public Component
 {
@@ -17,7 +18,24 @@ public:
 
 	void SetSkybox(Skybox* skybox);
 	Skybox* GetSkybox();
+	Cubemap* GetCubemap();
+
+	bool GetUseCubeMap();
+	void SetUseCubeMap(bool use);
 
 private:
 	Skybox* skybox;
+	Cubemap* cubemap;
+
+	bool useCubemap;
 };
+
+inline bool ComponentSkybox::GetUseCubeMap()
+{
+	return useCubemap;
+}
+
+inline void ComponentSkybox::SetUseCubeMap(bool use)
+{
+	useCubemap = use;
+}
