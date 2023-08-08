@@ -69,7 +69,6 @@ void PlayerMoveScript::Move(float deltaTime)
 	float3 totalDirection = float3::zero;
 
 	float newSpeed = playerManager->GetPlayerSpeed();
-	bool shiftPressed = false;
 
 	previousMovements = currentMovements;
 	currentMovements = 0;
@@ -162,9 +161,9 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && bixAttackScript->IsAttackAvailable())
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash)
 	{
-		if (!isDashing)
+		if (!isDashing && componentAnimation->GetActualStateName() != "BixDashingInit")
 		{
 			componentAnimation->SetParameter("IsDashing", true);
 			componentAnimation->SetParameter("IsRunning", false);
@@ -175,7 +174,6 @@ void PlayerMoveScript::Move(float deltaTime)
 
 		nextDash = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
 	}
-
 	else
 	{
 		nextDash -= deltaTime;
