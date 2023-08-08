@@ -268,12 +268,32 @@ void PlayerMoveScript::Dash()
 {
 	Quat rotation = componentTransform->GetGlobalRotation();
 	float3 dashDirection = componentTransform->GetGlobalForward();
+	
+	btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
+	
+	dashDirection.Normalize();
 
-	float3 dashImpulse = dashDirection.Normalized() * dashForce;
-	dashImpulse.Normalized();
+	float3 dashImpulse = dashDirection * dashForce;
+
+	if (dashDirection.x > 0.5f)
+	{
+		dashImpulse.x = dashForce;
+	}
+	else if (dashDirection.x < -0.5f)
+	{
+		dashImpulse.x = -dashForce;
+	}
+
+	if (dashDirection.z > 0.5f)
+	{
+		dashImpulse.z = dashForce;
+	}
+	else if (dashDirection.z < -0.5f)
+	{
+		dashImpulse.z = -dashForce;
+	}
 
 	// Cast impulse and direction from float3 to btVector3
-	btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
 	btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
 
 	btRigidbody->setLinearVelocity(btDashDirection);
