@@ -52,6 +52,8 @@ void PlayerMoveScript::Start()
 
 	previousMovements = 0;
 	currentMovements = 0;
+
+	desiredRotation = componentTransform->GetGlobalForward();
 }
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
