@@ -18,7 +18,8 @@
 #include "../Scripts/BixAttackScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
-#include <AxoLog.h>
+
+#include "AxoLog.h"
 
 REGISTERCLASS(PlayerMoveScript);
 
@@ -54,7 +55,7 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	if (!forceScript->IsForceActive())
+	if (!forceScript->IsForceActive() && !bixAttackScript->IsPerfomingJumpAttack())
 	{
 		Move(deltaTime);
 	}
@@ -128,7 +129,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && !bixAttackScript->IsAttacking();
+		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
 		
 		if (playerIsRunning)
 		{
@@ -161,7 +162,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Dash
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && !bixAttackScript->IsAttacking())
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && bixAttackScript->IsAttackAvailable())
 	{
 		if (!isDashing)
 		{
@@ -170,21 +171,14 @@ void PlayerMoveScript::Move(float deltaTime)
 			SetPlayerState(PlayerActions::DASHING);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
-
-			//if (shiftPressed)
-			//{
-			//	movement /= 2;
-			//}
-			Dash();
 		}
 
-		canDash = false;
-		nextDash = 3000 + static_cast<float>(SDL_GetTicks());
+		nextDash = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
 	}
+
 	else
 	{
-		componentAnimation->SetParameter("IsRolling", false);
-
+		nextDash -= deltaTime;
 		btVector3 currentVelocity = btRigidbody->getLinearVelocity();
 		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 
@@ -203,8 +197,22 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 
+	if (componentAnimation->GetActualStateName() == "BixDashingKeep" && canDash)
+	{
+		Dash();
+		canDash = false;
+	}
+
+	// Turn off dash animation correctly
+	if (componentAnimation->GetActualStateName() == "BixDashingInit" ||
+		componentAnimation->GetActualStateName() == "BixDashingKeep" ||
+		componentAnimation->GetActualStateName() == "BixDashingEnd")
+	{
+		componentAnimation->SetParameter("IsDashing", false);
+	}
+
 	// Cooldown Dash
-	if (!canDash && nextDash < SDL_GetTicks())
+	if (!canDash && nextDash <= 0.0f)
 	{
 		canDash = true;
 	}
@@ -273,12 +281,32 @@ void PlayerMoveScript::Dash()
 {
 	Quat rotation = componentTransform->GetGlobalRotation();
 	float3 dashDirection = componentTransform->GetGlobalForward();
+	
+	btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
+	
+	dashDirection.Normalize();
 
-	float3 dashImpulse = dashDirection.Normalized() * dashForce;
-	dashImpulse.Normalized();
+	float3 dashImpulse = dashDirection * dashForce;
+
+	if (dashDirection.x > 0.5f)
+	{
+		dashImpulse.x = dashForce;
+	}
+	else if (dashDirection.x < -0.5f)
+	{
+		dashImpulse.x = -dashForce;
+	}
+
+	if (dashDirection.z > 0.5f)
+	{
+		dashImpulse.z = dashForce;
+	}
+	else if (dashDirection.z < -0.5f)
+	{
+		dashImpulse.z = -dashForce;
+	}
 
 	// Cast impulse and direction from float3 to btVector3
-	btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
 	btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
 
 	btRigidbody->setLinearVelocity(btDashDirection);

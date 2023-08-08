@@ -8,6 +8,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentAnimation;
 class ComponentParticleSystem;
 
+class BixAttackScript;
+
 class HealthSystem : public Script
 {
 public:
@@ -36,4 +38,6 @@ private:
 
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
+
+	BixAttackScript* attackScript;
 };

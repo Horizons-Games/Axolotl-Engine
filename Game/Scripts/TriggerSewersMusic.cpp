@@ -21,16 +21,14 @@ void TriggerSewersMusic::Start()
 
 void TriggerSewersMusic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	if (other->GetOwner()->CompareTag("Player") && !isMusicTriggered)
 	{
-		if (!isMusicTriggered)
-		{
-			AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::SEWERS);
-			AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
-			componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::SEWERS);
+		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
+		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
+								  AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
-			componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
-			isMusicTriggered = true;
-		}
+		componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
+		isMusicTriggered = true;
 	}
 }

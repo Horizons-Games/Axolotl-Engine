@@ -251,7 +251,7 @@
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
-                            "linearDamping": 0.10000000149011612,
+                            "linearDamping": 0.75,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,

@@ -12,16 +12,15 @@ REGISTERCLASS(ComboManager);
 ComboManager::ComboManager() : Script(), 
 	input(nullptr), 
 	specialActivated(false), 
-	specialCount(0),
-	maxSpecialCount(100),
+	specialCount(0.0f),
+	maxSpecialCount(100.0f),
 	comboCount(0), 
-	maxComboCount(3),
+	maxComboCount(3.0f),
 	uiComboManager(nullptr),
-	comboManagerUIReference(nullptr),
-	comboTime(10),
-	actualComboTimer(0)
+	comboTime(10.0f),
+	actualComboTimer(0.0f)
 {
-	REGISTER_FIELD(comboManagerUIReference, GameObject*);
+	REGISTER_FIELD(uiComboManager, UIComboManager*);
 	REGISTER_FIELD(comboTime, float);
 	REGISTER_FIELD(maxComboCount, float);
 }
@@ -29,20 +28,15 @@ ComboManager::ComboManager() : Script(),
 void ComboManager::Start()
 {
 	input = App->GetModule<ModuleInput>();
-	if(comboManagerUIReference)
+
+	if (uiComboManager)
 	{
-		uiComboManager = comboManagerUIReference->GetComponent<UIComboManager>();
 		maxSpecialCount = uiComboManager->GetMaxComboBarValue();
 		uiComboManager->SetComboBarValue(specialCount);
 	}
 }
 
-void ComboManager::Update(float deltaTime)
-{
-	
-}
-
-int ComboManager::GetcomboCount() const
+int ComboManager::GetComboCount() const
 {
 	return comboCount;
 }
@@ -57,7 +51,12 @@ void ComboManager::CheckSpecial(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
-		if(uiComboManager) uiComboManager->SetActivateSpecial(true);
+
+		if (uiComboManager)
+		{
+			uiComboManager->SetActivateSpecial(true);
+		}
+
 		ClearCombo(false);
 	}
 
@@ -68,12 +67,18 @@ void ComboManager::CheckSpecial(float deltaTime)
 			ClearCombo(false);
 			actualComboTimer = comboTime;
 		}
+
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
-			specialCount = std::max(0.0f, specialCount - (5 * deltaTime));
-			if (uiComboManager) uiComboManager->SetComboBarValue(specialCount);
+			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
+
+			if (uiComboManager)
+			{
+				uiComboManager->SetComboBarValue(specialCount);
+			}
 		}
 	}
+
 	else
 	{
 		actualComboTimer -= deltaTime;
@@ -96,16 +101,22 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 	if (jumping && (leftClick || rightClick))
 	{
-		return AttackType::JUMPATTACK;
+		if (specialActivated && comboCount == maxComboCount - 1)
+		{
+			return AttackType::JUMPFINISHER;
+		}
+
+		return AttackType::JUMPNORMAL;
 	}
 
 	if (leftClick)
 	{
 		if (specialActivated && comboCount == maxComboCount - 1)
 		{
-			return AttackType::SOFTFINISHER;
+			return AttackType::LIGHTFINISHER;
 		}
-		return AttackType::SOFTNORMAL;
+
+		return AttackType::LIGHTNORMAL;
 	}
 
 	if (rightClick)
@@ -114,6 +125,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 		{
 			return AttackType::HEAVYFINISHER;
 		}
+
 		return AttackType::HEAVYNORMAL;
 	}
 
@@ -122,14 +134,21 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
-	if(specialCount < 0 || !specialActivated)
+	if (specialCount < 0 || !specialActivated)
 	{
-		this->specialCount = std::max(0.0f, std::min(this->specialCount + specialCount, maxSpecialCount));
+		this->specialCount = 
+			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
+
 		if (this->specialCount <= 0.0f && specialActivated)
 		{
 			specialActivated = false;
 		}
-		if (uiComboManager) uiComboManager->SetComboBarValue(this->specialCount);
+
+		if (uiComboManager)
+		{
+			uiComboManager->SetComboBarValue(this->specialCount);
+		}
+
 		actualComboTimer = comboTime;
 	}
 
@@ -140,13 +159,14 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		{
 			uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
 		}
-		else if (type == AttackType::SOFTNORMAL || type == AttackType::SOFTFINISHER)
+
+		else if (type == AttackType::LIGHTNORMAL || type == AttackType::LIGHTFINISHER)
 		{
-			uiComboManager->AddInputVisuals(InputVisualType::SOFT);
+			uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
 		}
 	}
 
-	if (comboCount == 3 || type == AttackType::JUMPATTACK) 
+	if (comboCount == 3 || type == AttackType::JUMPNORMAL) 
 	{
 		ClearCombo(true);
 	}
