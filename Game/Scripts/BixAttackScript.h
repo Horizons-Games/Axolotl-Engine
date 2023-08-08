@@ -40,6 +40,9 @@ public:
 	bool IsAttackAvailable() const;
 	bool IsPerfomingJumpAttack() const;
 
+	AttackType GetCurrentAttackType() const;
+	GameObject* GetEnemyDetection() const;
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -60,7 +63,6 @@ private:
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 
 	bool isAttacking;
-	bool isJumpAttacking;
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;
