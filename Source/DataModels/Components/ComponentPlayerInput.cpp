@@ -52,14 +52,19 @@ void ComponentPlayerInput::Update()
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	for (const auto& [gamepadButton, keyboardButton] : defaultGamepadMapping)
 	{
+		KeyState gamepadButtonState = input->GetGamepadButton(gamepadButton);
+		if (gamepadButtonState == KeyState::IDLE)
+		{
+			continue;
+		}
 		if (std::holds_alternative<SDL_Scancode>(keyboardButton))
 		{
-			input->SetKey(std::get<SDL_Scancode>(keyboardButton), input->GetGamepadButton(gamepadButton));
+			input->SetKey(std::get<SDL_Scancode>(keyboardButton), gamepadButtonState);
 		}
 		else if (std::holds_alternative<Uint8>(keyboardButton))
 		{
 			Uint8 mouseButton = std::get<Uint8>(keyboardButton);
-			input->SetMouseButton(mouseButton, input->GetGamepadButton(gamepadButton));
+			input->SetMouseButton(mouseButton, gamepadButtonState);
 		}
 	}
 }
