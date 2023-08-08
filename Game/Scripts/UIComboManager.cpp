@@ -42,7 +42,7 @@ void UIComboManager::Update(float deltaTime)
 	}
 }
 
-int UIComboManager::GetMaxComboBarValue() const
+float UIComboManager::GetMaxComboBarValue() const
 {
 	return comboBar->GetMaxValue();
 }
@@ -77,7 +77,7 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 		GameObject* prefab = nullptr;
 		switch (type)
 		{
-		case InputVisualType::SOFT:
+		case InputVisualType::LIGHT:
 			prefab = inputPrefabSoft;
 			break;
 		case InputVisualType::HEAVY:
@@ -103,12 +103,12 @@ void UIComboManager::ClearCombo(bool finish)
 	clearCombo = true;
 	if(finish)
 	{
-		clearComboTimer = 0.5;
+		clearComboTimer = 0.5f;
 		//Particles, audio, etc
 	}
 	else 
 	{
-		clearComboTimer = 0.1;
+		clearComboTimer = 0.1f;
 		//Particles, audio, etc
 	}
 }

@@ -11,12 +11,13 @@ class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
-class EntityDetection;
-class ComboManager;
-class HeavyFinisherAttack;
 
 class EntityDetection;
+class ComboManager;
 class PlayerManagerScript;
+class JumpFinisherAttack;
+class LightFinisherAttackScript;
+class HeavyFinisherAttack;
 
 enum class AttackCombo
 {
@@ -36,8 +37,8 @@ public:
 	bool IsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);
 
-	bool IsAttacking() const;
-	void SetIsAttacking(bool isAttacking);
+	bool IsAttackAvailable() const;
+	bool IsPerfomingJumpAttack() const;
 
 private:
 	void Start() override;
@@ -45,17 +46,21 @@ private:
 
 	void UpdateEnemyDetection();
 
-	void NormalAttack();
-	void JumpAttack();
-	void SoftFinisher();
+	void PerformCombos();
+
+	void LightNormalAttack();
+	void HeavyNormalAttack();
+	void JumpNormalAttack();
+	void LightFinisher();
 	void HeavyFinisher();
+	void JumpFinisher();
+
+	void ResetAttackAnimations();
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
-	void ActivateAnimationCombo();
-
-	bool IsAttackAvailable() const;
 
 	bool isAttacking;
+	bool isJumpAttacking;
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;
@@ -74,17 +79,19 @@ private:
 
 	EntityDetection* enemyDetection;
 	ComboManager* comboSystem;
-	float comboCountHeavy;
 	float comboCountSoft;
+	float comboCountHeavy;
 	float attackSoft;
 	float attackHeavy;
-	float normalAttackDistance;
-	AttackType currentAttack;
 
-	HeavyFinisherAttack* heavyFinisherAttack;
-	GameObject* bixLightSaber;
+	float normalAttackDistance;
+	AttackCombo attackComboPhase;
+	AttackType currentAttack;
 
 	PlayerManagerScript* playerManager;
 
-	AttackCombo attackComboPhase;
+	JumpFinisherAttack* jumpFinisherScript;
+	LightFinisherAttackScript* lightFinisherScript;
+	HeavyFinisherAttack* heavyFinisherAttack;
+	GameObject* bixLightSaber;
 };

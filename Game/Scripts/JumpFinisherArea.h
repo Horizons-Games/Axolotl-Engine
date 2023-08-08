@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
 class ComponentTransform;
+class ComponentParticleSystem;
 
 class JumpFinisherArea : public Script
 {
@@ -20,15 +21,18 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
-	void PushEnemies();
+	void PushEnemies(float pushForce, float stunTime);
 
 private:
 	std::vector<GameObject*> enemiesInTheArea;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
+	ComponentParticleSystem* particleSystem;
 
-	float force;
-	float stunTime;
-	float forceDamage;
+	bool triggerParticleSystemTimer;
+	float particleSystemTimer;
+	float particleSystemCurrentTimer;
+
+	bool throwableForceArea;
 };

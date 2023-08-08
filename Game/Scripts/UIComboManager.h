@@ -7,7 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 enum class InputVisualType 
 {
-	SOFT,
+	LIGHT,
 	HEAVY
 };
 
@@ -23,7 +23,7 @@ public:
 	void Init() override;
 	void Update(float deltaTime) override;
 
-	int GetMaxComboBarValue() const;
+	float GetMaxComboBarValue() const;
 
 	void SetActivateSpecial(bool activate);
 	void SetComboBarValue(float value);

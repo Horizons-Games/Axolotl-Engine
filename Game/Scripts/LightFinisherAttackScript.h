@@ -12,9 +12,8 @@ public:
 	~LightFinisherAttackScript() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 
-	bool PerformAttack();
+	void ThrowStunItem();
 
 private:
 	GameObject* bulletPrefab;

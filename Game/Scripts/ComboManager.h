@@ -8,11 +8,12 @@ RUNTIME_MODIFIABLE_INCLUDE;
 enum class AttackType
 {
 	NONE,
-	SOFTNORMAL,
+	LIGHTNORMAL,
 	HEAVYNORMAL,
-	JUMPATTACK,
-	SOFTFINISHER,
-	HEAVYFINISHER
+	JUMPNORMAL,
+	LIGHTFINISHER,
+	HEAVYFINISHER,
+	JUMPFINISHER
 };
 
 class UIComboManager;
@@ -24,30 +25,28 @@ public:
 	ComboManager();
 	~ComboManager() override = default;
 
-	int GetcomboCount() const;
+	void Start() override;
+
+	int GetComboCount() const;
 
 	bool NextIsSpecialAttack() const;
 
 	void CheckSpecial(float deltaTime);
-	bool IsSpecialActivated() const;
 	AttackType CheckAttackInput(bool jumping);
 	void SuccessfulAttack(float specialCount, AttackType type);
+	bool IsSpecialActivated() const;
 
 private:
-	void Start() override;
-	void Update(float deltaTime) override;
-
 	void ClearCombo(bool finisher);
 
-	GameObject* comboManagerUIReference;
 	UIComboManager* uiComboManager;
 
 	ModuleInput* input;
 	bool specialActivated;
-	int specialCount;
+	float specialCount;
 	float maxSpecialCount;
 	int comboCount;
-	int maxComboCount;
+	float maxComboCount;
 
 	float comboTime;
 	float actualComboTimer;

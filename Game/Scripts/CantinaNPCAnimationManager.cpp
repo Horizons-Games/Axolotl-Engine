@@ -21,7 +21,7 @@ void CantinaNPCAnimationManager::Update(float deltaTime)
 {
 	if(!loopAnimation) 
 	{
-		if (!animation->isPlaying())
+		if (!animation->IsPlaying())
 		{
 			animation->SetParameter("Activate", false);
 			activation = false;
