@@ -9,6 +9,16 @@
 
 #include "Enums/BlendingType.h"
 
+#define DURATION_MIN_VALUE 0.1f
+#define DURATION_MAX_VALUE 25.f
+#define MIN_DISTANCE_MIN_VALUE 1.f
+#define MIN_DISTANCE_MAX_VALUE 10.f
+#define WIDTH_MIN_VALUE 1.f
+#define WIDTH_MAX_VALUE 25.f
+#define RATIO_WIDTH_MIN_VALUE 0.f
+#define RATIO_WIDTH_MAX_VALUE 1.f
+#define CAT_SAMP_MIN_VALUE 0.f
+#define CAT_SAMP_MAX_VALUE 20.f
 
 WindowComponentTrail::WindowComponentTrail(ComponentTrail* component) : 
 			ComponentWindow("TRAIL", component),
@@ -50,15 +60,15 @@ void WindowComponentTrail::DrawWindowContents()
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 
-			if (ImGui::DragFloat("##Duration", &duration, 0.1f, 0.1f, 25.f))
+			if (ImGui::DragFloat("##Duration", &duration, 0.1f, DURATION_MIN_VALUE, DURATION_MAX_VALUE, "%.2f"))
 			{
-				if (duration > 25.f)
+				if (duration > DURATION_MAX_VALUE)
 				{
-					duration = 25.f;
+					duration = DURATION_MAX_VALUE;
 				}
-				else if (duration < 0.1f)
+				else if (duration < DURATION_MIN_VALUE)
 				{
-					duration = 0.1f;
+					duration = DURATION_MIN_VALUE;
 				}
 				componentTrail->SetDuration(duration);
 			}
@@ -71,15 +81,15 @@ void WindowComponentTrail::DrawWindowContents()
 			
 			float minDistance = componentTrail->GetMinDistance();
 
-			if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.1f, 1.f, 10.f))
+			if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.1f, MIN_DISTANCE_MIN_VALUE, MIN_DISTANCE_MAX_VALUE, "%.2f"))
 			{
-				if (minDistance > 10.f)
+				if (minDistance > MIN_DISTANCE_MAX_VALUE)
 				{
-					minDistance = 10.f;
+					minDistance = MIN_DISTANCE_MAX_VALUE;
 				}
-				else if (minDistance < 0.1f)
+				else if (minDistance < MIN_DISTANCE_MIN_VALUE)
 				{
-					minDistance = 0.1f;
+					minDistance = MIN_DISTANCE_MIN_VALUE;
 				}
 				componentTrail->SetMinDistance(minDistance);
 			}
@@ -91,15 +101,15 @@ void WindowComponentTrail::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 
 			float width = componentTrail->GetWidth();
-			if (ImGui::DragFloat("##Width", &width, 0.1f, 1.0f, 25.0f))
+			if (ImGui::DragFloat("##Width", &width, 0.1f, WIDTH_MIN_VALUE, WIDTH_MAX_VALUE, "%.2f"))
 			{
-				if (width > 25.f)
+				if (width > WIDTH_MAX_VALUE)
 				{
-					width = 25.f;
+					width = WIDTH_MAX_VALUE;
 				}
-				else if (width < 1.f)
+				else if (width < WIDTH_MIN_VALUE)
 				{
-					width = 1.f;
+					width = WIDTH_MIN_VALUE;
 				}
 				componentTrail->SetWidth(width);
 			}
@@ -111,15 +121,15 @@ void WindowComponentTrail::DrawWindowContents()
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 
-			if (ImGui::DragFloat("##RatioWidth", &ratioWidht, 0.1f, 0.f, 1.f))
+			if (ImGui::DragFloat("##RatioWidth", &ratioWidht, 0.05f, RATIO_WIDTH_MIN_VALUE, RATIO_WIDTH_MAX_VALUE, "%.2f"))
 			{
-				if (ratioWidht > 1.f)
+				if (ratioWidht > RATIO_WIDTH_MAX_VALUE)
 				{
-					ratioWidht = 1.f;
+					ratioWidht = RATIO_WIDTH_MAX_VALUE;
 				}
-				else if (ratioWidht < 0.f)
+				else if (ratioWidht < RATIO_WIDTH_MIN_VALUE)
 				{
-					ratioWidht = 0.f;
+					ratioWidht = RATIO_WIDTH_MIN_VALUE;
 				}
 				componentTrail->SetRatioWidth(ratioWidht);
 			}
@@ -174,6 +184,27 @@ void WindowComponentTrail::DrawWindowContents()
 
 				ImGui::EndCombo();
 			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Catmun Samplers");
+			ImGui::TableNextColumn();
+			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			
+			int numCatmun = componentTrail->GetCatmunPoints();
+			if (ImGui::DragInt("##Catmun", &numCatmun, 1.f, CAT_SAMP_MIN_VALUE, CAT_SAMP_MAX_VALUE))
+			{
+				if (numCatmun > CAT_SAMP_MAX_VALUE)
+				{
+					numCatmun = CAT_SAMP_MAX_VALUE;
+				}
+				else if (numCatmun < CAT_SAMP_MIN_VALUE)
+				{
+					numCatmun = CAT_SAMP_MIN_VALUE;
+				}
+				componentTrail->SetCatmunPoints(numCatmun);
+			}
+
 			ImGui::EndTable();
 		}
 
