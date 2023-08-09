@@ -17,6 +17,6 @@ protected:
 private:
 	bool loop;
 	bool verticalRotate;
-	bool canBeRotate;
 	std::unique_ptr<WindowVideoInput> inputVideo;
+	ComponentVideo* component;
 };

@@ -22,14 +22,18 @@ extern "C"
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
 }
+#include <iostream>
+#include <filesystem>
 
 
 ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
 	Component(ComponentType::VIDEO, active, owner, true),
 	loop(false),
 	finished(false),
-	rotateVertical(false)
+	rotateVertical(false),
+	canRotate(false)
 {
+
 }
 
 ComponentVideo::~ComponentVideo()
@@ -45,6 +49,12 @@ void ComponentVideo::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	std::filesystem::path fs_path(video->GetAssetsPath());
+	std::string extension = fs_path.extension().string();
+	if (extension != ".avi")
+	{
+		canRotate = true;
+	}
 	OpenVideo(video->GetAssetsPath().c_str());
 }
 
@@ -105,6 +115,8 @@ void ComponentVideo::Draw() const
 void ComponentVideo::InternalSave(Json& meta)
 {
 	meta["loop"] = loop;
+	meta["rotateVertical"] = rotateVertical;
+	meta["canBeRotate"] = canRotate;
 	meta["assetPathVideo"] = video->GetAssetsPath().c_str();
 }
 
@@ -112,6 +124,8 @@ void ComponentVideo::InternalLoad(const Json& meta)
 {
 	loop = meta["loop"];
 	std::string path = meta["assetPathVideo"];
+	rotateVertical = meta["rotateVertical"];
+	canRotate = meta["canBeRotate"];
 	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
