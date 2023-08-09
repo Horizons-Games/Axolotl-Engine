@@ -1253,8 +1253,12 @@
     <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="FileSystem\FileZippedData.h" />
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\FileZippedData.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
