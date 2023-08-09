@@ -39,6 +39,41 @@ void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript*
 		scriptFailedState = true;
 	}
 }
+
+template<typename T>
+std::optional<Field<T>> GetField(IScript* script, const std::string& name)
+{
+	for (const TypeFieldPair& enumAndType : script->GetFields())
+	{
+		if (TypeToEnum<T>::value == enumAndType.first)
+		{
+			const Field<T>& field = std::get<Field<T>>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
+		}
+	}
+	return std::nullopt;
+}
+
+template<>
+inline std::optional<Field<std::vector<std::any>>> GetField(IScript* script, const std::string& name)
+{
+	for (const TypeFieldPair& enumAndType : script->GetFields())
+	{
+		if (FieldType::VECTOR == enumAndType.first)
+		{
+			const VectorField& field = std::get<VectorField>(enumAndType.second);
+			if (field.name == name)
+			{
+				return field;
+			}
+		}
+	}
+	return std::nullopt;
+}
+
 } // namespace
 
 ComponentScript::ComponentScript(bool active, GameObject* owner) :
@@ -54,7 +89,6 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	started(other.started),
 	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
 {
-	script->SetApplication(App.get());
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
@@ -62,7 +96,7 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 			case FieldType::FLOAT:
 			{
 				const Field<float>& field = std::get<Field<float>>(typeFieldPair.second);
-				std::optional<Field<float>> optField = other.GetScript()->GetField<float>(field.name);
+				std::optional<Field<float>> optField = GetField<float>(other.GetScript(), field.name);
 				if (optField.has_value())
 				{
 					field.setter(optField->getter());
@@ -72,7 +106,7 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 			case FieldType::STRING:
 			{
 				const Field<std::string>& field = std::get<Field<std::string>>(typeFieldPair.second);
-				std::optional<Field<std::string>> optField = other.GetScript()->GetField<std::string>(field.name);
+				std::optional<Field<std::string>> optField = GetField<std::string>(other.GetScript(), field.name);
 				if (optField.has_value())
 				{
 					field.setter(optField->getter());
@@ -82,7 +116,7 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 			case FieldType::BOOLEAN:
 			{
 				const Field<bool>& field = std::get<Field<bool>>(typeFieldPair.second);
-				std::optional<Field<bool>> optField = other.GetScript()->GetField<bool>(field.name);
+				std::optional<Field<bool>> optField = GetField<bool>(other.GetScript(), field.name);
 				if (optField.has_value())
 				{
 					field.setter(optField->getter());
@@ -92,7 +126,7 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 			case FieldType::FLOAT3:
 			{
 				const Field<float3>& field = std::get<Field<float3>>(typeFieldPair.second);
-				std::optional<Field<float3>> optField = other.GetScript()->GetField<float3>(field.name);
+				std::optional<Field<float3>> optField = GetField<float3>(other.GetScript(), field.name);
 				if (optField.has_value())
 				{
 					field.setter(optField->getter());
@@ -102,7 +136,7 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 			case FieldType::GAMEOBJECT:
 			{
 				const Field<GameObject*>& field = std::get<Field<GameObject*>>(typeFieldPair.second);
-				std::optional<Field<GameObject*>> optField = other.GetScript()->GetField<GameObject*>(field.name);
+				std::optional<Field<GameObject*>> optField = GetField<GameObject*>(other.GetScript(), field.name);
 				if (optField.has_value())
 				{
 					field.setter(optField->getter());
@@ -113,7 +147,7 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 			{
 				const VectorField& field = std::get<VectorField>(typeFieldPair.second);
 				std::optional<Field<std::vector<std::any>>> optField =
-					other.GetScript()->GetField<std::vector<std::any>>(field.name);
+					GetField<std::vector<std::any>>(other.GetScript(), field.name);
 				if (optField.has_value())
 				{
 					field.setter(optField->getter());
@@ -268,7 +302,7 @@ void ComponentScript::InternalSave(Json& meta)
 	}
 
 	int index = 0;
-	for (TypeFieldPair enumAndValue : script->GetFields())
+	for (const TypeFieldPair& enumAndValue : script->GetFields())
 	{
 		Json field = fields[index];
 		FieldType type = enumAndValue.first;
@@ -300,7 +334,7 @@ void ComponentScript::InternalSave(Json& meta)
 
 			case FieldType::FLOAT3:
 			{
-				Field<float3> fieldInstance = std::get<Field<float3>>(enumAndValue.second);
+				const Field<float3>& fieldInstance = std::get<Field<float3>>(enumAndValue.second);
 				field["name"] = fieldInstance.name.c_str();
 				float3 fieldValue = fieldInstance.getter();
 				field["value x"] = fieldValue[0];
@@ -314,9 +348,10 @@ void ComponentScript::InternalSave(Json& meta)
 			{
 				field["name"] = std::get<Field<GameObject*>>(enumAndValue.second).name.c_str();
 
-				if (std::get<Field<GameObject*>>(enumAndValue.second).getter() != nullptr)
+				GameObject* fieldValue = std::get<Field<GameObject*>>(enumAndValue.second).getter();
+				if (fieldValue != nullptr)
 				{
-					field["value"] = std::get<Field<GameObject*>>(enumAndValue.second).getter()->GetUID();
+					field["value"] = fieldValue->GetUID();
 				}
 				else
 				{
@@ -331,7 +366,7 @@ void ComponentScript::InternalSave(Json& meta)
 			{
 				Json vectorElements = fields[index];
 
-				VectorField vectorField = std::get<VectorField>(enumAndValue.second);
+				const VectorField& vectorField = std::get<VectorField>(enumAndValue.second);
 				vectorElements["name"] = vectorField.name.c_str();
 				vectorElements["type"] = static_cast<int>(enumAndValue.first);
 				Json vectorElementsWithName = vectorElements["vectorElements"];
@@ -411,7 +446,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::FLOAT:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<float>> optField = script->GetField<float>(valueName);
+				std::optional<Field<float>> optField = GetField<float>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -422,7 +457,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::STRING:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<std::string>> optField = script->GetField<std::string>(valueName);
+				std::optional<Field<std::string>> optField = GetField<std::string>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -433,7 +468,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::BOOLEAN:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<bool>> optField = script->GetField<bool>(valueName);
+				std::optional<Field<bool>> optField = GetField<bool>(script, valueName);
 				if (optField)
 				{
 					optField.value().setter(field["value"]);
@@ -444,7 +479,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::GAMEOBJECT:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<GameObject*>> optField = script->GetField<GameObject*>(valueName);
+				std::optional<Field<GameObject*>> optField = GetField<GameObject*>(script, valueName);
 				if (optField)
 				{
 					UID fieldUID = field["value"];
@@ -474,7 +509,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::FLOAT3:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<float3>> optField = script->GetField<float3>(valueName);
+				std::optional<Field<float3>> optField = GetField<float3>(script, valueName);
 				if (optField)
 				{
 					float3 vec3(field["value x"], field["value y"], field["value z"]);
@@ -488,7 +523,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 				std::string valueName = field["name"];
 				Json vectorElements = field["vectorElements"];
 				std::optional<Field<std::vector<std::any>>> vectorField =
-					script->GetField<std::vector<std::any>>(valueName);
+					GetField<std::vector<std::any>>(script, valueName);
 				if (!vectorField)
 				{
 					continue;
@@ -582,6 +617,5 @@ void ComponentScript::InstantiateScript(const Json& jsonComponent)
 		return;
 	}
 
-	script->SetApplication(App.get());
 	script->SetOwner(GetOwner());
 }
