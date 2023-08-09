@@ -172,7 +172,7 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 	{
 		EmitterInstance::Particle& particle = particles[sortedPositions[i]];
 
-		if (particle.lifespan > 0.0f)
+		if (!particle.dead)
 		{
 			float3 translation = particle.tranform.TranslatePart();
 			float3 xAxis;

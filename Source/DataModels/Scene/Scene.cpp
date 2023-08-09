@@ -72,6 +72,7 @@ Scene::~Scene()
 {
 	sceneGameObjects.clear();
 	sceneCameras.clear();
+	sceneParticleSystems.clear();
 
 	pointLights.clear();
 	spotLights.clear();

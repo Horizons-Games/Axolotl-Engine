@@ -35,6 +35,8 @@ public:
 		float gravity = 0.0f;
 		float distanceToCamera;
 		float frame = -1.0f;
+
+		bool dead = true;
 	};
 
 public:

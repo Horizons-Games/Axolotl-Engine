@@ -246,9 +246,9 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				{
 					radius = MAX_RADIUS;
 				}
-				else if (radius < 0.01f)
+				else if (radius < 0.0f)
 				{
-					radius = 0.01f;
+					radius = 0.0f;
 				}
 				emitter->SetRadius(radius);
 			}
@@ -257,7 +257,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				ImGui::SameLine();
 				ImGui::Text("Angle:"); ImGui::SameLine();
 				ImGui::SetNextItemWidth(60.0f);
-				if (ImGui::DragFloat("##angle", &angle, 0.1f, 0.0f, 89.99f, "%.2f"))
+				if (ImGui::DragFloat("##angle", &angle, 0.01f, MIN_ANGLE, MAX_ANGLE, "%.2f"))
 				{
 					emitter->SetAngle(angle);
 				}
@@ -321,7 +321,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomLife)
 			{
-				if (ImGui::DragFloat2("##sliderlife", &lifespanRange[0], 0.1f, 0.0f, MAX_DURATION, "%.2f"))
+				if (ImGui::DragFloat2("##sliderlife", &lifespanRange[0], 0.1f, 0.00f, MAX_DURATION, "%.2f"))
 				{
 					if (lifespanRange.x > lifespanRange.y)
 					{
