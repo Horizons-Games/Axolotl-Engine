@@ -5,7 +5,7 @@
 
 WindowLoading::WindowLoading() : PopUpWindow("Loading")
 {
-	flags = ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs;
+	flags = ImGuiWindowFlags_NoMouseInputs;
 }
 
 WindowLoading::~WindowLoading()
@@ -21,10 +21,17 @@ void WindowLoading::DrawWindowContents()
 		return;
 	}
 
-	for (const std::string& waitingCondition : waitingOn)
+	for (const auto& [waitingCondition, percentage] : waitingOn)
 	{
 		ImGui::TextUnformatted(waitingCondition.c_str());
-		DrawSpinner(("##spinner" + waitingCondition).c_str(), 15, 6, col);
+		if (percentage.has_value())
+		{
+			ImGui::ProgressBar(percentage.value(), ImVec2(0.f, 100.0f));
+		}
+		else
+		{
+			DrawSpinner(("##spinner" + waitingCondition).c_str(), 15, 6, col);
+		}
 	}
 }
 

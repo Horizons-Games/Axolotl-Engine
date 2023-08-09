@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/FileZippedData.h"
 
 #include "Defines/FileSystemDefines.h"
 
@@ -14,6 +15,9 @@ namespace
 {
 std::future<void> compileThread;
 std::future<void> zipThread;
+
+std::optional<FileZippedData> lastFileZippedData;
+std::mutex fileZippedDataMutex;
 
 void CompileGame(const std::wstring& batchFilePath)
 {
@@ -80,14 +84,26 @@ void AddConfigToZip(const std::string& startingScene)
 	App->GetModule<ModuleFileSystem>()->AppendToZipFolder(zipPath, path.c_str(), buffer.GetString(), buffer.GetSize(), true);
 }
 
+void OnFileZipped(const FileZippedData& data)
+{
+	std::scoped_lock(fileZippedDataMutex);
+	lastFileZippedData = data;
+}
+
 void CreateZip(const std::string& startingScene)
 {
 	CopyFolderInLib(SCENE_PATH, "Scenes/");
 	CopyFolderInLib("Source/Shaders/", "Shaders/");
 
-	App->GetModule<ModuleFileSystem>()->ZipLibFolder();
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	UID callbackUid = fileSystem->RegisterFileZippedCallback(&OnFileZipped);
+	fileSystem->ZipLibFolder();
+	fileSystem->DeregisterFileZippedCallback(callbackUid);
 
 	AddConfigToZip(startingScene);
+
+	std::scoped_lock(fileZippedDataMutex);
+	lastFileZippedData.reset();
 
 	LOG_INFO("Done creating ZIP!");
 }
@@ -145,6 +161,12 @@ bool Compiling()
 bool Zipping()
 {
 	return zipThread.valid() && !zipThread._Is_ready();
+}
+
+std::optional<FileZippedData> GetLastFileZippedData()
+{
+	std::scoped_lock(fileZippedDataMutex);
+	return lastFileZippedData;
 }
 
 } // namespace builder

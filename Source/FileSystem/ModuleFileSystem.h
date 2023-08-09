@@ -1,11 +1,15 @@
 #pragma once
+#include "FileSystem/UID.h"
 #include "Module.h"
 #include "physfs.h"
 
 struct zip_t;
+struct FileZippedData;
 
 class ModuleFileSystem : public Module
 {
+	using FileZippedCallback = std::function<void(FileZippedData)>;
+
 public:
 	ModuleFileSystem();
 	~ModuleFileSystem() override;
@@ -30,6 +34,7 @@ public:
 	const std::string GetFileName(const std::string& path);
 	const std::string GetFileExtension(const std::string& path);
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
+	std::size_t CountTotalFiles(const std::string& path) const;
 
 	void ZipFolder(zip_t* zip, const char* path) const;
 	void ZipLibFolder() const;
@@ -41,8 +46,19 @@ public:
 						   bool overwriteIfExists) const;
 	void AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const;
 
+	[[nodiscard]] UID RegisterFileZippedCallback(FileZippedCallback&& callback);
+	bool DeregisterFileZippedCallback(UID callbackUID);
+
 private:
+	void ZipFolderRecursive(zip_t* zip,
+							const char* path,
+							const std::string& rootPath,
+							std::size_t totalItems,
+							std::size_t& currentItem) const;
 	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
+
+	std::unordered_map<UID, FileZippedCallback> callbacks;
+	std::mutex callbacksMutex;
 };
 
 inline bool ModuleFileSystem::Exists(const char* filePath) const

@@ -861,6 +861,7 @@
     <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="Enums\TextureType.h" />
     <ClInclude Include="Enums\UpdateStatus.h" />
+    <ClInclude Include="FileSystem\FileZippedData.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
