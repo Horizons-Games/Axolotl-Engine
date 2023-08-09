@@ -2,8 +2,6 @@
 
 #include "ParticleModule.h"
 
-#include "Math/float4.h"
-
 #include "ImGui/imgui_color_gradient.h"
 
 class ModuleColor : public ParticleModule

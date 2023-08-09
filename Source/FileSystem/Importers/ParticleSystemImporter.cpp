@@ -16,6 +16,8 @@
 #include "ParticleSystem/ModuleRotation.h"
 #include "ParticleSystem/ModuleSize.h"
 
+#include "Enums/BlendingType.h"
+
 ParticleSystemImporter::ParticleSystemImporter()
 {
 }
@@ -71,13 +73,13 @@ void ParticleSystemImporter::Save
 
 	for(size_t i = 0; i < header[0]; i++)
 	{
-		const ParticleEmitter* emitter = resource->GetEmitter(i);
-		size += emitter->GetName().size();
+		const ParticleEmitter* emitter = resource->GetEmitter(static_cast<unsigned int>(i));
+		size += static_cast<unsigned int>(emitter->GetName().size());
 		if(emitter->GetParticleTexture() != nullptr)
 		{
 			size += sizeof(UID);
 		}
-		size += (sizeof(int) + sizeof(bool)) * emitter->GetModules().size();
+		size += (sizeof(int) + sizeof(bool)) * static_cast<unsigned int>(emitter->GetModules().size());
 
 		for (ParticleModule* module : emitter->GetModules())
 		{
@@ -124,12 +126,12 @@ void ParticleSystemImporter::Save
 
 	for (size_t i = 0; i < header[0]; i++)
 	{
-		const ParticleEmitter* emitter = resource->GetEmitter(i);
+		const ParticleEmitter* emitter = resource->GetEmitter(static_cast<unsigned int>(i));
 
 		unsigned int emitterHeader[3] =
-		{
-			emitter->GetName().size(),
-			emitter->GetModules().size(),
+		{ 
+			static_cast<unsigned int>(emitter->GetName().size()),
+			static_cast<unsigned int>(emitter->GetModules().size()),
 			emitter->GetParticleTexture() != nullptr ? true : false
 		};
 
@@ -265,7 +267,7 @@ void ParticleSystemImporter::Save
 		cursor += bytes;
 
 #ifdef ENGINE
-		jsonVisibleConfig[i] = static_cast<bool>(emitter->IsVisibleConfig());
+		jsonVisibleConfig[static_cast<unsigned int>(i)] = static_cast<bool>(emitter->IsVisibleConfig());
 #endif // ENGINE
 	}
 
@@ -317,7 +319,7 @@ void ParticleSystemImporter::Load
 
 		fileBuffer += bytes;
 
-		for (int i = 0; i < emitterHeader[1]; ++i)
+		for (unsigned int i = 0; i < emitterHeader[1]; ++i)
 		{
 			LoadModule(fileBuffer, emitter->GetModules()[i]);
 		}
@@ -682,7 +684,7 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 			int blending;
 			memcpy(&blending, fileBuffer, bytes);
 
-			render->SetBlending(static_cast<ModuleRenderer::BlendingMode>(blending));
+			render->SetBlending(static_cast<BlendingMode>(blending));
 
 			fileBuffer += bytes;
 

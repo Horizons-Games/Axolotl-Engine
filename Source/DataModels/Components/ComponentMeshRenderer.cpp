@@ -94,7 +94,7 @@ void ComponentMeshRenderer::UpdatePalette()
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
+					skinPalette[i] = boneNode->GetComponentInternal<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
 									 bindBones[i].transform;
 				}
 				else
@@ -122,7 +122,7 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	if (transform == nullptr)
 	{
 		return;
@@ -180,7 +180,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-	const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+	const float4x4& model = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
 	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
@@ -348,7 +348,7 @@ void ComponentMeshRenderer::DrawHighlight() const
 		program->Activate();
 		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-		const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+		const float4x4& model = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		GLint programInUse;
 
@@ -452,7 +452,8 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	{
 		mesh->Load();
 
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
 		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
 		//set the origin to translate and scale the BoundingBox
 		transform->SetOriginScaling(transform->GetLocalAABB().HalfSize());
@@ -705,28 +706,27 @@ const bool ComponentMeshRenderer::IsTransparent() const
 	return material->IsTransparent();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetDiffuse() const
 {
 	return material->GetDiffuse();
-	;
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetNormal() const
 {
 	return material->GetNormal();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetOcclusion() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetOcclusion() const
 {
 	return material->GetOcclusion();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetMetallic() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetMetallic() const
 {
 	return material->GetMetallic();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetSpecular() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetSpecular() const
 {
 	return material->GetSpecular();
 }

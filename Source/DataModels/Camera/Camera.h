@@ -4,7 +4,6 @@
 
 #include "Geometry/Plane.h"
 #include "Math/Quat.h"
-#include "Math/float4x4.h"
 #include "Enums/EFrustumMode.h"
 #include "CameraDefines.h"
 

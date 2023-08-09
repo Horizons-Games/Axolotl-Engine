@@ -451,7 +451,11 @@ UpdateStatus ModuleRender::Update()
 	glCullFace(GL_FRONT);
 	glDisable(GL_BLEND);
 
-	// -- DRAW ALL COMPONENTS IN THE FRUSTRUM --
+	for (const GameObject* go : gameObjectsInFrustrum)
+	{
+		go->Render();
+	}
+
 	// -------- POST EFFECTS ---------------------
 
 	KawaseDualFiltering();
@@ -607,8 +611,8 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomBlurTextures[i], 0);
 
@@ -642,7 +646,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 					gameObjectsInFrustrum.insert(gameObject);
@@ -656,7 +660,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 					gameObjectsInFrustrum.insert(gameObject);
@@ -689,7 +693,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 	// If an object doesn't have transform component it doesn't need to draw
 	if (transform == nullptr)
 	{
@@ -698,10 +702,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 
 	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
-		ComponentMeshRenderer* mesh = gameObject->GetComponent<ComponentMeshRenderer>();
+		ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
 		{
-			const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+			const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 			float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 			gameObjectsInFrustrum.insert(gameObject);
@@ -968,7 +972,7 @@ void ModuleRender::KawaseDualFiltering()
 	// Blur bloom with kawase
 	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
 	bool kawaseFrameBuffer = true, firstIteration = true;
-	int kawaseSamples = 8;
+	int kawaseSamples = 10;
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
 	kawaseDownProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
@@ -992,10 +996,10 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseUpProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[!kawaseFrameBuffer]);
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[kawaseFrameBuffer]);
+		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[!kawaseFrameBuffer]);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
@@ -1007,7 +1011,7 @@ void ModuleRender::KawaseDualFiltering()
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
 {
-	const ComponentMeshRenderer* material = gameObject->GetComponent<ComponentMeshRenderer>();
+	const ComponentMeshRenderer* material = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 	if (material != nullptr && material->GetMaterial() != nullptr)
 	{
 		if (!material->GetMaterial()->IsTransparent())

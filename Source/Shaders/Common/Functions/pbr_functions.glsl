@@ -3,7 +3,6 @@
 
 #define PI 3.1415926535897932384626433832795
 #define EPSILON 1e-5
-#define GAMMA 2.2
 
 vec3 GetAmbientLight(in vec3 normal, in vec3 R, float NdotV, float roughness, in vec3 diffuseColor, in vec3 specularColor,
 samplerCube diffuse_IBL, samplerCube prefiltered_IBL, sampler2D environmentBRDF, int numLevels_IBL)
@@ -87,15 +86,6 @@ vec3 BisectionIntersection(vec3 pos, vec3 a, vec3 b)
 	float x = distA / (distB + distA);
 
 	return a + AB * x;
-}
-
-// sRGBA textures to linear space
-vec4 SRGBA(vec4 color) {
-	return vec4(pow(color.rgb, vec3(GAMMA)), color.a);
-}
-
-vec3 SRGB(vec3 color) {
-	return pow(color.rgb, vec3(GAMMA));
 }
 
 #endif
