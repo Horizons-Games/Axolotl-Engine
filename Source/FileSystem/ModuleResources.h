@@ -12,6 +12,7 @@
 
 class ModelImporter;
 class TextureImporter;
+class VideoImporter;
 class MeshImporter;
 class MaterialImporter;
 class SkyBoxImporter;
@@ -97,6 +98,7 @@ private:
 	std::map<UID, std::weak_ptr<Resource>> resources;
 
 	std::unique_ptr<ModelImporter> modelImporter;
+	std::unique_ptr<VideoImporter> videoImporter;
 	std::unique_ptr<TextureImporter> textureImporter;
 	std::unique_ptr<MeshImporter> meshImporter;
 	std::unique_ptr<MaterialImporter> materialImporter;

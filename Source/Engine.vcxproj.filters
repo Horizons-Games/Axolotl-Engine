@@ -615,6 +615,9 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\VideoImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1274,6 +1277,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\VideoImporter.h">
+      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

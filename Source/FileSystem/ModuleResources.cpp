@@ -14,6 +14,7 @@
 #include "FileSystem/Importers/StateMachineImporter.h"
 #include "FileSystem/Importers/ParticleSystemImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/Importers/VideoImporter.h"
 #include "FileSystem/UIDGenerator.h"
 
 #include "Resources/EditorResource/EditorResource.h"
@@ -24,8 +25,11 @@
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceTexture.h"
+#include "Resources/ResourceVideo.h"
 
 #include "Auxiliar/CollectionAwareDeleter.h"
+
+#include "AxoLog.h"
 
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
@@ -45,6 +49,7 @@ bool ModuleResources::Init()
 	monitorResources = true;
 	modelImporter = std::make_unique<ModelImporter>();
 	textureImporter = std::make_unique<TextureImporter>();
+	videoImporter = std::make_unique<VideoImporter>();
 	meshImporter = std::make_unique<MeshImporter>();
 	materialImporter = std::make_unique<MaterialImporter>();
 	skyboxImporter = std::make_unique<SkyBoxImporter>();
@@ -121,6 +126,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 		fileSystem->CopyFileInAssets(originalPath, assetsPath);
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
+	LOG_DEBUG(importedRes->GetAssetsPath());
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(assetsPath, importedRes, importedRes->GetType());
 
@@ -141,6 +147,7 @@ std::shared_ptr<Resource>
 {
 	UID uid = UniqueID::GenerateUID();
 	const std::string libraryPath = CreateLibraryPath(uid, type);
+	LOG_DEBUG(libraryPath);
 	return CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
 }
 
@@ -162,6 +169,11 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		case ResourceType::Texture:
 			res = std::shared_ptr<EditorResource<ResourceTexture>>(
 				new EditorResource<ResourceTexture>(uid, fileName, assetsPath, libraryPath),
+				CollectionAwareDeleter<Resource>());
+			break;
+		case ResourceType::Video:
+			res = std::shared_ptr<EditorResource<ResourceVideo>>(
+				new EditorResource<ResourceVideo>(uid, fileName, assetsPath, libraryPath),
 				CollectionAwareDeleter<Resource>());
 			break;
 		case ResourceType::Mesh:
@@ -364,6 +376,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 			case ResourceType::Texture:
 				textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
 				break;
+			case ResourceType::Video:
+				videoImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceVideo>(resource));
+				break;
 			case ResourceType::Mesh:
 				meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
 				break;
@@ -487,6 +502,9 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 		case ResourceType::Texture:
 			textureImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
 			break;
+		case ResourceType::Video:
+			videoImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceVideo>(resource));
+			break;
 		case ResourceType::Mesh:
 			meshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
 			break;
@@ -531,11 +549,13 @@ void ModuleResources::CreateAssetAndLibFolders()
 	//(actually there is a library that looks really clean but might be overkill:
 	// https://github.com/Neargye/magic_enum)
 	// ensure this vector is updated whenever a new type of resource is added
-	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,	  ResourceType::Mesh,
+	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,
+												   ResourceType::Mesh,
+												   ResourceType::Video,
 												   ResourceType::Model,		  ResourceType::Scene,
 												   ResourceType::Texture,	  ResourceType::SkyBox,
 												   ResourceType::Cubemap,	  ResourceType::Animation,
-												   ResourceType::StateMachine,ResourceType::ParticleSystem };
+												   ResourceType::StateMachine,ResourceType::ParticleSystem};
 
 	for (ResourceType type : allResourceTypes)
 	{
@@ -680,6 +700,11 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::Texture;
 	}
+	else if (normalizedExtension == AVI_VIDEO_EXTENSION || normalizedExtension == MP4_VIDEO_EXTENSION ||
+			 normalizedExtension == MOV_VIDEO_EXTENSION)
+	{
+		return ResourceType::Video;
+	}
 	else if (normalizedExtension == SKYBOX_EXTENSION)
 	{
 		return ResourceType::SkyBox;
@@ -724,6 +749,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 			return "Models";
 		case ResourceType::Texture:
 			return "Textures";
+		case ResourceType::Video:
+			return "Videos";
 		case ResourceType::Mesh:
 			return "Meshes";
 		case ResourceType::Scene:
@@ -755,6 +782,10 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 	if (typeName == "Textures")
 	{
 		return ResourceType::Texture;
+	}
+	if (typeName == "Videos")
+	{
+		return ResourceType::Video;
 	}
 	if (typeName == "Meshes")
 	{

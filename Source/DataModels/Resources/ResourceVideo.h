@@ -13,7 +13,22 @@ public:
 	virtual ~ResourceVideo() override;
 	ResourceType GetType() const override;
 
+	void SaveImporterOptions(Json& meta) override;
+	void LoadImporterOptions(Json& meta) override;
+
+	void SaveLoadOptions(Json& meta) override;
+	void LoadLoadOptions(Json& meta) override;
+
+protected:
+	void InternalLoad() override;
+	void InternalUnload() override;
+
 private:
 	unsigned int frameRate;
 	unsigned int numFrames;
 };
+
+inline ResourceType ResourceVideo::GetType() const
+{
+	return ResourceType::Video;
+}

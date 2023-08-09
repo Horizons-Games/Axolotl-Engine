@@ -6,19 +6,45 @@
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 #include "ModuleUI.h"
+#include "FileSystem/ModuleResources.h"
+#include "FileSystem/ModuleFileSystem.h"
 #include "DataModels/Program/Program.h"
 #include "ComponentVideo.h"
 #include "ComponentCanvas.h"
 #include "ComponentTransform2D.h"
 #include "GameObject/GameObject.h"
+#include "AxoLog.h"
+#include "FileSystem/Json.h"
+#include "Application.h"
+
+extern "C"
+{
+#include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
+}
+
 
 ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
-	Component(ComponentType::VIDEO, active, owner, true)
+	Component(ComponentType::VIDEO, active, owner, true),
+	loop(false),
+	finished(false)
 {
 }
 
 ComponentVideo::~ComponentVideo()
 {
+}
+
+void ComponentVideo::Init()
+{
+	// Set GL texture buffer
+	glGenTextures(1, &frameTexture);
+	glBindTexture(GL_TEXTURE_2D, frameTexture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	OpenVideo(video->GetAssetsPath().c_str());
 }
 
 void ComponentVideo::Draw() const
@@ -54,8 +80,15 @@ void ComponentVideo::Draw() const
 		glActiveTexture(GL_TEXTURE0);
 		program->BindUniformFloat4("spriteColor", float4(1.0f, 1.0f, 1.0f, 1.0f));
 		program->BindUniformFloat("renderPercentage", 1.0f);
-		program->BindUniformInt("direction", 0);
-		program->BindUniformInt("hasDiffuse", 0);
+		program->BindUniformInt("direction", 1);
+		
+		if (initialized)
+		{
+			program->BindUniformInt("hasDiffuse", 1);
+			glBindTexture(GL_TEXTURE_2D, frameTexture);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
+		}
+		else program->BindUniformInt("hasDiffuse", 0);
 		/*if (image)
 		{
 			image->Load();
@@ -80,8 +113,284 @@ void ComponentVideo::Draw() const
 
 void ComponentVideo::InternalSave(Json& meta)
 {
+	meta["loop"] = loop;
+	meta["assetPathVideo"] = video->GetAssetsPath().c_str();
 }
 
 void ComponentVideo::InternalLoad(const Json& meta)
 {
+	loop = meta["loop"];
+	std::string path = meta["assetPathVideo"];
+	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	if (resourceExists)
+	{
+		std::shared_ptr<ResourceVideo> resourceImage =
+			App->GetModule<ModuleResources>()->RequestResource<ResourceVideo>(path);
+		if (resourceImage)
+		{
+			video = resourceImage;
+			Init();
+		}
+	}
+}
+
+void ComponentVideo::OpenVideo(const char* filePath)
+{
+	/*MSTimer timer;
+	timer.Start();*/
+
+	// Open video file
+	formatCtx = avformat_alloc_context();
+	if (!formatCtx)
+	{
+		LOG_ERROR("Couldn't allocate AVFormatContext.");
+		return;
+	}
+	if (avformat_open_input(&formatCtx, filePath, nullptr, nullptr) != 0)
+	{
+		LOG_ERROR("Couldn't open video file.");
+		return;
+	}
+
+	// DECODING VIDEO
+	// Find a valid video stream in the file
+	AVCodecParameters* videoCodecParams;
+	AVCodec* videoDecoder;
+	videoStreamIndex = -1;
+
+	videoStreamIndex = av_find_best_stream(formatCtx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+	if (videoStreamIndex < 0)
+	{
+		LOG_ERROR("Couldn't find valid video stream inside file.");
+		return;
+	}
+
+	// Find an appropiate video decoder
+	videoCodecParams = formatCtx->streams[videoStreamIndex]->codecpar;
+	videoDecoder = avcodec_find_decoder(videoCodecParams->codec_id);
+	if (!videoDecoder)
+	{
+		LOG_ERROR("Couldn't find valid video decoder.");
+		return;
+	}
+
+	// Set up a video codec context for the decoder
+	videoCodecCtx = avcodec_alloc_context3(videoDecoder);
+	if (!videoCodecCtx)
+	{
+		LOG_ERROR("Couldn't allocate AVCodecContext.");
+		return;
+	}
+	if (avcodec_parameters_to_context(videoCodecCtx, videoCodecParams) < 0)
+	{
+		LOG_ERROR("Couldn't initialise AVCodecContext.");
+		return;
+	}
+	if (avcodec_open2(videoCodecCtx, videoDecoder, nullptr) < 0)
+	{
+		LOG_ERROR("Couldn't open video codec.");
+		return;
+	}
+
+	// Set video parameters and Allocate frame buffer
+	frameWidth = videoCodecParams->width;
+	frameHeight = videoCodecParams->height;
+	//timeBase = formatCtx->streams[videoStreamIndex]->time_base;
+	frameData = new uint8_t[frameWidth * frameHeight * 4];
+	SetVideoFrameSize(frameWidth, frameHeight);
+	memset(frameData, 0, frameWidth * frameHeight * 4);
+
+	// DECODING AUDIO
+	// Find a valid audio stream in the file
+	AVCodecParameters* audioCodecParams;
+	AVCodec* audioDecoder;
+	audioStreamIndex = -1;
+
+	audioStreamIndex = av_find_best_stream(formatCtx, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
+	if (audioStreamIndex < 0)
+	{
+		LOG_ERROR("Couldn't find valid audio stream inside file.");
+		//return;
+	}
+	else
+	{
+		audioCodecParams = formatCtx->streams[audioStreamIndex]->codecpar;
+		audioDecoder = avcodec_find_decoder(audioCodecParams->codec_id);
+		if (!audioDecoder)
+		{
+			LOG_ERROR("Couldn't find valid audio decoder.");
+		}
+		else
+		{
+			//// Set up a audio codec context for the decoder
+			audioCodecCtx = avcodec_alloc_context3(audioDecoder);
+			if (!audioCodecCtx)
+			{
+				LOG_ERROR("Couldn't allocate AVCodecContext.");
+				return;
+			}
+			else
+			{
+				if (avcodec_parameters_to_context(audioCodecCtx, audioCodecParams) < 0)
+				{
+					LOG_ERROR("Couldn't initialise AVCodecContext.");
+					return;
+				}
+				else
+				{
+					 if (avcodec_open2(audioCodecCtx, audioDecoder, nullptr) < 0)
+					{
+						LOG_ERROR("Couldn't open video codec.");
+						return;
+					}
+				
+				}
+			
+			}
+		}
+	}
+	// Allocate memory for packets and frames
+	avPacket = av_packet_alloc();
+	if (!avPacket)
+	{
+		LOG_ERROR("Couldn't allocate AVPacket.");
+		return;
+	}
+	avFrame = av_frame_alloc();
+	if (!avFrame)
+	{
+		LOG_ERROR("Couldn't allocate AVFrame.");
+		return;
+	}
+	initialized = true;
+	//unsigned timeMs = timer.Stop();
+	//LOG("Video initialised in %ums", timeMs);
+}
+
+void ComponentVideo::ReadVideoFrame()
+{
+	if (initialized)
+	{
+		int response = -1;
+		int error = 0;
+		while (error >= 0)
+		{
+			error = av_read_frame(formatCtx, avPacket);
+
+			if (avPacket->stream_index != videoStreamIndex)
+			{
+				av_packet_unref(avPacket);
+				continue;
+			}
+
+			// SEEK to frame 0 -> Restart the video timestamp
+			if (error == AVERROR_EOF)
+			{
+				finished = true;
+				if (loop)
+				{
+					RestartVideo();
+					av_packet_unref(avPacket);
+				}
+				avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
+				avFrame->linesize[0] *= -1;
+				avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
+				avFrame->linesize[1] *= -1;
+				avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
+				avFrame->linesize[2] *= -1;
+				break;
+			}
+
+			response = avcodec_send_packet(videoCodecCtx, avPacket);
+			if (response < 0)
+			{
+				LOG_ERROR("Failed to decode packet");
+				// LOG_ERROR("Failed to decode packet: %s.", libav_err2str(response));
+				return;
+			}
+
+			response = avcodec_receive_frame(videoCodecCtx, avFrame);
+			if (response == AVERROR(EAGAIN) || response == AVERROR_EOF)
+			{
+				av_packet_unref(avPacket);
+				continue;
+			}
+			if (response < 0)
+			{
+				LOG_ERROR("Failed to decode frame");
+				// LOG_ERROR("Failed to decode frame: %s.", libav_err2str(response));
+				return;
+			}
+
+			av_packet_unref(avPacket);
+			break;
+		}
+
+		/*videoFrameTime = avFrame->pts * timeBase.num / (float) timeBase.den;
+		if (videoFrameTime == 0)
+			elapsedVideoTime = 0;*/
+		if (!scalerCtx)
+		{
+			// Set SwScaler - Scale frame size + Pixel converter to RGB
+			scalerCtx = sws_getContext(frameWidth,
+									   frameHeight,
+									   videoCodecCtx->pix_fmt,
+									   frameWidth,
+									   frameHeight,
+									   AV_PIX_FMT_RGBA,
+									   SWS_FAST_BILINEAR,
+									   nullptr,
+									   nullptr,
+									   nullptr);
+
+			if (!scalerCtx)
+			{
+				LOG_ERROR("Couldn't initialise SwScaler.");
+				return;
+			}
+		}
+
+
+		avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
+		avFrame->linesize[0] *= -1;
+		avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
+		avFrame->linesize[1] *= -1;
+		avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
+		avFrame->linesize[2] *= -1;
+
+
+		uint8_t* dest[4] = { frameData, nullptr, nullptr, nullptr };
+		int linSize[4] = { frameWidth * 4, 0, 0, 0 };
+		sws_scale(scalerCtx, avFrame->data, avFrame->linesize, 0, frameHeight, dest, linSize);
+	}
+}
+
+void ComponentVideo::SetVideoFrameSize(int width, int height)
+{
+	
+	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
+	transform->SetSize(float2((float) width, (float) height));
+	/*GameObject* owner = &this->GetOwner();
+	if (owner)
+	{
+		ComponentTransform2D* transform = owner->GetComponent<ComponentTransform2D>();
+		if (transform)
+		{
+			transform->SetSize(float2((float) width, (float) height));
+		}
+	}*/
+}
+
+void ComponentVideo::RestartVideo()
+{
+	avio_seek(formatCtx->pb, 0, SEEK_SET);
+	if (av_seek_frame(formatCtx, videoStreamIndex, -1, 0) >= 0)
+	{
+		/*if (!loopVideo || forceStop)
+		{
+			isPlaying = false;
+			hasVideoFinished = true;
+		}
+		forceStop = false;*/
+	}
 }

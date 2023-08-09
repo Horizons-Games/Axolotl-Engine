@@ -3,25 +3,73 @@
 #include "DataModels/Components/Component.h"
 #include "Resources/ResourceVideo.h"
 
+struct AVFormatContext;
+struct AVCodecContext;
+struct AVPacket;
+struct AVFrame;
+struct SwsContext;
+
 class ComponentVideo : public Component, public Drawable
 {
 public:
 	ComponentVideo(bool active, GameObject* owner);
 	~ComponentVideo() override;
+	void Init();
+	void SetLoop(bool loop);
+	bool GetLoop();
 	void SetVideo(const std::shared_ptr<ResourceVideo>& video);
 	std::shared_ptr<ResourceVideo> GetVideo() const;
+	void ReadVideoFrame();
+	void ReadAudioFrame();
 	void Draw() const override;
 
 
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
+	void OpenVideo(const char* filePath);
+	void RestartVideo();
 	std::shared_ptr<ResourceVideo> video;
+
+	AVFormatContext* formatCtx = nullptr;
+	AVCodecContext* videoCodecCtx = nullptr;
+	AVCodecContext* audioCodecCtx = nullptr;
+	AVPacket* avPacket = nullptr;
+	AVFrame* avFrame = nullptr;
+	SwsContext* scalerCtx = nullptr;
+
+	unsigned int frameTexture = 0;
+	int videoStreamIndex;
+	int frameWidth;
+	int frameHeight;
+	uint8_t* frameData;
+
+	int audioStreamIndex = -1;
+
+	bool initialized = false;
+
+	void SetVideoFrameSize(int width, int height);
+
+	bool loop;
+	bool finished;
+
 };
+
+inline bool ComponentVideo::GetLoop()
+{
+	return this->loop;
+}
+
+
+inline void ComponentVideo::SetLoop(bool loop)
+{
+	this->loop = loop;
+}
 
 inline void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& video)
 {
 	this->video = video;
+	Init();
 }
 
 inline std::shared_ptr<ResourceVideo> ComponentVideo::GetVideo() const

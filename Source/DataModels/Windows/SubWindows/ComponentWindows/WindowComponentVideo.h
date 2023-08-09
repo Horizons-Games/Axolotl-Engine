@@ -15,5 +15,6 @@ protected:
 	void DrawWindowContents() override;
 
 private:
+	bool loop;
 	std::unique_ptr<WindowVideoInput> inputVideo;
 };
