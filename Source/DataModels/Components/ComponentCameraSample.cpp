@@ -22,6 +22,7 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 	isSampleFocusEnabled = false;
 	isSampleFixedEnabled = false;
+	isCombatCameraEnabled = false;
 }
 
 ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& componentCameraSample):
@@ -30,7 +31,8 @@ ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& compon
 	positionOffset(componentCameraSample.positionOffset),
 	position(componentCameraSample.position),
 	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
-	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled)
+	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled),
+	isCombatCameraEnabled(componentCameraSample.isCombatCameraEnabled)
 {
 }
 
@@ -43,7 +45,8 @@ void ComponentCameraSample::Draw() const
 {
 #ifdef ENGINE
 	bool canDrawSample = 
-		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		(IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject()) 
+		|| GetOwner()->GetParent() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (!canDrawSample)
 	{
@@ -53,7 +56,14 @@ void ComponentCameraSample::Draw() const
 	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 
-	dd::sphere(position, dd::colors::Yellow, influenceRadius);
+	if (isCombatCameraEnabled)
+	{
+		dd::sphere(position, dd::colors::Orange, influenceRadius);
+	}
+	else
+	{
+		dd::sphere(position, dd::colors::Yellow, influenceRadius);
+	}
 #endif
 }
 
@@ -74,6 +84,7 @@ void ComponentCameraSample::InternalSave(Json& meta)
 
 	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
 	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
+	meta["isCombatCameraEnabled"] = (bool) isCombatCameraEnabled;
 
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
@@ -99,6 +110,7 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 
 	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
 	isSampleFixedEnabled = meta["isSampleFixedEnabled"];
+	isCombatCameraEnabled = meta["isCombatCameraEnabled"];
 
 	position.x = meta["positionX"];
 	position.y = meta["positionY"];
