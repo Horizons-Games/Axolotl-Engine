@@ -27,7 +27,8 @@ extern "C"
 ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
 	Component(ComponentType::VIDEO, active, owner, true),
 	loop(false),
-	finished(false)
+	finished(false),
+	rotateVertical(false)
 {
 }
 
@@ -89,16 +90,6 @@ void ComponentVideo::Draw() const
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
 		}
 		else program->BindUniformInt("hasDiffuse", 0);
-		/*if (image)
-		{
-			image->Load();
-			glBindTexture(GL_TEXTURE_2D, image->GetGlTexture());
-			program->BindUniformInt("hasDiffuse", 1);
-		}
-		else
-		{
-			program->BindUniformInt("hasDiffuse", 0);
-		}*/
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -136,9 +127,6 @@ void ComponentVideo::InternalLoad(const Json& meta)
 
 void ComponentVideo::OpenVideo(const char* filePath)
 {
-	/*MSTimer timer;
-	timer.Start();*/
-
 	// Open video file
 	formatCtx = avformat_alloc_context();
 	if (!formatCtx)
@@ -195,7 +183,6 @@ void ComponentVideo::OpenVideo(const char* filePath)
 	// Set video parameters and Allocate frame buffer
 	frameWidth = videoCodecParams->width;
 	frameHeight = videoCodecParams->height;
-	//timeBase = formatCtx->streams[videoStreamIndex]->time_base;
 	frameData = new uint8_t[frameWidth * frameHeight * 4];
 	SetVideoFrameSize(frameWidth, frameHeight);
 	memset(frameData, 0, frameWidth * frameHeight * 4);
@@ -241,12 +228,16 @@ void ComponentVideo::ReadVideoFrame()
 					RestartVideo();
 					av_packet_unref(avPacket);
 				}
-				avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
-				avFrame->linesize[0] *= -1;
-				avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
-				avFrame->linesize[1] *= -1;
-				avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
-				avFrame->linesize[2] *= -1;
+				if(rotateVertical)
+				{
+					avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
+					avFrame->linesize[0] *= -1;
+					avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
+					avFrame->linesize[1] *= -1;
+					avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
+					avFrame->linesize[2] *= -1;
+				}
+
 				break;
 			}
 
@@ -274,10 +265,6 @@ void ComponentVideo::ReadVideoFrame()
 			av_packet_unref(avPacket);
 			break;
 		}
-
-		/*videoFrameTime = avFrame->pts * timeBase.num / (float) timeBase.den;
-		if (videoFrameTime == 0)
-			elapsedVideoTime = 0;*/
 		if (!scalerCtx)
 		{
 			// Set SwScaler - Scale frame size + Pixel converter to RGB
@@ -300,12 +287,15 @@ void ComponentVideo::ReadVideoFrame()
 		}
 
 
-		avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
-		avFrame->linesize[0] *= -1;
-		avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
-		avFrame->linesize[1] *= -1;
-		avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
-		avFrame->linesize[2] *= -1;
+		if (rotateVertical)
+		{
+			avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
+			avFrame->linesize[0] *= -1;
+			avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
+			avFrame->linesize[1] *= -1;
+			avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
+			avFrame->linesize[2] *= -1;
+		}
 
 
 		uint8_t* dest[4] = { frameData, nullptr, nullptr, nullptr };
@@ -319,15 +309,6 @@ void ComponentVideo::SetVideoFrameSize(int width, int height)
 	
 	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
 	transform->SetSize(float2((float) width, (float) height));
-	/*GameObject* owner = &this->GetOwner();
-	if (owner)
-	{
-		ComponentTransform2D* transform = owner->GetComponent<ComponentTransform2D>();
-		if (transform)
-		{
-			transform->SetSize(float2((float) width, (float) height));
-		}
-	}*/
 }
 
 void ComponentVideo::RestartVideo()
@@ -335,11 +316,5 @@ void ComponentVideo::RestartVideo()
 	avio_seek(formatCtx->pb, 0, SEEK_SET);
 	if (av_seek_frame(formatCtx, videoStreamIndex, -1, 0) >= 0)
 	{
-		/*if (!loopVideo || forceStop)
-		{
-			isPlaying = false;
-			hasVideoFinished = true;
-		}
-		forceStop = false;*/
 	}
 }

@@ -8,7 +8,9 @@
 WindowComponentVideo::WindowComponentVideo(ComponentVideo* component) :
 	ComponentWindow("VIDEO", component),
 	inputVideo(std::make_unique<WindowVideoInput>(component)),
-	loop(component->GetLoop())
+	loop(component->GetLoop()),
+	verticalRotate(component->GetRotateVertical()),
+	canBeRotate(false)
 {
 }
 
@@ -35,5 +37,11 @@ void WindowComponentVideo::DrawWindowContents()
 	{
 		videoComponent->SetLoop(loop);
 	}
-	
+	if (canBeRotate)
+	{
+		if (ImGui::Checkbox("Rotate Vertical", &verticalRotate))
+		{
+			videoComponent->SetRotateVertical(verticalRotate);
+		}
+	}
 }

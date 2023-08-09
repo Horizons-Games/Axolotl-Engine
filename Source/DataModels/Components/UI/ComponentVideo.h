@@ -17,6 +17,10 @@ public:
 	void Init();
 	void SetLoop(bool loop);
 	bool GetLoop();
+	void SetCanBeRotate(bool canRotate);
+	bool GetCanBeRotate();
+	void SetRotateVertical(bool rotateVertical);
+	bool GetRotateVertical();
 	void SetVideo(const std::shared_ptr<ResourceVideo>& video);
 	std::shared_ptr<ResourceVideo> GetVideo() const;
 	void ReadVideoFrame();
@@ -49,9 +53,31 @@ private:
 	void SetVideoFrameSize(int width, int height);
 
 	bool loop;
+	bool rotateVertical;
 	bool finished;
+	bool canRotate;
 
 };
+
+inline void ComponentVideo::SetCanBeRotate(bool canRotate)
+{
+	this->canRotate = canRotate;
+}
+
+inline bool ComponentVideo::GetCanBeRotate()
+{
+	return this->canRotate;
+}
+
+inline void ComponentVideo::SetRotateVertical(bool rotateVertical)
+{
+	this->rotateVertical = rotateVertical;
+}
+
+inline bool ComponentVideo::GetRotateVertical()
+{
+	return rotateVertical;
+}
 
 inline bool ComponentVideo::GetLoop()
 {
