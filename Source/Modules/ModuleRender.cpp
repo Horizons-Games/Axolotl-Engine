@@ -212,6 +212,7 @@ bool ModuleRender::Init()
 	glGenTextures(1, &parallelReductionInTexture);
 	glGenTextures(1, &parallelReductionOutTexture);
 
+	glGenBuffers(1, &minMaxBuffer);
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
@@ -776,15 +777,40 @@ float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 
 		std::swap(srcTexture, dstTexture);
 	}
+	
+	glPopDebugGroup();
+
+	program->Deactivate();
+
+	program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::MIN_MAX);
+
+	program->Activate();
+	
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Min Max"), "ComputeShader - Min Max");
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, srcTexture);
 
 	float2 minMax(0.0f, 0.0f);
-	glGetTextureSubImage(srcTexture, 0, 0, 0, 0, 1, 1, 1, GL_RG, GL_FLOAT, sizeof(float2), &minMax);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, minMaxBuffer);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(minMax), &minMax[0], GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, minMaxBuffer);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	glDispatchCompute(1, 1, 1);
+	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, minMaxBuffer);
+	glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(minMax), &minMax[0]);
 
 	glPopDebugGroup();
 
 	program->Deactivate();
+
+	//glGetTextureSubImage(srcTexture, 0, 0, 0, 0, 1, 1, 1, GL_RG, GL_FLOAT, sizeof(float2), &minMax);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	return minMax;
 }

@@ -125,6 +125,7 @@ private:
 	GLuint gShadowMap;
 	GLuint parallelReductionInTexture;
 	GLuint parallelReductionOutTexture;
+	GLuint minMaxBuffer;
 
 	bool renderShadows;
 
