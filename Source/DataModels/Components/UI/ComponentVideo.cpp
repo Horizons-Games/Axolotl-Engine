@@ -200,55 +200,6 @@ void ComponentVideo::OpenVideo(const char* filePath)
 	SetVideoFrameSize(frameWidth, frameHeight);
 	memset(frameData, 0, frameWidth * frameHeight * 4);
 
-	// DECODING AUDIO
-	// Find a valid audio stream in the file
-	AVCodecParameters* audioCodecParams;
-	AVCodec* audioDecoder;
-	audioStreamIndex = -1;
-
-	audioStreamIndex = av_find_best_stream(formatCtx, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
-	if (audioStreamIndex < 0)
-	{
-		LOG_ERROR("Couldn't find valid audio stream inside file.");
-		//return;
-	}
-	else
-	{
-		audioCodecParams = formatCtx->streams[audioStreamIndex]->codecpar;
-		audioDecoder = avcodec_find_decoder(audioCodecParams->codec_id);
-		if (!audioDecoder)
-		{
-			LOG_ERROR("Couldn't find valid audio decoder.");
-		}
-		else
-		{
-			//// Set up a audio codec context for the decoder
-			audioCodecCtx = avcodec_alloc_context3(audioDecoder);
-			if (!audioCodecCtx)
-			{
-				LOG_ERROR("Couldn't allocate AVCodecContext.");
-				return;
-			}
-			else
-			{
-				if (avcodec_parameters_to_context(audioCodecCtx, audioCodecParams) < 0)
-				{
-					LOG_ERROR("Couldn't initialise AVCodecContext.");
-					return;
-				}
-				else
-				{
-					 if (avcodec_open2(audioCodecCtx, audioDecoder, nullptr) < 0)
-					{
-						LOG_ERROR("Couldn't open video codec.");
-						return;
-					}
-				
-				}
-			
-			}
-		}
-	}
 	// Allocate memory for packets and frames
 	avPacket = av_packet_alloc();
 	if (!avPacket)
@@ -263,8 +214,6 @@ void ComponentVideo::OpenVideo(const char* filePath)
 		return;
 	}
 	initialized = true;
-	//unsigned timeMs = timer.Stop();
-	//LOG("Video initialised in %ums", timeMs);
 }
 
 void ComponentVideo::ReadVideoFrame()

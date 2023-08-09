@@ -20,7 +20,6 @@ public:
 	void SetVideo(const std::shared_ptr<ResourceVideo>& video);
 	std::shared_ptr<ResourceVideo> GetVideo() const;
 	void ReadVideoFrame();
-	void ReadAudioFrame();
 	void Draw() const override;
 
 
@@ -33,7 +32,6 @@ private:
 
 	AVFormatContext* formatCtx = nullptr;
 	AVCodecContext* videoCodecCtx = nullptr;
-	AVCodecContext* audioCodecCtx = nullptr;
 	AVPacket* avPacket = nullptr;
 	AVFrame* avFrame = nullptr;
 	SwsContext* scalerCtx = nullptr;
