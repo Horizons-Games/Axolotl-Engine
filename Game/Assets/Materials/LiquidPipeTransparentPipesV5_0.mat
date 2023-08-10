@@ -1,7 +1,7 @@
 {
     "DiffuseAssetPath": "",
-    "NormalAssetPath": "Assets/Textures/PipesGeneralV6_PipesV5_Normal.png",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/PipesGeneralV6_PipesV5_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": ""
 }

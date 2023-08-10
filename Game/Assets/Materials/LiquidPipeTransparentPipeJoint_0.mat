@@ -1,7 +1,7 @@
 {
-    "DiffuseAssetPath": "Assets/Textures/PipesGeneralV6_PipeJoint_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/PipesGeneralV6_PipeJoint_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/PipesGeneralV6_PipeJoint_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": ""
 }
