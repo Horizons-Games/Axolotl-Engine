@@ -19,12 +19,17 @@ void PatrolBehaviourScript::Start()
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 
 	currentWayPoint = 0;
+
+	if (waypointsPatrol.empty())
+	{
+		waypointsPatrol.push_back(ownerTransform);
+	}
 }
 
 // Initally set the first waypoint as the destiny
 void PatrolBehaviourScript::StartPatrol()
 {
-	if (ownerRigidBody && ownerRigidBody->IsEnabled() && !waypointsPatrol.empty())
+	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
 		currentWayPoint = 0;
 
@@ -36,11 +41,6 @@ void PatrolBehaviourScript::StartPatrol()
 // (This can be modularized into any amout of waypoints once the scripts can accept vectors)
 void PatrolBehaviourScript::Patrolling()
 {
-	if (waypointsPatrol.empty())
-	{
-		return;
-	}
-
 	if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
 	{
 		if (currentWayPoint == waypointsPatrol.size() - 1)
