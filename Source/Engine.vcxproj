@@ -146,8 +146,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\libav\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;swscale.lib;swresample.lib;ExternalDependencies.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
@@ -385,9 +385,11 @@
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentVideoTexture.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentVideo.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceVideo.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceVideoMaterial.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -813,8 +815,10 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Components\ComponentVideoTexture.h" />
     <ClInclude Include="DataModels\Components\UI\ComponentVideo.h" />
     <ClInclude Include="DataModels\Resources\ResourceVideo.h" />
+    <ClInclude Include="DataModels\Resources\ResourceVideoMaterial.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowParticleSystemInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
