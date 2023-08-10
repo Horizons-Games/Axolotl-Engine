@@ -14,6 +14,8 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 
+#include <vector>
+
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
 	ComponentWindow("PARTICLE SYSTEM", component), 
 	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
@@ -99,6 +101,30 @@ void WindowComponentParticle::DrawWindowContents()
 		{
 			ImGui::PushID(id);
 
+			if (ImGui::Button("^"))
+			{
+				if (id > 0)
+				{
+					std::swap(emitters[id], emitters[id - 1]);
+					component->SetEmitters(emitters);
+					component->GetResource()->SwapEmitter(id, id - 1);
+					ImGui::PopID();
+					return;
+				} 
+			}
+			ImGui::SameLine();
+			if (ImGui ::Button("v"))
+			{
+				if (id < emitters.size() - 1)
+				{
+					std::swap(emitters[id], emitters[id + 1]);
+					component->SetEmitters(emitters);
+					component->GetResource()->SwapEmitter(id, id + 1);
+					ImGui::PopID();
+					return;
+				}
+			}
+
 			DrawEmitter(emitters[id]);
 
 			ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -144,6 +170,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 
 	if (emitter)
 	{
+		ImGui::SameLine();
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
 		ImGui::Text(emitter->GetName().c_str());
 
