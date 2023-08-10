@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "PlayerForceAttackScript.h"
 
+#include "Application.h"
 #include "ModuleInput.h"
 
 #include "Components/Component.h"

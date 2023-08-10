@@ -1,5 +1,4 @@
 #include "UITrigger.h"
-#include "AxoLog.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -90,24 +89,16 @@ void UITrigger::Update(float deltaTime)
 
 void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	try {
-		other->GetOwner()->GetComponent<ComponentPlayer>();
-		onTriggerState = true;
-	}
-	catch (const ComponentNotFoundException&)
+	if (other->GetOwner()->CompareTag("Player"))
 	{
-		LOG_WARNING("{} have not ComponentPlayer", other->GetOwner()->GetName());
+		onTriggerState = true;
 	}
 }
 
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-	try {
-		other->GetOwner()->GetComponent<ComponentPlayer>();
-		onTriggerState = false;
-	}
-	catch (const ComponentNotFoundException&)
+	if (other->GetOwner()->CompareTag("Player"))
 	{
-		LOG_WARNING("{} have not ComponentPlayer", other->GetOwner()->GetName());
+		onTriggerState = false;
 	}
 }

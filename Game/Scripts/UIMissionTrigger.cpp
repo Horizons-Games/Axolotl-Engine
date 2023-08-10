@@ -30,14 +30,7 @@ UIMissionTrigger::~UIMissionTrigger()
 
 void UIMissionTrigger::Start()
 {
-	try {
-		player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
-	}
-	catch (const ComponentNotFoundException&)
-	{
-		LOG_WARNING("{} have not ComponentPlayer", owner->GetName());
-	}
-	
+	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();	
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 	
 	if (missionLevel != nullptr)
@@ -65,31 +58,24 @@ void UIMissionTrigger::Update(float deltaTime)
 
 void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	try {
-		other->GetOwner()->GetComponent<ComponentPlayer>();
-		if (!wasInside)
-		{
-			if (lastMissionLevel != nullptr)
-			{
-				missionImageDisplacementExit->SetMovingToEnd(false);
-				missionImageDisplacementExit->MoveImageToStarPosition();
-			}
-			else if (missionLevel != nullptr)
-			{
-				missionImageDisplacement->SetMovingToEnd(true);
-				missionImageDisplacement->MoveImageToEndPosition();
-			}
-
-			if (textBox != nullptr)
-			{
-				textBox->Enable();
-			}
-			wasInside = true;
-		}
-	}
-	catch (const ComponentNotFoundException&)
+	if (other->GetOwner()->CompareTag("Player") && !wasInside)
 	{
-		LOG_WARNING("{} have not ComponentPlayer", other->GetOwner()->GetName());
+		if (lastMissionLevel != nullptr)
+		{
+			missionImageDisplacementExit->SetMovingToEnd(false);
+			missionImageDisplacementExit->MoveImageToStarPosition();
+		}
+		else if (missionLevel != nullptr)
+		{
+			missionImageDisplacement->SetMovingToEnd(true);
+			missionImageDisplacement->MoveImageToEndPosition();
+		}
+
+		if (textBox != nullptr)
+		{
+			textBox->Enable();
+		}
+		wasInside = true;
 	}
 }
 

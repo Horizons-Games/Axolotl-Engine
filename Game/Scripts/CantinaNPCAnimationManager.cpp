@@ -1,7 +1,6 @@
 #include "CantinaNPCAnimationManager.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
-#include "AxoLog.h"
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(CantinaNPCAnimationManager);
@@ -14,14 +13,7 @@ CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), audio(nullp
 
 void CantinaNPCAnimationManager::Start()
 {
-	try {
-		audio = owner->GetComponent<ComponentAudioSource>();
-	}
-	catch (const ComponentNotFoundException&)
-	{
-		LOG_WARNING("{} have not Component Audio Source", owner->GetName());
-	}
-
+	audio = owner->GetComponent<ComponentAudioSource>();
 	animation = owner->GetComponent<ComponentAnimation>();
 }
 
@@ -39,10 +31,7 @@ void CantinaNPCAnimationManager::Update(float deltaTime)
 
 		if (!activation && randomValue <= priority)
 		{
-			if (audio)
-			{
-				audio->PostEvent(AUDIO::SFX::NPC::CANTINA::DRUNKNPC_RANDOM_SOUND);
-			}
+			audio->PostEvent(AUDIO::SFX::NPC::CANTINA::DRUNKNPC_RANDOM_SOUND);
 
 			animation->SetParameter("Activate", true);
 			activation = true;
