@@ -19,12 +19,9 @@ public:
 	void Patrolling();
 
 private:
-	GameObject* wayPointOne;
-	GameObject* wayPointTwo;
 
-	ComponentTransform* wayPointOneTransform;
-	ComponentTransform* wayPointTwoTransform;
-	ComponentTransform* currentWayPointTransform;
+	std::vector<ComponentTransform*> waypointsPatrol;
+	int currentWayPoint;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;
 
