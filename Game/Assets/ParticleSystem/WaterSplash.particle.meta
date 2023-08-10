@@ -1,8 +1,15 @@
 {
     "UID": 15595753318312241838,
     "Type": "ParticleSystem",
-    "TexturesAssetPaths": null,
+    "TexturesAssetPaths": [
+        "Assets/Textures/Spiral7.png",
+        "Assets/Textures/Circle23.png",
+        "Assets/Textures/Smoke17_1.png"
+    ],
     "ConfigEmitters": [
+        true,
+        true,
+        true,
         true
     ]
 }
