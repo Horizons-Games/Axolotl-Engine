@@ -13,6 +13,8 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
+	void SetVerticalSensitivity(float newVerticalSensibility);
+
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);

@@ -142,12 +142,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 		{
 			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
 		}
-		*/
 
 		if (rotationVerticalScript)
 		{
 			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
 		}
+		*/
 
 		if (playerManagerScript)
 		{
