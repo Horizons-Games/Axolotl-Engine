@@ -172,7 +172,11 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 	{
 		ImGui::SameLine();
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-		ImGui::Text(emitter->GetName().c_str());
+		std::string name = emitter->GetName().c_str();
+		if (ImGui::InputText(("##" + name).c_str(), name.data(), 64, ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			emitter->SetName(name.c_str());
+		}
 
 		bool open = emitter->IsVisibleConfig();
 
