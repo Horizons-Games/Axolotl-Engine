@@ -402,6 +402,22 @@ void GameObject::CopyComponent(Component* component)
 
 	if (newComponent)
 	{
+		Component* referenceBeforeMove = newComponent.get();
+
+		Updatable* updatable = dynamic_cast<Updatable*>(referenceBeforeMove);
+		if (updatable)
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+		else
+		{
+			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
+					static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
+		}
+
 		newComponent->SetOwner(this);
 		components.push_back(std::move(newComponent));
 	}

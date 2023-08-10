@@ -17,6 +17,17 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 	REGISTER_FIELD(playerRotationSpeed, float);
 }
 
+void PlayerManagerScript::Start()
+{
+	jumpManager = owner->GetComponent<PlayerJumpScript>();
+	movementManager = owner->GetComponent<PlayerMoveScript>();
+}
+
+bool PlayerManagerScript::IsGrounded() const
+{
+	return jumpManager->IsGrounded();
+}
+
 float PlayerManagerScript::GetPlayerAttack() const
 {
 	return playerAttack;
@@ -50,6 +61,16 @@ void PlayerManagerScript::IncreasePlayerDefense(float defenseIncrease)
 void PlayerManagerScript::IncreasePlayerSpeed(float speedIncrease)
 {
 	playerSpeed += speedIncrease;
+}
+
+PlayerJumpScript* PlayerManagerScript::GetJumpManager() const
+{
+	return jumpManager;
+}
+
+PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
+{
+	return movementManager;
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
