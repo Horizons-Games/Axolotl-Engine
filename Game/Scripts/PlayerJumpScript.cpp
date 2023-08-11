@@ -74,7 +74,7 @@ void PlayerJumpScript::CheckGround()
 	btVector3 rigidBodyOrigin = rigidbody->GetRigidBodyOrigin();
 	float3 origin = float3((maxPoint.getX() + minPoint.getX()) / 2.0f, minPoint.getY(), (maxPoint.getZ() + minPoint.getZ()) / 2.0f);
 	Ray ray(origin, -(rigidbody->GetOwnerTransform()->GetGlobalUp()));
-	LineSegment line(ray, 0.01f);
+	LineSegment line(ray, 0.1f);
 
 	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
 
