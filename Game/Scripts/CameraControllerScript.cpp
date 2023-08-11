@@ -79,7 +79,7 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 
 	Quat orientationOffset = Quat::identity;
 
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01))
+	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01f))
 	{
 		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
 		orientationOffset = rot * transform->GetGlobalRotation();
@@ -134,16 +134,33 @@ void CameraControllerScript::CalculateFocusOffsetVector(float2 offset)
 ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position)
 {
 	ComponentCameraSample* closestSample = nullptr;
-	float minDistance = std::numeric_limits<float>::max();
+	ComponentCameraSample* closestCombatSample = nullptr;
 
-	for (auto sample : samples)
+	float minDistance = std::numeric_limits<float>::max();
+	float minCombatDistance = std::numeric_limits<float>::max();
+
+	for (ComponentCameraSample* sample : samples)
 	{
 		float distance = (sample->GetPosition() - position).Length();
-		if (distance < minDistance && distance <= sample->GetRadius())
+
+		if (distance <= sample->GetRadius())
 		{
-			closestSample = sample;
-			minDistance = distance;
+			if (sample->GetCombatCameraEnabled() && distance < minCombatDistance)
+			{
+				closestCombatSample = sample;
+				minCombatDistance = distance;
+			}
+			else if (distance < minDistance)
+			{
+				closestSample = sample;
+				minDistance = distance;
+			}
 		}
 	}
-	return closestSample;
+
+	if (closestCombatSample)
+		return closestCombatSample;
+	else
+		return closestSample;
 }
+

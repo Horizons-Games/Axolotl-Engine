@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Auxiliar/ComponentNotFoundException.h"
+
 template<typename C>
 C* GameObject::CreateComponent()
 {
@@ -7,7 +9,7 @@ C* GameObject::CreateComponent()
 }
 
 template<typename C>
-C* GameObject::GetComponent() const
+C* GameObject::GetComponentInternal() const
 {
 	auto firstElement = std::ranges::find_if(components,
 											 [](const std::unique_ptr<Component>& comp)
@@ -15,6 +17,17 @@ C* GameObject::GetComponent() const
 												 return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
 											 });
 	return firstElement != std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
+}
+
+template<typename C>
+C* GameObject::GetComponent() const
+{
+	C* internalResult = GetComponentInternal<C>();
+	if (internalResult == nullptr)
+	{
+		throw ComponentNotFoundException("Component of type " + std::string(typeid(C).name()) + " not found");
+	}
+	return internalResult;
 }
 
 template<typename C>
@@ -37,7 +50,7 @@ std::vector<C*> GameObject::GetComponents() const
 template<typename C>
 bool GameObject::RemoveComponent()
 {
-	return RemoveComponent(GetComponent<C>());
+	return RemoveComponent(GetComponentInternal<C>());
 }
 
 template<typename C>
@@ -54,7 +67,7 @@ bool GameObject::RemoveComponents()
 }
 
 template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
-S* GameObject::GetComponent()
+S* GameObject::GetComponentInternal()
 {
 	// GetComponents already makes sure the objects returned are not null
 	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
@@ -65,6 +78,17 @@ S* GameObject::GetComponent()
 													});
 	return componentWithScript != std::end(componentScripts) ? dynamic_cast<S*>((*componentWithScript)->GetScript())
 															 : nullptr;
+}
+
+template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
+S* GameObject::GetComponent()
+{
+	S* internalResult = GetComponentInternal<S>();
+	if (internalResult == nullptr)
+	{
+		throw ComponentNotFoundException("Script of type " + std::string(typeid(S).name()) + " not found");
+	}
+	return internalResult;
 }
 
 template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
@@ -84,4 +108,10 @@ std::vector<S*> GameObject::GetComponents()
 								   return script != nullptr;
 							   });
 	return std::vector<S*>(std::begin(filteredScripts), std::end(filteredScripts));
+}
+
+template<typename C>
+inline bool GameObject::HasComponent() const
+{
+	return GetComponentInternal<C>() != nullptr;
 }

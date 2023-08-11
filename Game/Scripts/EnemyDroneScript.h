@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scripting\Script.h"
+#include "../Scripts/EnemyClass.h"
 #include "RuntimeInclude.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
@@ -12,7 +12,9 @@ class ComponentAudioSource;
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
 class RangedFastAttackBehaviourScript;
+class MeleeHeavyAttackBehaviourScript;
 class HealthSystem;
+class PlayerManagerScript;
 
 enum class DroneBehaviours
 {
@@ -25,7 +27,7 @@ enum class DroneBehaviours
 	EXPLOSIONATTACK
 };
 
-class EnemyDroneScript : public Script
+class EnemyDroneScript : public EnemyClass
 {
 public:
 	EnemyDroneScript();
@@ -33,10 +35,6 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
-
-	DroneBehaviours GetDroneBehaviour() const;
-	float3 GetSeekTargetPosition() const;
-	void SetStunnedTime(float newTime);
 
 private:
 	void CalculateNextPosition() const;
@@ -46,18 +44,20 @@ private:
 
 	float attackDistance;
 	float seekDistance;
-	float timeStunned;
-	bool stunned;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
-	RangedFastAttackBehaviourScript* attackScript;
+	RangedFastAttackBehaviourScript* fastAttackScript;
+	MeleeHeavyAttackBehaviourScript* heavyAttackScript;
 	HealthSystem* healthScript;
 
 	GameObject* seekTarget;
+	GameObject* explosionGameObject;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 	ComponentTransform* seekTargetTransform;
+
+	PlayerManagerScript* playerManager;
 };

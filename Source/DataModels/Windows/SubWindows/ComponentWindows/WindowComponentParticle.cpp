@@ -240,15 +240,15 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::TableNextColumn();
 			ImGui::Text("Radius:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(60.0f);
-			if (ImGui::DragFloat("##radius", &radius, 0.1f, MIN_RADIUS, MAX_RADIUS, "%.2f"))
+			if (ImGui::DragFloat("##radius", &radius, 0.1f, MIN_RADIUS, MAX_RADIUS, "%.3f"))
 			{
 				if (radius > MAX_RADIUS)
 				{
 					radius = MAX_RADIUS;
 				}
-				else if (radius < 0.01)
+				else if (radius < MIN_RADIUS)
 				{
-					radius = 0.01;
+					radius = MIN_RADIUS;
 				}
 				emitter->SetRadius(radius);
 			}

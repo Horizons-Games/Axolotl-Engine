@@ -42,7 +42,7 @@ inline ResourceType ResourceParticleSystem::GetType() const
 
 inline unsigned int ResourceParticleSystem::GetNumEmitters() const
 {
-	return emitters.size();
+	return static_cast<unsigned int>(emitters.size());
 }
 
 inline ParticleEmitter* ResourceParticleSystem::GetEmitter(unsigned int emitterIndex) const

@@ -1,0 +1,13 @@
+{
+    "UID": 12972558710398405986,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Elevator.Cylinder_0.mesh",
+        "Assets/Meshes/Elevator.Cylinder.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ElevatorDefaultMaterial_0.mat",
+        "Assets/Materials/ElevatorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

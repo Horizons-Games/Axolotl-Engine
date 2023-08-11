@@ -16,7 +16,7 @@
 #define MAX_ROTATION 359.9f
 #define MAX_GRAVITY 100.0f
 #define MAX_RADIUS 1000000000.0f
-#define MIN_RADIUS 0.01f
+#define MIN_RADIUS 0.001f
 
 #define DEFAULT_DURATION 10.0f
 #define DEFAULT_LIFESPAN_X 3.0f
@@ -34,7 +34,7 @@
 #define DEFAULT_RADIUS 0.5
 #define DEFAULT_MAX_PARTICLES 50
 
-#define CONE_HEIGHT 1.5
+#define CONE_HEIGHT 1.5f
 
 class ResourceTexture;
 class EmitterInstance;
