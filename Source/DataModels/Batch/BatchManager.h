@@ -28,6 +28,7 @@ public:
 	~BatchManager();
 
 	void FillCharactersBacthes();
+	void SwapBatchParentAndChildren(GameObject* go);
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
 
@@ -41,7 +42,6 @@ public:
 
 private:
 	void SearchAndSwapBatchCharacter(GameObject* parent);
-	void SwapBatchCharacter(GameObject* character);
 	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent, int& flags);
 	bool IsACharacter(const ComponentMeshRenderer* newComponent);
 

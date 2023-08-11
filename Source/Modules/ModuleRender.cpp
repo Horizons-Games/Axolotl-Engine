@@ -661,6 +661,11 @@ void ModuleRender::FillCharactersBatches()
 	batchManager->FillCharactersBacthes();
 }
 
+void ModuleRender::RelocateGOInBatches(GameObject* go)
+{
+	batchManager->SwapBatchParentAndChildren(go);
+}
+
 void ModuleRender::DrawHighlight(GameObject* gameObject)
 {
 	std::queue<GameObject*> gameObjectQueue;

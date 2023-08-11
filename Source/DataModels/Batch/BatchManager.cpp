@@ -27,6 +27,20 @@ void BatchManager::FillCharactersBacthes()
 	SearchAndSwapBatchCharacter(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
 }
 
+void BatchManager::SwapBatchParentAndChildren(GameObject* go)
+{
+	ComponentMeshRenderer* component = go->GetComponentInternal<ComponentMeshRenderer>();
+	if (component)
+	{
+		component->GetBatch()->DeleteComponent(component);
+		AddComponent(component);
+	}
+	for (auto child : go->GetChildren())
+	{
+		SwapBatchParentAndChildren(child);
+	}
+}
+
 void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 {
 	if (newComponent)
@@ -57,26 +71,12 @@ void BatchManager::SearchAndSwapBatchCharacter(GameObject* parent)
 {
 	if (parent->GetTag() == "Player" || parent->GetTag() == "Enemy")
 	{
-		SwapBatchCharacter(parent);
+		SwapBatchParentAndChildren(parent);
 		return;
 	}
 	for (auto child : parent->GetChildren())
 	{
 		SearchAndSwapBatchCharacter(child);
-	}
-}
-
-void BatchManager::SwapBatchCharacter(GameObject* character)
-{
-	ComponentMeshRenderer* component = character->GetComponentInternal<ComponentMeshRenderer>();
-	if (component)
-	{
-		component->GetBatch()->DeleteComponent(component);
-		AddComponent(component);
-	}
-	for (auto child : character->GetChildren())
-	{
-		SwapBatchCharacter(child);
 	}
 }
 
