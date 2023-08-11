@@ -18,4 +18,5 @@ WindowComponentPlayerInput::~WindowComponentPlayerInput()
 void WindowComponentPlayerInput::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
+	ImGui::Text("");
 }
