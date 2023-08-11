@@ -676,6 +676,8 @@ void GeometryBatch::BindBatch(bool selected)
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
+		objectIndexes.clear();
+		objectIndexes.reserve(componentsInBatch.size());
 		for (const ComponentMeshRenderer* component : componentsInBatch)
 		{
 			if (component->GetMaterial())
