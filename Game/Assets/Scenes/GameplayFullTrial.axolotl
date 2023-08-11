@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "GameplayFullTrial_VS3",
+                "name": "GameplayFullTrial",
                 "tag": "",
                 "uid": 9011007661183311806,
                 "parentUID": 0,
@@ -716,6 +716,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 0.0,
                             "positionY": 0.0,
                             "positionZ": 62.397525787353516
