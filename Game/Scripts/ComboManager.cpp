@@ -4,7 +4,6 @@
 #include "Application.h"
 
 #include "Components/ComponentScript.h"
-#include "Modules/ModuleInput.h"
 #include "UIComboManager.h"
 
 REGISTERCLASS(ComboManager);
@@ -48,7 +47,11 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
+	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
+	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
+	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
+	if (input->GetKey(SDL_SCANCODE_TAB) != keyState &&
+		input->GetKey(SDL_SCANCODE_TAB) == KeyState::REPEAT && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
 
