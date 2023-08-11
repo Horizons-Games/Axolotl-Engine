@@ -59,6 +59,8 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
+	void FillCharactersBatches();
+
 private:
 
 	enum class ModeRender {

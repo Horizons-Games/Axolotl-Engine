@@ -2,6 +2,11 @@
 
 #include "BatchManager.h"
 
+#include "Application.h"
+
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
@@ -15,6 +20,11 @@ BatchManager::BatchManager()
 BatchManager::~BatchManager()
 {
 	CleanBatches();
+}
+
+void BatchManager::FillCharactersBacthes()
+{
+	SearchAndSwapBatchCharacter(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
 }
 
 void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
@@ -43,10 +53,41 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 	}
 }
 
+void BatchManager::SearchAndSwapBatchCharacter(GameObject* parent)
+{
+	if (parent->GetTag() == "Player" || parent->GetTag() == "Enemy")
+	{
+		SwapBatchCharacter(parent);
+		return;
+	}
+	for (auto child : parent->GetChildren())
+	{
+		SearchAndSwapBatchCharacter(child);
+	}
+}
+
+void BatchManager::SwapBatchCharacter(GameObject* character)
+{
+	ComponentMeshRenderer* component = character->GetComponentInternal<ComponentMeshRenderer>();
+	if (component)
+	{
+		component->GetBatch()->DeleteComponent(component);
+		AddComponent(component);
+	}
+	for (auto child : character->GetChildren())
+	{
+		SwapBatchCharacter(child);
+	}
+}
+
 GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer* newComponent, int& flags)
 {
 	std::shared_ptr<ResourceMesh> mesh = newComponent->GetMesh();
 	std::shared_ptr<ResourceMaterial> material = newComponent->GetMaterial();
+	if (IsACharacter(newComponent))
+	{
+		flags |= IS_A_CHARACTER;
+	}
 
 	if (mesh)
 	{
@@ -103,6 +144,21 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 		}
 	}
 	return nullptr;
+}
+
+bool BatchManager::IsACharacter(const ComponentMeshRenderer* newComponent)
+{
+	GameObject* go = newComponent->GetOwner();
+	GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
+	while (go != root)
+	{
+		if (go->GetTag() == "Player" || go->GetTag() == "Enemy")
+		{
+			return true;
+		}
+		go = go->GetParent();
+	}
+	return false;
 }
 
 void BatchManager::DrawOpaque(bool selected)
