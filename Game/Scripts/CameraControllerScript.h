@@ -45,5 +45,7 @@ private:
 
 	float xFocusOffset;
 	float yFocusOffset;
+
+	bool inCombat;
 };
 
