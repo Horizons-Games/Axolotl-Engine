@@ -79,28 +79,32 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Forward
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE || input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE ||
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
 	{
 		totalDirection += cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::W_DOWN;
 	}
 
 	// Back
-	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE || input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE ||
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
 	{
 		totalDirection += -cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE || input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT)
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE ||
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT)
 	{
 		totalDirection += cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE || input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
 	{
 		if (playerState == PlayerActions::IDLE)
 		{
@@ -128,7 +132,8 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
+		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING &&
+			!isDashing && jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
 		
 		if (playerIsRunning)
 		{
@@ -186,7 +191,9 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 		else
 		{
-			if (math::Abs(currentVelocity.getX()) < dashForce / 100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+			if (math::Abs(currentVelocity.getX()) < dashForce / 100.f &&
+				
+				math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
 			{
 				btRigidbody->setLinearVelocity(newVelocity);
 				isDashing = false;
@@ -224,7 +231,8 @@ void PlayerMoveScript::MoveRotate(const float3& targetDirection, float deltaTime
 	}
 
 	btTransform worldTransform = btRigidbody->getWorldTransform();
-	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), targetDirection, float3::unitY, float3::unitY);
+	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), 
+		targetDirection, float3::unitY, float3::unitY);
 	Quat rotation = componentTransform->GetGlobalRotation();
 	Quat targetRotation = rot * componentTransform->GetGlobalRotation();
 
