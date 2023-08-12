@@ -174,7 +174,7 @@ void GeometryBatch::FillMaterial()
 			MaterialMetallic newMaterial =
 			{
 				resourceMaterial->GetDiffuseColor(),
-				resourceMaterial->HasDiffuse(),
+				resourceMaterial->UseDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
 				resourceMaterial->HasEmissive(),
@@ -217,7 +217,7 @@ void GeometryBatch::FillMaterial()
 			{
 				resourceMaterial->GetDiffuseColor(),
 				resourceMaterial->GetSpecularColor(),
-				resourceMaterial->HasDiffuse(),
+				resourceMaterial->UseDiffuse(),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),

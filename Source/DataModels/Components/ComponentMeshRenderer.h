@@ -52,6 +52,7 @@ public:
 	void SetNormalStrength(float normalStrength);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
+	void SetUseDiffuseColor(bool useDiffuseColor);
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);

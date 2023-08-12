@@ -62,7 +62,7 @@ public:
 	std::shared_ptr<ResourceTexture> GetSpecular() const;
 	std::shared_ptr<ResourceTexture> GetEmission() const;
 
-	bool HasDiffuse();
+	bool UseDiffuse();
 	bool HasNormal();
 	bool HasOcclusion();
 	bool HasSpecular();
@@ -100,6 +100,9 @@ public:
 	const float& GetIntensityBloom() const;
 	void SetIntensityBloom(const float intensityBloom);
 
+	const bool GetUseDiffuseColor() const;
+	void SetUseDiffuseColor(bool useDiffuseColor);
+
 protected:
 	void InternalLoad() override{};
 	void InternalUnload() override{};
@@ -113,6 +116,8 @@ private:
 	std::shared_ptr<ResourceTexture> specular;
 	std::shared_ptr<ResourceTexture> metallic;
 	std::shared_ptr<ResourceTexture> emission;
+
+	bool useDiffuseColor;
 
 	LoadOptionsMaterial loadOptions;
 };
@@ -202,9 +207,9 @@ inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
 	return loadOptions;
 }
 
-inline bool ResourceMaterial::HasDiffuse()
+inline bool ResourceMaterial::UseDiffuse()
 {
-	return diffuse != nullptr;
+	return diffuse != nullptr && !useDiffuseColor;
 }
 
 inline bool ResourceMaterial::HasNormal()
@@ -328,4 +333,14 @@ inline const float& ResourceMaterial::GetIntensityBloom() const
 inline void ResourceMaterial::SetIntensityBloom(const float intensityBloom)
 {
 	loadOptions.intensityBloom = intensityBloom;
+}
+
+inline const bool ResourceMaterial::GetUseDiffuseColor() const
+{
+	return useDiffuseColor;
+}
+
+inline void ResourceMaterial::SetUseDiffuseColor(bool useDiffuseColor)
+{
+	this->useDiffuseColor = useDiffuseColor;
 }

@@ -638,6 +638,11 @@ void ComponentMeshRenderer::SetOffset(const float2& offset)
 	this->material->SetOffset(offset);
 }
 
+void ComponentMeshRenderer::SetUseDiffuseColor(bool useDiffuseColor)
+{
+
+}
+
 // Default shader attributes (setters)
 void ComponentMeshRenderer::SetMetalness(float metalness)
 {
