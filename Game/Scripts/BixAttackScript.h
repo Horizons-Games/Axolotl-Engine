@@ -41,7 +41,7 @@ public:
 	bool IsPerfomingJumpAttack() const;
 
 	AttackType GetCurrentAttackType() const;
-	GameObject* GetEnemyDetection() const;
+	GameObject* GetEnemyDetected() const;
 
 private:
 	void Start() override;

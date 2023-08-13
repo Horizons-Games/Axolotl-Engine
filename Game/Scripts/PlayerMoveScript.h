@@ -66,6 +66,9 @@ private:
     bool isDashing;
     bool canDash;
 
+    float lightAttacksMoveFactor;
+    float heavyAttacksMoveFactor;
+
 	PlayerManagerScript* playerManager;
 	PlayerForceUseScript* forceScript;
 

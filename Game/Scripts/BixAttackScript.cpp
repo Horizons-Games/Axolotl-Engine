@@ -341,7 +341,7 @@ AttackType BixAttackScript::GetCurrentAttackType() const
 	return currentAttack;
 }
 
-GameObject* BixAttackScript::GetEnemyDetection() const
+GameObject* BixAttackScript::GetEnemyDetected() const
 {
 	return enemyDetection->GetEnemySelected();
 }

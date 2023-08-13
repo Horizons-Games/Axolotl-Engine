@@ -26,7 +26,7 @@ REGISTERCLASS(PlayerMoveScript);
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
 	dashForce(20000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false),
-	desiredRotation(0.0f, 0.0f, 0.0f)
+	desiredRotation(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
@@ -152,13 +152,11 @@ void PlayerMoveScript::Move(float deltaTime)
 		switch (currentAttack)
 		{
 		case AttackType::LIGHTNORMAL:
-				newSpeed = newSpeed / 2.0f;
+				newSpeed = newSpeed / lightAttacksMoveFactor;
 			break;
 		case AttackType::HEAVYNORMAL:
-			newSpeed = newSpeed / 3.0f;
-			break;
 		case AttackType::LIGHTFINISHER:
-			newSpeed = newSpeed / 3.0f;
+			newSpeed = newSpeed / heavyAttacksMoveFactor;
 			break;
 		}
 
@@ -236,7 +234,7 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 	//Look at enemy selected while attacking
 	AttackType currentAttack = bixAttackScript->GetCurrentAttackType();
-	GameObject* enemyGO = bixAttackScript->GetEnemyDetection();
+	GameObject* enemyGO = bixAttackScript->GetEnemyDetected();
 	if (enemyGO != nullptr && currentAttack != AttackType::NONE)
 	{
 		ComponentTransform* enemy = enemyGO->GetComponent<ComponentTransform>();
@@ -245,11 +243,7 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 		switch (currentAttack)
 		{
 		case AttackType::LIGHTNORMAL:
-			desiredRotation = vecForward + vecTowardsEnemy;
-			break;
 		case AttackType::HEAVYNORMAL:
-			desiredRotation = vecForward + vecTowardsEnemy;
-			break;
 		case AttackType::LIGHTFINISHER:
 			desiredRotation = vecForward + vecTowardsEnemy;
 			break;
