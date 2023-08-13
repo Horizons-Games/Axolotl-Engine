@@ -1013,7 +1013,7 @@ void Scene::UpdateSceneMeshRenderers()
 	{
 		if (go && go->IsEnabled() && go->IsActive())
 		{
-			ComponentMeshRenderer* componentMeshRenderer = go->GetComponent<ComponentMeshRenderer>();
+			ComponentMeshRenderer* componentMeshRenderer = go->GetComponentInternal<ComponentMeshRenderer>();
 
 			if (componentMeshRenderer)
 			{
@@ -1030,7 +1030,7 @@ void Scene::UpdateSceneBoundingBoxes()
 	{
 		if (go && go->IsEnabled() && go->IsActive())
 		{
-			ComponentTransform* componentTransform = go->GetComponent<ComponentTransform>();
+			ComponentTransform* componentTransform = go->GetComponentInternal<ComponentTransform>();
 
 			if (componentTransform)
 			{
@@ -1048,7 +1048,7 @@ void Scene::UpdateSceneAgentComponents()
 	{
 		if (go && go->IsEnabled() && go->IsActive())
 		{
-			ComponentAgent* componentAgent = go->GetComponent<ComponentAgent>();
+			ComponentAgent* componentAgent = go->GetComponentInternal<ComponentAgent>();
 
 			if (componentAgent)
 			{
