@@ -5,6 +5,9 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class PlayerJumpScript;
+class PlayerMoveScript;
+
 class PlayerManagerScript : public Script
 {
 public:
@@ -20,9 +23,21 @@ public:
 	void IncreasePlayerDefense(float defenseIncrease);
 	void IncreasePlayerSpeed(float speedIncrease);
 
+	bool IsGrounded() const;
+	PlayerJumpScript* GetJumpManager() const;
+	PlayerMoveScript* GetMovementManager() const;
+	void SetPlayerSpeed(float playerSpeed);
+
 private:
+	void Start() override;
+
+
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
+
+	// All Principal PlayerManagers
+	PlayerMoveScript* movementManager;
+	PlayerJumpScript* jumpManager;
 };

@@ -1,5 +1,7 @@
 #include "DefaultScript.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels/Components/ComponentAnimation.h"
+#include "DataModels/Components/ComponentMeshCollider.h"
 #include "DataModels/Components/ComponentScript.h"
 
 #include "AxoLog.h"
@@ -22,6 +24,8 @@ sentence("Horizons"), character(nullptr), check(true)
 	REGISTER_FIELD(check, bool);
 	REGISTER_FIELD(transform, ComponentTransform*);
 	REGISTER_FIELD_WITH_ACCESSORS(Script, DefaultScript*);
+	REGISTER_FIELD(colliders, std::vector<ComponentMeshCollider*>);
+	REGISTER_FIELD_WITH_ACCESSORS(Animations, std::vector<ComponentAnimation*>);
 }
 
 void DefaultScript::Update(float deltaTime)
@@ -119,4 +123,14 @@ DefaultScript* DefaultScript::GetScript() const
 void DefaultScript::SetScript(DefaultScript* script)
 {
 	this->script = script;
+}
+
+const std::vector<ComponentAnimation*>& DefaultScript::GetAnimations() const
+{
+	return animations;
+}
+
+void DefaultScript::SetAnimations(const std::vector<ComponentAnimation*>& animations)
+{
+	this->animations = animations;
 }

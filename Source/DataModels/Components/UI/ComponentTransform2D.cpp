@@ -108,7 +108,7 @@ void ComponentTransform2D::CalculateMatrices()
 
 	if (parent)
 	{
-		ComponentTransform2D* parentTransform = parent->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* parentTransform = parent->GetComponentInternal<ComponentTransform2D>();
 		if (parentTransform)
 		{
 			// Set global matrix
@@ -130,7 +130,7 @@ void ComponentTransform2D::CalculateMatrices()
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform2D* childTransform = child->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* childTransform = child->GetComponentInternal<ComponentTransform2D>();
 		childTransform->CalculateMatrices();
 	}
 
@@ -144,8 +144,8 @@ float3 ComponentTransform2D::GetPositionRelativeToParent()
 	GameObject* parent = GetOwner()->GetParent();
 	if (parent != nullptr)
 	{
-		ComponentCanvas* parentCanvas = parent->GetComponent<ComponentCanvas>();
-		ComponentTransform2D* parentTransform2D = parent->GetComponent<ComponentTransform2D>();
+		ComponentCanvas* parentCanvas = parent->GetComponentInternal<ComponentCanvas>();
+		ComponentTransform2D* parentTransform2D = parent->GetComponentInternal<ComponentTransform2D>();
 		if (parentTransform2D != nullptr)
 		{
 			if (parentCanvas != nullptr)
@@ -172,7 +172,7 @@ float3 ComponentTransform2D::GetScreenPosition()
 	GameObject* parent = GetOwner()->GetParent();
 	while (parent != nullptr)
 	{
-		ComponentTransform2D* parentTransform2D = parent->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* parentTransform2D = parent->GetComponentInternal<ComponentTransform2D>();
 		if (parentTransform2D == nullptr)
 			break;
 		screenPosition += parentTransform2D->GetPositionRelativeToParent();
@@ -220,7 +220,7 @@ ComponentCanvas* ComponentTransform2D::RecursiveWhichCanvasContainsMe(const Game
 {
 	if (object != nullptr)
 	{
-		ComponentCanvas* canvas = object->GetComponent<ComponentCanvas>();
+		ComponentCanvas* canvas = object->GetComponentInternal<ComponentCanvas>();
 		return canvas ? canvas : RecursiveWhichCanvasContainsMe(object->GetParent());
 	}
 	return nullptr;

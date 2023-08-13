@@ -1,0 +1,21 @@
+{
+    "UID": 15307701648173294726,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/computer.Computer_0.mesh",
+        "Assets/Meshes/computer.Cube.002_0.mesh",
+        "Assets/Meshes/computer.Cylinder_0.mesh",
+        "Assets/Meshes/computer.Cylinder.002_0.mesh",
+        "Assets/Meshes/computer.Cylinder.003_0.mesh",
+        "Assets/Meshes/computer.BezierCurve.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/computerDefaultMaterial_0.mat",
+        "Assets/Materials/computerDefaultMaterial_0.mat",
+        "Assets/Materials/computerDefaultMaterial_0.mat",
+        "Assets/Materials/computerDefaultMaterial_0.mat",
+        "Assets/Materials/computerDefaultMaterial_0.mat",
+        "Assets/Materials/computerDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -36,7 +36,7 @@ WindowInspector::WindowInspector() :
 
 	auto gameObjectDoesNotHaveComponent = []<typename C>(GameObject* gameObject)
 	{
-		return gameObject->GetComponent<C>() == nullptr;
+		return gameObject->GetComponentInternal<C>() == nullptr;
 	};
 
 	actions.push_back(AddComponentAction("Create Mesh Renderer Component",
@@ -207,7 +207,7 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (lastSelectedGameObject)
 	{
-		bool enable = lastSelectedGameObject->IsEnabled();
+		bool enable = lastSelectedGameObject->IsEnabled(); 
 		bool enableStateChanged = ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 

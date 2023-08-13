@@ -13,7 +13,7 @@ ComponentAudioListener::ComponentAudioListener(const bool active, GameObject* ow
 	AK::SoundEngine::RegisterGameObj(listenerID, owner->GetName().c_str());
 	AK::SoundEngine::SetDefaultListeners(&listenerID, 1);
 
-	transform = owner->GetComponent<ComponentTransform>();
+	transform = owner->GetComponentInternal<ComponentTransform>();
 
 	if (transform)
 	{

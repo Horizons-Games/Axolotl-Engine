@@ -67,6 +67,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowInput.cpp">
+      <Filter>DataModels\Windows\SubWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
@@ -249,7 +252,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
@@ -475,9 +478,6 @@
     <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
@@ -489,6 +489,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\Script.cpp">
+      <Filter>Scripting</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
@@ -511,9 +514,6 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PowerUpsManagerScript.cpp">
       <Filter>UserScripts\Gameplay\PowerUps</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerDeathScript.cpp">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
@@ -572,9 +572,6 @@
     <ClCompile Include="..\Game\Scripts\InteractWithPowerUpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceAttackScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
     </ClCompile>
@@ -629,6 +626,42 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EntityDetection.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ComboManager.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\JumpFinisherAttackBullet.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\JumpFinisherArea.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\JumpFinisherAttack.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\LightAttackBullet.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -702,6 +735,9 @@
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
+      <Filter>DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowInput.h">
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
@@ -1119,9 +1155,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
-      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
@@ -1133,9 +1166,6 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts\Basics</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h">
       <Filter>UserScripts\Gameplay\Health System\DeathActions</Filter>
@@ -1149,15 +1179,8 @@
     <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
-      <Filter>UserScripts</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\InteractWithPowerUpScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerForceAttackScript.h">
-      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h">
       <Filter>UserScripts\UI</Filter>
@@ -1269,9 +1292,6 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ActivationLogic.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1293,19 +1313,53 @@
     <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\UITextTrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyClass.h">
+      <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EntityDetection.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ComboManager.h">
+      <Filter>UserScripts\Gameplay\Player\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIComboManager.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\RegisterFieldMacros.h">
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
+      <Filter>UserScripts\Gameplay\Player\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\JumpFinisherAttackBullet.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\JumpFinisherArea.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\JumpFinisherAttack.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\LightFinisherAttackScript.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\LightAttackBullet.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
+      <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1462,6 +1516,21 @@
     <Filter Include="UserScripts\Graphics">
       <UniqueIdentifier>{fca70cf2-3a20-410d-9019-42e680fad56c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Jump">
+      <UniqueIdentifier>{4896dd16-ae40-4f76-a122-20d5acd08007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers">
+      <UniqueIdentifier>{95956bcd-4590-450a-bfa6-c241526da8d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher">
+      <UniqueIdentifier>{f3f3b7da-35e8-433d-a186-ad371f8f6b14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Jump Finisher">
+      <UniqueIdentifier>{44e2eb3a-410c-463a-bcc8-4a5b8b69005e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher">
+      <UniqueIdentifier>{62400d05-b28f-42d0-8554-b11dc997773a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataModels\Timer\Timer.cpp">
@@ -1528,6 +1597,9 @@
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\WindowFrustum.cpp">
+      <Filter>DataModels\Windows\SubWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\WindowInput.cpp">
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowInspector.cpp">
@@ -1712,7 +1784,7 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentImage.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\WindowComponentTransform2D.cpp">
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTransform2D.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\UI\ComponentCanvas.cpp">
@@ -1823,6 +1895,9 @@
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
+      <Filter>DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowInput.h">
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">
@@ -2152,6 +2227,9 @@
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\WindowFrustum.h">
+      <Filter>DataModels\Windows\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\WindowInput.h">
       <Filter>DataModels\Windows\SubWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowInspector.h">

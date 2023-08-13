@@ -1,18 +1,19 @@
 #include "HealthSystem.h"
 
+#include "AxoLog.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
-#include "Components/ComponentCamera.h"
 #include "Components/ComponentParticleSystem.h"
 
+#include "../Scripts/BixAttackScript.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 
-
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), isImmortal(false), enemyParticleSystem(nullptr)
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -24,12 +25,28 @@ void HealthSystem::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentParticleSystem = enemyParticleSystem->GetComponent<ComponentParticleSystem>();
-	componentParticleSystem = owner->GetComponent<ComponentParticleSystem>();
+
+	//--- This was done because in the gameplay scene there is no particle system
+	try
+	{
+		componentParticleSystem = owner->GetComponent<ComponentParticleSystem>();
+	}
+
+	catch (const ComponentNotFoundException&)
+	{
+		componentParticleSystem = nullptr;
+	}
+	//---
 
 	// Check that the currentHealth is always less or equal to maxHealth
 	if (maxHealth < currentHealth)
 	{
 		maxHealth = currentHealth;
+	}
+
+	if (owner->CompareTag("Player"))
+	{
+		attackScript = owner->GetComponent<BixAttackScript>();
 	}
 }
 
@@ -59,7 +76,6 @@ void HealthSystem::Update(float deltaTime)
 	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
-
 	}
 }
 
@@ -67,7 +83,7 @@ void HealthSystem::TakeDamage(float damage)
 {
 	if (!isImmortal) 
 	{
-		if (owner->CompareTag("Player"))
+		if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
@@ -81,12 +97,12 @@ void HealthSystem::TakeDamage(float damage)
 		}
 
 		componentAnimation->SetParameter("IsTakingDamage", true);
-
 		if (componentParticleSystem)
 		{
 			componentParticleSystem->Play();
 		}
-		//componentParticleSystem->Pause();
+
+		// componentParticleSystem->Pause();
 	}
 }
 
@@ -105,7 +121,7 @@ float HealthSystem::GetMaxHealth() const
 	return maxHealth;
 }
 
-bool HealthSystem::GetIsImmortal() const
+bool HealthSystem::IsImmortal() const
 {
 	return isImmortal;
 }

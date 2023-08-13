@@ -43,7 +43,7 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 	ResetMaterialValues();
 }
 
-std::shared_ptr<ResourceMaterial>& WindowComponentMeshRenderer::GetMaterial() const
+std::shared_ptr<ResourceMaterial> WindowComponentMeshRenderer::GetMaterial() const
 {
 	std::shared_ptr<ResourceMaterial> materialResource = static_cast<ComponentMeshRenderer*>(component)->GetMaterial();
 	return materialResource;
@@ -66,19 +66,17 @@ void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMate
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
-	if (changed)
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(75, 25, 25, 255));
-	}
-	else
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 0, 0));
-	}
-	ImGui::BeginChild("##Window");
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	draw_list->ChannelsSplit(2);
+	draw_list->ChannelsSetCurrent(1);
+
+	ImGui::BeginGroup();
 	DrawEnableAndDeleteComponent();
 
 	// used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
-	ImGui::Text("");
+	ImGui::NewLine();
 
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
@@ -161,8 +159,22 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 	}
 
-	ImGui::EndChild();
-	ImGui::PopStyleColor();
+	ImGui::EndGroup();
+
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	if (changed)
+	{
+		draw_list->ChannelsSetCurrent(0);
+
+		ImVec2 itemRectMin = ImGui::GetItemRectMin();
+		ImVec2 itemRectMax = ImGui::GetItemRectMax();
+		itemRectMax.x = ImGui::GetContentRegionMax().x + ImGui::GetWindowPos().x;
+
+		draw_list->AddRectFilled(itemRectMin, itemRectMax, IM_COL32(75, 25, 25, 255));
+	}
+
+	draw_list->ChannelsMerge();
 }
 
 void WindowComponentMeshRenderer::DrawSetMaterial()
@@ -231,7 +243,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				for (unsigned int i = 0; i < renderModes.size(); ++i)
 				{
-					const bool isSelected = materialResource->IsTransparent() == i;
+					const bool isSelected = static_cast<int>(materialResource->IsTransparent()) == i;
 
 					if (ImGui::Selectable(renderModes[i].c_str(), isSelected))
 					{
