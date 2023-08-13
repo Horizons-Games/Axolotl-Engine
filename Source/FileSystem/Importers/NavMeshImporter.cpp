@@ -7,6 +7,8 @@
 #include "Resources/ResourceNavMesh.h"
 #include "Defines/ExtensionDefines.h"
 
+#include "Defines/ExtensionDefines.h"
+
 void NavMeshImporter::Import(const char* filePath, std::shared_ptr<ResourceNavMesh> resource)
 {
 	char* loadBuffer;
