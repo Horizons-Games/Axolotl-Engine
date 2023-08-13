@@ -116,6 +116,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		if (droneState == DroneBehaviours::FIRSTPATROL)
 		{
 			patrolScript->StartPatrol();
+			componentAnimation->SetParameter("IsSeeking", false);
 			droneState = DroneBehaviours::PATROL;
 		}
 
@@ -149,9 +150,6 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (patrolScript && droneState == DroneBehaviours::PATROL)
 	{
-		patrolScript->Patrolling();
-
-		componentAnimation->SetParameter("IsSeeking", false);
 	}
 
 	if (seekScript && droneState == DroneBehaviours::SEEK)

@@ -6,6 +6,7 @@
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAnimation;
 
 class PatrolBehaviourScript : public Script
 {
@@ -14,16 +15,25 @@ public:
 	~PatrolBehaviourScript() override = default;
 
 	void Start() override;
+	void Update(float deltaTime) override;
 
 	void StartPatrol();
-	void Patrolling();
+	void StopPatrol();
 
 private:
 
-	std::vector<ComponentTransform*> waypointsPatrol;
-	int currentWayPoint;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;
+	ComponentAnimation* componentAnimation;
+	std::vector<ComponentTransform*> waypointsPatrol;
+	int currentWayPoint;
+	bool patrolStateActivated;
+	bool isStoppedAtPatrol;
+	float patrolStopDuration;
+	float originStopTime;
+	std::string patrolAnimationParamater;
 
+	void Patrolling();
+	void CheckNextWaypoint();
 	void SetProportionalController() const;
 };

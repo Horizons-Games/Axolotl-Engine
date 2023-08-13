@@ -1,22 +1,29 @@
 #include "PatrolBehaviourScript.h"
 
+#include "Application.h"
+
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
 
 #include "debugdraw.h"
 
 REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerRigidBody(nullptr), ownerTransform(nullptr),
-currentWayPoint(0)
+currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), originStopTime(0.0f), patrolStateActivated(false),
+componentAnimation(nullptr), patrolAnimationParamater("")
 {
 	REGISTER_FIELD(waypointsPatrol, std::vector<ComponentTransform*>);
+	REGISTER_FIELD(patrolStopDuration, float);
+	REGISTER_FIELD(patrolAnimationParamater, std::string);
 }
 
 void PatrolBehaviourScript::Start()
 {
 	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	currentWayPoint = 0;
 
@@ -26,34 +33,66 @@ void PatrolBehaviourScript::Start()
 	}
 }
 
-// Initally set the first waypoint as the destiny
+void PatrolBehaviourScript::Update(float deltaTime)
+{
+	if (patrolStateActivated)
+	{
+		if (!isStoppedAtPatrol)
+		{
+			Patrolling();
+		}
+		else if (SDL_GetTicks() / 1000.0f >= originStopTime + patrolStopDuration)
+		{
+			isStoppedAtPatrol = false;
+
+			CheckNextWaypoint();
+
+			componentAnimation->SetParameter(patrolAnimationParamater, true);
+			SetProportionalController();
+		}
+	}
+}
+
 void PatrolBehaviourScript::StartPatrol()
 {
 	if (ownerRigidBody && ownerRigidBody->IsEnabled())
 	{
-		currentWayPoint = 0;
+		componentAnimation->SetParameter(patrolAnimationParamater, true);
+		patrolStateActivated = true;
+		isStoppedAtPatrol = false;
 
 		SetProportionalController();
 	}
 }
 
-// When this behaviour is triggered, the enemy will patrol between its waypoints
-// (This can be modularized into any amout of waypoints once the scripts can accept vectors)
+void PatrolBehaviourScript::StopPatrol()
+{
+	patrolStateActivated = false;
+	CheckNextWaypoint();
+}
+
 void PatrolBehaviourScript::Patrolling()
 {
 	if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
 	{
-		if (currentWayPoint == waypointsPatrol.size() - 1)
-		{
-			currentWayPoint = 0;
-		}
-		else
-		{
-			currentWayPoint++;
-		}
+		isStoppedAtPatrol = true;
+		originStopTime = SDL_GetTicks() / 1000.0f;
+		componentAnimation->SetParameter(patrolAnimationParamater, false);
 	}
 
 	SetProportionalController();
+}
+
+void PatrolBehaviourScript::CheckNextWaypoint()
+{
+	if (currentWayPoint == waypointsPatrol.size() - 1)
+	{
+		currentWayPoint = 0;
+	}
+	else
+	{
+		currentWayPoint++;
+	}
 }
 
 void PatrolBehaviourScript::SetProportionalController() const

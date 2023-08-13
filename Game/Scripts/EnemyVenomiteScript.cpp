@@ -65,19 +65,27 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	{
 		ComponentTransform* seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
-		if (venomiteState != VenomiteBehaviours::PATROL)
+		
+
+		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), rangedAttackDistance))
+		{
+			if (venomiteState != VenomiteBehaviours::RANGED_ATTACK)
+			{
+				patrolScript->StopPatrol();
+				venomiteState = VenomiteBehaviours::RANGED_ATTACK;
+			}
+		}
+		else if (venomiteState != VenomiteBehaviours::PATROL)
 		{
 			venomiteState = VenomiteBehaviours::PATROL;
 			patrolScript->StartPatrol();
+			batonGameObject->Disable();
+			blasterGameObject->Disable();
+
+			componentAnimation->SetParameter("IsRangedAttacking", false);
 		}
 
-		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), rangedAttackDistance)
-			&& venomiteState != VenomiteBehaviours::RANGED_ATTACK)
-		{
-			venomiteState = VenomiteBehaviours::RANGED_ATTACK;
-		}
-
-		if (healthScript->GetCurrentHealth() <= healthScript->GetMaxHealth() / 2.0f 
+		/*if (healthScript->GetCurrentHealth() <= healthScript->GetMaxHealth() / 2.0f 
 			&& venomiteState != VenomiteBehaviours::SEEK)
 		{
 			venomiteState = VenomiteBehaviours::SEEK;
@@ -87,18 +95,11 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			&& ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
 		{
 			venomiteState = VenomiteBehaviours::MELEE_ATTACK;
-		}
+		}*/
 	}
 
 	if (patrolScript && venomiteState == VenomiteBehaviours::PATROL)
 	{
-		batonGameObject->Disable();
-		blasterGameObject->Disable();
-
-		patrolScript->Patrolling();
-
-		componentAnimation->SetParameter("IsRunning", true);
-		componentAnimation->SetParameter("IsRangedAttacking", false);
 	}
 
 	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
