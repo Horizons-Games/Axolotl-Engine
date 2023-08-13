@@ -31,6 +31,8 @@ PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(canDash, bool);
 	REGISTER_FIELD(isParalyzed, bool);
+	REGISTER_FIELD(lightAttacksMoveFactor, float);
+	REGISTER_FIELD(heavyAttacksMoveFactor, float);
 }
 
 void PlayerMoveScript::Start()
