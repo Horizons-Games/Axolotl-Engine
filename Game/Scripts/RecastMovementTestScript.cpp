@@ -1,6 +1,7 @@
 #include "RecastMovementTestScript.h"
 
-#include "ModuleInput.h"
+//#include "Application.h"
+//#include "ModuleInput.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -19,7 +20,7 @@ void RecastMovementTestScript::Start()
 	targetPosition = target->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	componentTransform = owner->GetComponent<ComponentTransform>();
 
-	input = App->GetModule<ModuleInput>();
+	//input = App->GetModule<ModuleInput>();
 }
 
 void RecastMovementTestScript::Update(float deltaTime)
