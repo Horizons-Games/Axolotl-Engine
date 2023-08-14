@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ModuleNavigation.h"
 #include "ComponentTransform.h"
+#include "ComponentRigidBody.h"
 
 #include "GameObject/GameObject.h"
 #include "Resources/ResourceNavMesh.h"
@@ -41,9 +42,16 @@ void ComponentAgent::Update()
 
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+
 	transform->SetGlobalPosition(float3(ag->npos));
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
+
+	if (updateRigidBody)
+	{
+		ComponentRigidBody* rb = GetOwner()->GetComponent<ComponentRigidBody>();
+		rb->UpdateRigidBody();
+	}
 }
 
 void ComponentAgent::SetMoveTarget(float3 newTargetPosition, bool usePathfinding)
@@ -213,6 +221,7 @@ void ComponentAgent::InternalSave(Json& meta)
 	meta["maxSpeed"] = static_cast<float>(GetMaxSpeed());
 	meta["maxAcceleration"] = static_cast<float>(GetMaxAcceleration());
 	meta["avoidingObstacle"] = static_cast<bool>(IsAvoidingObstacle());
+	meta["updateRigidBody"] = static_cast<bool>(GetUpdateRigidBody());
 }
 
 void ComponentAgent::InternalLoad(const Json& meta)
@@ -220,4 +229,5 @@ void ComponentAgent::InternalLoad(const Json& meta)
 	SetMaxSpeed(static_cast<float>(meta["maxSpeed"]));
 	SetMaxAcceleration(static_cast<float>(meta["maxAcceleration"]));
 	SetAgentObstacleAvoidance(static_cast<bool>(meta["avoidingObstacle"]));
+	SetUpdateRigidBody(static_cast<bool>(meta["updateRigidBody"]));
 }

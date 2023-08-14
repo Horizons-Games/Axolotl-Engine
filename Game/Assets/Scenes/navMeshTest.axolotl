@@ -108,7 +108,8 @@
                             "removed": true,
                             "maxSpeed": 6.0,
                             "maxAcceleration": 6.0,
-                            "avoidingObstacle": true
+                            "avoidingObstacle": true,
+                            "updateRigidBody": true
                         }
                     },
                     {
@@ -134,6 +135,35 @@
                                     "type": 2
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.2000000476837158,
+                            "boxSize_Y": 1.7000000476837158,
+                            "boxSize_Z": 0.16300000250339508,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 12.057000160217285,
+                            "rbPos_Z": -22.870994567871094
                         }
                     }
                 ]
@@ -243,7 +273,7 @@
                                 },
                                 {
                                     "name": "ZOffset",
-                                    "value": -3.0,
+                                    "value": -8.0,
                                     "type": 0
                                 },
                                 {
