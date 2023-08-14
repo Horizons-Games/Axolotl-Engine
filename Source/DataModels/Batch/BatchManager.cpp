@@ -68,14 +68,15 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 	if (material)
 	{
-		if (material->GetShaderType() == 0)
-		{
-			flags |= HAS_METALLIC;
-		}
-		else if (material->GetShaderType() == 1)
+		if (material->GetShaderType() == 1)
 		{
 			flags |= HAS_SPECULAR;
 		}
+		else
+		{
+			flags |= HAS_METALLIC;
+		}
+
 		if (material->IsTransparent())
 		{
 			flags |= HAS_TRANSPARENCY;

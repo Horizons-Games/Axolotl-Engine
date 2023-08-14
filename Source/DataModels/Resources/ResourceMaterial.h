@@ -262,7 +262,6 @@ inline void ResourceMaterial::SetEmission(const std::shared_ptr<ResourceTexture>
 	this->emission = emission;
 }
 
-
 inline void ResourceMaterial::SetDiffuseColor(const float4& diffuseColor)
 {
 	this->loadOptions.diffuseColor = diffuseColor;
