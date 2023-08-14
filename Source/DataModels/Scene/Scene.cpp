@@ -114,6 +114,159 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
+std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum)
+{
+	std::vector<GameObject*> objectsInFrustum;
+
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+
+	for (GameObject* go : nonStaticObjects)
+	{
+		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum);
+	}
+
+#ifdef ENGINE
+	CalculateNonStaticObjectsInFrustum(frustum, App->GetModule<ModuleScene>()->GetSelectedGameObject(), 
+									   objectsInFrustum);
+#endif
+
+	return objectsInFrustum;
+}
+
+void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
+									  std::vector<GameObject*>& gos)
+{
+	if (frustumInQuadTree(frustum, quad))
+	{
+		const std::set<GameObject*>& gameObjectsToRender = quad->GetGameObjects();
+
+		if (quad->IsLeaf())
+		{
+			for (GameObject* gameObject : gameObjectsToRender)
+			{
+				if (gameObject->IsActive() && gameObject->IsEnabled())
+				{
+					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+
+					gos.push_back(gameObject);
+				}
+			}
+		}
+		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		{
+			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			{
+				if (gameObject->IsActive() && gameObject->IsEnabled())
+				{
+					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+
+					gos.push_back(gameObject);
+				}
+			}
+
+			CalculateObjectsInFrustum(frustum, quad->GetFrontRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetFrontLeftNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackLeftNode(), gos);
+		}
+		else
+		{
+			CalculateObjectsInFrustum(frustum, quad->GetFrontRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetFrontLeftNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackLeftNode(), gos);
+		}
+	}
+}
+
+void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+										       std::vector<GameObject*>& gos)
+{
+	if (go->GetParent() == nullptr)
+	{
+		return;
+	}
+
+	ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+	// If an object doesn't have transform component it doesn't need to draw
+	if (transform == nullptr)
+	{
+		return;
+	}
+
+	if (objectInFrustum(frustum, transform->GetEncapsuledAABB()))
+	{
+		if (go->HasComponent<ComponentMeshRenderer>())
+		{
+			ComponentMeshRenderer* mesh = go->GetComponent<ComponentMeshRenderer>();
+			if (go->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
+			{
+				gos.push_back(go);
+			}
+		}
+	}
+
+	if (!go->GetChildren().empty())
+	{
+		for (GameObject* children : go->GetChildren())
+		{
+			CalculateNonStaticObjectsInFrustum(frustum, children, gos);
+		}
+	}
+}
+
+bool Scene::frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad)
+{
+	math::Plane planes[6];
+	frustum->GetPlanes(planes);
+
+	math::vec corners[8];
+	quad->GetBoundingBox().GetCornerPoints(corners);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!planes[itPlanes].IsOnPositiveSide(corners[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+			return false;
+	}
+
+	return true;
+}
+
+bool Scene::objectInFrustum(const math::Frustum* frustum, const AABB& aabb)
+{
+	math::vec cornerPoints[8];
+	math::Plane frustumPlanes[6];
+
+	frustum->GetPlanes(frustumPlanes);
+	aabb.GetCornerPoints(cornerPoints);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+			return false;
+	}
+
+	return true;
+}
+
 GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
 {
 	assert(!name.empty() && parent != nullptr);
@@ -716,16 +869,19 @@ void Scene::GenerateLights()
 
 void Scene::RenderDirectionalLight() const
 {
-	ComponentTransform* dirTransform = directionalLight->GetComponentInternal<ComponentTransform>();
-	ComponentLight* dirComp = directionalLight->GetComponentInternal<ComponentLight>();
+	if (directionalLight)
+	{
+		ComponentTransform* dirTransform = directionalLight->GetComponent<ComponentTransform>();
+		ComponentLight* dirComp = directionalLight->GetComponent<ComponentLight>();
 
-	float3 directionalDir = dirTransform->GetGlobalForward();
-	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
+		float3 directionalDir = dirTransform->GetGlobalForward();
+		float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
 
-	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
-	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
+		glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
 }
 
 void Scene::RenderPointLights() const

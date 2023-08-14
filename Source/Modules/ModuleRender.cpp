@@ -8,8 +8,11 @@
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 
+#include "Camera/CameraGameObject.h"
+
 #include "Cubemap/Cubemap.h"
 
+#include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
@@ -19,6 +22,8 @@
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/GBuffer/GBuffer.h"
+
+#include "debugdraw.h"
 
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
@@ -135,6 +140,14 @@ ModuleRender::~ModuleRender()
 	delete gBuffer;
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
+
+	glDeleteFramebuffers(2, &frameBuffer[0]);
+	glDeleteTextures(2, &renderedTexture[0]);
+
+	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
+
+	glDeleteFramebuffers(1, &shadowMapBuffer);
+	glDeleteTextures(1, &gShadowMap);
 }
 
 bool ModuleRender::Init()
@@ -156,6 +169,7 @@ bool ModuleRender::Init()
 
 	batchManager = new BatchManager();
 	gBuffer = new GBuffer();
+	renderShadows = true;
 
 	GLenum err = glewInit();
 	// check for errors
@@ -192,6 +206,14 @@ bool ModuleRender::Init()
 	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
+	glGenFramebuffers(1, &shadowMapBuffer);
+	glGenTextures(1, &gShadowMap);
+
+	glGenTextures(1, &parallelReductionInTexture);
+	glGenTextures(1, &parallelReductionOutTexture);
+
+	glGenBuffers(1, &minMaxBuffer);
+
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
 
@@ -218,11 +240,7 @@ UpdateStatus ModuleRender::PreUpdate()
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 	
 	gameObjectsInFrustrum.clear();
-
-	gBuffer->BindFrameBuffer();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glStencilMask(0x00); // disable writing to the stencil buffer 
+	objectsInFrustrumDistances.clear();
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -238,7 +256,7 @@ UpdateStatus ModuleRender::Update()
 	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
-	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
+	const ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
@@ -269,22 +287,26 @@ UpdateStatus ModuleRender::Update()
 	}
 	AddToRenderList(goSelected);
 
-	// Bind camera and cubemap info to the shaders
-	BindCameraToProgram(moduleProgram->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(moduleProgram->GetProgram(ProgramType::SPECULAR));
-	BindCameraToProgram(moduleProgram->GetProgram(ProgramType::G_METALLIC));
-	BindCameraToProgram(moduleProgram->GetProgram(ProgramType::G_SPECULAR));
-	BindCameraToProgram(moduleProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-	BindCubemapToProgram(moduleProgram->GetProgram(ProgramType::DEFAULT));
-	BindCubemapToProgram(moduleProgram->GetProgram(ProgramType::SPECULAR));
-	BindCubemapToProgram(moduleProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
 		DrawQuadtree(loadedScene->GetRootQuadtree());
 	}
 
+	int w, h;
+	SDL_GetWindowSize(window->GetWindow(), &w, &h);
+
+	// Bind camera and cubemap info to the shaders
+	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
+	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR));
+
 	// -------- DEFERRED GEOMETRY -----------
+	gBuffer->BindFrameBuffer();
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilMask(0x00); // disable writing to the stencil buffer 
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
@@ -301,16 +323,47 @@ UpdateStatus ModuleRender::Update()
 		glDisable(GL_STENCIL_TEST);
 	}
 
+	// -------- SHADOW MAP --------
+	if (renderShadows)
+	{
+		// ---- PARALLEL REDUCTION ----
+		Program* shadowProgram = modProgram->GetProgram(ProgramType::PARALLEL_REDUCTION);
+		float2 minMax = ParallelReduction(shadowProgram, w, h);
+
+		RenderShadowMap(loadedScene->GetDirectionalLight(), minMax);
+	}
+
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
+
 	// -------- DEFERRED LIGHTING ---------------
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	Program* program = moduleProgram->GetProgram(ProgramType::DEFERRED_LIGHT);
+	Program* program = modProgram->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
 
 	gBuffer->BindTexture();
+
+	// Binding Shadow map depth buffer
+	if (renderShadows)
+	{
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, gShadowMap);
+
+		float4x4 lightSpaceMatrix = dirLightProj * dirLightView;
+		ComponentDirLight* directLight =
+			static_cast<ComponentDirLight*>
+			(App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
+
+		program->BindUniformFloat4x4("lightSpaceMatrix", reinterpret_cast<const float*>(&lightSpaceMatrix), GL_TRUE);
+		program->BindUniformFloat("minBias", directLight->shadowBias[0]);
+		program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
+	}
+	program->BindUniformInt("useShadows", static_cast<int>(renderShadows));
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
@@ -364,6 +417,7 @@ UpdateStatus ModuleRender::Update()
 
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
+		glStencilMask(0x00); // disable writing to the stencil buffer 
 		glDisable(GL_STENCIL_TEST);
 	}
 	glDisable(GL_CULL_FACE);
@@ -415,7 +469,7 @@ UpdateStatus ModuleRender::Update()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 #endif // ENGINE
 
-	Program* colorCorrectionProgram = moduleProgram->GetProgram(ProgramType::COLOR_CORRECTION);
+	Program* colorCorrectionProgram = modProgram->GetProgram(ProgramType::COLOR_CORRECTION);
 	colorCorrectionProgram->Activate();
 	
 	glActiveTexture(GL_TEXTURE0);
@@ -435,6 +489,8 @@ UpdateStatus ModuleRender::Update()
 	{
 		go->Draw();
 	}
+
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -483,7 +539,27 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
-	gBuffer->InitGBuffer(width, height);
+	gBuffer->InitGBuffer(width,height);
+	
+	// Shadow Map Depth Buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
+
+	glBindTexture(GL_TEXTURE_2D, gShadowMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, gShadowMap, 0);
+
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("G Framebuffer not complete!");
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
@@ -547,6 +623,13 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	}
 		
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glBindTexture(GL_TEXTURE_2D, parallelReductionInTexture);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
+	glBindTexture(GL_TEXTURE_2D, parallelReductionOutTexture);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
+
+	glBindTexture(GL_TEXTURE_2D, 0); //Unbind the texture
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
@@ -654,6 +737,170 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 		DrawQuadtree(quadtree->GetFrontRightNode());
 	}
 #endif // ENGINE
+}
+
+float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
+{
+	program->Activate();
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Parallel Reduction"),
+		"ComputeShader - Parallel Reduction");
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gBuffer->GetDepthTexture());
+
+	//Use the texture as an image
+	glBindImageTexture(0, parallelReductionInTexture, 0, false, 0, GL_WRITE_ONLY, GL_RG32F);
+
+	program->BindUniformInt2("inSize", width, height);
+
+	unsigned int numGroupsX = (width + (8 - 1)) / 8;
+	unsigned int numGroupsY = (height + (4 - 1)) / 4;
+
+	glDispatchCompute(numGroupsX, numGroupsY, 1);
+	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+	GLuint srcTexture = parallelReductionInTexture; 
+	GLuint dstTexture = parallelReductionOutTexture;
+
+	while (numGroupsX > 1 || numGroupsY > 1)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, srcTexture);
+
+		//Use the texture as an image
+		glBindImageTexture(0, dstTexture, 0, false, 0, GL_WRITE_ONLY, GL_RG32F);
+
+		program->BindUniformInt2("inSize", numGroupsX, numGroupsY);
+
+		numGroupsX = (numGroupsX + (8 - 1)) / 8;
+		numGroupsY = (numGroupsY + (4 - 1)) / 4;
+
+		glDispatchCompute(numGroupsX, numGroupsY, 1);
+		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+		std::swap(srcTexture, dstTexture);
+	}
+	
+	glPopDebugGroup();
+
+	program->Deactivate();
+
+	program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::MIN_MAX);
+
+	program->Activate();
+	
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Min Max"), "ComputeShader - Min Max");
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, srcTexture);
+
+	float2 minMax(0.0f, 0.0f);
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, minMaxBuffer);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(minMax), &minMax[0], GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, minMaxBuffer);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	glDispatchCompute(1, 1, 1);
+	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, minMaxBuffer);
+	glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(minMax), &minMax[0]);
+
+	glPopDebugGroup();
+
+	program->Deactivate();
+
+	//glGetTextureSubImage(srcTexture, 0, 0, 0, 0, 1, 1, 1, GL_RG, GL_FLOAT, sizeof(float2), &minMax);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return minMax;
+}
+
+void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax)
+{
+	// Get light position
+	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
+	const float3& lightPos = lightTransform->GetGlobalPosition();
+
+	// Compute camera frustrum bounding sphere
+	math::Frustum* cameraFrustum = new Frustum(*App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum());
+
+	// SDSM: Final near an far distances
+	float n = cameraFrustum->NearPlaneDistance();
+	float f = cameraFrustum->FarPlaneDistance();
+	float T = -(n + f) / (f - n);
+	float S = (-2 * f * n) / (f - n);
+	float distMin = S / (T + minMax[0]);
+	float distMax = S / (T + minMax[1]);
+
+	cameraFrustum->SetViewPlaneDistances(distMin, distMax);
+
+	math::vec corners[8];
+	cameraFrustum->GetCornerPoints(corners);
+
+	float3 sumCorners(0.0f);
+
+	for (unsigned int i = 0; i < 8; ++i)
+	{
+		sumCorners += corners[i];
+	}
+
+	const float3 sphereCenter = sumCorners.Div(8.0f);
+	float sphereRadius = 0.0f;
+
+	for (unsigned int i = 0; i < 8; ++i)
+	{
+		float distance = sphereCenter.Distance(corners[i]);
+		if (distance > sphereRadius)
+		{
+			sphereRadius = distance;
+		}
+	}
+
+	// Compute bounding box
+	math::Frustum frustum;
+
+	float3 lightFront = lightTransform->GetGlobalForward();
+	float3 lightRight = Cross(lightFront, float3(0.0f, 1.0f, 0.0f)).Normalized();
+	float3 lifghtUp = math::Cross(lightRight, lightFront).Normalized();
+	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
+	frustum.SetPos(sphereCenter - lightFront * sphereRadius);
+	frustum.SetFront(lightFront);
+	frustum.SetUp(lifghtUp);
+	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
+	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
+
+	// Frustum culling with the created light frustum to obtain the meshes of the scene to take into account
+	std::vector<GameObject*> objectsInFrustum =
+		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Shadow Mapping"), "Shadow Mapping");
+
+	// Program binding
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_MAPPING);
+	program->Activate();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+	dirLightView = frustum.ViewMatrix();
+	dirLightProj = frustum.ProjectionMatrix();
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &dirLightProj[0]);
+	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &dirLightView[0]);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	batchManager->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	program->Deactivate();
+
+	glPopDebugGroup();
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)
