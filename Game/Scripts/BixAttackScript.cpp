@@ -266,26 +266,22 @@ void BixAttackScript::ResetAttackAnimations()
 
 		case AttackType::JUMPNORMAL:
 		case AttackType::JUMPFINISHER:
+			animation->SetParameter("IsJumpAttacking", false);
 			if (animation->GetActualStateName() == "BixJumpAttackRecovery" && !animation->IsPlaying())
 			{
 				isAttacking = false;
 				isJumpAttacking = false;
 			}
-			else if (animation->GetActualStateName() == "BixJumpAttack")
-			{
-				animation->SetParameter("IsJumpAttacking", false);
-			}
 			// There are some times in which the animations happen so quick and the first if is not entered,
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
 			// jumping and moving if the first if is not entered
-			else if (animation->GetActualStateName() == "BixIdle" ||
-				animation->GetActualStateName() == "BixIdle2" ||
-				animation->GetActualStateName() == "BixIdle3")
+			else if (animation->GetActualStateName() != "BixJumpAttackRecovery" &&
+				animation->GetActualStateName() != "BixJumpAttack")
 			{
 				isAttacking = false;
 				isJumpAttacking = false;
 			}
-			break;	
+			break;
 
 		case AttackType::LIGHTFINISHER:
 			if (!animation->IsPlaying())
