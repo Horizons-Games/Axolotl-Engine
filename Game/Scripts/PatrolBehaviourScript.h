@@ -5,8 +5,8 @@
 // This script performs a generic patrol behaviour between two (or more) waypoints
 
 class ComponentTransform;
-class ComponentRigidBody;
 class ComponentAnimation;
+class AIMovement;
 
 class PatrolBehaviourScript : public Script
 {
@@ -23,8 +23,8 @@ public:
 private:
 
 	ComponentTransform* ownerTransform;
-	ComponentRigidBody* ownerRigidBody;
 	ComponentAnimation* componentAnimation;
+	AIMovement* aiMovement;
 	std::vector<ComponentTransform*> waypointsPatrol;
 	int currentWayPoint;
 	bool patrolStateActivated;
@@ -32,8 +32,10 @@ private:
 	float patrolStopDuration;
 	float originStopTime;
 	std::string patrolAnimationParamater;
+	float movementSpeed;
+	float rotationSpeed;
 
 	void Patrolling();
 	void CheckNextWaypoint();
-	void SetProportionalController() const;
+	void SetProportionalController(float deltaTime) const;
 };
