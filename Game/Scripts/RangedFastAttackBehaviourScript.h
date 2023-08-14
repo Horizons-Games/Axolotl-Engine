@@ -38,10 +38,8 @@ private:
 	ComponentAnimation* animation;
 	ComponentParticleSystem* particleSystem;
 
-	ComponentTransform* bulletOrigin;
-	GameObject* bulletOriginGO;
 	GameObject* bulletPrefab;
-	GameObject* LaserParticleSystem;
+	GameObject* laserParticleSystem;
 	float bulletVelocity;
 
 	Scene* loadedScene;

@@ -5,8 +5,13 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class GameObject;
+
 class ComponentAnimation;
 class ComponentAudioSource;
+class ComponentRigidBody;
+
+class BixAttackScript;
 
 class PlayerJumpScript : public Script
 {
@@ -17,19 +22,30 @@ public:
     void Start() override;
 	void PreUpdate(float deltaTime) override;
 
-	bool GetCanJump() const;
+	bool CanJump() const;
 	void SetCanJump(bool canJump);
 
+	bool IsGrounded() const;
+	bool IsJumping() const;
+
 private:
+	void CheckGround();
 	void Jump(float deltatime);
 
-    float jumpParameter;
-    int jumps;
-    int jumpReset;
-    bool canDoubleJump;
+	bool isGrounded;
+	bool doubleJumpAvailable;
+	bool isJumping;
+	int groundedCount;
+	float coyoteTime;
+	float coyoteTimerCount;
+
+	float jumpParameter;
+	bool canDoubleJump;
 	bool canJump;
 
+	ComponentRigidBody* rigidbody;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
-};
 
+	BixAttackScript* attackScript;
+};

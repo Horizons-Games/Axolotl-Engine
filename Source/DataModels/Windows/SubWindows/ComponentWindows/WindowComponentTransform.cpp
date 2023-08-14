@@ -40,9 +40,9 @@ void WindowComponentTransform::DrawWindowContents()
 		ImGui::SameLine();
 		ImGui::Text("Draw Bounding Box");
 
-		currentTranslation = asTransform->GetPosition();
+		currentTranslation = asTransform->GetLocalPosition();
 		currentRotation = asTransform->GetRotationXYZ();
-		currentScale = asTransform->GetScale();
+		currentScale = asTransform->GetLocalScale();
 		bbScale = asTransform->GetBBScale();
 		bbTranslation = asTransform->GetBBPos();
 
@@ -143,9 +143,9 @@ void WindowComponentTransform::DrawWindowContents()
 
 		if (ownerIsRoot)
 		{
-			asTransform->SetPosition(float3::zero);
-			asTransform->SetRotation(Quat::identity);
-			asTransform->SetScale(float3::one);
+			asTransform->SetLocalPosition(float3::zero);
+			asTransform->SetLocalRotation(Quat::identity);
+			asTransform->SetLocalScale(float3::one);
 			return;
 		}
 
@@ -315,12 +315,12 @@ void WindowComponentTransform::UpdateComponentTransform()
 	{
 		if (translationModified)
 		{
-			asTransform->SetPosition(currentTranslation);
+			asTransform->SetLocalPosition(currentTranslation);
 		}
 
 		if (rotationModified)
 		{
-			asTransform->SetRotation(currentRotation);
+			asTransform->SetLocalRotation(currentRotation);
 		}
 
 		if (scaleModified)
@@ -331,7 +331,7 @@ void WindowComponentTransform::UpdateComponentTransform()
 			}
 			else
 			{
-				asTransform->SetScale(currentScale);
+				asTransform->SetLocalScale(currentScale);
 			}
 		}
 
