@@ -15,7 +15,7 @@ class Application;
 class ComponentRigidBody;
 
 using ValidFieldType =
-	std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>>, Field<StateMachine*>>;
+	std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>, Field<StateMachine*>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject

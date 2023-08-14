@@ -545,7 +545,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 			case FieldType::STATEMACHINE:
 			{
 				std::string valueName = field["name"];
-				std::optional<Field<StateMachine*>> optField = script->GetField<StateMachine*>(valueName);
+				std::optional<Field<StateMachine*>> optField = GetField<StateMachine*>(script, valueName);
 				if (optField)
 				{
 					std::shared_ptr<ResourceStateMachine> resourceState;
