@@ -46,7 +46,6 @@ protected:
 private:
 	unsigned int glTexture = 0;
 	std::vector<std::shared_ptr<ResourceTexture>> textures;
-	std::vector<std::shared_ptr<ResourceTexture>> loadedTextures;
 	OptionsSkyBox options;
 
 	unsigned vbo;
