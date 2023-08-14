@@ -22,6 +22,9 @@ public:
 
 	void SetParameter(const std::string& parameterName, ValidFieldTypeParameter value);
 
+	void SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters);
+	const std::unordered_map<std::string, TypeFieldPairParameter>& GetMapParameters() const;
+
 	std::string& GetActualStateName() const;
 	unsigned int GetActualStateID() const;
 
@@ -55,7 +58,7 @@ inline void StateMachine::SetStateMachine(const std::shared_ptr<ResourceStateMac
 	this->stateMachine = stateMachine;
 	if (stateMachine)
 	{
-		this->parameters = stateMachine->GetParameters();
+		SetMapParameters(stateMachine->GetParameters());
 	}
 	actualState = 0;
 	nextState = 0;
@@ -65,6 +68,16 @@ inline void StateMachine::SetStateMachine(const std::shared_ptr<ResourceStateMac
 inline void StateMachine::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
 {
 	parameters[parameterName].second = value;
+}
+
+inline void StateMachine::SetMapParameters(const std::unordered_map<std::string, TypeFieldPairParameter>& parameters)
+{
+	this->parameters = parameters;
+}
+
+inline const std::unordered_map<std::string, TypeFieldPairParameter>& StateMachine::GetMapParameters() const
+{
+	return parameters;
 }
 
 inline std::string& StateMachine::GetActualStateName() const

@@ -182,7 +182,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 	const std::string* oldName = nullptr;
 	std::string newName;
 	TypeFieldPairParameter field;
-	for (const auto& it : stateAsShared->GetParameters())
+	for (const auto& it : stateMachine->GetMapParameters())
 	{
 		std::string name = it.first;
 		name.resize(24);
@@ -190,6 +190,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 		if (ImGui::Button(("x##" + name).c_str()))
 		{
 			stateAsShared->EraseParameter(name.c_str());
+			stateMachine->SetMapParameters(stateAsShared->GetParameters());
 			break;
 		}
 		ImGui::SameLine();
@@ -214,12 +215,14 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 				if (ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
 				{
 					stateAsShared->SetParameter(it.first, value);
+					stateMachine->SetParameter(it.first, value);
 				}
 				break;
 			case FieldTypeParameter::BOOL:
 				if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
 				{
 					stateAsShared->SetParameter(it.first, value);
+					stateMachine->SetParameter(it.first, value);
 				}
 				break;
 			default:
@@ -231,6 +234,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 	{
 		stateAsShared->EraseParameter(*oldName);
 		stateAsShared->AddParameter(newName.c_str(), field.first, field.second);
+		stateMachine->SetMapParameters(stateAsShared->GetParameters());
 	}
 }
 
