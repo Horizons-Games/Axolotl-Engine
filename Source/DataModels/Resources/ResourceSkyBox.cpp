@@ -6,8 +6,6 @@
 
 #include "DataModels/Resources/ResourceTexture.h"
 
-#include "AxoLog.h"
-
 
 ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 							   const std::string& fileName,
