@@ -43,8 +43,8 @@ void PlayerForceUseScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	currentTimeForce = maxTimeForce;
 
-	rotationHorizontalScript = owner->GetParent()->GetComponent<PlayerRotationScript>();
-	playerManagerScript = owner->GetParent()->GetComponent<PlayerManagerScript>();
+	rotationHorizontalScript = owner->GetComponent<PlayerRotationScript>();
+	playerManagerScript = owner->GetComponent<PlayerManagerScript>();
 	moveScript = owner->GetComponent<PlayerMoveScript>();
 
 	input = App->GetModule<ModuleInput>();
@@ -92,7 +92,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 			if (playerManagerScript)
 			{
 				lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
-				playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed / 2.0f);
+				playerManagerScript->SetPlayerSpeed(lastMoveSpeed / 2.0f);
 			}
 
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
@@ -111,19 +111,9 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 
-		if (rotationHorizontalScript)
-		{
-			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
-		}
-
-		if (rotationVerticalScript)
-		{
-			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
-		}
-
 		if (playerManagerScript)
 		{
-			playerManagerScript->GetField<float>("PlayerSpeed")->setter(lastMoveSpeed);
+			playerManagerScript->SetPlayerSpeed(lastMoveSpeed);
 			rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
 			rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}

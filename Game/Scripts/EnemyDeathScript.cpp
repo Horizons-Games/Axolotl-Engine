@@ -1,19 +1,39 @@
 #include "StdAfx.h"
 #include "EnemyDeathScript.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script()
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false)
 {
 	REGISTER_FIELD(activePowerUp, GameObject*); // this should be a vector of powerUps
 }
 
-void EnemyDeathScript::ManageEnemyDeath() const
+void EnemyDeathScript::Update(float deltaTime)
+{
+	if (!startDespawnTimer)
+	{
+		return;
+	}
+
+	despawnTimer -= deltaTime;
+
+	if (despawnTimer <= 0.0f)
+	{
+		DespawnEnemy();
+	}
+}
+
+void EnemyDeathScript::ManageEnemyDeath()
 {
 	GameObject* newPowerUp = RequestPowerUp();
 
@@ -22,7 +42,7 @@ void EnemyDeathScript::ManageEnemyDeath() const
 		PowerUpLogicScript* newPowerUpLogic = newPowerUp->GetComponent<PowerUpLogicScript>();
 		ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
 
-		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetPosition());
+		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
 	}
 
 	DisableEnemyActions();
@@ -46,13 +66,31 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 	return nullptr;
 }
 
-void EnemyDeathScript::DisableEnemyActions() const
+void EnemyDeathScript::DisableEnemyActions()
 {
 	// Once the player is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
 	{
-		script->Disable();
+		if (script->GetConstructName() != "EnemyDeathScript")
+		{
+			script->Disable();
+		}
 	}
+
+	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
+	enemyRigidBody->DisablePositionController();
+	enemyRigidBody->DisableRotationController();
+
+	enemyRigidBody->SetIsKinematic(true);
+	enemyRigidBody->SetUpMobility();
+
+	startDespawnTimer = true;
+}
+
+void EnemyDeathScript::DespawnEnemy() const
+{
+	//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	owner->Disable();
 }

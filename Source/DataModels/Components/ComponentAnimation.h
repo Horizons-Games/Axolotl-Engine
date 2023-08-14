@@ -38,8 +38,8 @@ public:
 
 	bool IsDrawBonesActivated() const;
 
-	bool isPlaying() const;
 	bool isTransitioning();
+	bool IsPlaying() const;
 	std::string& GetActualStateName() const;
 
 private:

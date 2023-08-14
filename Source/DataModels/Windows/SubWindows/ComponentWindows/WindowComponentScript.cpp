@@ -26,7 +26,9 @@ const float doubleClickTimeFrameInS = .5f;
 }
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
-	ComponentWindow("SCRIPT", component),
+	// This could be converted to uppercase using a lambda expression, std::transform and std::upper, 
+	// but the script name is more readable inside the engine in camelCase
+	ComponentWindow("SCRIPT " + component->GetConstructName(), component),
 	windowUID(UniqueID::GenerateUID())
 {
 }
@@ -200,7 +202,7 @@ void WindowComponentScript::DrawWindowContents()
 		{
 			case FieldType::FLOAT:
 			{
-				Field<float> floatField = std::get<Field<float>>(member);
+				const Field<float>& floatField = std::get<Field<float>>(member);
 				float value = floatField.getter();
 
 				label = floatField.name;
@@ -215,7 +217,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::FLOAT3:
 			{
-				Field<float3> float3Field = std::get<Field<float3>>(member);
+				const Field<float3>& float3Field = std::get<Field<float3>>(member);
 				float3 value = float3Field.getter();
 
 				float3Field.setter(DrawFloat3Field(value, float3Field.name.c_str()));
@@ -227,7 +229,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::STRING:
 			{
-				Field<std::string> stringField = std::get<Field<std::string>>(member);
+				const Field<std::string>& stringField = std::get<Field<std::string>>(member);
 				std::string value = stringField.getter();
 
 				label = stringField.name;
@@ -242,7 +244,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::BOOLEAN:
 			{
-				Field<bool> booleanField = std::get<Field<bool>>(member);
+				const Field<bool>& booleanField = std::get<Field<bool>>(member);
 				bool value = booleanField.getter();
 
 				label = booleanField.name;
@@ -257,7 +259,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::GAMEOBJECT:
 			{
-				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
+				const Field<GameObject*>& gameObjectField = std::get<Field<GameObject*>>(member);
 				GameObject* value = gameObjectField.getter();
 
 				GameObject* draggedObject = DrawGameObjectField(value, gameObjectField.name);
@@ -271,7 +273,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::VECTOR:
 			{
-				VectorField vectorField = std::get<VectorField>(member);
+				const VectorField& vectorField = std::get<VectorField>(member);
 
 				std::function<std::any(std::any&, const std::string&)> elementDrawer =
 					[this, &vectorField](std::any& value, const std::string& name) -> std::any
@@ -314,28 +316,31 @@ void WindowComponentScript::DrawWindowContents()
 
 				std::vector<std::any> vectorValue = vectorField.getter();
 
-				ImVec2 startingPos = ImGui::GetCursorPos();
-
-				ImGui::Text(vectorField.name.c_str());
-				ImGui::SameLine();
-				if (ImGui::Button(("+##" + vectorField.name).c_str()))
 				{
-					vectorValue.emplace_back();
-				}
-				ImGui::SameLine();
-				if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
-				{
-					vectorValue.pop_back();
-				}
+					ImVec2 startingPos = ImGui::GetCursorScreenPos();
 
-				widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
+					ImGui::Text(vectorField.name.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button(("+##" + vectorField.name).c_str()))
+					{
+						vectorValue.emplace_back();
+					}
+					ImGui::SameLine();
+					if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
+					{
+						vectorValue.pop_back();
+					}
+
+					widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
+				}
 
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
 					ImGui::Indent();
+					ImVec2 startingPos = ImGui::GetCursorScreenPos();
 					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
 					// add the rect of each field
-					widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+					widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
 					ImGui::Unindent();
 				}
 
@@ -391,7 +396,6 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 	newScript->SetConstuctor(selectedScript);
 	IScript* Iscript = App->GetScriptFactory()->ConstructScript(selectedScript);
 	Iscript->SetOwner(component->GetOwner());
-	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
 }
 

@@ -17,6 +17,9 @@ public:
 
 	void Draw() const override;
 
+	bool GetCombatCameraEnabled() const;
+	void SetCombatCameraEnabled(bool enabled);
+
 	float GetRadius() const;
 	void SetRadius(float radius);
 
@@ -42,6 +45,8 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
+	bool isCombatCameraEnabled;
+
 	float3 position;
 	float influenceRadius;
 	float3 positionOffset;
@@ -51,7 +56,18 @@ private:
 
 	bool isSampleFocusEnabled;
 	float2 focusOffset;
+
 };
+
+inline bool ComponentCameraSample::GetCombatCameraEnabled() const
+{
+	return isCombatCameraEnabled;
+}
+
+inline void ComponentCameraSample::SetCombatCameraEnabled(bool enabled)
+{
+	isCombatCameraEnabled = enabled;
+}
 
 inline float ComponentCameraSample::GetRadius() const
 {
