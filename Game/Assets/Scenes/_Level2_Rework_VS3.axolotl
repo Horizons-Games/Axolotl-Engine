@@ -15497,6 +15497,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 108.19175720214844,
                             "positionY": -3.6787445545196533,
                             "positionZ": 126.25560760498047
@@ -15546,6 +15547,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 146.54901123046875,
                             "positionY": -3.5433921813964844,
                             "positionZ": 127.56949615478516
@@ -15595,6 +15597,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 146.31126403808594,
                             "positionY": -3.030843734741211,
                             "positionZ": 145.5145263671875
@@ -15644,6 +15647,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 128.9903564453125,
                             "positionY": -4.165952205657959,
                             "positionZ": 149.19017028808594
@@ -15693,6 +15697,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 88.95967864990234,
                             "positionY": 0.0,
                             "positionZ": 143.4230499267578
@@ -15742,6 +15747,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 0.8122905492782593,
                             "positionY": 0.0,
                             "positionZ": -1.6145485639572144
@@ -15791,6 +15797,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 0.8122905492782593,
                             "positionY": 0.0,
                             "positionZ": -17.3161563873291
@@ -15840,6 +15847,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 0.8122905492782593,
                             "positionY": 0.0,
                             "positionZ": -8.979253768920898
@@ -15889,6 +15897,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 12.271636962890625,
                             "positionY": 4.468437671661377,
                             "positionZ": -14.485067367553711
@@ -15938,6 +15947,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 29.278121948242188,
                             "positionY": 6.510947227478027,
                             "positionZ": -14.584680557250977
@@ -15987,6 +15997,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 30.790447235107422,
                             "positionY": 14.43890380859375,
                             "positionZ": -27.17975425720215
@@ -16036,6 +16047,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 30.790447235107422,
                             "positionY": 14.43890380859375,
                             "positionZ": -44.5262336730957
@@ -16085,6 +16097,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 30.790447235107422,
                             "positionY": 14.43890380859375,
                             "positionZ": -63.40540313720703
@@ -16134,6 +16147,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 53.940433502197266,
                             "positionY": 14.43890380859375,
                             "positionZ": -92.60467529296875
@@ -16183,6 +16197,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 6.039260387420654,
                             "positionY": 14.43890380859375,
                             "positionZ": -92.60467529296875
@@ -16232,6 +16247,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 6.039260387420654,
                             "positionY": 14.43890380859375,
                             "positionZ": -131.42703247070313
@@ -16281,6 +16297,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 50.203895568847656,
                             "positionY": 14.43890380859375,
                             "positionZ": -131.42703247070313
@@ -16330,6 +16347,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 26.364181518554688,
                             "positionY": 14.43890380859375,
                             "positionZ": -115.7110824584961
@@ -16379,6 +16397,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 0.8122905492782593,
                             "positionY": 4.426336288452148,
                             "positionZ": -16.28162384033203
@@ -16428,6 +16447,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 0.8122905492782593,
                             "positionY": 4.426336288452148,
                             "positionZ": -0.4598473310470581
@@ -16477,6 +16497,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 0.8122905492782593,
                             "positionY": 4.426336288452148,
                             "positionZ": -8.530451774597168
@@ -16576,23 +16597,23 @@
                             "fields": [
                                 {
                                     "name": "IsWinTrigger",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsLoseTrigger",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsNextSceneTrigger",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsLoseByDamage",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "SetGameStateObject",
@@ -16656,6 +16677,7 @@
                             "focusOffsetY": 0.0,
                             "isSampleFocusEnabled": false,
                             "isSampleFixedEnabled": false,
+                            "isCombatCameraEnabled": false,
                             "positionX": 26.364181518554688,
                             "positionY": 14.43890380859375,
                             "positionZ": -160.40167236328125
@@ -16705,7 +16727,7 @@
                             "removed": true,
                             "static": false,
                             "mouse": false,
-                            "actualPlayer": true
+                            "actualPlayer": false
                         }
                     },
                     {
@@ -16752,38 +16774,48 @@
                             "constructName": "BixAttackScript",
                             "fields": [
                                 {
-                                    "name": "AttackCooldown",
-                                    "value": 0.6000000238418579,
+                                    "name": "ComboCountHeavy",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "RayAttackSize",
-                                    "value": 50.0,
+                                    "name": "ComboCountSoft",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "AnimationGO",
-                                    "value": 9483510377774042579,
+                                    "name": "AttackSoft",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackHeavy",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NormalAttackDistance",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsAttacking",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "EnemyDetection",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray1GO",
-                                    "value": 13491024505869460984,
+                                    "name": "HeavyFinisherAttack",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray2GO",
-                                    "value": 3426930759940807236,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 15098077470083307444,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 6076099238030652082,
+                                    "name": "BixLightSaber",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -16809,7 +16841,7 @@
                                 {
                                     "name": "IsImmortal",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "EnemyParticleSystem",
@@ -16834,12 +16866,12 @@
                                 {
                                     "name": "CanDash",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
-                                    "name": "IsParalized",
+                                    "name": "IsParalyzed",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -16852,19 +16884,39 @@
                             "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
+                                    "name": "CoyoteTime",
+                                    "value": 0.4000000059604645,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsGrounded",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "CoyoteTimerCount",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DoubleJumpAvailable",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "JumpParameter",
                                     "value": 1000.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "CanDoubleJump",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "CanJump",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -16969,7 +17021,7 @@
                                 {
                                     "name": "CanRotate",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -22583,28 +22635,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceAttackScript",
-                            "fields": [
-                                {
-                                    "name": "Force",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "StunTime",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CoolDown",
-                                    "value": 6.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ForceDamage",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]
@@ -22675,7 +22706,7 @@
                                 {
                                     "name": "DebugDraw",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "SetUIManager",
@@ -22717,10 +22748,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 829.5,
-                            "worldAABB_min_y": 518.0,
-                            "worldAABB_max_x": 829.5,
-                            "worldAABB_max_y": 518.0
+                            "worldAABB_min_x": 501.0,
+                            "worldAABB_min_y": 257.0,
+                            "worldAABB_max_x": 501.0,
+                            "worldAABB_max_y": 257.0
                         }
                     },
                     {
@@ -22812,10 +22843,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -22850,10 +22881,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 51.40625,
-                            "worldAABB_max_x": 1659.0,
-                            "worldAABB_max_y": 984.59375
+                            "worldAABB_min_x": 44.111114501953125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 957.888916015625,
+                            "worldAABB_max_y": 514.0
                         }
                     },
                     {
@@ -22903,10 +22934,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -22941,10 +22972,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -22979,10 +23010,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -23017,10 +23048,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 51.40625,
-                            "worldAABB_max_x": 1659.0,
-                            "worldAABB_max_y": 984.59375
+                            "worldAABB_min_x": 44.111114501953125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 957.888916015625,
+                            "worldAABB_max_y": 514.0
                         }
                     },
                     {
@@ -23070,10 +23101,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -23108,10 +23139,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 51.40625,
-                            "worldAABB_max_x": 1659.0,
-                            "worldAABB_max_y": 984.59375
+                            "worldAABB_min_x": 44.111114501953125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 957.888916015625,
+                            "worldAABB_max_y": 514.0
                         }
                     },
                     {
@@ -23161,10 +23192,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -23199,10 +23230,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 680.44921875,
-                            "worldAABB_min_y": 288.29150390625,
-                            "worldAABB_max_x": 978.55078125,
-                            "worldAABB_max_y": 362.1688232421875
+                            "worldAABB_min_x": 418.90277099609375,
+                            "worldAABB_min_y": 130.47650146484375,
+                            "worldAABB_max_x": 583.0972290039063,
+                            "worldAABB_max_y": 171.16815185546875
                         }
                     },
                     {
@@ -23252,10 +23283,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 431.2087097167969,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 500.7657165527344
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 209.1953125,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 247.50735473632813
                         }
                     },
                     {
@@ -23335,12 +23366,12 @@
                                 {
                                     "name": "IsGameExit",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 }
                             ]
                         }
@@ -23377,10 +23408,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 518.2301635742188,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 587.7871704101563
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 257.12677001953125,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 295.43878173828125
                         }
                     },
                     {
@@ -23460,12 +23491,12 @@
                                 {
                                     "name": "IsGameExit",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -23502,10 +23533,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -23540,10 +23571,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -23578,10 +23609,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 605.2515869140625,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 674.80859375
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 305.0581970214844,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 343.3702087402344
                         }
                     },
                     {
@@ -23661,12 +23692,12 @@
                                 {
                                     "name": "IsGameExit",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -23703,10 +23734,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 692.2730102539063,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 761.8300170898438
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 352.9896240234375,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 391.3016357421875
                         }
                     },
                     {
@@ -23785,13 +23816,13 @@
                                 },
                                 {
                                     "name": "IsGameExit",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -23828,10 +23859,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 431.2087707519531,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 500.7657775878906
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 209.1953582763672,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 247.5074005126953
                         }
                     },
                     {
@@ -23881,10 +23912,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 518.2301635742188,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 587.7871704101563
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 257.12677001953125,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 295.43878173828125
                         }
                     },
                     {
@@ -23934,10 +23965,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 605.2515869140625,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 674.80859375
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 305.0581970214844,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 343.3702087402344
                         }
                     },
                     {
@@ -23987,10 +24018,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 714.3636474609375,
-                            "worldAABB_min_y": 692.2730102539063,
-                            "worldAABB_max_x": 944.6363525390625,
-                            "worldAABB_max_y": 761.8300170898438
+                            "worldAABB_min_x": 437.5828857421875,
+                            "worldAABB_min_y": 352.9896240234375,
+                            "worldAABB_max_x": 564.4171142578125,
+                            "worldAABB_max_y": 391.3016357421875
                         }
                     },
                     {
@@ -24040,10 +24071,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -24078,10 +24109,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 51.40625,
-                            "worldAABB_max_x": 1659.0,
-                            "worldAABB_max_y": 984.59375
+                            "worldAABB_min_x": 44.111114501953125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 957.888916015625,
+                            "worldAABB_max_y": 514.0
                         }
                     },
                     {
@@ -24131,10 +24162,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1404.20361328125,
-                            "worldAABB_min_y": 103.80335998535156,
-                            "worldAABB_max_x": 1500.978515625,
-                            "worldAABB_max_y": 127.99711608886719
+                            "worldAABB_min_x": 817.5469970703125,
+                            "worldAABB_min_y": 28.8603515625,
+                            "worldAABB_max_x": 870.8507080078125,
+                            "worldAABB_max_y": 42.186279296875
                         }
                     },
                     {
@@ -24214,12 +24245,12 @@
                                 {
                                     "name": "IsGameExit",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -24256,10 +24287,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 51.40625,
-                            "worldAABB_max_x": 1659.0,
-                            "worldAABB_max_y": 984.59375
+                            "worldAABB_min_x": 44.111114501953125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 957.888916015625,
+                            "worldAABB_max_y": 514.0
                         }
                     },
                     {
@@ -24309,10 +24340,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -24347,10 +24378,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -24385,10 +24416,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 20.261680603027344,
-                            "worldAABB_min_y": 163.5486602783203,
-                            "worldAABB_max_x": 272.1358947753906,
-                            "worldAABB_max_y": 236.5619354248047
+                            "worldAABB_min_x": 55.27124786376953,
+                            "worldAABB_min_y": 61.76807403564453,
+                            "worldAABB_max_x": 194.003662109375,
+                            "worldAABB_max_y": 101.98381805419922
                         }
                     },
                     {
@@ -24438,10 +24469,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1680.7884521484375,
-                            "worldAABB_min_y": 90.72109985351563,
-                            "worldAABB_max_x": 2176.328369140625,
-                            "worldAABB_max_y": 224.65078735351563
+                            "worldAABB_min_x": 969.8900756835938,
+                            "worldAABB_min_y": 21.65463638305664,
+                            "worldAABB_max_x": 1242.8336181640625,
+                            "worldAABB_max_y": 95.42315673828125
                         }
                     },
                     {
@@ -24508,10 +24539,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 116.5084228515625,
-                            "worldAABB_min_y": 27.3658447265625,
-                            "worldAABB_max_x": 289.3209228515625,
-                            "worldAABB_max_y": 200.1783447265625
+                            "worldAABB_min_x": 108.28399658203125,
+                            "worldAABB_min_y": -13.241470336914063,
+                            "worldAABB_max_x": 203.46917724609375,
+                            "worldAABB_max_y": 81.94371032714844
                         }
                     },
                     {
@@ -24560,10 +24591,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 19.517410278320313,
-                            "worldAABB_min_y": 61.71232986450195,
-                            "worldAABB_max_x": 386.31195068359375,
-                            "worldAABB_max_y": 165.8318634033203
+                            "worldAABB_min_x": 54.86131286621094,
+                            "worldAABB_min_y": 5.676582336425781,
+                            "worldAABB_max_x": 256.891845703125,
+                            "worldAABB_max_y": 63.025657653808594
                         }
                     },
                     {
@@ -24613,10 +24644,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 170.04901123046875,
-                            "worldAABB_min_y": 122.92529296875,
-                            "worldAABB_max_x": 358.41461181640625,
-                            "worldAABB_max_y": 140.20654296875
+                            "worldAABB_min_x": 137.77415466308594,
+                            "worldAABB_min_y": 39.39271926879883,
+                            "worldAABB_max_x": 241.52601623535156,
+                            "worldAABB_max_y": 48.91123580932617
                         }
                     },
                     {
@@ -24666,10 +24697,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 374.0567321777344,
-                            "worldAABB_min_y": 87.8502197265625,
-                            "worldAABB_max_x": 395.6582946777344,
-                            "worldAABB_max_y": 139.6939697265625
+                            "worldAABB_min_x": 250.14169311523438,
+                            "worldAABB_min_y": 20.073341369628906,
+                            "worldAABB_max_x": 262.0398254394531,
+                            "worldAABB_max_y": 48.62889862060547
                         }
                     },
                     {
@@ -24735,10 +24766,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 116.50848388671875,
-                            "worldAABB_min_y": 27.365447998046875,
-                            "worldAABB_max_x": 289.32098388671875,
-                            "worldAABB_max_y": 200.17794799804688
+                            "worldAABB_min_x": 108.28402709960938,
+                            "worldAABB_min_y": -13.241683959960938,
+                            "worldAABB_max_x": 203.46920776367188,
+                            "worldAABB_max_y": 81.94349670410156
                         }
                     },
                     {
@@ -24787,10 +24818,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 30.10223388671875,
-                            "worldAABB_min_y": 92.17013549804688,
-                            "worldAABB_max_x": 375.72723388671875,
-                            "worldAABB_max_y": 135.37326049804688
+                            "worldAABB_min_x": 60.691436767578125,
+                            "worldAABB_min_y": 22.4527587890625,
+                            "worldAABB_max_x": 251.06179809570313,
+                            "worldAABB_max_y": 46.249053955078125
                         }
                     },
                     {
@@ -24840,10 +24871,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 170.04925537109375,
-                            "worldAABB_min_y": 122.92471313476563,
-                            "worldAABB_max_x": 358.41485595703125,
-                            "worldAABB_max_y": 140.20596313476563
+                            "worldAABB_min_x": 137.77427673339844,
+                            "worldAABB_min_y": 39.39238357543945,
+                            "worldAABB_max_x": 241.52613830566406,
+                            "worldAABB_max_y": 48.9109001159668
                         }
                     },
                     {
@@ -24893,10 +24924,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 363.6111145019531,
-                            "worldAABB_min_y": 87.84982299804688,
-                            "worldAABB_max_x": 385.2126770019531,
-                            "worldAABB_max_y": 139.69357299804688
+                            "worldAABB_min_x": 244.38824462890625,
+                            "worldAABB_min_y": 20.07312774658203,
+                            "worldAABB_max_x": 256.286376953125,
+                            "worldAABB_max_y": 48.628684997558594
                         }
                     },
                     {
@@ -24962,10 +24993,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.09375,
-                            "worldAABB_min_y": 431.59375,
-                            "worldAABB_max_x": 915.90625,
-                            "worldAABB_max_y": 604.40625
+                            "worldAABB_min_x": 453.40740966796875,
+                            "worldAABB_min_y": 209.40740966796875,
+                            "worldAABB_max_x": 548.5925903320313,
+                            "worldAABB_max_y": 304.59259033203125
                         }
                     }
                 ]
@@ -25000,10 +25031,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1316.831298828125,
-                            "worldAABB_min_y": 759.9375,
-                            "worldAABB_max_x": 1489.643798828125,
-                            "worldAABB_max_y": 932.75
+                            "worldAABB_min_x": 769.4221801757813,
+                            "worldAABB_min_y": 390.25927734375,
+                            "worldAABB_max_x": 864.6073608398438,
+                            "worldAABB_max_y": 485.4444580078125
                         }
                     },
                     {
@@ -25052,10 +25083,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25105,10 +25136,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25158,10 +25189,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1392.436767578125,
-                            "worldAABB_min_y": 820.421875,
-                            "worldAABB_max_x": 1414.038330078125,
-                            "worldAABB_max_y": 872.265625
+                            "worldAABB_min_x": 811.065673828125,
+                            "worldAABB_min_y": 423.5740966796875,
+                            "worldAABB_max_x": 822.9638671875,
+                            "worldAABB_max_y": 452.129638671875
                         }
                     },
                     {
@@ -25227,10 +25258,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1316.831298828125,
-                            "worldAABB_min_y": 759.9375,
-                            "worldAABB_max_x": 1489.643798828125,
-                            "worldAABB_max_y": 932.75
+                            "worldAABB_min_x": 769.4221801757813,
+                            "worldAABB_min_y": 390.25927734375,
+                            "worldAABB_max_x": 864.6073608398438,
+                            "worldAABB_max_y": 485.4444580078125
                         }
                     },
                     {
@@ -25279,10 +25310,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25332,10 +25363,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25385,10 +25416,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1493.041748046875,
-                            "worldAABB_min_y": 820.421875,
-                            "worldAABB_max_x": 1514.643310546875,
-                            "worldAABB_max_y": 872.265625
+                            "worldAABB_min_x": 866.47900390625,
+                            "worldAABB_min_y": 423.5740966796875,
+                            "worldAABB_max_x": 878.377197265625,
+                            "worldAABB_max_y": 452.129638671875
                         }
                     },
                     {
@@ -25454,10 +25485,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1316.831298828125,
-                            "worldAABB_min_y": 759.9375,
-                            "worldAABB_max_x": 1489.643798828125,
-                            "worldAABB_max_y": 932.75
+                            "worldAABB_min_x": 769.4221801757813,
+                            "worldAABB_min_y": 390.25927734375,
+                            "worldAABB_max_x": 864.6073608398438,
+                            "worldAABB_max_y": 485.4444580078125
                         }
                     },
                     {
@@ -25506,10 +25537,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25559,10 +25590,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25612,10 +25643,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1493.68359375,
-                            "worldAABB_min_y": 820.421875,
-                            "worldAABB_max_x": 1515.28515625,
-                            "worldAABB_max_y": 872.265625
+                            "worldAABB_min_x": 866.83251953125,
+                            "worldAABB_min_y": 423.5740966796875,
+                            "worldAABB_max_x": 878.730712890625,
+                            "worldAABB_max_y": 452.129638671875
                         }
                     },
                     {
@@ -25681,10 +25712,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1316.831298828125,
-                            "worldAABB_min_y": 759.9375,
-                            "worldAABB_max_x": 1489.643798828125,
-                            "worldAABB_max_y": 932.75
+                            "worldAABB_min_x": 769.4221801757813,
+                            "worldAABB_min_y": 390.25927734375,
+                            "worldAABB_max_x": 864.6073608398438,
+                            "worldAABB_max_y": 485.4444580078125
                         }
                     },
                     {
@@ -25733,10 +25764,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25786,10 +25817,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1301.2781982421875,
-                            "worldAABB_min_y": 744.3843994140625,
-                            "worldAABB_max_x": 1505.1968994140625,
-                            "worldAABB_max_y": 948.3031005859375
+                            "worldAABB_min_x": 760.8555297851563,
+                            "worldAABB_min_y": 381.6925964355469,
+                            "worldAABB_max_x": 873.1740112304688,
+                            "worldAABB_max_y": 494.0111389160156
                         }
                     },
                     {
@@ -25839,10 +25870,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1561.2064208984375,
-                            "worldAABB_min_y": 820.421875,
-                            "worldAABB_max_x": 1582.8079833984375,
-                            "worldAABB_max_y": 872.265625
+                            "worldAABB_min_x": 904.0241088867188,
+                            "worldAABB_min_y": 423.5740966796875,
+                            "worldAABB_max_x": 915.9223022460938,
+                            "worldAABB_max_y": 452.129638671875
                         }
                     },
                     {
@@ -27010,23 +27041,23 @@
                             "fields": [
                                 {
                                     "name": "IsWinTrigger",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsLoseTrigger",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsNextSceneTrigger",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsLoseByDamage",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "SetGameStateObject",
@@ -27163,9 +27194,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11104131180186148144,
+                            "meshUID": 11436284132656376535,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh",
-                            "materialUID": 11104131180186148144,
+                            "materialUID": 11436284132656376535,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh"
                         }
                     }
@@ -27230,9 +27261,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 12053182983667460615,
+                            "meshUID": 17296476158608385282,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh",
-                            "materialUID": 12053182983667460615,
+                            "materialUID": 17296476158608385282,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh"
                         }
                     }
@@ -27297,9 +27328,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 16512995979379715877,
+                            "meshUID": 10974858337271706511,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh",
-                            "materialUID": 16512995979379715877,
+                            "materialUID": 10974858337271706511,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh"
                         }
                     }
@@ -27364,9 +27395,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 1446801340916546478,
+                            "meshUID": 2748480178645090174,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh",
-                            "materialUID": 1446801340916546478,
+                            "materialUID": 2748480178645090174,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh"
                         }
                     }
@@ -27487,9 +27518,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 14177965782642354901,
+                            "meshUID": 4891768255581963756,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_SCREEN_0.mesh",
-                            "materialUID": 14177965782642354901,
+                            "materialUID": 4891768255581963756,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_SCREEN_0.mesh"
                         }
                     }
@@ -27554,9 +27585,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 9205115026461531689,
+                            "meshUID": 9075953790672113488,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_LOW_BODY_0.mesh",
-                            "materialUID": 9205115026461531689,
+                            "materialUID": 9075953790672113488,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_LOW_BODY_0.mesh"
                         }
                     }
@@ -27621,9 +27652,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5407664199968046396,
+                            "meshUID": 16021482866952981928,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_TOP_BODY_0.mesh",
-                            "materialUID": 5407664199968046396,
+                            "materialUID": 16021482866952981928,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_TOP_BODY_0.mesh"
                         }
                     }
@@ -27744,9 +27775,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 2039025564670082117,
+                            "meshUID": 8170923790086907884,
                             "assetPathMesh": "Assets/Meshes/core.Sphere.002_0.mesh",
-                            "materialUID": 2039025564670082117,
+                            "materialUID": 8170923790086907884,
                             "assetPathMaterial": "Assets/Meshes/core.Sphere.002_0.mesh"
                         }
                     }
@@ -27867,9 +27898,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10473964187459629746,
+                            "meshUID": 17118956019040192203,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_0.mesh",
-                            "materialUID": 10473964187459629746,
+                            "materialUID": 17118956019040192203,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_0.mesh"
                         }
                     }
@@ -27906,9 +27937,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11205026644222765128,
+                            "meshUID": 5285578787489127469,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_1.mesh",
-                            "materialUID": 11205026644222765128,
+                            "materialUID": 5285578787489127469,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_1.mesh"
                         }
                     }
@@ -27945,9 +27976,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5725108264384150135,
+                            "meshUID": 5897891258800368606,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_2.mesh",
-                            "materialUID": 5725108264384150135,
+                            "materialUID": 5897891258800368606,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_2.mesh"
                         }
                     }
@@ -27984,9 +28015,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3030789637945675790,
+                            "meshUID": 3080004004888116672,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_3.mesh",
-                            "materialUID": 3030789637945675790,
+                            "materialUID": 3080004004888116672,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_3.mesh"
                         }
                     }
@@ -28231,9 +28262,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 2039025564670082117,
+                            "meshUID": 8170923790086907884,
                             "assetPathMesh": "Assets/Meshes/core.Sphere.002_0.mesh",
-                            "materialUID": 2039025564670082117,
+                            "materialUID": 8170923790086907884,
                             "assetPathMaterial": "Assets/Meshes/core.Sphere.002_0.mesh"
                         }
                     }
@@ -28354,9 +28385,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 10473964187459629746,
+                            "meshUID": 17118956019040192203,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_0.mesh",
-                            "materialUID": 10473964187459629746,
+                            "materialUID": 17118956019040192203,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_0.mesh"
                         }
                     }
@@ -28393,9 +28424,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11205026644222765128,
+                            "meshUID": 5285578787489127469,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_1.mesh",
-                            "materialUID": 11205026644222765128,
+                            "materialUID": 5285578787489127469,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_1.mesh"
                         }
                     }
@@ -28432,9 +28463,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5725108264384150135,
+                            "meshUID": 5897891258800368606,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_2.mesh",
-                            "materialUID": 5725108264384150135,
+                            "materialUID": 5897891258800368606,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_2.mesh"
                         }
                     }
@@ -28471,9 +28502,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 3030789637945675790,
+                            "meshUID": 3080004004888116672,
                             "assetPathMesh": "Assets/Meshes/core_frame.Cylinder_3.mesh",
-                            "materialUID": 3030789637945675790,
+                            "materialUID": 3080004004888116672,
                             "assetPathMaterial": "Assets/Meshes/core_frame.Cylinder_3.mesh"
                         }
                     }
@@ -28521,7 +28552,7 @@
                             "removed": true,
                             "static": false,
                             "mouse": false,
-                            "actualPlayer": true
+                            "actualPlayer": false
                         }
                     },
                     {
@@ -28568,38 +28599,48 @@
                             "constructName": "BixAttackScript",
                             "fields": [
                                 {
-                                    "name": "AttackCooldown",
-                                    "value": 0.6000000238418579,
+                                    "name": "ComboCountHeavy",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "RayAttackSize",
-                                    "value": 50.0,
+                                    "name": "ComboCountSoft",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "AnimationGO",
-                                    "value": 9483510377774042579,
+                                    "name": "AttackSoft",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackHeavy",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NormalAttackDistance",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsAttacking",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "EnemyDetection",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray1GO",
-                                    "value": 13491024505869460984,
+                                    "name": "HeavyFinisherAttack",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray2GO",
-                                    "value": 3426930759940807236,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 15098077470083307444,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 6076099238030652082,
+                                    "name": "BixLightSaber",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -28625,7 +28666,7 @@
                                 {
                                     "name": "IsImmortal",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "EnemyParticleSystem",
@@ -28650,12 +28691,12 @@
                                 {
                                     "name": "CanDash",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
-                                    "name": "IsParalized",
+                                    "name": "IsParalyzed",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -28668,19 +28709,39 @@
                             "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
+                                    "name": "CoyoteTime",
+                                    "value": 0.4000000059604645,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsGrounded",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "CoyoteTimerCount",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DoubleJumpAvailable",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "JumpParameter",
                                     "value": 1000.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "CanDoubleJump",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "CanJump",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -28785,7 +28846,7 @@
                                 {
                                     "name": "CanRotate",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -34399,28 +34460,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceAttackScript",
-                            "fields": [
-                                {
-                                    "name": "Force",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "StunTime",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CoolDown",
-                                    "value": 6.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ForceDamage",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]
@@ -34467,7 +34507,7 @@
                             "removed": true,
                             "static": false,
                             "mouse": false,
-                            "actualPlayer": true
+                            "actualPlayer": false
                         }
                     },
                     {
@@ -34514,38 +34554,48 @@
                             "constructName": "BixAttackScript",
                             "fields": [
                                 {
-                                    "name": "AttackCooldown",
-                                    "value": 0.6000000238418579,
+                                    "name": "ComboCountHeavy",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "RayAttackSize",
-                                    "value": 50.0,
+                                    "name": "ComboCountSoft",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "AnimationGO",
-                                    "value": 9483510377774042579,
+                                    "name": "AttackSoft",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackHeavy",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NormalAttackDistance",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsAttacking",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "EnemyDetection",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray1GO",
-                                    "value": 13491024505869460984,
+                                    "name": "HeavyFinisherAttack",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray2GO",
-                                    "value": 3426930759940807236,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 15098077470083307444,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 6076099238030652082,
+                                    "name": "BixLightSaber",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -34571,7 +34621,7 @@
                                 {
                                     "name": "IsImmortal",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "EnemyParticleSystem",
@@ -34596,12 +34646,12 @@
                                 {
                                     "name": "CanDash",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
-                                    "name": "IsParalized",
+                                    "name": "IsParalyzed",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -34614,19 +34664,39 @@
                             "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
+                                    "name": "CoyoteTime",
+                                    "value": 0.4000000059604645,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsGrounded",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "CoyoteTimerCount",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DoubleJumpAvailable",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "JumpParameter",
                                     "value": 1000.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "CanDoubleJump",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "CanJump",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -34731,7 +34801,7 @@
                                 {
                                     "name": "CanRotate",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -40345,28 +40415,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceAttackScript",
-                            "fields": [
-                                {
-                                    "name": "Force",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "StunTime",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CoolDown",
-                                    "value": 6.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ForceDamage",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]
@@ -40460,38 +40509,48 @@
                             "constructName": "BixAttackScript",
                             "fields": [
                                 {
-                                    "name": "AttackCooldown",
-                                    "value": 0.6000000238418579,
+                                    "name": "ComboCountHeavy",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "RayAttackSize",
-                                    "value": 50.0,
+                                    "name": "ComboCountSoft",
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "AnimationGO",
-                                    "value": 9483510377774042579,
+                                    "name": "AttackSoft",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackHeavy",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NormalAttackDistance",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsAttacking",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "EnemyDetection",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray1GO",
-                                    "value": 13491024505869460984,
+                                    "name": "HeavyFinisherAttack",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
-                                    "name": "Ray2GO",
-                                    "value": 3426930759940807236,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 15098077470083307444,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 6076099238030652082,
+                                    "name": "BixLightSaber",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -40517,7 +40576,7 @@
                                 {
                                     "name": "IsImmortal",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "EnemyParticleSystem",
@@ -40542,12 +40601,12 @@
                                 {
                                     "name": "CanDash",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
-                                    "name": "IsParalized",
+                                    "name": "IsParalyzed",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -40560,19 +40619,39 @@
                             "constructName": "PlayerJumpScript",
                             "fields": [
                                 {
+                                    "name": "CoyoteTime",
+                                    "value": 0.4000000059604645,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsGrounded",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "CoyoteTimerCount",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DoubleJumpAvailable",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "JumpParameter",
                                     "value": 1000.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "CanDoubleJump",
-                                    "value": true,
-                                    "type": 4
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "CanJump",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -40677,7 +40756,7 @@
                                 {
                                     "name": "CanRotate",
                                     "value": true,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -46291,28 +46370,7 @@
                             "active": true,
                             "removed": true,
                             "constructName": "PlayerForceAttackScript",
-                            "fields": [
-                                {
-                                    "name": "Force",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "StunTime",
-                                    "value": 3.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "CoolDown",
-                                    "value": 6.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ForceDamage",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
+                            "fields": null
                         }
                     }
                 ]
@@ -46432,9 +46490,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 14177965782642354901,
+                            "meshUID": 4891768255581963756,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_SCREEN_0.mesh",
-                            "materialUID": 14177965782642354901,
+                            "materialUID": 4891768255581963756,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_SCREEN_0.mesh"
                         }
                     }
@@ -46499,9 +46557,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 9205115026461531689,
+                            "meshUID": 9075953790672113488,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_LOW_BODY_0.mesh",
-                            "materialUID": 9205115026461531689,
+                            "materialUID": 9075953790672113488,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_LOW_BODY_0.mesh"
                         }
                     }
@@ -46566,9 +46624,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5407664199968046396,
+                            "meshUID": 16021482866952981928,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_TOP_BODY_0.mesh",
-                            "materialUID": 5407664199968046396,
+                            "materialUID": 16021482866952981928,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_TOP_BODY_0.mesh"
                         }
                     }
@@ -46689,9 +46747,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 14177965782642354901,
+                            "meshUID": 4891768255581963756,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_SCREEN_0.mesh",
-                            "materialUID": 14177965782642354901,
+                            "materialUID": 4891768255581963756,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_SCREEN_0.mesh"
                         }
                     }
@@ -46756,9 +46814,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 9205115026461531689,
+                            "meshUID": 9075953790672113488,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_LOW_BODY_0.mesh",
-                            "materialUID": 9205115026461531689,
+                            "materialUID": 9075953790672113488,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_LOW_BODY_0.mesh"
                         }
                     }
@@ -46823,9 +46881,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5407664199968046396,
+                            "meshUID": 16021482866952981928,
                             "assetPathMesh": "Assets/Meshes/CMD_PANEL_V2.A_TOP_BODY_0.mesh",
-                            "materialUID": 5407664199968046396,
+                            "materialUID": 16021482866952981928,
                             "assetPathMaterial": "Assets/Meshes/CMD_PANEL_V2.A_TOP_BODY_0.mesh"
                         }
                     }
@@ -47178,9 +47236,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11104131180186148144,
+                            "meshUID": 11436284132656376535,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh",
-                            "materialUID": 11104131180186148144,
+                            "materialUID": 11436284132656376535,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh"
                         }
                     }
@@ -47245,9 +47303,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 12053182983667460615,
+                            "meshUID": 17296476158608385282,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh",
-                            "materialUID": 12053182983667460615,
+                            "materialUID": 17296476158608385282,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh"
                         }
                     }
@@ -47312,9 +47370,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 16512995979379715877,
+                            "meshUID": 10974858337271706511,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh",
-                            "materialUID": 16512995979379715877,
+                            "materialUID": 10974858337271706511,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh"
                         }
                     }
@@ -47379,9 +47437,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 1446801340916546478,
+                            "meshUID": 2748480178645090174,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh",
-                            "materialUID": 1446801340916546478,
+                            "materialUID": 2748480178645090174,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh"
                         }
                     }
@@ -47502,9 +47560,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11104131180186148144,
+                            "meshUID": 11436284132656376535,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh",
-                            "materialUID": 11104131180186148144,
+                            "materialUID": 11436284132656376535,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh"
                         }
                     }
@@ -47569,9 +47627,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 12053182983667460615,
+                            "meshUID": 17296476158608385282,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh",
-                            "materialUID": 12053182983667460615,
+                            "materialUID": 17296476158608385282,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh"
                         }
                     }
@@ -47636,9 +47694,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 16512995979379715877,
+                            "meshUID": 10974858337271706511,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh",
-                            "materialUID": 16512995979379715877,
+                            "materialUID": 10974858337271706511,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh"
                         }
                     }
@@ -47703,9 +47761,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 1446801340916546478,
+                            "meshUID": 2748480178645090174,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh",
-                            "materialUID": 1446801340916546478,
+                            "materialUID": 2748480178645090174,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh"
                         }
                     }
@@ -47826,9 +47884,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 11104131180186148144,
+                            "meshUID": 11436284132656376535,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh",
-                            "materialUID": 11104131180186148144,
+                            "materialUID": 11436284132656376535,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pCube2_0.mesh"
                         }
                     }
@@ -47893,9 +47951,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 12053182983667460615,
+                            "meshUID": 17296476158608385282,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh",
-                            "materialUID": 12053182983667460615,
+                            "materialUID": 17296476158608385282,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pCube1_0.mesh"
                         }
                     }
@@ -47960,9 +48018,9 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 16512995979379715877,
+                            "meshUID": 10974858337271706511,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh",
-                            "materialUID": 16512995979379715877,
+                            "materialUID": 10974858337271706511,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pasted__pasted__pCube1_0.mesh"
                         }
                     }
@@ -48027,10 +48085,350 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 1446801340916546478,
+                            "meshUID": 2748480178645090174,
                             "assetPathMesh": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh",
-                            "materialUID": 1446801340916546478,
+                            "materialUID": 2748480178645090174,
                             "assetPathMaterial": "Assets/Meshes/ELECTRIC_SPOT_v1.pHelix4_0.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DecorativePanel",
+                "tag": "",
+                "uid": 8237236215172885178,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4729421138763428,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 1.999999761581421,
+                            "localSca_Z": 1.999999761581421
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3807306292243073763,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_DecorativePanel.Cube.007_0.mesh",
+                            "materialUID": 14123536778091174100,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_DecorativePanelPanel_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lv2_HandOfDominion",
+                "tag": "",
+                "uid": 8026968804129891130,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -35.375938415527344,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door",
+                "tag": "",
+                "uid": 9040967037932445365,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.8128280639648438,
+                            "localPos_Y": -0.000004259101842762902,
+                            "localPos_Z": -0.35199737548828125,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 2.0,
+                            "localSca_Z": 2.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3763933102805792683,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Door.Cube.024_0.mesh",
+                            "materialUID": 1081826142344109224,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_DoorDoor_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ColumnVariant",
+                "tag": "",
+                "uid": 3978090699694122950,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.8149299621582031,
+                            "localPos_Y": 0.22354628145694733,
+                            "localPos_Z": -0.05487060546875,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 1.9999998807907104,
+                            "localSca_Z": 1.9999998807907104
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 9169725038843980103,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_ColumnVariant.Cube_0.mesh",
+                            "materialUID": 9526473974397958868,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_ColumnVariantMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Column",
+                "tag": "",
+                "uid": 3925182667668898570,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.7864916324615479,
+                            "localPos_Y": -0.000004221313247398939,
+                            "localPos_Z": -0.035003662109375,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 2.0,
+                            "localSca_Z": 2.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 133900975829291239,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Column.Cube.010_0.mesh",
+                            "materialUID": 8218581728829059453,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_ColumnWallVariant_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 17645874988609237288,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.8158214092254639,
+                            "localPos_Y": -0.000004237906978232786,
+                            "localPos_Z": -0.17420196533203125,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 1.9999998807907104,
+                            "localSca_Z": 1.9999998807907104
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 4141658954864566109,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Wall.Cube.001_0.mesh",
+                            "materialUID": 9526473974397958868,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_ColumnVariantMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Ground",
+                "tag": "",
+                "uid": 9120548604585035198,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.4584624767303467,
+                            "localPos_Y": -0.000004250385245541111,
+                            "localPos_Z": -0.27886962890625,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 1.9999998807907104,
+                            "localSca_Z": 1.9999998807907104
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15981788330835350522,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Ground.Cube.002_0.mesh",
+                            "materialUID": 18134621886716372516,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_GroundGround1_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Roof",
+                "tag": "",
+                "uid": 10634514881283155847,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 14.514318466186523,
+                            "localPos_Y": 9.294419288635254,
+                            "localPos_Z": 10.31832504272461,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 1.9999998807907104,
+                            "localSca_Z": 1.9999998807907104
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2711784390346896803,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Roof.Cube.006_0.mesh",
+                            "materialUID": 15396178638803577082,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_RoofGround_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Window",
+                "tag": "",
+                "uid": 11567250436169943864,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.230182409286499,
+                            "localPos_Y": -0.000004169107796769822,
+                            "localPos_Z": 0.4029273986816406,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 2.0,
+                            "localSca_Y": 2.0,
+                            "localSca_Z": 2.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5990166037832534173,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Window.Cube.005_0.mesh",
+                            "materialUID": 17615054447539784033,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_WindowWallWindow_0.mat"
                         }
                     }
                 ]
