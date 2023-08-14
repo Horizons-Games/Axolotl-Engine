@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
-#include "ComponentTransform.h"
 #include "ComponentLight.h"
+#include "ComponentTransform.h"
 
 #include "Application.h"
 #include "Scene/Scene.h"
@@ -11,9 +11,9 @@
 
 ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
 	Component(ComponentType::TRANSFORM, active, owner, false),
-	pos(float3::zero),
-	rot(Quat::identity),
-	sca(float3::one),
+	localPos(float3::zero),
+	localRot(Quat::identity),
+	localSca(float3::one),
 	bbPos(float3::zero),
 	bbSca(float3::one),
 	originScaling({ 0.5f, 0.5f, 0.5f }),
@@ -33,11 +33,11 @@ ComponentTransform::ComponentTransform(const bool active, GameObject* owner) :
 
 ComponentTransform::ComponentTransform(const ComponentTransform& componentTransform) :
 	Component(componentTransform),
-	pos(componentTransform.GetPosition()),
-	rot(componentTransform.GetRotation()),
-	sca(componentTransform.GetScale()),
 	bbPos(componentTransform.GetBBPos()),
 	bbSca(componentTransform.GetBBScale()),
+	localPos(componentTransform.GetLocalPosition()),
+	localRot(componentTransform.GetLocalRotation()),
+	localSca(componentTransform.GetLocalScale()),
 	globalPos(componentTransform.GetGlobalPosition()),
 	globalRot(componentTransform.GetGlobalRotation()),
 	globalSca(componentTransform.GetGlobalScale()),
@@ -56,17 +56,18 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::InternalSave(Json& meta)
 {
-	meta["localPos_X"] = static_cast<float>(pos.x);
-	meta["localPos_Y"] = static_cast<float>(pos.y);
-	meta["localPos_Z"] = static_cast<float>(pos.z);
+	meta["localPos_X"] = static_cast<float>(localPos.x);
+	meta["localPos_Y"] = static_cast<float>(localPos.y);
+	meta["localPos_Z"] = static_cast<float>(localPos.z);
 
 	meta["localRot_X"] = static_cast<float>(rotXYZ.x);
 	meta["localRot_Y"] = static_cast<float>(rotXYZ.y);
 	meta["localRot_Z"] = static_cast<float>(rotXYZ.z);
 
-	meta["localSca_X"] = static_cast<float>(sca.x);
-	meta["localSca_Y"] = static_cast<float>(sca.y);
-	meta["localSca_Z"] = static_cast<float>(sca.z);
+	meta["localSca_X"] = static_cast<float>(localSca.x);
+	meta["localSca_Y"] = static_cast<float>(localSca.y);
+	meta["localSca_Z"] = static_cast<float>(localSca.z);
+
 	//Use this when you want to save ANY old scene with new boundingBox Value
 	//if (bbSca.x == 0.0f && bbSca.y == 0.0f && bbSca.z == 0.0f)
 	//{
@@ -84,19 +85,19 @@ void ComponentTransform::InternalSave(Json& meta)
 
 void ComponentTransform::InternalLoad(const Json& meta)
 {
-	pos.x = static_cast<float>(meta["localPos_X"]);
-	pos.y = static_cast<float>(meta["localPos_Y"]);
-	pos.z = static_cast<float>(meta["localPos_Z"]);
+	localPos.x = static_cast<float>(meta["localPos_X"]);
+	localPos.y = static_cast<float>(meta["localPos_Y"]);
+	localPos.z = static_cast<float>(meta["localPos_Z"]);
 
 	float3 rotation;
 	rotation.x = static_cast<float>(meta["localRot_X"]);
 	rotation.y = static_cast<float>(meta["localRot_Y"]);
 	rotation.z = static_cast<float>(meta["localRot_Z"]);
-	SetRotation(rotation);
+	SetLocalRotation(rotation);
 
-	sca.x = static_cast<float>(meta["localSca_X"]);
-	sca.y = static_cast<float>(meta["localSca_Y"]);
-	sca.z = static_cast<float>(meta["localSca_Z"]);
+	localSca.x = static_cast<float>(meta["localSca_X"]);
+	localSca.y = static_cast<float>(meta["localSca_Y"]);
+	localSca.z = static_cast<float>(meta["localSca_Z"]);
 
 	bbSca.x = static_cast<float>(meta["boudingBoxSca_X"]);
 	bbSca.y = static_cast<float>(meta["boudingBoxSca_Y"]);
@@ -112,7 +113,7 @@ void ComponentTransform::InternalLoad(const Json& meta)
 
 void ComponentTransform::CalculateMatrices()
 {
-	localMatrix = float4x4::FromTRS(pos, rot, sca);
+	localMatrix = float4x4::FromTRS(localPos, localRot, localSca);
 
 	const GameObject* parent = GetOwner()->GetParent();
 
@@ -136,13 +137,13 @@ void ComponentTransform::RecalculateLocalMatrix()
 	globalMatrix = float4x4::FromTRS(globalPos, globalRot, globalSca);
 	ComponentTransform* parentTransform = GetOwner()->GetParent()->GetComponentInternal<ComponentTransform>();
 	localMatrix = parentTransform->GetGlobalMatrix().Inverted().Mul(globalMatrix);
-	localMatrix.Decompose(pos, rot, sca);
-	rotXYZ = RadToDeg(rot.ToEulerXYZ());
+	localMatrix.Decompose(localPos, localRot, localSca);
+	rotXYZ = RadToDeg(localRot.ToEulerXYZ());
 }
 
 const float4x4 ComponentTransform::CalculatePaletteGlobalMatrix()
 {
-	localMatrix = float4x4::FromTRS(pos, rot, sca);
+	localMatrix = float4x4::FromTRS(localPos, localRot, localSca);
 
 	const GameObject* parent = GetOwner()->GetParent();
 	const GameObject* root = GetOwner()->GetRootGO();
@@ -170,22 +171,20 @@ void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 			components->OnTransformChanged();
 		}
 	}
-	
+
 	if (GetOwner()->GetChildren().empty())
 		return;
 
 	for (GameObject* child : GetOwner()->GetChildren())
 	{
-		ComponentTransform* childTransform = 
-			child->GetComponentInternal<ComponentTransform>();
+		ComponentTransform* childTransform = child->GetComponentInternal<ComponentTransform>();
 
-		if(childTransform)
+		if (childTransform)
 		{
 			childTransform->UpdateTransformMatrices(notifyChanges);
 		}
 	}
 }
-
 
 void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
 												   bool translationModified,
@@ -244,8 +243,8 @@ void ComponentTransform::CalculateLocalFromNewGlobal(const ComponentTransform* n
 	nglobalMatrix.Decompose(nPos, nRot, nSca);
 
 	localMatrix = newTransformFrom->GetGlobalMatrix().Inverted().Mul(globalMatrix);
-	localMatrix.Decompose(pos, rot, sca);
-	rotXYZ = RadToDeg(rot.ToEulerXYZ());
+	localMatrix.Decompose(localPos, localRot, localSca);
+	rotXYZ = RadToDeg(localRot.ToEulerXYZ());
 }
 
 void ComponentTransform::ScaleLocalAABB(float3& scaling)

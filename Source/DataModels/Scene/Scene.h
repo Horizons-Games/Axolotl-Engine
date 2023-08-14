@@ -140,7 +140,7 @@ public:
 	void InitLights();
 	void InitCubemap();
 
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
 	void ExecutePendingActions();
 
 private:
@@ -319,13 +319,16 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
-	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
-											  std::end(sceneParticleSystems),
-		[&particleSystem](ComponentParticleSystem* particle)
-		{
-			return particle == particleSystem;
-		}),
-							   std::end(sceneParticleSystems));
+	if (this)
+	{
+		sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
+			std::end(sceneParticleSystems),
+			[&particleSystem](ComponentParticleSystem* particle)
+			{
+				return particle == particleSystem;
+			}),
+			std::end(sceneParticleSystems));
+	}
 }
 
 inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)

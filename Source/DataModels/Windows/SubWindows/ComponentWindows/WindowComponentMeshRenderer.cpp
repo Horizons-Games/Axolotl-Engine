@@ -20,6 +20,9 @@
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
+#define BLOOM_MAX_VALUE 5.f
+#define BLOOM_MIN_VALUE 0.05f
+
 const std::vector<std::string> WindowComponentMeshRenderer::shaderTypes = { "Default", "Specular" };
 const std::vector<std::string> WindowComponentMeshRenderer::renderModes = { "Opaque", "Transparent" };
 
@@ -66,19 +69,17 @@ void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMate
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
-	if (changed)
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(75, 25, 25, 255));
-	}
-	else
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 0, 0));
-	}
-	ImGui::BeginChild("##Window");
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	draw_list->ChannelsSplit(2);
+	draw_list->ChannelsSetCurrent(1);
+
+	ImGui::BeginGroup();
 	DrawEnableAndDeleteComponent();
 
 	// used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
-	ImGui::Text("");
+	ImGui::NewLine();
 
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
@@ -161,8 +162,22 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 	}
 
-	ImGui::EndChild();
-	ImGui::PopStyleColor();
+	ImGui::EndGroup();
+
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	if (changed)
+	{
+		draw_list->ChannelsSetCurrent(0);
+
+		ImVec2 itemRectMin = ImGui::GetItemRectMin();
+		ImVec2 itemRectMax = ImGui::GetItemRectMax();
+		itemRectMax.x = ImGui::GetContentRegionMax().x + ImGui::GetWindowPos().x;
+
+		draw_list->AddRectFilled(itemRectMin, itemRectMax, IM_COL32(75, 25, 25, 255));
+	}
+
+	draw_list->ChannelsMerge();
 }
 
 void WindowComponentMeshRenderer::DrawSetMaterial()
@@ -414,6 +429,24 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->GetEmission()->Load();
 				ImGui::Image((void*) (intptr_t) materialResource->GetEmission()->GetGlTexture(),
 					ImVec2(100, 100));
+
+				float intensityBloom = materialResource->GetIntensityBloom();
+				ImGui::Text("Bloom Intensity");
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(60.0f);
+				if (ImGui::DragFloat("##IntensityBloom", &intensityBloom, 0.05f, BLOOM_MIN_VALUE, BLOOM_MAX_VALUE, "%.2f"))
+				{
+					if (intensityBloom > BLOOM_MAX_VALUE)
+					{
+						intensityBloom = BLOOM_MAX_VALUE;
+					}
+					else if (intensityBloom < BLOOM_MIN_VALUE)
+					{
+						intensityBloom = BLOOM_MIN_VALUE;
+					}
+					materialResource->SetIntensityBloom(intensityBloom);
+					updateMaterials = true;
+				}
 
 				if (ImGui::Button("Remove Texture Emission"))
 				{

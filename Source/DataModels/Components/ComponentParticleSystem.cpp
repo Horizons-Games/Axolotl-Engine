@@ -45,6 +45,8 @@ ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& 
 
 ComponentParticleSystem::~ComponentParticleSystem()
 {
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(this);
+
 	ClearEmitters();
 }
 
@@ -116,7 +118,10 @@ void ComponentParticleSystem::Stop()
 
 void ComponentParticleSystem::Update()
 {
-	if (IsEnabled() && isPlaying && !pause)
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+
+	if (IsEnabled() && isPlaying && !pause && camera->GetSelectedCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		for (EmitterInstance* emitter : emitters)
 		{
@@ -149,7 +154,8 @@ void ComponentParticleSystem::Render()
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-	if (IsEnabled() &&	camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+
+	if (IsEnabled() &&	camera->GetSelectedCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
 

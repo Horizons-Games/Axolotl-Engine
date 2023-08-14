@@ -57,35 +57,36 @@ private:
 
 	struct MaterialMetallic 
 	{
-		float4 diffuse_color = float4::zero; //0 //16
-		int has_diffuse_map = 0;			 //16 //4      
-		int has_normal_map = 0;				 //20 //4
-		int has_metallic_map = 0;			 //24 //4
-		int has_emissive_map = 0;			 //28 //4
-		float smoothness = 0;				 //32 //4
-		float metalness = 0;				 //36 //4
-		float normal_strength = 0;			 //40 //4
-		uint64_t diffuse_map;				 //48 //8
-		uint64_t normal_map;				 //56 //8
-		uint64_t metallic_map;				 //64 //8 
-		uint64_t emissive_map;				 //72 //8 -->80
+		float4 diffuse_color = float4::zero;	//0 //16
+		int has_diffuse_map = 0;				//16 //4
+		int has_normal_map = 0;					//20 //4
+		int has_metallic_map = 0;				//24 //4
+		int has_emissive_map = 0;				//28 //4
+		float smoothness = 0;					//32 //4
+		float metalness = 0;					//36 //4
+		float normal_strength = 0;				//40 //4
+		float intensityBloom = 0;				//44 //4
+		uint64_t diffuse_map;					//48 //8
+		uint64_t normal_map;					//56 //8
+		uint64_t metallic_map;					//64 //8
+		uint64_t emissive_map;					//72 //8 -->80
 	};
 
 	struct MaterialSpecular 
 	{
-		float4 diffuse_color = float4::zero;  //0  //16
-		float3 specular_color = float3::zero; //16 //16       
-		int has_diffuse_map = 0;              //32 //4
-		int has_normal_map = 0;               //36 //4
-		int has_specular_map = 0;             //40 //4
-		int has_emissive_map = 0;             //44 //4
-		float smoothness = 0;                 //48 //4
-		float normal_strength = 0;            //52 //4
-		uint64_t diffuse_map;				  //56 //8
-		uint64_t normal_map;				  //64 //8
-		uint64_t specular_map;				  //72 //8    
-		uint64_t emissive_map;				  //80 //8    
-		int padding1 = 0, padding2 = 0;		  //88 //8 --> 96
+		float4 diffuse_color = float4::zero;	//0  //16
+		float3 specular_color = float3::zero;	//16 //16
+		int has_diffuse_map = 0;				//32 //4
+		int has_normal_map = 0;					//36 //4
+		int has_specular_map = 0;				//40 //4
+		int has_emissive_map = 0;				//44 //4
+		float smoothness = 0;					//48 //4
+		float normal_strength = 0;				//52 //4
+		float intensityBloom = 0;				//56 //4
+		uint64_t diffuse_map;					//64 //8
+		uint64_t normal_map;					//72 //8
+		uint64_t specular_map;					//80 //8
+		uint64_t emissive_map;					//88 //8 --> 96
 	};
 
 	struct ResourceInfo

@@ -8,6 +8,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentAnimation;
 class ComponentParticleSystem;
 
+class BixAttackScript;
+
 class HealthSystem : public Script
 {
 public:
@@ -25,7 +27,7 @@ public:
 
 	bool EntityIsAlive() const;
 
-	bool GetIsImmortal() const;
+	bool IsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
 	
 private:
@@ -36,4 +38,6 @@ private:
 
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
+
+	BixAttackScript* attackScript;
 };

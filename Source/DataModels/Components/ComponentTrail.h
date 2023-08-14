@@ -25,6 +25,14 @@ struct Vertex
 	float2 uv;
 };
 
+struct Curve
+{
+	float3 a;
+	float3 b;
+	float3 c;
+	float3 d;
+};
+
 class ComponentTrail : public Component, public Updatable, public Drawable
 {
 public:
@@ -46,6 +54,9 @@ public:
 
 	const float GetRatioWidth() const;
 	void SetRatioWidth(float ratioWidth);
+
+	const int GetCatmunPoints();
+	void SetCatmunPoints(int numSamplers);
 
 	std::shared_ptr<ResourceTexture> GetTexture() const;
 	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
@@ -73,6 +84,10 @@ private:
 
 	void InsertPoint(float3 position, Quat rotation);
 
+	void CalculateExtraPoints(float3& p0, const Point& p1, const Point& p2, float3& p3);
+
+	const Curve CatmullRomCentripetal(float3 p0, float3 p1, float3 p2, float3 p3);
+
 	void BindCamera(Program* program);
 
 	GLuint vao;
@@ -92,6 +107,7 @@ private:
 	float minDistance;
 	float width;
 	float ratioWidth; // this value is used to calculate the minimum width that vertex can size
+	int catmunPoints;
 
 	// render properties
 	ImGradient* gradient;
@@ -141,6 +157,16 @@ inline void ComponentTrail::SetRatioWidth(float ratioWidth)
 {
 	this->ratioWidth = ratioWidth;
 	points.clear();
+}
+
+inline const int ComponentTrail::GetCatmunPoints()
+{
+	return catmunPoints;
+}
+
+inline void ComponentTrail::SetCatmunPoints(int numSamplers)
+{
+	catmunPoints = numSamplers;
 }
 
 inline std::shared_ptr<ResourceTexture> ComponentTrail::GetTexture() const

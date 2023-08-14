@@ -32,6 +32,20 @@ void WindowComponentCameraSample::DrawWindowContents()
 		bool isSampleFocusEnabled = asCameraSample->GetFocusOffsetEnabled();
 		float2 focusOffset = asCameraSample->GetFocusOffset();
 
+		bool isCombatCameraEnabled = asCameraSample->GetCombatCameraEnabled();
+
+		ImGui::Text("");
+
+		if (ImGui::Checkbox("##Combat Camera Enabled", &isCombatCameraEnabled))
+		{
+			asCameraSample->SetCombatCameraEnabled(isCombatCameraEnabled);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Combat Camera Enabled");
+
+		ImGui::Text("");
+
 		ImGui::SliderFloat("Influence Radius", &influenceRadius, 0.0f, 30.f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
 		ImGui::Text("");
