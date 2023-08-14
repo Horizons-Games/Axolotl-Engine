@@ -18,11 +18,11 @@ struct Material {
     int has_emissive_map;       //44 //4
     float smoothness;           //48 //4
     float normal_strength;      //52 //4
-    sampler2D diffuse_map;      //56 //8
-    sampler2D normal_map;       //64 //8
-    sampler2D specular_map;     //72 //8    
-    sampler2D emissive_map;     //80 //8
-    int padding1,padding2;      //88 //8 --> 96
+	float intensityBloom;		//56 //4
+    sampler2D diffuse_map;      //64 //8
+    sampler2D normal_map;       //72 //8
+    sampler2D specular_map;     //80 //8    
+    sampler2D emissive_map;     //88 //8 --> 96
 };
 
 layout(std140, binding=1) uniform Directional
