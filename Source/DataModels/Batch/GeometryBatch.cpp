@@ -840,6 +840,143 @@ void GeometryBatch::BindBatch(bool selected)
 	program->Deactivate();
 }
 
+void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
+{
+	frame = (frame + 1) % DOUBLE_BUFFERS;
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointModel, transforms[frame]);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPalette, palettes[frame]);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer);
+
+	WaitBuffer();
+
+	if (createBuffers)
+	{
+		//Redo info
+		numTotalVertices = 0;
+		numTotalIndices = 0;
+		numTotalFaces = 0;
+		for (auto info : resourcesInfo) {
+			info->vertexOffset = numTotalVertices;
+			info->indexOffset = numTotalIndices;
+			numTotalVertices += info->resourceMesh->GetNumVertices();
+			numTotalIndices += info->resourceMesh->GetNumIndexes();
+			numTotalFaces += info->resourceMesh->GetNumFaces();
+		}
+		FillBuffers();
+		createBuffers = false;
+	}
+
+	if (reserveModelSpace)
+	{
+		//Redo instanceData
+		instanceData.clear();
+		instanceData.reserve(componentsInBatch.size());
+		for (const ComponentMeshRenderer* component : componentsInBatch)
+		{
+			if (component->GetMaterial())
+			{
+				objectIndexes[component] = CreateInstanceResourceMaterial(component->GetMaterial());
+			}
+			else
+			{
+				objectIndexes[component] = CreateInstanceResourceMaterial(defaultMaterial);
+			}
+		}
+		reserveModelSpace = false;
+	}
+
+	if (fillMaterials)
+	{
+		FillMaterial();
+	}
+
+	std::vector<Command> commands;
+	commands.reserve(componentsInBatch.size());
+
+	int drawCount = 0;
+
+	GameObject* selectedGo = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	bool isRoot = selectedGo->GetParent() == nullptr;
+
+	for (ComponentMeshRenderer* component : componentsInBatch)
+	{
+		assert(component);
+
+		std::vector<GameObject*>::iterator it = std::find(objects.begin(), objects.end(), component->GetOwner());
+		
+		bool draw = it != objects.end();
+		
+		if (it != objects.end())
+		{
+			if (!(*it)->GetComponent<ComponentMeshRenderer>())
+			{
+				objects.erase(it);
+
+				draw = false;
+			}
+		}
+		
+		if (draw)
+		{
+			component->UpdatePalette();
+
+			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
+			std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
+
+			// find position in components vector
+			unsigned int instanceIndex = objectIndexes[component];
+			unsigned int paletteIndex = paletteIndexes[component];
+
+			transformData[frame][instanceIndex] =
+				component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+
+			if (component->GetMesh()->GetNumBones() > 0)
+			{
+				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
+					&component->GetPalette()[0],
+					perInstances[paletteIndex].numBones * sizeof(float4x4));
+			}
+
+			if (component->GetMaterial())
+			{
+				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
+			}
+
+			//do a for for all the instaces existing
+			Command newCommand{
+				resource->GetNumIndexes(),	// Number of indices in the mesh
+				1,							// Number of instances to render
+				resourceInfo->indexOffset,	// Index offset in the EBO
+				resourceInfo->vertexOffset, // Vertex offset in the VBO
+				instanceIndex				// Instance Index
+			};
+
+			commands.push_back(newCommand);
+			drawCount++;
+		}
+	}
+
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
+	if (commands.size() > 0)
+	{
+		glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), &commands[0], GL_DYNAMIC_DRAW);
+	}
+	else
+	{
+		glBufferData(GL_DRAW_INDIRECT_BUFFER, commands.size() * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
+	}
+	glBindVertexArray(vao);
+
+	glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (GLvoid*)0, drawCount, 0);
+	LockBuffer();
+
+	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
 void GeometryBatch::CreateInstanceResourceMesh(std::shared_ptr<ResourceMesh> mesh)
 {
 	for (const ResourceInfo* info : resourcesInfo)
@@ -951,6 +1088,29 @@ void GeometryBatch::SortByDistanceCloseToFar()
 	std::sort(componentsInBatch.begin(), componentsInBatch.end(), CompareCloseToFar);
 }
 
+void GeometryBatch::SortByDistanceFarToClose(const float3& position)
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(),
+		[position](ComponentMeshRenderer*& a, ComponentMeshRenderer*& b) -> bool
+		{
+			float aDist = a->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+			float bDist = b->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+
+			return aDist > bDist;
+		});
+}
+
+void GeometryBatch::SortByDistanceCloseToFar(const float3& position)
+{
+	std::sort(componentsInBatch.begin(), componentsInBatch.end(),
+		[position](ComponentMeshRenderer*& a, ComponentMeshRenderer*& b) -> bool
+		{
+			float aDist = a->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+			float bDist = b->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+
+			return aDist < bDist;
+		});
+}
 
 void GeometryBatch::SetDirty(const bool dirty)
 {

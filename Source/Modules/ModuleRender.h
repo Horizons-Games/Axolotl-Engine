@@ -46,6 +46,7 @@ public:
 	void ChangeRenderMode();
 	void ChangeToneMapping();
 	void SwitchBloomActivation();
+	void ToggleShadows();
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -58,6 +59,9 @@ public:
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 
 	void DrawQuadtree(const Quadtree* quadtree);
+
+	float2 ParallelReduction(Program* program, int width, int height);
+	void RenderShadowMap(const GameObject* light, const float2& minMax);
 
 private:
 
@@ -91,6 +95,9 @@ private:
 
 	float4 backgroundColor;
 
+	float4x4 dirLightView;
+	float4x4 dirLightProj;
+
 	BatchManager* batchManager;
 	GBuffer* gBuffer;
 
@@ -112,7 +119,15 @@ private:
 	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG];
 	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
 	
+	// Shadow Mapping buffers and textures
 	GLuint depthStencilRenderBuffer;
+	GLuint shadowMapBuffer;
+	GLuint gShadowMap;
+	GLuint parallelReductionInTexture;
+	GLuint parallelReductionOutTexture;
+	GLuint minMaxBuffer;
+
+	bool renderShadows;
 
 	friend class ModuleEditor;
 };
@@ -121,7 +136,6 @@ inline void ModuleRender::SetBackgroundColor(float4 color)
 {
 	backgroundColor = color;
 }
-
 
 inline float4 ModuleRender::GetBackgroundColor() const
 {
@@ -141,6 +155,11 @@ inline void ModuleRender::ChangeToneMapping()
 inline void ModuleRender::SwitchBloomActivation()
 {
 	bloomActivation = (bloomActivation + 1) % 2;
+}
+
+inline void ModuleRender::ToggleShadows()
+{
+	renderShadows = !renderShadows;
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const
