@@ -18,6 +18,8 @@
 
 #include "DebugDraw.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
@@ -47,16 +49,6 @@ void PlayerJumpScript::Start()
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
-	float velocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
-	componentAnimation->SetParameter("IsFalling", velocity);
-
-	if (velocity < -0.001)
-	{
-		componentAnimation->SetParameter("IsJumping", false);
-		componentAnimation->SetParameter("IsDoubleJumping", false);
-
-	}
-
 	if (!isGrounded && coyoteTimerCount > 0.0f)
 	{
 		coyoteTimerCount -= deltaTime;
@@ -68,17 +60,11 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 
 void PlayerJumpScript::CheckGround()
 {
-	RaycastHit hit;
-	btVector3 minPoint, maxPoint;
-	rigidbody->GetRigidBody()->getAabb(minPoint, maxPoint);
-	btVector3 rigidBodyOrigin = rigidbody->GetRigidBodyOrigin();
-	float3 origin = float3((maxPoint.getX() + minPoint.getX()) / 2.0f, minPoint.getY(), (maxPoint.getZ() + minPoint.getZ()) / 2.0f);
-	Ray ray(origin, -(rigidbody->GetOwnerTransform()->GetGlobalUp()));
-	LineSegment line(ray, 0.1f);
-
 	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
 
-	if ( Physics::RaycastFirst(line, owner))
+	componentAnimation->SetParameter("IsFalling", verticalVelocity);
+
+	if (-0.001 < verticalVelocity && !isJumping) 
 	{
 		isGrounded = true;
 		isJumping = false;
@@ -88,13 +74,20 @@ void PlayerJumpScript::CheckGround()
 		doubleJumpAvailable = true;
 		coyoteTimerCount = 0.0f;
 	}
-	else
+	else 
 	{
 		if (isGrounded)
 		{
 			isGrounded = false;
 			componentAnimation->SetParameter("IsGrounded", false);
 			coyoteTimerCount = coyoteTime;
+		}
+
+		if (verticalVelocity < -0.001)
+		{
+			isJumping = false;
+			componentAnimation->SetParameter("IsJumping", false);
+			componentAnimation->SetParameter("IsDoubleJumping", false);
 		}
 	}
 }
