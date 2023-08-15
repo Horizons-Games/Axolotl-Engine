@@ -72,11 +72,11 @@ void WindowComponentLine::DrawWindowContents()
 
 		ImGui::Separator();
 
-		float numTiles = componentLine->GetNumTiles();
+		int numTiles = componentLine->GetNumTiles();
 		ImGui::Text("");
 		ImGui::Text("Number of billboards");
 		ImGui::SameLine();
-		if (ImGui::DragFloat("Billboards", &numTiles, 1.0f, 1.0f, 100.0f))
+		if (ImGui::DragInt("Billboards", &numTiles, 1.0f, 1, 100))
 		{
 			
 			componentLine->SetNumTiles(numTiles);
