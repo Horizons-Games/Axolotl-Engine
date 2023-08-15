@@ -65,10 +65,18 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 			camera->SetSampleKpPosition(closestSample->GetKpPosition());
 			
 		}
+		else
+		{
+			camera->RestoreKpPosition();
+		}
 		
 		if (closestSample->GetKpRotationEnabled())
 		{
 			camera->SetSampleKpRotation(closestSample->GetKpRotation());
+		}
+		else
+		{
+			camera->RestoreKpRotation();
 		}
 	}
 	else
@@ -86,7 +94,7 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 
 	Quat orientationOffset = Quat::identity;
 
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01f))
+	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
 	{
 		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
 		orientationOffset = rot * transform->GetGlobalRotation();
