@@ -39,8 +39,7 @@ BixAttackScript::BixAttackScript() : Script(),
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
-	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr),
-	isJumpAttacking(false)
+	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr)
 {
 	//REGISTER_FIELD(comboInitTimer, float);
 	REGISTER_FIELD(comboCountHeavy, float);
@@ -157,7 +156,7 @@ void BixAttackScript::LightNormalAttack()
 	if(enemyAttacked != nullptr)
 	{
 		LOG_VERBOSE("Enemy hit with light attack");
-		comboSystem->SuccessfulAttack(comboCountSoft, AttackType::LIGHTNORMAL);
+		comboSystem->SuccessfulAttack(comboCountSoft, currentAttack);
 		DamageEnemy(enemyAttacked, attackSoft);
 	}
 
@@ -179,7 +178,7 @@ void BixAttackScript::HeavyNormalAttack()
 	if (enemyAttacked != nullptr)
 	{
 		LOG_VERBOSE("Enemy hit with heavy attack");
-		comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
+		comboSystem->SuccessfulAttack(comboCountHeavy, currentAttack);
 		DamageEnemy(enemyAttacked, attackHeavy);
 	}
 
@@ -194,12 +193,11 @@ void BixAttackScript::JumpNormalAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
-	isJumpAttacking = true;
 
 	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
 	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 
-	comboSystem->SuccessfulAttack(20.0f, AttackType::JUMPNORMAL);
+	comboSystem->SuccessfulAttack(20.0f, currentAttack);
 }
 
 void BixAttackScript::LightFinisher()
@@ -209,7 +207,7 @@ void BixAttackScript::LightFinisher()
 
 	lightFinisherScript->ThrowStunItem();
 
-	comboSystem->SuccessfulAttack(-20.0f, AttackType::LIGHTFINISHER);
+	comboSystem->SuccessfulAttack(-20.0f, currentAttack);
 }
 
 void BixAttackScript::HeavyFinisher()
@@ -223,12 +221,12 @@ void BixAttackScript::HeavyFinisher()
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
 			GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-50.0f, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-50.0f, currentAttack);
 	}
 	else
 	{
 		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-50.0f, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-50.0f, currentAttack);
 	}
 }
 
@@ -236,12 +234,11 @@ void BixAttackScript::JumpFinisher()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
-	isJumpAttacking = true;
 
 	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
 	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 
-	comboSystem->SuccessfulAttack(-35.0f, AttackType::JUMPFINISHER);
+	comboSystem->SuccessfulAttack(-35.0f, currentAttack);
 }
 
 void BixAttackScript::ResetAttackAnimations()
@@ -270,7 +267,6 @@ void BixAttackScript::ResetAttackAnimations()
 			if (animation->GetActualStateName() == "BixJumpAttackRecovery" && !animation->IsPlaying())
 			{
 				isAttacking = false;
-				isJumpAttacking = false;
 			}
 			// There are some times in which the animations happen so quick and the first if is not entered,
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
@@ -279,7 +275,6 @@ void BixAttackScript::ResetAttackAnimations()
 				animation->GetActualStateName() != "BixJumpAttack")
 			{
 				isAttacking = false;
-				isJumpAttacking = false;
 			}
 			break;
 
@@ -324,7 +319,7 @@ bool BixAttackScript::IsAttackAvailable() const
 
 bool BixAttackScript::IsPerfomingJumpAttack() const
 {
-	return isJumpAttacking;
+	return (currentAttack == AttackType::JUMPFINISHER || currentAttack == AttackType::JUMPNORMAL);
 }
 
 bool BixAttackScript::IsDeathTouched() const
@@ -335,4 +330,14 @@ bool BixAttackScript::IsDeathTouched() const
 void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
+}
+
+AttackType BixAttackScript::GetCurrentAttackType() const
+{
+	return currentAttack;
+}
+
+GameObject* BixAttackScript::GetEnemyDetected() const
+{
+	return enemyDetection->GetEnemySelected();
 }
