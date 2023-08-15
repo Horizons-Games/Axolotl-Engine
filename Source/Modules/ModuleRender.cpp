@@ -12,11 +12,11 @@
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentTransform.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/GBuffer/GBuffer.h"
 
 #include "FileSystem/ModuleResources.h"
@@ -28,8 +28,6 @@
 
 #include "Scene/Scene.h"
 #include "Camera/Camera.h"
-
-#include "Skybox/Skybox.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -235,8 +233,6 @@ UpdateStatus ModuleRender::Update()
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
-	const Skybox* skybox = loadedScene->GetSkybox();
-
 	GameObject* player = modulePlayer->GetPlayer(); // we can make all of this variables a class variable to save time
 
 #ifdef ENGINE
@@ -325,10 +321,9 @@ UpdateStatus ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
 
 	// -------- PRE-FORWARD ----------------------
-
-	if (skybox)
+	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
-		skybox->Draw();
+		loadedScene->GetRoot()->GetComponent<ComponentSkybox>()->Draw();
 	}
 
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);

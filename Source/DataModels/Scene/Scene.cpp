@@ -51,8 +51,6 @@
 
 #include "Scripting/IScript.h"
 
-#include "Skybox/Skybox.h"
-
 #include <GL/glew.h>
 #include <stack>
 
@@ -1207,11 +1205,7 @@ void Scene::InitNewEmptyScene()
 	if (root->GetComponentInternal<ComponentSkybox>() == nullptr)
 	{
 		root->CreateComponent<ComponentSkybox>();
-	}
-
-	if (resourceSkybox)
-	{
-		skybox = std::make_unique<Skybox>(resourceSkybox);
+		root->GetComponentInternal<ComponentSkybox>()->SetSkyboxResource(resourceSkybox);
 	}
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
@@ -1247,11 +1241,6 @@ void Scene::InitLights()
 void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
 {
 	rootQuadtree = std::move(quadtree);
-}
-
-void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
-{
-	this->skybox = std::move(skybox);
 }
 
 void Scene::SetCubemap(std::unique_ptr<Cubemap> cubemap)

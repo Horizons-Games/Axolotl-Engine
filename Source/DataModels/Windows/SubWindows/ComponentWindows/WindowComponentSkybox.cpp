@@ -6,7 +6,6 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
-#include "Skybox/Skybox.h"
 
 WindowComponentSkybox::WindowComponentSkybox(ComponentSkybox* component) : 
 	ComponentWindow("SKYBOX", component),
@@ -22,10 +21,15 @@ WindowComponentSkybox::~WindowComponentSkybox()
 
 void WindowComponentSkybox::DrawWindowContents()
 {
-	ComponentSkybox* sky = static_cast<ComponentSkybox*>(component);
-	ImGui::Text("Path:");
-	ImGui::SameLine();
-	ImGui::Text(
-		App->GetModule<ModuleScene>()->GetLoadedScene()->GetSkybox()->GetSkyboxResource()->GetAssetsPath().c_str());
+	ComponentSkybox* sky =
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetComponentInternal<ComponentSkybox>();
+	if (sky && sky->GetSkyboxResource())
+	{
+		ImGui::Text("Path:");
+		ImGui::SameLine();
+		ImGui::Text(sky->GetSkyboxResource()
+						->GetAssetsPath()
+						.c_str());
+	}
 	skyboxInput->DrawWindowContents();
 }
