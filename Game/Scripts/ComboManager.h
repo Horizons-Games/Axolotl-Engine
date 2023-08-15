@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "ModuleInput.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -17,7 +18,6 @@ enum class AttackType
 };
 
 class UIComboManager;
-class ModuleInput;
 
 class ComboManager : public Script
 {
@@ -40,6 +40,7 @@ private:
 	void ClearCombo(bool finisher);
 
 	UIComboManager* uiComboManager;
+	KeyState keyState;
 
 	ModuleInput* input;
 	bool specialActivated;
