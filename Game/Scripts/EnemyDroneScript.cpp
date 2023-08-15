@@ -84,8 +84,7 @@ void EnemyDroneScript::Update(float deltaTime)
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			seekScript->RotateToTarget();
 		}
-		else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
-			&& droneState != DroneBehaviours::FASTATTACK)
+		else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance))
 		{
 			if (droneState != DroneBehaviours::FASTATTACK)
 			{
@@ -158,7 +157,6 @@ void EnemyDroneScript::Update(float deltaTime)
 		if (fastAttackScript->IsAttackAvailable())
 		{
 			fastAttackScript->PerformAttack();
-			seekScript->DisableMovement();
 			componentAnimation->SetParameter("IsAttacking", true);
 		}
 
@@ -166,13 +164,6 @@ void EnemyDroneScript::Update(float deltaTime)
 		{
 			CalculateNextPosition();
 		}
-
-		if (!fastAttackScript->MovingToNewReposition())
-		{
-			seekScript->DisableMovement();
-		}
-
-		seekScript->RotateToTarget();
 	}
 
 	if (seekScript && heavyAttackScript && droneState == DroneBehaviours::EXPLOSIONATTACK)
