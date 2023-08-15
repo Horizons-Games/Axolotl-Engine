@@ -4,6 +4,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -64,9 +65,28 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		return;
 	}
 
-		
+	CheckState();
 
-	if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), rangedAttackDistance))
+	UpdateBehaviour();
+}
+
+
+void EnemyVenomiteScript::CheckState()
+{
+	if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
+	{
+		if (venomiteState != VenomiteBehaviours::MELEE_ATTACK)
+		{
+
+			seekScript->DisableMovement();
+			patrolScript->StopPatrol();
+
+			aiMovement->SetMovementStatuses(false, true);
+
+			venomiteState = VenomiteBehaviours::MELEE_ATTACK;
+		}
+	}
+	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), rangedAttackDistance))
 	{
 		if (venomiteState != VenomiteBehaviours::RANGED_ATTACK)
 		{
@@ -107,21 +127,10 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		venomiteState = VenomiteBehaviours::PATROL;
 	}
-		
+}
 
-	/*if (healthScript->GetCurrentHealth() <= healthScript->GetMaxHealth() / 2.0f 
-		&& venomiteState != VenomiteBehaviours::SEEK)
-	{
-		venomiteState = VenomiteBehaviours::SEEK;
-	}
-
-	if (healthScript->GetCurrentHealth() <= healthScript->GetMaxHealth() / 2.0f
-		&& ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
-	{
-		venomiteState = VenomiteBehaviours::MELEE_ATTACK;
-	}*/
-	
-
+void EnemyVenomiteScript::UpdateBehaviour()
+{
 	if (patrolScript && venomiteState == VenomiteBehaviours::PATROL)
 	{
 	}
@@ -154,22 +163,17 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 	if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
 	{
-		batonGameObject->Enable();
-		blasterGameObject->Disable();
-
-		seekScript->DisableMovement();
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
 		if (meleeAttackScript->IsAttackAvailable())
 		{
 			componentAnimation->SetParameter("IsMeleeAttacking", true);
 			meleeAttackScript->PerformAttack();
 		}
-
 		else
 		{
 			componentAnimation->SetParameter("IsMeleeAttacking", false);
+				
 		}
-
-		componentAnimation->SetParameter("IsRunning", false);
 	}
 }

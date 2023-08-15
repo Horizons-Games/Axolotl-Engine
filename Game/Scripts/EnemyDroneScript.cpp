@@ -77,70 +77,77 @@ void EnemyDroneScript::Update(float deltaTime)
 		return;
 	}
 
-	
-		if (healthScript->GetCurrentHealth() <= playerManager->GetPlayerAttack())
+	CheckState();
+
+	UpdateBehaviour();
+}
+
+void EnemyDroneScript::CheckState()
+{
+	if (healthScript->GetCurrentHealth() <= playerManager->GetPlayerAttack())
+	{
+		droneState = DroneBehaviours::EXPLOSIONATTACK;
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+		seekScript->RotateToTarget();
+	}
+	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance))
+	{
+		if (droneState != DroneBehaviours::FASTATTACK)
 		{
-			droneState = DroneBehaviours::EXPLOSIONATTACK;
+			seekScript->DisableMovement();
+			patrolScript->StopPatrol();
+
+			aiMovement->SetMovementStatuses(false, true);
+
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			seekScript->RotateToTarget();
-		}
-		else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance))
-		{
-			if (droneState != DroneBehaviours::FASTATTACK)
-			{
-				seekScript->DisableMovement();
-				patrolScript->StopPatrol();
-
-				aiMovement->SetMovementStatuses(false, true);
-
-				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-				fastAttackScript->StartAttack();
-
-				componentAnimation->SetParameter("IsSeeking", false);
-
-				droneState = DroneBehaviours::FASTATTACK;
-			}
-		}
-		else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance))
-		{
-			if (droneState != DroneBehaviours::SEEK)
-			{
-				bool inFront = true;
-				if (std::abs(ownerTransform->GetGlobalForward().
-					AngleBetween(seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition())) > 1.5708f)
-				{
-					inFront = false;
-				}
-
-				if (inFront || (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), 
-					seekDistance / 2.0f) && !inFront)) //If is in front or if is not in front but close to the player
-				{
-					componentAnimation->SetParameter("IsSeeking", true);
-					componentAnimation->SetParameter("IsAttacking", false);
-
-					componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-					componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
-
-					droneState = DroneBehaviours::SEEK;
-				}
-			}
-		}
-		else if (droneState != DroneBehaviours::PATROL)
-		{
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
-
-			patrolScript->StartPatrol();
+			fastAttackScript->StartAttack();
 
 			componentAnimation->SetParameter("IsSeeking", false);
-			componentAnimation->SetParameter("IsAttacking", false);
 
-			droneState = DroneBehaviours::PATROL;
-
+			droneState = DroneBehaviours::FASTATTACK;
 		}
+	}
+	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance))
+	{
+		if (droneState != DroneBehaviours::SEEK)
+		{
+			bool inFront = true;
+			if (std::abs(ownerTransform->GetGlobalForward().
+				AngleBetween(seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition())) > 1.5708f)
+			{
+				inFront = false;
+			}
 
-		
+			if (inFront || (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(),
+				seekDistance / 2.0f) && !inFront)) //If is in front or if is not in front but close to the player
+			{
+				componentAnimation->SetParameter("IsSeeking", true);
+				componentAnimation->SetParameter("IsAttacking", false);
 
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+
+				droneState = DroneBehaviours::SEEK;
+			}
+		}
+	}
+	else if (droneState != DroneBehaviours::PATROL)
+	{
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
+
+		patrolScript->StartPatrol();
+
+		componentAnimation->SetParameter("IsSeeking", false);
+		componentAnimation->SetParameter("IsAttacking", false);
+
+		droneState = DroneBehaviours::PATROL;
+
+	}
+}
+
+void EnemyDroneScript::UpdateBehaviour()
+{
 	if (patrolScript && droneState == DroneBehaviours::PATROL)
 	{
 	}

@@ -35,6 +35,9 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	void CheckState();
+	void UpdateBehaviour();
+
 	VenomiteBehaviours venomiteState;
 
 	PatrolBehaviourScript* patrolScript;

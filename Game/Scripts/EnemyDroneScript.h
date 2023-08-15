@@ -37,6 +37,8 @@ public:
 
 private:
 	void CalculateNextPosition() const;
+	void CheckState();
+	void UpdateBehaviour();
 
 	DroneBehaviours droneState;
 
