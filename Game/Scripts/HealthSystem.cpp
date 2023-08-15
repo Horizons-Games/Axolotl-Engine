@@ -61,12 +61,14 @@ void HealthSystem::Update(float deltaTime)
 {
 	if (!EntityIsAlive() && owner->CompareTag("Player"))
 	{
+		ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
 		playerDeathManager->ManagePlayerDeath();
 	}
 
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
+		ClearEffect();
 		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
 		enemyDeathManager->ManageEnemyDeath();
 	}
