@@ -20,7 +20,7 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	influenceRadius = 1.0f;
 	positionOffset = float3::zero;
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
-	isSampleFixedOffsetEnabled = false;
+	isSampleFixedEnabled = false;
 	isSampleFocusEnabled = false;
 	isCombatCameraEnabled = false;
 	isSampleKpPositionEnabled = false;
@@ -32,7 +32,7 @@ ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& compon
 	influenceRadius(componentCameraSample.influenceRadius),
 	positionOffset(componentCameraSample.positionOffset),
 	position(componentCameraSample.position),
-	isSampleFixedOffsetEnabled(componentCameraSample.isSampleFixedOffsetEnabled),
+	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled),
 	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
 	isCombatCameraEnabled(componentCameraSample.isCombatCameraEnabled),
 	isSampleKpPositionEnabled(componentCameraSample.isSampleKpPositionEnabled),
