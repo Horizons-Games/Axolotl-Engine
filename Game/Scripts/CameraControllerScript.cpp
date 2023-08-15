@@ -70,12 +70,12 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 		if (closestSample->GetKpPositionEnabled())
 		{
 			camera->SetSampleKpPosition(closestSample->GetKpPosition());
-			camera->SetSampleKpRotation(closestSample->GetKpRotation());
+			
 		}
-		else
+		
+		if (closestSample->GetKpRotationEnabled())
 		{
-			camera->RestoreKpPosition();
-			camera->RestoreKpRotation();
+			camera->SetSampleKpRotation(closestSample->GetKpRotation());
 		}
 	}
 	else

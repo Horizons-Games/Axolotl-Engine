@@ -39,6 +39,11 @@ public:
 	void RestoreKpPosition();
 	void RestoreKpRotation();
 
+	float GetKpPosition();
+	void SetKpPosition(float kp);
+	float GetKpRotation();
+	void SetKpRotation(float kp);
+
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -52,4 +57,24 @@ private:
 inline CameraGameObject* ComponentCamera::GetCamera()
 {
 	return camera.get();
+}
+
+inline float ComponentCamera::GetKpPosition()
+{
+	return KpPosition;
+}
+
+inline void ComponentCamera::SetKpPosition(float kp)
+{
+	KpPosition = kp;
+}
+
+inline float ComponentCamera::GetKpRotation()
+{
+	return KpRotation;
+}
+
+inline void ComponentCamera::SetKpRotation(float kp)
+{
+	KpRotation = kp;
 }
