@@ -63,6 +63,8 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 
 	CheckGround();
 	Jump(deltaTime);
+
+	LOG_VERBOSE("{}", isGrounded);
 }
 
 void PlayerJumpScript::CheckGround()
@@ -71,7 +73,9 @@ void PlayerJumpScript::CheckGround()
 	btVector3 minPoint, maxPoint;
 	rigidbody->GetRigidBody()->getAabb(minPoint, maxPoint);
 	btVector3 rigidBodyOrigin = rigidbody->GetRigidBodyOrigin();
-	float3 origin = float3((maxPoint.getX() + minPoint.getX()) / 2.0f, minPoint.getY(), (maxPoint.getZ() + minPoint.getZ()) / 2.0f);
+	float3 origin = float3((maxPoint.getX() + minPoint.getX()) / 2.0f, 
+							minPoint.getY(), 
+							(maxPoint.getZ() + minPoint.getZ()) / 2.0f);
 	Ray ray(origin, -(rigidbody->GetOwnerTransform()->GetGlobalUp()));
 	LineSegment line(ray, 0.001f);
 
@@ -110,7 +114,8 @@ void PlayerJumpScript::Jump(float deltatime)
 		btVector3 movement(0, 1, 0);
 		float3 direction = float3::zero;
 
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && (isGrounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && 
+			(isGrounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
 		{
 			btVector3 velocity = btRb->getLinearVelocity();
 			velocity.setY(0.0f);
