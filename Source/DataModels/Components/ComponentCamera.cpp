@@ -44,10 +44,9 @@ void ComponentCamera::Update()
 {
 	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
-	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
 
-	Quat rotation = trans->GetGlobalRotation();
-	camera->SetRotationTarget(rotation, deltaTime);
+	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
+	camera->SetRotationTarget(trans->GetGlobalRotation(), deltaTime);
 
 	if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 	{
