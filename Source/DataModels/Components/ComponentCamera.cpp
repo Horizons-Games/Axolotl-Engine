@@ -61,6 +61,28 @@ void ComponentCamera::Draw() const
 #endif // ENGINE
 }
 
+void ComponentCamera::SetSampleKpPosition(float kp)
+{
+	KpPosition = camera->GetKpPosition();
+	camera->SetKpPosition(kp);
+}
+
+void ComponentCamera::SetSampleKpRotation(float kp)
+{
+	KpRotation = camera->GetKpRotation();
+	camera->SetKpRotation(kp);
+}
+
+void ComponentCamera::RestoreKpPosition()
+{
+	camera->SetKpPosition(KpPosition);
+}
+
+void ComponentCamera::RestoreKpRotation()
+{
+	camera->SetKpRotation(KpRotation);
+}
+
 void ComponentCamera::InternalSave(Json& meta)
 {
 	meta["frustumOfset"] = camera->GetFrustumOffset();
@@ -83,3 +105,5 @@ void ComponentCamera::DuplicateCamera(CameraGameObject* camera)
 {
 	this->camera = std::make_unique<CameraGameObject>(static_cast<CameraGameObject&>(*camera));
 }
+
+

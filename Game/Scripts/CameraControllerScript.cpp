@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCamera.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCameraSample.h"
 
@@ -32,6 +33,7 @@ void CameraControllerScript::Start()
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();
+	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
 	playerTransform = player->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
@@ -64,12 +66,24 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 		{
 			CalculateFocusOffsetVector();
 		}
-		
+
+		if (closestSample->GetKpPositionEnabled())
+		{
+			camera->SetSampleKpPosition(closestSample->GetKpPosition());
+			camera->SetSampleKpRotation(closestSample->GetKpRotation());
+		}
+		else
+		{
+			camera->RestoreKpPosition();
+			camera->RestoreKpRotation();
+		}
 	}
 	else
 	{
 		CalculateOffsetVector();
 		CalculateFocusOffsetVector();
+		camera->RestoreKpPosition();
+		camera->RestoreKpRotation();
 	}
 
 	float3 sourceDirection = transform->GetGlobalForward().Normalized();

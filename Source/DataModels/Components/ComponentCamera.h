@@ -33,12 +33,20 @@ public:
 
 	void DuplicateCamera(CameraGameObject* camera);
 
+	void SetSampleKpPosition(float kp);
+	void SetSampleKpRotation(float kp);
+
+	void RestoreKpPosition();
+	void RestoreKpRotation();
+
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
 private:
 	std::unique_ptr<CameraGameObject> camera;
+	float KpPosition;
+	float KpRotation;
 };
 
 inline CameraGameObject* ComponentCamera::GetCamera()
