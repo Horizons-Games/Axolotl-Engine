@@ -48,7 +48,8 @@ void HealthSystem::Start()
 	{
 		maxHealth = currentHealth;
 	}
-	FillMeshes(GetOwner());
+
+	FillMeshes(owner);
 
 	if (owner->CompareTag("Player"))
 	{
@@ -156,7 +157,7 @@ void HealthSystem::SetIsImmortal(bool isImmortal)
 
 void HealthSystem::FillMeshes(GameObject* parent)
 {
-	ComponentMeshRenderer* mesh = owner->GetComponentInternal<ComponentMeshRenderer>();
+	ComponentMeshRenderer* mesh = parent->GetComponentInternal<ComponentMeshRenderer>();
 	if (mesh)
 	{
 		meshes.push_back(mesh);
