@@ -54,7 +54,6 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 	{
 		componentAnimation->SetParameter("IsJumping", false);
 		componentAnimation->SetParameter("IsDoubleJumping", false);
-
 	}
 
 	if (!isGrounded && coyoteTimerCount > 0.0f)
