@@ -45,7 +45,7 @@ public:
     void PreUpdate(float deltaTime) override;
 
     void Move(float deltaTime);
-	void MoveRotate(const float3& targetDirection, float deltaTime);
+	void MoveRotate(float deltaTime);
 
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
@@ -66,6 +66,9 @@ private:
     bool isDashing;
     bool canDash;
 
+    float lightAttacksMoveFactor;
+    float heavyAttacksMoveFactor;
+
 	PlayerManagerScript* playerManager;
 	PlayerForceUseScript* forceScript;
 
@@ -81,6 +84,8 @@ private:
 
 	int previousMovements;
 	int currentMovements;
+
+	float3 desiredRotation;
 	
 	void Dash();
 };
