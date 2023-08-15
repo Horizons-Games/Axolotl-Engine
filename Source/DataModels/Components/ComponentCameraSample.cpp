@@ -20,6 +20,7 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	influenceRadius = 1.0f;
 	positionOffset = float3::zero;
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+	isSampleFixedOffsetEnabled = false;
 	isSampleFocusEnabled = false;
 	isCombatCameraEnabled = false;
 	isSampleKpPositionEnabled = false;
@@ -31,6 +32,7 @@ ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& compon
 	influenceRadius(componentCameraSample.influenceRadius),
 	positionOffset(componentCameraSample.positionOffset),
 	position(componentCameraSample.position),
+	isSampleFixedOffsetEnabled(componentCameraSample.isSampleFixedOffsetEnabled),
 	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
 	isCombatCameraEnabled(componentCameraSample.isCombatCameraEnabled),
 	isSampleKpPositionEnabled(componentCameraSample.isSampleKpPositionEnabled),
@@ -77,12 +79,17 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["positionOffsetY"] = (float) positionOffset.y;
 	meta["positionOffsetZ"] = (float) positionOffset.z;
 
+	meta["positionFixedX"] = (float) positionFixed.x;
+	meta["positionFixedY"] = (float) positionFixed.y;
+	meta["positionFixedZ"] = (float) positionFixed.z;
+
 	meta["focusOffsetX"] = (float) focusOffset.x;
 	meta["focusOffsetY"] = (float) focusOffset.y;
 
 	meta["KpPosition"] = (float) KpPosition;
 	meta["KpRotation"] = (float) KpRotation;
 
+	meta["isSampleFixedOffsetEnabled"] = (bool) isSampleFixedOffsetEnabled;
 	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
 	meta["isCombatCameraEnabled"] = (bool) isCombatCameraEnabled;
 	meta["isSampleKpPositionEnabled"] = (bool) isSampleKpPositionEnabled;
@@ -103,12 +110,17 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 	positionOffset.y = meta["positionOffsetY"];
 	positionOffset.z = meta["positionOffsetZ"];
 
+	positionFixed.x = meta["positionFixedX"];
+	positionFixed.y = meta["positionFixedY"];
+	positionFixed.z = meta["positionFixedZ"];
+
 	focusOffset.x = meta["focusOffsetX"];
 	focusOffset.y = meta["focusOffsetY"];
 
 	KpPosition = meta["KpPosition"];
 	KpRotation = meta["KpRotation"];
 
+	isSampleFixedOffsetEnabled = meta["isSampleFixedOffsetEnabled"];
 	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
 	isCombatCameraEnabled = meta["isCombatCameraEnabled"];
 	isSampleKpPositionEnabled = meta["isSampleKpPositionEnabled"];

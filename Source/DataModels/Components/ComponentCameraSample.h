@@ -32,6 +32,12 @@ public:
 	bool GetFocusOffsetEnabled() const;
 	void SetFocusOffsetEnabled(bool enabled);
 
+	float3 GetFixedOffset() const;
+	void SetFixedOffset(float3 offset);
+
+	bool GetFixedOffsetEnabled() const;
+	void SetFixedOffsetEnabled(bool enabled);
+
 	float GetKpPosition() const;
 	void SetKpPosition(float kp);
 
@@ -56,6 +62,9 @@ private:
 	float3 position;
 	float influenceRadius;
 	float3 positionOffset;
+
+	bool isSampleFixedOffsetEnabled;
+	float3 positionFixed;
 
 	bool isSampleFocusEnabled;
 	float2 focusOffset;
@@ -98,10 +107,29 @@ inline void ComponentCameraSample::SetOffset(float3 offset)
 	positionOffset = offset;
 }
 
+inline bool ComponentCameraSample::GetFixedOffsetEnabled() const
+{
+	return isSampleFixedOffsetEnabled;
+}
+
+inline void ComponentCameraSample::SetFixedOffsetEnabled(bool enabled)
+{
+	isSampleFixedOffsetEnabled = enabled;
+}
 
 inline bool ComponentCameraSample::GetFocusOffsetEnabled() const
 {
 	return isSampleFocusEnabled;
+}
+
+inline float3 ComponentCameraSample::GetFixedOffset() const
+{
+	return positionFixed;
+}
+
+inline void ComponentCameraSample::SetFixedOffset(float3 offset)
+{
+	positionFixed = offset;
 }
 
 inline void ComponentCameraSample::SetFocusOffsetEnabled(bool enabled)
