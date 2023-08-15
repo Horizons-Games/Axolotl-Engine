@@ -52,8 +52,11 @@ public:
 	void SetNormalStrength(float normalStrength);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
+	// Call FillBatchMaterial when you have finished using this and SetDiscard function
 	void SetUseDiffuseColor(bool useDiffuseColor);
+	// Call FillBatchMaterial when you have finished using this and SetUseDiffuseColor function
 	void SetDiscard(bool discard);
+	void FillBatchMaterial();
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);

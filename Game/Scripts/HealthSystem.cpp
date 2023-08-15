@@ -1,10 +1,12 @@
 #include "HealthSystem.h"
 
 #include "AxoLog.h"
+#include "Application.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
@@ -13,7 +15,11 @@
 
 REGISTERCLASS(HealthSystem);
 
-HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), isImmortal(false), enemyParticleSystem(nullptr)
+#define TIME_BETWEEN_EFFECTS 0.5f
+#define MAX_TIME_EFFECT_DURATION 1.f
+
+HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
+isImmortal(false), enemyParticleSystem(nullptr), hitEffectDuration(0.f), hasTakenDamage(false)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -39,6 +45,7 @@ void HealthSystem::Start()
 	{
 		maxHealth = currentHealth;
 	}
+	FillMeshes(GetOwner());
 }
 
 void HealthSystem::Update(float deltaTime)
@@ -55,6 +62,20 @@ void HealthSystem::Update(float deltaTime)
 		enemyDeathManager->ManageEnemyDeath();
 	}
 
+	if (hasTakenDamage)
+	{
+		hitEffectDuration += App->GetDeltaTime();
+		if (hitEffectDuration > TIME_BETWEEN_EFFECTS)
+		{
+			EffectDiscard();
+		}
+		if (hitEffectDuration > MAX_TIME_EFFECT_DURATION)
+		{
+			hasTakenDamage = false;
+			ClearEffect();
+		}
+	}
+
 	// This if/else should ideally be called inside the TakeDamage function
 	// 
 	// By setting this here, we make certain that 'IsTakingDamage' remains as true during a couple frames
@@ -67,7 +88,6 @@ void HealthSystem::Update(float deltaTime)
 	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
-
 	}
 }
 
@@ -89,6 +109,9 @@ void HealthSystem::TakeDamage(float damage)
 		}
 
 		componentAnimation->SetParameter("IsTakingDamage", true);
+		hitEffectDuration = 0.f;
+		hasTakenDamage = true;
+		EffectDiffuseColor();
 		if (componentParticleSystem)
 		{
 			componentParticleSystem->Play();
@@ -105,7 +128,7 @@ void HealthSystem::HealLife(float amountHealed)
 
 bool HealthSystem::EntityIsAlive() const
 {
-	return currentHealth > 0;
+	return currentHealth > 0.f;
 }
 
 float HealthSystem::GetMaxHealth() const
@@ -121,6 +144,50 @@ bool HealthSystem::GetIsImmortal() const
 void HealthSystem::SetIsImmortal(bool isImmortal)
 {
 	this->isImmortal = isImmortal;
+}
+
+void HealthSystem::FillMeshes(GameObject* parent)
+{
+	ComponentMeshRenderer* mesh = owner->GetComponentInternal<ComponentMeshRenderer>();
+	if (mesh)
+	{
+		meshes.push_back(mesh);
+	}
+	
+	for (GameObject* child : parent->GetChildren())
+	{
+		FillMeshes(child);
+	}
+}
+
+void HealthSystem::EffectDiscard()
+{
+	for (ComponentMeshRenderer* mesh : meshes)
+	{
+		mesh->SetUseDiffuseColor(false);
+		mesh->SetDiscard(true);
+		mesh->FillBatchMaterial();
+	}
+}
+
+void HealthSystem::EffectDiffuseColor()
+{
+	for (ComponentMeshRenderer* mesh : meshes)
+	{
+		mesh->SetDiscard(false);
+		mesh->SetUseDiffuseColor(true);
+		mesh->FillBatchMaterial();
+	}
+}
+
+void HealthSystem::ClearEffect()
+{
+	for (ComponentMeshRenderer* mesh : meshes)
+	{
+		mesh->SetDiscard(false);
+		mesh->SetUseDiffuseColor(false);
+		mesh->FillBatchMaterial();
+	}
 }
 
 float HealthSystem::GetCurrentHealth() const
