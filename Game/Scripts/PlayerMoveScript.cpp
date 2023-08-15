@@ -25,7 +25,7 @@ REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-	dashForce(20000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false),
+	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false),
 	desiredRotation(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f)
 {
 	REGISTER_FIELD(dashForce, float);
@@ -78,8 +78,6 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	float newSpeed = playerManager->GetPlayerSpeed();
 
-	bool shiftPressed = false;
-
 	previousMovements = currentMovements;
 	currentMovements = 0;
 
@@ -88,41 +86,43 @@ void PlayerMoveScript::Move(float deltaTime)
 		return;
 	}
 
-	// Run
-	/*
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) != KeyState::IDLE)
-	{
-		newSpeed *= 2;
-		shiftPressed = true;
-	}
-	*/
-
 	// Forward
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE ||
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
 	{
 		totalDirection += cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::W_DOWN;
 	}
 
-	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
-	{
-		totalDirection += -cameraFrustum.WorldRight().Normalized();
-		currentMovements |= MovementFlag::A_DOWN;
-	}
-
 	// Back
-	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE ||
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
 	{
 		totalDirection += -cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE ||
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT)
 	{
 		totalDirection += cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::D_DOWN;
+	}
+
+	// Left
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
+	{
+		if (playerState == PlayerActions::IDLE)
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+			componentAnimation->SetParameter("IsRunning", true);
+			playerState = PlayerActions::WALKING;
+		}
+
+		totalDirection += -cameraFrustum.WorldRight().Normalized();
+		currentMovements |= MovementFlag::A_DOWN;
 	}
 
 	if (previousMovements ^ currentMovements)
@@ -140,7 +140,8 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 	else {
-		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING && !isDashing && jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
+		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING &&
+			!isDashing && jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
 		
 		if (playerIsRunning)
 		{
@@ -169,11 +170,26 @@ void PlayerMoveScript::Move(float deltaTime)
 		
 		movement = btVector3(desiredRotation.x, desiredRotation.y, desiredRotation.z) * deltaTime * newSpeed;
 	}
-	
-	// Dash
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash && bixAttackScript->IsAttackAvailable())
+
+	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE &&
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::NONE &&
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::NONE)
 	{
-		if (!isDashing)
+		if (playerState == PlayerActions::WALKING)
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			componentAnimation->SetParameter("IsRunning", false);
+			playerState = PlayerActions::IDLE;
+		}
+	}
+
+	// Dash
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash)
+	{
+		if (!isDashing && componentAnimation->GetActualStateName() != "BixDashingInit")
 		{
 			componentAnimation->SetParameter("IsDashing", true);
 			componentAnimation->SetParameter("IsRunning", false);
@@ -184,7 +200,6 @@ void PlayerMoveScript::Move(float deltaTime)
 
 		nextDash = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
 	}
-
 	else
 	{
 		nextDash -= deltaTime;
@@ -197,7 +212,9 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 		else
 		{
-			if (math::Abs(currentVelocity.getX()) < dashForce / 100.f && math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+			if (math::Abs(currentVelocity.getX()) < dashForce / 100.f &&
+				
+				math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
 			{
 				btRigidbody->setLinearVelocity(newVelocity);
 				isDashing = false;
