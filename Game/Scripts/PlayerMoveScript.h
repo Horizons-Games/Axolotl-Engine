@@ -11,16 +11,19 @@ class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
+class ComponentRigidBody;
 
 class PlayerManagerScript;
+class PlayerJumpScript;
 class PlayerForceUseScript;
-class ComponentRigidBody;
+class BixAttackScript;
 class btRigidBody;
 
 enum class PlayerActions
 {
     IDLE,
-    WALKING
+    WALKING,
+	DASHING,
 };
 
 enum MovementFlag
@@ -44,15 +47,19 @@ public:
     void Move(float deltaTime);
 	void MoveRotate(const float3& targetDirection, float deltaTime);
 
-	bool GetIsParalized() const;
-	void SetIsParalized(bool isParalized);
+	bool IsParalyzed() const;
+	void SetIsParalyzed(bool isParalyzed);
+
+	PlayerActions GetPlayerState() const;
+	void SetPlayerState(PlayerActions playerState);
+	PlayerJumpScript* GetJumpScript() const;
 
 private:
     ComponentTransform* componentTransform;
     ComponentAudioSource* componentAudio;
     ComponentAnimation* componentAnimation;
     PlayerActions playerState;
-	bool isParalized;
+	bool isParalyzed;
 
     float dashForce;
     float nextDash;
@@ -63,12 +70,17 @@ private:
 	PlayerForceUseScript* forceScript;
 
 	ComponentRigidBody* rigidBody;
-	btRigidBody* btRb;
+	btRigidBody* btRigidbody;
 
 	Camera* camera;
 	Frustum cameraFrustum;
 	ModuleInput* input;
+	
+	PlayerJumpScript* jumpScript;
+	BixAttackScript* bixAttackScript;
 
 	int previousMovements;
 	int currentMovements;
+	
+	void Dash();
 };

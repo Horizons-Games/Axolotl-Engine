@@ -42,6 +42,14 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
+	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
+	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
+								   std::vector<GameObject*>& gos);
+	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+										    std::vector<GameObject*>& gos);
+	bool frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
+	bool objectInFrustum(const math::Frustum* frustum, const AABB& aabb);
+
 	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
 	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
@@ -132,7 +140,7 @@ public:
 	void InitLights();
 	void InitCubemap();
 
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
 	void ExecutePendingActions();
 
 private:

@@ -11,6 +11,8 @@ class ComponentMeshRenderer;
 class ComponentParticleSystem;
 class GameObject;
 
+class BixAttackScript;
+
 class HealthSystem : public Script
 {
 public:
@@ -28,7 +30,7 @@ public:
 
 	bool EntityIsAlive() const;
 
-	bool GetIsImmortal() const;
+	bool IsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
 	
 private:
@@ -49,4 +51,6 @@ private:
 	std::vector<ComponentMeshRenderer*> meshes;
 	float hitEffectDuration;
 	bool hasTakenDamage;
+
+	BixAttackScript* attackScript;
 };

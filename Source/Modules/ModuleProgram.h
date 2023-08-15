@@ -18,6 +18,9 @@ enum class ProgramType
 	DEFERRED_LIGHT,
 	G_METALLIC,
 	G_SPECULAR,
+	SHADOW_MAPPING,
+	PARALLEL_REDUCTION,
+	MIN_MAX,
 	KAWASE_DOWN,
 	KAWASE_UP,
 	COMPONENT_LINE,
@@ -44,6 +47,8 @@ public:
 private:
 	std::unique_ptr<Program> CreateProgram(const std::string& vtxShaderFileName,
 										   const std::string& frgShaderFileName,
+										   const std::string& programName);
+	std::unique_ptr<Program> CreateProgram(const std::string& computeShaderName,
 										   const std::string& programName);
 
 	std::string LoadShaderSource(const std::string& shaderFileName);

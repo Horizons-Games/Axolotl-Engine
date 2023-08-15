@@ -11,6 +11,7 @@ layout(binding = 1) uniform sampler2D gNormal;
 layout(binding = 2) uniform sampler2D gDiffuse;
 layout(binding = 3) uniform sampler2D gSpecular;
 layout(binding = 4) uniform sampler2D gEmissive;
+layout(binding = 5) uniform sampler2D gShadowMap;
 
 layout(std140, binding=1) uniform Directional
 {
@@ -52,6 +53,12 @@ uniform float cubemap_intensity;
 uniform int renderMode;
 
 uniform vec3 viewPos;
+
+// Shadow Mapping
+uniform mat4 lightSpaceMatrix;
+uniform float minBias;
+uniform float maxBias;
+uniform int useShadows;
 
 in vec2 TexCoord;
 
@@ -253,6 +260,23 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, 
     return Lo;
 }
 
+float ShadowCalculation(vec4 posFromLight, vec3 normal)
+{
+    // perform perspective divide
+    vec3 projCoords = posFromLight.xyz / posFromLight.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(gShadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+    float bias = max(minBias * (1.0 - dot(normal, directionalDir)), maxBias);  
+    float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
+
+    return shadow;
+}
+
 void main()
 {             
     // retrieve data from gbuffer
@@ -272,9 +296,17 @@ void main()
 
         // smoothness and roughness
         float roughness = pow(1-smoothness,2) + EPSILON;
+
+        // Shadow Mapping
+        float shadow = 0.0;
+        if (useShadows > 0)
+        {
+            vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
+            shadow = ShadowCalculation(fragPosFromLightSpace, norm);
+        }
     
         // Lights
-        vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
+        vec3 Lo = (1.0 - shadow) * calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
         if (num_point > 0)
         {

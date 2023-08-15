@@ -1,7 +1,9 @@
 #pragma once
 
 #ifndef ENGINE
-#include "FileSystem/ModuleResources.h"
+	#include "FileSystem/ModuleResources.h"
+
+	#include "GameObject/GameObject.h"
 #endif // !ENGINE
 
 class GeometryBatch;
@@ -32,9 +34,11 @@ public:
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
 
+	void DrawMeshes(std::vector<GameObject*>& objects, const float3& pos);
 	void DrawOpaque(bool selected);
 	void DrawTransparent(bool selected);
 	void DrawBatch(GeometryBatch* batch, bool selected);
+	void DrawBatch(GeometryBatch* batch, std::vector<GameObject*>& meshes);
 
 	void SetDirtybatches();
 

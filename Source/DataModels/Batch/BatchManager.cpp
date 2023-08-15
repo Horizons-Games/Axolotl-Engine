@@ -109,14 +109,15 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 	if (material)
 	{
-		if (material->GetShaderType() == 0)
-		{
-			flags |= HAS_METALLIC;
-		}
-		else if (material->GetShaderType() == 1)
+		if (material->GetShaderType() == 1)
 		{
 			flags |= HAS_SPECULAR;
 		}
+		else
+		{
+			flags |= HAS_METALLIC;
+		}
+
 		if (material->IsTransparent())
 		{
 			flags |= HAS_TRANSPARENCY;
@@ -159,6 +160,23 @@ bool BatchManager::IsACharacter(const ComponentMeshRenderer* newComponent)
 		go = go->GetParent();
 	}
 	return false;
+}
+
+void BatchManager::DrawMeshes(std::vector<GameObject*>& objects, const float3& pos)
+{
+	for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
+	{
+		if (!geometryBatch->IsEmpty())
+		{
+			geometryBatch->SortByDistanceCloseToFar(pos);
+			DrawBatch(geometryBatch, objects);
+		}
+		else
+		{
+			erase_if(geometryBatchesOpaques, [](auto const& gb) { return gb->IsEmpty(); });
+			delete geometryBatch;
+		}
+	}
 }
 
 void BatchManager::DrawOpaque(bool selected)
@@ -206,6 +224,19 @@ void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
 
 	}
 	batch->BindBatch(selected);
+}
+
+void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<GameObject*>& objects)
+{
+	if (batch->IsDirty())
+	{
+		batch->ClearBuffer();
+		batch->CreateVAO();
+		batch->UpdateBatchComponents();
+		batch->SetDirty(false);
+
+	}
+	batch->BindBatch(objects);
 }
 
 void BatchManager::SetDirtybatches()

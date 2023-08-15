@@ -22,6 +22,7 @@ public :
 
 	void InitGBuffer(unsigned width, unsigned height);
 
+	GLuint GetDepthTexture();
 
 private :
 
@@ -33,6 +34,11 @@ private :
 	GLuint gEmissive;
 	GLuint gDepth;
 };
+
+inline GLuint GBuffer::GetDepthTexture()
+{
+	return gDepth;
+}
 
 inline GLuint GBuffer::GetEmissiveTexture()
 {

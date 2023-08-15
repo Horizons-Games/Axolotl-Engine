@@ -47,7 +47,7 @@ void MeleeFastAttackBehaviourScript::Start()
 	ray4Transform = ray4GO->GetComponent<ComponentTransform>();
 
 	rays.reserve(5);
-	rays.push_back(Ray(ownerTransform->GetPosition(), ownerTransform->GetLocalForward()));
+	rays.push_back(Ray(ownerTransform->GetLocalPosition(), ownerTransform->GetLocalForward()));
 	rays.push_back(Ray(ray1Transform->GetGlobalPosition(), ownerTransform->GetLocalForward()));
 	rays.push_back(Ray(ray2Transform->GetGlobalPosition(), ownerTransform->GetLocalForward()));
 	rays.push_back(Ray(ray3Transform->GetGlobalPosition(), ownerTransform->GetLocalForward()));
@@ -57,7 +57,7 @@ void MeleeFastAttackBehaviourScript::Start()
 
 void MeleeFastAttackBehaviourScript::Update(float deltaTime)
 {
-	rays[0] = Ray(ownerTransform->GetPosition(), ownerTransform->GetLocalForward());
+	rays[0] = Ray(ownerTransform->GetLocalPosition(), ownerTransform->GetLocalForward());
 	//Provisional
 	rays[1] = Ray(ray1Transform->GetGlobalPosition(), ownerTransform->GetLocalForward());
 	rays[2] = Ray(ray2Transform->GetGlobalPosition(), ownerTransform->GetLocalForward());
