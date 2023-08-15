@@ -222,8 +222,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
-				resourceMaterial->GetMetalness(),
-				static_cast<uint64_t>(resourceMaterial->GetNormalStrength()),
+				resourceMaterial->GetNormalStrength(),
 				resourceMaterial->GetIntensityBloom()
 			};
 
