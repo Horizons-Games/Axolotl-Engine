@@ -10,6 +10,7 @@ class SeekBehaviourScript;
 class RangedFastAttackBehaviourScript;
 class MeleeFastAttackBehaviourScript;
 class HealthSystem;
+class AIMovement;
 
 class ComponentTransform;
 class ComponentAnimation;
@@ -41,14 +42,17 @@ private:
 	std::vector<RangedFastAttackBehaviourScript*> rangedAttackScripts;
 	MeleeFastAttackBehaviourScript* meleeAttackScript;
 	HealthSystem* healthScript;
+	AIMovement* aiMovement;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 
+	float seekAlertDistance;
 	float rangedAttackDistance;
 	float meleeAttackDistance;
 
+	ComponentTransform* seekTargetTransform;
 	GameObject* batonGameObject;
 	GameObject* blasterGameObject;
 };

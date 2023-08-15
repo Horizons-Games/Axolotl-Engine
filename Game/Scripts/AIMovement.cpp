@@ -9,10 +9,11 @@
 REGISTERCLASS(AIMovement);
 
 AIMovement::AIMovement() : Script(), componentTransform(nullptr), rigidBody(nullptr), movementSpeed(1.0f),
-rotationSpeed(1.0f), movementActivated(false), forwardVector(float3::zero)
+rotationSpeed(1.0f), targetPositionOffset(0.5f), movementActivated(false), forwardVector(float3::zero)
 {
 	REGISTER_FIELD(movementSpeed, float);
 	REGISTER_FIELD(rotationSpeed, float);
+	REGISTER_FIELD(targetPositionOffset, float);
 }
 
 void AIMovement::Start()
@@ -20,35 +21,34 @@ void AIMovement::Start()
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 
+	forwardVector = componentTransform->GetGlobalForward();
+
 	movementActivated = false;
 }
 
 void AIMovement::Update(float deltaTime)
 {
-	if (movementActivated)
-	{
-		MoveToTarget(deltaTime);
+	MoveToTarget(deltaTime);
 
-		if (!forwardVector.IsZero())
-		{
-			RotateToTarget(deltaTime);
-		}
-	}
+	RotateToTarget(deltaTime);
 }
 
 void AIMovement::MoveToTarget(float deltaTime)
 {
 	rigidBody->GetRigidBody()->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
-	forwardVector = float3::zero;
+	forwardVector = componentTransform->GetGlobalForward();
 	btVector3 movement(0, 0, 0);
 
-	if (!componentTransform->GetGlobalPosition().Equals(targetPosition, 1.0f))
-	{
-		forwardVector = targetPosition - componentTransform->GetGlobalPosition();
+	
+	forwardVector = targetPosition - componentTransform->GetGlobalPosition();
+	
 
-		forwardVector.y = 0;
-		forwardVector = forwardVector.Normalized();
+	forwardVector.y = 0;
+	forwardVector = forwardVector.Normalized();
+
+	if (movementActivated && !componentTransform->GetGlobalPosition().Equals(targetPosition, targetPositionOffset))
+	{
 		movement = btVector3(forwardVector.x, forwardVector.y, forwardVector.z) * deltaTime * movementSpeed;
 	}
 
@@ -60,6 +60,11 @@ void AIMovement::MoveToTarget(float deltaTime)
 
 void AIMovement::RotateToTarget(float deltaTime)
 {
+	if (!rotationActivated)
+	{
+		return;
+	}
+
 	btTransform worldTransform = rigidBody->GetRigidBody()->getWorldTransform();
 	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), forwardVector, float3::unitY, float3::unitY);
 	Quat rotation = componentTransform->GetGlobalRotation();
@@ -112,13 +117,13 @@ void AIMovement::RotateToTarget(float deltaTime)
 	rigidBody->GetRigidBody()->getMotionState()->setWorldTransform(worldTransform);
 }
 
-void AIMovement::SetTargetPosition(float3 targetPos, bool activateMovement)
+void AIMovement::SetTargetPosition(float3 targetPos)
 {
 	targetPosition = targetPos;
-	movementActivated = activateMovement;
 }
 
-void AIMovement::SetMovementStatus(bool movementActivated)
+void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotation)
 {
-	movementActivated = movementActivated;
+	movementActivated = activateMovement;
+	rotationActivated = activateRotation;
 }

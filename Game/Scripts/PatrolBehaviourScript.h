@@ -37,5 +37,4 @@ private:
 
 	void Patrolling();
 	void CheckNextWaypoint();
-	void SetProportionalController(float deltaTime) const;
 };

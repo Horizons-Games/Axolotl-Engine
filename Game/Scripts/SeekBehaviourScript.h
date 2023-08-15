@@ -15,10 +15,10 @@ public:
 
 	void Start() override;
 
-	void Seeking() const;
-	void DisableMovement() const;
-	void DisableRotation() const;
-	void RotateToTarget() const;
+	void Seeking();
+	void DisableMovement();
+	void DisableRotation();
+	void RotateToTarget();
 
 	GameObject* GetTarget() const;
 

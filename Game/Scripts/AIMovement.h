@@ -14,8 +14,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetTargetPosition(float3 targetPos, bool activateMovement);
-	void SetMovementStatus(bool movementActivated);
+	void SetTargetPosition(float3 targetPos); //Automatically moves and rotates
+	void SetMovementStatuses(bool activateMovement, bool activateRotation);
 
 private:
 
@@ -27,7 +27,9 @@ private:
 
 	float movementSpeed;
 	float rotationSpeed;
+	float targetPositionOffset;
 	bool movementActivated;
+	bool rotationActivated;
 
 	void MoveToTarget(float deltaTime);
 	void RotateToTarget(float deltaTime);
