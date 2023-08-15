@@ -165,6 +165,36 @@ void WindowComponentCameraSample::DrawWindowContents()
 			asCameraSample->SetFocusOffset(focusOffset);
 		}
 
+		ImGui::Text("");
+
+		if (ImGui::Checkbox("##Kp Position Enabled", &isSampleKpPositionEnabled))
+		{
+			asCameraSample->SetKpPositionEnabled(isSampleKpPositionEnabled);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Kp Position Enabled");
+
+		if (isSampleKpPositionEnabled)
+		{
+			ImGui::SliderFloat("##KpPositionSample", &KpPosition, 1.0f, 10.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+			asCameraSample->SetKpPosition(KpPosition);
+		}
+
+		if (ImGui::Checkbox("##Kp Rotation Enabled", &isSampleKpRotationEnabled))
+		{
+			asCameraSample->SetKpRotationEnabled(isSampleKpRotationEnabled);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Kp Rotation Enabled");
+
+		if (isSampleKpRotationEnabled)
+		{
+			ImGui::SliderFloat("##KpRotationSample", &KpRotation, 1.0f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+			asCameraSample->SetKpRotation(KpRotation);
+		}
+
 		asCameraSample->SetRadius(influenceRadius);
 		asCameraSample->SetOffset(positionOffset);
 	}
