@@ -9,7 +9,7 @@
 REGISTERCLASS(AIMovement);
 
 AIMovement::AIMovement() : Script(), componentTransform(nullptr), rigidBody(nullptr), movementSpeed(1.0f),
-rotationSpeed(1.0f), targetPositionOffset(0.5f), movementActivated(false), forwardVector(float3::zero), 
+rotationSpeed(1.0f), targetPositionOffset(1.0f), movementActivated(false), forwardVector(float3::zero), 
 isAtDestiny(false)
 {
 	REGISTER_FIELD(movementSpeed, float);
