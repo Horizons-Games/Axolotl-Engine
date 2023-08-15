@@ -14,8 +14,8 @@
 
 REGISTERCLASS(HealthSystem);
 
-#define TIME_BETWEEN_EFFECTS 0.5f
-#define MAX_TIME_EFFECT_DURATION 1.f
+#define TIME_BETWEEN_EFFECTS 0.06f
+#define MAX_TIME_EFFECT_DURATION 0.12f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
 isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr), hitEffectDuration(0.f), hasTakenDamage(false)
