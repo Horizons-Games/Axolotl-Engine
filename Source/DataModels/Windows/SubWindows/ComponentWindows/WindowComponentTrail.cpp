@@ -17,8 +17,8 @@
 #define WIDTH_MAX_VALUE 25.f
 #define RATIO_WIDTH_MIN_VALUE 0.f
 #define RATIO_WIDTH_MAX_VALUE 1.f
-#define CAT_SAMP_MIN_VALUE 0.f
-#define CAT_SAMP_MAX_VALUE 20.f
+#define CAT_SAMP_MIN_VALUE 0
+#define CAT_SAMP_MAX_VALUE 20
 
 WindowComponentTrail::WindowComponentTrail(ComponentTrail* component) : 
 			ComponentWindow("TRAIL", component),
