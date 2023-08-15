@@ -164,9 +164,10 @@ void GeometryBatch::FillMaterial()
 {
 	fillMaterials = false;
 
-	for (int i = 0; i < instanceData.size(); i++)
+	for (ComponentMeshRenderer* component : componentsInBatch)
 	{
-		int materialIndex = instanceData[i];
+		unsigned int instanceIndex = objectIndexes[component];
+		int materialIndex = instanceData[instanceIndex];
 		std::shared_ptr<ResourceMaterial> resourceMaterial = resourcesMaterial[materialIndex];
 
 		if (flags & BatchManager::HAS_METALLIC)
@@ -174,10 +175,11 @@ void GeometryBatch::FillMaterial()
 			MaterialMetallic newMaterial =
 			{
 				resourceMaterial->GetDiffuseColor(),
-				resourceMaterial->UseDiffuse(),
+				static_cast<int>(resourceMaterial->HasDiffuse() && !component->GetUseDiffuseColor()),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
 				resourceMaterial->HasEmissive(),
+				component->IsDiscarded(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength(),
@@ -208,7 +210,7 @@ void GeometryBatch::FillMaterial()
 				newMaterial.emissive_map = texture->GetHandle();
 			}
 			
-			metallicMaterialData[i] = newMaterial;
+			metallicMaterialData[instanceIndex] = newMaterial;
 		}
 
 		else if (flags & BatchManager::HAS_SPECULAR)
@@ -217,10 +219,11 @@ void GeometryBatch::FillMaterial()
 			{
 				resourceMaterial->GetDiffuseColor(),
 				resourceMaterial->GetSpecularColor(),
-				resourceMaterial->UseDiffuse(),
+				static_cast<int>(resourceMaterial->HasDiffuse() && !component->GetUseDiffuseColor()),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),
+				component->IsDiscarded(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetNormalStrength(),
 				resourceMaterial->GetIntensityBloom()
@@ -250,7 +253,7 @@ void GeometryBatch::FillMaterial()
 				newMaterial.emissive_map = texture->GetHandle();
 			}
 			
-			specularMaterialData[i] = newMaterial;
+			specularMaterialData[instanceIndex] = newMaterial;
 		}
 	}
 }
@@ -502,7 +505,6 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		paletteIndexes.clear();
 
 		fillMaterials = true;
-		reserveModelSpace = true;
 		dirtyBatch = true;
 	}
 }
@@ -625,7 +627,6 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 
 	return componentToMove;
 }
-
 
 void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelete)
 {
@@ -951,7 +952,6 @@ void GeometryBatch::SortByDistanceCloseToFar()
 {
 	std::sort(componentsInBatch.begin(), componentsInBatch.end(), CompareCloseToFar);
 }
-
 
 void GeometryBatch::SetDirty(const bool dirty)
 {

@@ -53,6 +53,7 @@ public:
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
 	void SetUseDiffuseColor(bool useDiffuseColor);
+	void SetDiscard(bool discard);
 
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
@@ -98,6 +99,9 @@ public:
 
 	const std::vector<float4x4>& GetPalette() const;
 
+	bool GetUseDiffuseColor() const;
+	bool IsDiscarded();
+
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
@@ -116,6 +120,9 @@ private:
 
 	WindowMeshInput* inputMesh;
 	WindowMaterialInput* inputMaterial;
+
+	bool useDiffuseColor;
+	bool discard;
 
 	GeometryBatch* batch;
 };

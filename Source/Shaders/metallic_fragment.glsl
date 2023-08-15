@@ -15,14 +15,16 @@ struct Material {
     int has_normal_map;         //20 //4
     int has_metallic_map;       //24 //4
     int has_emissive_map;       //28 //4
-    float smoothness;           //32 //4
-    float metalness;            //36 //4
-    float normal_strength;      //40 //4
-	float intensityBloom;       //44 //4
-    sampler2D diffuse_map;      //48 //8
-    sampler2D normal_map;       //56 //8
-    sampler2D metallic_map;     //64 //8
-    sampler2D emissive_map;     //72 //8 -->80
+	int discardFrag;            //32 //4
+    float smoothness;           //36 //4
+    float metalness;            //40 //4
+    float normal_strength;      //44 //4
+	float intensityBloom;       //48 //4
+    sampler2D diffuse_map;      //56 //8
+    sampler2D normal_map;       //64 //8
+    sampler2D metallic_map;     //72 //8
+    sampler2D emissive_map;     //80 //8
+	int padding1, padding2;	    //88 //8 --> 96
 };
 
 struct Tiling {
@@ -285,6 +287,11 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 void main()
 {
     Material material = materials[InstanceIndex];
+    if (material.discardFrag == 1)
+    {
+        discard;
+        return;
+    }
     Tiling tiling = tilings[InstanceIndex];
 
     vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;

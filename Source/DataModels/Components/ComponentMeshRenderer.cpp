@@ -585,79 +585,94 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 // Common attributes (setters)
 void ComponentMeshRenderer::SetDiffuseColor(float4& diffuseColor)
 {
-	this->material->SetDiffuseColor(diffuseColor);
+	material->SetDiffuseColor(diffuseColor);
 }
 
 void ComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
 {
-	this->material->SetDiffuse(diffuse);
+	material->SetDiffuse(diffuse);
 }
 
 void ComponentMeshRenderer::SetNormal(const std::shared_ptr<ResourceTexture>& normal)
 {
-	this->material->SetNormal(normal);
+	material->SetNormal(normal);
 }
 
 void ComponentMeshRenderer::SetMetallic(const std::shared_ptr<ResourceTexture>& metallic)
 {
-	this->material->SetMetallic(metallic);
+	material->SetMetallic(metallic);
 }
 
 void ComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specular)
 {
-	this->material->SetSpecular(specular);
+	material->SetSpecular(specular);
 }
 
 void ComponentMeshRenderer::SetEmissive(const std::shared_ptr<ResourceTexture>& emissive)
 {
-	this->material->SetEmission(emissive);
+	material->SetEmission(emissive);
 }
 
 void ComponentMeshRenderer::SetShaderType(unsigned int shaderType)
 {
-	this->material->SetShaderType(shaderType);
+	material->SetShaderType(shaderType);
 }
 
 void ComponentMeshRenderer::SetSmoothness(float smoothness)
 {
-	this->material->SetSmoothness(smoothness);
+	material->SetSmoothness(smoothness);
 }
 
 void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 {
-	this->material->SetNormalStrength(normalStrength);
+	material->SetNormalStrength(normalStrength);
 }
 
 void ComponentMeshRenderer::SetTiling(const float2& tiling)
 {
-	this->material->SetTiling(tiling);
+	material->SetTiling(tiling);
 }
 
 void ComponentMeshRenderer::SetOffset(const float2& offset)
 {
-	this->material->SetOffset(offset);
+	material->SetOffset(offset);
 }
 
 void ComponentMeshRenderer::SetUseDiffuseColor(bool useDiffuseColor)
 {
+	this->useDiffuseColor = useDiffuseColor;
+}
 
+void ComponentMeshRenderer::SetDiscard(bool discard)
+{
+	this->discard = discard;
 }
 
 // Default shader attributes (setters)
 void ComponentMeshRenderer::SetMetalness(float metalness)
 {
-	this->material->SetMetalness(metalness);
+	material->SetMetalness(metalness);
 }
 
 // Specular shader attributes (setters)
 void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
 {
-	this->material->SetSpecularColor(specularColor);
+	material->SetSpecularColor(specularColor);
 }
 
 void ComponentMeshRenderer::SetTransparent(bool isTransparent)
 {
-	this->material->SetTransparent(isTransparent);
+	material->SetTransparent(isTransparent);
+}
+
+bool ComponentMeshRenderer::GetUseDiffuseColor() const
+{
+	return useDiffuseColor;
+}
+
+bool ComponentMeshRenderer::IsDiscarded()
+{
+	return discard;
 }
 
 void ComponentMeshRenderer::RemoveFromBatch()
