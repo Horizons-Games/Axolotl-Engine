@@ -63,7 +63,7 @@ private:
 	float influenceRadius;
 	float3 positionOffset;
 
-	bool isSampleFixedOffsetEnabled;
+	bool isSampleFixedEnabled;
 	float3 positionFixed;
 
 	bool isSampleFocusEnabled;
@@ -109,12 +109,12 @@ inline void ComponentCameraSample::SetOffset(float3 offset)
 
 inline bool ComponentCameraSample::GetFixedOffsetEnabled() const
 {
-	return isSampleFixedOffsetEnabled;
+	return isSampleFixedEnabled;
 }
 
 inline void ComponentCameraSample::SetFixedOffsetEnabled(bool enabled)
 {
-	isSampleFixedOffsetEnabled = enabled;
+	isSampleFixedEnabled = enabled;
 }
 
 inline bool ComponentCameraSample::GetFocusOffsetEnabled() const
