@@ -34,6 +34,11 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		bool isCombatCameraEnabled = asCameraSample->GetCombatCameraEnabled();
 
+		bool isSampleKpPositionEnabled = asCameraSample->GetKpPositionEnabled();
+		float KpPosition = asCameraSample->GetKpPosition();
+		bool isSampleKpRotationEnabled = asCameraSample->GetKpRotationEnabled();
+		float KpRotation = asCameraSample->GetKpRotation();
+
 		ImGui::Text("");
 
 		if (ImGui::Checkbox("##Combat Camera Enabled", &isCombatCameraEnabled))

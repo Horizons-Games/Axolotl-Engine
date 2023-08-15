@@ -38,6 +38,18 @@ public:
 	bool GetFocusOffsetEnabled() const;
 	void SetFocusOffsetEnabled(bool enabled);
 
+	float GetKpPosition() const;
+	void SetKpPosition(float kp);
+
+	bool GetKpPositionEnabled() const;
+	void SetKpPositionEnabled(bool enabled);
+
+	float GetKpRotation() const;
+	void SetKpRotation(float kp);
+
+	bool GetKpRotationEnabled() const;
+	void SetKpRotationEnabled(bool enabled);
+
 	float3 GetPosition() const;
 
 private:
@@ -56,6 +68,12 @@ private:
 
 	bool isSampleFocusEnabled;
 	float2 focusOffset;
+
+	bool isSampleKpPositionEnabled;
+	float KpPosition;
+
+	bool isSampleKpRotationEnabled;
+	float KpRotation;
 
 };
 
@@ -127,6 +145,46 @@ inline float2 ComponentCameraSample::GetFocusOffset() const
 inline void ComponentCameraSample::SetFocusOffset(float2 offset)
 {
 	focusOffset = offset;
+}
+
+inline bool ComponentCameraSample::GetKpPositionEnabled() const
+{
+	return isSampleKpPositionEnabled;
+}
+
+inline void ComponentCameraSample::SetKpPositionEnabled(bool enabled)
+{
+	isSampleKpPositionEnabled = enabled;
+}
+
+inline float ComponentCameraSample::GetKpPosition() const
+{
+	return KpPosition;
+}
+
+inline void ComponentCameraSample::SetKpPosition(float kp)
+{
+	KpPosition = kp;
+}
+
+inline bool ComponentCameraSample::GetKpRotationEnabled() const
+{
+	return isSampleKpRotationEnabled;
+}
+
+inline void ComponentCameraSample::SetKpRotationEnabled(bool enabled)
+{
+	isSampleKpRotationEnabled = enabled;
+}
+
+inline float ComponentCameraSample::GetKpRotation() const
+{
+	return KpRotation;
+}
+
+inline void ComponentCameraSample::SetKpRotation(float kp)
+{
+	KpRotation = kp;
 }
 
 inline float3 ComponentCameraSample::GetPosition() const
