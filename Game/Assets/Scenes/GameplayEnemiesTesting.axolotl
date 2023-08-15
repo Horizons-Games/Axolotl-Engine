@@ -181,7 +181,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 10.0,
+                            "localPos_X": 8.112165451049805,
                             "localPos_Y": 1.5,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
@@ -10088,10 +10088,10 @@
                                     "type": 4,
                                     "vectorElements": [
                                         {
-                                            "value": 6536772281141820080
+                                            "value": 17921358598841053390
                                         },
                                         {
-                                            "value": 17921358598841053390
+                                            "value": 6536772281141820080
                                         }
                                     ],
                                     "innerType": 2
@@ -10105,16 +10105,6 @@
                                     "name": "PatrolAnimationParamater",
                                     "value": "",
                                     "type": 1
-                                },
-                                {
-                                    "name": "MovementSpeed",
-                                    "value": 1.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "RotationSpeed",
-                                    "value": 1.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -10275,6 +10265,11 @@
                                 {
                                     "name": "RotationSpeed",
                                     "value": 15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "TargetPositionOffset",
+                                    "value": 0.5,
                                     "type": 0
                                 }
                             ]
@@ -13071,17 +13066,7 @@
                                 {
                                     "name": "WaypointsPatrol",
                                     "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 17921358598841053390
-                                        },
-                                        {
-                                            "value": 6359887865677729366
-                                        },
-                                        {
-                                            "value": 5839145937413678870
-                                        }
-                                    ],
+                                    "vectorElements": null,
                                     "innerType": 2
                                 },
                                 {
@@ -13093,16 +13078,6 @@
                                     "name": "PatrolAnimationParamater",
                                     "value": "",
                                     "type": 1
-                                },
-                                {
-                                    "name": "MovementSpeed",
-                                    "value": 1.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "RotationSpeed",
-                                    "value": 1.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -13263,6 +13238,11 @@
                                 {
                                     "name": "RotationSpeed",
                                     "value": 15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "TargetPositionOffset",
+                                    "value": 0.5,
                                     "type": 0
                                 }
                             ]
@@ -16349,16 +16329,6 @@
                                     "name": "PatrolAnimationParamater",
                                     "value": "IsRunning",
                                     "type": 1
-                                },
-                                {
-                                    "name": "MovementSpeed",
-                                    "value": 250.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "RotationSpeed",
-                                    "value": 15.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -16513,6 +16483,11 @@
                                 {
                                     "name": "RotationSpeed",
                                     "value": 15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "TargetPositionOffset",
+                                    "value": 0.5,
                                     "type": 0
                                 }
                             ]
@@ -20060,16 +20035,6 @@
                                     "name": "PatrolAnimationParamater",
                                     "value": "IsRunning",
                                     "type": 1
-                                },
-                                {
-                                    "name": "MovementSpeed",
-                                    "value": 250.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "RotationSpeed",
-                                    "value": 15.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -20224,6 +20189,11 @@
                                 {
                                     "name": "RotationSpeed",
                                     "value": 15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "TargetPositionOffset",
+                                    "value": 0.5,
                                     "type": 0
                                 }
                             ]

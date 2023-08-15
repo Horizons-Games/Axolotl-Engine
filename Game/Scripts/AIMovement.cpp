@@ -47,7 +47,7 @@ void AIMovement::MoveToTarget(float deltaTime)
 	forwardVector.y = 0;
 	forwardVector = forwardVector.Normalized();
 
-	if (movementActivated && !componentTransform->GetGlobalPosition().Equals(targetPosition, targetPositionOffset))
+	if (movementActivated)
 	{
 		movement = btVector3(forwardVector.x, forwardVector.y, forwardVector.z) * deltaTime * movementSpeed;
 	}

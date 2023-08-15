@@ -32,8 +32,6 @@ private:
 	float patrolStopDuration;
 	float originStopTime;
 	std::string patrolAnimationParamater;
-	float movementSpeed;
-	float rotationSpeed;
 
 	void Patrolling();
 	void CheckNextWaypoint();

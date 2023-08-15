@@ -12,6 +12,7 @@
 #include "../Scripts/MeleeHeavyAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/AIMovement.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -19,8 +20,8 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE), 
-	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr)
+	componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr), 
+	explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -45,6 +46,7 @@ void EnemyDroneScript::Start()
 	fastAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	heavyAttackScript = explosionGameObject->GetComponent<MeleeHeavyAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
+	aiMovement = owner->GetComponent<AIMovement>();
 
 	seekTarget = seekScript->GetTarget();
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
@@ -75,78 +77,70 @@ void EnemyDroneScript::Update(float deltaTime)
 		return;
 	}
 
-	GameObject* seekTarget = seekScript->GetTarget();
-
-	if (seekTarget && lastDroneState != DroneBehaviours::EXPLOSIONATTACK)
-	{
-		if (droneState != DroneBehaviours::PATROL)
+	
+		if (healthScript->GetCurrentHealth() <= playerManager->GetPlayerAttack())
 		{
+			droneState = DroneBehaviours::EXPLOSIONATTACK;
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
-			droneState = DroneBehaviours::FIRSTPATROL;
-			
+			seekScript->RotateToTarget();
 		}
-
-		if (droneState != DroneBehaviours::SEEK)
-		{
-			bool inFront = true;
-			if (std::abs(ownerTransform->GetGlobalForward().
-				AngleBetween(seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition())) > 1.5708f)
-			{
-				inFront = false;
-			}
-
-			if ((ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance) && inFront)
-				|| (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance / 2.0f) 
-					&& !inFront))
-			{
-				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
-				droneState = DroneBehaviours::SEEK;
-			}
-		}
-
-		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
+		else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
 			&& droneState != DroneBehaviours::FASTATTACK)
 		{
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			droneState = DroneBehaviours::FIRSTATTACK;
-		}
-
-		if (droneState == DroneBehaviours::FIRSTPATROL)
-		{
-			patrolScript->StartPatrol();
-			componentAnimation->SetParameter("IsSeeking", false);
-			droneState = DroneBehaviours::PATROL;
-		}
-
-		if (droneState == DroneBehaviours::FIRSTATTACK)
-		{
-			if (lastDroneState != DroneBehaviours::FASTATTACK)
+			if (droneState != DroneBehaviours::FASTATTACK)
 			{
-				fastAttackScript->StartAttack();
-			}
+				seekScript->DisableMovement();
+				patrolScript->StopPatrol();
 
-			if (healthScript->GetCurrentHealth() <= playerManager->GetPlayerAttack())
-			{
-				droneState = DroneBehaviours::EXPLOSIONATTACK;
+				aiMovement->SetMovementStatuses(false, true);
+
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-				seekScript->RotateToTarget();
-			}
+				fastAttackScript->StartAttack();
 
-			else
-			{
+				componentAnimation->SetParameter("IsSeeking", false);
+
 				droneState = DroneBehaviours::FASTATTACK;
 			}
 		}
-
-		else
+		else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance))
 		{
-			owner->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
+			if (droneState != DroneBehaviours::SEEK)
+			{
+				bool inFront = true;
+				if (std::abs(ownerTransform->GetGlobalForward().
+					AngleBetween(seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition())) > 1.5708f)
+				{
+					inFront = false;
+				}
+
+				if (inFront || (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), 
+					seekDistance / 2.0f) && !inFront)) //If is in front or if is not in front but close to the player
+				{
+					componentAnimation->SetParameter("IsSeeking", true);
+					componentAnimation->SetParameter("IsAttacking", false);
+
+					componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+					componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+
+					droneState = DroneBehaviours::SEEK;
+				}
+			}
+		}
+		else if (droneState != DroneBehaviours::PATROL)
+		{
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
+
+			patrolScript->StartPatrol();
+
+			componentAnimation->SetParameter("IsSeeking", false);
+			componentAnimation->SetParameter("IsAttacking", false);
+
+			droneState = DroneBehaviours::PATROL;
+
 		}
 
-		lastDroneState = droneState;
-	}
+		
 
 	if (patrolScript && droneState == DroneBehaviours::PATROL)
 	{
@@ -155,13 +149,12 @@ void EnemyDroneScript::Update(float deltaTime)
 	if (seekScript && droneState == DroneBehaviours::SEEK)
 	{
 		seekScript->Seeking();
-
-		componentAnimation->SetParameter("IsSeeking", true);
-		componentAnimation->SetParameter("IsAttacking", false);
 	}
 
 	if (seekScript && fastAttackScript && droneState == DroneBehaviours::FASTATTACK)
 	{
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+
 		if (fastAttackScript->IsAttackAvailable())
 		{
 			fastAttackScript->PerformAttack();

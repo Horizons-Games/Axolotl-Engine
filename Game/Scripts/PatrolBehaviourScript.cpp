@@ -9,6 +9,7 @@
 
 #include "../Scripts/AIMovement.h"
 
+#include "AxoLog.h"
 
 #include "debugdraw.h"
 
@@ -16,14 +17,11 @@ REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerTransform(nullptr), 
 aiMovement(nullptr), currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), originStopTime(0.0f), 
-patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater(""), movementSpeed(1.0f), 
-rotationSpeed(1.0f)
+patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater("")
 {
 	REGISTER_FIELD(waypointsPatrol, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(patrolStopDuration, float);
 	REGISTER_FIELD(patrolAnimationParamater, std::string);
-	REGISTER_FIELD(movementSpeed, float);
-	REGISTER_FIELD(rotationSpeed, float);
 }
 
 void PatrolBehaviourScript::Start()
@@ -80,11 +78,16 @@ void PatrolBehaviourScript::StopPatrol()
 
 void PatrolBehaviourScript::Patrolling()
 {
-	if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 1.0f))
+	if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 3.0f))
 	{
+		LOG_VERBOSE("Entered Patrol Waypoint");
+		aiMovement->SetTargetPosition(ownerTransform->GetGlobalPosition());
+		aiMovement->SetMovementStatuses(false, false);
+
 		isStoppedAtPatrol = true;
 		originStopTime = SDL_GetTicks() / 1000.0f;
-		componentAnimation->SetParameter(patrolAnimationParamater, false);
+		if (patrolAnimationParamater != "")
+			componentAnimation->SetParameter(patrolAnimationParamater, false);
 	}
 }
 

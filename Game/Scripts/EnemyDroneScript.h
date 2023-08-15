@@ -15,14 +15,13 @@ class RangedFastAttackBehaviourScript;
 class MeleeHeavyAttackBehaviourScript;
 class HealthSystem;
 class PlayerManagerScript;
+class AIMovement;
 
 enum class DroneBehaviours
 {
 	IDLE,
-	FIRSTPATROL,
 	PATROL,
 	SEEK,
-	FIRSTATTACK,
 	FASTATTACK,
 	EXPLOSIONATTACK
 };
@@ -40,7 +39,6 @@ private:
 	void CalculateNextPosition() const;
 
 	DroneBehaviours droneState;
-	DroneBehaviours lastDroneState;
 
 	float attackDistance;
 	float seekDistance;
@@ -50,6 +48,7 @@ private:
 	RangedFastAttackBehaviourScript* fastAttackScript;
 	MeleeHeavyAttackBehaviourScript* heavyAttackScript;
 	HealthSystem* healthScript;
+	AIMovement* aiMovement;
 
 	GameObject* seekTarget;
 	GameObject* explosionGameObject;

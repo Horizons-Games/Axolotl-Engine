@@ -78,6 +78,8 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 			aiMovement->SetMovementStatuses(false, true);
 
+			componentAnimation->SetParameter("IsRunning", false);
+
 			venomiteState = VenomiteBehaviours::RANGED_ATTACK;
 		}
 	}
@@ -97,12 +99,13 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	}
 	else if (venomiteState != VenomiteBehaviours::PATROL)
 	{
-		venomiteState = VenomiteBehaviours::PATROL;
 		patrolScript->StartPatrol();
 		batonGameObject->Disable();
 		blasterGameObject->Disable();
 
 		componentAnimation->SetParameter("IsRangedAttacking", false);
+
+		venomiteState = VenomiteBehaviours::PATROL;
 	}
 		
 
@@ -140,8 +143,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 				//componentAnimation->SetParameter("IsRangedAttacking", false);
 			}
 		}
-
-		componentAnimation->SetParameter("IsRunning", false);
 	}
 
 	if (seekScript && venomiteState == VenomiteBehaviours::SEEK)
