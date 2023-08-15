@@ -8,7 +8,14 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class SeekBehaviourScript;
 class HealthSystem;
 class PatrolBehaviourScript;
-class PatrolBehaviourScript;
+
+enum class MiniBossTwoBehaviours
+{
+	IDLE,
+	SEEK,
+	ATTACK,
+	SHIELD
+};
 
 class EnemyMiniBossTwo : public EnemyClass
 {
@@ -32,4 +39,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 	ComponentTransform* seekTargetTransform;
+
+	MiniBossTwoBehaviours bossState;
+	MiniBossTwoBehaviours lastBossState;
 };
