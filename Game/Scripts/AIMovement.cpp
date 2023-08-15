@@ -9,7 +9,8 @@
 REGISTERCLASS(AIMovement);
 
 AIMovement::AIMovement() : Script(), componentTransform(nullptr), rigidBody(nullptr), movementSpeed(1.0f),
-rotationSpeed(1.0f), targetPositionOffset(0.5f), movementActivated(false), forwardVector(float3::zero)
+rotationSpeed(1.0f), targetPositionOffset(0.5f), movementActivated(false), forwardVector(float3::zero), 
+isAtDestiny(false)
 {
 	REGISTER_FIELD(movementSpeed, float);
 	REGISTER_FIELD(rotationSpeed, float);
@@ -31,6 +32,8 @@ void AIMovement::Update(float deltaTime)
 	MoveToTarget(deltaTime);
 
 	RotateToTarget(deltaTime);
+
+	CheckIfHasArrived();
 }
 
 void AIMovement::MoveToTarget(float deltaTime)
@@ -126,4 +129,24 @@ void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotatio
 {
 	movementActivated = activateMovement;
 	rotationActivated = activateRotation;
+}
+
+bool AIMovement::GetIsAtDestiny()
+{
+	return isAtDestiny;
+}
+
+void AIMovement::CheckIfHasArrived()
+{
+	float2 currentPos = float2(componentTransform->GetGlobalPosition().x, componentTransform->GetGlobalPosition().z);
+	float2 destinyPos = float2(targetPosition.x, targetPosition.z);
+
+	if (currentPos.Distance(destinyPos) < targetPositionOffset)
+	{
+		isAtDestiny = true;
+	}
+	else
+	{
+		isAtDestiny = false;
+	}
 }

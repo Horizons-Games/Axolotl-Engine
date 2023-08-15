@@ -16,6 +16,8 @@ public:
 
 	void SetTargetPosition(float3 targetPos); //Automatically moves and rotates
 	void SetMovementStatuses(bool activateMovement, bool activateRotation);
+	
+	bool GetIsAtDestiny();
 
 private:
 
@@ -30,7 +32,9 @@ private:
 	float targetPositionOffset;
 	bool movementActivated;
 	bool rotationActivated;
+	bool isAtDestiny;
 
 	void MoveToTarget(float deltaTime);
 	void RotateToTarget(float deltaTime);
+	void CheckIfHasArrived();
 };

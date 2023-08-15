@@ -9,8 +9,6 @@
 
 #include "../Scripts/AIMovement.h"
 
-#include "AxoLog.h"
-
 #include "debugdraw.h"
 
 REGISTERCLASS(PatrolBehaviourScript);
@@ -78,9 +76,8 @@ void PatrolBehaviourScript::StopPatrol()
 
 void PatrolBehaviourScript::Patrolling()
 {
-	if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 3.0f))
+	if (aiMovement->GetIsAtDestiny())
 	{
-		LOG_VERBOSE("Entered Patrol Waypoint");
 		aiMovement->SetTargetPosition(ownerTransform->GetGlobalPosition());
 		aiMovement->SetMovementStatuses(false, false);
 
