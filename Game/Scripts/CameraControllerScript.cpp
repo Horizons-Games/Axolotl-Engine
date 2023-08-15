@@ -159,8 +159,13 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 	}
 
 	if (closestCombatSample)
+	{
 		return closestCombatSample;
+	}
 	else
+	{
 		return closestSample;
+	}
+
 }
 
