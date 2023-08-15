@@ -21,7 +21,6 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 	positionOffset = float3::zero;
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 	isSampleFocusEnabled = false;
-	isSampleFixedEnabled = false;
 	isCombatCameraEnabled = false;
 	isSampleKpPositionEnabled = false;
 	isSampleKpRotationEnabled = false;
@@ -33,7 +32,6 @@ ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& compon
 	positionOffset(componentCameraSample.positionOffset),
 	position(componentCameraSample.position),
 	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
-	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled),
 	isCombatCameraEnabled(componentCameraSample.isCombatCameraEnabled),
 	isSampleKpPositionEnabled(componentCameraSample.isSampleKpPositionEnabled),
 	isSampleKpRotationEnabled(componentCameraSample.isSampleKpRotationEnabled)
@@ -79,10 +77,6 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["positionOffsetY"] = (float) positionOffset.y;
 	meta["positionOffsetZ"] = (float) positionOffset.z;
 
-	meta["positionFixedX"] = (float) positionFixed.x;
-	meta["positionFixedY"] = (float) positionFixed.y;
-	meta["positionFixedZ"] = (float) positionFixed.z;
-
 	meta["focusOffsetX"] = (float) focusOffset.x;
 	meta["focusOffsetY"] = (float) focusOffset.y;
 
@@ -90,7 +84,6 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["KpRotation"] = (float) KpRotation;
 
 	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
-	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
 	meta["isCombatCameraEnabled"] = (bool) isCombatCameraEnabled;
 	meta["isSampleKpPositionEnabled"] = (bool) isSampleKpPositionEnabled;
 	meta["isSampleKpRotationEnabled"] = (bool) isSampleKpRotationEnabled;
@@ -110,10 +103,6 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 	positionOffset.y = meta["positionOffsetY"];
 	positionOffset.z = meta["positionOffsetZ"];
 
-	positionFixed.x = meta["positionFixedX"];
-	positionFixed.y = meta["positionFixedY"];
-	positionFixed.z = meta["positionFixedZ"];
-
 	focusOffset.x = meta["focusOffsetX"];
 	focusOffset.y = meta["focusOffsetY"];
 
@@ -121,7 +110,6 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 	KpRotation = meta["KpRotation"];
 
 	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
-	isSampleFixedEnabled = meta["isSampleFixedEnabled"];
 	isCombatCameraEnabled = meta["isCombatCameraEnabled"];
 	isSampleKpPositionEnabled = meta["isSampleKpPositionEnabled"];
 	isSampleKpRotationEnabled = meta["isSampleKpRotationEnabled"];

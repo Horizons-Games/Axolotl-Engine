@@ -130,7 +130,7 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		if (isSampleKpPositionEnabled)
 		{
-			ImGui::SliderFloat("##KpPositionSample", &KpPosition, 0.0f, 10.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+			ImGui::SliderFloat("##KpPositionSample", &KpPosition, 0.01f, 10.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 			asCameraSample->SetKpPosition(KpPosition);
 		}
 
@@ -144,7 +144,7 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 		if (isSampleKpRotationEnabled)
 		{
-			ImGui::SliderFloat("##KpRotationSample", &KpRotation, 0.0f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+			ImGui::SliderFloat("##KpRotationSample", &KpRotation, 0.01f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 			asCameraSample->SetKpRotation(KpRotation);
 		}
 
