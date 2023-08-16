@@ -18,8 +18,8 @@
     "smoothness": 0.5,
     "metalness": 0.0,
     "isTransparent": false,
-    "tilingx": 4.0,
-    "tilingy": 4.0,
+    "tilingx": 6.0,
+    "tilingy": 6.0,
     "offsetx": 0.0,
     "offsety": 0.0
 }
