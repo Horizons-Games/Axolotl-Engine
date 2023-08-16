@@ -88,7 +88,7 @@ void ComponentLine::UpdateBuffers()
 		posData[0] = float3(0.0f, size * -0.5f, 0.0f);
 		posData[1] = float3(0.0f, size * 0.5f, 0.0f);
 
-		for (int i = 0; i < numTiles; ++i)
+		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			lambda = step * float(i + 1);
 			size = sizeFading[0] + (sizeFading[1] - sizeFading[0]) * 
@@ -105,7 +105,7 @@ void ComponentLine::UpdateBuffers()
 		texData[0] = float2(0.0f, 0.0f);
 		texData[1] = float2(0.0f, 1.0f);
 
-		for (int i = 0; i < numTiles; ++i)
+		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			texData[i * 2 + 2 + 0] = float2(step * float(i + 1), 0.0f);
 			texData[i * 2 + 2 + 1] = float2(step * float(i + 1), 1.0f);
@@ -122,7 +122,7 @@ void ComponentLine::UpdateBuffers()
 		gradient->getColorAt(0.0, color);
 		colorData[0] = float3(color[0], color[1], color[2]);
 		colorData[1] = float3(color[0], color[1], color[2]);
-		for (int i = 0; i < numTiles; ++i)
+		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			gradient->getColorAt(stepsGradient * (i + 1), color);
 			lambda = step * float(i + 1);
@@ -138,7 +138,7 @@ void ComponentLine::UpdateBuffers()
 		indexPtr[0] = 0;
 		indexPtr[1] = 1;
 
-		for (int i = 0; i < numTiles; ++i)
+		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			indexPtr[i * 2 + 2 + 0] = i * 2 + 2;
 			indexPtr[i * 2 + 2 + 1] = i * 2 + 3;

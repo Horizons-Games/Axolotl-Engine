@@ -28,7 +28,7 @@ public:
 	const GameObject* GetEnd() const;
 	void SetEnd(GameObject* end);
 
-	const int GetNumTiles() const;
+	const unsigned int GetNumTiles() const;
 	void SetNumTiles(int numTiles);
 
 	const float GetSpeed() const;
@@ -64,7 +64,7 @@ private:
 	unsigned int colorBuffers;
 	unsigned int lineEBO;
 	unsigned int lineVAO;
-	int numTiles;
+	unsigned int numTiles;
 
 	bool dirtyBuffers;
 
@@ -82,7 +82,7 @@ private:
 	float4 sizeFadingPoints;
 };
 
-inline const int ComponentLine::GetNumTiles() const
+inline const unsigned int ComponentLine::GetNumTiles() const
 {
 	return numTiles;
 }
