@@ -13,6 +13,7 @@ struct LoadOptionsMaterial
 	bool isTransparent;
 	float2 tiling;
 	float2 offset;
+	float2 percentage;
 	float intensityBloom;
 
 	unsigned int shaderType; //This is a special option because it's both load and import option
@@ -26,6 +27,7 @@ struct LoadOptionsMaterial
 		isTransparent(false),
 		tiling(float2(1.0f)),
 		offset(float2(0.0f)),
+		percentage(float2(1.0f)),
 		shaderType(0),
 		intensityBloom(1.f)
 	{
@@ -79,6 +81,7 @@ public:
 	const unsigned int& GetShaderType() const;
 	const float2& GetTiling() const;
 	const float2& GetOffset() const;
+	const float2& GetPercentage() const;
 
 	void SetLoadOptions(LoadOptionsMaterial& options);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
@@ -96,6 +99,7 @@ public:
 	void SetShaderType(const unsigned int shaderType);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
+	void SetPercentage(const float2& percentage);
 	
 	const float& GetIntensityBloom() const;
 	void SetIntensityBloom(const float intensityBloom);
@@ -195,6 +199,11 @@ inline const float2& ResourceMaterial::GetTiling() const
 inline const float2& ResourceMaterial::GetOffset() const
 {
 	return loadOptions.offset;
+}
+
+inline const float2& ResourceMaterial::GetPercentage() const
+{
+	return loadOptions.percentage;
 }
 
 inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
@@ -317,6 +326,11 @@ inline void ResourceMaterial::SetTiling(const float2& tiling)
 inline void ResourceMaterial::SetOffset(const float2& offset)
 {
 	loadOptions.offset = offset;
+}
+
+inline void ResourceMaterial::SetPercentage(const float2& percentage)
+{
+	loadOptions.percentage = percentage;
 }
 
 inline const float& ResourceMaterial::GetIntensityBloom() const

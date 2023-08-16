@@ -25,7 +25,9 @@ struct Material {
 
 struct Tiling {
     vec2 tiling;                //0  //8
-    vec2 offset;                //8  //8 --> 16
+    vec2 offset;                //8  //8 
+    vec2 percentage;            //16 //8
+    vec2 padding;               //24 //8 --> 32
 };
 
 layout (location = 0) out vec3 gPosition;
@@ -56,7 +58,7 @@ void main()
     Material material = materials[InstanceIndex];
     Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
     gPosition = FragPos;
     gNormal = Normal;

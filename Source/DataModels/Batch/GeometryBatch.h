@@ -107,6 +107,8 @@ private:
 	{
 		float2 tiling;
 		float2 offset;
+		float2 percentage;
+		float2 padding;
 	};
 
 	struct uint4

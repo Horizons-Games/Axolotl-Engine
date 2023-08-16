@@ -26,7 +26,9 @@ struct Material {
 
 struct Tiling {
     vec2 tiling;                //0  //8
-    vec2 offset;                //8  //8 --> 16
+    vec2 offset;                //8  //8 
+    vec2 percentage;            //16 //8
+    vec2 padding;               //24 //8 --> 32
 };
 
 layout(std140, binding=1) uniform Directional
@@ -286,7 +288,7 @@ void main()
     Material material = materials[InstanceIndex];
     Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
