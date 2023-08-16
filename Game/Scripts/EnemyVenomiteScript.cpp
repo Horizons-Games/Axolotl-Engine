@@ -88,7 +88,8 @@ void EnemyVenomiteScript::CheckState()
 	}
 	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), rangedAttackDistance))
 	{
-		if (venomiteState != VenomiteBehaviours::RANGED_ATTACK)
+		if (venomiteState != VenomiteBehaviours::RANGED_ATTACK && componentAnimation->GetActualStateName() 
+			!= "VenomiteMeleeAttack" && componentAnimation->GetActualStateName() != "VenomiteMeleeAttackEnd")
 		{
 			batonGameObject->Disable();
 			blasterGameObject->Enable();

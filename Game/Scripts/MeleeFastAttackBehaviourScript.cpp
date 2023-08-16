@@ -2,12 +2,15 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/HealthSystem.h"
 
 #include "Physics/Physics.h"
 
 #include "../MathGeoLib/Include/Geometry/Ray.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "SDL.h"
 
@@ -20,8 +23,9 @@ MeleeFastAttackBehaviourScript::MeleeFastAttackBehaviourScript() : Script(), att
 	damageAttack(10.f), ownerTransform(nullptr), rayAttackSize(10.f),
 	//Provisional
 	ray1GO(nullptr), ray2GO(nullptr), ray3GO(nullptr), ray4GO(nullptr),
-	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr)
+	ray1Transform(nullptr), ray2Transform(nullptr), ray3Transform(nullptr), ray4Transform(nullptr),
 	//--Provisional
+	audioSource(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 	REGISTER_FIELD(damageAttack, float);
@@ -39,6 +43,7 @@ MeleeFastAttackBehaviourScript::MeleeFastAttackBehaviourScript() : Script(), att
 void MeleeFastAttackBehaviourScript::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	//Provisional
 	ray1Transform = ray1GO->GetComponent<ComponentTransform>();
@@ -76,6 +81,7 @@ void MeleeFastAttackBehaviourScript::Update(float deltaTime)
 
 void MeleeFastAttackBehaviourScript::PerformAttack()
 {
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);//Change sound
 	lastAttackTime = SDL_GetTicks() / 1000.0f;
 	CheckCollision();
 }
