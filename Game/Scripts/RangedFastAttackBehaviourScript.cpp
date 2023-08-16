@@ -23,7 +23,7 @@
 REGISTERCLASS(RangedFastAttackBehaviourScript);
 
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
-	lastAttackTime(0.f), laserParticleSystem(nullptr),audioSource(nullptr),
+	lastAttackTime(0.f), particleSystem(nullptr),audioSource(nullptr), shootPosition(nullptr), particleTransform(nullptr),
 	animation(nullptr), transform(nullptr), loadedScene(nullptr), 
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
 {
@@ -31,21 +31,22 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
-	REGISTER_FIELD(laserParticleSystem, GameObject*)
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
+	REGISTER_FIELD(shootPosition, ComponentTransform*);
 }
 
 void RangedFastAttackBehaviourScript::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
+	if (particleSystem)
+	{
+		particleTransform = particleSystem->GetOwner()->GetComponent<ComponentTransform>();
+	}
 	animation = owner->GetComponent<ComponentAnimation>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	if (laserParticleSystem)
-	{
-		particleSystem = laserParticleSystem->GetComponent<ComponentParticleSystem>();
-	}
 }
 
 void RangedFastAttackBehaviourScript::StartAttack()
@@ -58,6 +59,10 @@ void RangedFastAttackBehaviourScript::PerformAttack()
 {
 	if (particleSystem)
 	{
+		if (shootPosition)
+		{
+			particleTransform->SetGlobalPosition(shootPosition->GetGlobalPosition());
+		}
 		particleSystem->Play();
 	}
 

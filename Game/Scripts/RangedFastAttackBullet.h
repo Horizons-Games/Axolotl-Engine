@@ -5,6 +5,7 @@
 class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
+class ComponentParticleSystem;
 
 class RangedFastAttackBullet : public Script
 {
@@ -32,4 +33,5 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	ComponentAudioSource* audioSource;
+	ComponentParticleSystem* particleSystem;
 };

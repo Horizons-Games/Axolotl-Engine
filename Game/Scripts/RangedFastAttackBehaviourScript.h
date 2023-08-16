@@ -37,9 +37,10 @@ private:
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
 	ComponentParticleSystem* particleSystem;
+	ComponentTransform* particleTransform;
+	ComponentTransform* shootPosition;
 
 	GameObject* bulletPrefab;
-	GameObject* laserParticleSystem;
 	float bulletVelocity;
 
 	Scene* loadedScene;

@@ -14,6 +14,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -22,7 +23,7 @@
 REGISTERCLASS(RangedFastAttackBullet);
 
 RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), audioSource(nullptr),
-	bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f)
+	bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f), particleSystem(nullptr)
 {
 }
 
