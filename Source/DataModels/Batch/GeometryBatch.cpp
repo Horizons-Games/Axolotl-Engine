@@ -899,9 +899,6 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 
 	int drawCount = 0;
 
-	GameObject* selectedGo = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	bool isRoot = selectedGo->GetParent() == nullptr;
-
 	for (ComponentMeshRenderer* component : componentsInBatch)
 	{
 		assert(component);
@@ -910,7 +907,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 		
 		bool draw = it != objects.end();
 		
-		if (it != objects.end())
+		if (draw)
 		{
 			if (!(*it)->GetComponent<ComponentMeshRenderer>())
 			{
