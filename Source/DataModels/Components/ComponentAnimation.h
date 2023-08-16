@@ -49,12 +49,15 @@ private:
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
+	void ApplyTransform();
+
 	AnimationController* controller;
 	StateMachine* stateMachineInstance;
 	std::unordered_map<GameObject*, float4x4> defaultPosition;
 
 	bool firstEntry;
 	bool drawBones;
+	bool initTransition;
 };
 
 inline void ComponentAnimation::ActivateDrawBones(bool drawBones)

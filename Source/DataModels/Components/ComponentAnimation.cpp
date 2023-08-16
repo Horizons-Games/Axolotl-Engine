@@ -22,6 +22,7 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 	Component(ComponentType::ANIMATION, active, owner, true),
 	drawBones(false),
 	firstEntry(true),
+	initTransition(false),
 	controller(new AnimationController()),
 	stateMachineInstance(new StateMachine())
 {
@@ -68,28 +69,14 @@ void ComponentAnimation::Update()
 
 		controller->Update();
 		stateMachineInstance->Update(!controller->GetPlay());
-		if (!stateMachineInstance->IsTransitioning())
+		if (!stateMachineInstance->IsTransitioning() && !initTransition)
 		{
 			State* state = stateMachineInstance->GetActualState();
 			if (state)
 			{
 				if (controller->GetPlay())
 				{
-					std::list<GameObject*> children = owner->GetAllDescendants();
-
-					for (auto child : children)
-					{
-						float3 pos;
-						Quat rot;
-
-						if (controller->GetTransform(&child->GetName()[0], pos, rot))
-						{
-							ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
-							transform->SetLocalPosition(pos);
-							transform->SetLocalRotation(rot);
-						}
-					}
-					owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
+					ApplyTransform();
 				}
 				else if (state->resource && state->loop)
 				{
@@ -99,20 +86,59 @@ void ComponentAnimation::Update()
 		}
 		else
 		{
-			State* nextState = stateMachineInstance->GetNextState();
-
-			if (nextState->resource)
+			if (!initTransition)
 			{
-				controller->Play(nextState, false, stateMachineInstance->GetActualTransitionDuration());
+				State* nextState = stateMachineInstance->GetNextState();
+				if (nextState->resource && stateMachineInstance->GetActualTransitionDuration() > 0.0)
+				{
+					controller->Play(nextState, false, stateMachineInstance->GetActualTransitionDuration());
+					initTransition = true;
+				}
+				else
+				{
+					controller->Stop();
+					LoadModelTransform(owner);
+					owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
+				}
+			}
+
+			if (controller->GetPlay())
+			{
+				ApplyTransform();
 			}
 			else
 			{
-				controller->Stop();
-				LoadModelTransform(owner);
-				owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
+				State* state = stateMachineInstance->GetActualState();
+				if (state->resource)
+				{
+					controller->Play(state, false);
+				}
+				initTransition = false;
 			}
 		}
 	}
+}
+
+void ComponentAnimation::ApplyTransform()
+{
+	GameObject* owner = GetOwner();
+
+	std::list<GameObject*> children = owner->GetAllDescendants();
+
+	for (auto child : children)
+	{
+		float3 pos;
+		Quat rot;
+
+		if (controller->GetTransform(&child->GetName()[0], pos, rot))
+		{
+			ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
+			transform->SetLocalPosition(pos);
+			transform->SetLocalRotation(rot);
+		}
+	}
+
+	owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
 }
 
 void ComponentAnimation::Draw() const
