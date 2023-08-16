@@ -3,8 +3,11 @@
 #include "ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCamera.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCameraSample.h"
+
+#include "Camera/CameraGameObject.h"
 
 #include "../Scripts/CameraSample.h"
 
@@ -32,6 +35,7 @@ void CameraControllerScript::Start()
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();
+	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
 	playerTransform = player->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
@@ -64,29 +68,49 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 		{
 			CalculateFocusOffsetVector();
 		}
+
+		if (closestSample->GetKpPositionEnabled())
+		{
+			camera->SetSampleKpPosition(closestSample->GetKpPosition());
+			
+		}
+		else
+		{
+			camera->RestoreKpPosition();
+		}
 		
+		if (closestSample->GetKpRotationEnabled())
+		{
+			camera->SetSampleKpRotation(closestSample->GetKpRotation());
+		}
+		else
+		{
+			camera->RestoreKpRotation();
+		}
 	}
 	else
 	{
 		CalculateOffsetVector();
 		CalculateFocusOffsetVector();
+		camera->RestoreKpPosition();
+		camera->RestoreKpRotation();
 	}
 
-	float3 sourceDirection = transform->GetGlobalForward().Normalized();
+	float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
 	float3 targetDirection = (playerTransform->GetGlobalPosition()
 		+ defaultFocusOffsetVector
-		- transform->GetGlobalPosition()).Normalized();
+		- camera->GetCamera()->GetPosition()).Normalized();
 
 	Quat orientationOffset = Quat::identity;
 
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01f))
+	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
 	{
 		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
-		orientationOffset = rot * transform->GetGlobalRotation();
+		orientationOffset = rot * camera->GetCamera()->GetRotation();
 	}
 	else
 	{
-		orientationOffset = transform->GetGlobalRotation();
+		orientationOffset = camera->GetCamera()->GetRotation();
 	}
 
 	finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
@@ -116,7 +140,7 @@ void CameraControllerScript::CalculateOffsetVector(float3 offset)
 
 void CameraControllerScript::CalculateFocusOffsetVector()
 {
-	float3 currentFocus = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - camera->GetCamera()->GetPosition()).Normalized();
 	float3 rightVector = currentFocus.Cross(float3::unitY);
 	defaultFocusOffsetVector = rightVector * xFocusOffset
 		+ float3::unitY * yFocusOffset;
@@ -124,7 +148,7 @@ void CameraControllerScript::CalculateFocusOffsetVector()
 
 void CameraControllerScript::CalculateFocusOffsetVector(float2 offset)
 {
-	float3 currentFocus = (playerTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - camera->GetCamera()->GetPosition()).Normalized();
 	float3 rightVector = currentFocus.Cross(float3::unitY);
 	defaultFocusOffsetVector = rightVector * offset.x
 		+ float3::unitY * offset.y;
@@ -159,8 +183,13 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 	}
 
 	if (closestCombatSample)
+	{
 		return closestCombatSample;
+	}
 	else
+	{
 		return closestSample;
+	}
+
 }
 
