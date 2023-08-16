@@ -59,20 +59,6 @@ void HealthSystem::Start()
 
 void HealthSystem::Update(float deltaTime)
 {
-	if (!EntityIsAlive() && owner->CompareTag("Player"))
-	{
-		ClearEffect();
-		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
-		playerDeathManager->ManagePlayerDeath();
-	}
-
-	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
-	{
-		ClearEffect();
-		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
-		enemyDeathManager->ManageEnemyDeath();
-	}
-
 	if (hasTakenDamage)
 	{
 		hitEffectDuration += App->GetDeltaTime();
@@ -85,6 +71,20 @@ void HealthSystem::Update(float deltaTime)
 			hasTakenDamage = false;
 			ClearEffect();
 		}
+	}
+
+	if (!EntityIsAlive() && owner->CompareTag("Player"))
+	{
+		ClearEffect();
+		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
+		playerDeathManager->ManagePlayerDeath();
+	}
+
+	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
+	{
+		ClearEffect();
+		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
+		enemyDeathManager->ManageEnemyDeath();
 	}
 
 	// This if/else should ideally be called inside the TakeDamage function
@@ -120,9 +120,14 @@ void HealthSystem::TakeDamage(float damage)
 		}
 
 		componentAnimation->SetParameter("IsTakingDamage", true);
-		hitEffectDuration = 0.f;
-		hasTakenDamage = true;
-		EffectDiffuseColor();
+		
+		if (EntityIsAlive())
+		{
+			hitEffectDuration = 0.f;
+			hasTakenDamage = true;
+			EffectDiffuseColor();
+		}
+
 		if (componentParticleSystem)
 		{
 			componentParticleSystem->Play();
