@@ -318,6 +318,9 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\RecastMovementTestScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -478,6 +481,12 @@
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
@@ -521,6 +530,15 @@
     <ClCompile Include="Modules\ModuleNavigation.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowNavigation.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
@@ -535,6 +553,18 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAgent.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentObstacle.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAgent.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentObstacle.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts</Filter>
@@ -596,6 +626,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp">
+      <Filter>DataModels\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
@@ -948,6 +981,12 @@
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1155,6 +1194,15 @@
     <ClInclude Include="Modules\ModuleNavigation.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceNavMesh.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowNavigation.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentSlider.h">
       <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
@@ -1165,6 +1213,18 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+    <ClInclude Include="DataModels\Components\ComponentAgent.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentObstacle.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentObstacle.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAgent.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
     </ClInclude>
@@ -1264,6 +1324,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentPlayerInput.h">
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyClass.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
@@ -1703,6 +1766,9 @@
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
@@ -2027,6 +2093,9 @@
       <Filter>DataModels\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">

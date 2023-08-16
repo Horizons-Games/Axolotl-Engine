@@ -29,8 +29,8 @@ void WindowComponentCamera::DrawWindowContents()
 		EFrustumMode frustumMode = asCamera->GetCamera()->GetFrustumMode();
 		int frustumModeAsNumber = static_cast<int>(frustumMode);
 		float frustumOffset = asCamera->GetCamera()->GetFrustumOffset();
-		float kpPosition = asCamera->GetCamera()->GetKpPosition();
-		float kpRotation = asCamera->GetCamera()->GetKpRotation();
+		float kpPosition = asCamera->GetKpPosition();
+		float kpRotation = asCamera->GetKpRotation();
 
 		ImGui::Text("Draw Frustum");
 		ImGui::SameLine();
@@ -48,7 +48,7 @@ void WindowComponentCamera::DrawWindowContents()
 		asCamera->GetCamera()->SetFrustumMode(newFrustumMode);
 		asCamera->GetCamera()->SetFrustumOffset(frustumOffset);
 
-		asCamera->GetCamera()->SetKpPosition(kpPosition);
-		asCamera->GetCamera()->SetKpRotation(kpRotation);
+		asCamera->SetKpPosition(kpPosition);
+		asCamera->SetKpRotation(kpRotation);
 	}
 }

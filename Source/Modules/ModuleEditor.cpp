@@ -30,6 +30,7 @@
 	#include "Windows/EditorWindows/WindowInspector.h"
 	#include "Windows/EditorWindows/WindowResources.h"
 	#include "Windows/EditorWindows/WindowScene.h"
+	#include "Windows/EditorWindows/WindowNavigation.h"
 #else
 	#include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -66,7 +67,6 @@ bool ModuleEditor::Init()
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	// Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;	// Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // Prevent mouse flickering
 
@@ -89,7 +89,8 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-
+	windows.push_back(std::make_unique<WindowNavigation>());
+	
 	char* buffer = StateWindows();
 
 	if (buffer == nullptr)
