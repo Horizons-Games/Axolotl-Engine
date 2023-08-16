@@ -27,7 +27,7 @@ struct LoadOptionsMaterial
 		isTransparent(false),
 		tiling(float2(1.0f)),
 		offset(float2(0.0f)),
-		percentage(float2(1.0f)),
+		percentage(float2(100.0f)),
 		shaderType(0),
 		intensityBloom(1.f)
 	{

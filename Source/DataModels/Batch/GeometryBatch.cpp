@@ -761,7 +761,7 @@ void GeometryBatch::BindBatch(bool selected)
 				if (component->GetMaterial())
 				{
 					std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
-					Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage());
+					Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
@@ -803,7 +803,7 @@ void GeometryBatch::BindBatch(bool selected)
 			if (component->GetMaterial())
 			{
 				std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
-				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage());
+				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 
@@ -944,7 +944,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 			if (component->GetMaterial())
 			{
 				std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
-				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage());
+				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 

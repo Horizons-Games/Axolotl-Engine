@@ -99,8 +99,8 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	loadOptions.percentage.y = static_cast<float>(meta["percentagey"]);
 	if (loadOptions.percentage.x == 0.f && loadOptions.percentage.y == 0.f)
 	{
-		loadOptions.percentage.x = 1.f;
-		loadOptions.percentage.y = 1.f;
+		loadOptions.percentage.y = 100.f;
+		loadOptions.percentage.x = 100.f;
 	}
 	loadOptions.intensityBloom = static_cast<float>(meta["intensityBloom"]);
 	if (loadOptions.intensityBloom == 0.f)

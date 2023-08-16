@@ -504,24 +504,24 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			}
 
 			float2 percentage = materialResource->GetPercentage();
-			if (ImGui::InputFloat2("Percentage", &percentage[0], "%.3f"))
+			if (ImGui::InputFloat2("Percentage (%)", &percentage[0], "%.2f"))
 			{
 				if (percentage[0] < 0.0f)
 				{
 					percentage[0] = 0.0f;
 				}
-				else if (percentage[0] > 1.0f)
+				else if (percentage[0] > 100.0f)
 				{
-					percentage[0] = 1.0f;
+					percentage[0] = 100.0f;
 				}
 
 				if (percentage[1] < 0.0f)
 				{
 					percentage[1] = 0.0f;
 				}
-				else if (percentage[1] > 1.0f)
+				else if (percentage[1] > 100.0f)
 				{
-					percentage[1] = 1.0f;
+					percentage[1] = 100.0f;
 				}
 				materialResource->SetPercentage(percentage);
 				updateMaterials = true;
