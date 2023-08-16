@@ -200,7 +200,7 @@ void ModulePhysics::AddRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 {
 	if (rigidBodyComponents[rb->GetID()] != nullptr)
 	{
-		LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
+		//LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
 		return;
 	}
 	dynamicsWorld->addRigidBody(body);
