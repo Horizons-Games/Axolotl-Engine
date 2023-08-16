@@ -26,6 +26,9 @@ public:
 	void SetForceArea(JumpFinisherArea* newForceArea);
 	JumpFinisherArea* GetForceArea() const;
 
+	void SetAreaPushForce(float newAreaPushForce);
+	void SetAreaStunTime(float newAreaStunTime);
+
 private:
 	void InitializeBullet();
 	void DestroyBullet() const;
@@ -39,4 +42,7 @@ private:
 	float bulletHeightForce;
 	float originTime;
 	float bulletLifeTime;
+
+	float areaPushForce;
+	float areaStunTime;
 };

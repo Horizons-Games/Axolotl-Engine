@@ -1,23 +1,27 @@
 #include "StdAfx.h"
 #include "JumpFinisherArea.h"
 
+#include "Application.h"
+#include "Scene/Scene.h"
+#include "Modules/ModuleScene.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
 
 REGISTERCLASS(JumpFinisherArea);
 
-JumpFinisherArea::JumpFinisherArea() : Script(), force(10.0f), stunTime(3.0f), forceDamage(10.0f),
-	parentTransform(nullptr), rigidBody(nullptr)
+JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr), particleSystem(nullptr),
+	particleSystemTimer(1.0f), triggerParticleSystemTimer(false), particleSystemCurrentTimer(0.0f), throwableForceArea(false)
 {
-	enemiesInTheArea.reserve(10);
+	REGISTER_FIELD(particleSystemTimer, float);
+	REGISTER_FIELD(throwableForceArea, bool);
 
-	REGISTER_FIELD(force, float);
-	REGISTER_FIELD(stunTime, float);
-	REGISTER_FIELD(forceDamage, float);
+	enemiesInTheArea.reserve(10);
 }
 
 void JumpFinisherArea::Start()
@@ -27,11 +31,35 @@ void JumpFinisherArea::Start()
 	rigidBody->SetIsTrigger(true);
 
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+
+	particleSystem = owner->GetComponent<ComponentParticleSystem>();
+	particleSystem->Enable();
+	particleSystemCurrentTimer = particleSystemTimer;
 }
 
 void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
+
+	if (!triggerParticleSystemTimer)
+	{
+		return;
+	}
+
+	particleSystemCurrentTimer -= deltaTime;
+	if (particleSystemCurrentTimer <= 0.0f)
+	{
+		particleSystemCurrentTimer = particleSystemTimer;
+		triggerParticleSystemTimer = false;
+		particleSystem->Stop();
+
+		if (throwableForceArea)
+		{
+			// If the force area is from a bullet, destroy the area after playing the particle effects
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+		}
+	}
 }
 
 void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
@@ -54,9 +82,11 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 		std::end(enemiesInTheArea));
 }
 
-void JumpFinisherArea::PushEnemies()
+void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+	particleSystem->Play();
+	triggerParticleSystemTimer = true;
 
 	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
 		it++)
@@ -77,7 +107,7 @@ void JumpFinisherArea::PushEnemies()
 		float3 nextPosition = enemyTransform->GetGlobalPosition() - transform->GetGlobalPosition();
 		nextPosition.Normalize();
 		nextPosition += float3(0, 0.5f, 0);
-		nextPosition *= force;
+		nextPosition *= pushForce;
 
 		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 		enemybtRigidbody->setLinearVelocity(newVelocity);
@@ -86,7 +116,8 @@ void JumpFinisherArea::PushEnemies()
 		enemyScript->SetStunnedTime(stunTime);
 
 		HealthSystem* enemyHealthScript = (*it)->GetComponent<HealthSystem>();
-
-		enemyHealthScript->TakeDamage(forceDamage);
+;
+		// We apply the same damage to the enemies as the push force used to push them
+		enemyHealthScript->TakeDamage(pushForce);
 	}
 }

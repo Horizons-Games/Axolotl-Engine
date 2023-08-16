@@ -10,17 +10,21 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 
+#include "../Scripts/BixAttackScript.h"
+
 #include "Auxiliar/Audio/AudioData.h"
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Physics/Physics.h"
 
 #include "DebugDraw.h"
 
+#include "AxoLog.h"
+
 REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
-coyoteTime(0.4f), groundedCount(0), isGrounded(false)
+coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr)
 {
 	REGISTER_FIELD(coyoteTime, float);
 	REGISTER_FIELD(isGrounded, bool);
@@ -39,20 +43,12 @@ void PlayerJumpScript::Start()
 	rigidbody->GetRigidBody()->setAngularFactor(btVector3(1.0f, 0.0f, 1.0f));
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
+
+	attackScript = owner->GetComponent<BixAttackScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
-	float velocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
-	componentAnimation->SetParameter("IsFalling", velocity);
-
-	if (velocity < -0.001)
-	{
-		componentAnimation->SetParameter("IsJumping", false);
-		componentAnimation->SetParameter("IsDoubleJumping", false);
-
-	}
-
 	if (!isGrounded && coyoteTimerCount > 0.0f)
 	{
 		coyoteTimerCount -= deltaTime;
@@ -64,17 +60,11 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 
 void PlayerJumpScript::CheckGround()
 {
-	RaycastHit hit;
-	btVector3 minPoint, maxPoint;
-	rigidbody->GetRigidBody()->getAabb(minPoint, maxPoint);
-	btVector3 rigidBodyOrigin = rigidbody->GetRigidBodyOrigin();
-	float3 origin = float3((maxPoint.getX() + minPoint.getX()) / 2.0f, minPoint.getY(), (maxPoint.getZ() + minPoint.getZ()) / 2.0f);
-	Ray ray(origin, -(rigidbody->GetOwnerTransform()->GetGlobalUp()));
-	LineSegment line(ray, 0.001f);
-
 	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
 
-	if ( Physics::RaycastFirst(line, owner))
+	componentAnimation->SetParameter("IsFalling", verticalVelocity);
+
+	if (-0.001 < verticalVelocity && !isJumping) 
 	{
 		isGrounded = true;
 		isJumping = false;
@@ -84,7 +74,7 @@ void PlayerJumpScript::CheckGround()
 		doubleJumpAvailable = true;
 		coyoteTimerCount = 0.0f;
 	}
-	else
+	else 
 	{
 		if (isGrounded)
 		{
@@ -92,12 +82,19 @@ void PlayerJumpScript::CheckGround()
 			componentAnimation->SetParameter("IsGrounded", false);
 			coyoteTimerCount = coyoteTime;
 		}
+
+		if (verticalVelocity < -0.001)
+		{
+			isJumping = false;
+			componentAnimation->SetParameter("IsJumping", false);
+			componentAnimation->SetParameter("IsDoubleJumping", false);
+		}
 	}
 }
 
 void PlayerJumpScript::Jump(float deltatime)
 {
-	if (canJump)
+	if (canJump && !attackScript->IsPerfomingJumpAttack())
 	{
 		float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
 		const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();

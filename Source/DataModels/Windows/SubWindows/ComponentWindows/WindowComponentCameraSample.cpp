@@ -26,11 +26,30 @@ void WindowComponentCameraSample::DrawWindowContents()
 		float influenceRadius = asCameraSample->GetRadius();
 		float3 positionOffset = asCameraSample->GetOffset();
 
+		bool isSampleFocusEnabled = asCameraSample->GetFocusOffsetEnabled();
+		float2 focusOffset = asCameraSample->GetFocusOffset();
+
 		bool isSampleFixedEnabled = asCameraSample->GetFixedOffsetEnabled();
 		float3 positionFixed = asCameraSample->GetFixedOffset();
 
-		bool isSampleFocusEnabled = asCameraSample->GetFocusOffsetEnabled();
-		float2 focusOffset = asCameraSample->GetFocusOffset();
+		bool isCombatCameraEnabled = asCameraSample->GetCombatCameraEnabled();
+
+		bool isSampleKpPositionEnabled = asCameraSample->GetKpPositionEnabled();
+		float KpPosition = asCameraSample->GetKpPosition();
+		bool isSampleKpRotationEnabled = asCameraSample->GetKpRotationEnabled();
+		float KpRotation = asCameraSample->GetKpRotation();
+
+		ImGui::Text("");
+
+		if (ImGui::Checkbox("##Combat Camera Enabled", &isCombatCameraEnabled))
+		{
+			asCameraSample->SetCombatCameraEnabled(isCombatCameraEnabled);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Combat Camera Enabled");
+
+		ImGui::Text("");
 
 		ImGui::SliderFloat("Influence Radius", &influenceRadius, 0.0f, 30.f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
@@ -64,7 +83,6 @@ void WindowComponentCameraSample::DrawWindowContents()
 						 0.025f,
 						 std::numeric_limits<float>::min(),
 						 std::numeric_limits<float>::min());
-
 
 		ImGui::Text("");
 
@@ -107,10 +125,10 @@ void WindowComponentCameraSample::DrawWindowContents()
 							 std::numeric_limits<float>::min(),
 							 std::numeric_limits<float>::min());
 
-
 			asCameraSample->SetFixedOffset(positionFixed);
 		}
 
+		ImGui::Text("");
 
 		if (ImGui::Checkbox("##Focus Offset Enabled", &isSampleFocusEnabled))
 		{
@@ -144,6 +162,36 @@ void WindowComponentCameraSample::DrawWindowContents()
 
 
 			asCameraSample->SetFocusOffset(focusOffset);
+		}
+
+		ImGui::Text("");
+
+		if (ImGui::Checkbox("##Kp Position Enabled", &isSampleKpPositionEnabled))
+		{
+			asCameraSample->SetKpPositionEnabled(isSampleKpPositionEnabled);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Kp Position Enabled");
+
+		if (isSampleKpPositionEnabled)
+		{
+			ImGui::SliderFloat("##KpPositionSample", &KpPosition, 0.0f, 10.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+			asCameraSample->SetKpPosition(KpPosition);
+		}
+
+		if (ImGui::Checkbox("##Kp Rotation Enabled", &isSampleKpRotationEnabled))
+		{
+			asCameraSample->SetKpRotationEnabled(isSampleKpRotationEnabled);
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Kp Rotation Enabled");
+
+		if (isSampleKpRotationEnabled)
+		{
+			ImGui::SliderFloat("##KpRotationSample", &KpRotation, 0.0f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+			asCameraSample->SetKpRotation(KpRotation);
 		}
 
 		asCameraSample->SetRadius(influenceRadius);

@@ -4,6 +4,7 @@
 class ComponentTransform;
 class ComponentAudioSource;
 class ComponentRigidBody;
+class ComponentParticleSystem;
 
 class LightAttackBullet : public Script
 {
@@ -25,8 +26,17 @@ private:
 	float velocity;
 	float stunTime;
 	float damageAttack;
+	float maxDistanceBullet;
+
+	float3 defaultTargetPos;
 
 	GameObject* enemy;
 	ComponentAudioSource* audioSource;
 	ComponentRigidBody* rigidBody;
+	ComponentTransform* parentTransform;
+	ComponentParticleSystem* particleSystem;
+
+	float particleSystemTimer;
+	float particleSystemCurrentTimer;
+	bool triggerParticleSystemTimer;
 };

@@ -1,0 +1,11 @@
+{
+    "UID": 351197643772174307,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/futuristic_building_2.Sphere_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/futuristic_building_2DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

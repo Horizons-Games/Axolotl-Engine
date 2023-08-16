@@ -6,18 +6,18 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
+#include "Physics/Physics.h"
 
-#include "Scripting/ScriptFactory.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/JumpFinisherArea.h"
 #include "../Scripts/JumpFinisherAttackBullet.h"
 
 REGISTERCLASS(JumpFinisherAttack);
 
-JumpFinisherAttack::JumpFinisherAttack() : Script(), cooldown(3.0f), currentCooldown(0.0f), input(nullptr)
+JumpFinisherAttack::JumpFinisherAttack() : Script(), input(nullptr)
 {
-	REGISTER_FIELD(cooldown, float);
 	REGISTER_FIELD(forceArea, JumpFinisherArea*);
 	REGISTER_FIELD(forceAttackBullet, GameObject*);
 }
@@ -27,33 +27,15 @@ void JumpFinisherAttack::Start()
 	input = App->GetModule<ModuleInput>();
 }
 
-void JumpFinisherAttack::Update(float deltaTime)
+void JumpFinisherAttack::PerformGroundSmash(float pushForce, float stunTime)
 {
-	if (input->GetKey(SDL_SCANCODE_Q) != KeyState::IDLE && currentCooldown <= 0) // Bix jump finisher
-	{
-		currentCooldown = cooldown;
-		//JumpFinisherArea* forceAreaComponent = forceArea->GetComponent<JumpFinisherArea>();
-		//forceAreaComponent->PushEnemies();
-		forceArea->PushEnemies();
-	}
-
-	else if (input->GetKey(SDL_SCANCODE_T) != KeyState::IDLE && currentCooldown <= 0) // Allura jump finisher
-	{
-		currentCooldown = cooldown;
-		ShootForceBullet();
-	}
-
-	else
-	{
-		if (currentCooldown > 0)
-		{
-			currentCooldown -= deltaTime;
-			currentCooldown = std::max(0.0f, currentCooldown);
-		}
-	}
+	ComponentRigidBody* ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	btRigidBody* ownerBulletRigidBody = ownerRigidBody->GetRigidBody();
+	ownerBulletRigidBody->setLinearVelocity(btVector3(0.0f, -15.0f, 0.0f));
+	forceArea->PushEnemies(pushForce, stunTime);
 }
 
-void JumpFinisherAttack::ShootForceBullet() const
+void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 {
 	// Duplicate force bullet
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
@@ -69,4 +51,8 @@ void JumpFinisherAttack::ShootForceBullet() const
 
 	// Set up new force area in the new bullet script field
 	newForceBulletScript->SetForceArea(newForceAreaGameObject->GetComponent<JumpFinisherArea>());
+
+	// Set up values for the bullet effect
+	newForceBulletScript->SetAreaPushForce(pushForce);
+	newForceBulletScript->SetAreaStunTime(stunTime);
 }
