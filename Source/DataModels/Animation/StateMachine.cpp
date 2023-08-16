@@ -23,6 +23,7 @@ void StateMachine::Update(bool statePlayFinish)
 				if (CheckTransitions(state, foundTransition, statePlayFinish))
 				{
 					nextState = foundTransition.destinationState;
+					actualTransitionDuration = foundTransition.transitionDuration;
 				}
 			}
 		}
@@ -99,6 +100,11 @@ bool StateMachine::CheckTransitions(const State* state, Transition& transition, 
 bool StateMachine::IsTransitioning() const
 {
 	return !(actualState == nextState);
+}
+
+double StateMachine::GetActualTransitionDuration() const
+{
+	return actualTransitionDuration;
 }
 
 State* StateMachine::GetActualState() const

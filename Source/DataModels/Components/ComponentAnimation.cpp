@@ -99,10 +99,11 @@ void ComponentAnimation::Update()
 		}
 		else
 		{
-			State* state = stateMachineInstance->GetNextState();
-			if (state->resource)
+			State* nextState = stateMachineInstance->GetNextState();
+
+			if (nextState->resource)
 			{
-				controller->Play(state, false);
+				controller->Play(nextState, false, stateMachineInstance->GetActualTransitionDuration());
 			}
 			else
 			{

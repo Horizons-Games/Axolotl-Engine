@@ -36,6 +36,7 @@ public:
 
 	bool CheckTransitions(const State* state, Transition& transition, bool statePlayFinish = true);
 	bool IsTransitioning() const;
+	double GetActualTransitionDuration() const;
 
 private:
 
@@ -46,6 +47,8 @@ private:
 	unsigned int actualState;
 	unsigned int nextState;
 	unsigned int lastState = NON_STATE;
+
+	double actualTransitionDuration = 0;
 };
 
 inline const std::shared_ptr<ResourceStateMachine>& StateMachine::GetStateMachine() const

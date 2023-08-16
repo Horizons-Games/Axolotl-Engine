@@ -19,13 +19,14 @@ AnimationController::~AnimationController()
 {
 }
 
-void AnimationController::Play(State* stateResource, bool loop)
+void AnimationController::Play(State* stateResource, bool loop, double duration)
 {
 	this->stateResource = stateResource;
 	resource = std::dynamic_pointer_cast<ResourceAnimation>(stateResource->resource);
 	isLooping = loop;
 	isPlaying = true;
 	currentTime = 0;
+	this->duration = duration == DEFAULT_DURATION ? resource->GetDuration() : duration;
 }
 
 void AnimationController::Stop()
@@ -38,7 +39,7 @@ void AnimationController::Update()
 {
 	if (isPlaying && resource)
 	{
-		float duration = static_cast<float>(resource->GetDuration());
+		float duration = static_cast<float>(this->duration);
 
 		currentTime += App->GetDeltaTime() * stateResource->speed * 10;
 		if (currentTime > duration)
@@ -62,14 +63,14 @@ bool AnimationController::GetTransform(const std::string& name, float3& pos, Qua
 	if (channel)
 	{
 		float currentSample =
-			static_cast<float>((currentTime * (channel->positions.size() - 1)) / resource->GetDuration());
+			static_cast<float>((currentTime * (channel->positions.size() - 1)) / this->duration);
 
 		int first = static_cast<int>(floor(currentSample));
 		int second = static_cast<int>(ceil(currentSample));
 
 		float3 firstPos = channel->positions[first];
 		float3 secondPos = channel->positions[second];
-		;
+		
 		Quat firstQuat = channel->rotations[first];
 		Quat secondQuat = channel->rotations[second];
 		float lambda = currentSample - first;
