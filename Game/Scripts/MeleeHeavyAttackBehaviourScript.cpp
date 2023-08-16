@@ -8,12 +8,13 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/SeekBehaviourScript.h"
+#include "../Scripts/AIMovement.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(MeleeHeavyAttackBehaviourScript);
 
-MeleeHeavyAttackBehaviourScript::MeleeHeavyAttackBehaviourScript() : Script(),
+MeleeHeavyAttackBehaviourScript::MeleeHeavyAttackBehaviourScript() : Script(), aiMovement(nullptr),
 	attackState(ExplosionState::NOTDEAD), targetPlayer(nullptr), explosionDamage(30.0f),
 	explosionTime(3.0f)
 {
@@ -27,6 +28,7 @@ void MeleeHeavyAttackBehaviourScript::Start()
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentHealthSystem = owner->GetParent()->GetComponent<HealthSystem>();
 	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
+	aiMovement = owner->GetParent()->GetComponent<AIMovement>();
 	rigidBody->SetKpForce(50);
 }
 
@@ -60,20 +62,6 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 	}
 }
 
-void MeleeHeavyAttackBehaviourScript::SetExplosionPosition(const float3& explosionPos)
-{
-	if (attackState != ExplosionState::NOTDEAD)
-	{
-		return;
-	}
-
-	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
-	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
-
-	attackState = ExplosionState::WAITING_EXPLOSION;
-	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
-}
-
 void MeleeHeavyAttackBehaviourScript::UpdateDroneColor()
 {
 	//When we have tint the color of the drone will change.
@@ -84,7 +72,8 @@ void MeleeHeavyAttackBehaviourScript::TriggerExplosion()
 	SeekBehaviourScript* enemySeekBehaviour = owner->GetParent()->GetComponent<SeekBehaviourScript>();
 	float3 targetPos = enemySeekBehaviour->GetTarget()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
-	SetExplosionPosition(targetPos);
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
+	attackState = ExplosionState::WAITING_EXPLOSION;
 }
 
 ExplosionState MeleeHeavyAttackBehaviourScript::HasExploded() const

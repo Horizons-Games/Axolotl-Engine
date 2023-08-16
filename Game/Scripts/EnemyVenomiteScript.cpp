@@ -132,12 +132,20 @@ void EnemyVenomiteScript::CheckState()
 
 void EnemyVenomiteScript::UpdateBehaviour()
 {
-	if (patrolScript && venomiteState == VenomiteBehaviours::PATROL)
+	switch (venomiteState)
 	{
-	}
+	case VenomiteBehaviours::PATROL:
 
-	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
-	{
+		break;
+
+	case VenomiteBehaviours::SEEK:
+
+		seekScript->Seeking();
+
+		break;
+
+	case VenomiteBehaviours::RANGED_ATTACK:
+
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
 		for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
@@ -153,17 +161,11 @@ void EnemyVenomiteScript::UpdateBehaviour()
 				//componentAnimation->SetParameter("IsRangedAttacking", false);
 			}
 		}
-	}
 
-	if (seekScript && venomiteState == VenomiteBehaviours::SEEK)
-	{
+		break;
 
-		seekScript->Seeking();
+	case VenomiteBehaviours::MELEE_ATTACK:
 
-	}
-
-	if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
-	{
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
 		if (meleeAttackScript->IsAttackAvailable())
@@ -174,7 +176,10 @@ void EnemyVenomiteScript::UpdateBehaviour()
 		else
 		{
 			componentAnimation->SetParameter("IsMeleeAttacking", false);
-				
+
 		}
+
+		break;
+
 	}
 }

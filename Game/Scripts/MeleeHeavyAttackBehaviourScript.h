@@ -17,6 +17,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
 class HealthSystem;
+class AIMovement;
 
 class MeleeHeavyAttackBehaviourScript : public Script
 {
@@ -26,8 +27,6 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
-
-	void SetExplosionPosition(const float3& explosionPos);
 
 	void TriggerExplosion();
 	void UpdateDroneColor();
@@ -46,6 +45,7 @@ private:
 	ComponentTransform* parentTransform;
 	HealthSystem* parentHealthSystem;
 	ComponentAudioSource* componentAudioSource;
+	AIMovement* aiMovement;
 
 	float explosionDamage;
 	float explosionTime;
