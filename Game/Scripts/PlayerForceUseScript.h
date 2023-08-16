@@ -2,7 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-
+#include "Math/Quat.h"
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
@@ -39,20 +39,25 @@ private:
 	float lastVerticalSensitivity;
 	float lastMoveSpeed;
 	bool isForceActive;
+	bool objectStaticness;
 
 	bool breakForce;
 
     std::string tag;
+	std::string tag2;
 	
 	PlayerRotationScript* rotationHorizontalScript;
 	CameraControllerScript* rotationVerticalScript;
 	PlayerManagerScript* playerManagerScript;
 	PlayerMoveScript* moveScript;
+	float3 offsetFromPickedPoint;
+	Quat pickedRotation;
 
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
+
 
 	ModuleInput* input;
 };

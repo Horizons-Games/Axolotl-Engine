@@ -9,29 +9,33 @@
 REGISTERCLASS(AnimatedTexture);
 
 
-AnimatedTexture::AnimatedTexture() : Script()
+AnimatedTexture::AnimatedTexture() : Script(), movementX(0.004f), movementY(0.004f), maxOffsetX(1.0f), maxOffsetY(1.0f)
 {
+	REGISTER_FIELD(movementX, float);
+	REGISTER_FIELD(movementY, float);
+	REGISTER_FIELD(maxOffsetX, float);
+	REGISTER_FIELD(maxOffsetY, float);
 }
 
 void AnimatedTexture::Start()
 {
 	mesh = owner->GetComponent<ComponentMeshRenderer>();
-	line = owner->GetComponent<ComponentLine>();
-	offset = 0.f;
-	movement = 0.004f;
+	//line = owner->GetComponent<ComponentLine>();
+	currentOffsetX = 0.f;
+	currentOffsetY = 0.f;
 }
 
 void AnimatedTexture::Update(float deltaTime)
 {
-	offset += movement;
-	if (offset > 1.f) offset = 0.f;
-	if (mesh)
+	currentOffsetX += movementX;
+	if (maxOffsetX < currentOffsetX)
 	{
-		mesh->SetOffset(float2(0.f, offset));
+		currentOffsetX = 0.f;
 	}
-	if (line)
+	currentOffsetY += movementY;
+	if (maxOffsetY < currentOffsetY)
 	{
-		line->SetTime(App->GetDeltaTime() * line->GetSpeed());
-		line->SetOffset(float2(offset, 0.f));
-	}
+		currentOffsetY = 0.f;
+	} 
+	mesh->SetOffset(float2(currentOffsetX, currentOffsetY));
 }

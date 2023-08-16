@@ -1,0 +1,11 @@
+{
+    "UID": 14463182233075504281,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_RunWayJoint.Joint_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_RunWayJointDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

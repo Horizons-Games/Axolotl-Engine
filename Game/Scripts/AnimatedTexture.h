@@ -17,9 +17,13 @@ public:
 
 private:
 	ComponentMeshRenderer* mesh;
-	ComponentLine* line;
-	float offset;
-	float movement;
+	//ComponentLine* line;
+	float currentOffsetX;
+	float currentOffsetY;
+	float movementX;
+	float movementY;
+	float maxOffsetX;
+	float maxOffsetY;
 };
 
 

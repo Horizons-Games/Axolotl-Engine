@@ -20,6 +20,7 @@
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentLine.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -713,6 +714,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 										 return canvas->GetOwner() == gameObject;
 									 }),
 					  std::end(sceneCanvas));
+
+	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
+											  std::end(sceneParticleSystems),
+									 [gameObject](const ComponentParticleSystem* particleSystem)
+									 {
+												  return particleSystem->GetOwner() == gameObject;
+									 }),
+							   std::end(sceneParticleSystems));
 
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
