@@ -78,9 +78,7 @@ void WindowComponentLine::DrawWindowContents()
 		ImGui::SameLine();
 		if (ImGui::DragInt("Billboards", &numTiles, 1.0f, 1, 100))
 		{
-			
 			componentLine->SetNumTiles(numTiles);
-			
 		}
 		float speed = componentLine->GetSpeed();
 		ImGui::Text("");
@@ -88,9 +86,7 @@ void WindowComponentLine::DrawWindowContents()
 		ImGui::SameLine();
 		if (ImGui::DragFloat("speed", &speed, 0.1f, -50.0f, 50.0f))
 		{
-
 			componentLine->SetSpeed(speed);
-
 		}
 
 		ImGui::Text("");
