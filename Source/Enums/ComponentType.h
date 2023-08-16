@@ -24,7 +24,7 @@ enum class ComponentType
 	CUBEMAP,
 	AGENT,
 	OBSTACLE,
-	PARTICLE
+	PARTICLE,
 	PLAYERINPUT
 };
 
