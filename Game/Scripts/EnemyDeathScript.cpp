@@ -8,14 +8,16 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false)
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false) , particleSystem(nullptr)
 {
 	REGISTER_FIELD(activePowerUp, GameObject*); // this should be a vector of powerUps
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
 
 void EnemyDeathScript::Update(float deltaTime)
@@ -35,6 +37,11 @@ void EnemyDeathScript::Update(float deltaTime)
 
 void EnemyDeathScript::ManageEnemyDeath()
 {
+	if (particleSystem)
+	{
+		particleSystem->Play();
+	}
+
 	GameObject* newPowerUp = RequestPowerUp();
 
 	if (newPowerUp != nullptr)

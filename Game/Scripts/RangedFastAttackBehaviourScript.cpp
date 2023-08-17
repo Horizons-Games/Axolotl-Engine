@@ -23,30 +23,60 @@
 REGISTERCLASS(RangedFastAttackBehaviourScript);
 
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
-	lastAttackTime(0.f), particleSystem(nullptr),audioSource(nullptr), shootPosition(nullptr), particleTransform(nullptr),
-	animation(nullptr), transform(nullptr), loadedScene(nullptr), 
-	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
+	lastAttackTime(0.f), particleSystemShot(nullptr), particleSystemPreShot(nullptr), audioSource(nullptr), shootPosition(nullptr),
+	particleTransform(nullptr), animation(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
+	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
+	preShootingTime(0.0f), particlePreShotTransform(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
-	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 	REGISTER_FIELD(shootPosition, ComponentTransform*);
+	REGISTER_FIELD(particleSystemShot, ComponentParticleSystem*);
+	REGISTER_FIELD(particleSystemPreShot, ComponentParticleSystem*);
+	REGISTER_FIELD(preShotDuration, float);
 }
 
 void RangedFastAttackBehaviourScript::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
-	if (particleSystem)
+	if (particleSystemShot)
 	{
-		particleTransform = particleSystem->GetOwner()->GetComponent<ComponentTransform>();
+		particleTransform = particleSystemShot->GetOwner()->GetComponent<ComponentTransform>();
+	}
+	if (particleSystemPreShot)
+	{
+		particlePreShotTransform = particleSystemPreShot->GetOwner()->GetComponent<ComponentTransform>();
 	}
 	animation = owner->GetComponent<ComponentAnimation>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
+	isPreShooting = false;
+}
+
+void RangedFastAttackBehaviourScript::Update(float deltaTime)
+{
+	if (!isPreShooting)
+	{
+		return;
+	}
+
+
+	preShootingTime += deltaTime;
+	if (shootPosition)
+	{
+		particlePreShotTransform->SetGlobalPosition(shootPosition->GetGlobalPosition());
+	}
+
+	if (preShootingTime >= preShotDuration)
+	{
+		ShootBullet();
+		isPreShooting = false;
+		preShootingTime = 0.0f;
+	}
 }
 
 void RangedFastAttackBehaviourScript::StartAttack()
@@ -57,13 +87,22 @@ void RangedFastAttackBehaviourScript::StartAttack()
 
 void RangedFastAttackBehaviourScript::PerformAttack()
 {
-	if (particleSystem)
+	isPreShooting = true;
+	if (particleSystemPreShot)
+	{
+		particleSystemPreShot->Play();
+	}
+}
+
+void RangedFastAttackBehaviourScript::ShootBullet()
+{
+	if (particleSystemShot)
 	{
 		if (shootPosition)
 		{
 			particleTransform->SetGlobalPosition(shootPosition->GetGlobalPosition());
 		}
-		particleSystem->Play();
+		particleSystemShot->Play();
 	}
 
 	animation->SetParameter("IsAttacking", true);
@@ -98,9 +137,17 @@ void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
 	owner->GetComponent<ComponentRigidBody>()->SetKpForce(1.0f);
 }
 
+void RangedFastAttackBehaviourScript::InterruptAttack()
+{
+	isPreShooting = false;
+	preShootingTime = 0.0f;
+	particleSystemPreShot->SetPlayAtStart(true);
+	particleSystemPreShot->Stop();
+}
+
 bool RangedFastAttackBehaviourScript::IsAttackAvailable() const
 {
-	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
+	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown && !isPreShooting);
 }
 
 bool RangedFastAttackBehaviourScript::NeedReposition() const

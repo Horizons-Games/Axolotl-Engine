@@ -22,7 +22,7 @@ REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr), readyToExplode(false),
+componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr),
 explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), animationOffset(0)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
@@ -86,7 +86,12 @@ void EnemyDroneScript::Update(float deltaTime)
 
 void EnemyDroneScript::CheckState()
 {
-	if (readyToExplode)
+	if (droneState == DroneBehaviours::EXPLOSIONATTACK)
+	{
+		return;
+	}
+
+	if (droneState == DroneBehaviours::READYTOEXPLODE)
 	{
 		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
 			&& animationOffset >= 1)
@@ -225,7 +230,7 @@ void EnemyDroneScript::CalculateNextPosition() const
 
 void EnemyDroneScript::SetReadyToDie()
 {
-	LOG_VERBOSE("Set ready to die drone");
 	componentAnimation->SetParameter("IsTakingDamage", true);
-	readyToExplode = true;
+	fastAttackScript->InterruptAttack();
+	droneState = DroneBehaviours::READYTOEXPLODE;
 }

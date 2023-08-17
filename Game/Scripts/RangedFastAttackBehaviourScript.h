@@ -16,16 +16,19 @@ public:
 	~RangedFastAttackBehaviourScript() override = default;
 
 	void Start() override;
+	void Update(float deltaTime) override;
 
 	void StartAttack();
 	void PerformAttack();
 	void Reposition(float3 nextPosition);
+	void InterruptAttack();
 
 	bool IsAttackAvailable() const;
 	bool NeedReposition() const;
 	bool MovingToNewReposition();
 
 private:
+	void ShootBullet();
 
 	float attackCooldown;
 	float lastAttackTime;
@@ -36,12 +39,17 @@ private:
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
-	ComponentParticleSystem* particleSystem;
+	ComponentParticleSystem* particleSystemShot;
+	ComponentParticleSystem* particleSystemPreShot;
 	ComponentTransform* particleTransform;
+	ComponentTransform* particlePreShotTransform;
 	ComponentTransform* shootPosition;
 
 	GameObject* bulletPrefab;
 	float bulletVelocity;
+	float preShotDuration;
+	bool isPreShooting;
+	float preShootingTime;
 
 	Scene* loadedScene;
 

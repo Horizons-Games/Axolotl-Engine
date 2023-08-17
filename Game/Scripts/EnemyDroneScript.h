@@ -23,6 +23,7 @@ enum class DroneBehaviours
 	PATROL,
 	SEEK,
 	FASTATTACK,
+	READYTOEXPLODE,
 	EXPLOSIONATTACK
 };
 
@@ -46,7 +47,6 @@ private:
 
 	float attackDistance;
 	float seekDistance;
-	bool readyToExplode;
 	int animationOffset;
 
 	PatrolBehaviourScript* patrolScript;

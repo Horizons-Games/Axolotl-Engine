@@ -2,13 +2,13 @@
     "UID": 887342333510244496,
     "Type": "ParticleSystem",
     "TexturesAssetPaths": [
+        "Assets/Textures/Smoke15Alpha.png",
         "Assets/Textures/MaskForShader2.png",
-        "Assets/Textures/MaskForShader2.png",
-        "Assets/Textures/Smoke15.png"
+        "Assets/Textures/MaskForShader2.png"
     ],
     "ConfigEmitters": [
-        false,
         true,
-        true
+        true,
+        false
     ]
 }
