@@ -18,7 +18,6 @@ public:
 	~EntityDetection() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 
 	void UpdateEnemyDetection(float distanceFilter = 0.0f);
 
