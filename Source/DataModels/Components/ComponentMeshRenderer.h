@@ -53,7 +53,7 @@ public:
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
 	// Call FillBatchMaterial when you have finished using this and SetDiscard function
-	void SetUseDiffuseColor(bool useDiffuseColor);
+	void SetEffectColor(float4 effectColor);
 	// Call FillBatchMaterial when you have finished using this and SetUseDiffuseColor function
 	void SetDiscard(bool discard);
 	void FillBatchMaterial();
@@ -102,7 +102,7 @@ public:
 
 	const std::vector<float4x4>& GetPalette() const;
 
-	bool GetUseDiffuseColor() const;
+	float4 GetEffectColor() const;
 	bool IsDiscarded();
 
 	void UnloadTextures();
@@ -124,7 +124,7 @@ private:
 	WindowMeshInput* inputMesh;
 	WindowMaterialInput* inputMaterial;
 
-	bool useDiffuseColor;
+	float4 effectColor;
 	bool discard;
 
 	GeometryBatch* batch;

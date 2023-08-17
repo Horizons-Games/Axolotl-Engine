@@ -175,11 +175,10 @@ void GeometryBatch::FillMaterial()
 			MaterialMetallic newMaterial =
 			{
 				resourceMaterial->GetDiffuseColor(),
-				static_cast<int>(resourceMaterial->HasDiffuse() && !component->GetUseDiffuseColor()),
+				static_cast<int>(resourceMaterial->HasDiffuse()),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
 				resourceMaterial->HasEmissive(),
-				component->IsDiscarded(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength(),
@@ -219,11 +218,10 @@ void GeometryBatch::FillMaterial()
 			{
 				resourceMaterial->GetDiffuseColor(),
 				resourceMaterial->GetSpecularColor(),
-				static_cast<int>(resourceMaterial->HasDiffuse() && !component->GetUseDiffuseColor()),
+				static_cast<int>(resourceMaterial->HasDiffuse()),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),
-				component->IsDiscarded(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetNormalStrength(),
 				resourceMaterial->GetIntensityBloom()
@@ -470,6 +468,16 @@ void GeometryBatch::CreateVAO()
 
 	tilingData = static_cast<Tiling*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, count * sizeof(Tiling), mapFlags));
 
+	//Effect
+	if (effectBuffer == 0)
+	{
+		glGenBuffers(1, &effectBuffer);
+	}
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointEffect, effectBuffer, 0, count * sizeof(Effect));
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, count * sizeof(Effect), nullptr, createFlags);
+
+	effectData = static_cast<Effect*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, count * sizeof(Effect), mapFlags));
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
@@ -481,6 +489,7 @@ void GeometryBatch::ClearBuffer()
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
 	glDeleteBuffers(1, &tilingBuffer);
+	glDeleteBuffers(1, &effectBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }
@@ -651,6 +660,7 @@ void GeometryBatch::BindBatch(bool selected)
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointEffect, effectBuffer);
 
 	WaitBuffer();
 	
@@ -766,6 +776,9 @@ void GeometryBatch::BindBatch(bool selected)
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
+				Effect effect(component->IsDiscarded(), float4(1,1,1,0));
+				memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
+
 				//do a for for all the instaces existing
 				Command newCommand {
 					resource->GetNumIndexes(),	// Number of indices in the mesh
@@ -806,6 +819,9 @@ void GeometryBatch::BindBatch(bool selected)
 				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
+
+			Effect effect(component->IsDiscarded(), component->GetEffectColor());
+			memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 			//do a for for all the instaces existing
 			Command newCommand{
@@ -850,6 +866,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointEffect, effectBuffer);
 
 	WaitBuffer();
 
@@ -946,6 +963,9 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
+
+			Effect effect(component->IsDiscarded(), component->GetEffectColor());
+			memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 			//do a for for all the instaces existing
 			Command newCommand{
@@ -1044,6 +1064,7 @@ void GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
 	glDeleteBuffers(1, &tilingBuffer);
+	glDeleteBuffers(1, &effectBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }

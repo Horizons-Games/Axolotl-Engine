@@ -38,13 +38,13 @@
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
-	Component(ComponentType::MESHRENDERER, active, owner, true)
+	Component(ComponentType::MESHRENDERER, active, owner, true), effectColor(0.f, 0.f, 0.f, 0.f), discard(false)
 {
 }
 
 ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer) :
 	Component(componentMeshRenderer),
-	material(componentMeshRenderer.GetMaterial())
+	material(componentMeshRenderer.GetMaterial()), effectColor(0.f, 0.f, 0.f, 0.f), discard(false)
 {
 	SetOwner(componentMeshRenderer.GetOwner());
 	SetMesh(componentMeshRenderer.GetMesh());
@@ -638,9 +638,9 @@ void ComponentMeshRenderer::SetOffset(const float2& offset)
 	material->SetOffset(offset);
 }
 
-void ComponentMeshRenderer::SetUseDiffuseColor(bool useDiffuseColor)
+void ComponentMeshRenderer::SetEffectColor(float4 effectColor)
 {
-	this->useDiffuseColor = useDiffuseColor;
+	this->effectColor = effectColor;
 }
 
 void ComponentMeshRenderer::SetDiscard(bool discard)
@@ -650,7 +650,7 @@ void ComponentMeshRenderer::SetDiscard(bool discard)
 
 void ComponentMeshRenderer::FillBatchMaterial()
 {
-	batch->SetFillMaterials(true);
+	//batch->SetFillMaterials(true);
 }
 
 // Default shader attributes (setters)
@@ -670,9 +670,9 @@ void ComponentMeshRenderer::SetTransparent(bool isTransparent)
 	material->SetTransparent(isTransparent);
 }
 
-bool ComponentMeshRenderer::GetUseDiffuseColor() const
+float4 ComponentMeshRenderer::GetEffectColor() const
 {
-	return useDiffuseColor;
+	return effectColor;
 }
 
 bool ComponentMeshRenderer::IsDiscarded()

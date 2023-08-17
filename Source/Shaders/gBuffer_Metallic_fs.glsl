@@ -7,27 +7,24 @@
 
 #include "/Common/Functions/srgba_functions.glsl"
 
+#include "/Common/Structs/effect.glsl"
+
+#include "/Common/Structs/tiling.glsl"
+
 struct Material {
     vec4 diffuse_color;         //0 //16
     int has_diffuse_map;        //16 //4
     int has_normal_map;         //20 //4
     int has_metallic_map;       //24 //4
     int has_emissive_map;       //28 //4
-	int discardFrag;            //32 //4
-    float smoothness;           //36 //4
-    float metalness;            //40 //4
-    float normal_strength;      //44 //4
-	float intensityBloom;       //48 //4
-    sampler2D diffuse_map;      //56 //8
-    sampler2D normal_map;       //64 //8
-    sampler2D metallic_map;     //72 //8
-    sampler2D emissive_map;     //80 //8
-	int padding1, padding2;	    //88 //8 --> 96
-};
-
-struct Tiling {
-    vec2 tiling;                //0  //8
-    vec2 offset;                //8  //8 --> 16
+    float smoothness;           //32 //4
+    float metalness;            //36 //4
+    float normal_strength;      //40 //4
+	float intensityBloom;       //44 //4
+    sampler2D diffuse_map;      //48 //8
+    sampler2D normal_map;       //56 //8
+    sampler2D metallic_map;     //64 //8
+    sampler2D emissive_map;     //72 //8 --> 80
 };
 
 layout (location = 0) out vec3 gPosition;
@@ -44,6 +41,10 @@ readonly layout(std430, binding = 12) buffer Tilings {
     Tiling tilings[];
 };
 
+readonly layout(std430, binding = 13) buffer Effects {
+    Effect effects[];
+};
+
 in vec3 FragTangent;
 in vec3 Normal;
 in vec3 FragPos;
@@ -55,11 +56,14 @@ in flat int InstanceIndex;
 void main()
 {    
     Material material = materials[InstanceIndex];
-    if (material.discardFrag == 1)
+    Effect effect = effects[InstanceIndex];
+
+    if (effect.discardFrag == 1)
     {
         discard;
         return;
     }
+
     Tiling tiling = tilings[InstanceIndex];
 
     vec2 newTexCoord = TexCoord*tiling.tiling+tiling.offset;
@@ -68,7 +72,8 @@ void main()
     gNormal = Normal;
 
     vec4 metallicColor = texture(material.metallic_map, newTexCoord);
-    vec4 diffuseColor = texture(material.diffuse_map, newTexCoord);
+    vec4 diffuseColor = SRGBA(texture(material.diffuse_map, newTexCoord));
+    diffuseColor += effect.color;
 
     float metalnessMask = material.has_metallic_map * metallicColor.r + (1 - material.has_metallic_map) * 
      material.metalness;
@@ -91,7 +96,6 @@ void main()
     {
         gDiffuse = vec4(diffuseColor.rgb, diffuseColor.a);
     }
-    gDiffuse = SRGBA(gDiffuse);
 
     //Metallic and Smoothness
     gSpecular.a = material.smoothness;

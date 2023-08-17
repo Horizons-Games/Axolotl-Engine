@@ -125,7 +125,7 @@ void HealthSystem::TakeDamage(float damage)
 		{
 			hitEffectDuration = 0.f;
 			hasTakenDamage = true;
-			EffectDiffuseColor();
+			EffectColor();
 		}
 
 		if (componentParticleSystem)
@@ -180,18 +180,18 @@ void HealthSystem::EffectDiscard()
 {
 	for (ComponentMeshRenderer* mesh : meshes)
 	{
-		mesh->SetUseDiffuseColor(false);
+		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
 		mesh->SetDiscard(true);
 		mesh->FillBatchMaterial();
 	}
 }
 
-void HealthSystem::EffectDiffuseColor()
+void HealthSystem::EffectColor()
 {
 	for (ComponentMeshRenderer* mesh : meshes)
 	{
 		mesh->SetDiscard(false);
-		mesh->SetUseDiffuseColor(true);
+		mesh->SetEffectColor(float4(1.f, 0.f, 0.f, 0.f));
 		mesh->FillBatchMaterial();
 	}
 }
@@ -201,7 +201,7 @@ void HealthSystem::ClearEffect()
 	for (ComponentMeshRenderer* mesh : meshes)
 	{
 		mesh->SetDiscard(false);
-		mesh->SetUseDiffuseColor(false);
+		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
 		mesh->FillBatchMaterial();
 	}
 }

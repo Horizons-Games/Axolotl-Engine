@@ -9,6 +9,8 @@
 
 #include "/Common/Structs/lights.glsl"
 
+#include "/Common/Structs/effect.glsl"
+
 struct Material {
     vec4 diffuse_color;         //0  //16
     vec3 specular_color;        //16 //16
@@ -16,10 +18,9 @@ struct Material {
     int has_normal_map;         //36 //4
     int has_specular_map;       //40 //4
     int has_emissive_map;       //44 //4
-	int discardFrag;		    //48 //4
-    float smoothness;           //52 //4
-    float normal_strength;      //56 //4
-	float intensityBloom;		//60 //4
+    float smoothness;           //48 //4
+    float normal_strength;      //52 //4
+	float intensityBloom;		//56 //4
     sampler2D diffuse_map;      //64 //8
     sampler2D normal_map;       //72 //8
     sampler2D specular_map;     //80 //8
@@ -58,6 +59,10 @@ readonly layout(std430, binding=5) buffer AreaLightsTube
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 13) buffer Effects {
+    Effect effects[];
 };
 
 // IBL
@@ -278,11 +283,14 @@ vec3 posA = areaTube[i].positionA.xyz;
 void main()
 {
     Material material = materials[InstanceIndex];
-    if (material.discardFrag == 1)
+    Effect effect = effects[InstanceIndex];
+
+    if (effect.discardFrag == 1)
     {
         discard;
         return;
     }
+
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
@@ -294,6 +302,7 @@ void main()
         //textureMat = pow(textureMat, vec3(2.2));
     }
     textureMat = SRGBA(textureMat);
+    textureMat += effect.color;
     
     //Transparency
     textureMat.a = material.has_diffuse_map * textureMat.a + 

@@ -7,6 +7,10 @@
 
 #include "/Common/Functions/srgba_functions.glsl"
 
+#include "/Common/Structs/effect.glsl"
+
+#include "/Common/Structs/tiling.glsl"
+
 struct Material {
     vec4 diffuse_color;         //0  //16
     vec3 specular_color;        //16 //16
@@ -14,19 +18,13 @@ struct Material {
     int has_normal_map;         //36 //4
     int has_specular_map;       //40 //4
     int has_emissive_map;       //44 //4
-	int discardFrag;		    //48 //4
-    float smoothness;           //52 //4
-    float normal_strength;      //56 //4
-	float intensityBloom;		//60 //4
+    float smoothness;           //48 //4
+    float normal_strength;      //52 //4
+	float intensityBloom;		//56 //4
     sampler2D diffuse_map;      //64 //8
     sampler2D normal_map;       //72 //8
     sampler2D specular_map;     //80 //8
     sampler2D emissive_map;     //88 //8 --> 96
-};
-
-struct Tiling {
-    vec2 tiling;                //0  //8
-    vec2 offset;                //8  //8 --> 16
 };
 
 layout (location = 0) out vec3 gPosition;
@@ -43,6 +41,10 @@ readonly layout(std430, binding = 12) buffer Tilings {
     Tiling tilings[];
 };
 
+readonly layout(std430, binding = 13) buffer Effects {
+    Effect effects[];
+};
+
 in vec3 FragTangent;
 in vec3 Normal;
 in vec3 FragPos;
@@ -54,11 +56,14 @@ in flat int InstanceIndex;
 void main()
 {    
     Material material = materials[InstanceIndex];
-    if (material.discardFrag == 1)
+    Effect effect = effects[InstanceIndex];
+
+    if (effect.discardFrag == 1)
     {
         discard;
         return;
     }
+
     Tiling tiling = tilings[InstanceIndex];
 
     vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
@@ -73,6 +78,7 @@ void main()
         gDiffuse = texture(material.diffuse_map, newTexCoord);
     }
     gDiffuse = SRGBA(gDiffuse);
+    gDiffuse += effect.color;
 
     //Normals
     if (material.has_normal_map == 1)

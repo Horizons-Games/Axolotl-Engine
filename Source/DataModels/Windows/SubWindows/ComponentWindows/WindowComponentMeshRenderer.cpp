@@ -282,15 +282,6 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				updateMaterials = true;
 			}
 
-			bool useDiffuseColor = asMeshRenderer->GetUseDiffuseColor();
-			ImGui::Text("Use Diffuse Color:");
-			ImGui::SameLine();
-			if(ImGui::Checkbox("##UseDiffuseColor", &useDiffuseColor))
-			{
-				asMeshRenderer->SetUseDiffuseColor(useDiffuseColor);
-				updateMaterials = true;
-			}
-
 			if (materialResource->GetShaderType() == 1)
 			{
 				ImGui::Text("Specular Color:");

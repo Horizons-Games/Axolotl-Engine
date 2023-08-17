@@ -37,7 +37,7 @@ private:
 	void FillMeshes(GameObject* parent);
 
 	void EffectDiscard();
-	void EffectDiffuseColor();
+	void EffectColor();
 	void ClearEffect();
 
 	float currentHealth;
