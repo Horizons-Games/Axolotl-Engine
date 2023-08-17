@@ -658,11 +658,6 @@ void ComponentMeshRenderer::SetDiscard(bool discard)
 	this->discard = discard;
 }
 
-void ComponentMeshRenderer::FillBatchMaterial()
-{
-	//batch->SetFillMaterials(true);
-}
-
 // Default shader attributes (setters)
 void ComponentMeshRenderer::SetMetalness(float metalness)
 {
