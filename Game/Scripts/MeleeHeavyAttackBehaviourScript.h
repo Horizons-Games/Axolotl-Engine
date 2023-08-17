@@ -17,6 +17,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
 class ComponentAnimation;
+class ComponentParticleSystem;
 class EnemyDeathScript;
 class AIMovement;
 
@@ -43,12 +44,14 @@ private:
 	GameObject* targetPlayer;
 
 	ComponentRigidBody* rigidBody;
-	ComponentTransform* parentTransform;
+	ComponentTransform* transform;
 	EnemyDeathScript* parentDeathScript;
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;
+	ComponentParticleSystem* particleSystem;
 	AIMovement* aiMovement;
 
 	float explosionDamage;
 	float explosionTime;
+	float explosionDistance;
 };

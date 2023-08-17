@@ -6,6 +6,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDeathScript.h"
@@ -14,20 +15,24 @@
 
 #include "Auxiliar/Audio/AudioData.h"
 
+#include "debugdraw.h"
+
 REGISTERCLASS(MeleeHeavyAttackBehaviourScript);
 
 MeleeHeavyAttackBehaviourScript::MeleeHeavyAttackBehaviourScript() : Script(), aiMovement(nullptr),
 	attackState(ExplosionState::NOTDEAD), targetPlayer(nullptr), explosionDamage(30.0f), componentAnimation(nullptr),
-	explosionTime(3.0f), parentDeathScript(nullptr)
+	explosionTime(3.0f), parentDeathScript(nullptr), explosionDistance(4.0f), particleSystem(nullptr)
 {
 	REGISTER_FIELD(explosionDamage, float);
 	REGISTER_FIELD(explosionTime, float);
+	REGISTER_FIELD(explosionDistance, float);
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
 
 void MeleeHeavyAttackBehaviourScript::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	transform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentDeathScript = owner->GetParent()->GetComponent<EnemyDeathScript>();
 	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetParent()->GetComponent<ComponentAnimation>();
@@ -37,22 +42,35 @@ void MeleeHeavyAttackBehaviourScript::Start()
 
 void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 {
-	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
+	rigidBody->SetPositionTarget(transform->GetGlobalPosition());
 
 	if (attackState == ExplosionState::WAITING_EXPLOSION)
 	{
 		explosionTime -= deltaTime;
 		UpdateDroneColor();
 
+
+
 		if (explosionTime < 0)
 		{
 			attackState = ExplosionState::EXPLODING;
 		}
+
+#ifdef ENGINE
+		dd::sphere(transform->GetGlobalPosition(), dd::colors::DarkViolet, explosionDistance);
+#endif // ENGINE
+
 	}
 
 	else if (attackState == ExplosionState::EXPLODING)
 	{
-		if (targetPlayer)
+		if (particleSystem)
+		{
+			particleSystem->Stop();
+		}
+
+		if (targetPlayer && transform->GetGlobalPosition().Equals
+		(targetPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition(), explosionDistance))
 		{
 			targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
 		}
@@ -75,6 +93,11 @@ void MeleeHeavyAttackBehaviourScript::TriggerExplosion()
 {
 	SeekBehaviourScript* enemySeekBehaviour = owner->GetParent()->GetComponent<SeekBehaviourScript>();
 	float3 targetPos = enemySeekBehaviour->GetTarget()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+
+	if (particleSystem)
+	{
+		particleSystem->Play();
+	}
 	
 	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
 	attackState = ExplosionState::WAITING_EXPLOSION;

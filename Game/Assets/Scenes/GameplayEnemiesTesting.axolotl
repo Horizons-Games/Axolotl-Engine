@@ -13082,6 +13082,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 16394625390761108473,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -16093,6 +16103,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -25662,6 +25682,44 @@
                             "removed": true,
                             "particleSystemUID": 15094355736712813101,
                             "assetPathParticleSystem": "Assets/ParticleSystem/DronePreShotVFX.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SeekExplosion_VFX",
+                "tag": "",
+                "uid": 16394625390761108473,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.011224746704101563,
+                            "localPos_Y": 0.4416041374206543,
+                            "localPos_Z": -0.06968605518341064,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 17638198151683262364,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/DroneSeekExplosion.particle",
                             "playAtStart": false
                         }
                     }
