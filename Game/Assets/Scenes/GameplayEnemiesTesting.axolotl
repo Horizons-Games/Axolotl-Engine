@@ -6527,7 +6527,7 @@
                             "isKinematic": false,
                             "isTrigger": true,
                             "drawCollider": true,
-                            "mass": 100.0,
+                            "mass": 1.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
@@ -25328,14 +25328,14 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.003787994384765625,
-                            "localPos_Y": -0.3643173575401306,
+                            "localPos_Y": -0.26252150535583496,
                             "localPos_Z": 0.6750226020812988,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 0.07500000298023224,
+                            "localSca_Y": 0.07500000298023224,
+                            "localSca_Z": 0.07500000298023224
                         }
                     }
                 ]
@@ -25371,9 +25371,48 @@
                             "type": "Component_Particle",
                             "active": true,
                             "removed": true,
-                            "particleSystemUID": 17849944368398849094,
-                            "assetPathParticleSystem": "Assets/ParticleSystem/NewSpark1.particle",
+                            "particleSystemUID": 887342333510244496,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ExplosionDrone.particle",
                             "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 4924296682206373544,
+                "parentUID": 2710646517734464295,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
                         }
                     }
                 ]
