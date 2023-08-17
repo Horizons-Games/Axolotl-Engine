@@ -120,7 +120,9 @@ struct LinearAllocator : public dtTileCacheAlloc
 	void resize(const int cap)
 	{
 		if (buffer)
+		{
 			dtFree(buffer);
+		}
 		buffer = (unsigned char*) dtAlloc(cap, DT_ALLOC_PERM);
 		capacity = cap;
 	}
@@ -134,11 +136,17 @@ struct LinearAllocator : public dtTileCacheAlloc
 	virtual void* alloc(const size_t size) override
 	{
 		if (!buffer)
+		{
 			return 0;
+		}
 		if (top + static_cast<int>(size) > capacity)
+		{
 			return 0;
+		}
+
 		unsigned char* mem = &buffer[top];
-		top += size;
+		top += static_cast<int>(size);
+
 		return mem;
 	}
 
@@ -168,7 +176,9 @@ struct MeshProcess : public dtTileCacheMeshProcess
 		for (int i = 0; i < params->polyCount; ++i)
 		{
 			if (polyAreas[i] == DT_TILECACHE_WALKABLE_AREA)
+			{
 				polyAreas[i] = SAMPLE_POLYAREA_GROUND;
+			}
 
 			if (polyAreas[i] == SAMPLE_POLYAREA_GROUND || polyAreas[i] == SAMPLE_POLYAREA_GRASS ||
 				polyAreas[i] == SAMPLE_POLYAREA_ROAD)
@@ -303,7 +313,9 @@ static int RasterizeTileLayers(float* verts,
 		rcMarkWalkableTriangles(ctx, tcfg.walkableSlopeAngle, verts, nVerts, tris, ntris, rc.triareas);
 
 		if (!rcRasterizeTriangles(ctx, verts, nVerts, tris, rc.triareas, ntris, *rc.solid, tcfg.walkableClimb))
+		{
 			return 0;
+		}
 	}
 
 	// Once all geometry is rasterized, we do initial pass of filtering to
@@ -429,7 +441,9 @@ void DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 	{
 		const dtCompressedTile* tile = tc->getTile(i);
 		if (!tile->header)
+		{
 			continue;
+		}
 
 		tc->calcTightTileBounds(tile->header, bmin, bmax);
 
@@ -442,7 +456,9 @@ void DrawTiles(duDebugDraw* dd, dtTileCache* tc)
 	{
 		const dtCompressedTile* tile = tc->getTile(i);
 		if (!tile->header)
+		{
 			continue;
+		}
 
 		tc->calcTightTileBounds(tile->header, bmin, bmax);
 
@@ -460,9 +476,13 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	{
 		const dtTileCacheObstacle* ob = tc->getObstacle(i);
 		if (ob->state == DT_OBSTACLE_EMPTY)
+		{
 			continue;
+		}
 		if (!ob->mustBeDrawnGizmo)
+		{
 			continue;
+		}
 		float bmin[3], bmax[3];
 		tc->getObstacleBounds(ob, bmin, bmax);
 
@@ -666,8 +686,8 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 		{
 			TileCacheData tiles[MAX_LAYERS];
 			memset(tiles, 0, sizeof(tiles));
-			int ntiles =
-				RasterizeTileLayers(&verts[0], verts.size(), ntris, ctx, chunkyMesh, x, y, cfg, tiles, MAX_LAYERS);
+			int ntiles = RasterizeTileLayers(
+				&verts[0], static_cast<int>(verts.size()), ntris, ctx, chunkyMesh, x, y, cfg, tiles, MAX_LAYERS);
 
 			for (int i = 0; i < ntiles; ++i)
 			{

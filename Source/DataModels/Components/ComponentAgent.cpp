@@ -32,13 +32,19 @@ void ComponentAgent::Update()
 		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated())
+	{
 		return;
+	}
 
 	// Try to add the agent to the crowd
 	if (shouldAddAgentToCrowd)
+	{
 		AddAgentToCrowd();
+	}
 	if (agentId == -1)
+	{
 		return;
+	}
 
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
@@ -60,7 +66,9 @@ void ComponentAgent::SetMoveTarget(float3 newTargetPosition, bool usePathfinding
 		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId == -1)
+	{
 		return;
+	}
 
 	// Find nearest point on navmesh and set move request to that location.
 	dtNavMeshQuery* navquery = navMesh->GetNavMeshQuery();
@@ -154,7 +162,9 @@ void ComponentAgent::AddAgentToCrowd()
 		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId != -1)
+	{
 		return;
+	}
 
 	// PARAMS INIT
 	dtCrowdAgentParams ap;
@@ -193,7 +203,9 @@ void ComponentAgent::RemoveAgentFromCrowd()
 		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId == -1)
+	{
 		return;
+	}
 
 	navMesh->GetCrowd()->removeAgent(agentId);
 	agentId = -1;
@@ -205,7 +217,9 @@ float3 ComponentAgent::GetVelocity() const
 		return float3::zero;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId == -1)
+	{
 		return float3::zero;
+	}
 
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
 

@@ -1456,8 +1456,8 @@ std::vector<int> Scene::GetTriangles()
 		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
 		{
 			//triangles += meshFaces.size() / 3;
-			triangles += mesh->GetFacesIndices().size();
-			maxVertMesh.push_back(mesh->GetVertices().size());
+			triangles += static_cast<int>(mesh->GetFacesIndices().size());
+			maxVertMesh.push_back(static_cast<int>(mesh->GetVertices().size()));
 		}
 	}
 	std::vector<int> result(triangles * 3);

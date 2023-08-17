@@ -15,7 +15,9 @@ ComponentObstacle::ComponentObstacle(bool active, GameObject* owner) :
 	//This should be done in the init
 	currentPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 	if (IsEnabled())
+	{
 		AddObstacle();
+	}
 }
 
 ComponentObstacle::~ComponentObstacle()
@@ -33,12 +35,16 @@ void ComponentObstacle::Update()
 		currentPosition = newPosition;
 		currentRotation = newRotation;
 		if (IsEnabled())
+		{
 			AddObstacle();
+		}
 	}
 
 	// Try to add the obstacle
 	if (shouldAddObstacle)
+	{
 		AddObstacle();
+	}
 }
 
 void ComponentObstacle::AddObstacle()
