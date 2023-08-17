@@ -39,12 +39,13 @@ BixAttackScript::BixAttackScript() : Script(),
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
-	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), bixLightSaber(nullptr),
-	isJumpAttacking(false)
+	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
+	isJumpAttacking(false),
+	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f)
 {
-	//REGISTER_FIELD(comboInitTimer, float);
 	REGISTER_FIELD(comboCountHeavy, float);
-	REGISTER_FIELD(comboCountSoft, float);
+	REGISTER_FIELD(comboCountLight, float);
+	REGISTER_FIELD(comboCountJump, float);
 
 	REGISTER_FIELD(attackSoft, float);
 	REGISTER_FIELD(attackHeavy, float);
@@ -55,7 +56,7 @@ BixAttackScript::BixAttackScript() : Script(),
 
 	REGISTER_FIELD(enemyDetection, EntityDetection*);
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
-	REGISTER_FIELD(bixLightSaber, GameObject*);
+	REGISTER_FIELD(lightWeapon, GameObject*);
 }
 
 void BixAttackScript::Start()
@@ -157,7 +158,7 @@ void BixAttackScript::LightNormalAttack()
 	if(enemyAttacked != nullptr)
 	{
 		LOG_VERBOSE("Enemy hit with light attack");
-		comboSystem->SuccessfulAttack(comboCountSoft, AttackType::LIGHTNORMAL);
+		comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
 		DamageEnemy(enemyAttacked, attackSoft);
 	}
 
@@ -196,10 +197,16 @@ void BixAttackScript::JumpNormalAttack()
 	isAttacking = true;
 	isJumpAttacking = true;
 
-	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
-	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
+	if (owner->GetName() == "PrefabBix")
+	{
+		jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
+	}
+	else if (owner->GetName() == "PrefabArulla")
+	{
+		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
+	}
 
-	comboSystem->SuccessfulAttack(20.0f, AttackType::JUMPNORMAL);
+	comboSystem->SuccessfulAttack(comboCountJump, AttackType::JUMPNORMAL);
 }
 
 void BixAttackScript::LightFinisher()
@@ -209,12 +216,12 @@ void BixAttackScript::LightFinisher()
 
 	lightFinisherScript->ThrowStunItem();
 
-	comboSystem->SuccessfulAttack(-20.0f, AttackType::LIGHTFINISHER);
+	comboSystem->SuccessfulAttack(-comboCountLight * 2, AttackType::LIGHTFINISHER);
 }
 
 void BixAttackScript::HeavyFinisher()
 {
-	bixLightSaber->Disable();
+	lightWeapon->Disable();
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	animation->SetParameter("HeavyFinisherExit", false);
 	animation->SetParameter("HeavyFinisherInit", true);
@@ -223,12 +230,12 @@ void BixAttackScript::HeavyFinisher()
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
 			GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-50.0f, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-comboCountHeavy * 2, AttackType::HEAVYFINISHER);
 	}
 	else
 	{
 		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-50.0f, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-comboCountHeavy * 2, AttackType::HEAVYFINISHER);
 	}
 }
 
@@ -238,10 +245,16 @@ void BixAttackScript::JumpFinisher()
 	isAttacking = true;
 	isJumpAttacking = true;
 
-	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
-	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
+	if(owner->GetName() == "PrefabBix")
+	{
+		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
+	}
+	else if(owner->GetName() == "PrefabArulla")
+	{
+		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
+	}
 
-	comboSystem->SuccessfulAttack(-35.0f, AttackType::JUMPFINISHER);
+	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
 }
 
 void BixAttackScript::ResetAttackAnimations()
@@ -300,7 +313,7 @@ void BixAttackScript::ResetAttackAnimations()
 			{
 				animation->SetParameter("HeavyFinisherInit", false);
 				animation->SetParameter("HeavyFinisherExit", true);
-				bixLightSaber->Enable();
+				lightWeapon->Enable();
 				isAttacking = false;
 			}
 			break;

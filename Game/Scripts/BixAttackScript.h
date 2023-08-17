@@ -79,8 +79,9 @@ private:
 
 	EntityDetection* enemyDetection;
 	ComboManager* comboSystem;
-	float comboCountSoft;
+	float comboCountLight;
 	float comboCountHeavy;
+	float comboCountJump;
 	float attackSoft;
 	float attackHeavy;
 
@@ -93,5 +94,5 @@ private:
 	JumpFinisherAttack* jumpFinisherScript;
 	LightFinisherAttackScript* lightFinisherScript;
 	HeavyFinisherAttack* heavyFinisherAttack;
-	GameObject* bixLightSaber;
+	GameObject* lightWeapon;
 };
