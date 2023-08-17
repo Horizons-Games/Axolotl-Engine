@@ -16,6 +16,7 @@
 ComponentAgent::ComponentAgent(bool active, GameObject* owner) :
 	Component(ComponentType::AGENT, active, owner, true)
 {
+	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 }
 
 ComponentAgent::~ComponentAgent()
@@ -41,14 +42,13 @@ void ComponentAgent::Update()
 		return;
 
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-
+	
 	float3 newPos = float3(ag->npos);
-	float3 newRot = CalculateRotationToPosition(newPos);
+	Quat newRot = CalculateRotationToPosition(newPos);
 
 	newPos.y += yOffset;
 	transform->SetGlobalPosition(newPos);
-	//transform->SetGlobalRotation(newRot);
+	transform->SetGlobalRotation(newRot);
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 
@@ -185,7 +185,7 @@ void ComponentAgent::AddAgentToCrowd()
 	ap.separationWeight = 2;
 
 	agentId =
-		navMesh->GetCrowd()->addAgent(GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().ptr(), &ap);
+		navMesh->GetCrowd()->addAgent(transform->GetGlobalPosition().ptr(), &ap);
 
 	shouldAddAgentToCrowd = false;
 }
@@ -221,9 +221,50 @@ float3 ComponentAgent::GetVelocity() const
 	return float3::zero;
 }
 
-float3 ComponentAgent::CalculateRotationToPosition(float3 newPosition)
+Quat ComponentAgent::CalculateRotationToPosition(float3 newPosition)
 {
-	return float3::zero;
+	float deltaTime = App->GetDeltaTime();
+	Quat globalRotation = transform->GetGlobalRotation();
+
+	float3 newPos = (targetPosition - transform->GetGlobalPosition()).Normalized();
+	float3 forward = transform->GetGlobalForward().Normalized();
+	Quat rot = Quat::RotateFromTo(forward, newPos);
+	float3 eulerRot = rot.ToEulerXYZ();
+	rot = Quat::FromEulerXYZ(0.0f, eulerRot.y, 0.0f);
+
+	Quat newRot = rot * globalRotation;
+
+	if (!rot.Equals(Quat::identity, 0.05f))
+	{
+		float3 axis;
+		float angle;
+		rot.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 velocityRotation = axis * angle * 5.0f;
+		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+		Quat wq_0 = angularVelocityQuat * globalRotation;
+
+		float deltaValue = 0.5f * deltaTime;
+		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+		if (deltaRotation.Length() > rot.Length())
+		{
+			return newRot;
+		}
+		else
+		{
+			Quat nextRotation(globalRotation.x + deltaRotation.x,
+							  globalRotation.y + deltaRotation.y,
+							  globalRotation.z + deltaRotation.z,
+							  globalRotation.w + deltaRotation.w);
+			nextRotation.Normalize();
+
+			return nextRotation;
+		}
+	}
+
+	return globalRotation;
 }
 
 void ComponentAgent::InternalSave(Json& meta)

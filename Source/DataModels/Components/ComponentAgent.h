@@ -31,7 +31,7 @@ public:
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
-	float3 CalculateRotationToPosition(float3 newPosition);
+	Quat CalculateRotationToPosition(float3 newPosition);
 
 	unsigned int targetPolygon = 0;		  // Target Polygon of the NavMesh to navigate
 	float3 targetPosition = float3::zero; // Target position of the NavMesh to navigate
@@ -43,6 +43,8 @@ private:
 	bool avoidingObstacle = true;
 	bool shouldAddAgentToCrowd = true;
 	bool updateRigidBody = false;
+
+	ComponentTransform* transform;
 
 };
 
