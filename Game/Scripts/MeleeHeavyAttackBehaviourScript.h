@@ -16,6 +16,7 @@ enum class ExplosionState
 class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
+class ComponentAnimation;
 class EnemyDeathScript;
 class AIMovement;
 
@@ -45,6 +46,7 @@ private:
 	ComponentTransform* parentTransform;
 	EnemyDeathScript* parentDeathScript;
 	ComponentAudioSource* componentAudioSource;
+	ComponentAnimation* componentAnimation;
 	AIMovement* aiMovement;
 
 	float explosionDamage;

@@ -23,7 +23,7 @@ REGISTERCLASS(EnemyDroneScript);
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
 componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr), readyToExplode(false),
-explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr)
+explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), animationOffset(0)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -88,7 +88,8 @@ void EnemyDroneScript::CheckState()
 {
 	if (readyToExplode)
 	{
-		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch")
+		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
+			&& animationOffset >= 1)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			heavyAttackScript->TriggerExplosion();
@@ -97,6 +98,7 @@ void EnemyDroneScript::CheckState()
 
 			droneState = DroneBehaviours::EXPLOSIONATTACK;
 		}
+		animationOffset++;
 	}
 	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance))
 	{

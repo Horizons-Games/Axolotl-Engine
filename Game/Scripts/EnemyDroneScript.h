@@ -47,6 +47,7 @@ private:
 	float attackDistance;
 	float seekDistance;
 	bool readyToExplode;
+	int animationOffset;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;

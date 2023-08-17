@@ -10158,7 +10158,7 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 30.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -13136,7 +13136,7 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -16377,7 +16377,7 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -20088,7 +20088,7 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -25336,6 +25336,44 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Explosion_VFX",
+                "tag": "",
+                "uid": 14960402236157951178,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -3.1934127807617188,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 17849944368398849094,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/NewSpark1.particle",
+                            "playAtStart": false
                         }
                     }
                 ]

@@ -5,6 +5,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDeathScript.h"
@@ -16,7 +17,7 @@
 REGISTERCLASS(MeleeHeavyAttackBehaviourScript);
 
 MeleeHeavyAttackBehaviourScript::MeleeHeavyAttackBehaviourScript() : Script(), aiMovement(nullptr),
-	attackState(ExplosionState::NOTDEAD), targetPlayer(nullptr), explosionDamage(30.0f),
+	attackState(ExplosionState::NOTDEAD), targetPlayer(nullptr), explosionDamage(30.0f), componentAnimation(nullptr),
 	explosionTime(3.0f), parentDeathScript(nullptr)
 {
 	REGISTER_FIELD(explosionDamage, float);
@@ -29,6 +30,7 @@ void MeleeHeavyAttackBehaviourScript::Start()
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentDeathScript = owner->GetParent()->GetComponent<EnemyDeathScript>();
 	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
+	componentAnimation = owner->GetParent()->GetComponent<ComponentAnimation>();
 	aiMovement = owner->GetParent()->GetComponent<AIMovement>();
 	rigidBody->SetKpForce(50);
 }
@@ -55,6 +57,7 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 			targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
 		}
 
+		componentAnimation->SetParameter("IsDead", true);
 		owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 		attackState = ExplosionState::DEAD;
 		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_TIMER);
@@ -72,7 +75,7 @@ void MeleeHeavyAttackBehaviourScript::TriggerExplosion()
 {
 	SeekBehaviourScript* enemySeekBehaviour = owner->GetParent()->GetComponent<SeekBehaviourScript>();
 	float3 targetPos = enemySeekBehaviour->GetTarget()->GetComponent<ComponentTransform>()->GetGlobalPosition();
-
+	
 	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
 	attackState = ExplosionState::WAITING_EXPLOSION;
 }
