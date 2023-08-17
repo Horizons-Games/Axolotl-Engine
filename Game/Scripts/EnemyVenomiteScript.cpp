@@ -183,3 +183,8 @@ void EnemyVenomiteScript::UpdateBehaviour()
 
 	}
 }
+
+void EnemyVenomiteScript::SetReadyToDie()
+{
+	componentAnimation->SetParameter("IsTakingDamage", true);
+}

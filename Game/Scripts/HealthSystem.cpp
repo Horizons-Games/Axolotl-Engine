@@ -6,6 +6,7 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/BixAttackScript.h"
+#include "../Scripts/EnemyClass.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
@@ -13,7 +14,8 @@
 REGISTERCLASS(HealthSystem);
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr), enemyOwner(nullptr),
+	damageTaken(false)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -48,27 +50,33 @@ void HealthSystem::Start()
 	{
 		attackScript = owner->GetComponent<BixAttackScript>();
 	}
+	else if (owner->CompareTag("Enemy"))
+	{
+		enemyOwner = owner->GetComponent<EnemyClass>();
+	}
 }
 
 void HealthSystem::Update(float deltaTime)
 {
 	if (!EntityIsAlive() && owner->CompareTag("Player"))
 	{
+		
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
 		playerDeathManager->ManagePlayerDeath();
+			
 	}
 
-	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
+	/*else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
 		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
 		enemyDeathManager->ManageEnemyDeath();
-	}
+	}*/
 
 	// This if/else should ideally be called inside the TakeDamage function
 	// 
 	// By setting this here, we make certain that 'IsTakingDamage' remains as true during a couple frames
 	// so the state machine could behave correctly (we could delete this once we have a way to delay any function calls)
-	if (currentHealth <= 0)
+	/*if (currentHealth <= 0)
 	{
 		componentAnimation->SetParameter("IsDead", true);
 	}
@@ -76,6 +84,11 @@ void HealthSystem::Update(float deltaTime)
 	else
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
+	}*/
+	if (damageTaken)
+	{
+		componentAnimation->SetParameter("IsTakingDamage", false);
+		damageTaken = false;
 	}
 }
 
@@ -83,20 +96,38 @@ void HealthSystem::TakeDamage(float damage)
 {
 	if (!isImmortal) 
 	{
-		if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
+		if (owner->CompareTag("Enemy"))
+		{
+			if (currentHealth - damage <= 0)
+			{
+				enemyOwner->SetReadyToDie();
+				damageTaken = true;
+			}
+			else
+			{
+				currentHealth -= damage;
+			}
+		}
+		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
 
 			currentHealth -= actualDamage;
+
+			if (currentHealth - damage <= 0)
+			{
+				PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
+				playerDeathManager->ManagePlayerDeath();
+				componentAnimation->SetParameter("IsDead", true);
+			}
+			else
+			{
+				componentAnimation->SetParameter("IsTakingDamage", true);
+				damageTaken = true;
+			}
 		}
 
-		else
-		{
-			currentHealth -= damage;
-		}
-
-		componentAnimation->SetParameter("IsTakingDamage", true);
 		if (componentParticleSystem)
 		{
 			componentParticleSystem->Play();

@@ -9,6 +9,8 @@ class ComponentAnimation;
 class ComponentParticleSystem;
 
 class BixAttackScript;
+class EnemyClass;
+
 
 class HealthSystem : public Script
 {
@@ -34,10 +36,12 @@ private:
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
+	bool damageTaken;
 	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
 
 	BixAttackScript* attackScript;
+	EnemyClass* enemyOwner;
 };

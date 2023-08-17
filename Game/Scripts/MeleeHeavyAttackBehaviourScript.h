@@ -16,7 +16,7 @@ enum class ExplosionState
 class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
-class HealthSystem;
+class EnemyDeathScript;
 class AIMovement;
 
 class MeleeHeavyAttackBehaviourScript : public Script
@@ -43,7 +43,7 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
-	HealthSystem* parentHealthSystem;
+	EnemyDeathScript* parentDeathScript;
 	ComponentAudioSource* componentAudioSource;
 	AIMovement* aiMovement;
 

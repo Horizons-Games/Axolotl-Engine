@@ -35,6 +35,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void SetReadyToDie() override;
+
 private:
 	void CalculateNextPosition() const;
 	void CheckState();
@@ -44,6 +46,7 @@ private:
 
 	float attackDistance;
 	float seekDistance;
+	bool readyToExplode;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;

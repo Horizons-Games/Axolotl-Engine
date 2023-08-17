@@ -14,13 +14,15 @@
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/AIMovement.h"
 
+#include "AxoLog.h"
+
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr),
+componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr), readyToExplode(false),
 explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
@@ -84,9 +86,9 @@ void EnemyDroneScript::Update(float deltaTime)
 
 void EnemyDroneScript::CheckState()
 {
-	if (healthScript->GetCurrentHealth() <= playerManager->GetPlayerAttack())
+	if (readyToExplode)
 	{
-		if (droneState != DroneBehaviours::EXPLOSIONATTACK)
+		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch")
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			heavyAttackScript->TriggerExplosion();
@@ -217,4 +219,11 @@ void EnemyDroneScript::CalculateNextPosition() const
 	nextPosition += seekTargetTransform->GetGlobalPosition();
 	nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
 	fastAttackScript->Reposition(nextPosition);
+}
+
+void EnemyDroneScript::SetReadyToDie()
+{
+	LOG_VERBOSE("Set ready to die drone");
+	componentAnimation->SetParameter("IsTakingDamage", true);
+	readyToExplode = true;
 }
