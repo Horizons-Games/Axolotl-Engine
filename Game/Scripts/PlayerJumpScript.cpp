@@ -63,8 +63,6 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 
 	CheckGround();
 	Jump(deltaTime);
-
-	LOG_VERBOSE("{}", isGrounded);
 }
 
 void PlayerJumpScript::CheckGround()
