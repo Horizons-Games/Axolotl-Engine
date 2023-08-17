@@ -5,6 +5,7 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAgent.h"
 
 REGISTERCLASS(AIMovement);
 
@@ -21,6 +22,7 @@ void AIMovement::Start()
 {
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	agent = owner->GetComponentInternal<ComponentAgent>();
 
 	forwardVector = componentTransform->GetGlobalForward();
 
@@ -29,7 +31,14 @@ void AIMovement::Start()
 
 void AIMovement::Update(float deltaTime)
 {
-	MoveToTarget(deltaTime);
+	if (agent)
+	{
+		AgentMoveToTarget();
+	}
+	else
+	{
+		MoveToTarget(deltaTime);
+	}
 
 	RotateToTarget(deltaTime);
 
@@ -71,7 +80,7 @@ void AIMovement::RotateToTarget(float deltaTime)
 	btTransform worldTransform = rigidBody->GetRigidBody()->getWorldTransform();
 	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), forwardVector, float3::unitY, float3::unitY);
 	Quat rotation = componentTransform->GetGlobalRotation();
-	Quat targetRotation = rot * componentTransform->GetGlobalRotation();
+	Quat targetRotation = rot * rotation;
 
 	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
 	rotationError.Normalize();
@@ -118,6 +127,15 @@ void AIMovement::RotateToTarget(float deltaTime)
 
 	rigidBody->GetRigidBody()->setWorldTransform(worldTransform);
 	rigidBody->GetRigidBody()->getMotionState()->setWorldTransform(worldTransform);
+	//rigidBody->UpdateRigidBody();
+}
+
+void AIMovement::AgentMoveToTarget()
+{
+	agent->SetMoveTarget(targetPosition);
+	/*if (movementActivated)
+	{
+	}*/
 }
 
 void AIMovement::SetTargetPosition(float3 targetPos)

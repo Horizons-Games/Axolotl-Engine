@@ -4,6 +4,7 @@
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAgent;
 
 class AIMovement : public Script
 {
@@ -23,6 +24,7 @@ private:
 
 	ComponentTransform* componentTransform;
 	ComponentRigidBody* rigidBody;
+	ComponentAgent* agent;
 
 	float3 targetPosition;
 	float3 forwardVector;
@@ -35,6 +37,7 @@ private:
 	bool isAtDestiny;
 
 	void MoveToTarget(float deltaTime);
+	void AgentMoveToTarget();
 	void RotateToTarget(float deltaTime);
 	void CheckIfHasArrived();
 };

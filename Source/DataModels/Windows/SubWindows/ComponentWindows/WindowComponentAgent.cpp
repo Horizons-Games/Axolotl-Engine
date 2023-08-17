@@ -24,6 +24,7 @@ void WindowComponentAgent::DrawWindowContents()
 	{
 		float maxSpeed = asAgent->GetMaxSpeed();
 		float maxAcceleration = asAgent->GetMaxAcceleration();
+		float yOffset = asAgent->GetYOffset();
 		bool avoidingObstacle = asAgent->IsAvoidingObstacle();
 		bool updateRigidBody = asAgent->GetUpdateRigidBody();
 
@@ -35,6 +36,11 @@ void WindowComponentAgent::DrawWindowContents()
 		if (ImGui::DragFloat("Agent max acceleration", &maxAcceleration, 0.1f, 0.0f, FLT_MAX))
 		{
 			asAgent->SetMaxAcceleration(maxAcceleration);
+		}
+		
+		if (ImGui::DragFloat("Position Y offset", &yOffset, 0.1f, 0.0f, FLT_MAX))
+		{
+			asAgent->SetYOffset(yOffset);
 		}
 
 		if (ImGui::Checkbox("Obstacle Avoidance", &avoidingObstacle))

@@ -16,6 +16,7 @@ public:
 	void SetMaxAcceleration(float newAcceleration);
 	void SetAgentObstacleAvoidance(bool avoidanceActive);
 	void SetUpdateRigidBody(bool newUpdateRigidBody);
+	void SetYOffset(float newYOffset);
 	void AddAgentToCrowd();
 	void RemoveAgentFromCrowd();
 
@@ -24,11 +25,13 @@ public:
 	float GetMaxAcceleration() const;
 	float3 GetTargetPosition() const;
 	bool GetUpdateRigidBody() const;
+	float GetYOffset() const;
 	bool IsAvoidingObstacle() const;
 
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
+	float3 CalculateRotationToPosition(float3 newPosition);
 
 	unsigned int targetPolygon = 0;		  // Target Polygon of the NavMesh to navigate
 	float3 targetPosition = float3::zero; // Target position of the NavMesh to navigate
@@ -36,6 +39,7 @@ private:
 
 	float maxSpeed = 5.0f;
 	float maxAcceleration = 8.0f;
+	float yOffset = 0.0f;
 	bool avoidingObstacle = true;
 	bool shouldAddAgentToCrowd = true;
 	bool updateRigidBody = false;
@@ -70,4 +74,14 @@ inline bool ComponentAgent::GetUpdateRigidBody() const
 inline void ComponentAgent::SetUpdateRigidBody(bool newUpdateRigidBody)
 {
 	updateRigidBody = newUpdateRigidBody;
+}
+
+inline float ComponentAgent::GetYOffset() const
+{
+	return yOffset;
+}
+
+inline void ComponentAgent::SetYOffset(float newYOffset)
+{
+	yOffset = newYOffset;
 }

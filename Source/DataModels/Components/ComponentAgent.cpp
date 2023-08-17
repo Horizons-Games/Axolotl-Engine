@@ -43,7 +43,12 @@ void ComponentAgent::Update()
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 
-	transform->SetGlobalPosition(float3(ag->npos));
+	float3 newPos = float3(ag->npos);
+	float3 newRot = CalculateRotationToPosition(newPos);
+
+	newPos.y += yOffset;
+	transform->SetGlobalPosition(newPos);
+	//transform->SetGlobalRotation(newRot);
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 
@@ -216,12 +221,18 @@ float3 ComponentAgent::GetVelocity() const
 	return float3::zero;
 }
 
+float3 ComponentAgent::CalculateRotationToPosition(float3 newPosition)
+{
+	return float3::zero;
+}
+
 void ComponentAgent::InternalSave(Json& meta)
 {
 	meta["maxSpeed"] = static_cast<float>(GetMaxSpeed());
 	meta["maxAcceleration"] = static_cast<float>(GetMaxAcceleration());
 	meta["avoidingObstacle"] = static_cast<bool>(IsAvoidingObstacle());
 	meta["updateRigidBody"] = static_cast<bool>(GetUpdateRigidBody());
+	meta["yOffset"] = static_cast<float>(GetYOffset());
 }
 
 void ComponentAgent::InternalLoad(const Json& meta)
@@ -230,4 +241,5 @@ void ComponentAgent::InternalLoad(const Json& meta)
 	SetMaxAcceleration(static_cast<float>(meta["maxAcceleration"]));
 	SetAgentObstacleAvoidance(static_cast<bool>(meta["avoidingObstacle"]));
 	SetUpdateRigidBody(static_cast<bool>(meta["updateRigidBody"]));
+	SetYOffset(static_cast<float>(meta["yOffset"]));
 }
