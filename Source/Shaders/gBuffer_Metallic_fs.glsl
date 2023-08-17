@@ -73,7 +73,7 @@ void main()
 
     vec4 metallicColor = texture(material.metallic_map, newTexCoord);
     vec4 diffuseColor = SRGBA(texture(material.diffuse_map, newTexCoord));
-    diffuseColor += effect.color;
+    diffuseColor.rgb += effect.color;
 
     float metalnessMask = material.has_metallic_map * metallicColor.r + (1 - material.has_metallic_map) * 
      material.metalness;

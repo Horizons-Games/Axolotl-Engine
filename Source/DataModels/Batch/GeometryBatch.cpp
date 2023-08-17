@@ -164,10 +164,9 @@ void GeometryBatch::FillMaterial()
 {
 	fillMaterials = false;
 
-	for (ComponentMeshRenderer* component : componentsInBatch)
+	for (int i = 0; i < instanceData.size(); i++)
 	{
-		unsigned int instanceIndex = objectIndexes[component];
-		int materialIndex = instanceData[instanceIndex];
+		int materialIndex = instanceData[i];
 		std::shared_ptr<ResourceMaterial> resourceMaterial = resourcesMaterial[materialIndex];
 
 		if (flags & BatchManager::HAS_METALLIC)
@@ -209,7 +208,7 @@ void GeometryBatch::FillMaterial()
 				newMaterial.emissive_map = texture->GetHandle();
 			}
 			
-			metallicMaterialData[instanceIndex] = newMaterial;
+			metallicMaterialData[i] = newMaterial;
 		}
 
 		else if (flags & BatchManager::HAS_SPECULAR)
@@ -251,7 +250,7 @@ void GeometryBatch::FillMaterial()
 				newMaterial.emissive_map = texture->GetHandle();
 			}
 			
-			specularMaterialData[instanceIndex] = newMaterial;
+			specularMaterialData[i] = newMaterial;
 		}
 	}
 }
@@ -776,7 +775,7 @@ void GeometryBatch::BindBatch(bool selected)
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
-				Effect effect(component->IsDiscarded(), float4(1,1,1,0));
+				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); //TODO change
 				memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 				//do a for for all the instaces existing
@@ -820,7 +819,7 @@ void GeometryBatch::BindBatch(bool selected)
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 
-			Effect effect(component->IsDiscarded(), component->GetEffectColor());
+			Effect effect(static_cast<int>(component->IsDiscarded()), component->GetEffectColor());
 			memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 			//do a for for all the instaces existing
@@ -964,7 +963,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 
-			Effect effect(component->IsDiscarded(), component->GetEffectColor());
+			Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded()));
 			memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 			//do a for for all the instaces existing

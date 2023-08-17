@@ -2,8 +2,8 @@
 #define _EFFECT_INCLUDE_
 
 struct Effect {
-    int discardFrag;    //0     //4 
-    vec4 color;         //4     //16 -->20
+    vec3 color;         //0     //12
+    int discardFrag;    //12     //4 -->16
 };
 
 #endif

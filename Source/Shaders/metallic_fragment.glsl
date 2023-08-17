@@ -310,7 +310,7 @@ void main()
         textureMat = texture(material.diffuse_map, newTexCoord);
     }
     textureMat = SRGBA(textureMat);
-    textureMat += effect.color;
+    textureMat.rgb += effect.color;
     
     if(textureMat.a < 0.01)
     {

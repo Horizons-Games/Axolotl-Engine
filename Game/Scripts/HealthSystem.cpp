@@ -180,7 +180,7 @@ void HealthSystem::EffectDiscard()
 {
 	for (ComponentMeshRenderer* mesh : meshes)
 	{
-		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
+		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
 		mesh->SetDiscard(true);
 		mesh->FillBatchMaterial();
 	}
@@ -191,7 +191,7 @@ void HealthSystem::EffectColor()
 	for (ComponentMeshRenderer* mesh : meshes)
 	{
 		mesh->SetDiscard(false);
-		mesh->SetEffectColor(float4(1.f, 0.f, 0.f, 0.f));
+		mesh->SetEffectColor(float3(1.f, 0.f, 0.f));
 		mesh->FillBatchMaterial();
 	}
 }
@@ -201,7 +201,7 @@ void HealthSystem::ClearEffect()
 	for (ComponentMeshRenderer* mesh : meshes)
 	{
 		mesh->SetDiscard(false);
-		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
+		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
 		mesh->FillBatchMaterial();
 	}
 }

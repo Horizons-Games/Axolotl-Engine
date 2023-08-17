@@ -78,7 +78,7 @@ void main()
         gDiffuse = texture(material.diffuse_map, newTexCoord);
     }
     gDiffuse = SRGBA(gDiffuse);
-    gDiffuse += effect.color;
+    gDiffuse.rgb += effect.color;
 
     //Normals
     if (material.has_normal_map == 1)

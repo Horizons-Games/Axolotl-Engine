@@ -38,13 +38,13 @@
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
-	Component(ComponentType::MESHRENDERER, active, owner, true), effectColor(0.f, 0.f, 0.f, 0.f), discard(false)
+	Component(ComponentType::MESHRENDERER, active, owner, true), effectColor(0.f, 0.f, 0.f), discard(false)
 {
 }
 
 ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer) :
 	Component(componentMeshRenderer),
-	material(componentMeshRenderer.GetMaterial()), effectColor(0.f, 0.f, 0.f, 0.f), discard(false)
+	material(componentMeshRenderer.GetMaterial()), effectColor(0.f, 0.f, 0.f), discard(false)
 {
 	SetOwner(componentMeshRenderer.GetOwner());
 	SetMesh(componentMeshRenderer.GetMesh());
@@ -638,9 +638,19 @@ void ComponentMeshRenderer::SetOffset(const float2& offset)
 	material->SetOffset(offset);
 }
 
-void ComponentMeshRenderer::SetEffectColor(float4 effectColor)
+const float3& ComponentMeshRenderer::GetEffectColor() const
+{
+	return effectColor;
+}
+
+void ComponentMeshRenderer::SetEffectColor(float3 effectColor)
 {
 	this->effectColor = effectColor;
+}
+
+bool ComponentMeshRenderer::IsDiscarded()
+{
+	return discard;
 }
 
 void ComponentMeshRenderer::SetDiscard(bool discard)
@@ -668,16 +678,6 @@ void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
 void ComponentMeshRenderer::SetTransparent(bool isTransparent)
 {
 	material->SetTransparent(isTransparent);
-}
-
-float4 ComponentMeshRenderer::GetEffectColor() const
-{
-	return effectColor;
-}
-
-bool ComponentMeshRenderer::IsDiscarded()
-{
-	return discard;
 }
 
 void ComponentMeshRenderer::RemoveFromBatch()

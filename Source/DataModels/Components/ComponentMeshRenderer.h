@@ -52,10 +52,15 @@ public:
 	void SetNormalStrength(float normalStrength);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
+	
+	const float3& GetEffectColor() const;
 	// Call FillBatchMaterial when you have finished using this and SetDiscard function
-	void SetEffectColor(float4 effectColor);
+	void SetEffectColor(float3 effectColor);
+	
+	bool IsDiscarded();
 	// Call FillBatchMaterial when you have finished using this and SetUseDiffuseColor function
 	void SetDiscard(bool discard);
+	
 	void FillBatchMaterial();
 
 	// Default shader attributes (setters)
@@ -102,9 +107,6 @@ public:
 
 	const std::vector<float4x4>& GetPalette() const;
 
-	float4 GetEffectColor() const;
-	bool IsDiscarded();
-
 	void UnloadTextures();
 	void UnloadTexture(TextureType textureType);
 
@@ -124,7 +126,7 @@ private:
 	WindowMeshInput* inputMesh;
 	WindowMaterialInput* inputMaterial;
 
-	float4 effectColor;
+	float3 effectColor;
 	bool discard;
 
 	GeometryBatch* batch;
