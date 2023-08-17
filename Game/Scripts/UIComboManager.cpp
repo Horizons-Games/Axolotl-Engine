@@ -11,10 +11,11 @@
 
 REGISTERCLASS(UIComboManager);
 
-UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false)
+UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaActivated(false)
 {
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
+	REGISTER_FIELD(noFillBar, GameObject*);
 }
 
 void UIComboManager::Init()
@@ -24,6 +25,9 @@ void UIComboManager::Init()
 	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[0]);
 	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[1]);
 	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[2]);
+	
+	transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w/255;
+
 }
 
 void UIComboManager::Update(float deltaTime)
@@ -37,9 +41,40 @@ void UIComboManager::Update(float deltaTime)
 		}
 		else
 		{
+
 			clearComboTimer -= deltaTime;
+		
 		}
 	}
+
+	if (noFillBar->IsEnabled())
+	{
+
+		if (alphaActivated)
+		{
+			transparency -= deltaTime;
+
+			if (transparency <= 0.5)
+			{
+				transparency = 0.5;
+				alphaActivated = false;
+			}
+		}
+		else
+		{
+			transparency += deltaTime;
+
+			if (transparency <= 1.0)
+			{
+				transparency = 1.0;
+				alphaActivated = true;
+			}
+		}
+
+		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparency));
+
+	}
+
 }
 
 float UIComboManager::GetMaxComboBarValue() const
@@ -51,23 +86,29 @@ void UIComboManager::SetActivateSpecial(bool activate)
 {
 	if (activate) 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(1.0,1.0,0,1));
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(0.5, 0.5, 0, 1));
+		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
+		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
 	}
 	else 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(0, 1.0, 0, 1));
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(1.0, 0, 0, 1));
+		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
+		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
 	}
 }
 
 void UIComboManager::SetComboBarValue(float value)
 {
 	comboBar->ModifyCurrentValue(value);
-	if (value == 0) 
+	if (value == 0)
 	{
 		SetActivateSpecial(false);
 	}
+
+	else if (value >= GetMaxComboBarValue())
+	{
+		noFillBar->Enable();
+	}
+
 }
 
 void UIComboManager::AddInputVisuals(InputVisualType type) 
@@ -104,6 +145,7 @@ void UIComboManager::ClearCombo(bool finish)
 	if(finish)
 	{
 		clearComboTimer = 0.5f;
+		
 		//Particles, audio, etc
 	}
 	else 
@@ -112,6 +154,7 @@ void UIComboManager::ClearCombo(bool finish)
 		//Particles, audio, etc
 	}
 }
+ 
 
 void UIComboManager::CleanInputVisuals()
 {

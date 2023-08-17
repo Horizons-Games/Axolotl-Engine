@@ -37,6 +37,7 @@ public:
 private:
 	GameObject* inputPrefabSoft;
 	GameObject* inputPrefabHeavy;
+	GameObject* noFillBar;
 
 	std::deque<GameObject*> inputVisuals;
 	std::vector<GameObject*> inputPositions;
@@ -45,4 +46,8 @@ private:
 
 	float clearComboTimer;
 	bool clearCombo;
+
+	float transparency;
+	float transparencyInput;
+	bool alphaActivated;
 };
