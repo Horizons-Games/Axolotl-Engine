@@ -16,8 +16,12 @@ public:
 
 private:
 	ComponentMeshRenderer* mesh;
-	float offset;
-	float movement;
+	float currentOffsetX;
+	float currentOffsetY;
+	float movementX;
+	float movementY;
+	float maxOffsetX;
+	float maxOffsetY;
 };
 
 

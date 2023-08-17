@@ -597,6 +597,9 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
@@ -1265,6 +1268,9 @@
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentPlayerInput.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyClass.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
@@ -1703,6 +1709,9 @@
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
@@ -2027,6 +2036,9 @@
       <Filter>DataModels\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">
