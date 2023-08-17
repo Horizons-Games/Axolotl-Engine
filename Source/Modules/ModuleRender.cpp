@@ -752,8 +752,8 @@ void ModuleRender::RelocateGOInBatches(GameObject* go)
 float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 {
 	program->Activate();
-
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Parallel Reduction"),
+	
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("ComputeShader - Parallel Reduction")),
 		"ComputeShader - Parallel Reduction");
 
 	glActiveTexture(GL_TEXTURE0);
@@ -800,7 +800,8 @@ float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 
 	program->Activate();
 	
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Min Max"), "ComputeShader - Min Max");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("ComputeShader - Min Max")), 
+		"ComputeShader - Min Max");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, srcTexture);
@@ -891,7 +892,8 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	std::vector<GameObject*> objectsInFrustum =
 		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
 
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Shadow Mapping"), "Shadow Mapping");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Shadow Mapping")), 
+		"Shadow Mapping");
 
 	// Program binding
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_MAPPING);
