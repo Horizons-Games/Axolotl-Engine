@@ -38,9 +38,15 @@ void AIMovement::Update(float deltaTime)
 	else
 	{
 		MoveToTarget(deltaTime);
+
+		float3 newPos = (targetPosition - componentTransform->GetGlobalPosition()).Normalized();
+		float3 forward = componentTransform->GetGlobalForward().Normalized();
+		Quat rot = Quat::RotateFromTo(forward, newPos);
+
+		rigidBody->SetRotationTarget(rot);
 	}
 
-	RotateToTarget(deltaTime);
+	//RotateToTarget(deltaTime);
 
 	CheckIfHasArrived();
 }
@@ -127,7 +133,6 @@ void AIMovement::RotateToTarget(float deltaTime)
 
 	rigidBody->GetRigidBody()->setWorldTransform(worldTransform);
 	rigidBody->GetRigidBody()->getMotionState()->setWorldTransform(worldTransform);
-	//rigidBody->UpdateRigidBody();
 }
 
 void AIMovement::AgentMoveToTarget()
