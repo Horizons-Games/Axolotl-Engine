@@ -23,6 +23,7 @@ CameraControllerScript::CameraControllerScript() : Script(),
 	REGISTER_FIELD(zOffset, float);
 	REGISTER_FIELD(xFocusOffset, float);
 	REGISTER_FIELD(yFocusOffset, float);
+	REGISTER_FIELD(inCombat, bool);
 }
 
 void CameraControllerScript::Start()
@@ -182,7 +183,7 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 		}
 	}
 
-	if (closestCombatSample)
+	if (inCombat && closestCombatSample)
 	{
 		return closestCombatSample;
 	}
