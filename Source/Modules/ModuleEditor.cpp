@@ -66,7 +66,6 @@ bool ModuleEditor::Init()
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	// Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;	// Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // Prevent mouse flickering
 

@@ -33,16 +33,20 @@ void ActivationLogic::Start()
 {
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	componentRigidBody = nullptr;
-	for (GameObject* child : owner->GetChildren())
+	GameObject::GameObjectView children = owner->GetChildren();
+	auto childWithRigid = std::find_if(std::begin(children),
+									   std::end(children),
+									   [](const GameObject* child)
+									   {
+										   return child->HasComponent<ComponentRigidBody>();
+									   });
+	// not just assert, since it would crash on the next line
+	if (childWithRigid == std::end(children))
 	{
-		componentRigidBody = child->GetComponent<ComponentRigidBody>();
-		if (componentRigidBody != nullptr)
-		{
-			break;
-		}
+		LOG_ERROR("Expected one of {}'s children to have a ComponentRigidBody, but none was found", GetOwner());
+		throw ComponentNotFoundException("ComponentRigidBody not found in children");
 	}
-	assert(componentRigidBody);
+	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
 	componentRigidBody->Disable();
 }
 
@@ -53,7 +57,8 @@ void ActivationLogic::Update(float deltaTime)
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	LOG_DEBUG("{} enters in CollisionEnter", other->GetOwner());
+	if (other->GetOwner()->CompareTag("Player"))
 	{
 		componentAnimation->SetParameter("IsActive", true);
 		componentRigidBody->Disable();
@@ -63,11 +68,12 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	LOG_DEBUG("{} enters in CollisionExit", other->GetOwner());
+	if (other->GetOwner()->CompareTag("Player"))
 	{
 		componentAnimation->SetParameter("IsActive", false);
-		//Until the trigger works 100% of the time better cross a closed door than be closed forever
-		//componentRigidBody->Enable();
+		// Until the trigger works 100% of the time better cross a closed door than be closed forever
+		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 }

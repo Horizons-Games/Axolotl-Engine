@@ -2,7 +2,6 @@
 
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentImage.h"
-#include "AxoLog.h"
 
 REGISTERCLASS(UIImageDisplacementControl);
 

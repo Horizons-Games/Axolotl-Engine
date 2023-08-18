@@ -13,6 +13,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -20,63 +21,70 @@
 
 REGISTERCLASS(RangedFastAttackBullet);
 
-RangedFastAttackBullet::RangedFastAttackBullet() : Script(), transform(nullptr), velocity(0.2f), audioSource(nullptr), 
+RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), audioSource(nullptr),
 	bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f)
 {
 }
 
 void RangedFastAttackBullet::Start()
 {
-	transform = owner->GetComponent<ComponentTransform>();
-	audioSource = owner->GetComponent<ComponentAudioSource>();
-
-	originTime = SDL_GetTicks() / 1000.0f;
+	InitializeBullet();
 }
 
 void RangedFastAttackBullet::Update(float deltaTime)
 {
-#ifdef DEBUG
-	Ray rayDebug(transform->GetPosition(), transform->GetLocalForward());
-	dd::arrow(rayDebug.pos, rayDebug.pos + rayDebug.dir * rayAttackSize, dd::colors::Red, 0.05f);
-#endif // DEBUG
-
-	ShootBullet(deltaTime);
-
-	CheckCollision();
-
 	if (SDL_GetTicks() / 1000.0f > originTime + bulletLifeTime)
 	{
 		DestroyBullet();
 	}
 }
 
-void RangedFastAttackBullet::ShootBullet(float deltaTime)
+void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	transform->SetPosition(transform->GetGlobalPosition() + transform->GetGlobalForward() * velocity * deltaTime * 1000);
-	transform->UpdateTransformMatrices();
+	if (other->IsTrigger())
+	{
+		return;
+	}
+
+	if (other->GetOwner()->CompareTag("Player"))
+	{
+		HealthSystem* playerHealthScript = other->GetOwner()->GetComponent<HealthSystem>();
+		playerHealthScript->TakeDamage(damageAttack);
+	}
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
+	DestroyBullet();
 }
 
-void RangedFastAttackBullet::CheckCollision()
+void RangedFastAttackBullet::InitializeBullet()
 {
-	Ray ray(transform->GetGlobalPosition(), transform->GetGlobalForward());
-	LineSegment line(ray, rayAttackSize);
-	RaycastHit hit;
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
-	if (Physics::Raycast(line, hit, transform->GetOwner()))
-	{
-		// We should avoid using GetRootGO()
-		if (hit.gameObject->GetRootGO() && hit.gameObject->GetRootGO()->CompareTag("Player"))
-		{
-			HealthSystem* playerHealthScript = hit.gameObject->GetRootGO()->GetComponent<HealthSystem>();
-			playerHealthScript->TakeDamage(damageAttack);
-		}
+	rigidBody->Enable();
+	rigidBody->SetDefaultPosition();
+	rigidBody->SetDrawCollider(false);
 
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
-		DestroyBullet();
-	}
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+	btRb->setLinearVelocity(
+		btVector3(
+			forward.x,
+			0,
+			forward.z) * velocity);
+
+	originTime = SDL_GetTicks() / 1000.0f;
 }
 
 void RangedFastAttackBullet::DestroyBullet()
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)
+{
+	velocity = nVelocity;
 }

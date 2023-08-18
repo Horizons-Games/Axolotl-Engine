@@ -118,7 +118,7 @@ public:
 	void InitLights();
 	void InitCubemap();
 
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
 	void ExecutePendingActions();
 
 private:
