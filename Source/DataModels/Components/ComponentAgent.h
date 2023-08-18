@@ -31,7 +31,7 @@ public:
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
-	Quat CalculateRotationToPosition(float3 newPosition);
+	Quat CalculateRotationToPosition();
 
 	unsigned int targetPolygon = 0;		  // Target Polygon of the NavMesh to navigate
 	float3 targetPosition = float3::zero; // Target position of the NavMesh to navigate

@@ -44,7 +44,7 @@ void ComponentAgent::Update()
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
 	
 	float3 newPos = float3(ag->npos);
-	Quat newRot = CalculateRotationToPosition(newPos);
+	Quat newRot = CalculateRotationToPosition();
 
 	newPos.y += yOffset;
 	transform->SetGlobalPosition(newPos);
@@ -221,7 +221,7 @@ float3 ComponentAgent::GetVelocity() const
 	return float3::zero;
 }
 
-Quat ComponentAgent::CalculateRotationToPosition(float3 newPosition)
+Quat ComponentAgent::CalculateRotationToPosition()
 {
 	float deltaTime = App->GetDeltaTime();
 	Quat globalRotation = transform->GetGlobalRotation();
