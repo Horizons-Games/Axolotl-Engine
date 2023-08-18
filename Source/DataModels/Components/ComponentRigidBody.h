@@ -49,6 +49,7 @@ public:
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
+	void SetStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -117,6 +118,32 @@ public:
 	float GetKpTorque() const;
 	void SetKpTorque(float newKpTorque);
 
+	bool GetIsAxialConstricted() const;
+	void SetIsAxialConstricted(bool newIsAxialConstricted);
+
+	bool IsXAxisBlocked() const;
+	void SetXAxisBlocked(bool newX);
+
+	bool IsYAxisBlocked() const;
+	void SetYAxisBlocked(bool newY);
+
+	bool IsZAxisBlocked() const;
+	void SetZAxisBlocked(bool newZ);
+
+	void UpdateBlockedAxis();
+
+	bool IsXRotationAxisBlocked() const;
+	void SetXRotationAxisBlocked(bool newX);
+
+	bool IsYRotationAxisBlocked() const;
+	void SetYRotationAxisBlocked(bool newY);
+
+	bool IsZRotationAxisBlocked() const;
+	void SetZRotationAxisBlocked(bool newZ);
+
+	void UpdateBlockedRotationAxis();
+	void SetAngularFactor(btVector3 rotation);
+
     void RemoveRigidBodyFromSimulation();
 
     btRigidBody* GetRigidBody() const;
@@ -124,6 +151,8 @@ public:
 	void SetUpMobility();
 
 	void UpdateRigidBody();
+	void SimulatePositionController();
+	void SimulateRotationController();
 
 	template<typename T>
 	void AddCollisionEnterDelegate(void (T::*func)(ComponentRigidBody*), T* obj)
@@ -161,6 +190,15 @@ private:
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
+	bool isAxialConstricted = false;
+
+	bool xAxisBlocked = false;
+	bool yAxisBlocked = false;
+	bool zAxisBlocked = false;
+
+	bool xRotationAxisBlocked = false;
+	bool yRotationAxisBlocked = false;
+	bool zRotationAxisBlocked = false;
 
 	Shape currentShape = Shape::NONE;
 
@@ -276,22 +314,26 @@ inline void ComponentRigidBody::SetPositionTarget(const float3& targetPos)
 {
 	targetPosition = targetPos;
 	usePositionController = true;
+	SimulatePositionController();
 }
 
 inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
 {
 	targetRotation = targetRot;
 	useRotationController = true;
+	SimulateRotationController();
 }
 
 inline void ComponentRigidBody::DisablePositionController()
 {
 	usePositionController = false;
+	UpdateBlockedAxis();
 }
 
 inline void ComponentRigidBody::DisableRotationController()
 {
 	useRotationController = false;
+	UpdateBlockedRotationAxis();
 }
 
 inline bool ComponentRigidBody::GetUsePositionController() const
@@ -391,4 +433,80 @@ inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
 inline btVector3 ComponentRigidBody::GetRigidBodyTranslation() const
 {
 	return translation;
+}
+
+inline void ComponentRigidBody::SetIsAxialConstricted(bool newIsAxialConstricted)
+{
+	isAxialConstricted = newIsAxialConstricted;
+}
+
+inline bool ComponentRigidBody::GetIsAxialConstricted() const
+{
+	return isAxialConstricted;
+}
+
+inline bool ComponentRigidBody::IsXRotationAxisBlocked() const
+{
+	return xRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetXRotationAxisBlocked(bool newX)
+{
+	xRotationAxisBlocked = newX;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsYRotationAxisBlocked() const
+{
+	return yRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetYRotationAxisBlocked(bool newY)
+{
+	yRotationAxisBlocked = newY;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsZRotationAxisBlocked() const
+{
+	return zRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetZRotationAxisBlocked(bool newZ)
+{
+	zRotationAxisBlocked = newZ;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsXAxisBlocked() const
+{
+	return xAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetXAxisBlocked(bool newX)
+{
+	xAxisBlocked = newX;
+	UpdateBlockedAxis();
+}
+
+inline bool ComponentRigidBody::IsYAxisBlocked() const
+{
+	return yAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetYAxisBlocked(bool newY)
+{
+	yAxisBlocked = newY;
+	UpdateBlockedAxis();
+}
+
+inline bool ComponentRigidBody::IsZAxisBlocked() const
+{
+	return zAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetZAxisBlocked(bool newZ)
+{
+	zAxisBlocked = newZ;
+	UpdateBlockedAxis();
 }
