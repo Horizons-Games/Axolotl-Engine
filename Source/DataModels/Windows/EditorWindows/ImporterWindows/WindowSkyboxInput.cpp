@@ -24,12 +24,6 @@ void WindowSkyboxInput::DoThisIfOk()
 	GameObject* rootObject = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
 	std::shared_ptr<ResourceSkyBox> resource =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceSkyBox>(fileDialogImporter.GetFilePathName());
-	rootObject->RemoveComponent<ComponentSkybox>();
-	ComponentSkybox* skyboxComponent = rootObject->CreateComponent<ComponentSkybox>();
+	ComponentSkybox * skyboxComponent = rootObject->GetComponentInternal<ComponentSkybox>();
 	skyboxComponent->SetSkyboxResource(resource);
-	/*App->GetModule<ModuleScene>()->GetLoadedScene()->SetSkybox(std::make_unique<Skybox>(resource));	
-	Skybox* sky = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSkybox();
-	skyboxComponent->SetSkybox(App->GetModule<ModuleScene>()->GetLoadedScene()->GetSkybox());*/
-
-		//ImGui::Text(sky->GetSkybox()->GetSkyboxResource()->GetAssetsPath().c_str());
 }

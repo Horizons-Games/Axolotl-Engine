@@ -1,9 +1,12 @@
 #pragma once
 #include "Components/Component.h"
 #include "Auxiliar/Generics/Drawable.h"
+#include "Auxiliar/Generics/Updatable.h"
+#include "UID.h"
 
 class ResourceSkyBox;
 class Skybox;
+
 
 class ComponentSkybox : public Component, public Drawable
 {
@@ -19,12 +22,10 @@ public:
 	void SignalEnable() override;
 	void SignalDisable() override;
 
-	void SetSkybox(Skybox* skybox);
-	Skybox* GetSkybox();
 	std::shared_ptr<ResourceSkyBox> GetSkyboxResource() const;
 	void SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource);
 
 private:
 	std::shared_ptr<ResourceSkyBox> skyboxRes;
-	Skybox* skybox;
+	bool enable;
 };

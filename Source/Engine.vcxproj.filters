@@ -1573,9 +1573,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>DataModels\Skybox</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>DataModels\Program</Filter>
     </ClCompile>
@@ -1876,9 +1873,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
@@ -2471,9 +2465,6 @@
     </Filter>
     <Filter Include="DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>

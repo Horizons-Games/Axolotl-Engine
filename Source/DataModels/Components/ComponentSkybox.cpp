@@ -14,8 +14,9 @@
 #include "Camera/Camera.h"
 
 ComponentSkybox::ComponentSkybox(bool active, GameObject* owner) : 
-	Component(ComponentType::SKYBOX, active, owner, true)
-{ 
+	Component(ComponentType::SKYBOX, active, owner, true),
+	enable(true)
+{
 }
 
 ComponentSkybox::~ComponentSkybox()
@@ -24,33 +25,36 @@ ComponentSkybox::~ComponentSkybox()
 
 void ComponentSkybox::Draw() const
 {
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
-	if (program && skyboxRes)
+	if (enable)
 	{
-		if (!skyboxRes->IsLoaded())
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
+		if (program && skyboxRes)
 		{
-			skyboxRes->Load();
+			if (!skyboxRes->IsLoaded())
+			{
+				skyboxRes->Load();
+			}
+			glDepthRange(0.999, 1.0);
+			glDepthMask(GL_FALSE);
+
+			program->Activate();
+			ModuleCamera* camera = App->GetModule<ModuleCamera>();
+
+			program->BindUniformFloat4x4("view", (const float*) &camera->GetCamera()->GetViewMatrix(), GL_TRUE);
+			program->BindUniformFloat4x4("proj", (const float*) &camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+
+			glBindVertexArray(skyboxRes->GetVAO());
+			glActiveTexture(GL_TEXTURE0);
+
+			glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxRes->GetGlTexture());
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+
+			glBindVertexArray(0);
+			program->Deactivate();
+			glDepthMask(GL_TRUE);
+			glDepthRange(0.0, 1.0);
 		}
-		glDepthRange(0.999, 1.0);
-		glDepthMask(GL_FALSE);
-
-		program->Activate();
-		ModuleCamera* camera = App->GetModule<ModuleCamera>();
-
-		program->BindUniformFloat4x4("view", (const float*) &camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-		program->BindUniformFloat4x4("proj", (const float*) &camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
-
-		glBindVertexArray(skyboxRes->GetVAO());
-		glActiveTexture(GL_TEXTURE0);
-
-		glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxRes->GetGlTexture());
-
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		glBindVertexArray(0);
-		program->Deactivate();
-		glDepthMask(GL_TRUE);
-		glDepthRange(0.0, 1.0);
 	}
 }
 
@@ -78,23 +82,12 @@ void ComponentSkybox::InternalLoad(const Json& meta)
 
 void ComponentSkybox::SignalEnable()
 {
-	
-	//skybox->GetSkyboxResource()->Load();
+	enable = true;
 }
 
 void ComponentSkybox::SignalDisable()
 {
-	//skybox->GetSkyboxResource()->Unload();
-}
-
-void ComponentSkybox::SetSkybox(Skybox* skybox)
-{
-	this->skybox = skybox;
-}
-
-Skybox* ComponentSkybox::GetSkybox()
-{
-	return skybox;
+	enable = false;
 }
 
 std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
