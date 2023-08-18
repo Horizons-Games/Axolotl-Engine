@@ -119,6 +119,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
 			case ComponentType::TRAIL:
 				return std::make_unique<WindowComponentTrail>(static_cast<ComponentTrail*>(component));
+			case ComponentType::LIGHT_PROBE:
+				return std::make_unique<WindowComponentTrail>(static_cast<ComponentTrail*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
 			case ComponentType::LINE:

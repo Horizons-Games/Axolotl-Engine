@@ -404,6 +404,7 @@
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentLightProbe.cpp" />
     <ClCompile Include="DataModels\Components\ComponentTrail.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
@@ -454,6 +455,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLightProbe.cpp" />
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -852,6 +854,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLightProbe.h" />
     <ClInclude Include="DataModels\Components\ComponentLine.h" />
     <ClInclude Include="DataModels\Components\ComponentBreakable.h" />
     <ClInclude Include="DataModels\Components\ComponentCubemap.h" />
@@ -899,6 +902,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLightProbe.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>

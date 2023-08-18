@@ -22,6 +22,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentTrail.h"
+#include "Components/ComponentLightProbe.h"
 #include "Components/ComponentLine.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
@@ -84,6 +85,14 @@ WindowInspector::WindowInspector() :
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentTrail>(gameObject);
+		},
+		ComponentFunctionality::GRAPHICS));
+
+	actions.push_back(AddComponentAction("Create Light Probe Component",
+		std::bind(&WindowInspector::AddComponentLightProbe, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator() <ComponentLightProbe> (gameObject);
 		},
 		ComponentFunctionality::GRAPHICS));
 
@@ -515,6 +524,11 @@ void WindowInspector::AddComponentBreakable()
 void WindowInspector::AddComponentTrail()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::TRAIL);
+}
+
+void WindowInspector::AddComponentLightProbe()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LIGHT_PROBE);
 }
 
 void WindowInspector::AddComponentLine()

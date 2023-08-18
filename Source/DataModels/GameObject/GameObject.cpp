@@ -21,6 +21,7 @@
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentTrail.h"
+#include "DataModels/Components/ComponentLightProbe.h"
 #include "DataModels/Components/ComponentLine.h"
 #include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/UI/ComponentButton.h"
@@ -429,6 +430,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::LIGHT_PROBE:
+		{
+			newComponent = std::make_unique<ComponentLightProbe>(*static_cast<ComponentLightProbe*>(component));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -671,6 +678,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 		
+		case ComponentType::LIGHT_PROBE:
+		{
+			newComponent = std::make_unique<ComponentLightProbe>(true, this);
+			break;
+		}
+
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
