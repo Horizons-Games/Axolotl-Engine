@@ -540,7 +540,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	std::vector<int> tris = scene->GetTriangles();
 	std::vector<float> normals = scene->GetNormals();
 
-	unsigned ntris = tris.size() / 3;
+	unsigned ntris = static_cast<unsigned>(tris.size() / 3);
 
 	if (verts.size() == 0)
 	{
