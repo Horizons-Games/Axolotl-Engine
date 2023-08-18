@@ -137,10 +137,10 @@ void AIMovement::RotateToTarget(float deltaTime)
 
 void AIMovement::AgentMoveToTarget()
 {
-	agent->SetMoveTarget(targetPosition);
-	/*if (movementActivated)
+	if (movementActivated)
 	{
-	}*/
+		agent->SetMoveTarget(targetPosition);
+	}
 }
 
 void AIMovement::SetTargetPosition(float3 targetPos)
