@@ -3,33 +3,50 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentTransform.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/BossChargeAttackScript.h"
 
 REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossState(FinalBossStates::NEUTRAL), patrolScript(nullptr), 
-	bossHealthSystem(nullptr), rigidBody(nullptr)
+	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
+	transform(nullptr), targetTransform(nullptr)
 {
+	REGISTER_FIELD(target, GameObject*);
 }
 
 void FinalBossScript::Start()
 {
-	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
-	bossHealthSystem = owner->GetComponent<HealthSystem>();
-
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->SetKpForce(0.25f);
+	transform = owner->GetComponent<ComponentTransform>();
+	targetTransform = target->GetComponent<ComponentTransform>();
+
+	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	bossHealthSystem = owner->GetComponent<HealthSystem>();
+	chargeAttackScript = owner->GetComponent<BossChargeAttackScript>();
 }
 
 void FinalBossScript::Update(float deltaTime)
 {
+	if (!target)
+	{
+		return;
+	}
+
 	ManageChangePhase();
 
 	if (bossState == FinalBossStates::NEUTRAL)
 	{
-		patrolScript->Patrolling();
+		//patrolScript->Patrolling();
+
+		if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f))
+		{
+			chargeAttackScript->TriggerChargeAttack(target);
+		}
 	}
 }
 
