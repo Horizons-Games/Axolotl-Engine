@@ -8,7 +8,6 @@
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
-#include "DataModels/Resources/ResourceSkyBox.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAnimation.h"
@@ -17,11 +16,14 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentSkybox.h"
 
+#include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 #include "Auxiliar/AddComponentAction.h"
@@ -83,6 +85,15 @@ WindowInspector::WindowInspector() :
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayer>(gameObject);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction(
+		"Create Player Input Component",
+		std::bind(&WindowInspector::AddComponentPlayerInput, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayerInput>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
@@ -188,7 +199,7 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (lastSelectedGameObject)
 	{
-		bool enable = lastSelectedGameObject->IsEnabled();
+		bool enable = lastSelectedGameObject->IsEnabled(); 
 		bool enableStateChanged = ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
@@ -237,8 +248,8 @@ void WindowInspector::InspectSelectedGameObject()
 
 	ImGui::Separator();
 
-	if (WindowRightClick() && lastSelectedGameObject != loadedScene->GetRoot() &&
-		lastSelectedGameObject != loadedScene->GetDirectionalLight())
+	if ((WindowRightClick() && lastSelectedGameObject != loadedScene->GetDirectionalLight()) && !loadedScene->GetRoot() ||
+		(WindowRightClick() && loadedScene->GetRoot() && !lastSelectedGameObject->HasComponent<ComponentSkybox>()))
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -247,11 +258,22 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		if (lastSelectedGameObject)
 		{
-			for (const AddComponentAction& action : actions)
+			if (lastSelectedGameObject == loadedScene->GetRoot())
 			{
-				if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
+				if (!lastSelectedGameObject->HasComponent<ComponentSkybox>())
+					if (ImGui::MenuItem("Create Skybox Component"))
+					{
+						AddComponentSkybox();
+					}
+			}
+			else
+			{
+				for (const AddComponentAction& action : actions)
 				{
-					action.callback();
+					if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
+					{
+						action.callback();
+					}
 				}
 			}
 		}
@@ -459,6 +481,11 @@ void WindowInspector::AddComponentPlayer()
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
 
+void WindowInspector::AddComponentPlayerInput()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYERINPUT);
+}
+
 void WindowInspector::AddComponentCameraSample()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::CAMERASAMPLE);
@@ -508,4 +535,9 @@ void WindowInspector::AddComponentParticle()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentSkybox()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SKYBOX);
 }

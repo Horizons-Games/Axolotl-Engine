@@ -20,6 +20,7 @@
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentSkybox.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -50,8 +51,6 @@
 #include "Resources/ResourceSkyBox.h"
 
 #include "Scripting/IScript.h"
-
-#include "Skybox/Skybox.h"
 
 #include <GL/glew.h>
 #include <stack>
@@ -157,6 +156,7 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	// Update the transform respect its parent when created
 	ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+	bool is3D = true;
 	if (transform)
 	{
 		transform->UpdateTransformMatrices();
@@ -166,11 +166,12 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 		ComponentTransform2D* transform2D = gameObject->GetComponentInternal<ComponentTransform2D>();
 		if (transform2D)
 		{
+			is3D = false;
 			transform2D->CalculateMatrices();
 		}
 	}
 
-	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject);
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D);
 
 	return gameObject;
 }
@@ -352,9 +353,9 @@ void Scene::ConvertModelIntoGameObject(const std::string& model)
 
 		node->transform.Decompose(pos, rot, scale);
 
-		transformNode->SetPosition(pos);
-		transformNode->SetRotation(rot);
-		transformNode->SetScale(scale);
+		transformNode->SetLocalPosition(pos);
+		transformNode->SetLocalRotation(rot);
+		transformNode->SetLocalScale(scale);
 
 		parentsStack.push(std::make_pair(i, gameObjectNode));
 
@@ -527,6 +528,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 										 return canvas->GetOwner() == gameObject;
 									 }),
 					  std::end(sceneCanvas));
+
+	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
+											  std::end(sceneParticleSystems),
+									 [gameObject](const ComponentParticleSystem* particleSystem)
+									 {
+												  return particleSystem->GetOwner() == gameObject;
+									 }),
+							   std::end(sceneParticleSystems));
 
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
@@ -1207,11 +1216,7 @@ void Scene::InitNewEmptyScene()
 	if (root->GetComponentInternal<ComponentSkybox>() == nullptr)
 	{
 		root->CreateComponent<ComponentSkybox>();
-	}
-
-	if (resourceSkybox)
-	{
-		skybox = std::make_unique<Skybox>(resourceSkybox);
+		root->GetComponentInternal<ComponentSkybox>()->SetSkyboxResource(resourceSkybox);
 	}
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
@@ -1249,11 +1254,6 @@ void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
 	rootQuadtree = std::move(quadtree);
 }
 
-void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
-{
-	this->skybox = std::move(skybox);
-}
-
 void Scene::SetCubemap(std::unique_ptr<Cubemap> cubemap)
 {
 	this->cubemap = std::move(cubemap);
@@ -1269,10 +1269,10 @@ void Scene::SetRoot(GameObject* newRoot)
 	root = std::unique_ptr<GameObject>(newRoot);
 }
 
-void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject)
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
 {
 	sceneGameObjects.push_back(gameObject);
-	if (gameObject->IsRendereable())
+	if (gameObject->IsRendereable() && is3D)
 	{
 		if (gameObject->IsStatic())
 		{
@@ -1285,7 +1285,7 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 	}
 	for (GameObject* children : gameObject->GetChildren())
 	{
-		InsertGameObjectAndChildrenIntoSceneGameObjects(children);
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D);
 	}
 }
 

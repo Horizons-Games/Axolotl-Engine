@@ -22,7 +22,9 @@ const float doubleClickTimeFrameInS = .5f;
 }
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
-	ComponentWindow("SCRIPT", component),
+	// This could be converted to uppercase using a lambda expression, std::transform and std::upper, 
+	// but the script name is more readable inside the engine in camelCase
+	ComponentWindow("SCRIPT " + component->GetConstructName(), component),
 	windowUID(UniqueID::GenerateUID())
 {
 }
@@ -45,7 +47,7 @@ bool WindowComponentScript::DrawBoolField(bool& value, const std::string& name)
 
 float WindowComponentScript::DrawFloatField(float& value, const std::string& name)
 {
-	ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f");
+	ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.4f");
 	return value;
 }
 

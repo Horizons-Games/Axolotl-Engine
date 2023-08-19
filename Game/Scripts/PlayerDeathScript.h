@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class PlayerDeathScript : public Script
 {
@@ -21,5 +22,6 @@ private:
 	void DisablePlayerActions() const;
 
 	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* componentAudioSource;
 	std::string loseSceneName;
 };

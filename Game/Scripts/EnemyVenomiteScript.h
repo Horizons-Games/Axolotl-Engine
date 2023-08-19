@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scripting\Script.h"
+#include "../Scripts/EnemyClass.h"
 #include "RuntimeInclude.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
@@ -24,7 +24,7 @@ enum class VenomiteBehaviours
 	MELEE_ATTACK
 };
 
-class EnemyVenomiteScript : public Script
+class EnemyVenomiteScript : public EnemyClass
 {
 public:
 	EnemyVenomiteScript();
@@ -32,8 +32,6 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
-
-	void SetStunnedTime(float newTime);
 
 private:
 	VenomiteBehaviours venomiteState;
@@ -50,8 +48,6 @@ private:
 
 	float rangedAttackDistance;
 	float meleeAttackDistance;
-	float timeStunned;
-	bool stunned;
 
 	GameObject* batonGameObject;
 	GameObject* blasterGameObject;

@@ -21,7 +21,6 @@
 
 
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
@@ -33,11 +32,9 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Batch/BatchManager.h"
 #include "DataStructures/Quadtree.h"
 #include "ModulePlayer.h"
@@ -70,7 +67,6 @@ bool ModuleScene::Start()
 	{
 #ifdef ENGINE
 		loadedScene = CreateEmptyScene();
-		loadedScene->GetRoot()->GetComponent<ComponentSkybox>()->SetSkybox(loadedScene->GetSkybox());
 #else // GAME MODE
 		char* buffer;
 		const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
@@ -308,8 +304,8 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->SaveOptions(jsonScene);
 
-	const Skybox* skybox = loadedScene->GetSkybox();
-	skybox->SaveOptions(jsonScene);
+	/*const Skybox* skybox = loadedScene->GetSkybox();
+	skybox->SaveOptions(jsonScene);*/
 
 	const Cubemap* cubemap = loadedScene->GetCubemap();
 	cubemap->SaveOptions(jsonScene);
@@ -378,10 +374,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		rootQuadtree->LoadOptions(json);
 
-		loadedScene->SetSkybox(std::make_unique<Skybox>());
-		Skybox* skybox = loadedScene->GetSkybox();
-		skybox->LoadOptions(json);
-
 		loadedScene->SetCubemap(std::make_unique<Cubemap>());
 		Cubemap* cubemap = loadedScene->GetCubemap();
 		cubemap->LoadOptions(json);
@@ -402,6 +394,10 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	for (GameObject* obj : loadedObjects)
 	{
+		if (obj->HasComponent<ComponentSkybox>() && mantainActualScene)
+		{
+			obj->RemoveComponent<ComponentSkybox>();
+		}
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
@@ -450,7 +446,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	mainTransform->UpdateTransformMatrices();
 
 	SetSceneRootAnimObjects(loadedObjects);
-	selectedGameObject = loadedScene->GetRoot();
+	
 
 	if (!mantainActualScene)
 	{
