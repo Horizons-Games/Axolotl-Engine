@@ -35,7 +35,7 @@ std::string Format(const std::string& format, Args&&... args)
 		}(),
 		...);
 
-	assert(detail::FindReplaceToken(formattedString) != std::string::npos && "Too few arguments in log call!");
+	assert(detail::FindReplaceToken(formattedString) == std::string::npos && "Too few arguments in log call!");
 
 	return formattedString;
 }

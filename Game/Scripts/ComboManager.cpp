@@ -26,7 +26,7 @@ ComboManager::ComboManager() : Script(),
 
 void ComboManager::Init()
 {
-	Assert(uiComboManager != nullptr, axo::Format("UIComboManager combo manager not set!! Owner: ", GetOwner()));
+	Assert(uiComboManager != nullptr, axo::Format("UIComboManager combo manager not set!! Owner: {}", GetOwner()));
 }
 
 void ComboManager::Start()
