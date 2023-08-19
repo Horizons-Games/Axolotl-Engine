@@ -94,6 +94,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		batonGameObject->Disable();
 		blasterGameObject->Disable();
 
+		seekScript->EnableMovement();
 		patrolScript->Patrolling();
 
 		componentAnimation->SetParameter("IsRunning", true);

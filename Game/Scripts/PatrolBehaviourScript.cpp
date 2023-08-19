@@ -48,7 +48,6 @@ void PatrolBehaviourScript::Patrolling()
 
 void PatrolBehaviourScript::SetProportionalController() const
 {
-	ownerRigidBody->SetKpForce(0.5f);
 	ownerRigidBody->SetPositionTarget(currentWayPointTransform->GetGlobalPosition());
 
 	Quat errorRotation =

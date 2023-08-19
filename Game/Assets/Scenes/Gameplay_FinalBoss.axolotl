@@ -10292,7 +10292,14 @@
                                 {
                                     "name": "Waypoints",
                                     "type": 4,
-                                    "vectorElements": null,
+                                    "vectorElements": [
+                                        {
+                                            "value": 17921358598841053390
+                                        },
+                                        {
+                                            "value": 6536772281141820080
+                                        }
+                                    ],
                                     "innerType": 2
                                 }
                             ]
@@ -13532,7 +13539,14 @@
                                 {
                                     "name": "Waypoints",
                                     "type": 4,
-                                    "vectorElements": null,
+                                    "vectorElements": [
+                                        {
+                                            "value": 17217482957009702546
+                                        },
+                                        {
+                                            "value": 16007474881477241656
+                                        }
+                                    ],
                                     "innerType": 2
                                 }
                             ]
@@ -19178,14 +19192,14 @@
                             "isKinematic": false,
                             "isTrigger": false,
                             "drawCollider": true,
-                            "mass": 10000000.0,
+                            "mass": 10000.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
                             "currentShape": 1,
-                            "usePositionController": false,
+                            "usePositionController": true,
                             "useRotationController": false,
-                            "KpForce": 5.0,
+                            "KpForce": 0.5,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": -9.8100004196167,
                             "boxSize_X": 0.9999994039535522,

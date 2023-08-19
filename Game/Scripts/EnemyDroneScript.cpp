@@ -143,6 +143,7 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (patrolScript && droneState == DroneBehaviours::PATROL)
 	{
+		seekScript->EnableMovement();
 		patrolScript->Patrolling();
 
 		componentAnimation->SetParameter("IsSeeking", false);

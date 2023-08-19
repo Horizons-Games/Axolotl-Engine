@@ -543,13 +543,10 @@
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
@@ -587,9 +584,6 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DebugGame.cpp">
       <Filter>UserScripts\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UITextTrigger.cpp">
       <Filter>UserScripts\Level</Filter>
@@ -638,6 +632,12 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp">
       <Filter>UserScripts\Gameplay\Bosses\Final Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1169,13 +1169,10 @@
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
@@ -1259,9 +1256,6 @@
     <ClInclude Include="..\Game\Scripts\GameManager.h">
       <Filter>UserScripts\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UITextTrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1315,6 +1309,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h">
       <Filter>UserScripts\Gameplay\Bosses\Final Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1453,9 +1453,6 @@
     <Filter Include="UserScripts\Gameplay\Behaviours\Movement Behaviours">
       <UniqueIdentifier>{911bcf4f-181f-48db-8333-dfa64145ceda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour">
-      <UniqueIdentifier>{79d0b2cb-fa14-4daf-82af-09f2727e8fc2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DataModels\GBuffer">
       <UniqueIdentifier>{c1f9434a-5fe1-40ba-ab44-e447bf58d6ca}</UniqueIdentifier>
     </Filter>
@@ -1491,6 +1488,15 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Bosses\Final Boss">
       <UniqueIdentifier>{f0e59a56-bfac-4bd0-99f7-b63a6790f962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies">
+      <UniqueIdentifier>{9bd7e7e9-3ce3-4304-a3f7-ee13e1f837d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour">
+      <UniqueIdentifier>{79d0b2cb-fa14-4daf-82af-09f2727e8fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses">
+      <UniqueIdentifier>{75361da6-48f2-44f0-8185-b2bf683e2db7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
