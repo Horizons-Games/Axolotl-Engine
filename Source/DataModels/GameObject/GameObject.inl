@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Auxiliar/ComponentNotFoundException.h"
+#include "Exceptions/ComponentNotFoundException.h"
+#include "Formatter.h"
 
 template<typename C>
 C* GameObject::CreateComponent()
@@ -25,7 +26,7 @@ C* GameObject::GetComponent() const
 	C* internalResult = GetComponentInternal<C>();
 	if (internalResult == nullptr)
 	{
-		throw ComponentNotFoundException("Component of type " + std::string(typeid(C).name()) + " not found");
+		throw ComponentNotFoundException(axo::Format("Component of type {} not found", std::string(typeid(C).name())));
 	}
 	return internalResult;
 }
@@ -86,7 +87,7 @@ S* GameObject::GetComponent()
 	S* internalResult = GetComponentInternal<S>();
 	if (internalResult == nullptr)
 	{
-		throw ComponentNotFoundException("Script of type " + std::string(typeid(S).name()) + " not found");
+		throw ComponentNotFoundException(axo::Format("Script of type {} not found", std::string(typeid(S).name())));
 	}
 	return internalResult;
 }
