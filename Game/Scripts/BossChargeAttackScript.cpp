@@ -71,15 +71,13 @@ void BossChargeAttackScript::PrepareCharge() const
 	RotateToTarget(chargeThroughPosition);
 	rigidBody->SetKpTorque(5.0f);
 
-	/*
 	float3 forward = transform->GetGlobalForward();
 	forward.Normalize();
 
-	rigidBody->SetKpForce(0.1f);
-	rigidBody->SetPositionTarget(float3(forward.x * -5.0f,
+	rigidBody->SetKpForce(0.5f);
+	rigidBody->SetPositionTarget(float3(forward.x * -5.0f + transform->GetGlobalPosition().x,
 										transform->GetGlobalPosition().y,
-										forward.z * -5.0f));
-	*/
+										forward.z * -5.0f + transform->GetGlobalPosition().z));
 }
 
 void BossChargeAttackScript::PerformChargeAttack()
