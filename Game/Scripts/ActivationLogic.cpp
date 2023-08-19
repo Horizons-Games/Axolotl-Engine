@@ -73,7 +73,7 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 	{
 		componentAnimation->SetParameter("IsActive", false);
 		// Until the trigger works 100% of the time better cross a closed door than be closed forever
-		// componentRigidBody->Enable();
+		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 }
