@@ -6,11 +6,11 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
-class ComponentMeshRenderer;
 class ComponentParticleSystem;
 class GameObject;
 
 class BixAttackScript;
+class MeshEffect;
 
 class HealthSystem : public Script
 {
@@ -33,11 +33,6 @@ public:
 	void SetIsImmortal(bool isImmortal);
 	
 private:
-	void FillMeshes(GameObject* parent);
-
-	void EffectDiscard();
-	void EffectColor();
-	void ClearEffect();
 
 	float currentHealth;
 	float maxHealth;
@@ -47,7 +42,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
 
-	std::vector<ComponentMeshRenderer*> meshes;
+	MeshEffect* meshEffect;
 	float hitEffectDuration;
 	bool hasTakenDamage;
 

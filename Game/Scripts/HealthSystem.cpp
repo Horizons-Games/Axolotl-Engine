@@ -5,12 +5,12 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
-#include "Components/ComponentMeshRenderer.h"
 
 #include "../Scripts/BixAttackScript.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -49,7 +49,7 @@ void HealthSystem::Start()
 		maxHealth = currentHealth;
 	}
 
-	FillMeshes(owner);
+	meshEffect = owner->GetComponent<MeshEffect>();
 
 	if (owner->CompareTag("Player"))
 	{
@@ -64,25 +64,25 @@ void HealthSystem::Update(float deltaTime)
 		hitEffectDuration += App->GetDeltaTime();
 		if (hitEffectDuration > TIME_BETWEEN_EFFECTS)
 		{
-			EffectDiscard();
+			meshEffect->EffectDiscard();
 		}
 		if (hitEffectDuration > MAX_TIME_EFFECT_DURATION)
 		{
 			hasTakenDamage = false;
-			ClearEffect();
+			meshEffect->ClearEffect();
 		}
 	}
 
 	if (!EntityIsAlive() && owner->CompareTag("Player"))
 	{
-		ClearEffect();
+		meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
 		playerDeathManager->ManagePlayerDeath();
 	}
 
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
-		ClearEffect();
+		meshEffect->ClearEffect();
 		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
 		enemyDeathManager->ManageEnemyDeath();
 	}
@@ -125,7 +125,7 @@ void HealthSystem::TakeDamage(float damage)
 		{
 			hitEffectDuration = 0.f;
 			hasTakenDamage = true;
-			EffectColor();
+			meshEffect->EffectColor(float3(1.f, 0.f, 0.f));
 		}
 
 		if (componentParticleSystem)
@@ -160,47 +160,6 @@ bool HealthSystem::IsImmortal() const
 void HealthSystem::SetIsImmortal(bool isImmortal)
 {
 	this->isImmortal = isImmortal;
-}
-
-void HealthSystem::FillMeshes(GameObject* parent)
-{
-	ComponentMeshRenderer* mesh = parent->GetComponentInternal<ComponentMeshRenderer>();
-	if (mesh)
-	{
-		meshes.push_back(mesh);
-	}
-	
-	for (GameObject* child : parent->GetChildren())
-	{
-		FillMeshes(child);
-	}
-}
-
-void HealthSystem::EffectDiscard()
-{
-	for (ComponentMeshRenderer* mesh : meshes)
-	{
-		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
-		mesh->SetDiscard(true);
-	}
-}
-
-void HealthSystem::EffectColor()
-{
-	for (ComponentMeshRenderer* mesh : meshes)
-	{
-		mesh->SetDiscard(false);
-		mesh->SetEffectColor(float3(1.f, 0.f, 0.f));
-	}
-}
-
-void HealthSystem::ClearEffect()
-{
-	for (ComponentMeshRenderer* mesh : meshes)
-	{
-		mesh->SetDiscard(false);
-		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
-	}
 }
 
 float HealthSystem::GetCurrentHealth() const
