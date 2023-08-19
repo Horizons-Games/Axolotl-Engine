@@ -83,7 +83,7 @@ void EnemyDroneScript::Update(float deltaTime)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
-			droneState = DroneBehaviours::FIRSTPATROL;
+			droneState = DroneBehaviours::PATROL;
 			
 		}
 
@@ -111,12 +111,6 @@ void EnemyDroneScript::Update(float deltaTime)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			droneState = DroneBehaviours::FIRSTATTACK;
-		}
-
-		if (droneState == DroneBehaviours::FIRSTPATROL)
-		{
-			patrolScript->StartPatrol();
-			droneState = DroneBehaviours::PATROL;
 		}
 
 		if (droneState == DroneBehaviours::FIRSTATTACK)

@@ -68,7 +68,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		if (venomiteState != VenomiteBehaviours::PATROL)
 		{
 			venomiteState = VenomiteBehaviours::PATROL;
-			patrolScript->StartPatrol();
 		}
 
 		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), rangedAttackDistance)
@@ -131,6 +130,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		batonGameObject->Enable();
 		blasterGameObject->Disable();
 
+		seekScript->EnableMovement();
 		seekScript->Seeking();
 
 		componentAnimation->SetParameter("IsRunning", true);

@@ -19,7 +19,6 @@ class PlayerManagerScript;
 enum class DroneBehaviours
 {
 	IDLE,
-	FIRSTPATROL,
 	PATROL,
 	SEEK,
 	FIRSTATTACK,

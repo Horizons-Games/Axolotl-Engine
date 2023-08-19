@@ -7,55 +7,40 @@
 
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
-	ownerRigidBody(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), 
-	wayPointTwoTransform(nullptr), currentWayPointTransform(nullptr)
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), currentWaypoint(0),
+	ownerRigidBody(nullptr), ownerTransform(nullptr), currentWayPointTransform(nullptr)
 {
-	REGISTER_FIELD(wayPointOne, GameObject*);
-	REGISTER_FIELD(wayPointTwo, GameObject*);
+	REGISTER_FIELD(waypoints, std::vector<GameObject*>);
 }
 
 void PatrolBehaviourScript::Start()
 {
-	if (wayPointOne)
+	for (GameObject* waypoint : waypoints)
 	{
-		wayPointOneTransform = wayPointOne->GetComponent<ComponentTransform>();
-	}
-
-	if (wayPointTwo)
-	{
-		wayPointTwoTransform = wayPointTwo->GetComponent<ComponentTransform>();
+		transformWaypoints.push_back(waypoint->GetComponent<ComponentTransform>());
 	}
 
 	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 
-	currentWayPointTransform = wayPointOneTransform;
+	currentWayPointTransform = transformWaypoints[0];
 }
 
-// Initally set the first waypoint as the destiny
-void PatrolBehaviourScript::StartPatrol()
-{
-	if (ownerRigidBody && ownerRigidBody->IsEnabled())
-	{
-		currentWayPointTransform = wayPointOneTransform;
-
-		SetProportionalController();
-	}
-}
-
-// When this behaviour is triggered, the enemy will patrol between its waypoints
-// (This can be modularized into any amout of waypoints once the scripts can accept vectors)
 void PatrolBehaviourScript::Patrolling()
 {
-	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 2.0f)) 
+	if (ownerTransform->GetGlobalPosition().Equals(transformWaypoints[currentWaypoint]->GetGlobalPosition(), 2.0f))
 	{
-		currentWayPointTransform = wayPointTwoTransform;
-	}
+		if (currentWaypoint + 1 < transformWaypoints.size())
+		{
+			currentWayPointTransform = transformWaypoints[currentWaypoint + 1];
+			currentWaypoint += 1;
+		}
 
-	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 2.0f)) 
-	{
-		currentWayPointTransform = wayPointOneTransform;
+		else
+		{
+			currentWayPointTransform = transformWaypoints[0];
+			currentWaypoint = 0;
+		}
 	}
 
 	SetProportionalController();
@@ -63,6 +48,7 @@ void PatrolBehaviourScript::Patrolling()
 
 void PatrolBehaviourScript::SetProportionalController() const
 {
+	ownerRigidBody->SetKpForce(0.5f);
 	ownerRigidBody->SetPositionTarget(currentWayPointTransform->GetGlobalPosition());
 
 	Quat errorRotation =

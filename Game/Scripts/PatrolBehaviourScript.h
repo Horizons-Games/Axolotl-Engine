@@ -15,15 +15,13 @@ public:
 
 	void Start() override;
 
-	void StartPatrol();
 	void Patrolling();
 
 private:
-	GameObject* wayPointOne;
-	GameObject* wayPointTwo;
+	std::vector<GameObject*> waypoints;
+	std::vector<ComponentTransform*> transformWaypoints;
+	int currentWaypoint;
 
-	ComponentTransform* wayPointOneTransform;
-	ComponentTransform* wayPointTwoTransform;
 	ComponentTransform* currentWayPointTransform;
 	ComponentTransform* ownerTransform;
 	ComponentRigidBody* ownerRigidBody;

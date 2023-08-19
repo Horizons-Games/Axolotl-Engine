@@ -285,7 +285,13 @@
                             "height": 2.0,
                             "rbPos_X": -4.351974780547607e-9,
                             "rbPos_Y": 0.9167737364768982,
-                            "rbPos_Z": 0.9055957794189453
+                            "rbPos_Z": 0.9055957794189453,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -358,7 +364,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.6000000238418579,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -404,14 +416,17 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 3674956686470554933,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "WayPointTwo",
-                                    "value": 13382045285749467104,
-                                    "type": 2
+                                    "name": "Waypoints",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 3674956686470554933
+                                        },
+                                        {
+                                            "value": 13382045285749467104
+                                        }
+                                    ],
+                                    "innerType": 2
                                 }
                             ]
                         }
