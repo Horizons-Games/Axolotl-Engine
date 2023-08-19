@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
+class ComponentRigidBody;
 
 class BossChargeAttackScript : public Script
 {
@@ -21,6 +22,10 @@ public:
 
 private:
 	void PerformChargeAttack();
+	void RotateToTarget(ComponentTransform* target) const;
+
+	ComponentTransform* transform;
+	ComponentRigidBody* rigidBody;
 
 	ComponentTransform* chargeThroughPosition;
 	bool triggerCharge;
