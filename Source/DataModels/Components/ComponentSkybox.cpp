@@ -6,7 +6,7 @@
 #include "ModuleScene.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
-#include "ModuleResources.h"
+#include "Filesystem/ModuleResources.h"
 #include "Scene/Scene.h"
 #include "Resources/ResourceSkyBox.h"
 #include "DataModels/Program/Program.h"

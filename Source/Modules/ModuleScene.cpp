@@ -374,10 +374,6 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		rootQuadtree->LoadOptions(json);
 
-		/*loadedScene->SetSkybox(std::make_unique<Skybox>());
-		Skybox* skybox = loadedScene->GetSkybox();
-		skybox->LoadOptions(json);*/
-
 		loadedScene->SetCubemap(std::make_unique<Cubemap>());
 		Cubemap* cubemap = loadedScene->GetCubemap();
 		cubemap->LoadOptions(json);
@@ -397,8 +393,8 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 	GameObject* directionalLight = nullptr;
 
 	for (GameObject* obj : loadedObjects)
-	 {
-		if (obj->HasComponent<ComponentSkybox>())
+	{
+		if (obj->HasComponent<ComponentSkybox>() && mantainActualScene)
 		{
 			obj->RemoveComponent<ComponentSkybox>();
 		}

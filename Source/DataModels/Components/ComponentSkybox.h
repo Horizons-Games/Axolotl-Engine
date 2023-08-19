@@ -2,7 +2,8 @@
 #include "Components/Component.h"
 #include "Auxiliar/Generics/Drawable.h"
 #include "Auxiliar/Generics/Updatable.h"
-#include "UID.h"
+#include "FileSystem/UID.h"
+
 
 class ResourceSkyBox;
 class Skybox;
