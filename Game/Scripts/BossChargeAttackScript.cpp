@@ -7,7 +7,7 @@
 REGISTERCLASS(BossChargeAttackScript);
 
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), triggerCharge(false),
-	prepareChargeTime(2.0f)
+	prepareChargeTime(2.0f), chargeCooldown(0.0f)
 {
 }
 
@@ -25,19 +25,33 @@ void BossChargeAttackScript::Update(float deltaTime)
 		if (prepareChargeTime <= 0.0f)
 		{
 			PerformChargeAttack();
-			prepareChargeTime = 2.0f;
-			triggerCharge = false;
 		}
+	}
+
+	else
+	{
+		chargeCooldown -= deltaTime;
 	}
 }
 
 void BossChargeAttackScript::TriggerChargeAttack(GameObject* target)
 {
+	LOG_VERBOSE("Begin the charge attack");
+
 	triggerCharge = true;
 	chargeThroughPosition = target->GetComponent<ComponentTransform>();
+	chargeCooldown = 3.0f;
 }
 
-void BossChargeAttackScript::PerformChargeAttack() const
+void BossChargeAttackScript::PerformChargeAttack()
 {
 	LOG_VERBOSE("CHAAAAARGE!!!");
+
+	prepareChargeTime = 2.0f;
+	triggerCharge = false;
+}
+
+bool BossChargeAttackScript::CanPerformChargeAttack() const
+{
+	return chargeCooldown <= 0.0f;
 }

@@ -43,7 +43,8 @@ void FinalBossScript::Update(float deltaTime)
 	{
 		//patrolScript->Patrolling();
 
-		if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f))
+		if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+			chargeAttackScript->CanPerformChargeAttack())
 		{
 			chargeAttackScript->TriggerChargeAttack(target);
 		}
@@ -56,27 +57,27 @@ void FinalBossScript::ManageChangePhase()
 	{
 		bossState = FinalBossStates::LAST_RESORT;
 
-		LOG_VERBOSE("Final Boss is in LAST RESORT");
+		//LOG_VERBOSE("Final Boss is in LAST RESORT");
 	}
 
 	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f)
 	{
 		bossState = FinalBossStates::DEFENSIVE;
 
-		LOG_VERBOSE("Final Boss is DEFENSIVE");
+		//LOG_VERBOSE("Final Boss is DEFENSIVE");
 	}
 
 	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f)
 	{
 		bossState = FinalBossStates::AGGRESSIVE;
 
-		LOG_VERBOSE("Final Boss is AGGRESSIVE");
+		//LOG_VERBOSE("Final Boss is AGGRESSIVE");
 	}
 
 	else
 	{
 		bossState = FinalBossStates::NEUTRAL;
 
-		LOG_VERBOSE("Final Boss is NEUTRAL");
+		//LOG_VERBOSE("Final Boss is NEUTRAL");
 	}
 }

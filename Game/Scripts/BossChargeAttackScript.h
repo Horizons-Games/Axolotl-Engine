@@ -17,11 +17,14 @@ public:
 	void Update(float deltaTime) override;
 
 	void TriggerChargeAttack(GameObject* target);
+	bool CanPerformChargeAttack() const;
 
 private:
-	void PerformChargeAttack() const;
+	void PerformChargeAttack();
 
 	ComponentTransform* chargeThroughPosition;
 	bool triggerCharge;
 	float prepareChargeTime;
+
+	float chargeCooldown;
 };
