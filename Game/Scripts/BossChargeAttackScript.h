@@ -12,7 +12,8 @@ enum class ChargeState
 {
 	NOTHING,
 	PREPARING_CHARGE,
-	CHARGING
+	CHARGING,
+	BOUNCING_WALL
 };
 
 class BossChargeAttackScript : public Script
@@ -32,6 +33,7 @@ public:
 private:
 	void PrepareCharge() const;
 	void PerformChargeAttack();
+	void WallHitAfterCharge() const;
 
 	void RotateToTarget(ComponentTransform* target) const;
 
@@ -43,4 +45,5 @@ private:
 	float prepareChargeTime;
 	float chargeCooldown;
 	ChargeState chargeState;
+	bool chargeHitPlayer;
 };

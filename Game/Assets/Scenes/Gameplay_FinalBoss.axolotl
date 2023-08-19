@@ -19196,7 +19196,7 @@
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 1,
+                            "currentShape": 3,
                             "usePositionController": true,
                             "useRotationController": true,
                             "KpForce": 0.5,
@@ -19207,16 +19207,16 @@
                             "boxSize_Z": 0.9999991655349731,
                             "radius": 1.0,
                             "factor": 0.5,
-                            "height": 1.600000023841858,
+                            "height": 1.399999976158142,
                             "rbPos_X": 0.0,
-                            "rbPos_Y": 2.75,
+                            "rbPos_Y": 2.799999952316284,
                             "rbPos_Z": 0.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
                             "xRotationAxisBlocked": false,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
