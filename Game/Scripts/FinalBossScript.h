@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class PatrolBehaviourScript;
+
 enum class FinalBossStates
 {
 	NEUTRAL,
@@ -24,4 +26,6 @@ public:
 
 private:
 	FinalBossStates bossState;
+
+	PatrolBehaviourScript* patrolScript;
 };

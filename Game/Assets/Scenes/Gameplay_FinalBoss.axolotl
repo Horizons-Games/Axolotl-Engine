@@ -10290,14 +10290,10 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 17921358598841053390,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "WayPointTwo",
-                                    "value": 6536772281141820080,
-                                    "type": 2
+                                    "name": "Waypoints",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -10442,9 +10438,10 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 11306440819102867434,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -13533,14 +13530,10 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 17217482957009702546,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "WayPointTwo",
-                                    "value": 16007474881477241656,
-                                    "type": 2
+                                    "name": "Waypoints",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -13673,9 +13666,10 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 10105264902335347340,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -19273,9 +19267,39 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 0,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PatrolBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "Waypoints",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 15576741301376158987
+                                        },
+                                        {
+                                            "value": 12227018763558952827
+                                        },
+                                        {
+                                            "value": 890012990303009977
+                                        },
+                                        {
+                                            "value": 13417053797819925637
+                                        }
+                                    ],
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -19316,6 +19340,118 @@
                             "particleSystemUID": 3999053471174024690,
                             "assetPathParticleSystem": "Assets/ParticleSystem/DetectParticle.particle",
                             "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 1",
+                "tag": "",
+                "uid": 15576741301376158987,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 22.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 2",
+                "tag": "",
+                "uid": 12227018763558952827,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": -20.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 3",
+                "tag": "",
+                "uid": 890012990303009977,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -22.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 4",
+                "tag": "",
+                "uid": 13417053797819925637,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": 20.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
