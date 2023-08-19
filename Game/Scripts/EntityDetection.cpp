@@ -171,7 +171,8 @@ void EntityDetection::VisualParticle(bool activate, GameObject* enemy)
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Enemy" || other->GetOwner()->GetTag() == "PriorityTarget" && other->GetOwner()->IsEnabled())
+	if (other->GetOwner()->GetTag() == "Enemy" || 
+		other->GetOwner()->GetTag() == "PriorityTarget" && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}

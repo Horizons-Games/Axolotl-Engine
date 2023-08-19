@@ -10,6 +10,7 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
@@ -35,14 +36,18 @@ void EnemyDeathScript::Update(float deltaTime)
 
 void EnemyDeathScript::ManageEnemyDeath()
 {
-	GameObject* newPowerUp = RequestPowerUp();
-
-	if (newPowerUp != nullptr)
+	// Only activate powerups when the dead enemy is not a boss
+	if (!owner->GetComponent<FinalBossScript>())
 	{
-		PowerUpLogicScript* newPowerUpLogic = newPowerUp->GetComponent<PowerUpLogicScript>();
-		ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
+		GameObject* newPowerUp = RequestPowerUp();
 
-		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
+		if (newPowerUp != nullptr)
+		{
+			PowerUpLogicScript* newPowerUpLogic = newPowerUp->GetComponent<PowerUpLogicScript>();
+			ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
+
+			newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
+		}
 	}
 
 	DisableEnemyActions();
