@@ -27,11 +27,15 @@ template<typename... Args>
 std::string Format(const std::string& format, Args&&... args)
 {
 	std::string formattedString = format;
+	
 	// this iterates through the variadic argument pack like a loop
 	(
 		[&]()
 		{
-			assert(detail::Format(formattedString, args) && "Too many arguments in log call!");
+			if (!detail::Format(formattedString, args))
+			{
+				assert(false && "Too many arguments in log call!");
+			}
 		}(),
 		...);
 
