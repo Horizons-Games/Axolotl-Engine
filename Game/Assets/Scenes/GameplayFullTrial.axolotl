@@ -388,7 +388,7 @@
         },
         {
             "GameObject": {
-                "name": "PowerUp Drone 1",
+                "name": "PowerUp 1",
                 "tag": "",
                 "uid": 11306440819102867434,
                 "parentUID": 12473639644339742065,
@@ -477,7 +477,7 @@
         },
         {
             "GameObject": {
-                "name": "PowerUp Drone 2",
+                "name": "PowerUp 2",
                 "tag": "",
                 "uid": 1375892197173359520,
                 "parentUID": 12473639644339742065,
@@ -7013,7 +7013,7 @@
         },
         {
             "GameObject": {
-                "name": "PowerUp Venomite 1",
+                "name": "PowerUp 3",
                 "tag": "",
                 "uid": 10105264902335347340,
                 "parentUID": 12473639644339742065,
@@ -7102,7 +7102,7 @@
         },
         {
             "GameObject": {
-                "name": "PowerUp Venomite 2",
+                "name": "PowerUp 4",
                 "tag": "",
                 "uid": 10078801361813198795,
                 "parentUID": 12473639644339742065,
@@ -10741,9 +10741,23 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 11306440819102867434,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 11306440819102867434
+                                        },
+                                        {
+                                            "value": 1375892197173359520
+                                        },
+                                        {
+                                            "value": 10105264902335347340
+                                        },
+                                        {
+                                            "value": 10078801361813198795
+                                        }
+                                    ],
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -13704,9 +13718,23 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 1375892197173359520,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 11306440819102867434
+                                        },
+                                        {
+                                            "value": 1375892197173359520
+                                        },
+                                        {
+                                            "value": 10105264902335347340
+                                        },
+                                        {
+                                            "value": 10078801361813198795
+                                        }
+                                    ],
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -16938,9 +16966,23 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 10105264902335347340,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 11306440819102867434
+                                        },
+                                        {
+                                            "value": 1375892197173359520
+                                        },
+                                        {
+                                            "value": 10105264902335347340
+                                        },
+                                        {
+                                            "value": 10078801361813198795
+                                        }
+                                    ],
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -20615,9 +20657,23 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 10078801361813198795,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 11306440819102867434
+                                        },
+                                        {
+                                            "value": 1375892197173359520
+                                        },
+                                        {
+                                            "value": 10105264902335347340
+                                        },
+                                        {
+                                            "value": 10078801361813198795
+                                        }
+                                    ],
+                                    "innerType": 2
                                 }
                             ]
                         }

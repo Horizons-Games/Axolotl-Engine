@@ -16,7 +16,7 @@ REGISTERCLASS(EnemyDeathScript);
 
 EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false)
 {
-	REGISTER_FIELD(activePowerUp, GameObject*); // this should be a vector of powerUps
+	REGISTER_FIELD(availablePowerUps, std::vector<GameObject*>);
 }
 
 void EnemyDeathScript::Update(float deltaTime)
@@ -56,18 +56,17 @@ void EnemyDeathScript::ManageEnemyDeath()
 
 GameObject* EnemyDeathScript::RequestPowerUp() const
 {
-	// when having vectors uncomment this loop
-	//for (GameObject* powerUp : powerUps)
-	//{
+	for (GameObject* selectedPowerUp : availablePowerUps)
+	{
 		// Make that the enemies don't always drop a powerup (20% chance)
 		srand(static_cast<unsigned int>(time(0)));
 		int randomActivation = rand() % 10;
 
-		if (!activePowerUp->IsEnabled() && randomActivation < 2)
+		if (!selectedPowerUp->IsEnabled() && randomActivation < 11)
 		{
-			return activePowerUp;
+			return selectedPowerUp;
 		}
-	//}
+	}
 
 	return nullptr;
 }

@@ -20,8 +20,7 @@ private:
 	void DisableEnemyActions();
 	void DespawnEnemy() const;
 
-	// Once we have vectors, this should be a vector of powerUps ready to be activated in the PowerUpsManagerScript
-	GameObject* activePowerUp;
+	std::vector<GameObject*> availablePowerUps;
 
 	float despawnTimer;
 	bool startDespawnTimer;
