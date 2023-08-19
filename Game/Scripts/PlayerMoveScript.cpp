@@ -69,7 +69,6 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	LOG_VERBOSE("{}", playerState == PlayerActions::WALKING);
 	if (componentAnimation->GetActualStateName() == "BixRunning" && playerState != PlayerActions::WALKING)
 	{
 		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
