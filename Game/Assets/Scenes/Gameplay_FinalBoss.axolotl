@@ -18275,7 +18275,7 @@
         {
             "GameObject": {
                 "name": "Left Bottom Wall",
-                "tag": "",
+                "tag": "Wall",
                 "uid": 13464126731711137888,
                 "parentUID": 9860942332718922623,
                 "enabled": true,
@@ -18349,7 +18349,7 @@
         {
             "GameObject": {
                 "name": "Right Wall",
-                "tag": "",
+                "tag": "Wall",
                 "uid": 11320371221697773927,
                 "parentUID": 9860942332718922623,
                 "enabled": true,
@@ -18423,7 +18423,7 @@
         {
             "GameObject": {
                 "name": "Left Wall",
-                "tag": "",
+                "tag": "Wall",
                 "uid": 3589016091992484870,
                 "parentUID": 9860942332718922623,
                 "enabled": true,
@@ -18497,7 +18497,7 @@
         {
             "GameObject": {
                 "name": "Left Top Wall",
-                "tag": "",
+                "tag": "Wall",
                 "uid": 8507479322935529854,
                 "parentUID": 9860942332718922623,
                 "enabled": true,
@@ -18625,7 +18625,7 @@
         {
             "GameObject": {
                 "name": "Right Top Wall",
-                "tag": "",
+                "tag": "Wall",
                 "uid": 1163514445810490256,
                 "parentUID": 9860942332718922623,
                 "enabled": true,
@@ -18699,7 +18699,7 @@
         {
             "GameObject": {
                 "name": "Right Bottom Wall",
-                "tag": "",
+                "tag": "Wall",
                 "uid": 901887091312178616,
                 "parentUID": 9860942332718922623,
                 "enabled": true,

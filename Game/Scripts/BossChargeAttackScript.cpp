@@ -9,8 +9,8 @@
 
 REGISTERCLASS(BossChargeAttackScript);
 
-BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), triggerCharge(false),
-	prepareChargeTime(2.0f), chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr)
+BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(2.0f),
+	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NOTHING)
 {
 }
 
@@ -23,10 +23,9 @@ void BossChargeAttackScript::Start()
 void BossChargeAttackScript::Update(float deltaTime)
 {
 	// If the charge attack is triggered, prepare to charge
-	if (triggerCharge)
+	if (chargeState == ChargeState::PREPARING_CHARGE)
 	{
-		RotateToTarget(chargeThroughPosition);
-		rigidBody->SetKpTorque(5.0f);
+		PrepareCharge();
 
 		prepareChargeTime -= deltaTime;
 		if (prepareChargeTime <= 0.0f)
@@ -35,19 +34,52 @@ void BossChargeAttackScript::Update(float deltaTime)
 		}
 	}
 
-	else
+	else if (chargeState == ChargeState::NOTHING)
 	{
-		//chargeCooldown -= deltaTime;
+		chargeCooldown -= deltaTime;
 	}
 }
+
+
+void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (other->GetOwner()->CompareTag("Wall") && chargeState == ChargeState::CHARGING)
+	{
+		chargeState = ChargeState::NOTHING;
+
+		rigidBody->SetPositionTarget(transform->GetGlobalPosition());
+		rigidBody->SetIsKinematic(true);
+		rigidBody->SetUpMobility();
+	}
+}
+
 
 void BossChargeAttackScript::TriggerChargeAttack(GameObject* target)
 {
 	LOG_VERBOSE("Begin the charge attack");
 
-	triggerCharge = true;
+	rigidBody->SetIsKinematic(false);
+	rigidBody->SetUpMobility();
+
+	chargeState = ChargeState::PREPARING_CHARGE;
 	chargeThroughPosition = target->GetComponent<ComponentTransform>();
 	chargeCooldown = 3.0f;
+}
+
+void BossChargeAttackScript::PrepareCharge() const
+{
+	RotateToTarget(chargeThroughPosition);
+	rigidBody->SetKpTorque(5.0f);
+
+	/*
+	float3 forward = transform->GetGlobalForward();
+	forward.Normalize();
+
+	rigidBody->SetKpForce(0.1f);
+	rigidBody->SetPositionTarget(float3(forward.x * -5.0f,
+										transform->GetGlobalPosition().y,
+										forward.z * -5.0f));
+	*/
 }
 
 void BossChargeAttackScript::PerformChargeAttack()
@@ -63,7 +95,7 @@ void BossChargeAttackScript::PerformChargeAttack()
 										forward.z * 50.0f));
 
 	prepareChargeTime = 2.0f;
-	triggerCharge = false;
+	chargeState = ChargeState::CHARGING;
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
