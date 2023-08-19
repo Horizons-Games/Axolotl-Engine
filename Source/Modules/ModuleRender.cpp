@@ -907,6 +907,11 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	glPopDebugGroup();
 }
 
+void ModuleRender::DrawMeshes(std::vector<GameObject*>& objects, const float3& pos)
+{
+	batchManager->DrawMeshes(objects, pos);
+}
+
 void ModuleRender::DrawHighlight(GameObject* gameObject)
 {
 	std::queue<GameObject*> gameObjectQueue;

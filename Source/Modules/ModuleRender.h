@@ -49,6 +49,7 @@ public:
 	void ToggleShadows();
 
 	GLuint GetRenderedTexture() const;
+	GLuint GetUboCamera() const;
 	float GetObjectDistance(const GameObject* gameObject);
 
 	BatchManager* GetBatchManager() const;
@@ -62,6 +63,8 @@ public:
 
 	float2 ParallelReduction(Program* program, int width, int height);
 	void RenderShadowMap(const GameObject* light, const float2& minMax);
+
+	void DrawMeshes(std::vector<GameObject*>& objects, const float3& pos);
 
 private:
 
@@ -165,6 +168,11 @@ inline void ModuleRender::ToggleShadows()
 inline GLuint ModuleRender::GetRenderedTexture() const
 {
 	return renderedTexture[1];
+}
+
+inline GLuint ModuleRender::GetUboCamera() const
+{
+	return uboCamera;
 }
 
 inline BatchManager* ModuleRender::GetBatchManager() const
