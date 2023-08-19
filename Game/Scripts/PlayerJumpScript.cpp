@@ -57,7 +57,11 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 	}
 
 	CheckGround();
-	Jump(deltaTime);
+
+	if (playerMoveScript->GetPlayerState() != PlayerActions::DASHING)
+	{
+		Jump(deltaTime);
+	}
 
 	if (isJumping)
 	{
