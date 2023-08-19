@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "{0}.h"
 
 #include "Components/ComponentScript.h"

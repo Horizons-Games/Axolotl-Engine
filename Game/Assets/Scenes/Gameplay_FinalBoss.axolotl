@@ -19230,6 +19230,11 @@
                                     "name": "ParticleTargetGO",
                                     "value": 2757401412524036091,
                                     "type": 2
+                                },
+                                {
+                                    "name": "Target",
+                                    "value": 1326767777895378518,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -19316,6 +19321,15 @@
                                     "innerType": 2
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossChargeAttackScript",
+                            "fields": null
                         }
                     }
                 ]

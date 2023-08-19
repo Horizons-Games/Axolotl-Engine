@@ -639,6 +639,9 @@
     <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossChargeAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1315,6 +1318,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossChargeAttackScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

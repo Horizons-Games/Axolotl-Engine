@@ -5,10 +5,13 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class GameObject;
 class ComponentRigidBody;
+class ComponentTransform;
 
 class PatrolBehaviourScript;
 class HealthSystem;
+class BossChargeAttackScript;
 
 enum class FinalBossStates
 {
@@ -32,8 +35,12 @@ private:
 
 	FinalBossStates bossState;
 
+	GameObject* target;
 	ComponentRigidBody* rigidBody;
+	ComponentTransform* transform;
+	ComponentTransform* targetTransform;
 
 	PatrolBehaviourScript* patrolScript;
 	HealthSystem* bossHealthSystem;
+	BossChargeAttackScript* chargeAttackScript;
 };
