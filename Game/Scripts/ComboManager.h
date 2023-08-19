@@ -25,6 +25,7 @@ public:
 	ComboManager();
 	~ComboManager() override = default;
 
+	void Init() override;
 	void Start() override;
 
 	int GetComboCount() const;
