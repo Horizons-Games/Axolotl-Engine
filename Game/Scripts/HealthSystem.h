@@ -2,7 +2,6 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "vector"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
