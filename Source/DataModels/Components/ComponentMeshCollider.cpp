@@ -31,7 +31,7 @@ void ComponentMeshCollider::InternalLoad(const Json& meta)
 bool ComponentMeshCollider::Move(Direction direction, float size, float stepSize)
 {
 	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
-	float3 position = trans->GetPosition();
+	float3 position = trans->GetLocalPosition();
 
 	math::vec points[8];
 	trans->GetObjectOBB().GetCornerPoints(points);
@@ -44,7 +44,7 @@ bool ComponentMeshCollider::Move(Direction direction, float size, float stepSize
 	if (!IsColliding(usedPoints, movementDirection, size, stepSize))
 	{
 		position += movementDirection * size;
-		trans->SetPosition(position);
+		trans->SetLocalPosition(position);
 
 		trans->UpdateTransformMatrices();
 		return true;
@@ -57,7 +57,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 	float sectionMove = distance / (float) steps;
 
 	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
-	float3 position = trans->GetPosition();
+	float3 position = trans->GetLocalPosition();
 
 	math::vec points[8];
 	trans->GetObjectOBB().GetCornerPoints(points);
@@ -71,7 +71,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 		if (!IsColliding(usedPoints, movementDirection, sectionMove * (float) i, stepSize))
 		{
 			position += movementDirection * sectionMove * (float) i;
-			trans->SetPosition(position);
+			trans->SetLocalPosition(position);
 
 			trans->UpdateTransformMatrices();
 			return true;

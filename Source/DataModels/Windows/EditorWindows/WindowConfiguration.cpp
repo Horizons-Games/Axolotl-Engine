@@ -5,6 +5,7 @@
 #include "Windows/SubWindows/WindowCamera.h"
 #include "Windows/SubWindows/WindowFPS.h"
 #include "Windows/SubWindows/WindowFrustum.h"
+#include "Windows/SubWindows/WindowInput.h"
 #include "Windows/SubWindows/WindowHardware.h"
 #include "Windows/SubWindows/WindowRenderer.h"
 #include "Windows/SubWindows/WindowWindow.h"
@@ -19,6 +20,7 @@ WindowConfiguration::WindowConfiguration() : EditorWindow("Configuration")
 	collapsingSubWindows.push_back(std::make_unique<WindowWindow>());
 	collapsingSubWindows.push_back(std::make_unique<WindowCamera>());
 	collapsingSubWindows.push_back(std::make_unique<WindowFrustum>());
+	collapsingSubWindows.push_back(std::make_unique<WindowInput>());
 }
 
 WindowConfiguration::~WindowConfiguration()

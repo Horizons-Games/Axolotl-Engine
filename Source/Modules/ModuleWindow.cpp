@@ -18,9 +18,9 @@ bool ModuleWindow::Init()
 	LOG_VERBOSE("Init SDL window & surface");
 	bool ret = true;
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
 	{
-		LOG_ERROR("SDL_VIDEO could not initialize! SDL_Error: {}\n", SDL_GetError());
+		LOG_ERROR("SDL could not initialize! SDL_Error: {}\n", SDL_GetError());
 		ret = false;
 	}
 	else

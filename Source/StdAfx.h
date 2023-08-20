@@ -27,4 +27,6 @@
 #include "Math/float4.h"
 #include "Math/float4x4.h"
 
+#include "SDL.h"
+
 #include "AxoLog.h"

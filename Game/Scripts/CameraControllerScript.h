@@ -13,6 +13,8 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
+	void SetVerticalSensitivity(float newVerticalSensibility);
+
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
@@ -33,6 +35,7 @@ private:
 	std::vector<ComponentCameraSample*> samples;
 
 	ComponentTransform* transform;
+	ComponentCamera* camera;
 
 	GameObject* player;
 	ComponentTransform* playerTransform;
@@ -43,5 +46,7 @@ private:
 
 	float xFocusOffset;
 	float yFocusOffset;
+
+	bool inCombat;
 };
 

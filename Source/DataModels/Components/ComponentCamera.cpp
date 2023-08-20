@@ -25,6 +25,8 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 	camera->Init();
 	camera->SetKpPosition(5.0f);
 	camera->SetKpRotation(5.0f);
+	KpPosition = 5.0f;
+	KpRotation = 5.0f;
 	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
 }
@@ -42,10 +44,9 @@ void ComponentCamera::Update()
 {
 	float deltaTime = App->GetDeltaTime();
 	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
-	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
 
-	Quat rotation = trans->GetGlobalRotation();
-	camera->SetRotationTarget(rotation, deltaTime);
+	camera->SetPositionTarget(trans->GetGlobalPosition(), deltaTime);
+	camera->SetRotationTarget(trans->GetGlobalRotation(), deltaTime);
 
 	if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 	{
@@ -61,12 +62,32 @@ void ComponentCamera::Draw() const
 #endif // ENGINE
 }
 
+void ComponentCamera::SetSampleKpPosition(float kp)
+{
+	camera->SetKpPosition(kp);
+}
+
+void ComponentCamera::SetSampleKpRotation(float kp)
+{
+	camera->SetKpRotation(kp);
+}
+
+void ComponentCamera::RestoreKpPosition()
+{
+	camera->SetKpPosition(KpPosition);
+}
+
+void ComponentCamera::RestoreKpRotation()
+{
+	camera->SetKpRotation(KpRotation);
+}
+
 void ComponentCamera::InternalSave(Json& meta)
 {
 	meta["frustumOfset"] = camera->GetFrustumOffset();
 	meta["drawFrustum"] = camera->IsDrawFrustum();
-	meta["kpPosition"] = camera->GetKpPosition();
-	meta["kpRotation"] = camera->GetKpRotation();
+	meta["kpPosition"] = KpPosition;
+	meta["kpRotation"] = KpRotation;
 	// meta["frustumMode"] = camera->GetFrustumMode();
 }
 
@@ -74,8 +95,11 @@ void ComponentCamera::InternalLoad(const Json& meta)
 {
 	camera->SetFrustumOffset((float) meta["frustumOfset"]);
 	camera->SetIsDrawFrustum((bool) meta["drawFrustum"]);
-	camera->SetKpPosition((float) meta["kpPosition"]);
-	camera->SetKpRotation((float) meta["kpRotation"]);
+	KpPosition = (float) meta["kpPosition"];
+	KpRotation = (float) meta["kpRotation"];
+
+	camera->SetKpPosition(KpPosition);
+	camera->SetKpRotation(KpRotation);
 	// frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
@@ -83,3 +107,5 @@ void ComponentCamera::DuplicateCamera(CameraGameObject* camera)
 {
 	this->camera = std::make_unique<CameraGameObject>(static_cast<CameraGameObject&>(*camera));
 }
+
+

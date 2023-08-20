@@ -26,6 +26,7 @@ public:
 	void AddEmitter(std::unique_ptr<ParticleEmitter> emitter);
 	void RemoveEmitter(int pos);
 	void ClearAllEmitters();
+	void SwapEmitter(int pos, int newpos);
 
 protected:
 	void InternalLoad() override {};
@@ -67,4 +68,9 @@ inline void ResourceParticleSystem::RemoveEmitter(int pos)
 inline void ResourceParticleSystem::ClearAllEmitters()
 {
 	emitters.clear();
+}
+
+inline void ResourceParticleSystem::SwapEmitter(int pos, int newpos)
+{
+	std::swap(emitters[pos], emitters[newpos]);
 }

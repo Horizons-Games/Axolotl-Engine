@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "../Scripts/ComboManager.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -11,7 +12,12 @@ class ComponentAudioSource;
 class ComponentTransform;
 class ComponentAnimation;
 
+class EntityDetection;
+class ComboManager;
 class PlayerManagerScript;
+class JumpFinisherAttack;
+class LightFinisherAttackScript;
+class HeavyFinisherAttack;
 
 enum class AttackCombo
 {
@@ -28,48 +34,66 @@ public:
 	BixAttackScript();
 	~BixAttackScript() override = default;
 
-	bool GetIsDeathTouched() const;
+	bool IsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);
+
+	bool IsAttackAvailable() const;
+	bool IsPerfomingJumpAttack() const;
+
+	AttackType GetCurrentAttackType() const;
+	GameObject* GetEnemyDetected() const;
 
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void PerformAttack();
-	void CheckCombo();
+	void UpdateEnemyDetection();
 
-	bool IsAttackAvailable() const;
-	void CheckCollision() const;
+	void PerformCombos();
 
+	void LightNormalAttack();
+	void HeavyNormalAttack();
+	void JumpNormalAttack();
+	void LightFinisher();
+	void HeavyFinisher();
+	void JumpFinisher();
+
+	void ResetAttackAnimations();
+
+	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
+
+	bool isAttacking;
 	float attackCooldown;
-	float lastAttackTime;
+	float attackCooldownCounter;
+	float comboInitTimer;
+	float comboNormalAttackTimer;
 
 	bool isDeathTouched;
 
+	ModuleInput* input;
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
+
 	GameObject* animationGO;
+	GameObject* enemyDetectionObject;
 
-	ModuleInput* input;
+	EntityDetection* enemyDetection;
+	ComboManager* comboSystem;
+	float comboCountSoft;
+	float comboCountHeavy;
+	float attackSoft;
+	float attackHeavy;
 
-	//Provisional
-	std::vector<Ray> rays;
-
-	GameObject* ray1GO;
-	GameObject* ray2GO;
-	GameObject* ray3GO;
-	GameObject* ray4GO;
-
-	ComponentTransform* ray1Transform;
-	ComponentTransform* ray2Transform;
-	ComponentTransform* ray3Transform;
-	ComponentTransform* ray4Transform;
-
-	float rayAttackSize;
-	//--Provisional
+	float normalAttackDistance;
+	AttackCombo attackComboPhase;
+	AttackType currentAttack;
 
 	PlayerManagerScript* playerManager;
-	AttackCombo attackComboPhase;
+
+	JumpFinisherAttack* jumpFinisherScript;
+	LightFinisherAttackScript* lightFinisherScript;
+	HeavyFinisherAttack* heavyFinisherAttack;
+	GameObject* bixLightSaber;
 };
