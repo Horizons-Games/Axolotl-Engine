@@ -119,6 +119,8 @@ void EnemyVenomiteScript::CheckState()
 			patrolScript->StopPatrol();
 			aiMovement->SetMovementStatuses(false, true);
 
+			componentAnimation->SetParameter("IsRunning", false);
+
 			if (exclamationParticle)
 			{
 				exclamationParticle->Play();

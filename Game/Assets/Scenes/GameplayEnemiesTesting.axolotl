@@ -10085,7 +10085,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.634626585200749e-7,
+                            "localPos_X": 0.0,
                             "localPos_Y": 1.5,
                             "localPos_Z": 1.1187258958816528,
                             "localRot_X": -0.0,
@@ -10179,6 +10179,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 1435588834732233720,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 8240929297822109787,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.6000000238418579,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -13200,6 +13210,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 11623988761034832719,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -25865,7 +25885,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 4.43563985824585,
+                            "localPos_Y": 5.6253437995910645,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -25890,9 +25910,9 @@
         },
         {
             "GameObject": {
-                "name": "Exclamation_VFX",
+                "name": "ExclamationVFX",
                 "tag": "",
-                "uid": 1347555176376682272,
+                "uid": 8240929297822109787,
                 "parentUID": 9419324827224935529,
                 "enabled": true,
                 "static": false,
@@ -25902,15 +25922,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 38.124755859375,
-                            "localPos_Y": 0.1692749261856079,
-                            "localPos_Z": -1.1187258958816528,
-                            "localRot_X": -0.0,
+                            "localPos_X": 0.000240325927734375,
+                            "localPos_Y": -1.2785320281982422,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 179.99993896484375,
-                            "localSca_X": 0.30000001192092896,
-                            "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     },
                     {

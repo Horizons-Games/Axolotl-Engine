@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentTransform;
 class ComponentAnimation;
 class ComponentAudioSource;
+class ComponentParticleSystem;
 
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
@@ -21,6 +22,7 @@ enum class DroneBehaviours
 {
 	IDLE,
 	PATROL,
+	ENEMY_DETECTED,
 	SEEK,
 	FASTATTACK,
 	READYTOEXPLODE,
@@ -41,13 +43,15 @@ public:
 private:
 	void CalculateNextPosition() const;
 	void CheckState();
-	void UpdateBehaviour();
+	void UpdateBehaviour(float deltaTime);
 
 	DroneBehaviours droneState;
 
 	float attackDistance;
 	float seekDistance;
 	int animationOffset;
+	float enemyDetectionDuration;
+	float enemyDetectionTime;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
@@ -63,6 +67,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 	ComponentTransform* seekTargetTransform;
+	ComponentParticleSystem* exclamationVFX;
 
 	PlayerManagerScript* playerManager;
 };

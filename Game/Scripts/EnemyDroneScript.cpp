@@ -5,6 +5,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -23,13 +24,17 @@ REGISTERCLASS(EnemyDroneScript);
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
 componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr),
-explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), animationOffset(0)
+explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), animationOffset(0),
+exclamationVFX(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(seekDistance, float);
 
 	REGISTER_FIELD(explosionGameObject, GameObject*);
+
+	REGISTER_FIELD(exclamationVFX, ComponentParticleSystem*);
+	REGISTER_FIELD(enemyDetectionDuration, float);
 }
 
 void EnemyDroneScript::Start()
@@ -54,6 +59,8 @@ void EnemyDroneScript::Start()
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
 	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
+
+	enemyDetectionTime = 0.0f;
 
 	droneState = DroneBehaviours::IDLE;
 }
@@ -81,7 +88,7 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	CheckState();
 
-	UpdateBehaviour();
+	UpdateBehaviour(deltaTime);
 }
 
 void EnemyDroneScript::CheckState()
@@ -124,7 +131,21 @@ void EnemyDroneScript::CheckState()
 	}
 	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance))
 	{
-		if (droneState != DroneBehaviours::SEEK)
+		if (droneState == DroneBehaviours::PATROL)
+		{
+			patrolScript->StopPatrol();
+			aiMovement->SetMovementStatuses(false, true);
+
+			if (exclamationVFX)
+			{
+				exclamationVFX->Play();
+			}
+
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+
+			droneState = DroneBehaviours::ENEMY_DETECTED;
+		}
+		else if (droneState != DroneBehaviours::SEEK && droneState != DroneBehaviours::ENEMY_DETECTED)
 		{
 			bool inFront = true;
 			if (std::abs(ownerTransform->GetGlobalForward().
@@ -165,11 +186,26 @@ void EnemyDroneScript::CheckState()
 	}
 }
 
-void EnemyDroneScript::UpdateBehaviour()
+void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 {
 	switch (droneState)
 	{
 	case DroneBehaviours::PATROL:
+
+		break;
+
+	case DroneBehaviours::ENEMY_DETECTED:
+
+		enemyDetectionTime += deltaTime;
+
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+
+		if (enemyDetectionTime >= enemyDetectionDuration)
+		{
+			enemyDetectionTime = 0.0f;
+
+			droneState = DroneBehaviours::SEEK;
+		}
 
 		break;
 
