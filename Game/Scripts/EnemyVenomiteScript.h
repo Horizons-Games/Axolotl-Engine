@@ -11,6 +11,7 @@ class RangedFastAttackBehaviourScript;
 class MeleeFastAttackBehaviourScript;
 class HealthSystem;
 class AIMovement;
+class EnemyDeathScript;
 
 class ComponentTransform;
 class ComponentAnimation;
@@ -34,7 +35,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie() override;
+	void SetReadyToDie(float damage) override;
 
 private:
 	void CheckState();
@@ -44,10 +45,11 @@ private:
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
-	std::vector<RangedFastAttackBehaviourScript*> rangedAttackScripts;
+	RangedFastAttackBehaviourScript* rangedAttackScript;
 	MeleeFastAttackBehaviourScript* meleeAttackScript;
 	HealthSystem* healthScript;
 	AIMovement* aiMovement;
+	EnemyDeathScript* deathScript;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;

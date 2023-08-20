@@ -100,7 +100,7 @@ void HealthSystem::TakeDamage(float damage)
 		{
 			if (currentHealth - damage <= 0)
 			{
-				enemyOwner->SetReadyToDie();
+				enemyOwner->SetReadyToDie(damage);
 				damageTaken = true;
 			}
 			else

@@ -12,6 +12,7 @@
 #include "../Scripts/MeleeFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/AIMovement.h"
+#include "../Scripts/EnemyDeathScript.h"
 
 REGISTERCLASS(EnemyVenomiteScript);
 
@@ -19,7 +20,7 @@ EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::I
 	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(1.5f), seekAlertDistance(15.0f),
 	meleeAttackScript(nullptr), healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), 
 	componentAudioSource(nullptr), batonGameObject(nullptr), blasterGameObject(nullptr), aiMovement(nullptr),
-	seekTargetTransform(nullptr)
+	seekTargetTransform(nullptr), deathScript(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
@@ -36,10 +37,11 @@ void EnemyVenomiteScript::Start()
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
-	rangedAttackScripts = owner->GetComponents<RangedFastAttackBehaviourScript>();
+	rangedAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	meleeAttackScript = owner->GetComponent<MeleeFastAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
 	aiMovement = owner->GetComponent<AIMovement>();
+	deathScript = owner->GetComponent<EnemyDeathScript>();
 
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 }
@@ -148,17 +150,23 @@ void EnemyVenomiteScript::UpdateBehaviour()
 
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
-		for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
+		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage")
 		{
 			if (rangedAttackScript->IsAttackAvailable())
 			{
 				componentAnimation->SetParameter("IsRangedAttacking", true);
 				rangedAttackScript->PerformAttack();
 			}
-
 			else
 			{
 				//componentAnimation->SetParameter("IsRangedAttacking", false);
+			}
+		}
+		else
+		{
+			if (rangedAttackScript->IsPreShooting())
+			{
+				rangedAttackScript->InterruptAttack();
 			}
 		}
 
@@ -168,15 +176,17 @@ void EnemyVenomiteScript::UpdateBehaviour()
 
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
-		if (meleeAttackScript->IsAttackAvailable())
+		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage")
 		{
-			componentAnimation->SetParameter("IsMeleeAttacking", true);
-			meleeAttackScript->PerformAttack();
-		}
-		else
-		{
-			componentAnimation->SetParameter("IsMeleeAttacking", false);
-
+			if (meleeAttackScript->IsAttackAvailable())
+			{
+				componentAnimation->SetParameter("IsMeleeAttacking", true);
+				meleeAttackScript->PerformAttack();
+			}
+			else
+			{
+				componentAnimation->SetParameter("IsMeleeAttacking", false);
+			}
 		}
 
 		break;
@@ -184,7 +194,9 @@ void EnemyVenomiteScript::UpdateBehaviour()
 	}
 }
 
-void EnemyVenomiteScript::SetReadyToDie()
+void EnemyVenomiteScript::SetReadyToDie(float damage)
 {
-	componentAnimation->SetParameter("IsTakingDamage", true);
+	componentAnimation->SetParameter("IsDead", true);
+
+	deathScript->ManageEnemyDeath();
 }

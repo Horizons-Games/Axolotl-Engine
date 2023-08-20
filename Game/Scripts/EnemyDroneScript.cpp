@@ -239,7 +239,7 @@ void EnemyDroneScript::CalculateNextPosition() const
 	fastAttackScript->Reposition(nextPosition);
 }
 
-void EnemyDroneScript::SetReadyToDie()
+void EnemyDroneScript::SetReadyToDie(float damage)
 {
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	fastAttackScript->InterruptAttack();

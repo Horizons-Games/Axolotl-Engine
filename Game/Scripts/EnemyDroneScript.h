@@ -36,7 +36,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie() override;
+	void SetReadyToDie(float damage) override;
 
 private:
 	void CalculateNextPosition() const;
