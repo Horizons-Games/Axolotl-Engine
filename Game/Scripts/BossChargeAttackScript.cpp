@@ -12,6 +12,7 @@
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/BossChargeRockScript.h"
 
 REGISTERCLASS(BossChargeAttackScript);
 
@@ -82,7 +83,7 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		chargeState = ChargeState::BOUNCING_WALL;
 
 		WallHitAfterCharge();
-		//MakeRocksFall();
+		MakeRocksFall();
 	}
 
 	else if (!other->GetOwner()->CompareTag("Player") && !other->GetOwner()->CompareTag("Enemy") &&
@@ -205,6 +206,8 @@ void BossChargeAttackScript::MakeRocksFall() const
 		rockRigidBody->SetIsTrigger(false);
 		rockRigidBody->SetIsKinematic(false);
 		rockRigidBody->SetUpMobility();
+
+		spawnedRock->GetComponent<BossChargeRockScript>()->SetRockState(RockStates::FALLING);
 
 		// This will need any kind of warning for the player in the future
 		// Maybe a particle in the floor that shows where the rock is going to land

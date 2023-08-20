@@ -58,11 +58,9 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			DeactivateRock();
 		}
 
-		// If a rock hits the floor, stop its falling
+		// If a rock hits the floor, set as it stopped falling
 		else if (!other->GetOwner()->CompareTag("Wall") && !other->IsTrigger())
 		{
-			rigidBody->SetIsKinematic(true);
-			rigidBody->SetUpMobility();
 			rockState = RockStates::FLOOR;
 		}
 	}
