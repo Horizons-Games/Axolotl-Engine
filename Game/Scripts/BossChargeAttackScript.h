@@ -46,4 +46,10 @@ private:
 	float chargeCooldown;
 	ChargeState chargeState;
 	bool chargeHitPlayer;
+
+	// Modifiable values
+	float bounceBackForce;
+	float prepareChargeMaxTime;
+	float chargeMaxCooldown;
+	float attackStunTime;
 };

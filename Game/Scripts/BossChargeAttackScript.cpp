@@ -14,8 +14,13 @@ REGISTERCLASS(BossChargeAttackScript);
 
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(2.0f),
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NOTHING),
-	chargeHitPlayer(false)
+	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
+	attackStunTime(2.0f)
 {
+	REGISTER_FIELD(bounceBackForce, float);
+	REGISTER_FIELD(prepareChargeMaxTime, float);
+	REGISTER_FIELD(chargeMaxCooldown, float);
+	REGISTER_FIELD(attackStunTime, float);
 }
 
 void BossChargeAttackScript::Start()
@@ -80,7 +85,7 @@ void BossChargeAttackScript::TriggerChargeAttack(GameObject* target)
 
 	chargeState = ChargeState::PREPARING_CHARGE;
 	chargeThroughPosition = target->GetComponent<ComponentTransform>();
-	chargeCooldown = 5.0f;
+	chargeCooldown = chargeMaxCooldown;
 	chargeHitPlayer = false;
 }
 
@@ -110,30 +115,29 @@ void BossChargeAttackScript::PerformChargeAttack()
 										transform->GetGlobalPosition().y,
 										forward.z * 50.0f));
 
-	prepareChargeTime = 2.0f;
+	prepareChargeTime = prepareChargeMaxTime;
 	chargeState = ChargeState::CHARGING;
 }
 
 void BossChargeAttackScript::WallHitAfterCharge() const
 {
+	// Same movement as when the player perfoms a jump attack, a small bounce backwards
 	btRigidBody* enemybtRigidbody = rigidBody->GetRigidBody();
 	rigidBody->DisablePositionController();
 	rigidBody->DisableRotationController();
 	enemybtRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 	enemybtRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
-
-	// Get next position of the gameObject
 	float3 nextPosition = transform->GetGlobalPosition() - transform->GetGlobalPosition();
 	nextPosition.Normalize();
 	nextPosition += float3(0, 1.0f, 0);
-	nextPosition *= 5.0f;
+	nextPosition *= bounceBackForce;
 
 	btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 	enemybtRigidbody->setLinearVelocity(newVelocity);
 
 	EnemyClass* enemyScript = owner->GetComponent<EnemyClass>();
-	enemyScript->SetStunnedTime(2.0f);
+	enemyScript->SetStunnedTime(attackStunTime);
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
