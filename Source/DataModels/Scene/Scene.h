@@ -14,6 +14,7 @@ class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
 class ComponentLine;
+class ComponentLightProbe;
 class GameObject;
 class Quadtree;
 class Skybox;
@@ -43,6 +44,7 @@ public:
 	bool IsInsideACamera(const AABB& aabb) const;
 
 	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
+	std::vector<GameObject*> ObtainStaticObjectsInFrustum(const math::Frustum* frustum);
 	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
 								   std::vector<GameObject*>& gos);
 	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
@@ -102,6 +104,7 @@ public:
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
+	const std::vector<ComponentLightProbe*>& GetSceneComponentLightProbe() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
@@ -114,8 +117,8 @@ public:
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
-	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
-	void SetComponentLines(const std::vector<ComponentLine*>& componentLines);
+	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems); // unused
+	void SetComponentLines(const std::vector<ComponentLine*>& componentLines); // unused
 	void SetDirectionalLight(GameObject* directionalLight);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
@@ -123,18 +126,21 @@ public:
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 	void AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
-	void AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines);
+	void AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines); // unused
 
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(const GameObject* gameObject);
 	void AddNonStaticObject(GameObject* gameObject);
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
+	
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
+	void AddComponentLightProbe(ComponentLightProbe* componentLightProbe);
+	
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
-
 	void RemoveComponentLine(const ComponentLine* componentLine);
+	void RemoveComponentLightProbe(const ComponentLightProbe* componentLightProbe);
 
 	void InitNewEmptyScene();
 	void InitLights();
@@ -163,6 +169,8 @@ private:
 	//Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 	std::vector<ComponentLine*> sceneComponentLines;
+	// To not search for each frame the LightProbe
+	std::vector<ComponentLightProbe*> sceneComponentLightProbe;
 
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
@@ -243,6 +251,11 @@ inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 	return sceneComponentLines;
 }
 
+inline const std::vector<ComponentLightProbe*>& Scene::GetSceneComponentLightProbe() const
+{
+	return sceneComponentLightProbe;
+}
+
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
 {
 	sceneCameras = cameras;
@@ -317,6 +330,11 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 	sceneComponentLines.push_back(componentLine);
 }
 
+inline void Scene::AddComponentLightProbe(ComponentLightProbe* componentLightProbe)
+{
+	sceneComponentLightProbe.push_back(componentLightProbe);
+}
+
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
 	if (this)
@@ -340,4 +358,15 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 			return lines == componentLine;
 		}),
 		std::end(sceneComponentLines));
+}
+
+inline void Scene::RemoveComponentLightProbe(const ComponentLightProbe* componentLightProbe)
+{
+	sceneComponentLightProbe.erase(std::remove_if(std::begin(sceneComponentLightProbe),
+		std::end(sceneComponentLightProbe),
+		[&componentLightProbe](ComponentLightProbe* lightProbe)
+		{
+			return lightProbe == componentLightProbe;
+		}),
+		std::end(sceneComponentLightProbe));
 }

@@ -135,6 +135,15 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	return objectsInFrustum;
 }
 
+std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum* frustum)
+{
+	std::vector<GameObject*> objectsInFrustum;
+
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+
+	return objectsInFrustum;
+}
+
 void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
 									  std::vector<GameObject*>& gos)
 {

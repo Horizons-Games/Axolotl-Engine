@@ -433,6 +433,8 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::LIGHT_PROBE:
 		{
 			newComponent = std::make_unique<ComponentLightProbe>(*static_cast<ComponentLightProbe*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLightProbe(
+				static_cast<ComponentLightProbe*>(newComponent.get()));
 			break;
 		}
 
@@ -710,15 +712,22 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 		else
 		{
-			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			switch (referenceBeforeMove->GetType())
 			{
+			case ComponentType::PARTICLE:
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
-			}
-			else if (referenceBeforeMove->GetType() == ComponentType::LINE)
-			{
+				break;
+			case ComponentType::LINE:
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
+				break;
+			case ComponentType::LIGHT_PROBE:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLightProbe(
+					static_cast<ComponentLightProbe*>(referenceBeforeMove));
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -804,15 +813,22 @@ bool GameObject::RemoveComponent(const Component* component)
 		return false;
 	}
 
-	if (component->GetType() == ComponentType::PARTICLE)
+	switch (component->GetType())
 	{
+	case ComponentType::PARTICLE:
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
 			static_cast<const ComponentParticleSystem*>(component));
-	}
-	else if (component->GetType() == ComponentType::LINE)
-	{
+		break;
+	case ComponentType::LINE:
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
 			static_cast<const ComponentLine*>(component));
+		break;
+	case ComponentType::LIGHT_PROBE:
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLightProbe(
+			static_cast<const ComponentLightProbe*>(component));
+		break;
+	default:
+		break;
 	}
 
 	components.erase(removeIfResult, std::end(components));
