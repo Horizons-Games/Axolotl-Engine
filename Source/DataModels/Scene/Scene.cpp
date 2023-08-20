@@ -127,8 +127,13 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	}
 
 #ifdef ENGINE
-	CalculateNonStaticObjectsInFrustum(frustum, App->GetModule<ModuleScene>()->GetSelectedGameObject(), 
-									   objectsInFrustum);
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+
+	for (auto childSelected : selected->GetChildren())
+	{
+		CalculateNonStaticObjectsInFrustum(frustum, childSelected, objectsInFrustum);
+	}
 #endif
 
 	return objectsInFrustum;
@@ -204,14 +209,6 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 			{
 				gos.push_back(go);
 			}
-		}
-	}
-
-	if (!go->GetChildren().empty())
-	{
-		for (GameObject* children : go->GetChildren())
-		{
-			CalculateNonStaticObjectsInFrustum(frustum, children, gos);
 		}
 	}
 }
