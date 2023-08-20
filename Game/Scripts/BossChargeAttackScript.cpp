@@ -15,13 +15,14 @@ REGISTERCLASS(BossChargeAttackScript);
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(0.0f),
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NOTHING),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
-	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr)
+	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(15.0f)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
 	REGISTER_FIELD(chargeMaxCooldown, float);
 	REGISTER_FIELD(attackStunTime, float);
 	REGISTER_FIELD(chargeDamage, float);
+	REGISTER_FIELD(spawningRockChance, float);
 
 	REGISTER_FIELD(rockPrefab, GameObject*);
 }
@@ -60,7 +61,7 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 		LOG_DEBUG("Random number {}", randomActivation);
 
-		if (randomActivation < 5)
+		if (randomActivation < spawningRockChance)
 		{
 			SpawnRock(float3(transform->GetGlobalPosition().x,
 								transform->GetGlobalPosition().y + 20.0f,

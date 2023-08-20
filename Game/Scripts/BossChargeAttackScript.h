@@ -58,6 +58,7 @@ private:
 	float chargeMaxCooldown;
 	float attackStunTime;
 	float chargeDamage;
+	float spawningRockChance;
 
 	GameObject* rockPrefab;
 	std::vector<GameObject*> rocksSpawned;
