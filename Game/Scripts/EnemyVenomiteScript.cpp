@@ -4,7 +4,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
-#include "Components/ComponentAnimation.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -20,13 +20,17 @@ EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::I
 	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(1.5f), seekAlertDistance(15.0f),
 	meleeAttackScript(nullptr), healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), 
 	componentAudioSource(nullptr), batonGameObject(nullptr), blasterGameObject(nullptr), aiMovement(nullptr),
-	seekTargetTransform(nullptr), deathScript(nullptr)
+	seekTargetTransform(nullptr), deathScript(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f),
+	exclamationParticle(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
 
 	REGISTER_FIELD(batonGameObject, GameObject*);
 	REGISTER_FIELD(blasterGameObject, GameObject*);
+
+	REGISTER_FIELD(exclamationParticle, ComponentParticleSystem*);
+	REGISTER_FIELD(enemyDetectionDuration, float);
 }
 
 void EnemyVenomiteScript::Start()
@@ -44,6 +48,8 @@ void EnemyVenomiteScript::Start()
 	deathScript = owner->GetComponent<EnemyDeathScript>();
 
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
+
+	enemyDetectionTime = 0.0f;
 }
 
 void EnemyVenomiteScript::Update(float deltaTime)
@@ -69,7 +75,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 	CheckState();
 
-	UpdateBehaviour();
+	UpdateBehaviour(deltaTime);
 }
 
 
@@ -108,7 +114,19 @@ void EnemyVenomiteScript::CheckState()
 	}
 	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekAlertDistance))
 	{
-		if (venomiteState != VenomiteBehaviours::SEEK)
+		if (venomiteState == VenomiteBehaviours::PATROL)
+		{
+			patrolScript->StopPatrol();
+			aiMovement->SetMovementStatuses(false, true);
+
+			if (exclamationParticle)
+			{
+				exclamationParticle->Play();
+			}
+
+			venomiteState = VenomiteBehaviours::ENEMY_DETECTED;
+		}
+		else if (venomiteState != VenomiteBehaviours::SEEK && venomiteState != VenomiteBehaviours::ENEMY_DETECTED)
 		{
 			batonGameObject->Enable();
 			blasterGameObject->Disable();
@@ -132,11 +150,33 @@ void EnemyVenomiteScript::CheckState()
 	}
 }
 
-void EnemyVenomiteScript::UpdateBehaviour()
+void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 {
 	switch (venomiteState)
 	{
 	case VenomiteBehaviours::PATROL:
+
+		break;
+
+	case VenomiteBehaviours::ENEMY_DETECTED:
+
+		enemyDetectionTime += deltaTime;
+
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+
+		if (enemyDetectionTime >= enemyDetectionDuration)
+		{
+			enemyDetectionTime = 0.0f;
+			
+			batonGameObject->Enable();
+			blasterGameObject->Disable();
+
+			componentAnimation->SetParameter("IsRunning", true);
+			componentAnimation->SetParameter("IsRangedAttacking", false);
+			componentAnimation->SetParameter("IsMeleeAttacking", false);
+
+			venomiteState = VenomiteBehaviours::SEEK;
+		}
 
 		break;
 

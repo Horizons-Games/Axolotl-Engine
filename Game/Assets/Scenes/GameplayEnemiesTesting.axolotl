@@ -13105,7 +13105,7 @@
                 "tag": "Enemy",
                 "uid": 14606855830618181560,
                 "parentUID": 16415258083415142231,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -16448,6 +16448,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 5648569804437327805,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 11885816887771611407,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.6000000238418579,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -20180,6 +20190,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 15297699079590168932,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -25824,6 +25844,82 @@
                             "removed": true,
                             "particleSystemUID": 10774091161485871624,
                             "assetPathParticleSystem": "Assets/ParticleSystem/VenomiteShoot_VFX.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Exclamation_VFX",
+                "tag": "",
+                "uid": 11885816887771611407,
+                "parentUID": 6043398887632489792,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 4.43563985824585,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 4995696200075722307,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/EnemyExclamation.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Exclamation_VFX",
+                "tag": "",
+                "uid": 1347555176376682272,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 38.124755859375,
+                            "localPos_Y": 0.1692749261856079,
+                            "localPos_Z": -1.1187258958816528,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 179.99993896484375,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 4995696200075722307,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/EnemyExclamation.particle",
                             "playAtStart": false
                         }
                     }

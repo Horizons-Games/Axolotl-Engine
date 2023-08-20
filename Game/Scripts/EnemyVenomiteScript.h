@@ -16,11 +16,13 @@ class EnemyDeathScript;
 class ComponentTransform;
 class ComponentAnimation;
 class ComponentAudioSource;
+class ComponentParticleSystem;
 
 enum class VenomiteBehaviours
 {
 	IDLE,
 	PATROL,
+	ENEMY_DETECTED,
 	RANGED_ATTACK,
 	SEEK,
 	MELEE_ATTACK
@@ -39,7 +41,7 @@ public:
 
 private:
 	void CheckState();
-	void UpdateBehaviour();
+	void UpdateBehaviour(float deltaTime);
 
 	VenomiteBehaviours venomiteState;
 
@@ -54,10 +56,13 @@ private:
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
+	ComponentParticleSystem* exclamationParticle;
 
 	float seekAlertDistance;
 	float rangedAttackDistance;
 	float meleeAttackDistance;
+	float enemyDetectionDuration;
+	float enemyDetectionTime;
 
 	ComponentTransform* seekTargetTransform;
 	GameObject* batonGameObject;
