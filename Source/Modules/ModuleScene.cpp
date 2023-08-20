@@ -447,6 +447,7 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	SetSceneRootAnimObjects(loadedObjects);
 	
+	selectedGameObject = loadedScene->GetRoot();
 
 	if (!mantainActualScene)
 	{
