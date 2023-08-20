@@ -51,7 +51,6 @@ private:
 
 	void LightNormalAttack();
 	void HeavyNormalAttack();
-	void ThrowBasicAttack();
 	void JumpNormalAttack();
 	void LightFinisher();
 	void HeavyFinisher();
@@ -60,6 +59,7 @@ private:
 	void ResetAttackAnimations();
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
+	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
 
 	bool isAttacking;
 	bool isJumpAttacking;

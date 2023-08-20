@@ -18,6 +18,7 @@ public:
 	void SetBulletVelocity(float nVelocity);
 	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
+	void SetDamage(float nDamageAttack);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;

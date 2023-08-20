@@ -107,6 +107,11 @@ void LightAttackBullet::SetEnemy(GameObject* nEnemy)
 	enemy = nEnemy;
 }
 
+void LightAttackBullet::SetDamage(float nDamageAttack)
+{
+	damageAttack = nDamageAttack;
+}
+
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy"))

@@ -167,6 +167,7 @@ void BixAttackScript::LightNormalAttack()
 	{
 		LOG_VERBOSE("Enemy hit with light attack");
 		comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
+		ThrowBasicAttack(enemyAttacked, attackSoft);
 		DamageEnemy(enemyAttacked, attackSoft);
 	}
 
@@ -185,21 +186,30 @@ void BixAttackScript::HeavyNormalAttack()
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	if (enemyAttacked != nullptr)
+	
+	if (owner->GetName() == "PrefabBix")
 	{
-		LOG_VERBOSE("Enemy hit with heavy attack");
-		comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
-		DamageEnemy(enemyAttacked, attackHeavy);
+		if (enemyAttacked != nullptr)
+		{
+			LOG_VERBOSE("Enemy hit with heavy attack");
+			comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
+			DamageEnemy(enemyAttacked, attackHeavy);
+		}
+		else
+		{
+			LOG_VERBOSE("Fail heavy attack");
+		}
+	}
+	else if (owner->GetName() == "PrefabArulla")
+	{
+		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 	}
 
-	else
-	{
-		LOG_VERBOSE("Fail heavy attack");
-	}
+	
 	isAttacking = true;
 }
 
-void BixAttackScript::ThrowBasicAttack()
+void BixAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
@@ -207,6 +217,7 @@ void BixAttackScript::ThrowBasicAttack()
 	bullet->GetComponent<LightAttackBullet>()->SetBulletVelocity(bulletVelocity);
 	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
 	bullet->GetComponent<LightAttackBullet>()->SetStunTime(0);
+	bullet->GetComponent<LightAttackBullet>()->SetDamage(nDamage);
 }
 
 void BixAttackScript::JumpNormalAttack()
