@@ -17,7 +17,7 @@ public:
 	void InternalLoad(const Json& meta) override;
 
 private:
-	void BindCameraToProgram(Program* program, GLuint uboCamera, Frustum frustum);
+	void BindCameraToProgram(Program* program, Frustum frustum);
 
 	GLuint frameBuffer;
 	GLuint preFiltered;

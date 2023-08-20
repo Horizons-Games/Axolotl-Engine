@@ -92,13 +92,18 @@ void ComponentLightProbe::Update()
 		frustum.SetFront(front[i]);
 		frustum.SetUp(up[i]);
 
-		std::vector<GameObject*> objectsInFrustum =
-			App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum); // TODO obtain static Only
+		glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, frustum.ProjectionMatrix().ptr());
+		glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, frustum.ViewMatrix().ptr());
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-		BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), uboCamera, frustum);
-		BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), uboCamera, frustum);
-		BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), uboCamera, frustum);
-		BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), uboCamera, frustum);
+		std::vector<GameObject*> objectsInFrustum =
+			App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainStaticObjectsInFrustum(&frustum);
+
+		BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), frustum);
+		BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), frustum);
+		BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
+		BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
 
 		modRender->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
 	}
@@ -115,16 +120,11 @@ void ComponentLightProbe::InternalLoad(const Json& meta)
 {
 }
 
-void ComponentLightProbe::BindCameraToProgram(Program* program, GLuint uboCamera, Frustum frustum)
+void ComponentLightProbe::BindCameraToProgram(Program* program, Frustum frustum)
 {
 	program->Activate();
 
 	float3 viewPos = float3(frustum.Pos());
-
-	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, frustum.ProjectionMatrix().ptr());
-	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, frustum.ViewMatrix().ptr());
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	program->BindUniformFloat3("viewPos", viewPos);
 
