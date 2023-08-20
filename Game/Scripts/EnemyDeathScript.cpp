@@ -37,8 +37,7 @@ void EnemyDeathScript::Update(float deltaTime)
 void EnemyDeathScript::ManageEnemyDeath()
 {
 	// Only activate powerups when the dead enemy is not a boss
-	// TODO: Change this to HasComponent when possible
-	if (!owner->GetComponentInternal<FinalBossScript>())
+	if (!owner->HasComponent<FinalBossScript>())
 	{
 		GameObject* newPowerUp = RequestPowerUp();
 
