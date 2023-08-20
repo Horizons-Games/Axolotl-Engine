@@ -39,16 +39,17 @@ void FinalBossScript::Update(float deltaTime)
 
 	ManageChangePhase();
 
-	if (bossState == FinalBossStates::NEUTRAL)
-	{
-		//patrolScript->Patrolling();
+	// Uncomment this to check the patrol
+	// patrolScript->Patrolling();
 
-		if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
-			chargeAttackScript->CanPerformChargeAttack())
-		{
-			chargeAttackScript->TriggerChargeAttack(target);
-		}
+	// Uncomment this to check the charge attack
+	/*
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+		chargeAttackScript->CanPerformChargeAttack())
+	{
+		chargeAttackScript->TriggerChargeAttack(target);
 	}
+	*/
 }
 
 void FinalBossScript::ManageChangePhase()
