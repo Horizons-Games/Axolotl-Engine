@@ -32,6 +32,17 @@
                             "removed": true,
                             "intensity": 0.10000000149011612
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Skybox",
+                            "active": true,
+                            "removed": true,
+                            "Skybox": {
+                                "skyboxUID": 4377575066284441384,
+                                "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                            }
+                        }
                     }
                 ]
             }
@@ -6467,10 +6478,6 @@
                 "z": 7875.0
             }
         }
-    },
-    "Skybox": {
-        "skyboxUID": 4377575066284441384,
-        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
         "cubemapUID": 992078593789236745,
