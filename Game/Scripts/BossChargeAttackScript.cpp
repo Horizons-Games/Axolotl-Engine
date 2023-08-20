@@ -15,12 +15,15 @@ REGISTERCLASS(BossChargeAttackScript);
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(2.0f),
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NOTHING),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
-	attackStunTime(2.0f)
+	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
 	REGISTER_FIELD(chargeMaxCooldown, float);
 	REGISTER_FIELD(attackStunTime, float);
+	REGISTER_FIELD(chargeDamage, float);
+
+	REGISTER_FIELD(rockPrefab, GameObject*);
 }
 
 void BossChargeAttackScript::Start()
@@ -47,6 +50,21 @@ void BossChargeAttackScript::Update(float deltaTime)
 	{
 		chargeCooldown -= deltaTime;
 	}
+
+	if (chargeState == ChargeState::CHARGING)
+	{
+		// Spawn rocks randomly over the charged zone
+		int randomActivation = rand() % 100;
+
+		LOG_DEBUG("Random number {}", randomActivation);
+
+		if (randomActivation < 5)
+		{
+			SpawnRock(float3(transform->GetGlobalPosition().x,
+								transform->GetGlobalPosition().y + 20.0f,
+								transform->GetGlobalPosition().z));
+		}
+	}
 }
 
 
@@ -57,6 +75,7 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		chargeState = ChargeState::BOUNCING_WALL;
 
 		WallHitAfterCharge();
+		MakeRocksFall();
 	}
 
 	else if (!other->GetOwner()->CompareTag("Player") && !other->GetOwner()->CompareTag("Enemy") &&
@@ -70,7 +89,7 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 
 	if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer)
 	{
-		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(20.0f);
+		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
 		chargeHitPlayer = true;
 	}
 }
@@ -143,6 +162,23 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 bool BossChargeAttackScript::CanPerformChargeAttack() const
 {
 	return chargeCooldown <= 0.0f;
+}
+
+void BossChargeAttackScript::SpawnRock(float3 spawnPosition) const
+{
+	LOG_DEBUG("Spawn rock at {}, {}, {}", spawnPosition.x, spawnPosition.y, spawnPosition.z);
+
+	// Create rock
+}
+
+void BossChargeAttackScript::MakeRocksFall() const
+{
+	for (GameObject* spawnedRock : rocksSpawned)
+	{
+		// Set trigger to true
+		// Set kinematic to false
+		// Make it fall
+	}
 }
 
 void BossChargeAttackScript::RotateToTarget(ComponentTransform* target) const
