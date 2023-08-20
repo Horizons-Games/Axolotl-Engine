@@ -1,6 +1,6 @@
-#include "MeshEffect.h"
-
 #include "StdAfx.h"
+
+#include "MeshEffect.h"
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"

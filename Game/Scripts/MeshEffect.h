@@ -2,7 +2,6 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "Math/float3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
