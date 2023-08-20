@@ -39,6 +39,8 @@ void RangedFastAttackBehaviourScript::Start()
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
 	animation = owner->GetComponent<ComponentAnimation>();
+	agent = owner->GetComponentInternal<ComponentAgent>();
+	rb = owner->GetComponent<ComponentRigidBody>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
@@ -88,9 +90,17 @@ void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
 {
 	needReposition = false;
 	movingToNewReposition = true;
-	//set new target position
-	owner->GetComponent<ComponentRigidBody>()->SetPositionTarget(nextPosition);
-	owner->GetComponent<ComponentRigidBody>()->SetKpForce(1.0f);
+
+	if (agent)
+	{
+		agent->SetMoveTarget(nextPosition);
+	}
+	else
+	{
+		//set new target position
+		rb->SetPositionTarget(nextPosition);
+		rb->SetKpForce(1.0f);
+	}
 }
 
 bool RangedFastAttackBehaviourScript::IsAttackAvailable() const

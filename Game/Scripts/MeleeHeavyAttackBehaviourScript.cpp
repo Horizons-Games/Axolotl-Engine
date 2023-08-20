@@ -5,6 +5,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAgent.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -27,6 +28,7 @@ void MeleeHeavyAttackBehaviourScript::Start()
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentHealthSystem = owner->GetParent()->GetComponent<HealthSystem>();
 	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
+	ownerAgent = owner->GetParent()->GetComponentInternal<ComponentAgent>();
 	rigidBody->SetKpForce(50);
 }
 
@@ -53,7 +55,17 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 		}
 
 		parentHealthSystem->TakeDamage(explosionDamage);
-		owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
+		
+		if (ownerAgent)
+		{
+			ownerAgent->SetMaxAcceleration(ownerAgent->GetMaxAcceleration() / 2.0f);
+		}
+		else
+		{
+			//set new target position
+			owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
+		}
+		
 		attackState = ExplosionState::DEAD;
 		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_TIMER);
 		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::EXPLOSION);
@@ -67,8 +79,18 @@ void MeleeHeavyAttackBehaviourScript::SetExplosionPosition(const float3& explosi
 		return;
 	}
 
-	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
-	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
+	if (ownerAgent)
+	{
+		ownerAgent->SetMoveTarget(explosionPos);
+		ownerAgent->SetMaxAcceleration(ownerAgent->GetMaxAcceleration() * 2.0f);
+	}
+	else
+	{
+		//set new target position
+		ComponentRigidBody* ownerRB = owner->GetParent()->GetComponent<ComponentRigidBody>();
+		ownerRB->SetPositionTarget(explosionPos);
+		ownerRB->SetKpForce(2.0f);
+	}
 
 	attackState = ExplosionState::WAITING_EXPLOSION;
 	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);

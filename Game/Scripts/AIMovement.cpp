@@ -58,10 +58,8 @@ void AIMovement::MoveToTarget(float deltaTime)
 	forwardVector = componentTransform->GetGlobalForward();
 	btVector3 movement(0, 0, 0);
 
-	
 	forwardVector = targetPosition - componentTransform->GetGlobalPosition();
 	
-
 	forwardVector.y = 0;
 	forwardVector = forwardVector.Normalized();
 
@@ -141,6 +139,10 @@ void AIMovement::AgentMoveToTarget()
 	{
 		agent->SetMoveTarget(targetPosition);
 	}
+	if (rotationActivated)
+	{
+		agent->SetTargetPositionRotate(targetPosition);
+	}
 }
 
 void AIMovement::SetTargetPosition(float3 targetPos)
@@ -150,8 +152,25 @@ void AIMovement::SetTargetPosition(float3 targetPos)
 
 void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotation)
 {
+	if (agent)
+	{
+		agent->SetEnableRotation(activateRotation);
+
+		//Before deactivating the movement, we change the targetPosition of the agent
+		//to his current position
+		if (!activateMovement)
+		{
+			float3 currentPosition = componentTransform->GetGlobalPosition();
+			currentPosition.y -= agent->GetYOffset();
+
+			SetTargetPosition(currentPosition);
+			AgentMoveToTarget();
+		}
+	}
+
 	movementActivated = activateMovement;
 	rotationActivated = activateRotation;
+
 }
 
 bool AIMovement::GetIsAtDestiny()

@@ -15,6 +15,7 @@ enum class ExplosionState
 
 class ComponentRigidBody;
 class ComponentTransform;
+class ComponentAgent;
 class ComponentAudioSource;
 class HealthSystem;
 
@@ -46,6 +47,7 @@ private:
 	ComponentTransform* parentTransform;
 	HealthSystem* parentHealthSystem;
 	ComponentAudioSource* componentAudioSource;
+	ComponentAgent* ownerAgent;
 
 	float explosionDamage;
 	float explosionTime;

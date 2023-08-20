@@ -8,6 +8,8 @@ class ComponentTransform;
 class ComponentAnimation;
 class Scene;
 class ComponentParticleSystem;
+class ComponentAgent;
+class ComponentRigidBody;
 
 class RangedFastAttackBehaviourScript : public Script
 {
@@ -37,6 +39,8 @@ private:
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
 	ComponentParticleSystem* particleSystem;
+	ComponentAgent* agent;
+	ComponentRigidBody* rb;
 
 	GameObject* bulletPrefab;
 	GameObject* laserParticleSystem;
