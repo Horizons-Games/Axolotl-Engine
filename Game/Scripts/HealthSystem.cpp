@@ -1,7 +1,6 @@
 #include "HealthSystem.h"
 
 #include "AxoLog.h"
-#include "Application.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
@@ -50,6 +49,8 @@ void HealthSystem::Start()
 	}
 
 	meshEffect = owner->GetComponent<MeshEffect>();
+	meshEffect->ReserveSpace(1);
+	meshEffect->AddColor(float3(1.f, 0.f, 0.f));
 
 	if (owner->CompareTag("Player"))
 	{
@@ -59,19 +60,7 @@ void HealthSystem::Start()
 
 void HealthSystem::Update(float deltaTime)
 {
-	if (hasTakenDamage)
-	{
-		hitEffectDuration += App->GetDeltaTime();
-		if (hitEffectDuration > TIME_BETWEEN_EFFECTS)
-		{
-			meshEffect->EffectDiscard();
-		}
-		if (hitEffectDuration > MAX_TIME_EFFECT_DURATION)
-		{
-			hasTakenDamage = false;
-			meshEffect->ClearEffect();
-		}
-	}
+	meshEffect->DamageEffect();
 
 	if (!EntityIsAlive() && owner->CompareTag("Player"))
 	{
@@ -123,9 +112,7 @@ void HealthSystem::TakeDamage(float damage)
 		
 		if (EntityIsAlive())
 		{
-			hitEffectDuration = 0.f;
-			hasTakenDamage = true;
-			meshEffect->EffectColor(float3(1.f, 0.f, 0.f));
+			meshEffect->StartEffect(MAX_TIME_EFFECT_DURATION, TIME_BETWEEN_EFFECTS);
 		}
 
 		if (componentParticleSystem)

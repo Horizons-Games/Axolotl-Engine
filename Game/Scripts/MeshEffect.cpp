@@ -2,13 +2,15 @@
 
 #include "MeshEffect.h"
 
+#include "Application.h"
+
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
 #include "GameObject/GameObject.h"
 
 REGISTERCLASS(MeshEffect);
 
-MeshEffect::MeshEffect() : Script()
+MeshEffect::MeshEffect() : Script(), maxTime(0.f), timeBetween(0.f), effectTime(0.f), activateEffect(false)
 {
 }
 
@@ -21,12 +23,43 @@ void MeshEffect::Update(float deltaTime)
 {
 }
 
+void MeshEffect::StartEffect(float maxTime, float timeBetween)
+{
+	this->timeBetween = timeBetween;
+	this->maxTime = maxTime;
+	activateEffect = true;
+	effectTime = 0.f;
+}
+
 void MeshEffect::ClearEffect()
 {
 	for (auto mesh : meshes)
 	{
 		mesh->SetDiscard(false);
 		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
+	}
+}
+
+void MeshEffect::DamageEffect()
+{
+	if (!activateEffect)
+	{
+		return;
+	}
+
+	if (effectTime == 0.f)
+	{
+		EffectColor(colors[0]);
+	}
+	effectTime += App->GetDeltaTime();
+	if (effectTime > timeBetween)
+	{
+		EffectDiscard();
+	}
+	if (effectTime > maxTime)
+	{
+		activateEffect = false;
+		ClearEffect();
 	}
 }
 
