@@ -8,12 +8,13 @@
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/BossChargeAttackScript.h"
+#include "../Scripts/ShockWaveAttackScript.h"
 
 REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossState(FinalBossStates::NEUTRAL), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
-	transform(nullptr), targetTransform(nullptr)
+	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr)
 {
 	REGISTER_FIELD(target, GameObject*);
 }
@@ -28,6 +29,7 @@ void FinalBossScript::Start()
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	bossHealthSystem = owner->GetComponent<HealthSystem>();
 	chargeAttackScript = owner->GetComponent<BossChargeAttackScript>();
+	shockWaveAttackScript = owner->GetComponent<ShockWaveAttackScript>();
 }
 
 void FinalBossScript::Update(float deltaTime)
@@ -39,15 +41,21 @@ void FinalBossScript::Update(float deltaTime)
 
 	ManageChangePhase();
 
-	// Uncomment this to check the patrol
+	// Uncomment this to check the patrol -------------------------------------
 	// patrolScript->Patrolling();
 
-	// Uncomment this to check the charge attack
+	// Uncomment this to check the plasma hammer attack -----------------------
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f))
+	{
+		shockWaveAttackScript->TriggerShockWaveAttack();
+	}
+
+	// Uncomment this to check the charge attack ------------------------------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack())
 	{
-		chargeAttackScript->TriggerChargeAttack(target);
+		//chargeAttackScript->TriggerChargeAttack(target);
 	}
 	*/
 }

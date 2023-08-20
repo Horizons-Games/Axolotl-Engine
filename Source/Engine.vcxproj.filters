@@ -645,6 +645,12 @@
     <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1328,6 +1334,12 @@
     <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1512,6 +1524,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack">
       <UniqueIdentifier>{caa4e193-0018-420c-a3f8-aaa52180f8cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack">
+      <UniqueIdentifier>{ffeb3f6b-4c66-4df7-b73d-88cd2d18524b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

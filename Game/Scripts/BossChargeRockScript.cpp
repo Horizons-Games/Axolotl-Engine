@@ -44,7 +44,6 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 	if (rockState == RockStates::SKY && other->GetOwner()->CompareTag("Rock"))
 	{
 		// Check if it hits another spawned rock, in which case, destroy this new rock
-		LOG_DEBUG("Rock hits rock!!!");
 		DeactivateRock();
 	}
 

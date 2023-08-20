@@ -12,6 +12,7 @@ class ComponentTransform;
 class PatrolBehaviourScript;
 class HealthSystem;
 class BossChargeAttackScript;
+class ShockWaveAttackScript;
 
 enum class FinalBossStates
 {
@@ -43,4 +44,5 @@ private:
 	PatrolBehaviourScript* patrolScript;
 	HealthSystem* bossHealthSystem;
 	BossChargeAttackScript* chargeAttackScript;
+	ShockWaveAttackScript* shockWaveAttackScript;
 };

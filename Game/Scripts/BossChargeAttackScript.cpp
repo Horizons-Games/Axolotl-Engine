@@ -95,7 +95,7 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		rigidBody->SetUpMobility();
 	}
 
-	if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer)
+	if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer && chargeState == ChargeState::CHARGING)
 	{
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
 		chargeHitPlayer = true;
