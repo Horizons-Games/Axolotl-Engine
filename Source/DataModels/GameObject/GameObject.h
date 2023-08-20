@@ -88,17 +88,6 @@ public:
 	bool RemoveComponents();
 	bool RemoveComponent(const Component* component);
 
-	// This method is intended to be used by the classes of the Engine, not its users
-	// In case the script of the given type is not found, a nullptr is returned
-	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
-	S* GetComponentInternal();
-	// This method is intended to be used by the users of the Engine
-	// In case the script of the given type is not found, a ComponentNotFoundException is thrown
-	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
-	S* GetComponent();
-	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
-	std::vector<S*> GetComponents();
-
 	template<typename C>
 	bool HasComponent() const;
 
