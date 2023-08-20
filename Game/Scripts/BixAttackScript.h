@@ -7,6 +7,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
+class Scene;
 
 class ComponentAudioSource;
 class ComponentTransform;
@@ -50,6 +51,7 @@ private:
 
 	void LightNormalAttack();
 	void HeavyNormalAttack();
+	void ThrowBasicAttack();
 	void JumpNormalAttack();
 	void LightFinisher();
 	void HeavyFinisher();
@@ -84,6 +86,7 @@ private:
 	float comboCountJump;
 	float attackSoft;
 	float attackHeavy;
+	float bulletVelocity;
 
 	float normalAttackDistance;
 	AttackCombo attackComboPhase;
@@ -95,4 +98,7 @@ private:
 	LightFinisherAttackScript* lightFinisherScript;
 	HeavyFinisherAttack* heavyFinisherAttack;
 	GameObject* lightWeapon;
+	GameObject* bulletPrefab;
+
+	Scene* loadedScene;
 };

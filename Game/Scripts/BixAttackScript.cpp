@@ -3,6 +3,8 @@
 #include "Application.h"
 
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Physics/Physics.h"
 
@@ -20,6 +22,7 @@
 #include "../Scripts/JumpFinisherArea.h"
 #include "../Scripts/LightFinisherAttackScript.h"
 #include "../Scripts/HeavyFinisherAttack.h"
+#include "../Scripts/LightAttackBullet.h"
 
 #include "GameObject/GameObject.h"
 
@@ -57,6 +60,9 @@ BixAttackScript::BixAttackScript() : Script(),
 	REGISTER_FIELD(enemyDetection, EntityDetection*);
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
 	REGISTER_FIELD(lightWeapon, GameObject*);
+
+	REGISTER_FIELD(bulletPrefab, GameObject*);
+	REGISTER_FIELD(bulletVelocity, float);
 }
 
 void BixAttackScript::Start()
@@ -73,6 +79,8 @@ void BixAttackScript::Start()
 
 	jumpFinisherScript = owner->GetComponent<JumpFinisherAttack>();
 	lightFinisherScript = owner->GetComponent<LightFinisherAttackScript>();
+
+	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 }
 
 void BixAttackScript::Update(float deltaTime)
@@ -189,6 +197,16 @@ void BixAttackScript::HeavyNormalAttack()
 		LOG_VERBOSE("Fail heavy attack");
 	}
 	isAttacking = true;
+}
+
+void BixAttackScript::ThrowBasicAttack()
+{
+	// Create a new bullet
+	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
+
+	bullet->GetComponent<LightAttackBullet>()->SetBulletVelocity(bulletVelocity);
+	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
+	bullet->GetComponent<LightAttackBullet>()->SetStunTime(0);
 }
 
 void BixAttackScript::JumpNormalAttack()

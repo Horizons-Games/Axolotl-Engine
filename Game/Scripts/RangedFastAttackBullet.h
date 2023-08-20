@@ -18,6 +18,7 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	void SetBulletVelocity(float nVelocity);
+	void SetTargetTag(std::string nTag);
 
 private:
 	void InitializeBullet();
@@ -28,6 +29,8 @@ private:
 	float damageAttack;
 	float rayAttackSize;
 	float originTime;
+
+	std::string targetTag;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
