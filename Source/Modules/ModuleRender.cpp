@@ -603,13 +603,21 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	}
 #endif // ENGINE
 
+	bool first = true;
 	for (unsigned int i = 0; i < BLOOM_BLUR_PING_PONG; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[i]);
 		
 		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[i]);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+		
+		if (first)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width / 2, height / 2, 0, GL_RGBA, GL_FLOAT, NULL);
+			first = false;
+		}
+		else {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+		}
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -981,9 +989,13 @@ void ModuleRender::KawaseDualFiltering()
 {
 	// Blur bloom with kawase
 	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
+	ModuleWindow* moduleWindow = App->GetModule<ModuleWindow>();
+	std::pair<int, int> windowSize = moduleWindow->GetWindowSize();
+	int widht = windowSize.first, height = windowSize.second;
 	bool kawaseFrameBuffer = true, firstIteration = true;
 	int kawaseSamples = 10;
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
+	glViewport(0, 0, widht / 2, height / 2);
 	kawaseDownProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
@@ -1003,6 +1015,7 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseDownProgram->Deactivate();
 
 	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
+	glViewport(0, 0, widht, height);
 	kawaseUpProgram->Activate();
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
