@@ -7,6 +7,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidbody.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -40,11 +41,11 @@ void BossChargeRockScript::Update(float deltaTime)
 
 void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (rockState == RockStates::SKY)
+	if (rockState == RockStates::SKY && other->GetOwner()->CompareTag("Rock"))
 	{
 		// Check if it hits another spawned rock, in which case, destroy this new rock
 		LOG_DEBUG("Rock hits rock!!!");
-		DestroyRock();
+		DeactivateRock();
 	}
 
 	else if (rockState == RockStates::FALLING)
@@ -54,7 +55,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(fallingRockDamage);
 			rockState = RockStates::HIT_ENEMY;
-			DestroyRock();
+			DeactivateRock();
 		}
 
 		// If a rock hits the floor, stop its falling
@@ -62,7 +63,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			rigidBody->SetIsKinematic(true);
 			rigidBody->SetUpMobility();
-			rockState == RockStates::FLOOR;
+			rockState = RockStates::FLOOR;
 		}
 	}
 
@@ -78,24 +79,25 @@ void BossChargeRockScript::SetRockState(RockStates newState)
 	rockState = newState;
 }
 
-void BossChargeRockScript::DestroyRock() const
+void BossChargeRockScript::DeactivateRock()
 {
 	if (rockState == RockStates::HIT_ENEMY)
 	{
-		owner->Disable();
+		// Only disable the mesh so the particles can be seen
+		owner->GetComponent<ComponentMeshRenderer>()->Disable();
 
-		// This will need particles in the future
-		// And be properly destroyed after the particles have shown
-		// App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
-	}
-
-	else if (rockState == RockStates::SKY)
-	{
-		owner->Disable();
+		// This will need to manage particles in the future
 	}
 
 	else
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+		owner->Disable();
 	}
+
+	triggerRockDespawn = true;
+}
+
+void BossChargeRockScript::DestroyRock() const
+{
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

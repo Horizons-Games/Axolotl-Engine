@@ -37,7 +37,7 @@ private:
 
 	// These two functions will not be used in the first miniboss
 	// As instead of throwing rocks, it will leave a toxic trail behind when charging
-	void SpawnRock(float3 spawnPosition) const;
+	void SpawnRock(float3 spawnPosition);
 	void MakeRocksFall() const;
 
 	void RotateToTarget(ComponentTransform* target) const;
@@ -58,7 +58,9 @@ private:
 	float chargeMaxCooldown;
 	float attackStunTime;
 	float chargeDamage;
+
 	float spawningRockChance;
+	float rockSpawningHeight;
 
 	GameObject* rockPrefab;
 	std::vector<GameObject*> rocksSpawned;

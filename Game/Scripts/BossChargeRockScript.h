@@ -29,6 +29,7 @@ public:
 	void SetRockState(RockStates newState);
 
 private:
+	void DeactivateRock();
 	void DestroyRock() const;
 
 	RockStates rockState;

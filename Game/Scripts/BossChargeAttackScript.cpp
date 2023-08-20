@@ -1,6 +1,11 @@
 #include "StdAfx.h"
 #include "BossChargeAttackScript.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+#include "Physics/Physics.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidbody.h"
@@ -8,21 +13,21 @@
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
 
-#include "Physics/Physics.h"
-
 REGISTERCLASS(BossChargeAttackScript);
 
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(0.0f),
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NOTHING),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
-	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(15.0f)
+	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
 	REGISTER_FIELD(chargeMaxCooldown, float);
 	REGISTER_FIELD(attackStunTime, float);
 	REGISTER_FIELD(chargeDamage, float);
+
 	REGISTER_FIELD(spawningRockChance, float);
+	REGISTER_FIELD(rockSpawningHeight, float);
 
 	REGISTER_FIELD(rockPrefab, GameObject*);
 }
@@ -59,12 +64,10 @@ void BossChargeAttackScript::Update(float deltaTime)
 		// Spawn rocks randomly over the charged zone
 		int randomActivation = rand() % 100;
 
-		LOG_DEBUG("Random number {}", randomActivation);
-
 		if (randomActivation < spawningRockChance)
 		{
 			SpawnRock(float3(transform->GetGlobalPosition().x,
-								transform->GetGlobalPosition().y + 20.0f,
+								transform->GetGlobalPosition().y + rockSpawningHeight,
 								transform->GetGlobalPosition().z));
 		}
 	}
@@ -79,7 +82,7 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		chargeState = ChargeState::BOUNCING_WALL;
 
 		WallHitAfterCharge();
-		MakeRocksFall();
+		//MakeRocksFall();
 	}
 
 	else if (!other->GetOwner()->CompareTag("Player") && !other->GetOwner()->CompareTag("Enemy") &&
@@ -105,6 +108,8 @@ void BossChargeAttackScript::TriggerChargeAttack(GameObject* target)
 
 	rigidBody->SetIsKinematic(false);
 	rigidBody->SetUpMobility();
+
+	rocksSpawned.clear();
 
 	chargeState = ChargeState::PREPARING_CHARGE;
 	chargeThroughPosition = target->GetComponent<ComponentTransform>();
@@ -168,11 +173,23 @@ bool BossChargeAttackScript::CanPerformChargeAttack() const
 	return chargeCooldown <= 0.0f;
 }
 
-void BossChargeAttackScript::SpawnRock(float3 spawnPosition) const
+void BossChargeAttackScript::SpawnRock(float3 spawnPosition)
 {
 	LOG_DEBUG("Spawn rock at {}, {}, {}", spawnPosition.x, spawnPosition.y, spawnPosition.z);
 
-	// Create rock
+	GameObject* newRock = App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject("Rock Copy", rockPrefab, rockPrefab->GetParent());
+
+	ComponentTransform* newRockTransform = newRock->GetComponent<ComponentTransform>();
+	newRockTransform->SetGlobalPosition(spawnPosition);
+	newRockTransform->RecalculateLocalMatrix();
+
+	newRock->Enable();
+	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
+	newRockRigidBody->SetDefaultPosition();
+	newRockRigidBody->Enable();
+
+	rocksSpawned.push_back(newRock);
 }
 
 void BossChargeAttackScript::MakeRocksFall() const
@@ -184,8 +201,13 @@ void BossChargeAttackScript::MakeRocksFall() const
 			continue;
 		}
 
-		// Set trigger to true
-		// Set kinematic to false
+		ComponentRigidBody* rockRigidBody = spawnedRock->GetComponent<ComponentRigidBody>();
+		rockRigidBody->SetIsTrigger(false);
+		rockRigidBody->SetIsKinematic(false);
+		rockRigidBody->SetUpMobility();
+
+		// This will need any kind of warning for the player in the future
+		// Maybe a particle in the floor that shows where the rock is going to land
 	}
 }
 
