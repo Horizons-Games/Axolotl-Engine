@@ -180,8 +180,6 @@ UpdateStatus ModuleScene::PostUpdate()
 		}
 	}
 
-	loadedScene->ExecutePendingActions();
-
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 

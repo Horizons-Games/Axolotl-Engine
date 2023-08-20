@@ -606,6 +606,7 @@
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="Scheduler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1256,6 +1257,7 @@
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="Scheduler.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

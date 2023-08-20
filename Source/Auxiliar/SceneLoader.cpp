@@ -315,7 +315,7 @@ void StartHierarchyLoad(Json&& gameObjectsJson)
 
 	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 	{
-		loadedScene->AddPendingAction(loadObjectThenFinishHierarchyLoad);
+		App->ScheduleTask(loadObjectThenFinishHierarchyLoad);
 	}
 	else
 	{
@@ -375,7 +375,7 @@ void StartJsonLoad(Json&& sceneJson)
 
 	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 	{
-		loadedScene->AddPendingAction(createCubemap);
+		App->ScheduleTask(createCubemap);
 	}
 	else
 	{
@@ -460,7 +460,7 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 	{
 		// Make sure the load starts at the end of the frame
-		App->GetModule<ModuleScene>()->GetLoadedScene()->AddPendingAction(
+		App->ScheduleTask(
 			[]
 			{
 				std::thread startLoadThread = std::thread(&StartLoadScene);

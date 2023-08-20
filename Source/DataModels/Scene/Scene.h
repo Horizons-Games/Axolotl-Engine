@@ -7,8 +7,6 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 
-#include <queue>
-
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
@@ -123,9 +121,6 @@ public:
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
 
-	void AddPendingAction(std::function<void(void)>&& pendingAction);
-	void ExecutePendingActions();
-
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
 	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
@@ -169,11 +164,6 @@ private:
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
 	std::vector<GameObject*> nonStaticObjects;
-
-	// All Updatable components should be added at the end of the frame to avoid modifying the iterated list
-	// Similarly, game objects should only be deleted at the end of the frame
-	std::queue<std::function<void(void)>> pendingActions;
-	std::mutex pendingActionsMutex;
 };
 
 inline GameObject* Scene::GetRoot() const
@@ -269,15 +259,6 @@ inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
 inline void Scene::AddNonStaticObject(GameObject* gameObject)
 {
 	nonStaticObjects.push_back(gameObject);
-}
-
-inline void Scene::AddUpdatableObject(Updatable* updatable)
-{
-	AddPendingAction(
-		[=]
-		{
-			sceneUpdatableObjects.push_back(updatable);
-		});
 }
 
 inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)

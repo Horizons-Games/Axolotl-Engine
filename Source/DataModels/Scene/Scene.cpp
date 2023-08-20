@@ -296,7 +296,7 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
-	AddPendingAction(
+	App->ScheduleTask(
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
@@ -1283,12 +1283,6 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 	}
 }
 
-void Scene::AddPendingAction(std::function<void(void)>&& pendingAction)
-{
-	std::scoped_lock(pendingActionsMutex);
-	pendingActions.push(std::move(pendingAction));
-}
-
 void Scene::AddStaticObject(GameObject* gameObject)
 {
 	// Quadtree treatment
@@ -1325,6 +1319,15 @@ void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 						   std::end(nonStaticObjects));
 }
 
+void Scene::AddUpdatableObject(Updatable* updatable)
+{
+	App->ScheduleTask(
+		[=]
+		{
+			sceneUpdatableObjects.push_back(updatable);
+		});
+}
+
 void Scene::AddSceneGameObjects(const std::vector<GameObject*>& gameObjects)
 {
 	sceneGameObjects.insert(std::end(sceneGameObjects), std::begin(gameObjects), std::end(gameObjects));
@@ -1355,16 +1358,5 @@ void Scene::InitCubemap()
 	if (root->GetComponentInternal<ComponentCubemap>() == nullptr)
 	{
 		root->CreateComponent<ComponentCubemap>();
-	}
-}
-
-void Scene::ExecutePendingActions()
-{
-	std::scoped_lock(pendingActionsMutex);
-	while (!pendingActions.empty())
-	{
-		std::function<void(void)> action = pendingActions.front();
-		action();
-		pendingActions.pop();
 	}
 }
