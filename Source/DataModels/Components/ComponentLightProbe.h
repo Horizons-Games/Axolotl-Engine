@@ -13,6 +13,8 @@ public:
 
 	void Update() override;
 
+	const uint64_t& GetHandle();
+
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
@@ -20,5 +22,7 @@ private:
 	void BindCameraToProgram(Program* program, Frustum frustum);
 
 	GLuint frameBuffer;
-	GLuint preFiltered;
+	GLuint lightProbe;
+
+	uint64_t handle;
 };

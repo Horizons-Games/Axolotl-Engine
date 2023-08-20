@@ -21,6 +21,7 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentLightProbe.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -74,6 +75,8 @@ Scene::~Scene()
 	sceneGameObjects.clear();
 	sceneCameras.clear();
 	sceneParticleSystems.clear();
+	sceneComponentLines.clear();
+	sceneComponentLightProbe.clear();
 	nonStaticObjects.clear();
 
 	pointLights.clear();
@@ -884,6 +887,19 @@ void Scene::GenerateLights()
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingTube, ssboTube);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Light Probe
+
+	size_t numLightProbe = sceneComponentLightProbe.size();
+
+	glGenBuffers(1, &ssboLightProbe);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLightProbe);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(uint64_t) * numLightProbe, nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingLightProbe = 14;
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingLightProbe, ssboLightProbe);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderDirectionalLight() const
@@ -1002,6 +1018,24 @@ void Scene::RenderAreaTubes() const
 	if (numTube > 0)
 	{
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(AreaLightTube) * numTube, &tubeLights[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderComponentLightProbe() const
+{
+	// Light Probe
+	size_t numLightProbe = sceneComponentLightProbe.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLightProbe);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(uint64_t) * numLightProbe, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numLightProbe);
+
+	for (int i = 0; i < numLightProbe; i++)
+	{
+		uint64_t handle = sceneComponentLightProbe[i]->GetHandle();
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(uint64_t) * i, &handle);
 	}
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);

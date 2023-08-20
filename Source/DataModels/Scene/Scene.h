@@ -78,6 +78,7 @@ public:
 	void RenderAreaLights() const;
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
+	void RenderComponentLightProbe() const;
 	void RenderPointLight(const ComponentPointLight* compPoint) const;
 	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
 	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
@@ -190,6 +191,7 @@ private:
 	unsigned ssboSpot;
 	unsigned ssboSphere;
 	unsigned ssboTube;
+	unsigned ssboLightProbe;
 
 	AABB rootQuadtreeAABB;
 	// Render Objects

@@ -19,7 +19,7 @@
 #include "Geometry/Frustum.h"
 
 ComponentLightProbe::ComponentLightProbe(bool active, GameObject* owner) :
-	Component(ComponentType::LIGHT_PROBE, active, owner, true), preFiltered(0)
+	Component(ComponentType::LIGHT_PROBE, active, owner, true), lightProbe(0), handle(0)
 {
 	ModuleWindow* window = App->GetModule<ModuleWindow>();
 	std::pair<int, int> windowSize = window->GetWindowSize();
@@ -30,9 +30,9 @@ ComponentLightProbe::ComponentLightProbe(bool active, GameObject* owner) :
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 	// pre-filtered map
-	glGenTextures(1, &preFiltered);
+	glGenTextures(1, &lightProbe);
 
-	glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, lightProbe);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
@@ -60,7 +60,7 @@ ComponentLightProbe::ComponentLightProbe(bool active, GameObject* owner) :
 ComponentLightProbe::~ComponentLightProbe()
 {
 	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &preFiltered);
+	glDeleteTextures(1, &lightProbe);
 }
 
 void ComponentLightProbe::Update()
@@ -88,7 +88,7 @@ void ComponentLightProbe::Update()
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		glFramebufferTexture2D(
-			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, preFiltered, 0);
+			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, lightProbe, 0);
 		frustum.SetFront(front[i]);
 		frustum.SetUp(up[i]);
 
@@ -110,6 +110,16 @@ void ComponentLightProbe::Update()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glPopDebugGroup();
+}
+
+const uint64_t& ComponentLightProbe::GetHandle()
+{
+	if (handle == 0)
+	{
+		handle = glGetTextureHandleARB(lightProbe);
+		glMakeTextureHandleResidentARB(handle);
+	}
+	return handle;
 }
 
 void ComponentLightProbe::InternalSave(Json& meta)
