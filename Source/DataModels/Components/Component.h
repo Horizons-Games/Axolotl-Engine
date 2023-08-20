@@ -126,6 +126,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Particle";
 		case ComponentType::TRAIL:
 			return "Component_Trail";
+		case ComponentType::LIGHT_PROBE:
+			return "Component_Light_Probe";
 		default:
 			assert(false && "Wrong component type introduced");
 			return std::string();
@@ -239,6 +241,10 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Trail")
 	{
 		return ComponentType::TRAIL;
+	}
+	if (typeName == "Component_Light_Probe")
+	{
+		return ComponentType::LIGHT_PROBE;
 	}
 	if (typeName == "Component_Line")
 	{
