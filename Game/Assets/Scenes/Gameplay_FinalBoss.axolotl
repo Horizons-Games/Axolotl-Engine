@@ -19550,7 +19550,7 @@
                 "tag": "Rock",
                 "uid": 9276601829761192698,
                 "parentUID": 15235845428005553909,
-                "enabled": false,
+                "enabled": true,
                 "static": false,
                 "Components": [
                     {
@@ -19592,7 +19592,7 @@
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
-                            "currentShape": 1,
+                            "currentShape": 2,
                             "usePositionController": false,
                             "useRotationController": false,
                             "KpForce": 5.0,
@@ -19601,7 +19601,7 @@
                             "boxSize_X": 1.3167353868484497,
                             "boxSize_Y": 1.3167353868484497,
                             "boxSize_Z": 1.3167353868484497,
-                            "radius": 9.122610092163086,
+                            "radius": 2.799999952316284,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 5.0,
