@@ -44,11 +44,16 @@ void ComponentAgent::Update()
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
 	
 	float3 newPos = float3(ag->npos);
-	Quat newRot = CalculateRotationToPosition();
 
 	newPos.y += yOffset;
 	transform->SetGlobalPosition(newPos);
-	transform->SetGlobalRotation(newRot);
+
+	if (enabledToRotate)
+	{
+		Quat newRot = CalculateRotationToPosition();
+		transform->SetGlobalRotation(newRot);
+	}
+
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 
@@ -226,7 +231,7 @@ Quat ComponentAgent::CalculateRotationToPosition()
 	float deltaTime = App->GetDeltaTime();
 	Quat globalRotation = transform->GetGlobalRotation();
 
-	float3 newPos = (targetPosition - transform->GetGlobalPosition()).Normalized();
+	float3 newPos = (targetPositionRotate - transform->GetGlobalPosition()).Normalized();
 	float3 forward = transform->GetGlobalForward().Normalized();
 	Quat rot = Quat::RotateFromTo(forward, newPos);
 	float3 eulerRot = rot.ToEulerXYZ();

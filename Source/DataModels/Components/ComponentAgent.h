@@ -17,6 +17,8 @@ public:
 	void SetAgentObstacleAvoidance(bool avoidanceActive);
 	void SetUpdateRigidBody(bool newUpdateRigidBody);
 	void SetYOffset(float newYOffset);
+	void SetEnableRotation(bool newEnabledToRotate);
+	void SetTargetPositionRotate(float3 newTargetPositionRotate);
 	void AddAgentToCrowd();
 	void RemoveAgentFromCrowd();
 
@@ -26,6 +28,8 @@ public:
 	float3 GetTargetPosition() const;
 	bool GetUpdateRigidBody() const;
 	float GetYOffset() const;
+	bool GetEnableRotation() const;
+	float3 GetTargetPositionRotate() const;
 	bool IsAvoidingObstacle() const;
 
 private:
@@ -35,6 +39,7 @@ private:
 
 	unsigned int targetPolygon = 0;		  // Target Polygon of the NavMesh to navigate
 	float3 targetPosition = float3::zero; // Target position of the NavMesh to navigate
+	float3 targetPositionRotate = float3::zero; // Position to which we want to rotate
 	int agentId = -1;					  // Agent identifier in NavMesh's crowd
 
 	float maxSpeed = 5.0f;
@@ -43,6 +48,7 @@ private:
 	bool avoidingObstacle = true;
 	bool shouldAddAgentToCrowd = true;
 	bool updateRigidBody = false;
+	bool enabledToRotate = true;
 
 	ComponentTransform* transform;
 
@@ -86,4 +92,24 @@ inline float ComponentAgent::GetYOffset() const
 inline void ComponentAgent::SetYOffset(float newYOffset)
 {
 	yOffset = newYOffset;
+}
+
+inline bool ComponentAgent::GetEnableRotation() const
+{
+	return enabledToRotate;
+}
+
+inline void ComponentAgent::SetEnableRotation(bool newEnabledToRotate)
+{
+	enabledToRotate = newEnabledToRotate;
+}
+
+inline float3 ComponentAgent::GetTargetPositionRotate() const
+{
+	return targetPositionRotate;
+}
+
+inline void ComponentAgent::SetTargetPositionRotate(float3 newTargetPositionRotate)
+{
+	targetPositionRotate = newTargetPositionRotate;
 }
