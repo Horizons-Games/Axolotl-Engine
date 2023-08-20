@@ -9,9 +9,10 @@ class ComponentRigidBody;
 
 enum class RockStates
 {
-	FLOOR,
+	SKY,
 	FALLING,
-	SKY
+	HIT_ENEMY,
+	FLOOR
 };
 
 class BossChargeRockScript : public Script
@@ -28,10 +29,16 @@ public:
 	void SetRockState(RockStates newState);
 
 private:
+	void DestroyRock() const;
+
 	RockStates rockState;
+
+	bool triggerRockDespawn;
+	float despawnTimer;
 
 	ComponentRigidBody* rigidBody;
 
 	// Modifiable values
 	float fallingRockDamage;
+	float despawnMaxTimer;
 };

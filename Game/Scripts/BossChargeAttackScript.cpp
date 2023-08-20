@@ -12,7 +12,7 @@
 
 REGISTERCLASS(BossChargeAttackScript);
 
-BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(2.0f),
+BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(0.0f),
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NOTHING),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr)
@@ -28,6 +28,8 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 
 void BossChargeAttackScript::Start()
 {
+	prepareChargeTime = prepareChargeMaxTime;
+
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 }
@@ -176,9 +178,13 @@ void BossChargeAttackScript::MakeRocksFall() const
 {
 	for (GameObject* spawnedRock : rocksSpawned)
 	{
+		if (!spawnedRock->IsEnabled())
+		{
+			continue;
+		}
+
 		// Set trigger to true
 		// Set kinematic to false
-		// Make it fall
 	}
 }
 

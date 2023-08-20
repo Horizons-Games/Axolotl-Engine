@@ -19214,7 +19214,7 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
                             "zRotationAxisBlocked": true
                         }
@@ -19605,6 +19605,95 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 5.0,
+                            "rbPos_Y": 5.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossChargeRockScript",
+                            "fields": [
+                                {
+                                    "name": "FallingRockDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Rock Prefab",
+                "tag": "Rock",
+                "uid": 10778993145641463991,
+                "parentUID": 15235845428005553909,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.183988571166992,
+                            "localPos_Y": 5.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 0.5,
+                            "localSca_Z": 0.5
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": false,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 1000000000.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.3167353868484497,
+                            "boxSize_Y": 1.3167353868484497,
+                            "boxSize_Z": 1.3167353868484497,
+                            "radius": 2.799999952316284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 8.183988571166992,
                             "rbPos_Y": 5.0,
                             "rbPos_Z": 0.0,
                             "xAxisBlocked": false,
