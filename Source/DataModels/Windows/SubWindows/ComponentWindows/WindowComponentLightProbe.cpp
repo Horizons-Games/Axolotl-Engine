@@ -10,7 +10,6 @@
 
 #include "Components/ComponentLightProbe.h"
 
-
 WindowComponentLightProbe::WindowComponentLightProbe(ComponentLightProbe* component) :
 	ComponentWindow("LIGHT PROBE", component)
 {
