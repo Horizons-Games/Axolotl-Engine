@@ -25,6 +25,7 @@ public:
 
 	bool IsAttackAvailable() const;
 	bool NeedReposition() const;
+	bool IsPreShooting() const;
 	bool MovingToNewReposition();
 
 private:

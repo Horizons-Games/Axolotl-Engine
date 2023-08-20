@@ -183,16 +183,27 @@ void EnemyDroneScript::UpdateBehaviour()
 
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
-		if (fastAttackScript->IsAttackAvailable())
+		if (componentAnimation->GetActualStateName() != "Flinch")
 		{
-			fastAttackScript->PerformAttack();
-			componentAnimation->SetParameter("IsAttacking", true);
-		}
+			if (fastAttackScript->IsAttackAvailable())
+			{
+				fastAttackScript->PerformAttack();
+				componentAnimation->SetParameter("IsAttacking", true);
+			}
 
-		if (fastAttackScript->NeedReposition())
-		{
-			CalculateNextPosition();
+			if (fastAttackScript->NeedReposition())
+			{
+				CalculateNextPosition();
+			}
 		}
+		else
+		{
+			if (fastAttackScript->IsPreShooting())
+			{
+				fastAttackScript->InterruptAttack();
+			}
+		}
+		
 
 		break;
 

@@ -105,7 +105,9 @@ void HealthSystem::TakeDamage(float damage)
 			}
 			else
 			{
+				componentAnimation->SetParameter("IsTakingDamage", true);
 				currentHealth -= damage;
+				damageTaken = true;
 			}
 		}
 		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())

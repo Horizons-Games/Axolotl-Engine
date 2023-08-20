@@ -141,8 +141,11 @@ void RangedFastAttackBehaviourScript::InterruptAttack()
 {
 	isPreShooting = false;
 	preShootingTime = 0.0f;
-	particleSystemPreShot->SetPlayAtStart(true);
-	particleSystemPreShot->Stop();
+	lastAttackTime = SDL_GetTicks() / 1000.0f - attackCooldown / 2.0f;
+	if (particleSystemPreShot)
+	{
+		particleSystemPreShot->Stop();
+	}
 }
 
 bool RangedFastAttackBehaviourScript::IsAttackAvailable() const
@@ -153,6 +156,11 @@ bool RangedFastAttackBehaviourScript::IsAttackAvailable() const
 bool RangedFastAttackBehaviourScript::NeedReposition() const
 {
 	return needReposition;
+}
+
+bool RangedFastAttackBehaviourScript::IsPreShooting() const
+{
+	return isPreShooting;
 }
 
 bool RangedFastAttackBehaviourScript::MovingToNewReposition()
