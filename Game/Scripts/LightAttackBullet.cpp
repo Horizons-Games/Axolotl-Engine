@@ -35,6 +35,7 @@ LightAttackBullet::LightAttackBullet() :
 	particleSystemCurrentTimer(0.0f)
 {
 	REGISTER_FIELD(particleSystemTimer, float);
+	REGISTER_FIELD(maxDistanceBullet, float);
 }
 
 void LightAttackBullet::Start()

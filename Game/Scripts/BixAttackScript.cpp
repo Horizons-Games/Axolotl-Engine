@@ -163,17 +163,23 @@ void BixAttackScript::LightNormalAttack()
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	if(enemyAttacked != nullptr)
-	{
-		LOG_VERBOSE("Enemy hit with light attack");
-		comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
-		ThrowBasicAttack(enemyAttacked, attackSoft);
-		DamageEnemy(enemyAttacked, attackSoft);
-	}
 
-	else 
+	if (owner->GetName() == "PrefabBix")
 	{
-		LOG_VERBOSE("Fail light attack");
+		if (enemyAttacked != nullptr)
+		{
+			LOG_VERBOSE("Enemy hit with light attack");
+			comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
+			DamageEnemy(enemyAttacked, attackSoft);
+		}
+		else
+		{
+			LOG_VERBOSE("Fail light attack");
+		}
+	}
+	else if (owner->GetName() == "PrefabArulla")
+	{
+		ThrowBasicAttack(enemyAttacked, attackSoft);
 	}
 	isAttacking = true;
 }
@@ -202,7 +208,7 @@ void BixAttackScript::HeavyNormalAttack()
 	}
 	else if (owner->GetName() == "PrefabArulla")
 	{
-		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
+		ThrowBasicAttack(enemyAttacked, attackHeavy);
 	}
 
 	

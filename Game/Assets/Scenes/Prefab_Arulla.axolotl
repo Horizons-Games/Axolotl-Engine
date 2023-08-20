@@ -78,7 +78,7 @@
         },
         {
             "GameObject": {
-                "name": "ArullaPrefab",
+                "name": "PrefabArulla",
                 "tag": "Player",
                 "uid": 2936065966958249174,
                 "parentUID": 9011007661183311806,
@@ -212,6 +212,16 @@
                                     "name": "LightWeapon",
                                     "value": 15439592941999992541,
                                     "type": 2
+                                },
+                                {
+                                    "name": "BulletPrefab",
+                                    "value": 1984360208543077965,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 3.9000000953674316,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -6682,6 +6692,113 @@
                             "assetPathMesh": "Assets/Meshes/LightSaber.Mesh.003_1.mesh",
                             "materialUID": 3082660891142083239,
                             "assetPathMaterial": "Assets/Materials/LightSaberLightSaberEmission_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Attack Bullet",
+                "tag": "",
+                "uid": 1984360208543077965,
+                "parentUID": 2936065966958249174,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.4011542797088623,
+                            "localPos_Z": 2.4872474670410156,
+                            "localRot_X": -90.00001525878906,
+                            "localRot_Y": -0.00004963254104950465,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 0.25,
+                            "localSca_Y": 0.5,
+                            "localSca_Z": 0.25
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": false,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.10000000149011612,
+                            "boxSize_Y": 0.4000000059604645,
+                            "boxSize_Z": 0.10000000149011612,
+                            "radius": 4.499998569488525,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0003662109375,
+                            "rbPos_Y": 0.7203463315963745,
+                            "rbPos_Z": 0.7461742758750916
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "LightAttackBullet",
+                            "fields": [
+                                {
+                                    "name": "ParticleSystemTimer",
+                                    "value": 5.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": false,
+                            "removed": true,
+                            "particleSystemUID": 1731042919886501754,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/LightFinisherBulletParticles.particle",
+                            "playAtStart": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
