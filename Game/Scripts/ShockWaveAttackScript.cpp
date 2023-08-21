@@ -12,6 +12,7 @@ ShockWaveAttackScript::ShockWaveAttackScript() : Script(), outerArea(nullptr), i
 	shockWaveCooldown(0.0f), shockWaveMaxCooldown(5.0f), shockWaveHitPlayer(false), shockWaveDamage(10.0f)
 {
 	REGISTER_FIELD(shockWaveMaxCooldown, float);
+	REGISTER_FIELD(shockWaveDamage, float);
 
 	REGISTER_FIELD(outerArea, ShockWaveAttackAreaScript*);
 	REGISTER_FIELD(innerArea, ShockWaveAttackAreaScript*);

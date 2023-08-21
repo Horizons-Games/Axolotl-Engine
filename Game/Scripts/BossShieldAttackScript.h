@@ -22,7 +22,6 @@ public:
 	bool CanPerformShieldAttack() const;
 
 private:
-	BossShieldScript* bossShieldObject;
 	bool isShielding;
 	float shieldingTime;
 
@@ -32,4 +31,6 @@ private:
 	// Modifiable values
 	float shieldingMaxTime;
 	float shieldAttackMaxCooldown;
+
+	BossShieldScript* bossShieldObject;
 };

@@ -52,7 +52,6 @@ private:
 	FinalBossPhases bossPhase;
 	FinalBossStates bossState;
 
-	GameObject* target;
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
 	ComponentTransform* targetTransform;
@@ -62,4 +61,7 @@ private:
 	BossChargeAttackScript* chargeAttackScript;
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
+
+	// Modifiable values
+	GameObject* target;
 };
