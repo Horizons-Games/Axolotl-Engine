@@ -36,7 +36,7 @@ public:
 
 	bool IsDrawBonesActivated() const;
 
-	bool isPlaying() const;
+	bool IsPlaying() const;
 	std::string& GetActualStateName() const;
 
 private:

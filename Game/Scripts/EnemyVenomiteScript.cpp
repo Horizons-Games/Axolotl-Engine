@@ -11,14 +11,12 @@
 #include "../Scripts/MeleeFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 
-#include "AxoLog.h"
-
 REGISTERCLASS(EnemyVenomiteScript);
 
-EnemyVenomiteScript::EnemyVenomiteScript() : Script(), venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
-	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(2.0f), meleeAttackScript(nullptr),
+EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
+	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(1.5f), meleeAttackScript(nullptr),
 	healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), componentAudioSource(nullptr),
-	batonGameObject(nullptr), blasterGameObject(nullptr), stunned(false), timeStunned(0.0f)
+	batonGameObject(nullptr), blasterGameObject(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
@@ -85,7 +83,8 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			venomiteState = VenomiteBehaviours::SEEK;
 		}
 
-		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
+		if (healthScript->GetCurrentHealth() <= healthScript->GetMaxHealth() / 2.0f
+			&& ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
 		{
 			venomiteState = VenomiteBehaviours::MELEE_ATTACK;
 		}
@@ -104,6 +103,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
 	{
+		batonGameObject->Disable();
 		blasterGameObject->Enable();
 
 		seekScript->Seeking();
@@ -141,6 +141,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
 	{
 		batonGameObject->Enable();
+		blasterGameObject->Disable();
 
 		seekScript->Seeking();
 		seekScript->DisableMovement();
@@ -156,12 +157,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			componentAnimation->SetParameter("IsMeleeAttacking", false);
 		}
 
-		componentAnimation->SetParameter("IsRunning", true);
+		componentAnimation->SetParameter("IsRunning", false);
 	}
-}
-
-void EnemyVenomiteScript::SetStunnedTime(float newTime)
-{
-	stunned = true;
-	timeStunned = newTime;
 }

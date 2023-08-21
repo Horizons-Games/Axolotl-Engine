@@ -119,7 +119,7 @@ public:
 	void InitLights();
 	void InitCubemap();
 
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);

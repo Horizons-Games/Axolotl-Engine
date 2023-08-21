@@ -99,6 +99,9 @@ public:
 	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
 	std::vector<S*> GetComponents();
 
+	template<typename C>
+	bool HasComponent() const;
+
 	Component* CreateComponentLight(LightType lightType, AreaType areaType);
 
 	// This method returns true if and only if the GameObject is currently enabled

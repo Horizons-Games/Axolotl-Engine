@@ -5,6 +5,7 @@
 #include "Components/UI/ComponentButton.h"
 #include "UIGameManager.h"
 
+#include "Application.h"
 
 
 REGISTERCLASS(UIButtonControl);

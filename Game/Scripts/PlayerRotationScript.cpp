@@ -23,7 +23,7 @@ void PlayerRotationScript::Start()
 {
 	forceScript = owner->GetComponent<PlayerForceUseScript>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	btRb = rigidBody->GetRigidBody();
+	btRigidbody = rigidBody->GetRigidBody();
 }
 
 void PlayerRotationScript::PreUpdate(float deltaTime)
@@ -34,7 +34,7 @@ void PlayerRotationScript::PreUpdate(float deltaTime)
 	}
 	else
 	{
-		btRb->setAngularVelocity({0.0f,0.0f,0.0f});
+		btRigidbody->setAngularVelocity({0.0f,0.0f,0.0f});
 	}
 }
 
@@ -50,10 +50,10 @@ void PlayerRotationScript::Rotation(float deltaTime)
 
 	if (horizontalMotion != 0)
 	{
-		btRb->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
+		btRigidbody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
 		angularVelocity = btVector3(0.0f, -horizontalMotion * deltaTime, 0.0f);
 	}
-	btRb->setAngularVelocity(angularVelocity);
+	btRigidbody->setAngularVelocity(angularVelocity);
 }
 
 bool PlayerRotationScript::GetCanRotate() const
@@ -64,4 +64,24 @@ bool PlayerRotationScript::GetCanRotate() const
 void PlayerRotationScript::SetCanRotate(bool canRotate)
 {
 	this->canRotate = canRotate;
+}
+
+float PlayerRotationScript::GetHorizontalSensitivity() const
+{
+	return rotationSensitivityHorizontal;
+}
+
+float PlayerRotationScript::GetVerticalSensitivity() const
+{
+	return rotationSensitivityVertical;
+}
+
+void PlayerRotationScript::SetHorizontalSensitivity(float sensitivity)
+{
+	rotationSensitivityHorizontal = sensitivity;
+}
+
+void PlayerRotationScript::SetVerticalSensitivity(float sensitivity)
+{
+	rotationSensitivityVertical = sensitivity;
 }

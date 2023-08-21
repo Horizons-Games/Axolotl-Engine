@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/rejila_diffuse.png",
+    "NormalAssetPath": "Assets/Textures/rejila_normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/rejila_metallic.png",
+    "EmissiveAssetPath": ""
+}
