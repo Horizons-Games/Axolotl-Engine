@@ -10123,8 +10123,8 @@
         },
         {
             "GameObject": {
-                "name": "Drone",
-                "tag": "",
+                "name": "Drone Prefab",
+                "tag": "Enemy",
                 "uid": 9419324827224935529,
                 "parentUID": 13168802765062674689,
                 "enabled": false,
@@ -13223,8 +13223,8 @@
         },
         {
             "GameObject": {
-                "name": "Venomite_Soldier",
-                "tag": "",
+                "name": "Venomite_Soldier Prefab",
+                "tag": "Enemy",
                 "uid": 6043398887632489792,
                 "parentUID": 13168802765062674689,
                 "enabled": false,
@@ -19063,6 +19063,16 @@
                                 {
                                     "name": "BossShieldObject",
                                     "value": 1300481011350620516,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DronePrefab",
+                                    "value": 9419324827224935529,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "VenomitePrefab",
+                                    "value": 6043398887632489792,
                                     "type": 2
                                 }
                             ]
