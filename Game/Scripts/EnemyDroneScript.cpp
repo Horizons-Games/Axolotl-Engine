@@ -81,11 +81,6 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 	}
 
-	if (healthScript && !healthScript->EntityIsAlive())
-	{
-		return;
-	}
-
 	CheckState();
 
 	UpdateBehaviour(deltaTime);
@@ -275,7 +270,7 @@ void EnemyDroneScript::CalculateNextPosition() const
 	fastAttackScript->Reposition(nextPosition);
 }
 
-void EnemyDroneScript::SetReadyToDie(float damage)
+void EnemyDroneScript::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	fastAttackScript->InterruptAttack();

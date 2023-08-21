@@ -9,7 +9,6 @@ class ComponentAnimation;
 class ComponentParticleSystem;
 
 class BixAttackScript;
-class EnemyClass;
 
 
 class HealthSystem : public Script
@@ -32,6 +31,8 @@ public:
 	bool IsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
 	
+	void SetDeathCallback(std::function<void(void)>&& callDeath);
+
 private:
 	float currentHealth;
 	float maxHealth;
@@ -43,5 +44,6 @@ private:
 	ComponentParticleSystem* componentParticleSystem;
 
 	BixAttackScript* attackScript;
-	EnemyClass* enemyOwner;
+
+	std::function<void(void)> deathCallback;
 };

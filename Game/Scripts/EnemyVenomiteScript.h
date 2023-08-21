@@ -37,7 +37,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie(float damage) override;
+	void SetReadyToDie() override;
 
 private:
 	void CheckState();

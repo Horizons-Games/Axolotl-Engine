@@ -14,8 +14,7 @@
 REGISTERCLASS(HealthSystem);
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr), enemyOwner(nullptr),
-	damageTaken(false)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -49,10 +48,6 @@ void HealthSystem::Start()
 	if (owner->CompareTag("Player"))
 	{
 		attackScript = owner->GetComponent<BixAttackScript>();
-	}
-	else if (owner->CompareTag("Enemy"))
-	{
-		enemyOwner = owner->GetComponent<EnemyClass>();
 	}
 }
 
@@ -98,17 +93,16 @@ void HealthSystem::TakeDamage(float damage)
 	{
 		if (owner->CompareTag("Enemy"))
 		{
-			if (currentHealth - damage <= 0)
+			currentHealth = std::max(currentHealth - damage, 0.0f);
+			if (currentHealth == 0 && deathCallback)
 			{
-				enemyOwner->SetReadyToDie(damage);
-				damageTaken = true;
+				deathCallback();
 			}
 			else
 			{
 				componentAnimation->SetParameter("IsTakingDamage", true);
-				currentHealth -= damage;
-				damageTaken = true;
 			}
+			damageTaken = true;
 		}
 		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
 		{
@@ -162,6 +156,11 @@ bool HealthSystem::IsImmortal() const
 void HealthSystem::SetIsImmortal(bool isImmortal)
 {
 	this->isImmortal = isImmortal;
+}
+
+void HealthSystem::SetDeathCallback(std::function<void(void)>&& callDeath)
+{
+	deathCallback = std::move(callDeath);
 }
 
 float HealthSystem::GetCurrentHealth() const

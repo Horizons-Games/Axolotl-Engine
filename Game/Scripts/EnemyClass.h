@@ -17,7 +17,7 @@ public:
 
 	void SetStunnedTime(float newTime);
 
-	virtual void SetReadyToDie(float damage) = 0;
+	virtual void SetReadyToDie() = 0;
 
 protected:
 	bool stunned;

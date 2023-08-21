@@ -236,7 +236,7 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 	}
 }
 
-void EnemyVenomiteScript::SetReadyToDie(float damage)
+void EnemyVenomiteScript::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsDead", true);
 
