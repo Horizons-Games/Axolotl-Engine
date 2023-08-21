@@ -16,3 +16,7 @@ void BossShieldAttackScript::Start()
 void BossShieldAttackScript::Update(float deltaTime)
 {
 }
+
+void BossShieldAttackScript::TriggerShieldAttack() const
+{
+}

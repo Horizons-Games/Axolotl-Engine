@@ -19397,6 +19397,15 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossShieldAttackScript",
+                            "fields": null
+                        }
                     }
                 ]
             }

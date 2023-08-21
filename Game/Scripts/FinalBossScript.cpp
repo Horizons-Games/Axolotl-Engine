@@ -9,12 +9,14 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/BossChargeAttackScript.h"
 #include "../Scripts/ShockWaveAttackScript.h"
+#include "../Scripts/BossShieldAttackScript.h"
 
 REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
-	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::WALKING)
+	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::WALKING),
+	shieldAttackScript(nullptr)
 {
 	REGISTER_FIELD(target, GameObject*);
 }
@@ -30,6 +32,7 @@ void FinalBossScript::Start()
 	bossHealthSystem = owner->GetComponent<HealthSystem>();
 	chargeAttackScript = owner->GetComponent<BossChargeAttackScript>();
 	shockWaveAttackScript = owner->GetComponent<ShockWaveAttackScript>();
+	shieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
 }
 
 void FinalBossScript::Update(float deltaTime)
@@ -70,6 +73,7 @@ void FinalBossScript::Update(float deltaTime)
 	// Uncomment this to check the energy shield attack -----------------------
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f))
 	{
+		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::ATTACKING;
 	}
 }

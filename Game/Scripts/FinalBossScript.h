@@ -13,6 +13,7 @@ class PatrolBehaviourScript;
 class HealthSystem;
 class BossChargeAttackScript;
 class ShockWaveAttackScript;
+class BossShieldAttackScript;
 
 enum class FinalBossPhases
 {
@@ -59,4 +60,5 @@ private:
 	HealthSystem* bossHealthSystem;
 	BossChargeAttackScript* chargeAttackScript;
 	ShockWaveAttackScript* shockWaveAttackScript;
+	BossShieldAttackScript* shieldAttackScript;
 };
