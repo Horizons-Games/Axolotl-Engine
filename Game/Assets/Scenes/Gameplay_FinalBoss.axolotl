@@ -19404,7 +19404,18 @@
                             "active": true,
                             "removed": true,
                             "constructName": "BossShieldAttackScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "ShieldingMaxTime",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "BossShieldObject",
+                                    "value": 1300481011350620516,
+                                    "type": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -19853,6 +19864,89 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Shield",
+                "tag": "Shield",
+                "uid": 1300481011350620516,
+                "parentUID": 4828879304980220319,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 2691494046459264036,
+                            "assetPathMaterial": "Assets/Materials/BossShieldMat.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 2.6334707736968994,
+                            "boxSize_Y": 2.6334707736968994,
+                            "boxSize_Z": 2.6334707736968994,
+                            "radius": 5.5,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 2.75,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossShieldScript",
+                            "fields": null
                         }
                     }
                 ]

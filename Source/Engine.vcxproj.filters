@@ -654,6 +654,9 @@
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours\Basic Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1345,6 +1348,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours\Basic Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossShieldScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class BossShieldScript;
+
 class BossShieldAttackScript : public Script
 {
 public:
@@ -14,5 +16,15 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void TriggerShieldAttack() const;
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+
+	void TriggerShieldAttack();
+
+private:
+	BossShieldScript* bossShieldObject;
+	bool isShielding;
+	float shieldingTime;
+
+	// Modifiable values
+	float shieldingMaxTime;
 };
