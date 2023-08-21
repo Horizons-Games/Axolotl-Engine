@@ -45,7 +45,8 @@ void FinalBossScript::Update(float deltaTime)
 	// patrolScript->Patrolling();
 
 	// Uncomment this to check the plasma hammer attack -----------------------
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f))
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
 		shockWaveAttackScript->TriggerShockWaveAttack();
 	}

@@ -6,8 +6,8 @@
 
 REGISTERCLASS(ShockWaveAttackAreaScript);
 
-ShockWaveAttackAreaScript::ShockWaveAttackAreaScript() : Script(), expandArea(false), maxSizeArea(15.0f),
-	rigidBody(nullptr), areaGrowingFactor(7.5f), maxExpansionReached(false), minSizeArea(1.0f)
+ShockWaveAttackAreaScript::ShockWaveAttackAreaScript() : Script(), maxSizeArea(15.0f), rigidBody(nullptr), 
+	areaGrowingFactor(7.5f), minSizeArea(1.0f), areaState(AreaState::IDLE)
 {
 	REGISTER_FIELD(minSizeArea, float);
 	REGISTER_FIELD(maxSizeArea, float);
@@ -23,33 +23,29 @@ void ShockWaveAttackAreaScript::Update(float deltaTime)
 {
 	rigidBody->UpdateRigidBody();
 
-	if (expandArea)
+	if (areaState == AreaState::EXPANDING)
 	{
 		if (rigidBody->GetRadius() <= maxSizeArea)
 		{
 			rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
 			rigidBody->SetCollisionShape(rigidBody->GetShape());
-
-			maxExpansionReached = false;
 		}
 
 		else
 		{
 			rigidBody->SetRadius(minSizeArea);
 			rigidBody->SetCollisionShape(rigidBody->GetShape());
-
-			maxExpansionReached = true;
-			expandArea = false;
+			areaState = AreaState::ON_COOLDOWN;
 		}
 	}
 }
 
-void ShockWaveAttackAreaScript::TriggerAreaExpansion()
+AreaState ShockWaveAttackAreaScript::GetAreaState() const
 {
-	expandArea = true;
+	return areaState;
 }
 
-bool ShockWaveAttackAreaScript::GetMaxExpansionReached() const
+void ShockWaveAttackAreaScript::SetAreaState(AreaState newAreaState)
 {
-	return maxExpansionReached;
+	areaState = newAreaState;
 }

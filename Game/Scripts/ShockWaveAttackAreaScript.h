@@ -7,6 +7,13 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
 
+enum class AreaState
+{
+	IDLE,
+	EXPANDING,
+	ON_COOLDOWN
+};
+
 class ShockWaveAttackAreaScript : public Script
 {
 public:
@@ -16,12 +23,11 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void TriggerAreaExpansion();
-	bool GetMaxExpansionReached() const;
+	AreaState GetAreaState() const;
+	void SetAreaState(AreaState newAreaState);
 
 private:
-	bool expandArea;
-	bool maxExpansionReached;
+	AreaState areaState;
 	ComponentRigidBody* rigidBody;
 
 	// Modifiable values

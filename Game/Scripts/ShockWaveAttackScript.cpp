@@ -23,25 +23,28 @@ void ShockWaveAttackScript::Start()
 
 void ShockWaveAttackScript::Update(float deltaTime)
 {
-	if ((outerArea->GetMaxExpansionReached() || innerArea->GetMaxExpansionReached()) && 
-		shockWaveCooldown >= 0.0f)
+	if (outerArea->GetAreaState() == AreaState::ON_COOLDOWN || 
+		innerArea->GetAreaState() == AreaState::ON_COOLDOWN)
 	{
 		shockWaveCooldown -= deltaTime;
-	}
 
-	else
-	{
-		shockWaveCooldown = shockWaveMaxCooldown;
+		if (shockWaveCooldown <= 0.0f)
+		{
+			outerArea->SetAreaState(AreaState::IDLE);
+			innerArea->SetAreaState(AreaState::IDLE);
+			shockWaveCooldown = shockWaveMaxCooldown;
+		}
 	}
 }
 
-void ShockWaveAttackScript::TriggerShockWaveAttack() const
+void ShockWaveAttackScript::TriggerShockWaveAttack()
 {
-	outerArea->TriggerAreaExpansion();
-	innerArea->TriggerAreaExpansion();
+	outerArea->SetAreaState(AreaState::EXPANDING);
+	innerArea->SetAreaState(AreaState::EXPANDING);
 }
 
 bool ShockWaveAttackScript::CanPerformShockWaveAttack() const
 {
-	return shockWaveCooldown <= 0.0f;
+	return outerArea->GetAreaState() == AreaState::IDLE &&
+			innerArea->GetAreaState() == AreaState::IDLE;
 }

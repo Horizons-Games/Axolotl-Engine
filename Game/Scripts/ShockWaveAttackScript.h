@@ -16,7 +16,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void TriggerShockWaveAttack() const;
+	void TriggerShockWaveAttack();
 	bool CanPerformShockWaveAttack() const;
 
 private:
