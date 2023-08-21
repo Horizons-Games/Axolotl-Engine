@@ -12,9 +12,9 @@
 
 REGISTERCLASS(FinalBossScript);
 
-FinalBossScript::FinalBossScript() : bossState(FinalBossStates::NEUTRAL), patrolScript(nullptr), 
+FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
-	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr)
+	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::WALKING)
 {
 	REGISTER_FIELD(target, GameObject*);
 }
@@ -42,13 +42,17 @@ void FinalBossScript::Update(float deltaTime)
 	ManageChangePhase();
 
 	// Uncomment this to check the patrol -------------------------------------
-	// patrolScript->Patrolling();
+	/*
+	patrolScript->Patrolling();
+	bossState = FinalBossStates::WALKING;
+	*/
 
 	// Uncomment this to check the plasma hammer attack -----------------------
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
 		shockWaveAttackScript->TriggerShockWaveAttack();
+		bossState = FinalBossStates::ATTACKING;
 	}
 
 	// Uncomment this to check the charge attack ------------------------------
@@ -56,7 +60,8 @@ void FinalBossScript::Update(float deltaTime)
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack())
 	{
-		//chargeAttackScript->TriggerChargeAttack(target);
+		chargeAttackScript->TriggerChargeAttack(target);
+		bossState = FinalBossStates::ATTACKING;
 	}
 	*/
 }
@@ -65,28 +70,28 @@ void FinalBossScript::ManageChangePhase()
 {
 	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f)
 	{
-		bossState = FinalBossStates::LAST_RESORT;
+		bossPhase = FinalBossPhases::LAST_RESORT;
 
 		//LOG_VERBOSE("Final Boss is in LAST RESORT");
 	}
 
 	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f)
 	{
-		bossState = FinalBossStates::DEFENSIVE;
+		bossPhase = FinalBossPhases::DEFENSIVE;
 
 		//LOG_VERBOSE("Final Boss is DEFENSIVE");
 	}
 
 	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f)
 	{
-		bossState = FinalBossStates::AGGRESSIVE;
+		bossPhase = FinalBossPhases::AGGRESSIVE;
 
 		//LOG_VERBOSE("Final Boss is AGGRESSIVE");
 	}
 
 	else
 	{
-		bossState = FinalBossStates::NEUTRAL;
+		bossPhase = FinalBossPhases::NEUTRAL;
 
 		//LOG_VERBOSE("Final Boss is NEUTRAL");
 	}

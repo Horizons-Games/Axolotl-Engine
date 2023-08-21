@@ -45,12 +45,14 @@ private:
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 
-	ComponentTransform* chargeThroughPosition;
+	ComponentTransform* chargeThroughPosition; // Player's position when the charge started
 
 	float prepareChargeTime;
 	float chargeCooldown;
 	ChargeState chargeState;
 	bool chargeHitPlayer;
+
+	std::vector<GameObject*> rocksSpawned;
 
 	// Modifiable values
 	float bounceBackForce;
@@ -63,5 +65,4 @@ private:
 	float rockSpawningHeight;
 
 	GameObject* rockPrefab;
-	std::vector<GameObject*> rocksSpawned;
 };
