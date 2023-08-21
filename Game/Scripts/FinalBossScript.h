@@ -33,7 +33,8 @@ enum class FinalBossPhases
 enum class FinalBossStates
 {
 	WALKING,
-	ATTACKING
+	ATTACKING,
+	DEFENDING
 };
 
 class FinalBossScript : public EnemyClass

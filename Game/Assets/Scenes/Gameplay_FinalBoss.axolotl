@@ -174,63 +174,7 @@
         },
         {
             "GameObject": {
-                "name": "Waypoint Drone 1_2",
-                "tag": "",
-                "uid": 6536772281141820080,
-                "parentUID": 8925584774811486547,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 10.0,
-                            "localPos_Y": 1.5,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Waypoint Drone 1_1",
-                "tag": "",
-                "uid": 17921358598841053390,
-                "parentUID": 8925584774811486547,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -5.0,
-                            "localPos_Y": 1.5,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "PowerUp Drone 1",
+                "name": "PowerUp 1",
                 "tag": "",
                 "uid": 11306440819102867434,
                 "parentUID": 12473639644339742065,
@@ -269,8 +213,8 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
-                            "isTrigger": false,
+                            "isKinematic": true,
+                            "isTrigger": true,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -319,7 +263,7 @@
         },
         {
             "GameObject": {
-                "name": "PowerUp Drone 2",
+                "name": "PowerUp 2",
                 "tag": "",
                 "uid": 1375892197173359520,
                 "parentUID": 12473639644339742065,
@@ -358,8 +302,8 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
-                            "isTrigger": false,
+                            "isKinematic": true,
+                            "isTrigger": true,
                             "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -6693,7 +6637,7 @@
                 "tag": "",
                 "uid": 13168802765062674689,
                 "parentUID": 9011007661183311806,
-                "enabled": false,
+                "enabled": true,
                 "static": false,
                 "Components": [
                     {
@@ -6701,11 +6645,11 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": -5.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": 5.0,
                             "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
+                            "localRot_Y": 180.0,
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
@@ -6717,63 +6661,7 @@
         },
         {
             "GameObject": {
-                "name": "Waypoint Venomite 1_1",
-                "tag": "",
-                "uid": 17217482957009702546,
-                "parentUID": 8925584774811486547,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -10.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 3.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.30000001192092896,
-                            "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Waypoint Venomite 1_2",
-                "tag": "",
-                "uid": 16007474881477241656,
-                "parentUID": 8925584774811486547,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -10.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": -3.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.30000001192092896,
-                            "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "PowerUp Venomite 1",
+                "name": "PowerUp 3",
                 "tag": "",
                 "uid": 10105264902335347340,
                 "parentUID": 12473639644339742065,
@@ -6812,8 +6700,8 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
-                            "isTrigger": false,
+                            "isKinematic": true,
+                            "isTrigger": true,
                             "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -6862,7 +6750,7 @@
         },
         {
             "GameObject": {
-                "name": "PowerUp Venomite 2",
+                "name": "PowerUp 4",
                 "tag": "",
                 "uid": 10078801361813198795,
                 "parentUID": 12473639644339742065,
@@ -6901,8 +6789,8 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
-                            "isTrigger": false,
+                            "isKinematic": true,
+                            "isTrigger": true,
                             "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
@@ -10236,10 +10124,10 @@
         {
             "GameObject": {
                 "name": "Drone",
-                "tag": "Enemy",
+                "tag": "",
                 "uid": 9419324827224935529,
                 "parentUID": 13168802765062674689,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -10247,9 +10135,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -1.634626585200749e-7,
-                            "localPos_Y": 1.5,
-                            "localPos_Z": 1.1187258958816528,
+                            "localPos_X": 1.25,
+                            "localPos_Y": 2.5,
+                            "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -179.99993896484375,
@@ -10272,109 +10160,11 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "SeekBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "Target",
-                                    "value": 1326767777895378518,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PatrolBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "Waypoints",
-                                    "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 17921358598841053390
-                                        },
-                                        {
-                                            "value": 6536772281141820080
-                                        }
-                                    ],
-                                    "innerType": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "EnemyDroneScript",
-                            "fields": [
-                                {
-                                    "name": "ParticleTargetGO",
-                                    "value": 8371172195792549005,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "AttackDistance",
-                                    "value": 8.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "SeekDistance",
-                                    "value": 14.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "ExplosionGameObject",
-                                    "value": 1435588834732233720,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "RangedFastAttackBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 5.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "BulletPrefab",
-                                    "value": 11047647096760190046,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletVelocity",
-                                    "value": 15.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "LaserParticleSystem",
-                                    "value": 0,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
                             "constructName": "HealthSystem",
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 25.799999237060547,
+                                    "value": 60.0,
                                     "type": 0
                                 },
                                 {
@@ -10407,7 +10197,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
+                            "isKinematic": true,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
@@ -10426,9 +10216,9 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -1.634626585200749e-7,
-                            "rbPos_Y": 1.5,
-                            "rbPos_Z": 1.1187258958816528,
+                            "rbPos_X": -6.25,
+                            "rbPos_Y": 2.5,
+                            "rbPos_Z": 5.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -10447,7 +10237,20 @@
                                 {
                                     "name": "AvailablePowerUps",
                                     "type": 4,
-                                    "vectorElements": null,
+                                    "vectorElements": [
+                                        {
+                                            "value": 11306440819102867434
+                                        },
+                                        {
+                                            "value": 1375892197173359520
+                                        },
+                                        {
+                                            "value": 10105264902335347340
+                                        },
+                                        {
+                                            "value": 10078801361813198795
+                                        }
+                                    ],
                                     "innerType": 2
                                 }
                             ]
@@ -13100,9 +12903,9 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -9.122870778810466e-7,
-                            "rbPos_Y": 1.0531424283981323,
-                            "rbPos_Z": 2.870622158050537,
+                            "rbPos_X": -6.250001907348633,
+                            "rbPos_Y": 2.053142547607422,
+                            "rbPos_Z": 3.248103618621826,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -13163,9 +12966,9 @@
                             "radius": 1.0,
                             "factor": 2.5,
                             "height": 2.0,
-                            "rbPos_X": -5.654783308273181e-9,
-                            "rbPos_Y": 1.2486436367034912,
-                            "rbPos_Z": 1.1187258958816528,
+                            "rbPos_X": -6.250000476837158,
+                            "rbPos_Y": 2.248643636703491,
+                            "rbPos_Z": 5.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -13404,9 +13207,9 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -9.97762680053711,
-                            "rbPos_Y": 0.9167737364768982,
-                            "rbPos_Z": 0.9055957794189453,
+                            "rbPos_X": -3.750000238418579,
+                            "rbPos_Y": 1.916773796081543,
+                            "rbPos_Z": 4.094404220581055,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -13421,10 +13224,10 @@
         {
             "GameObject": {
                 "name": "Venomite_Soldier",
-                "tag": "Enemy",
+                "tag": "",
                 "uid": 6043398887632489792,
                 "parentUID": 13168802765062674689,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -13432,8 +13235,8 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -9.97762680053711,
-                            "localPos_Y": 0.0,
+                            "localPos_X": -1.25,
+                            "localPos_Y": 1.0,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -13464,7 +13267,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
+                            "isKinematic": true,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
@@ -13483,118 +13286,15 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -9.97762680053711,
-                            "rbPos_Y": 0.6000000238418579,
-                            "rbPos_Z": 0.0,
+                            "rbPos_X": -3.75,
+                            "rbPos_Y": 1.600000023841858,
+                            "rbPos_Z": 5.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
                             "xRotationAxisBlocked": false,
                             "yRotationAxisBlocked": false,
                             "zRotationAxisBlocked": false
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "EnemyVenomiteScript",
-                            "fields": [
-                                {
-                                    "name": "ParticleTargetGO",
-                                    "value": 4631887640344813425,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "RangedAttackDistance",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "MeleeAttackDistance",
-                                    "value": 1.5,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "BatonGameObject",
-                                    "value": 1201472856940664095,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BlasterGameObject",
-                                    "value": 5648569804437327805,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PatrolBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "Waypoints",
-                                    "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 17217482957009702546
-                                        },
-                                        {
-                                            "value": 16007474881477241656
-                                        }
-                                    ],
-                                    "innerType": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "SeekBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "Target",
-                                    "value": 1326767777895378518,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "RangedFastAttackBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 5.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "BulletPrefab",
-                                    "value": 9730990294478485049,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "BulletVelocity",
-                                    "value": 15.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "LaserParticleSystem",
-                                    "value": 0,
-                                    "type": 2
-                                }
-                            ]
                         }
                     },
                     {
@@ -13632,57 +13332,25 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "MeleeFastAttackBehaviourScript",
-                            "fields": [
-                                {
-                                    "name": "AttackCooldown",
-                                    "value": 6.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "DamageAttack",
-                                    "value": 10.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "Ray1GO",
-                                    "value": 12155914450599700152,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray2GO",
-                                    "value": 10811857513819582819,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 16062323095733009639,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 14999573896007190983,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "RayAttackSize",
-                                    "value": 10.0,
-                                    "type": 0
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
                                     "name": "AvailablePowerUps",
                                     "type": 4,
-                                    "vectorElements": null,
+                                    "vectorElements": [
+                                        {
+                                            "value": 11306440819102867434
+                                        },
+                                        {
+                                            "value": 1375892197173359520
+                                        },
+                                        {
+                                            "value": 10105264902335347340
+                                        },
+                                        {
+                                            "value": 10078801361813198795
+                                        }
+                                    ],
                                     "innerType": 2
                                 }
                             ]
@@ -18211,34 +17879,6 @@
                             "particleSystemUID": 3999053471174024690,
                             "assetPathParticleSystem": "Assets/ParticleSystem/DetectParticle.particle",
                             "playAtStart": false
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Waypoints",
-                "tag": "",
-                "uid": 8925584774811486547,
-                "parentUID": 13168802765062674689,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
                         }
                     }
                 ]

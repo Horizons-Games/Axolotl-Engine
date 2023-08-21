@@ -74,7 +74,7 @@ void FinalBossScript::Update(float deltaTime)
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f))
 	{
 		shieldAttackScript->TriggerShieldAttack();
-		bossState = FinalBossStates::ATTACKING;
+		bossState = FinalBossStates::DEFENDING;
 	}
 }
 
