@@ -82,15 +82,24 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (seekTarget && lastDroneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
-		if (droneState != DroneBehaviours::PATROL && !IsSpawnedEnemy())
+		if (droneState != DroneBehaviours::PATROL)
 		{
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
-			droneState = DroneBehaviours::PATROL;
+			if (!IsSpawnedEnemy())
+			{
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
+				droneState = DroneBehaviours::PATROL;
+			}
 			
+			else
+			{
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+				droneState = DroneBehaviours::SEEK;
+			}
 		}
 
-		if (droneState != DroneBehaviours::SEEK || IsSpawnedEnemy())
+		if (droneState != DroneBehaviours::SEEK)
 		{
 			bool inFront = true;
 			if (std::abs(ownerTransform->GetGlobalForward().

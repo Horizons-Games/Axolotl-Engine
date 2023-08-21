@@ -121,17 +121,18 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		seekScript->Seeking();
 		seekScript->DisableMovement();
 
+		componentAnimation->SetParameter("IsRangedAttacking", true);
+
 		for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
 		{
 			if (rangedAttackScript->IsAttackAvailable())
 			{
-				componentAnimation->SetParameter("IsRangedAttacking", true);
 				rangedAttackScript->PerformAttack();
 			}
 
 			else
 			{
-				//componentAnimation->SetParameter("IsRangedAttacking", false);
+				componentAnimation->SetParameter("IsRangedAttacking", false);
 			}
 		}
 
@@ -140,8 +141,21 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 	if (seekScript && venomiteState == VenomiteBehaviours::SEEK)
 	{
-		batonGameObject->Enable();
-		blasterGameObject->Disable();
+		// Seeking with more than half of its life, set blaster active
+		// (will be performing RANGED_ATTACK state when quiet)
+		if (healthScript->GetCurrentHealth() > healthScript->GetMaxHealth() / 2.0f)
+		{
+			batonGameObject->Disable();
+			blasterGameObject->Enable();
+		}
+
+		// Seeking with less or equal than half of its life, set baton active
+		// (will be performing MELEE_ATTACK state when quiet)
+		else
+		{
+			batonGameObject->Enable();
+			blasterGameObject->Disable();
+		}
 
 		seekScript->EnableMovement();
 		seekScript->Seeking();
