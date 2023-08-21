@@ -4,6 +4,8 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "../Scripts/PlayerJumpScript.h"
+
 REGISTERCLASS(ShockWaveAttackAreaScript);
 
 ShockWaveAttackAreaScript::ShockWaveAttackAreaScript() : Script(), maxSizeArea(15.0f), rigidBody(nullptr), 
@@ -38,17 +40,12 @@ void ShockWaveAttackAreaScript::Update(float deltaTime)
 			areaState = AreaState::ON_COOLDOWN;
 		}
 	}
-
-	if (areaState == AreaState::ON_COOLDOWN)
-	{
-		playerDetected = false;
-		player = nullptr;
-	}
 }
 
 void ShockWaveAttackAreaScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") &&
+		other->GetOwner()->GetComponent<PlayerJumpScript>()->IsGrounded())
 	{
 		playerDetected = true;
 		player = other->GetOwner();
@@ -57,7 +54,7 @@ void ShockWaveAttackAreaScript::OnCollisionEnter(ComponentRigidBody* other)
 
 void ShockWaveAttackAreaScript::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") && player)
 	{
 		playerDetected = false;
 		player = nullptr;
