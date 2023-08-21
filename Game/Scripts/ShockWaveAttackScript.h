@@ -21,9 +21,11 @@ public:
 
 private:
 	float shockWaveCooldown;
+	bool shockWaveHitPlayer;
 
 	// Modifiable values
 	float shockWaveMaxCooldown;
+	float shockWaveDamage;
 
 	ShockWaveAttackAreaScript* outerArea;
 	ShockWaveAttackAreaScript* innerArea;

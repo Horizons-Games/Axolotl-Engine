@@ -543,7 +543,7 @@
         {
             "GameObject": {
                 "name": "Floor",
-                "tag": "",
+                "tag": "Floor",
                 "uid": 12842930968466720250,
                 "parentUID": 9860942332718922623,
                 "enabled": true,

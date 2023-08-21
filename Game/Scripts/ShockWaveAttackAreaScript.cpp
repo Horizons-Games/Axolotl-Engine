@@ -7,7 +7,7 @@
 REGISTERCLASS(ShockWaveAttackAreaScript);
 
 ShockWaveAttackAreaScript::ShockWaveAttackAreaScript() : Script(), maxSizeArea(15.0f), rigidBody(nullptr), 
-	areaGrowingFactor(7.5f), minSizeArea(1.0f), areaState(AreaState::IDLE)
+	areaGrowingFactor(7.5f), minSizeArea(1.0f), areaState(AreaState::IDLE), playerDetected(false), player(nullptr)
 {
 	REGISTER_FIELD(minSizeArea, float);
 	REGISTER_FIELD(maxSizeArea, float);
@@ -38,6 +38,30 @@ void ShockWaveAttackAreaScript::Update(float deltaTime)
 			areaState = AreaState::ON_COOLDOWN;
 		}
 	}
+
+	if (areaState == AreaState::ON_COOLDOWN)
+	{
+		playerDetected = false;
+		player = nullptr;
+	}
+}
+
+void ShockWaveAttackAreaScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (other->GetOwner()->CompareTag("Player"))
+	{
+		playerDetected = true;
+		player = other->GetOwner();
+	}
+}
+
+void ShockWaveAttackAreaScript::OnCollisionExit(ComponentRigidBody* other)
+{
+	if (other->GetOwner()->CompareTag("Player"))
+	{
+		playerDetected = false;
+		player = nullptr;
+	}
 }
 
 AreaState ShockWaveAttackAreaScript::GetAreaState() const
@@ -48,4 +72,14 @@ AreaState ShockWaveAttackAreaScript::GetAreaState() const
 void ShockWaveAttackAreaScript::SetAreaState(AreaState newAreaState)
 {
 	areaState = newAreaState;
+}
+
+bool ShockWaveAttackAreaScript::IsPlayerDetected() const
+{
+	return playerDetected;
+}
+
+GameObject* ShockWaveAttackAreaScript::GetPlayerDetected() const
+{
+	return player;
 }

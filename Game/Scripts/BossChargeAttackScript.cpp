@@ -77,6 +77,7 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 {
+	// If the boss charges towards a wall or a rock, stop the charge and trigger the bounce back
 	if ((other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock"))
 		&& chargeState == ChargeState::CHARGING)
 	{
@@ -86,19 +87,20 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		MakeRocksFall();
 	}
 
-	else if (!other->GetOwner()->CompareTag("Player") && !other->GetOwner()->CompareTag("Enemy") &&
-		!other->GetOwner()->CompareTag("Wall") && !other->IsTrigger() && chargeState == ChargeState::BOUNCING_WALL)
+	// If the boss is charging and hits the player, damage the player
+	else if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer && chargeState == ChargeState::CHARGING)
+	{
+		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
+		chargeHitPlayer = true;
+	}
+
+	// If the boss is bouncing and hits the floor, stop the bounce and stop the boss' movement (he'll be stunned)
+	else if (other->GetOwner()->CompareTag("Floor") && chargeState == ChargeState::BOUNCING_WALL)
 	{
 		chargeState = ChargeState::NOTHING;
 
 		rigidBody->SetIsKinematic(true);
 		rigidBody->SetUpMobility();
-	}
-
-	if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer && chargeState == ChargeState::CHARGING)
-	{
-		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
-		chargeHitPlayer = true;
 	}
 }
 

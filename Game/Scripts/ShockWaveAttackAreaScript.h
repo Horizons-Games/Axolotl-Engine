@@ -23,12 +23,21 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void OnCollisionExit(ComponentRigidBody* other) override;
+
 	AreaState GetAreaState() const;
 	void SetAreaState(AreaState newAreaState);
+
+	bool IsPlayerDetected() const;
+	GameObject* GetPlayerDetected() const;
 
 private:
 	AreaState areaState;
 	ComponentRigidBody* rigidBody;
+
+	GameObject* player;
+	bool playerDetected;
 
 	// Modifiable values
 	float minSizeArea;
