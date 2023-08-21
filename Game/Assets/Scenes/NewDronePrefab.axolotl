@@ -161,6 +161,11 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "AttackDistance",
                                     "value": 8.0,
                                     "type": 0
@@ -288,9 +293,10 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 0,
-                                    "type": 2
+                                    "name": "AvailablePowerUps",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 }
                             ]
                         }

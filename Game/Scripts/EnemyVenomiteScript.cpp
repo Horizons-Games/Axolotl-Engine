@@ -31,7 +31,10 @@ void EnemyVenomiteScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	if (!IsSpawnedEnemy())
+	{
+		patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	}
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	rangedAttackScripts = owner->GetComponents<RangedFastAttackBehaviourScript>();
 	meleeAttackScript = owner->GetComponent<MeleeFastAttackBehaviourScript>();
@@ -67,7 +70,16 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		if (venomiteState != VenomiteBehaviours::PATROL)
 		{
-			venomiteState = VenomiteBehaviours::PATROL;
+			if (!IsSpawnedEnemy())
+			{
+				venomiteState = VenomiteBehaviours::PATROL;
+			}
+
+			else
+			{
+				// This will make the venomite seek the player until it reaches the RANGED_ATTACK distance
+				venomiteState = VenomiteBehaviours::SEEK;
+			}
 		}
 
 		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), rangedAttackDistance)
@@ -89,7 +101,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		}
 	}
 
-	if (patrolScript && venomiteState == VenomiteBehaviours::PATROL)
+	if (!IsSpawnedEnemy() && patrolScript && venomiteState == VenomiteBehaviours::PATROL)
 	{
 		batonGameObject->Disable();
 		blasterGameObject->Disable();

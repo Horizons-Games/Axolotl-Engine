@@ -17,9 +17,16 @@ public:
 
 	void SetStunnedTime(float newTime);
 
+	bool IsSpawnedEnemy() const;
+
 protected:
 	bool stunned;
 	float timeStunned;
+
 	GameObject* particleTargetGO;
 	ComponentParticleSystem* particleTarget;
+
+	// This is used for when a certain enemy is spawn from nothing 
+	// instead of being placed in the scene from the beginning
+	bool isSpawnedEnemy;
 };
