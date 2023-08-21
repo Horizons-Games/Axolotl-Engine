@@ -17,7 +17,7 @@
 REGISTERCLASS(BossChargeAttackScript);
 
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(0.0f),
-	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NOTHING),
+	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f)
 {
@@ -55,7 +55,7 @@ void BossChargeAttackScript::Update(float deltaTime)
 		}
 	}
 
-	else if (chargeState == ChargeState::NOTHING)
+	else if (chargeState == ChargeState::NONE)
 	{
 		chargeCooldown -= deltaTime;
 	}
@@ -97,7 +97,7 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	// If the boss is bouncing and hits the floor, stop the bounce and stop the boss' movement (he'll be stunned)
 	else if (other->GetOwner()->CompareTag("Floor") && chargeState == ChargeState::BOUNCING_WALL)
 	{
-		chargeState = ChargeState::NOTHING;
+		chargeState = ChargeState::NONE;
 
 		rigidBody->SetIsKinematic(true);
 		rigidBody->SetUpMobility();
@@ -173,7 +173,7 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
 {
-	return chargeCooldown <= 0.0f;
+	return chargeCooldown <= 0.0f && chargeState == ChargeState::NONE;
 }
 
 void BossChargeAttackScript::SpawnRock(float3 spawnPosition)

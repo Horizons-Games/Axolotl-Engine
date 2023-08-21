@@ -71,7 +71,8 @@ void FinalBossScript::Update(float deltaTime)
 	*/
 
 	// Uncomment this to check the energy shield attack -----------------------
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f))
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+		shieldAttackScript->CanPerformShieldAttack())
 	{
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;

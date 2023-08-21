@@ -10,7 +10,7 @@ class ComponentRigidBody;
 
 enum class ChargeState
 {
-	NOTHING,
+	NONE,
 	PREPARING_CHARGE,
 	CHARGING,
 	BOUNCING_WALL
