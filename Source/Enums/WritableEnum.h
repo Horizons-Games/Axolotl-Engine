@@ -7,11 +7,15 @@ namespace
 template<typename E>
 std::string ToString(E)
 {
+	static_assert(false,
+				  "No ToString overload defined for this type, remember to declare it using WRITABLE_ENUM macro");
 }
 
 template<typename E>
 E FromString(const std::string&)
 {
+	static_assert(false,
+				  "No FromString overload defined for this type, remember to declare it using WRITABLE_ENUM macro");
 }
 } // namespace
 
