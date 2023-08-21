@@ -90,7 +90,7 @@ void AddConfigToZip(const std::string& startingScene)
 
 void OnFileZipped(const FileZippedData& data)
 {
-	LOG_VERBOSE("Item {} zipped in {} seconds ({}/{})",
+	LOG_VERBOSE("File {} zipped in {} seconds ({}/{})",
 				data.fileZipped,
 				data.timeTaken.count(),
 				data.fileZippedIndex,

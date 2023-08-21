@@ -3,7 +3,7 @@
 #include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "imgui_internal.h"
 
-WindowLoading::WindowLoading() : PopUpWindow("Loading")
+WindowLoading::WindowLoading() : PopUpWindow("Loading...")
 {
 	flags = ImGuiWindowFlags_NoMouseInputs;
 }
