@@ -23,7 +23,8 @@ private:
 	void ManageShield(float deltaTime);
 	void ManageEnemiesSpawning(float deltaTime);
 
-	void SpawnEnemy(GameObject* newEnemy);
+	void SpawnEnemy(GameObject* selectedEnemy);
+	float3 SelectSpawnPosition(GameObject* selectedEnemy) const;
 
 	bool isShielding;
 	float shieldingTime;
@@ -44,4 +45,6 @@ private:
 
 	GameObject* dronePrefab;
 	GameObject* venomitePrefab;
+
+	ComponentRigidBody* battleArenaAreaSize;
 };

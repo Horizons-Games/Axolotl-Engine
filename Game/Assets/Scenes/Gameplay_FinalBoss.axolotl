@@ -11410,6 +11410,41 @@
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 25.0,
+                            "factor": 1.0,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
                     }
                 ]
             }
@@ -11430,7 +11465,7 @@
                             "removed": false,
                             "localPos_X": 13.0,
                             "localPos_Y": 4.5,
-                            "localPos_Z": -20.038999557495117,
+                            "localPos_Z": -20.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 65.0,
                             "localRot_Z": 90.0,
@@ -11476,7 +11511,7 @@
                             "height": 2.0,
                             "rbPos_X": 13.0,
                             "rbPos_Y": 4.5,
-                            "rbPos_Z": -20.038999557495117,
+                            "rbPos_Z": -20.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -11652,7 +11687,7 @@
                             "removed": false,
                             "localPos_X": 13.0,
                             "localPos_Y": 4.5,
-                            "localPos_Z": 20.038999557495117,
+                            "localPos_Z": 20.0,
                             "localRot_X": -0.000008080805855570361,
                             "localRot_Y": -65.0,
                             "localRot_Z": 90.00000762939453,
@@ -11698,7 +11733,7 @@
                             "height": 2.0,
                             "rbPos_X": 13.0,
                             "rbPos_Y": 4.5,
-                            "rbPos_Z": 20.038999557495117,
+                            "rbPos_Z": 20.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -11780,7 +11815,7 @@
                             "removed": false,
                             "localPos_X": -13.0,
                             "localPos_Y": 4.5,
-                            "localPos_Z": 20.038999557495117,
+                            "localPos_Z": 20.0,
                             "localRot_X": -0.000008080805855570361,
                             "localRot_Y": 65.00001525878906,
                             "localRot_Z": 90.00000762939453,
@@ -11826,7 +11861,7 @@
                             "height": 2.0,
                             "rbPos_X": -13.0,
                             "rbPos_Y": 4.5,
-                            "rbPos_Z": 20.038999557495117,
+                            "rbPos_Z": 20.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -11854,7 +11889,7 @@
                             "removed": false,
                             "localPos_X": -13.0,
                             "localPos_Y": 4.5,
-                            "localPos_Z": -20.03893280029297,
+                            "localPos_Z": -20.0,
                             "localRot_X": 0.000008080808584054466,
                             "localRot_Y": -65.00003051757813,
                             "localRot_Z": 90.00006103515625,
@@ -11900,7 +11935,7 @@
                             "height": 2.0,
                             "rbPos_X": -13.0,
                             "rbPos_Y": 4.5,
-                            "rbPos_Z": -20.03893280029297,
+                            "rbPos_Z": -20.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -12573,6 +12608,11 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "EnemyMaxSpawnTime",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
                                     "name": "DronePrefab",
                                     "value": 2160389162471542028,
                                     "type": 2
@@ -12580,6 +12620,11 @@
                                 {
                                     "name": "VenomitePrefab",
                                     "value": 10669520628801113022,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BattleArenaAreaSize",
+                                    "value": 9860942332718922623,
                                     "type": 2
                                 }
                             ]

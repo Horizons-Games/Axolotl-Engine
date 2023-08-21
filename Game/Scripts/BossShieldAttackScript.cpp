@@ -1,6 +1,10 @@
 #include "StdAfx.h"
 #include "BossShieldAttackScript.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
@@ -12,17 +16,19 @@ REGISTERCLASS(BossShieldAttackScript);
 BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nullptr), isShielding(false),
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
 	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), dronePrefab(nullptr), venomitePrefab(nullptr),
-	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f)
+	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
 	REGISTER_FIELD(shieldAttackMaxCooldown, float);
 
 	REGISTER_FIELD(bossShieldObject, BossShieldScript*);
 
-	//REGISTER_FIELD(enemyMaxSpawnTime, float);
+	REGISTER_FIELD(enemyMaxSpawnTime, float);
 
 	REGISTER_FIELD(dronePrefab, GameObject*);
 	REGISTER_FIELD(venomitePrefab, GameObject*);
+
+	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 }
 
 void BossShieldAttackScript::Start()
@@ -110,14 +116,40 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 	}
 }
 
-void BossShieldAttackScript::SpawnEnemy(GameObject* newEnemy)
+void BossShieldAttackScript::SpawnEnemy(GameObject* selectedEnemy)
 {
-	// Spawning logic
+	// First select where the enemy is going to be spawned
+	float3 selectedSpawningPosition = SelectSpawnPosition(selectedEnemy);
 
-	LOG_DEBUG("A new {} is spawning at {}, {}, {}", newEnemy->GetName(),
-		0.0f /*random pos*/,
-		newEnemy->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
-		0.0f /*random pos*/);
+	LOG_DEBUG("A new {} is spawning at {}, {}, {}", selectedEnemy->GetName(),
+		selectedSpawningPosition.x, selectedSpawningPosition.y, selectedSpawningPosition.z);
 
+	// And then spawn the selected enemy in the selected spawning position
+	GameObject* newEnemy = App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject("Rock Copy", selectedEnemy, selectedEnemy->GetParent());
+
+	ComponentTransform* newEnemyTransform = newEnemy->GetComponent<ComponentTransform>();
+	newEnemyTransform->SetGlobalPosition(selectedSpawningPosition);
+	newEnemyTransform->RecalculateLocalMatrix();
+	newEnemyTransform->Enable();
+
+	ComponentRigidBody* newEnemyRigidBody = newEnemy->GetComponent<ComponentRigidBody>();
+	newEnemyRigidBody->SetDefaultPosition();
+	newEnemyRigidBody->Enable();
+
+	// Finally, set the timer so another enemy is not spawned immediately
 	enemySpawnTime = enemyMaxSpawnTime;
+}
+
+float3 BossShieldAttackScript::SelectSpawnPosition(GameObject* selectedEnemy) const
+{
+	float areaRadius = battleArenaAreaSize->GetRadius();
+	int areaDiameter = static_cast<int>(areaRadius * 2.0f);
+
+	float randomXPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
+	float randomZPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
+	float3 selectedSpawningPosition =
+		float3(randomXPos, selectedEnemy->GetComponent<ComponentTransform>()->GetGlobalPosition().y, randomZPos);
+
+	return selectedSpawningPosition;
 }
