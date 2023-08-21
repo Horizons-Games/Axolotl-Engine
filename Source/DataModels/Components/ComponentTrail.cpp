@@ -121,13 +121,13 @@ void ComponentTrail::Render()
 
 void ComponentTrail::Draw() const
 {
-	bool canDrawLight = false 
+	bool canDrawTrail = false 
 #ifdef ENGINE
 		|| IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject()
 #endif
 		;
 
-	if (!canDrawLight)
+	if (!canDrawTrail)
 	{
 		return;
 	}

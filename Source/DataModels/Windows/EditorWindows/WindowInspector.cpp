@@ -22,7 +22,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentTrail.h"
-#include "Components/ComponentLightProbe.h"
+#include "Components/ComponentLocalIBL.h"
 #include "Components/ComponentLine.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
@@ -89,10 +89,10 @@ WindowInspector::WindowInspector() :
 		ComponentFunctionality::GRAPHICS));
 
 	actions.push_back(AddComponentAction("Create Light Probe Component",
-		std::bind(&WindowInspector::AddComponentLightProbe, this),
+		std::bind(&WindowInspector::AddComponentLocalIBL, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
-			return gameObjectDoesNotHaveComponent.template operator() <ComponentLightProbe> (gameObject);
+			return gameObjectDoesNotHaveComponent.template operator() <ComponentLocalIBL> (gameObject);
 		},
 		ComponentFunctionality::GRAPHICS));
 
@@ -526,9 +526,9 @@ void WindowInspector::AddComponentTrail()
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::TRAIL);
 }
 
-void WindowInspector::AddComponentLightProbe()
+void WindowInspector::AddComponentLocalIBL()
 {
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LIGHT_PROBE);
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LOCAL_IBL);
 }
 
 void WindowInspector::AddComponentLine()

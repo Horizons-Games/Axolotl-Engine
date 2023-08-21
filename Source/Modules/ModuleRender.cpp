@@ -299,7 +299,7 @@ UpdateStatus ModuleRender::Update()
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-	loadedScene->RenderComponentLightProbe();
+	loadedScene->RenderComponentLocalIBL();
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR));
 

@@ -21,7 +21,7 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentParticleSystem.h"
-#include "Components/ComponentLightProbe.h"
+#include "Components/ComponentLocalIBL.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -890,15 +890,15 @@ void Scene::GenerateLights()
 
 	// Light Probe
 
-	size_t numLightProbe = sceneComponentLightProbe.size();
+	size_t numLocalIBL = sceneComponentLocalIBL.size();
 
-	glGenBuffers(1, &ssboLightProbe);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLightProbe);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(uint64_t) * numLightProbe, nullptr, GL_DYNAMIC_DRAW);
+	glGenBuffers(1, &ssboLocalIBL);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(uint64_t) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
 
-	const unsigned bindingLightProbe = 14;
+	const unsigned bindingLocalIBL = 14;
 
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingLightProbe, ssboLightProbe);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingLocalIBL, ssboLocalIBL);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -1023,19 +1023,29 @@ void Scene::RenderAreaTubes() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void Scene::RenderComponentLightProbe() const
+void Scene::RenderComponentLocalIBL() const
 {
-	// Light Probe
-	size_t numLightProbe = sceneComponentLightProbe.size();
+	// LocalIBL
+	size_t numLocalIBL = sceneComponentLocalIBL.size();
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLightProbe);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(uint64_t) * numLightProbe, nullptr, GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numLightProbe);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numLocalIBL);
 
-	for (int i = 0; i < numLightProbe; i++)
+	for (int i = 0; i < numLocalIBL; i++)
 	{
-		uint64_t handle = sceneComponentLightProbe[i]->GetHandle();
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(uint64_t) * i, &handle);
+		ComponentLocalIBL* local = sceneComponentLocalIBL[i];
+		LocalIBL localIBL;
+		localIBL.irradiance = local->GetHandleIrradiance();
+		localIBL.prefiltered = local->GetHandlePreFiltered();
+		localIBL.position = local->GetPosition();
+		float4x4 toLocal = local->GetTransform();
+		toLocal.InverseOrthonormal();
+		localIBL.toLocal = toLocal;
+		AABB aabb = local->GetAABB();
+		localIBL.maxParallax = aabb.maxPoint;
+		localIBL.minParallax = aabb.minPoint;
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * i, sizeof(LocalIBL) * i, &localIBL);
 	}
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);

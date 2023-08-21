@@ -24,7 +24,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentParticle.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTrail.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLightProbe.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLocalIBL.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayerInput.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
@@ -49,7 +49,7 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTrail.h"
-#include "Components/ComponentLightProbe.h"
+#include "Components/ComponentLocalIBL.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentPointLight.h"
@@ -121,8 +121,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
 			case ComponentType::TRAIL:
 				return std::make_unique<WindowComponentTrail>(static_cast<ComponentTrail*>(component));
-			case ComponentType::LIGHT_PROBE:
-				return std::make_unique<WindowComponentLightProbe>(static_cast<ComponentLightProbe*>(component));
+			case ComponentType::LOCAL_IBL:
+				return std::make_unique<WindowComponentLocalIBL>(static_cast<ComponentLocalIBL*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
 			case ComponentType::LINE:

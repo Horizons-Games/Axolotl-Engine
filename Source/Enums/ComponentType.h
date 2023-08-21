@@ -25,7 +25,7 @@ enum class ComponentType
 	CUBEMAP,
 	TRAIL,
 	LINE,
-	LIGHT_PROBE,
+	LOCAL_IBL,
 	PLAYERINPUT
 };
 
@@ -47,7 +47,7 @@ class ComponentScript;
 class ComponentTransform;
 class ComponentTrail;
 class ComponentLine;
-class ComponentLightProbe;
+class ComponentLocalIBL;
 
 class ComponentButton;
 class ComponentCanvas;
@@ -163,9 +163,9 @@ struct ComponentToEnum<ComponentTrail>
 };
 
 template<>
-struct ComponentToEnum<ComponentLightProbe>
+struct ComponentToEnum<ComponentLocalIBL>
 {
-	const static ComponentType value = ComponentType::LIGHT_PROBE;
+	const static ComponentType value = ComponentType::LOCAL_IBL;
 };
 
 template<>

@@ -14,7 +14,7 @@ class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
 class ComponentLine;
-class ComponentLightProbe;
+class ComponentLocalIBL;
 class GameObject;
 class Quadtree;
 class Skybox;
@@ -78,7 +78,7 @@ public:
 	void RenderAreaLights() const;
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
-	void RenderComponentLightProbe() const;
+	void RenderComponentLocalIBL() const;
 	void RenderPointLight(const ComponentPointLight* compPoint) const;
 	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
 	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
@@ -105,7 +105,7 @@ public:
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
-	const std::vector<ComponentLightProbe*>& GetSceneComponentLightProbe() const;
+	const std::vector<ComponentLocalIBL*>& GetSceneComponentLocalIBL() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
@@ -137,11 +137,11 @@ public:
 	
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
-	void AddComponentLightProbe(ComponentLightProbe* componentLightProbe);
+	void AddComponentLocalIBL(ComponentLocalIBL* componentLocalIBL);
 	
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 	void RemoveComponentLine(const ComponentLine* componentLine);
-	void RemoveComponentLightProbe(const ComponentLightProbe* componentLightProbe);
+	void RemoveComponentLocalIBL(const ComponentLocalIBL* componentLocalIBL);
 
 	void InitNewEmptyScene();
 	void InitLights();
@@ -170,8 +170,8 @@ private:
 	//Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 	std::vector<ComponentLine*> sceneComponentLines;
-	// To not search for each frame the LightProbe
-	std::vector<ComponentLightProbe*> sceneComponentLightProbe;
+	// To not search for each frame the LocalIBL
+	std::vector<ComponentLocalIBL*> sceneComponentLocalIBL;
 
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
@@ -191,7 +191,7 @@ private:
 	unsigned ssboSpot;
 	unsigned ssboSphere;
 	unsigned ssboTube;
-	unsigned ssboLightProbe;
+	unsigned ssboLocalIBL;
 
 	AABB rootQuadtreeAABB;
 	// Render Objects
@@ -253,9 +253,9 @@ inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 	return sceneComponentLines;
 }
 
-inline const std::vector<ComponentLightProbe*>& Scene::GetSceneComponentLightProbe() const
+inline const std::vector<ComponentLocalIBL*>& Scene::GetSceneComponentLocalIBL() const
 {
-	return sceneComponentLightProbe;
+	return sceneComponentLocalIBL;
 }
 
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
@@ -332,9 +332,9 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 	sceneComponentLines.push_back(componentLine);
 }
 
-inline void Scene::AddComponentLightProbe(ComponentLightProbe* componentLightProbe)
+inline void Scene::AddComponentLocalIBL(ComponentLocalIBL* componentLocalIBL)
 {
-	sceneComponentLightProbe.push_back(componentLightProbe);
+	sceneComponentLocalIBL.push_back(componentLocalIBL);
 }
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
@@ -362,13 +362,13 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 		std::end(sceneComponentLines));
 }
 
-inline void Scene::RemoveComponentLightProbe(const ComponentLightProbe* componentLightProbe)
+inline void Scene::RemoveComponentLocalIBL(const ComponentLocalIBL* componentLocalIBL)
 {
-	sceneComponentLightProbe.erase(std::remove_if(std::begin(sceneComponentLightProbe),
-		std::end(sceneComponentLightProbe),
-		[&componentLightProbe](ComponentLightProbe* lightProbe)
+	sceneComponentLocalIBL.erase(std::remove_if(std::begin(sceneComponentLocalIBL),
+		std::end(sceneComponentLocalIBL),
+		[&componentLocalIBL](ComponentLocalIBL* localIBL)
 		{
-			return lightProbe == componentLightProbe;
+			return localIBL == componentLocalIBL;
 		}),
-		std::end(sceneComponentLightProbe));
+		std::end(sceneComponentLocalIBL));
 }

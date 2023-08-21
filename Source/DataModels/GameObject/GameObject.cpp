@@ -21,7 +21,7 @@
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentTrail.h"
-#include "DataModels/Components/ComponentLightProbe.h"
+#include "DataModels/Components/ComponentLocalIBL.h"
 #include "DataModels/Components/ComponentLine.h"
 #include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/UI/ComponentButton.h"
@@ -430,11 +430,11 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
-		case ComponentType::LIGHT_PROBE:
+		case ComponentType::LOCAL_IBL:
 		{
-			newComponent = std::make_unique<ComponentLightProbe>(*static_cast<ComponentLightProbe*>(component));
-			App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLightProbe(
-				static_cast<ComponentLightProbe*>(newComponent.get()));
+			newComponent = std::make_unique<ComponentLocalIBL>(*static_cast<ComponentLocalIBL*>(component));
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLocalIBL(
+				static_cast<ComponentLocalIBL*>(newComponent.get()));
 			break;
 		}
 
@@ -680,9 +680,9 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 		
-		case ComponentType::LIGHT_PROBE:
+		case ComponentType::LOCAL_IBL:
 		{
-			newComponent = std::make_unique<ComponentLightProbe>(true, this);
+			newComponent = std::make_unique<ComponentLocalIBL>(true, this);
 			break;
 		}
 
@@ -722,9 +722,9 @@ Component* GameObject::CreateComponent(ComponentType type)
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 				break;
-			case ComponentType::LIGHT_PROBE:
-				App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLightProbe(
-					static_cast<ComponentLightProbe*>(referenceBeforeMove));
+			case ComponentType::LOCAL_IBL:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLocalIBL(
+					static_cast<ComponentLocalIBL*>(referenceBeforeMove));
 				break;
 			default:
 				break;
@@ -823,9 +823,9 @@ bool GameObject::RemoveComponent(const Component* component)
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
 			static_cast<const ComponentLine*>(component));
 		break;
-	case ComponentType::LIGHT_PROBE:
-		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLightProbe(
-			static_cast<const ComponentLightProbe*>(component));
+	case ComponentType::LOCAL_IBL:
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLocalIBL(
+			static_cast<const ComponentLocalIBL*>(component));
 		break;
 	default:
 		break;

@@ -12,6 +12,7 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentLocalIBL.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -145,6 +146,11 @@ UpdateStatus ModuleScene::Update()
 	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
 		particle->Update();
+	}
+	// LocalIBL need to be updated 
+	for (ComponentLocalIBL* localIBL : loadedScene->GetSceneComponentLocalIBL())
+	{
+		localIBL->Update();
 	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
