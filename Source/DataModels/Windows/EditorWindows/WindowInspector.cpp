@@ -217,9 +217,24 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		if (lastSelectedGameObject)
 		{
+			ComponentFunctionality lastFunctionalityGroup = ComponentFunctionality::NONE;
 			for (const AddComponentAction& action : actions)
 			{
-				if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
+				if (!action.condition(lastSelectedGameObject))
+				{
+					continue;
+				}
+				if (action.functionalGroup != lastFunctionalityGroup)
+				{
+					if (lastFunctionalityGroup != ComponentFunctionality::NONE)
+					{
+						ImGui::NewLine();
+					}
+					ImGui::Text(ToString(action.functionalGroup).c_str());
+					ImGui::Separator();
+					lastFunctionalityGroup = action.functionalGroup;
+				}
+				if (ImGui::MenuItem(action.actionName.c_str()))
 				{
 					action.callback();
 				}

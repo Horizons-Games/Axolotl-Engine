@@ -1,15 +1,15 @@
 #pragma once
 
-#include "GameObject/GameObject.h"
+#include "Enums/WritableEnum.h"
 
-enum class ComponentFunctionality
-{
+class GameObject;
+
+WRITABLE_ENUM(ComponentFunctionality,
 	NONE,
 	GRAPHICS,
 	PHYSICS,
 	GAMEPLAY,
-	AUDIO
-};
+	AUDIO);
 
 struct AddComponentAction
 {
