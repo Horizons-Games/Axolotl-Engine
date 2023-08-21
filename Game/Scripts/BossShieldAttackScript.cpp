@@ -2,6 +2,7 @@
 #include "BossShieldAttackScript.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/BossShieldScript.h"
@@ -111,7 +112,12 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 
 void BossShieldAttackScript::SpawnEnemy(GameObject* newEnemy)
 {
-	LOG_VERBOSE("A new {} is spawning", newEnemy->GetName());
+	// Spawning logic
+
+	LOG_DEBUG("A new {} is spawning at {}, {}, {}", newEnemy->GetName(),
+		0.0f /*random pos*/,
+		newEnemy->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
+		0.0f /*random pos*/);
 
 	enemySpawnTime = enemyMaxSpawnTime;
 }
