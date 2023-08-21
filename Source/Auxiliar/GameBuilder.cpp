@@ -98,7 +98,7 @@ void OnFileZipped(const FileZippedData& data)
 	std::chrono::minutes minutesToZip = std::chrono::duration_cast<std::chrono::minutes>(data.timeTaken);
 	if (minutesToZip >= std::chrono::minutes(maxMinutesToZip))
 	{
-		LOG_WARNING("Item {} took more that {} minute(s) to zip. Seconds it took: {}",
+		LOG_WARNING("Item {} took more than {} minute(s) to zip. Seconds it took: {}",
 					data.fileZipped,
 					maxMinutesToZip,
 					data.timeTaken.count());
