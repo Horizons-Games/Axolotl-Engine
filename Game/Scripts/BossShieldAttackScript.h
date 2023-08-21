@@ -16,8 +16,6 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void OnCollisionEnter(ComponentRigidBody* other) override;
-
 	void TriggerShieldAttack();
 	bool CanPerformShieldAttack() const;
 

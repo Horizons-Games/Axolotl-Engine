@@ -16,10 +16,17 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+
 	void ActivateShield() const;
 	void DeactivateShield() const;
+
+	bool WasHitBySpecialTarget() const;
+	void DisableHitBySpecialTarget();
 
 private:
 	ComponentRigidBody* rigidBody;
 	ComponentRigidBody* parentRigidBody;
+
+	bool hitBySpecialTarget;
 };

@@ -3,6 +3,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentMeshRenderer.h"
 
 REGISTERCLASS(BossShieldScript);
 
@@ -21,6 +22,22 @@ void BossShieldScript::Start()
 void BossShieldScript::Update(float deltaTime)
 {
 	rigidBody->UpdateRigidBody();
+}
+
+void BossShieldScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (other->GetOwner()->CompareTag("PriorityTarget"))
+	{
+		hitBySpecialTarget = true;
+	}
+
+	// If the shield spawns over a rock, disable the rock (just disable its rigid and mesh, the rock manages the rest)
+	// This is not necessary for the player or the enemies because the shield will simply push them back
+	else if (other->GetOwner()->CompareTag("Rock"))
+	{
+		other->GetOwner()->GetComponent<ComponentRigidBody>()->Disable();
+		other->GetOwner()->GetComponent<ComponentMeshRenderer>()->Disable();
+	}
 }
 
 void BossShieldScript::ActivateShield() const
@@ -43,4 +60,14 @@ void BossShieldScript::DeactivateShield() const
 	parentRigidBody->SetUpMobility();
 
 	owner->Disable();
+}
+
+bool BossShieldScript::WasHitBySpecialTarget() const
+{
+	return hitBySpecialTarget;
+}
+
+void BossShieldScript::DisableHitBySpecialTarget()
+{
+	hitBySpecialTarget = false;
 }

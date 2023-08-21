@@ -24,6 +24,12 @@ void BossShieldAttackScript::Start()
 
 void BossShieldAttackScript::Update(float deltaTime)
 {
+	if (bossShieldObject->WasHitBySpecialTarget())
+	{
+		shieldingTime = 0.0f;
+		bossShieldObject->DisableHitBySpecialTarget();
+	}
+
 	if (isShielding)
 	{
 		shieldingTime -= deltaTime;
@@ -43,14 +49,6 @@ void BossShieldAttackScript::Update(float deltaTime)
 		{
 			triggerShieldAttackCooldown = false;
 		}
-	}
-}
-
-void BossShieldAttackScript::OnCollisionEnter(ComponentRigidBody* other)
-{
-	if (other->GetOwner()->CompareTag("PriorityTarget"))
-	{
-		shieldingTime = 0.0f;
 	}
 }
 

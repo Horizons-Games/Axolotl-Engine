@@ -80,8 +80,9 @@ void BossChargeRockScript::DeactivateRock()
 {
 	if (rockState == RockStates::HIT_ENEMY)
 	{
-		// Only disable the mesh so the particles can be seen
+		// Only disable the mesh and the rigid so the particles can still be seen
 		owner->GetComponent<ComponentMeshRenderer>()->Disable();
+		owner->GetComponent<ComponentRigidBody>()->Disable();
 
 		// This will need to manage particles in the future
 	}
@@ -89,6 +90,7 @@ void BossChargeRockScript::DeactivateRock()
 	else
 	{
 		owner->Disable();
+		DestroyRock();
 	}
 
 	triggerRockDespawn = true;

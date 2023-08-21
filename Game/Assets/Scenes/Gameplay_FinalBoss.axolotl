@@ -19026,6 +19026,11 @@
                                     "type": 0
                                 },
                                 {
+                                    "name": "ShockWaveDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
                                     "name": "OuterArea",
                                     "value": 6179328332353233410,
                                     "type": 2
@@ -19048,6 +19053,11 @@
                                 {
                                     "name": "ShieldingMaxTime",
                                     "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShieldAttackMaxCooldown",
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
