@@ -10,12 +10,13 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/BossShieldScript.h"
+#include "../Scripts/EnemyClass.h"
 
 REGISTERCLASS(BossShieldAttackScript);
 
 BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nullptr), isShielding(false),
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
-	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), dronePrefab(nullptr), venomitePrefab(nullptr),
+	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), enemiesToSpawnParent(nullptr),
 	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
@@ -25,8 +26,7 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 
 	REGISTER_FIELD(enemyMaxSpawnTime, float);
 
-	REGISTER_FIELD(dronePrefab, GameObject*);
-	REGISTER_FIELD(venomitePrefab, GameObject*);
+	REGISTER_FIELD(enemiesToSpawnParent, GameObject*);
 
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 }
@@ -34,6 +34,19 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 void BossShieldAttackScript::Start()
 {
 	shieldingTime = shieldingMaxTime;
+
+	if (enemiesToSpawnParent == nullptr)
+	{
+		return;
+	}
+
+	enemiesReadyToSpawn.reserve(enemiesToSpawnParent->GetChildren().size());
+	enemiesNotReadyToSpawn.reserve(enemiesToSpawnParent->GetChildren().size());
+
+	for (GameObject* enemyToSpawn : enemiesToSpawnParent->GetChildren())
+	{
+		enemiesReadyToSpawn.push_back(enemyToSpawn);
+	}
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
@@ -107,27 +120,44 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 	else
 	{
 		GameObject* selectedEnemy = SelectEnemyToSpawn();
-		float3 selectedPosition = SelectSpawnPosition();
 
-		SpawnEnemyInPosition(selectedEnemy, selectedPosition);
+		if (selectedEnemy != nullptr)
+		{
+			float3 selectedPosition = SelectSpawnPosition();
+			SpawnEnemyInPosition(selectedEnemy, selectedPosition);
+		}
 
-		// TODO: change to equal to enemyMaxSpawnTime
-		enemySpawnTime = shieldingMaxTime;
+		else
+		{
+			LOG_INFO("No enemy available to spawn");
+		}
+
+		enemySpawnTime = enemyMaxSpawnTime;
 	}
 }
 
 GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 {
-	// 50% - 50% of each enemy spawning
-	// This can be extended easily if another basic enemy is added to the game
-	int randomEnemy = rand() % 10;
-	GameObject* selectedEnemyToSpawn = nullptr;
-	(randomEnemy < 5) ? selectedEnemyToSpawn = dronePrefab : selectedEnemyToSpawn = venomitePrefab;
+	if (enemiesReadyToSpawn.empty())
+	{
+		return nullptr;
+	}
 
-	return selectedEnemyToSpawn;
+	LOG_VERBOSE("{} enemiesReadyToSpawn", enemiesReadyToSpawn.size());
+	LOG_VERBOSE("{} enemiesNotReadyToSpawn", enemiesReadyToSpawn.size());
+
+	// Select a random enemy from the enemiesReadyToSpawn map
+	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size());
+	int randomEnemyIndex = rand() % enemyRange;
+	GameObject* selectedEnemy = enemiesReadyToSpawn.at(randomEnemyIndex);
+
+	enemiesReadyToSpawn.erase(enemiesReadyToSpawn.begin() + randomEnemyIndex);
+	enemiesNotReadyToSpawn.push_back(selectedEnemy);
+
+	return selectedEnemy;
 }
 
-const float3& BossShieldAttackScript::SelectSpawnPosition() const
+float3 BossShieldAttackScript::SelectSpawnPosition() const
 {
 	float areaRadius = battleArenaAreaSize->GetRadius();
 	int areaDiameter = static_cast<int>(areaRadius * 2.0f);
@@ -146,8 +176,8 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, flo
 {
 	ComponentTransform* selectedEnemyTransform = selectedEnemy->GetComponent<ComponentTransform>();
 	selectedEnemyTransform->SetGlobalPosition(float3(selectedSpawningPosition.x,
-					selectedEnemyTransform->GetGlobalPosition().y, // Respect the height position of each enemy
-					selectedSpawningPosition.z));
+		selectedEnemyTransform->GetGlobalPosition().y, // Respect the height position of each enemy
+		selectedSpawningPosition.z));
 	selectedEnemyTransform->RecalculateLocalMatrix();
 
 	ComponentRigidBody* selectedEnemyRigidBody = selectedEnemy->GetComponent<ComponentRigidBody>();

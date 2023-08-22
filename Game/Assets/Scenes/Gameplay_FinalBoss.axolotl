@@ -6633,7 +6633,7 @@
         },
         {
             "GameObject": {
-                "name": "Prefab Enemies",
+                "name": "Enemy Spawner",
                 "tag": "",
                 "uid": 13168802765062674689,
                 "parentUID": 9011007661183311806,
@@ -12523,13 +12523,8 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "DronePrefab",
-                                    "value": 2160389162471542028,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "VenomitePrefab",
-                                    "value": 10669520628801113022,
+                                    "name": "EnemiesToSpawnParent",
+                                    "value": 13168802765062674689,
                                     "type": 2
                                 },
                                 {

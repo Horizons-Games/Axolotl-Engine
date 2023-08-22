@@ -24,7 +24,7 @@ private:
 	void ManageEnemiesSpawning(float deltaTime);
 
 	GameObject* SelectEnemyToSpawn();
-	const float3& SelectSpawnPosition() const;
+	float3 SelectSpawnPosition() const;
 	void SpawnEnemyInPosition(GameObject* selectedEnemy, float3 selectedSpawningPosition);
 
 	bool isShielding;
@@ -36,6 +36,9 @@ private:
 	bool triggerEnemySpawning;
 	float enemySpawnTime;
 
+	std::vector<GameObject*> enemiesReadyToSpawn;
+	std::vector<GameObject*> enemiesNotReadyToSpawn;
+
 	// Modifiable values
 	float shieldingMaxTime;
 	float shieldAttackMaxCooldown;
@@ -44,8 +47,7 @@ private:
 
 	float enemyMaxSpawnTime;
 
-	GameObject* dronePrefab;
-	GameObject* venomitePrefab;
+	GameObject* enemiesToSpawnParent;
 
 	ComponentRigidBody* battleArenaAreaSize;
 };
