@@ -27,6 +27,8 @@ EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::I
 
 void EnemyVenomiteScript::Start()
 {
+	enemyType = EnemyTypes::VENOMITE;
+
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();

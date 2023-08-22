@@ -31,6 +31,8 @@ EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr
 
 void EnemyDroneScript::Start()
 {
+	enemyType = EnemyTypes::DRONE;
+
 	if (seekDistance < attackDistance)
 	{
 		seekDistance = attackDistance;

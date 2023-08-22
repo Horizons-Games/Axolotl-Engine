@@ -2,7 +2,7 @@
 #include "Components/ComponentParticleSystem.h"
 #include "GameObject/GameObject.h"
 
-EnemyClass::EnemyClass() : stunned(false), timeStunned(0.0f), isSpawnedEnemy(false)
+EnemyClass::EnemyClass() : stunned(false), timeStunned(0.0f), isSpawnedEnemy(false), enemyType(EnemyTypes::NONE)
 {
 	REGISTER_FIELD(particleTargetGO, GameObject*);
 	REGISTER_FIELD(isSpawnedEnemy, bool);
@@ -38,4 +38,9 @@ void EnemyClass::SetStunnedTime(float newTime)
 bool EnemyClass::IsSpawnedEnemy() const
 {
 	return isSpawnedEnemy;
+}
+
+EnemyTypes EnemyClass::GetEnemyType() const
+{
+	return enemyType;
 }

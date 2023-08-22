@@ -23,6 +23,8 @@ FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrol
 
 void FinalBossScript::Start()
 {
+	enemyType = EnemyTypes::FINAL_BOSS;
+
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->SetKpForce(0.25f);
 	transform = owner->GetComponent<ComponentTransform>();

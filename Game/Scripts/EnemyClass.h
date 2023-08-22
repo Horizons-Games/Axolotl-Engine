@@ -5,6 +5,15 @@
 class GameObject;
 class ComponentParticleSystem;
 
+enum class EnemyTypes
+{
+	NONE,
+	DRONE,
+	VENOMITE,
+	MINI_BOSS,
+	FINAL_BOSS
+};
+
 class EnemyClass : public Script
 {
 public:
@@ -19,6 +28,8 @@ public:
 
 	bool IsSpawnedEnemy() const;
 
+	EnemyTypes GetEnemyType() const;
+
 protected:
 	bool stunned;
 	float timeStunned;
@@ -29,4 +40,6 @@ protected:
 	// This is used for when a certain enemy is spawn from nothing 
 	// instead of being placed in the scene from the beginning
 	bool isSpawnedEnemy;
+
+	EnemyTypes enemyType;
 };
