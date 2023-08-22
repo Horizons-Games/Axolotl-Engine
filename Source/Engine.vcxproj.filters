@@ -636,6 +636,9 @@
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerHackingUseScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1309,6 +1312,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerHackingUseScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
