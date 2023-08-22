@@ -3,9 +3,14 @@
 #include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "imgui_internal.h"
 
+namespace
+{
+ImVec2 hardcodedSize = ImVec2(500, 250);
+}
+
 WindowLoading::WindowLoading() : PopUpWindow("Loading...")
 {
-	flags = ImGuiWindowFlags_NoMouseInputs;
+	flags = ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize;
 }
 
 WindowLoading::~WindowLoading()
@@ -14,6 +19,8 @@ WindowLoading::~WindowLoading()
 
 void WindowLoading::DrawWindowContents()
 {
+	ImGui::SetWindowSize(hardcodedSize);
+
 	if (waitingOn.empty())
 	{
 		ImGui::TextUnformatted("Loading...");
