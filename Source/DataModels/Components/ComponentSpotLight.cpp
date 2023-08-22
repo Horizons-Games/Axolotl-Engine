@@ -63,6 +63,7 @@ ComponentSpotLight::ComponentSpotLight(
 
 ComponentSpotLight::~ComponentSpotLight()
 {
+	deleting = true;
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (currentScene)
