@@ -6,6 +6,7 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
+#include "Components/ComponentLocalIBL.h"
 
 #include <queue>
 
@@ -78,21 +79,24 @@ public:
 	void RenderAreaLights() const;
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
-	void RenderComponentLocalIBL() const;
+	void RenderLocalIBLs() const;
 	void RenderPointLight(const ComponentPointLight* compPoint) const;
 	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
 	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
 	void RenderAreaTube(const ComponentAreaLight* compTube) const;
+	void RenderLocalIBL(const ComponentLocalIBL* compLocal) const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
 	void UpdateSceneAreaSpheres();
 	void UpdateSceneAreaTubes();
+	void UpdateSceneLocalIBLs();
 	void UpdateScenePointLight(const ComponentPointLight* compPoint);
 	void UpdateSceneSpotLight(const ComponentSpotLight* compSpot);
 	void UpdateSceneAreaSphere(const ComponentAreaLight* compSphere);
 	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
+	void UpdateSceneLocalIBL(ComponentLocalIBL* compLocal);
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -171,7 +175,7 @@ private:
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 	std::vector<ComponentLine*> sceneComponentLines;
 	// To not search for each frame the LocalIBL
-	std::vector<ComponentLocalIBL*> sceneComponentLocalIBL;
+	std::vector<ComponentLocalIBL*> sceneComponentLocalIBLs;
 
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
@@ -180,11 +184,13 @@ private:
 	std::vector<SpotLight> spotLights;
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
+	std::vector<LocalIBL> localIBLs;
 
 	std::vector<std::pair<const ComponentPointLight*, unsigned int>> cachedPoints;
 	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> cachedSpots;
 	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedSpheres;
 	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedTubes;
+	std::vector<std::pair<const ComponentLocalIBL*, unsigned int>> cachedLocalIBLs;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
@@ -255,7 +261,7 @@ inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 
 inline const std::vector<ComponentLocalIBL*>& Scene::GetSceneComponentLocalIBL() const
 {
-	return sceneComponentLocalIBL;
+	return sceneComponentLocalIBLs;
 }
 
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
@@ -334,7 +340,7 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 
 inline void Scene::AddComponentLocalIBL(ComponentLocalIBL* componentLocalIBL)
 {
-	sceneComponentLocalIBL.push_back(componentLocalIBL);
+	sceneComponentLocalIBLs.push_back(componentLocalIBL);
 }
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
@@ -364,11 +370,11 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 
 inline void Scene::RemoveComponentLocalIBL(const ComponentLocalIBL* componentLocalIBL)
 {
-	sceneComponentLocalIBL.erase(std::remove_if(std::begin(sceneComponentLocalIBL),
-		std::end(sceneComponentLocalIBL),
+	sceneComponentLocalIBLs.erase(std::remove_if(std::begin(sceneComponentLocalIBLs),
+		std::end(sceneComponentLocalIBLs),
 		[&componentLocalIBL](ComponentLocalIBL* localIBL)
 		{
 			return localIBL == componentLocalIBL;
 		}),
-		std::end(sceneComponentLocalIBL));
+		std::end(sceneComponentLocalIBLs));
 }

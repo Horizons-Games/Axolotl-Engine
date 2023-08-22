@@ -430,14 +430,6 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
-		case ComponentType::LOCAL_IBL:
-		{
-			newComponent = std::make_unique<ComponentLocalIBL>(*static_cast<ComponentLocalIBL*>(component));
-			App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLocalIBL(
-				static_cast<ComponentLocalIBL*>(newComponent.get()));
-			break;
-		}
-
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -480,6 +472,9 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 			break;
 		case LightType::AREA:
 			newComponent = std::make_unique<ComponentAreaLight>(static_cast<ComponentAreaLight&>(*component));
+			break;
+		case LightType::LOCAL_IBL:
+			newComponent = std::make_unique<ComponentLocalIBL>(static_cast<ComponentLocalIBL&>(*component));
 			break;
 	}
 
@@ -679,12 +674,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentTrail>(true, this);
 			break;
 		}
-		
-		case ComponentType::LOCAL_IBL:
-		{
-			newComponent = std::make_unique<ComponentLocalIBL>(true, this);
-			break;
-		}
 
 		case ComponentType::CUBEMAP:
 		{
@@ -722,10 +711,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 				break;
-			case ComponentType::LOCAL_IBL:
-				App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLocalIBL(
-					static_cast<ComponentLocalIBL*>(referenceBeforeMove));
-				break;
 			default:
 				break;
 			}
@@ -757,6 +742,9 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 			break;
 		case LightType::AREA:
 			newComponent = std::make_unique<ComponentAreaLight>(areaType, this);
+			break;
+		case LightType::LOCAL_IBL:
+			newComponent = std::make_unique<ComponentLocalIBL>(this);
 			break;
 	}
 
@@ -792,6 +780,11 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 					break;
 				}
 				break;
+
+			case LightType::LOCAL_IBL:
+				scene->UpdateSceneLocalIBLs();
+				scene->RenderLocalIBLs();
+				break;
 		}
 
 		return referenceBeforeMove;
@@ -822,10 +815,6 @@ bool GameObject::RemoveComponent(const Component* component)
 	case ComponentType::LINE:
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
 			static_cast<const ComponentLine*>(component));
-		break;
-	case ComponentType::LOCAL_IBL:
-		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLocalIBL(
-			static_cast<const ComponentLocalIBL*>(component));
 		break;
 	default:
 		break;

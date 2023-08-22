@@ -11,7 +11,7 @@
 #include "Components/ComponentLocalIBL.h"
 
 WindowComponentLocalIBL::WindowComponentLocalIBL(ComponentLocalIBL* component) :
-	ComponentWindow("LIGHT PROBE", component)
+	WindowComponentLight("LOCAL IBL", component)
 {
 }
 

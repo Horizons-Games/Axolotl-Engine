@@ -121,8 +121,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
 			case ComponentType::TRAIL:
 				return std::make_unique<WindowComponentTrail>(static_cast<ComponentTrail*>(component));
-			case ComponentType::LOCAL_IBL:
-				return std::make_unique<WindowComponentLocalIBL>(static_cast<ComponentLocalIBL*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
 			case ComponentType::LINE:
@@ -140,6 +138,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 						return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
 					case LightType::AREA:
 						return std::make_unique<WindowComponentAreaLight>(static_cast<ComponentAreaLight*>(component));
+					case LightType::LOCAL_IBL:
+						return std::make_unique<WindowComponentLocalIBL>(static_cast<ComponentLocalIBL*>(component));
 					case LightType::UNKNOWN:
 					default:
 						return std::make_unique<WindowComponentLight>(asLight);

@@ -54,7 +54,6 @@ private:
 	void AddComponentParticle();
 	void AddComponentBreakable();
 	void AddComponentTrail();
-	void AddComponentLocalIBL();
 	void AddComponentLine();
 
 	GameObject* lastSelectedGameObject;

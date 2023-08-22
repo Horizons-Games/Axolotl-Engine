@@ -19,8 +19,8 @@
 
 #include "debugdraw.h"
 
-ComponentLocalIBL::ComponentLocalIBL(bool active, GameObject* owner) :
-	Component(ComponentType::LOCAL_IBL, active, owner, true), preFiltered(0), handleIrradiance(0), handlePreFiltered(0),
+ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
+	ComponentLight(LightType::LOCAL_IBL, parent, true), preFiltered(0), handleIrradiance(0), handlePreFiltered(0),
 	aabb({ { 0, 0, 0 }, { 1, 1, 1 } })
 {
 	// Generate framebuffer & renderBuffer
@@ -83,6 +83,14 @@ ComponentLocalIBL::~ComponentLocalIBL()
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &irradiance);
 	glDeleteTextures(1, &preFiltered);
+
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	if (currentScene)
+	{
+		currentScene->UpdateSceneLocalIBLs();
+		currentScene->RenderLocalIBLs();
+	}
 }
 
 void ComponentLocalIBL::Update()
@@ -134,6 +142,14 @@ void ComponentLocalIBL::Draw() const
 	}
 
 	dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Red);
+}
+
+void ComponentLocalIBL::OnTransformChanged()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->UpdateSceneLocalIBL(this);
+	currentScene->RenderLocalIBL(this);
 }
 
 const uint64_t& ComponentLocalIBL::GetHandleIrradiance()

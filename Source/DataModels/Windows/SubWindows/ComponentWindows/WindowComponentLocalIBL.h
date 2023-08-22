@@ -1,9 +1,9 @@
 #pragma once
-#include "ComponentWindow.h"
+#include "WindowComponentLight.h"
 
 class ComponentLocalIBL;
 
-class WindowComponentLocalIBL : public ComponentWindow
+class WindowComponentLocalIBL : public WindowComponentLight
 {
 public:
 	WindowComponentLocalIBL(ComponentLocalIBL* component);

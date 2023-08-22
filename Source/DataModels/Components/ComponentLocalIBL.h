@@ -1,8 +1,8 @@
 #pragma once
-#include "Components/Component.h"
-#include "Auxiliar/Generics/Drawable.h"
+#include "Components/ComponentLight.h"
 
 #include "Geometry/AABB.h"
+#include "Math/float4x4.h"
 
 #include "GL/glew.h"
 
@@ -20,15 +20,17 @@ struct LocalIBL
 	float4x4 toLocal;						//64	//64 --> 128
 };
 
-class ComponentLocalIBL : public Component, public Drawable
+class ComponentLocalIBL : public ComponentLight
 {
 public:
-	ComponentLocalIBL(bool active, GameObject* owner);
+	ComponentLocalIBL(GameObject* parent);
 	~ComponentLocalIBL() override;
 
 	void Update();
 
 	void Draw() const override;
+
+	void OnTransformChanged() override;
 
 	const uint64_t& GetHandleIrradiance();
 	const uint64_t& GetHandlePreFiltered();

@@ -72,6 +72,10 @@ WindowInspector::WindowInspector() :
 						   isNotALight,
 						   ComponentFunctionality::GRAPHICS));
 
+	actions.push_back(AddComponentAction("Create Local IBL Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::NONE), isNotALight,
+		ComponentFunctionality::GRAPHICS));
+
 	actions.push_back(AddComponentAction("Create Particle System Component",
 		std::bind(&WindowInspector::AddComponentParticle, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
@@ -85,14 +89,6 @@ WindowInspector::WindowInspector() :
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentTrail>(gameObject);
-		},
-		ComponentFunctionality::GRAPHICS));
-
-	actions.push_back(AddComponentAction("Create Light Probe Component",
-		std::bind(&WindowInspector::AddComponentLocalIBL, this),
-		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
-		{
-			return gameObjectDoesNotHaveComponent.template operator() <ComponentLocalIBL> (gameObject);
 		},
 		ComponentFunctionality::GRAPHICS));
 
@@ -524,11 +520,6 @@ void WindowInspector::AddComponentBreakable()
 void WindowInspector::AddComponentTrail()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::TRAIL);
-}
-
-void WindowInspector::AddComponentLocalIBL()
-{
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LOCAL_IBL);
 }
 
 void WindowInspector::AddComponentLine()

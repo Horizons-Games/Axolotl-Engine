@@ -76,18 +76,20 @@ Scene::~Scene()
 	sceneCameras.clear();
 	sceneParticleSystems.clear();
 	sceneComponentLines.clear();
-	sceneComponentLightProbe.clear();
+	sceneComponentLocalIBLs.clear();
 	nonStaticObjects.clear();
 
 	pointLights.clear();
 	spotLights.clear();
 	sphereLights.clear();
 	tubeLights.clear();
+	localIBLs.clear();
 
 	cachedPoints.clear();
 	cachedSpots.clear();
 	cachedSpheres.clear();
 	cachedTubes.clear();
+	cachedLocalIBLs.clear();
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
@@ -890,7 +892,7 @@ void Scene::GenerateLights()
 
 	// Light Probe
 
-	size_t numLocalIBL = sceneComponentLocalIBL.size();
+	size_t numLocalIBL = sceneComponentLocalIBLs.size();
 
 	glGenBuffers(1, &ssboLocalIBL);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
@@ -1023,29 +1025,18 @@ void Scene::RenderAreaTubes() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void Scene::RenderComponentLocalIBL() const
+void Scene::RenderLocalIBLs() const
 {
 	// LocalIBL
-	size_t numLocalIBL = sceneComponentLocalIBL.size();
+	size_t numLocalIBL = sceneComponentLocalIBLs.size();
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numLocalIBL);
 
-	for (int i = 0; i < numLocalIBL; i++)
+	if (numLocalIBL > 0)
 	{
-		ComponentLocalIBL* local = sceneComponentLocalIBL[i];
-		LocalIBL localIBL;
-		localIBL.irradiance = local->GetHandleIrradiance();
-		localIBL.prefiltered = local->GetHandlePreFiltered();
-		localIBL.position = local->GetPosition();
-		float4x4 toLocal = local->GetTransform();
-		toLocal.InverseOrthonormal();
-		localIBL.toLocal = toLocal;
-		AABB aabb = local->GetAABB();
-		localIBL.maxParallax = aabb.maxPoint;
-		localIBL.minParallax = aabb.minPoint;
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * i, sizeof(LocalIBL) * i, &localIBL);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(LocalIBL) * numLocalIBL, &localIBLs[0]);
 	}
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
@@ -1126,6 +1117,26 @@ void Scene::RenderAreaTube(const ComponentAreaLight* compTube) const
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
 			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * pos, sizeof(AreaLightTube),
 							&tubeLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
+void Scene::RenderLocalIBL(const ComponentLocalIBL* compLocal) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
+	{
+		if (cachedLocalIBLs[i].first == compLocal)
+		{
+			found = true;
+
+			unsigned int pos = cachedLocalIBLs[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * pos, sizeof(LocalIBL),
+				&localIBLs[pos]);
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		}
 	}
@@ -1334,6 +1345,42 @@ void Scene::UpdateSceneAreaTubes()
 	}
 }
 
+void Scene::UpdateSceneLocalIBLs()
+{
+	localIBLs.clear();
+	cachedTubes.clear();
+
+	unsigned int pos = 0;
+
+	for (GameObject* child : sceneGameObjects)
+	{
+		if (child && child->IsActive())
+		{
+			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
+			if (!components.empty() && components[0]->GetLightType() == LightType::LOCAL_IBL &&
+				components[0]->IsEnabled())
+			{
+				ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(components[0]);
+				LocalIBL localIBL;
+				localIBL.irradiance = local->GetHandleIrradiance();
+				localIBL.prefiltered = local->GetHandlePreFiltered();
+				localIBL.position = local->GetPosition();
+				float4x4 toLocal = local->GetTransform();
+				toLocal.InverseOrthonormal();
+				localIBL.toLocal = toLocal;
+				AABB aabb = local->GetAABB();
+				localIBL.maxParallax = aabb.maxPoint;
+				localIBL.minParallax = aabb.minPoint;
+				
+				localIBLs.push_back(localIBL);
+				cachedLocalIBLs.push_back(std::make_pair(local, pos));
+
+				++pos;
+			}
+		}
+	}
+}
+
 void Scene::UpdateScenePointLight(const ComponentPointLight* compPoint)
 {
 	bool found = false;
@@ -1439,6 +1486,34 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 	}
 }
 
+void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
+{
+	bool found = false;
+	const GameObject* go = compLocal->GetOwner();
+
+	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
+	{
+		if (cachedLocalIBLs[i].first == compLocal)
+		{
+			found = true;
+
+			LocalIBL localIBL;
+
+			localIBL.irradiance = compLocal->GetHandleIrradiance();
+			localIBL.prefiltered = compLocal->GetHandlePreFiltered();
+			localIBL.position = compLocal->GetPosition();
+			float4x4 toLocal = compLocal->GetTransform();
+			toLocal.InverseOrthonormal();
+			localIBL.toLocal = toLocal;
+			AABB aabb = compLocal->GetAABB();
+			localIBL.maxParallax = aabb.maxPoint;
+			localIBL.minParallax = aabb.minPoint;
+
+			localIBLs[cachedLocalIBLs[i].second] = localIBL;
+		}
+	}
+}
+
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
@@ -1484,11 +1559,13 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
+	UpdateSceneLocalIBLs();
 
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
 	RenderAreaLights();
+	RenderLocalIBLs();
 }
 
 void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)

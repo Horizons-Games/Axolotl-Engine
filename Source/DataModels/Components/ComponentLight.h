@@ -10,7 +10,8 @@ enum class LightType
 	DIRECTIONAL, 
 	POINT, 
 	SPOT,
-	AREA
+	AREA,
+	LOCAL_IBL
 };
 
 enum class AreaType
