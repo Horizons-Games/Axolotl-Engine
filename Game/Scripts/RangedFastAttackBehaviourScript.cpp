@@ -26,7 +26,9 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	lastAttackTime(0.f), particleSystemShot(nullptr), particleSystemPreShot(nullptr), audioSource(nullptr), shootPosition(nullptr),
 	particleTransform(nullptr), animation(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
-	preShootingTime(0.0f), particlePreShotTransform(nullptr)
+	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
+	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
+	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
@@ -36,6 +38,9 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	REGISTER_FIELD(particleSystemShot, ComponentParticleSystem*);
 	REGISTER_FIELD(particleSystemPreShot, ComponentParticleSystem*);
 	REGISTER_FIELD(preShotDuration, float);
+	REGISTER_FIELD(numConsecutiveShots, float);
+	REGISTER_FIELD(minTimeConsecutiveShot, float);
+	REGISTER_FIELD(maxTimeConsecutiveShot, float);
 }
 
 void RangedFastAttackBehaviourScript::Start()
@@ -59,23 +64,36 @@ void RangedFastAttackBehaviourScript::Start()
 
 void RangedFastAttackBehaviourScript::Update(float deltaTime)
 {
-	if (!isPreShooting)
-	{
-		return;
-	}
-
-
-	preShootingTime += deltaTime;
 	if (shootPosition)
 	{
 		particlePreShotTransform->SetGlobalPosition(shootPosition->GetGlobalPosition());
 	}
 
-	if (preShootingTime >= preShotDuration)
+	if (isPreShooting)
 	{
-		ShootBullet();
-		isPreShooting = false;
-		preShootingTime = 0.0f;
+		preShootingTime += deltaTime;
+		if (preShootingTime >= preShotDuration)
+		{
+			ShootBullet();
+			particleSystemPreShot->Stop();
+			isPreShooting = false;
+			preShootingTime = 0.0f;
+		}
+	}
+
+	if (isWaitingForConsecutiveShot)
+	{
+		shotTime += deltaTime;
+		if (shotTime >= nextShotDuration)
+		{
+			isPreShooting = true;
+			isWaitingForConsecutiveShot = false;
+			shotTime = 0.0f;
+			if (particleSystemPreShot)
+			{
+				particleSystemPreShot->Play();
+			}
+		}
 	}
 }
 
@@ -88,6 +106,7 @@ void RangedFastAttackBehaviourScript::StartAttack()
 void RangedFastAttackBehaviourScript::PerformAttack()
 {
 	isPreShooting = true;
+	isConsecutiveShooting = true;
 	if (particleSystemPreShot)
 	{
 		particleSystemPreShot->Play();
@@ -121,11 +140,24 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
 
-	lastAttackTime = SDL_GetTicks() / 1000.0f;
 	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
 
+	currentConsecutiveShots += 1.0f;
+	if (currentConsecutiveShots < numConsecutiveShots)
+	{
+		isConsecutiveShooting = true;
+		nextShotDuration = minTimeConsecutiveShot + static_cast<float>(std::rand()) / (static_cast <float>(RAND_MAX /(maxTimeConsecutiveShot - minTimeConsecutiveShot)));
+		isWaitingForConsecutiveShot = true;
+	}
+	else
+	{
+		isConsecutiveShooting = false;
+		currentConsecutiveShots = 0.0f;
+		lastAttackTime = SDL_GetTicks() / 1000.0f;
+	}
+
 	//Set reposition
-	needReposition = true;
+	//needReposition = true;
 }
 
 void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
@@ -141,6 +173,14 @@ void RangedFastAttackBehaviourScript::InterruptAttack()
 {
 	isPreShooting = false;
 	preShootingTime = 0.0f;
+	particleSystemPreShot->Stop();
+
+	isWaitingForConsecutiveShot = false;
+	isConsecutiveShooting = false;
+	currentConsecutiveShots = 0.0f;
+	nextShotDuration = 0.0f;
+	shotTime = 0.0f;
+
 	lastAttackTime = SDL_GetTicks() / 1000.0f - attackCooldown / 2.0f;
 	if (particleSystemPreShot)
 	{
@@ -150,7 +190,7 @@ void RangedFastAttackBehaviourScript::InterruptAttack()
 
 bool RangedFastAttackBehaviourScript::IsAttackAvailable() const
 {
-	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown && !isPreShooting);
+	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown && !isPreShooting && !isConsecutiveShooting);
 }
 
 bool RangedFastAttackBehaviourScript::NeedReposition() const

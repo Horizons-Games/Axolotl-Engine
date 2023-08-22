@@ -48,9 +48,19 @@ private:
 
 	GameObject* bulletPrefab;
 	float bulletVelocity;
+
 	float preShotDuration;
 	bool isPreShooting;
 	float preShootingTime;
+
+	float numConsecutiveShots;
+	float currentConsecutiveShots;
+	float minTimeConsecutiveShot;
+	float maxTimeConsecutiveShot;
+	float nextShotDuration;
+	float shotTime;
+	bool isWaitingForConsecutiveShot;
+	bool isConsecutiveShooting;
 
 	Scene* loadedScene;
 

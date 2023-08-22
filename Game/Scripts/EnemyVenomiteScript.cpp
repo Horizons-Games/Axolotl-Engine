@@ -85,6 +85,7 @@ void EnemyVenomiteScript::CheckState()
 	{
 		if (venomiteState != VenomiteBehaviours::MELEE_ATTACK)
 		{
+			rangedAttackScript->InterruptAttack();
 
 			seekScript->DisableMovement();
 			patrolScript->StopPatrol();
@@ -130,8 +131,7 @@ void EnemyVenomiteScript::CheckState()
 		}
 		else if (venomiteState != VenomiteBehaviours::SEEK && venomiteState != VenomiteBehaviours::ENEMY_DETECTED)
 		{
-			batonGameObject->Enable();
-			blasterGameObject->Disable();
+			rangedAttackScript->InterruptAttack();
 
 			componentAnimation->SetParameter("IsRunning", true);
 			componentAnimation->SetParameter("IsRangedAttacking", false);
@@ -169,9 +169,6 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 		if (enemyDetectionTime >= enemyDetectionDuration)
 		{
 			enemyDetectionTime = 0.0f;
-			
-			batonGameObject->Enable();
-			blasterGameObject->Disable();
 
 			componentAnimation->SetParameter("IsRunning", true);
 			componentAnimation->SetParameter("IsRangedAttacking", false);
@@ -192,7 +189,8 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
-		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage")
+		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage" && 
+			componentAnimation->GetActualStateName() != "VenomiteMeleeAttack")
 		{
 			if (rangedAttackScript->IsAttackAvailable())
 			{
