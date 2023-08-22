@@ -84,6 +84,8 @@ ComponentLocalIBL::~ComponentLocalIBL()
 	glDeleteTextures(1, &irradiance);
 	glDeleteTextures(1, &preFiltered);
 
+	deleting = true;
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (currentScene)

@@ -1360,11 +1360,11 @@ void Scene::UpdateSceneLocalIBLs()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::LOCAL_IBL &&
-				components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::LOCAL_IBL &&
+				component->IsEnabled() && !component->IsDeleting())
 			{
-				ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(components[0]);
+				ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(component);
 				LocalIBL localIBL;
 				localIBL.irradiance = local->GetHandleIrradiance();
 				localIBL.prefiltered = local->GetHandlePreFiltered();
