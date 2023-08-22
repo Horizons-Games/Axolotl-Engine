@@ -318,24 +318,14 @@ void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath, const std::
 	delete buffer;
 }
 
-UID ModuleFileSystem::RegisterFileZippedCallback(FileZippedCallback&& callback)
+std::unique_ptr<ModuleFileSystem::FileZippedCallback>
+	ModuleFileSystem::RegisterFileZippedCallback(FileZippedCallback&& callback)
 {
 	std::scoped_lock(callbacksMutex);
-	UID callbackUID = UniqueID::GenerateUID();
-	callbacks[callbackUID] = std::move(callback);
-	return callbackUID;
-}
-
-bool ModuleFileSystem::DeregisterFileZippedCallback(UID callbackUID)
-{
-	std::scoped_lock(callbacksMutex);
-	auto callbackToDelete = callbacks.find(callbackUID);
-	if (callbackToDelete != std::end(callbacks))
-	{
-		callbacks.erase(callbackToDelete);
-		return true;
-	}
-	return false;
+	std::unique_ptr<ModuleFileSystem::FileZippedCallback> callbackManager =
+		std::make_unique<ModuleFileSystem::FileZippedCallback>(std::move(callback));
+	callbacks.push_back(callbackManager.get());
+	return std::move(callbackManager);
 }
 
 void ModuleFileSystem::ZipFolderRecursive(
@@ -365,9 +355,9 @@ void ModuleFileSystem::ZipFolderRecursive(
 
 			FileZippedData fileZippedData{ itemPath, currentItem, std::move(zipFileDuration), rootPath, totalItems };
 			std::scoped_lock(callbacksMutex);
-			for (const auto& [_, callback] : callbacks)
+			for (const auto& callback : callbacks)
 			{
-				callback(fileZippedData);
+				(*callback)(fileZippedData);
 			}
 
 			++currentItem;

@@ -8,6 +8,7 @@ struct FileZippedData;
 
 class ModuleFileSystem : public Module
 {
+public:
 	using FileZippedCallback = std::function<void(FileZippedData)>;
 
 public:
@@ -46,8 +47,8 @@ public:
 						   bool overwriteIfExists) const;
 	void AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const;
 
-	[[nodiscard]] UID RegisterFileZippedCallback(FileZippedCallback&& callback);
-	bool DeregisterFileZippedCallback(UID callbackUID);
+	// Lifetime of the callback will be managed by the caller of this method
+	[[nodiscard]] std::unique_ptr<FileZippedCallback> RegisterFileZippedCallback(FileZippedCallback&& callback);
 
 private:
 	void ZipFolderRecursive(zip_t* zip,
@@ -57,7 +58,7 @@ private:
 							std::size_t& currentItem) const;
 	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
 
-	std::unordered_map<UID, FileZippedCallback> callbacks;
+	std::vector<FileZippedCallback*> callbacks;
 	std::mutex callbacksMutex;
 };
 

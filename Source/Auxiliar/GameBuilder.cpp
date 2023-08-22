@@ -112,10 +112,12 @@ void CreateZip(const std::string& startingScene)
 	CopyFolderInLib(SCENE_PATH, "Scenes/");
 	CopyFolderInLib("Source/Shaders/", "Shaders/");
 
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
-	UID callbackUid = fileSystem->RegisterFileZippedCallback(&OnFileZipped);
-	fileSystem->ZipLibFolder();
-	fileSystem->DeregisterFileZippedCallback(callbackUid);
+	{
+		ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+		std::unique_ptr<ModuleFileSystem::FileZippedCallback> callbackReference =
+			fileSystem->RegisterFileZippedCallback(&OnFileZipped);
+		fileSystem->ZipLibFolder();
+	}
 
 	AddConfigToZip(startingScene);
 
