@@ -30,9 +30,6 @@ void BossShieldScript::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		hitBySpecialTarget = true;
 	}
-
-	// If the shield spawns over a rock, disable the rock (just disable its rigid and mesh, the rock manages the rest)
-	// This is not necessary for the player or the enemies because the shield will simply push them back
 	else if (other->GetOwner()->CompareTag("Rock"))
 	{
 		other->GetOwner()->GetComponent<ComponentRigidBody>()->Disable();

@@ -89,21 +89,18 @@ void FinalBossScript::ManageChangePhase()
 
 		//LOG_VERBOSE("Final Boss is in LAST RESORT");
 	}
-
 	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f)
 	{
 		bossPhase = FinalBossPhases::DEFENSIVE;
 
 		//LOG_VERBOSE("Final Boss is DEFENSIVE");
 	}
-
 	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f)
 	{
 		bossPhase = FinalBossPhases::AGGRESSIVE;
 
 		//LOG_VERBOSE("Final Boss is AGGRESSIVE");
 	}
-
 	else
 	{
 		bossPhase = FinalBossPhases::NEUTRAL;

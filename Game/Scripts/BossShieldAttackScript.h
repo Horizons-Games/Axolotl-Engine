@@ -22,6 +22,7 @@ public:
 private:
 	void ManageShield(float deltaTime);
 	void ManageEnemiesSpawning(float deltaTime);
+	void ManageRespawnOfEnemies() const;
 
 	GameObject* SelectEnemyToSpawn();
 	float3 SelectSpawnPosition() const;

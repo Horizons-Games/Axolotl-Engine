@@ -35,7 +35,6 @@ void ShockWaveAttackScript::Update(float deltaTime)
 
 		shockWaveHitPlayer = true;
 	}
-
 	else if (outerArea->GetAreaState() == AreaState::ON_COOLDOWN && 
 		innerArea->GetAreaState() == AreaState::ON_COOLDOWN)
 	{
@@ -55,6 +54,8 @@ void ShockWaveAttackScript::TriggerShockWaveAttack()
 {
 	outerArea->SetAreaState(AreaState::EXPANDING);
 	innerArea->SetAreaState(AreaState::EXPANDING);
+
+	// This will need to trigger any kind of effect or particles to show the shockwave expanding
 }
 
 bool ShockWaveAttackScript::CanPerformShockWaveAttack() const

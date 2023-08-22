@@ -43,30 +43,23 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (rockState == RockStates::SKY && other->GetOwner()->CompareTag("Rock"))
 	{
-		// Check if it hits another spawned rock, in which case, destroy this new rock
 		DeactivateRock();
 	}
-
 	else if (rockState == RockStates::FALLING)
 	{
-		// If a rock hits an enemy or a player while falling, damage them
 		if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("Player"))
 		{
 			other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(fallingRockDamage);
 			rockState = RockStates::HIT_ENEMY;
 			DeactivateRock();
 		}
-
-		// If a rock hits the floor, set as it stopped falling
-		else if (!other->GetOwner()->CompareTag("Wall") && !other->IsTrigger())
+		else if (other->GetOwner()->CompareTag("Floor"))
 		{
 			rockState = RockStates::FLOOR;
 		}
 	}
-
 	else
 	{
-		// Start despawn timer
 		triggerRockDespawn = true;
 	}
 }
@@ -86,11 +79,9 @@ void BossChargeRockScript::DeactivateRock()
 
 		// This will need to manage particles in the future
 	}
-
 	else
 	{
 		owner->Disable();
-		DestroyRock();
 	}
 
 	triggerRockDespawn = true;

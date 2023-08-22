@@ -59,6 +59,8 @@ void BossShieldAttackScript::Update(float deltaTime)
 
 	ManageShield(deltaTime);
 	ManageEnemiesSpawning(deltaTime);
+
+	ManageRespawnOfEnemies();
 }
 
 void BossShieldAttackScript::TriggerShieldAttack()
@@ -67,7 +69,6 @@ void BossShieldAttackScript::TriggerShieldAttack()
 	isShielding = true;
 	shieldAttackCooldown = shieldAttackMaxCooldown;
 
-	// Spawn enemies around
 	triggerEnemySpawning = true;
 }
 
@@ -78,7 +79,6 @@ bool BossShieldAttackScript::CanPerformShieldAttack() const
 
 void BossShieldAttackScript::ManageShield(float deltaTime)
 {
-	// If the shield is up
 	if (isShielding)
 	{
 		shieldingTime -= deltaTime;
@@ -93,8 +93,6 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 			triggerEnemySpawning = false;
 		}
 	}
-
-	// If the shield is down and on cooldown
 	else if (triggerShieldAttackCooldown)
 	{
 		shieldAttackCooldown -= deltaTime;
@@ -116,7 +114,6 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 	{
 		enemySpawnTime -= deltaTime;
 	}
-
 	else
 	{
 		GameObject* selectedEnemy = SelectEnemyToSpawn();
@@ -126,13 +123,33 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 			float3 selectedPosition = SelectSpawnPosition();
 			SpawnEnemyInPosition(selectedEnemy, selectedPosition);
 		}
-
 		else
 		{
 			LOG_INFO("No enemy available to spawn");
 		}
 
 		enemySpawnTime = enemyMaxSpawnTime;
+	}
+}
+
+void BossShieldAttackScript::ManageRespawnOfEnemies() const
+{
+	for (GameObject* enemy : enemiesNotReadyToSpawn)
+	{
+		if (enemy->IsEnabled())
+		{
+			continue;
+		}
+
+		EnemyTypes enemyType = enemy->GetComponent<EnemyClass>()->GetEnemyType();
+		if (enemyType == EnemyTypes::DRONE)
+		{
+
+		}
+		else if (enemyType == EnemyTypes::VENOMITE)
+		{
+
+		}
 	}
 }
 
@@ -146,7 +163,6 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 	LOG_VERBOSE("{} enemiesReadyToSpawn", enemiesReadyToSpawn.size());
 	LOG_VERBOSE("{} enemiesNotReadyToSpawn", enemiesReadyToSpawn.size());
 
-	// Select a random enemy from the enemiesReadyToSpawn map
 	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size());
 	int randomEnemyIndex = rand() % enemyRange;
 	GameObject* selectedEnemy = enemiesReadyToSpawn.at(randomEnemyIndex);
@@ -176,7 +192,7 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, flo
 {
 	ComponentTransform* selectedEnemyTransform = selectedEnemy->GetComponent<ComponentTransform>();
 	selectedEnemyTransform->SetGlobalPosition(float3(selectedSpawningPosition.x,
-		selectedEnemyTransform->GetGlobalPosition().y, // Respect the height position of each enemy
+		selectedEnemyTransform->GetGlobalPosition().y,
 		selectedSpawningPosition.z));
 	selectedEnemyTransform->RecalculateLocalMatrix();
 

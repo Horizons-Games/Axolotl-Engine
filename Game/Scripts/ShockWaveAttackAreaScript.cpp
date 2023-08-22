@@ -32,7 +32,6 @@ void ShockWaveAttackAreaScript::Update(float deltaTime)
 			rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
 			rigidBody->SetCollisionShape(rigidBody->GetShape());
 		}
-
 		else
 		{
 			rigidBody->SetRadius(minSizeArea);
