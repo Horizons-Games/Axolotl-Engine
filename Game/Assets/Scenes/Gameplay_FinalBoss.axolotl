@@ -437,7 +437,7 @@
                                 },
                                 {
                                     "name": "RadiusSeeking",
-                                    "value": 2.5,
+                                    "value": 1.5,
                                     "type": 0
                                 },
                                 {
@@ -6750,95 +6750,6 @@
         },
         {
             "GameObject": {
-                "name": "PowerUp 4",
-                "tag": "",
-                "uid": 10078801361813198795,
-                "parentUID": 12473639644339742065,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -4.359014987945557,
-                            "localPos_Y": 3.2121219635009766,
-                            "localPos_Z": -8.701062202453613,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.20000000298023224,
-                            "localSca_Y": 0.20000000298023224,
-                            "localSca_Z": 0.20000000298023224
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 6159512386276426707,
-                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": true,
-                            "isTrigger": true,
-                            "drawCollider": false,
-                            "mass": 100.0,
-                            "linearDamping": 0.10000000149011612,
-                            "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
-                            "currentShape": 2,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -9.8100004196167,
-                            "boxSize_X": 0.9999994039535522,
-                            "boxSize_Y": 1.75,
-                            "boxSize_Z": 0.9999991655349731,
-                            "radius": 1.2999999523162842,
-                            "factor": 0.5,
-                            "height": 2.0,
-                            "rbPos_X": 195.6409912109375,
-                            "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.701062202453613,
-                            "xAxisBlocked": false,
-                            "yAxisBlocked": false,
-                            "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
-                            "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PowerUpLogicScript",
-                            "fields": [
-                                {
-                                    "name": "PowerUpsManager",
-                                    "value": 9418173620591223368,
-                                    "type": 2
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "UI Canvas manager",
                 "tag": "",
                 "uid": 2225168623842053224,
@@ -12468,10 +12379,9 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "AvailablePowerUps",
-                                    "type": 4,
-                                    "vectorElements": null,
-                                    "innerType": 2
+                                    "name": "PowerUpParent",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -13358,23 +13268,9 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "AvailablePowerUps",
-                                    "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 11306440819102867434
-                                        },
-                                        {
-                                            "value": 1375892197173359520
-                                        },
-                                        {
-                                            "value": 10105264902335347340
-                                        },
-                                        {
-                                            "value": 10078801361813198795
-                                        }
-                                    ],
-                                    "innerType": 2
+                                    "name": "PowerUpParent",
+                                    "value": 12473639644339742065,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -16626,23 +16522,9 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "AvailablePowerUps",
-                                    "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 11306440819102867434
-                                        },
-                                        {
-                                            "value": 1375892197173359520
-                                        },
-                                        {
-                                            "value": 10105264902335347340
-                                        },
-                                        {
-                                            "value": 10078801361813198795
-                                        }
-                                    ],
-                                    "innerType": 2
+                                    "name": "PowerUpParent",
+                                    "value": 12473639644339742065,
+                                    "type": 2
                                 }
                             ]
                         }

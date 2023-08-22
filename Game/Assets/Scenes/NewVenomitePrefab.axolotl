@@ -564,10 +564,9 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "AvailablePowerUps",
-                                    "type": 4,
-                                    "vectorElements": null,
-                                    "innerType": 2
+                                    "name": "PowerUpParent",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }

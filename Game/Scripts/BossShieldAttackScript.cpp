@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 #include "BossShieldAttackScript.h"
 
-#include "Application.h"
-#include "Modules/ModuleScene.h"
-#include "Scene/Scene.h"
+//#include "Application.h"
+//#include "Modules/ModuleScene.h"
+//#include "Scene/Scene.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -125,6 +125,7 @@ void BossShieldAttackScript::SpawnEnemy(GameObject* selectedEnemy)
 		selectedSpawningPosition.x, selectedSpawningPosition.y, selectedSpawningPosition.z);
 
 	// And then spawn the selected enemy in the selected spawning position
+	/*
 	GameObject* newEnemy = App->GetModule<ModuleScene>()->GetLoadedScene()->
 		DuplicateGameObject(selectedEnemy->GetName(), selectedEnemy, selectedEnemy->GetParent());
 	newEnemy->Enable();
@@ -136,6 +137,7 @@ void BossShieldAttackScript::SpawnEnemy(GameObject* selectedEnemy)
 	ComponentRigidBody* newEnemyRigidBody = newEnemy->GetComponent<ComponentRigidBody>();
 	newEnemyRigidBody->SetDefaultPosition();
 	newEnemyRigidBody->Enable();
+	*/
 
 	// Finally, set the timer so another enemy is not spawned immediately
 	enemySpawnTime = enemyMaxSpawnTime;

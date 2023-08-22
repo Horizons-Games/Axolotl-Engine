@@ -20,7 +20,7 @@ private:
 	void DisableEnemyActions();
 	void DespawnEnemy() const;
 
-	std::vector<GameObject*> availablePowerUps;
+	GameObject* powerUpParent;
 
 	float despawnTimer;
 	bool startDespawnTimer;

@@ -275,7 +275,7 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -1.634626585200749e-7,
-                            "rbPos_Y": 1.5,
+                            "rbPos_Y": 1.0,
                             "rbPos_Z": 0.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
@@ -293,10 +293,9 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "AvailablePowerUps",
-                                    "type": 4,
-                                    "vectorElements": null,
-                                    "innerType": 2
+                                    "name": "PowerUpParent",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }

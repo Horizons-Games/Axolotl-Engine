@@ -14,9 +14,9 @@
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false)
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), powerUpParent(nullptr)
 {
-	REGISTER_FIELD(availablePowerUps, std::vector<GameObject*>);
+	REGISTER_FIELD(powerUpParent, GameObject*);
 }
 
 void EnemyDeathScript::Update(float deltaTime)
@@ -56,13 +56,13 @@ void EnemyDeathScript::ManageEnemyDeath()
 
 GameObject* EnemyDeathScript::RequestPowerUp() const
 {
-	for (GameObject* selectedPowerUp : availablePowerUps)
+	for (GameObject* selectedPowerUp : powerUpParent->GetChildren())
 	{
 		// Make that the enemies don't always drop a powerup (20% chance)
 		srand(static_cast<unsigned int>(time(0)));
 		int randomActivation = rand() % 10;
 
-		if (!selectedPowerUp->IsEnabled() && randomActivation < 2)
+		if (!selectedPowerUp->IsEnabled() && randomActivation < 10)
 		{
 			return selectedPowerUp;
 		}
