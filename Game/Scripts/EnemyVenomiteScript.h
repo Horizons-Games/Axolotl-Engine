@@ -33,7 +33,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ResetValues() const;
+	void ResetValues();
 
 private:
 	VenomiteBehaviours venomiteState;

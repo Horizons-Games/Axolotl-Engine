@@ -648,14 +648,14 @@
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours\Basic Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours\Basic Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1343,14 +1343,14 @@
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours\Basic Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours\Basic Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1542,12 +1542,6 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack">
       <UniqueIdentifier>{5a54ea55-6039-4837-a5a9-37b09052d56e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\Movement Behaviours\Basic Enemies">
-      <UniqueIdentifier>{4bcf2c1e-9122-4d78-afd4-cc4758f3f76a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\Movement Behaviours\Bosses">
-      <UniqueIdentifier>{43401b7b-cfbf-4b30-a754-4292e1d0e3f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

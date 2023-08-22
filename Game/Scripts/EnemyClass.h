@@ -28,6 +28,10 @@ public:
 
 	bool IsSpawnedEnemy() const;
 
+	bool NeedsToBeReset() const;
+	void ActivateNeedsToBeReset();
+	void DeactivateNeedsToBeReset();
+
 	EnemyTypes GetEnemyType() const;
 
 protected:
@@ -40,6 +44,7 @@ protected:
 	// This is used for when a certain enemy is spawn from nothing 
 	// instead of being placed in the scene from the beginning
 	bool isSpawnedEnemy;
+	bool needsToBeReset;
 
 	EnemyTypes enemyType;
 };

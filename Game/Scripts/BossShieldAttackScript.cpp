@@ -134,24 +134,21 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 	}
 }
 
-void BossShieldAttackScript::ManageRespawnOfEnemies() const
+void BossShieldAttackScript::ManageRespawnOfEnemies()
 {
-	for (GameObject* enemy : enemiesNotReadyToSpawn)
+	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
 	{
+		GameObject* enemy = enemiesNotReadyToSpawn[i];
 		if (enemy->IsEnabled())
 		{
 			continue;
 		}
 
-		EnemyTypes enemyType = enemy->GetComponent<EnemyClass>()->GetEnemyType();
-		if (enemyType == EnemyTypes::DRONE)
-		{
-			enemy->GetComponent<EnemyDroneScript>()->ResetValues();
-		}
-		else if (enemyType == EnemyTypes::VENOMITE)
-		{
-			enemy->GetComponent<EnemyVenomiteScript>()->ResetValues();
-		}
+		EnemyClass* enemyClass = enemy->GetComponent<EnemyClass>();
+		enemyClass->ActivateNeedsToBeReset();
+
+		enemiesNotReadyToSpawn.erase(enemiesNotReadyToSpawn.begin() + i);
+		enemiesReadyToSpawn.push_back(enemy);
 	}
 }
 
@@ -168,6 +165,22 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size());
 	int randomEnemyIndex = rand() % enemyRange;
 	GameObject* selectedEnemy = enemiesReadyToSpawn.at(randomEnemyIndex);
+
+	EnemyClass* enemyClass = selectedEnemy->GetComponent<EnemyClass>();
+
+	if (enemyClass->NeedsToBeReset())
+	{
+		if (enemyClass->GetEnemyType() == EnemyTypes::DRONE)
+		{
+			selectedEnemy->GetComponent<EnemyDroneScript>()->ResetValues();
+		}
+		else if (enemyClass->GetEnemyType() == EnemyTypes::VENOMITE)
+		{
+			selectedEnemy->GetComponent<EnemyVenomiteScript>()->ResetValues();
+		}
+
+		enemyClass->DeactivateNeedsToBeReset();
+	}
 
 	enemiesReadyToSpawn.erase(enemiesReadyToSpawn.begin() + randomEnemyIndex);
 	enemiesNotReadyToSpawn.push_back(selectedEnemy);

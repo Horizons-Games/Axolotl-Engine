@@ -54,6 +54,12 @@ void EnemyDeathScript::ManageEnemyDeath()
 	DisableEnemyActions();
 }
 
+void EnemyDeathScript::ResetDespawnTimerAndEnableActions()
+{
+	despawnTimer = 5.0f;
+	EnableEnemyActions();
+}
+
 GameObject* EnemyDeathScript::RequestPowerUp() const
 {
 	for (GameObject* selectedPowerUp : powerUpParent->GetChildren())
@@ -73,7 +79,7 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 
 void EnemyDeathScript::DisableEnemyActions()
 {
-	// Once the player is dead, disable its scripts
+	// Once the enemy is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
@@ -85,13 +91,32 @@ void EnemyDeathScript::DisableEnemyActions()
 	}
 
 	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
-	enemyRigidBody->DisablePositionController();
-	enemyRigidBody->DisableRotationController();
-
+	enemyRigidBody->Disable();
 	enemyRigidBody->SetIsKinematic(true);
 	enemyRigidBody->SetUpMobility();
 
 	startDespawnTimer = true;
+}
+
+void EnemyDeathScript::EnableEnemyActions()
+{
+	// If the enemy is revived, enable its scripts again
+	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
+
+	for (ComponentScript* script : gameObjectScripts)
+	{
+		if (script->GetConstructName() != "EnemyDeathScript")
+		{
+			script->Enable();
+		}
+	}
+
+	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
+	enemyRigidBody->Enable();
+	enemyRigidBody->SetIsKinematic(false);
+	enemyRigidBody->SetUpMobility();
+
+	startDespawnTimer = false;
 }
 
 void EnemyDeathScript::DespawnEnemy() const

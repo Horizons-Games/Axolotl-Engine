@@ -15,9 +15,14 @@ public:
 
 	void ManageEnemyDeath();
 
+	void ResetDespawnTimerAndEnableActions();
+
 private:
 	GameObject* RequestPowerUp() const;
+
 	void DisableEnemyActions();
+	void EnableEnemyActions();
+
 	void DespawnEnemy() const;
 
 	GameObject* powerUpParent;

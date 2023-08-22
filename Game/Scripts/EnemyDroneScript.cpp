@@ -12,6 +12,7 @@
 #include "../Scripts/MeleeHeavyAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/EnemyDeathScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -197,9 +198,22 @@ void EnemyDroneScript::Update(float deltaTime)
 	}
 }
 
-void EnemyDroneScript::ResetValues() const
+void EnemyDroneScript::ResetValues()
 {
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
+		componentAnimation->GetStateMachine()->GetParameters();
+	for (std::pair<std::string, TypeFieldPairParameter> parameter : componentAnimationParameters)
+	{
+		componentAnimation->SetParameter(parameter.first, false);
+	}
 
+	droneState = DroneBehaviours::IDLE;
+	lastDroneState = DroneBehaviours::IDLE;
+	fastAttackScript->ResetScriptValues();
+	healthScript->HealLife(1000.0f); // It will cap at max health
+	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
+	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }
 
 void EnemyDroneScript::CalculateNextPosition() const

@@ -10,6 +10,9 @@
 #include "../Scripts/RangedFastAttackBehaviourScript.h"
 #include "../Scripts/MeleeFastAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/EnemyDeathScript.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(EnemyVenomiteScript);
 
@@ -186,7 +189,23 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	}
 }
 
-void EnemyVenomiteScript::ResetValues() const
+void EnemyVenomiteScript::ResetValues()
 {
+	//componentAudioSource->PostEvent(/* Stop Venomite Sounds */);
+	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
+		componentAnimation->GetStateMachine()->GetParameters();
+	for (std::pair<std::string, TypeFieldPairParameter> parameter : componentAnimationParameters)
+	{
+		componentAnimation->SetParameter(parameter.first, false);
+	}
 
+	venomiteState = VenomiteBehaviours::IDLE;
+	for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
+	{
+		rangedAttackScript->ResetScriptValues();
+	}
+	meleeAttackScript->ResetScriptValues();
+	healthScript->HealLife(1000.0f); // It will cap at max health
+	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
+	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }
