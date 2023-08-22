@@ -101,7 +101,7 @@ void ComponentLocalIBL::Update()
 	Frustum frustum;
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
-	frustum.SetPos(trans->GetGlobalPosition());
+	frustum.SetPos(GetPosition());
 	frustum.SetViewPlaneDistances(0.1f, 100.0f);
 
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
@@ -229,8 +229,8 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 	{
 		glFramebufferTexture2D(
 			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, mipmapLevel);
-		frustum.SetFront(front[i]);
-		frustum.SetUp(up[i]);
+		frustum.SetFront(GetRotation() * front[i]);
+		frustum.SetUp(GetRotation() * up[i]);
 
 		glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, frustum.ProjectionMatrix().ptr());
