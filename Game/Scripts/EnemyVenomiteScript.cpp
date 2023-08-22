@@ -76,7 +76,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			{
 				venomiteState = VenomiteBehaviours::PATROL;
 			}
-
 			else
 			{
 				// This will make the venomite seek the player until it reaches the RANGED_ATTACK distance
@@ -131,7 +130,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			{
 				rangedAttackScript->PerformAttack();
 			}
-
 			else
 			{
 				componentAnimation->SetParameter("IsRangedAttacking", false);
@@ -150,7 +148,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			batonGameObject->Disable();
 			blasterGameObject->Enable();
 		}
-
 		// Seeking with less or equal than half of its life, set baton active
 		// (will be performing MELEE_ATTACK state when quiet)
 		else
@@ -180,7 +177,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 			componentAnimation->SetParameter("IsMeleeAttacking", true);
 			meleeAttackScript->PerformAttack();
 		}
-
 		else
 		{
 			componentAnimation->SetParameter("IsMeleeAttacking", false);
@@ -188,4 +184,9 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		componentAnimation->SetParameter("IsRunning", false);
 	}
+}
+
+void EnemyVenomiteScript::ResetValues() const
+{
+
 }

@@ -92,7 +92,6 @@ void EnemyDroneScript::Update(float deltaTime)
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
 				droneState = DroneBehaviours::PATROL;
 			}
-			
 			else
 			{
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
@@ -140,13 +139,11 @@ void EnemyDroneScript::Update(float deltaTime)
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 				seekScript->RotateToTarget();
 			}
-
 			else
 			{
 				droneState = DroneBehaviours::FASTATTACK;
 			}
 		}
-
 		else
 		{
 			owner->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
@@ -198,6 +195,11 @@ void EnemyDroneScript::Update(float deltaTime)
 		seekScript->RotateToTarget();
 		heavyAttackScript->TriggerExplosion();
 	}
+}
+
+void EnemyDroneScript::ResetValues() const
+{
+
 }
 
 void EnemyDroneScript::CalculateNextPosition() const

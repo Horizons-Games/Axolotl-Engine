@@ -9,8 +9,10 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
-#include "../Scripts/BossShieldScript.h"
 #include "../Scripts/EnemyClass.h"
+#include "../Scripts/BossShieldScript.h"
+#include "../Scripts/EnemyDroneScript.h"
+#include "../Scripts/EnemyVenomiteScript.h"
 
 REGISTERCLASS(BossShieldAttackScript);
 
@@ -144,11 +146,11 @@ void BossShieldAttackScript::ManageRespawnOfEnemies() const
 		EnemyTypes enemyType = enemy->GetComponent<EnemyClass>()->GetEnemyType();
 		if (enemyType == EnemyTypes::DRONE)
 		{
-
+			enemy->GetComponent<EnemyDroneScript>()->ResetValues();
 		}
 		else if (enemyType == EnemyTypes::VENOMITE)
 		{
-
+			enemy->GetComponent<EnemyVenomiteScript>()->ResetValues();
 		}
 	}
 }
