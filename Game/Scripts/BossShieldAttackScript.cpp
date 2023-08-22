@@ -126,7 +126,7 @@ void BossShieldAttackScript::SpawnEnemy(GameObject* selectedEnemy)
 
 	// And then spawn the selected enemy in the selected spawning position
 	GameObject* newEnemy = App->GetModule<ModuleScene>()->GetLoadedScene()->
-		DuplicateGameObject("Rock Copy", selectedEnemy, selectedEnemy->GetParent());
+		DuplicateGameObject(selectedEnemy->GetName(), selectedEnemy, selectedEnemy->GetParent());
 	newEnemy->Enable();
 
 	ComponentTransform* newEnemyTransform = newEnemy->GetComponent<ComponentTransform>();
