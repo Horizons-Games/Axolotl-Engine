@@ -18,10 +18,16 @@ public:
 
 private:
 
+	void DisableAllInteractions();
+	void EnableAllInteractions();
+	
+
+private:
+
 	bool isHackingActive;
-
 	std::string hackingTag;
-
+	float currentTime;
+	float maxHackTime;
 	ModuleInput* input;
 };
 
