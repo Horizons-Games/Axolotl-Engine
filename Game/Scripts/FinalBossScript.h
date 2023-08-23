@@ -62,6 +62,8 @@ private:
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
 
+	bool isLookingAtTarget;
+
 	// Modifiable values
 	GameObject* target;
 };

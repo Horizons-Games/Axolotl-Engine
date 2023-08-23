@@ -36,6 +36,11 @@ void EnemyClass::SetStunnedTime(float newTime)
 	timeStunned = newTime;
 }
 
+float EnemyClass::GetStunnedTime() const
+{
+	return timeStunned;
+}
+
 bool EnemyClass::IsSpawnedEnemy() const
 {
 	return isSpawnedEnemy;

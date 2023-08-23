@@ -79,6 +79,11 @@ bool BossShieldAttackScript::CanPerformShieldAttack() const
 	return shieldAttackCooldown <= 0.0f && !isShielding;
 }
 
+bool BossShieldAttackScript::IsAttacking() const
+{
+	return isShielding;
+}
+
 void BossShieldAttackScript::ManageShield(float deltaTime)
 {
 	if (isShielding)

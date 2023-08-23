@@ -25,6 +25,7 @@ public:
 	void VisualTarget(bool activate);
 
 	void SetStunnedTime(float newTime);
+	float GetStunnedTime() const;
 
 	bool IsSpawnedEnemy() const;
 

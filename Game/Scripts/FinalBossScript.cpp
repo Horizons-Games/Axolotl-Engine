@@ -53,31 +53,44 @@ void FinalBossScript::Update(float deltaTime)
 	*/
 
 	// Uncomment this to check the plasma hammer attack -----------------------
-	/*
+	
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
-		shockWaveAttackScript->TriggerShockWaveAttack();
+		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	*/
+	
 
 	// Uncomment this to check the brutal charge attack ------------------------------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack())
 	{
-		chargeAttackScript->TriggerChargeAttack(target);
+ 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	*/
 
 	// Uncomment this to check the energy shield attack -----------------------
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shieldAttackScript->CanPerformShieldAttack())
 	{
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
+	}
+	*/
+
+	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking() &&
+			!shieldAttackScript->IsAttacking())
+	{
+		rigidBody->SetKpForce(0.25f);
+		rigidBody->SetIsKinematic(false);
+		rigidBody->SetUpMobility();
+
+		patrolScript->Patrolling();
+		bossState = FinalBossStates::WALKING;
 	}
 }
 

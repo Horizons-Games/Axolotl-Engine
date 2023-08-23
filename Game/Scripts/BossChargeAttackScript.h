@@ -27,8 +27,10 @@ public:
 
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
-	void TriggerChargeAttack(GameObject* target);
+	void TriggerChargeAttack(ComponentTransform* target);
 	bool CanPerformChargeAttack() const;
+
+	bool IsAttacking() const;
 
 private:
 	void PrepareCharge() const;
@@ -45,7 +47,7 @@ private:
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 
-	ComponentTransform* chargeThroughPosition; // Player's position when the charge started
+	ComponentTransform* chargeThroughPosition;
 
 	float prepareChargeTime;
 	float chargeCooldown;

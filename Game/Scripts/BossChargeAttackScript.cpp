@@ -19,7 +19,7 @@ REGISTERCLASS(BossChargeAttackScript);
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(0.0f),
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
-	attackStunTime(2.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f)
+	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
@@ -69,6 +69,21 @@ void BossChargeAttackScript::Update(float deltaTime)
 								transform->GetGlobalPosition().z));
 		}
 	}
+
+	if (chargeState == ChargeState::BOUNCING_WALL)
+	{
+		EnemyClass* enemyScript = owner->GetComponent<EnemyClass>();
+		if (enemyScript->GetStunnedTime() <= 0.0f)
+		{
+			rocksSpawned.clear();
+
+			chargeState = ChargeState::NONE;
+		}
+		else
+		{
+			enemyScript->SetStunnedTime(enemyScript->GetStunnedTime() - deltaTime);
+		}
+	}
 }
 
 
@@ -89,26 +104,18 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	}
 	else if (other->GetOwner()->CompareTag("Floor") && chargeState == ChargeState::BOUNCING_WALL)
 	{
-		chargeState = ChargeState::NONE;
-
 		rigidBody->SetIsKinematic(true);
 		rigidBody->SetUpMobility();
 	}
 }
 
 
-void BossChargeAttackScript::TriggerChargeAttack(GameObject* target)
+void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosition)
 {
-	LOG_VERBOSE("Begin the charge attack");
-
-	rigidBody->SetIsKinematic(false);
-	rigidBody->SetUpMobility();
-
-	rocksSpawned.clear();
-
 	chargeState = ChargeState::PREPARING_CHARGE;
-	chargeThroughPosition = target->GetComponent<ComponentTransform>();
 	chargeCooldown = chargeMaxCooldown;
+
+	chargeThroughPosition = targetPosition;
 	chargeHitPlayer = false;
 }
 
@@ -128,8 +135,6 @@ void BossChargeAttackScript::PrepareCharge() const
 
 void BossChargeAttackScript::PerformChargeAttack()
 {
-	LOG_VERBOSE("CHAAAAARGE!!!");
-
 	float3 forward = transform->GetGlobalForward();
 	forward.Normalize();
 
@@ -165,6 +170,11 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 bool BossChargeAttackScript::CanPerformChargeAttack() const
 {
 	return chargeCooldown <= 0.0f && chargeState == ChargeState::NONE;
+}
+
+bool BossChargeAttackScript::IsAttacking() const
+{
+	return chargeState != ChargeState::NONE;
 }
 
 void BossChargeAttackScript::SpawnRock(float3 spawnPosition)

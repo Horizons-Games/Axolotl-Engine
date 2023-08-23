@@ -19,6 +19,8 @@ public:
 	void TriggerShieldAttack();
 	bool CanPerformShieldAttack() const;
 
+	bool IsAttacking() const;
+
 private:
 	void ManageShield(float deltaTime);
 	void ManageEnemiesSpawning(float deltaTime);

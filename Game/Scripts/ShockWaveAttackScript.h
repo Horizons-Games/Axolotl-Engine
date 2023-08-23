@@ -5,6 +5,9 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentRigidBody;
+class ComponentTransform;
+
 class ShockWaveAttackAreaScript;
 
 class ShockWaveAttackScript : public Script
@@ -16,12 +19,21 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void TriggerShockWaveAttack();
+	void TriggerShockWaveAttack(ComponentTransform* targetPosition);
 	bool CanPerformShockWaveAttack() const;
 
+	bool IsAttacking() const;
+
 private:
+	void RotateToTarget(ComponentTransform* target) const;
+
 	float shockWaveCooldown;
 	bool shockWaveHitPlayer;
+
+	ComponentRigidBody* rigidBody;
+	ComponentTransform* transform;
+
+	ComponentTransform* lookToPosition;
 
 	// Modifiable values
 	float shockWaveMaxCooldown;
