@@ -25,8 +25,6 @@
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceTexture.h"
 
-#include "Auxiliar/CollectionAwareDeleter.h"
-
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
@@ -150,80 +148,54 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 																const std::string& libraryPath,
 																ResourceType type)
 {
+	// at this point, it might be easier to make this erase_if call each post update,
+	// but I'd need to profile it in order to not get comments about performance, and I don't wanna
+	auto customDeleter = [this](Resource* pointer)
+	{
+		std::erase_if(resources,
+					  [](const auto& uidAndRes)
+					  {
+						  return uidAndRes.second.expired();
+					  });
+		delete pointer;
+	};
+
 #ifdef ENGINE
-	std::shared_ptr<EditorResourceInterface> res = nullptr;
 	switch (type)
 	{
 		case ResourceType::Model:
-			res = std::shared_ptr<EditorResource<ResourceModel>>(
-				new EditorResource<ResourceModel>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceModel>>(
+				new EditorResource<ResourceModel>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Texture:
-			res = std::shared_ptr<EditorResource<ResourceTexture>>(
-				new EditorResource<ResourceTexture>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceTexture>>(
+				new EditorResource<ResourceTexture>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Mesh:
-			res = std::shared_ptr<EditorResource<ResourceMesh>>(
-				new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceMesh>>(
+				new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Scene: // TODO
 			return nullptr;
 		case ResourceType::Material:
-			res = std::shared_ptr<EditorResource<ResourceMaterial>>(
-				new EditorResource<ResourceMaterial>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceMaterial>>(
+				new EditorResource<ResourceMaterial>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::SkyBox:
-			res = std::shared_ptr<EditorResource<ResourceSkyBox>>(
-				new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceSkyBox>>(
+				new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Cubemap:
-			res = std::shared_ptr<EditorResource<ResourceCubemap>>(
-				new EditorResource<ResourceCubemap>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceCubemap>>(
+				new EditorResource<ResourceCubemap>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Animation:
-			res = std::shared_ptr<EditorResource<ResourceAnimation>>(
-				new EditorResource<ResourceAnimation>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceAnimation>>(
+				new EditorResource<ResourceAnimation>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::StateMachine:
-			res = std::shared_ptr<EditorResource<ResourceStateMachine>>(
-				new EditorResource<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceStateMachine>>(
+				new EditorResource<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::ParticleSystem:
-			res = std::shared_ptr<EditorResource<ResourceParticleSystem>>(
-				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), 
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceParticleSystem>>(
+				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		default:
 			return nullptr;
 	}
-
-	std::get_deleter<CollectionAwareDeleter<Resource>>(res)->AddCollection(resources);
-	return res;
 #else
-	auto customDeleter = [this](Resource* pointer)
-	{
-		std::map<UID, std::weak_ptr<Resource>>& map = resources;
-		for (auto it = std::begin(map); it != std::end(map);)
-		{
-			if (it->second.expired())
-			{
-				it = map.erase(it);
-			}
-			else
-			{
-				++it;
-			}
-		}
-		delete pointer;
-	};
 	switch (type)
 	{
 		case ResourceType::Model:

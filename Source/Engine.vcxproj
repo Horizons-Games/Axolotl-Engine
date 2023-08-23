@@ -839,7 +839,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h" />
     <ClInclude Include="DataModels\Commands\Command.h" />
     <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="DataModels\Animation\AnimationController.h" />
     <ClInclude Include="Auxiliar\Reflection\Field.h" />
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
