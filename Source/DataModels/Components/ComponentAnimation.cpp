@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
-#include "ComponentAnimation.h"
 #include "Application.h"
+#include "ComponentAnimation.h"
 #include "ComponentTransform.h"
 
 #include "Animation/AnimationController.h"
@@ -21,18 +21,30 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 	Component(ComponentType::ANIMATION, active, owner, true),
 	drawBones(false)
 {
-	controller = new AnimationController();
+	controller = std::make_unique<AnimationController>();
 	lastState = NON_STATE;
+}
+
+ComponentAnimation::ComponentAnimation(const ComponentAnimation& other) :
+	Component(other),
+	controller(std::make_unique<AnimationController>()),
+	stateMachine(other.stateMachine),
+	parameters(other.parameters),
+	defaultPosition(other.defaultPosition),
+	actualState(other.actualState),
+	nextState(other.nextState),
+	lastState(other.lastState),
+	drawBones(other.drawBones)
+{
 }
 
 ComponentAnimation::~ComponentAnimation()
 {
-	delete controller;
 }
 
-AnimationController* ComponentAnimation::GetController()
+AnimationController* ComponentAnimation::GetController() const
 {
-	return controller;
+	return controller.get();
 }
 
 const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine() const

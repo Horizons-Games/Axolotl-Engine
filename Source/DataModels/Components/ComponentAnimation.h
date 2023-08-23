@@ -19,9 +19,10 @@ class ComponentAnimation : public Component, public Drawable, public Updatable
 {
 public:
 	ComponentAnimation(const bool active, GameObject* owner);
+	ComponentAnimation(const ComponentAnimation& other);
 	~ComponentAnimation() override;
 
-	AnimationController* GetController();
+	AnimationController* GetController() const;
 
 	const std::shared_ptr<ResourceStateMachine>& GetStateMachine() const;
 	void SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine);
@@ -47,7 +48,7 @@ private:
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
-	AnimationController* controller;
+	std::unique_ptr<AnimationController> controller;
 	std::shared_ptr<ResourceStateMachine> stateMachine;
 	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
 	std::unordered_map<GameObject*, float4x4> defaultPosition;
