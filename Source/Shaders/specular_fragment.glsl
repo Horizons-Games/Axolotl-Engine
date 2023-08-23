@@ -19,6 +19,7 @@ struct Material {
     float smoothness;           //48 //4
     float normal_strength;      //52 //4
     float intensityBloom;       //56 //8 
+    float padding;              //60 //4
     sampler2D diffuse_map;      //64 //8
     sampler2D normal_map;       //72 //8
     sampler2D specular_map;     //80 //8    
