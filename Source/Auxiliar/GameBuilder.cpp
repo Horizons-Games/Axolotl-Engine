@@ -114,8 +114,7 @@ void CreateZip(const std::string& startingScene)
 
 	{
 		ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
-		std::unique_ptr<ModuleFileSystem::FileZippedCallback> callbackReference =
-			fileSystem->RegisterFileZippedCallback(&OnFileZipped);
+		ConnectedCallback connectedCallback = fileSystem->RegisterFileZippedCallback(&OnFileZipped);
 		fileSystem->ZipLibFolder();
 	}
 

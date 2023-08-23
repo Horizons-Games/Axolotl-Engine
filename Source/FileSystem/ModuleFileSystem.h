@@ -1,7 +1,9 @@
 #pragma once
-#include "FileSystem/UID.h"
 #include "Module.h"
-#include "physfs.h"
+
+#include "FileSystem/UID.h"
+
+#include "Auxiliar/ConnectedCallback.h"
 
 struct zip_t;
 struct FileZippedData;
@@ -48,7 +50,7 @@ public:
 	void AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const;
 
 	// Lifetime of the callback will be managed by the caller of this method
-	[[nodiscard]] std::unique_ptr<FileZippedCallback> RegisterFileZippedCallback(FileZippedCallback&& callback);
+	ConnectedCallback RegisterFileZippedCallback(FileZippedCallback&& callback);
 
 private:
 	void ZipFolderRecursive(zip_t* zip,
@@ -58,16 +60,8 @@ private:
 							std::size_t& currentItem) const;
 	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
 
-	std::vector<FileZippedCallback*> callbacks;
+	void DeregisterFileZippedCallback(UID callbackUID);
+
+	std::map<UID, FileZippedCallback> callbacks;
 	std::mutex callbacksMutex;
 };
-
-inline bool ModuleFileSystem::Exists(const char* filePath) const
-{
-	return PHYSFS_exists(filePath);
-}
-
-inline bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
-{
-	return PHYSFS_isDirectory(directoryPath);
-}
