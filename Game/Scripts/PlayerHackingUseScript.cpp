@@ -37,6 +37,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			isHackingActive = true;
 			currentTime = SDL_GetTicks();
 			maxHackTime = hackZone->GetMaxTime();
+			hackZone->GenerateCombination();
 		}
 
 	}

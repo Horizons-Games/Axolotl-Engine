@@ -20,8 +20,6 @@ void HackZoneScript::Start()
 {
 	keyCombination.reserve(sequenceSize);
 	buttonCombination.reserve(sequenceSize);
-
-	GenerateCombination();
 }
 
 void HackZoneScript::Update(float deltaTime)

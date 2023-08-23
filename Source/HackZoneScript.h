@@ -20,9 +20,7 @@ public:
 
 	const std::vector<SDL_Scancode>& GetKeyCombination() const;
 	const std::vector<SDL_GameControllerButton>& GetButtonCombination() const;
-
-private:
-
+	
 	void GenerateCombination();
 
 private:
