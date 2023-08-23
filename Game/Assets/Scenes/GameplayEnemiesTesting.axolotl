@@ -706,7 +706,7 @@
                                 },
                                 {
                                     "name": "IsImmortal",
-                                    "value": false,
+                                    "value": true,
                                     "type": 5
                                 },
                                 {
@@ -10212,7 +10212,7 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 50.0,
+                                    "value": 5.0,
                                     "type": 0
                                 },
                                 {
@@ -10262,12 +10262,12 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 10000.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "MaxHealth",
-                                    "value": 10000.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -16312,87 +16312,6 @@
         },
         {
             "GameObject": {
-                "name": "Bullet",
-                "tag": "",
-                "uid": 9730990294478485049,
-                "parentUID": 6043398887632489792,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 4.159226136835059e-7,
-                            "localPos_Y": 2.0559122562408447,
-                            "localPos_Z": 3.01865291595459,
-                            "localRot_X": -90.00001525878906,
-                            "localRot_Y": -0.00002231179314549081,
-                            "localRot_Z": -179.99998474121094,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_AudioSource",
-                            "active": true,
-                            "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": false,
-                            "isTrigger": false,
-                            "drawCollider": false,
-                            "mass": 1.0,
-                            "linearDamping": 0.10000000149011612,
-                            "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
-                            "currentShape": 1,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806,
-                            "gravity_Y": 0.0,
-                            "boxSize_X": 0.24999985098838806,
-                            "boxSize_Y": 0.4375,
-                            "boxSize_Z": 0.24999979138374329,
-                            "radius": 4.499998569488525,
-                            "factor": 0.5,
-                            "height": 2.0,
-                            "rbPos_X": -16.662200927734375,
-                            "rbPos_Y": 0.9167737364768982,
-                            "rbPos_Z": 0.9055957794189453,
-                            "xAxisBlocked": false,
-                            "yAxisBlocked": false,
-                            "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
-                            "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Venomite_Soldier 1",
                 "tag": "Enemy",
                 "uid": 6043398887632489792,
@@ -16574,7 +16493,7 @@
                                 },
                                 {
                                     "name": "BulletPrefab",
-                                    "value": 9730990294478485049,
+                                    "value": 5323735963578681656,
                                     "type": 2
                                 },
                                 {
@@ -16629,12 +16548,12 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 10000.0,
+                                    "value": 60.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "MaxHealth",
-                                    "value": 10000.0,
+                                    "value": 60.0,
                                     "type": 0
                                 },
                                 {
@@ -26001,6 +25920,87 @@
                             "particleSystemUID": 4995696200075722307,
                             "assetPathParticleSystem": "Assets/ParticleSystem/EnemyExclamation.particle",
                             "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bullet",
+                "tag": "",
+                "uid": 5323735963578681656,
+                "parentUID": 6043398887632489792,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.49144744873046875,
+                            "localPos_Y": 2.5379278659820557,
+                            "localPos_Z": 5.343225955963135,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": -0.000049632551963441074,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.0833333358168602,
+                            "localSca_Y": 0.75,
+                            "localSca_Z": 0.0833333358168602
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 11995748887294444002,
+                            "assetPathMaterial": "Assets/Materials/DroneBulletMaterial.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": false,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.07499995827674866,
+                            "boxSize_Y": 0.1312500238418579,
+                            "boxSize_Z": 0.07499995082616806,
+                            "radius": 4.499998569488525,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -16.809635162353516,
+                            "rbPos_Y": 0.7613784074783325,
+                            "rbPos_Z": 1.6029678583145142,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]

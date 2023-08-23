@@ -128,6 +128,8 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
+	
+	bullet->GetComponent<ComponentTransform>()->SetGlobalPosition(shootPosition->GetGlobalPosition());
 
 	// Attach the RangedFastAttackBullet script to the new bullet to give it its logic
 	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
