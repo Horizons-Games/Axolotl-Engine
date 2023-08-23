@@ -15,6 +15,9 @@ public:
 	float GetInfluenceRadius() const;
 	float GetMaxTime() const;
 
+	bool GetCompleted() const;
+	void SetCompleted();
+
 	const std::vector<SDL_Scancode>& GetKeyCombination() const;
 	const std::vector<SDL_GameControllerButton>& GetButtonCombination() const;
 
@@ -27,6 +30,7 @@ private:
 	float influenceRadius;
 	float maxTime;
 	int sequenceSize;
+	bool completed;
 
 	std::vector<SDL_Scancode> keyCombination;
 	std::vector<SDL_GameControllerButton> buttonCombination;
@@ -49,5 +53,15 @@ inline const std::vector<SDL_Scancode>& HackZoneScript::GetKeyCombination() cons
 inline const std::vector<SDL_GameControllerButton>& HackZoneScript::GetButtonCombination() const
 {
 	return buttonCombination;
+}
+
+inline bool HackZoneScript::GetCompleted() const
+{
+	return completed;
+}
+
+inline void HackZoneScript::SetCompleted()
+{
+	completed = true;
 }
 

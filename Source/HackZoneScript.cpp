@@ -7,7 +7,7 @@
 REGISTERCLASS(HackZoneScript);
 
 HackZoneScript::HackZoneScript() 
-	: Script()
+	: Script(), completed(false)
 {
 	REGISTER_FIELD(influenceRadius, float);
 	REGISTER_FIELD(maxTime, float);
