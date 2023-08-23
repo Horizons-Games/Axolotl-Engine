@@ -60,7 +60,7 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["tilingy"] = static_cast<float>(loadOptions.tiling.y);
 	meta["offsetx"] = static_cast<float>(loadOptions.offset.x);
 	meta["offsety"] = static_cast<float>(loadOptions.offset.y);
-	meta["percentagex"] = static_cast<float>(loadOptions.percentage.y);
+	meta["percentagex"] = static_cast<float>(loadOptions.percentage.x);
 	meta["percentagey"] = static_cast<float>(loadOptions.percentage.y);
 	meta["intensityBloom"] = static_cast<float>(loadOptions.intensityBloom);
 }
