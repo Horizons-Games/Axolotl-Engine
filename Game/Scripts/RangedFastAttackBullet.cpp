@@ -22,8 +22,9 @@
 
 REGISTERCLASS(RangedFastAttackBullet);
 
-RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), audioSource(nullptr),
-	bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f), particleSystem(nullptr)
+RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), 
+audioSource(nullptr), bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f), 
+particleSystem(nullptr)
 {
 }
 
@@ -88,4 +89,9 @@ void RangedFastAttackBullet::DestroyBullet()
 void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)
 {
 	velocity = nVelocity;
+}
+
+void RangedFastAttackBullet::SetBulletDamage(float damage)
+{
+	damageAttack = damage;
 }

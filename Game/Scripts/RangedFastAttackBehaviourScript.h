@@ -48,6 +48,7 @@ private:
 
 	GameObject* bulletPrefab;
 	float bulletVelocity;
+	float AttackDamage;
 
 	float preShotDuration;
 	bool isPreShooting;

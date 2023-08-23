@@ -10212,7 +10212,12 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 5.0,
+                                    "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
@@ -13259,6 +13264,11 @@
                                 {
                                     "name": "BulletVelocity",
                                     "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
@@ -16499,6 +16509,11 @@
                                 {
                                     "name": "BulletVelocity",
                                     "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackDamage",
+                                    "value": 7.0,
                                     "type": 0
                                 },
                                 {
@@ -20262,6 +20277,11 @@
                                 {
                                     "name": "BulletVelocity",
                                     "value": 50.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {

@@ -19,6 +19,7 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	void SetBulletVelocity(float nVelocity);
+	void SetBulletDamage(float damage);
 
 private:
 	void InitializeBullet();

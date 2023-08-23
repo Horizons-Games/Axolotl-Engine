@@ -28,12 +28,13 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
 	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
 	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
-	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false)
+	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), AttackDamage(10.0f)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
+	REGISTER_FIELD(AttackDamage, float);
 	REGISTER_FIELD(shootPosition, ComponentTransform*);
 	REGISTER_FIELD(particleSystemShot, ComponentParticleSystem*);
 	REGISTER_FIELD(particleSystemPreShot, ComponentParticleSystem*);
@@ -138,6 +139,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	script->GetScript()->SetOwner(bullet);
 
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
+	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(AttackDamage);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
