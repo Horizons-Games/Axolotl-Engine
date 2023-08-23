@@ -16,7 +16,7 @@ struct Material {
     int has_emissive_map;       //44 //4
     float smoothness;           //48 //4
     float normal_strength;      //52 //4
-	float intensityBloom;		//56 //4
+    float intensityBloom;		//56 //4
     sampler2D diffuse_map;      //64 //8
     sampler2D normal_map;       //72 //8
     sampler2D specular_map;     //80 //8    
