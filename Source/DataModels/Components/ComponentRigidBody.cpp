@@ -48,7 +48,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 }
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
-	Component(ComponentType::RIGIDBODY, toCopy.IsEnabled(), toCopy.GetOwner(), true),
+	Component(toCopy),
 	isKinematic(toCopy.isKinematic),
 	isTrigger(toCopy.isTrigger),
 	currentShape(toCopy.currentShape),
@@ -62,6 +62,9 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	KpTorque(toCopy.KpTorque),
 	mass(toCopy.mass)
 {
+	// we need an owner to perform the calculations here, so use this hack to avoid having to change the existing code
+	SetOwner(toCopy.GetOwner());
+
 	id = GenerateId();
 
 	transform = toCopy.transform;
@@ -86,6 +89,9 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	SetCollisionShape(currentShape);
 
 	SetGravity(toCopy.gravity);
+
+	// return the component to the expected state
+	SetOwner(nullptr);
 }
 
 ComponentRigidBody::~ComponentRigidBody()
@@ -167,7 +173,10 @@ void ComponentRigidBody::Update()
 void ComponentRigidBody::SetOwner(GameObject* owner)
 {
 	Component::SetOwner(owner);
-	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	if (owner != nullptr)
+	{
+		transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	}
 }
 
 void ComponentRigidBody::UpdateRigidBody()
