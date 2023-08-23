@@ -27,7 +27,8 @@ void WindowComponentAreaLight::DrawWindowContents()
 
 	if (asAreaLight)
 	{
-		const char* lightTypes[] = { "SPHERE", "TUBE" }; //TODO ADD the rest of types once there are implemented
+		AXO_TODO("ADD the rest of types once there are implemented");
+		const char* lightTypes[] = { "SPHERE", "TUBE" };
 
 		const char* currentType;
 
