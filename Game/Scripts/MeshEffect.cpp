@@ -16,11 +16,24 @@ MeshEffect::MeshEffect() : Script(), maxTime(0.f), timeBetween(0.f), effectTime(
 
 void MeshEffect::Start()
 {
-	FillMeshes(owner);
 }
 
 void MeshEffect::Update(float deltaTime)
 {
+}
+
+void MeshEffect::FillMeshes(GameObject* parent)
+{
+	ComponentMeshRenderer* mesh = parent->GetComponentInternal<ComponentMeshRenderer>();
+	if (mesh)
+	{
+		meshes.push_back(mesh);
+	}
+
+	for (GameObject* child : parent->GetChildren())
+	{
+		FillMeshes(child);
+	}
 }
 
 void MeshEffect::StartEffect(float maxTime, float timeBetween)
@@ -60,20 +73,6 @@ void MeshEffect::DamageEffect()
 	{
 		activateEffect = false;
 		ClearEffect();
-	}
-}
-
-void MeshEffect::FillMeshes(GameObject* parent)
-{
-	ComponentMeshRenderer* mesh = parent->GetComponentInternal<ComponentMeshRenderer>();
-	if (mesh)
-	{
-		meshes.push_back(mesh);
-	}
-
-	for (GameObject* child : parent->GetChildren())
-	{
-		FillMeshes(child);
 	}
 }
 

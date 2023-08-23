@@ -23,6 +23,8 @@ isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr), hitEffec
 	REGISTER_FIELD(maxHealth, float);
 	REGISTER_FIELD(isImmortal, bool);
 	REGISTER_FIELD(enemyParticleSystem, GameObject*);
+
+	REGISTER_FIELD(meshEffect, MeshEffect*);
 }
 
 void HealthSystem::Start()
@@ -48,7 +50,7 @@ void HealthSystem::Start()
 		maxHealth = currentHealth;
 	}
 
-	meshEffect = owner->GetComponent<MeshEffect>();
+	meshEffect->FillMeshes(owner);
 	meshEffect->ReserveSpace(1);
 	meshEffect->AddColor(float3(1.f, 0.f, 0.f));
 

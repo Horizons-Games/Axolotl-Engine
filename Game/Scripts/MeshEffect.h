@@ -17,6 +17,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void FillMeshes(GameObject* parent);
+
 	void ReserveSpace(int space);
 	void AddColor(float3 color);
 	void AddColors(std::vector<float3> colors);
@@ -31,7 +33,6 @@ public:
 	void SetMaxTime(float maxTime);
 
 private:
-	void FillMeshes(GameObject* parent);
 	void EffectDiscard();
 	void EffectColor(float3 color);
 
