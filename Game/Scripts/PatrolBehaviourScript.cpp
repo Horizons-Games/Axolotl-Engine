@@ -44,7 +44,7 @@ void PatrolBehaviourScript::Update(float deltaTime)
 		{
 			Patrolling();
 		}
-		else if (SDL_GetTicks() / 1000.0f >= originStopTime + patrolStopDuration)
+		else if (waypointsPatrol.size() > 1 && SDL_GetTicks() / 1000.0f >= originStopTime + patrolStopDuration)
 		{
 			isStoppedAtPatrol = false;
 
