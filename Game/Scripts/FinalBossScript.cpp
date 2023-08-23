@@ -15,7 +15,7 @@ REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
-	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::WALKING),
+	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
 	shieldAttackScript(nullptr)
 {
 	REGISTER_FIELD(target, GameObject*);
@@ -53,24 +53,22 @@ void FinalBossScript::Update(float deltaTime)
 	*/
 
 	// Uncomment this to check the plasma hammer attack -----------------------
-	
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
 		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	
+	*/
 
 	// Uncomment this to check the brutal charge attack ------------------------------
-	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack())
 	{
  		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	*/
 
 	// Uncomment this to check the energy shield attack -----------------------
 	/*
@@ -89,7 +87,7 @@ void FinalBossScript::Update(float deltaTime)
 		rigidBody->SetIsKinematic(false);
 		rigidBody->SetUpMobility();
 
-		patrolScript->Patrolling();
+		patrolScript->Patrolling(bossState != FinalBossStates::WALKING);
 		bossState = FinalBossStates::WALKING;
 	}
 }

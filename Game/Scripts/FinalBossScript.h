@@ -32,6 +32,7 @@ enum class FinalBossPhases
 
 enum class FinalBossStates
 {
+	IDLE,
 	WALKING,
 	ATTACKING,
 	DEFENDING

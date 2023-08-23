@@ -53,4 +53,6 @@ private:
 
 	GameObject* batonGameObject;
 	GameObject* blasterGameObject;
+
+	bool isFirstPatrolling;
 };

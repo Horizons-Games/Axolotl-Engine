@@ -21,7 +21,7 @@ REGISTERCLASS(EnemyDroneScript);
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
 	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE), 
-	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr)
+	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr), isFirstPatrolling(true)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -156,20 +156,20 @@ void EnemyDroneScript::Update(float deltaTime)
 	if (!IsSpawnedEnemy() && patrolScript && droneState == DroneBehaviours::PATROL)
 	{
 		seekScript->EnableMovement();
-		patrolScript->Patrolling();
+		patrolScript->Patrolling(isFirstPatrolling);
+		isFirstPatrolling = false;
 
 		componentAnimation->SetParameter("IsSeeking", false);
 	}
-
-	if (seekScript && droneState == DroneBehaviours::SEEK)
+	else if (seekScript && droneState == DroneBehaviours::SEEK)
 	{
 		seekScript->Seeking();
+		isFirstPatrolling = true;
 
 		componentAnimation->SetParameter("IsSeeking", true);
 		componentAnimation->SetParameter("IsAttacking", false);
 	}
-
-	if (seekScript && fastAttackScript && droneState == DroneBehaviours::FASTATTACK)
+	else if (seekScript && fastAttackScript && droneState == DroneBehaviours::FASTATTACK)
 	{
 		if (fastAttackScript->IsAttackAvailable())
 		{
@@ -189,12 +189,14 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 
 		seekScript->RotateToTarget();
+		isFirstPatrolling = true;
 	}
-
-	if (seekScript && heavyAttackScript && droneState == DroneBehaviours::EXPLOSIONATTACK)
+	else if (seekScript && heavyAttackScript && droneState == DroneBehaviours::EXPLOSIONATTACK)
 	{
 		seekScript->RotateToTarget();
 		heavyAttackScript->TriggerExplosion();
+
+		isFirstPatrolling = true;
 	}
 }
 

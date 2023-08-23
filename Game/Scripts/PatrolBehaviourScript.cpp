@@ -4,10 +4,11 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "debugdraw.h"
+#include "AxoLog.h"
 
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), currentWaypoint(0),
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), currentWaypointIndex(0),
 	ownerRigidBody(nullptr), ownerTransform(nullptr), currentWayPointTransform(nullptr)
 {
 	REGISTER_FIELD(waypoints, std::vector<GameObject*>);
@@ -26,24 +27,48 @@ void PatrolBehaviourScript::Start()
 	currentWayPointTransform = transformWaypoints[0];
 }
 
-void PatrolBehaviourScript::Patrolling()
+void PatrolBehaviourScript::Patrolling(bool isFirstPatrolling)
 {
-	if (ownerTransform->GetGlobalPosition().Equals(transformWaypoints[currentWaypoint]->GetGlobalPosition(), 2.0f))
+	if (isFirstPatrolling)
 	{
-		if (currentWaypoint + 1 < transformWaypoints.size())
+		GetNearestPatrollingPoint();
+	}
+
+	else if (ownerTransform->GetGlobalPosition().
+		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
+	{
+		if (currentWaypointIndex + 1 < transformWaypoints.size())
 		{
-			currentWayPointTransform = transformWaypoints[currentWaypoint + 1];
-			currentWaypoint += 1;
+			currentWayPointTransform = transformWaypoints[currentWaypointIndex + 1];
+			currentWaypointIndex += 1;
 		}
 
 		else
 		{
 			currentWayPointTransform = transformWaypoints[0];
-			currentWaypoint = 0;
+			currentWaypointIndex = 0;
 		}
 	}
 
 	SetProportionalController();
+}
+
+void PatrolBehaviourScript::RandomPatrolling() const
+{
+
+}
+
+void PatrolBehaviourScript::GetNearestPatrollingPoint()
+{
+	for (int i = 0; i < transformWaypoints.size() ; ++i)
+	{
+		if (ownerTransform->GetGlobalPosition().Distance(transformWaypoints[i]->GetGlobalPosition()) <=
+			ownerTransform->GetGlobalPosition().Distance(currentWayPointTransform->GetGlobalPosition()))
+		{
+			currentWayPointTransform = transformWaypoints[i];
+			currentWaypointIndex = i;
+		}
+	}
 }
 
 void PatrolBehaviourScript::SetProportionalController() const

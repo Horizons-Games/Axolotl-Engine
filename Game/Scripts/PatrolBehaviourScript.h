@@ -15,12 +15,15 @@ public:
 
 	void Start() override;
 
-	void Patrolling();
+	void Patrolling(bool isFirstPatrolling);
+	void RandomPatrolling() const; // Primarely for bosses
 
 private:
+	void GetNearestPatrollingPoint();
+
 	std::vector<GameObject*> waypoints;
 	std::vector<ComponentTransform*> transformWaypoints;
-	int currentWaypoint;
+	int currentWaypointIndex;
 
 	ComponentTransform* currentWayPointTransform;
 	ComponentTransform* ownerTransform;

@@ -19,7 +19,7 @@ REGISTERCLASS(EnemyVenomiteScript);
 EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
 	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(1.5f), meleeAttackScript(nullptr),
 	healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), componentAudioSource(nullptr),
-	batonGameObject(nullptr), blasterGameObject(nullptr)
+	batonGameObject(nullptr), blasterGameObject(nullptr), isFirstPatrolling(true)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
@@ -111,19 +111,20 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		blasterGameObject->Disable();
 
 		seekScript->EnableMovement();
-		patrolScript->Patrolling();
+		patrolScript->Patrolling(isFirstPatrolling);
+		isFirstPatrolling = false;
 
 		componentAnimation->SetParameter("IsRunning", true);
 		componentAnimation->SetParameter("IsRangedAttacking", false);
 	}
-
-	if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
+	else if (seekScript && !rangedAttackScripts.empty() && venomiteState == VenomiteBehaviours::RANGED_ATTACK)
 	{
 		batonGameObject->Disable();
 		blasterGameObject->Enable();
 
 		seekScript->Seeking();
 		seekScript->DisableMovement();
+		isFirstPatrolling = true;
 
 		componentAnimation->SetParameter("IsRangedAttacking", true);
 
@@ -141,8 +142,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		componentAnimation->SetParameter("IsRunning", false);
 	}
-
-	if (seekScript && venomiteState == VenomiteBehaviours::SEEK)
+	else if (seekScript && venomiteState == VenomiteBehaviours::SEEK)
 	{
 		// Seeking with more than half of its life, set blaster active
 		// (will be performing RANGED_ATTACK state when quiet)
@@ -161,19 +161,20 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 		seekScript->EnableMovement();
 		seekScript->Seeking();
+		isFirstPatrolling = true;
 
 		componentAnimation->SetParameter("IsRunning", true);
 		componentAnimation->SetParameter("IsRangedAttacking", false);
 		componentAnimation->SetParameter("IsMeleeAttacking", false);
 	}
-
-	if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
+	else if (seekScript && meleeAttackScript && venomiteState == VenomiteBehaviours::MELEE_ATTACK)
 	{
 		batonGameObject->Enable();
 		blasterGameObject->Disable();
 
 		seekScript->Seeking();
 		seekScript->DisableMovement();
+		isFirstPatrolling = true;
 
 		if (meleeAttackScript->IsAttackAvailable())
 		{

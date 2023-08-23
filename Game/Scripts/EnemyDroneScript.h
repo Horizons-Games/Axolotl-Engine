@@ -61,4 +61,6 @@ private:
 	ComponentTransform* seekTargetTransform;
 
 	PlayerManagerScript* playerManager;
+
+	bool isFirstPatrolling;
 };
