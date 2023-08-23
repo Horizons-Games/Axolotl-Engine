@@ -54,7 +54,6 @@ in flat int InstanceIndex;
 
 void main()
 {    
-
     Material material = materials[InstanceIndex];
     Tiling tiling = tilings[InstanceIndex];
 
