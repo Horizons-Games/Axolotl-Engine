@@ -15,6 +15,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -24,7 +25,7 @@ REGISTERCLASS(RangedFastAttackBullet);
 
 RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), 
 audioSource(nullptr), bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f), 
-particleSystem(nullptr)
+particleSystem(nullptr), waitParticlesToDestroy(false), particlesDuration(1.0f), mesh(nullptr)
 {
 }
 
@@ -35,7 +36,12 @@ void RangedFastAttackBullet::Start()
 
 void RangedFastAttackBullet::Update(float deltaTime)
 {
-	if (SDL_GetTicks() / 1000.0f > originTime + bulletLifeTime)
+	if (waitParticlesToDestroy)
+	{
+		particlesDuration -= deltaTime;
+	}
+
+	if (SDL_GetTicks() / 1000.0f > originTime + bulletLifeTime || particlesDuration <= 0.0f)
 	{
 		DestroyBullet();
 	}
@@ -43,7 +49,7 @@ void RangedFastAttackBullet::Update(float deltaTime)
 
 void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->IsTrigger() || other->GetOwner()->CompareTag("Enemy"))
+	if (other->IsTrigger() || other->GetOwner()->CompareTag("Enemy") || waitParticlesToDestroy)
 	{
 		return;
 	}
@@ -55,7 +61,15 @@ void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	}
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
-	DestroyBullet();
+
+	mesh->Disable();
+	rigidBody->Disable();
+	if (particleSystem)
+	{
+		particleSystem->Play();
+	}
+	waitParticlesToDestroy = true;
+
 }
 
 void RangedFastAttackBullet::InitializeBullet()
@@ -63,6 +77,8 @@ void RangedFastAttackBullet::InitializeBullet()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
+	particleSystem = GetOwner()->GetComponent<ComponentParticleSystem>();
+	mesh = GetOwner()->GetComponent<ComponentMeshRenderer>();
 
 	rigidBody->Enable();
 	rigidBody->SetDefaultPosition();

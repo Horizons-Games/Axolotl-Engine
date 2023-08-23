@@ -12969,9 +12969,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 7.958078640513122e-13,
+                            "localPos_X": 0.0001316070556640625,
                             "localPos_Y": 0.45648980140686035,
-                            "localPos_Z": 1.7518962621688843,
+                            "localPos_Z": 2.894495964050293,
                             "localRot_X": 90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -13022,15 +13022,25 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 21.462554931640625,
+                            "rbPos_X": 21.46242332458496,
                             "rbPos_Y": 1.0531424283981323,
-                            "rbPos_Z": 2.870622158050537,
+                            "rbPos_Z": 4.013221740722656,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
                             "xRotationAxisBlocked": false,
                             "yRotationAxisBlocked": false,
                             "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 2394911383227217054,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ShotCollision.particle",
+                            "playAtStart": false
                         }
                     }
                 ]
@@ -26021,6 +26031,16 @@
                             "xRotationAxisBlocked": false,
                             "yRotationAxisBlocked": false,
                             "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 2394911383227217054,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ShotCollision.particle",
+                            "playAtStart": false
                         }
                     }
                 ]

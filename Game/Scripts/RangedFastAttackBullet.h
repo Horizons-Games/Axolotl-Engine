@@ -6,6 +6,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
 class ComponentParticleSystem;
+class ComponentMeshRenderer;
 
 class RangedFastAttackBullet : public Script
 {
@@ -30,9 +31,12 @@ private:
 	float damageAttack;
 	float rayAttackSize;
 	float originTime;
+	bool waitParticlesToDestroy;
+	float particlesDuration;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	ComponentAudioSource* audioSource;
 	ComponentParticleSystem* particleSystem;
+	ComponentMeshRenderer* mesh;
 };
