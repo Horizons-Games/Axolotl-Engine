@@ -41,3 +41,8 @@ void PlayerHackingUseScript::DisableAllInteractions()
 {
 
 }
+
+void PlayerHackingUseScript::EnableAllInteractions()
+{
+
+}
