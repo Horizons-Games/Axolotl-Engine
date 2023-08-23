@@ -16,7 +16,7 @@ public:
 	void Start() override;
 
 	void Patrolling(bool isFirstPatrolling);
-	void RandomPatrolling() const; // Primarely for bosses
+	void RandomPatrolling(bool isFirstPatrolling); // Primarily for bosses
 
 private:
 	void GetNearestPatrollingPoint();

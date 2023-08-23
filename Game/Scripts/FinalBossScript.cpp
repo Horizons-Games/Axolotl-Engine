@@ -83,11 +83,11 @@ void FinalBossScript::Update(float deltaTime)
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking() &&
 			!shieldAttackScript->IsAttacking())
 	{
-		rigidBody->SetKpForce(0.25f);
+		rigidBody->SetKpForce(0.3f);
 		rigidBody->SetIsKinematic(false);
 		rigidBody->SetUpMobility();
 
-		patrolScript->Patrolling(bossState != FinalBossStates::WALKING);
+		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		bossState = FinalBossStates::WALKING;
 	}
 }

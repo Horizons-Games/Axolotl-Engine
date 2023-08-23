@@ -33,7 +33,6 @@ void PatrolBehaviourScript::Patrolling(bool isFirstPatrolling)
 	{
 		GetNearestPatrollingPoint();
 	}
-
 	else if (ownerTransform->GetGlobalPosition().
 		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
 	{
@@ -42,7 +41,6 @@ void PatrolBehaviourScript::Patrolling(bool isFirstPatrolling)
 			currentWayPointTransform = transformWaypoints[currentWaypointIndex + 1];
 			currentWaypointIndex += 1;
 		}
-
 		else
 		{
 			currentWayPointTransform = transformWaypoints[0];
@@ -53,9 +51,22 @@ void PatrolBehaviourScript::Patrolling(bool isFirstPatrolling)
 	SetProportionalController();
 }
 
-void PatrolBehaviourScript::RandomPatrolling() const
+void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 {
+	if (isFirstPatrolling)
+	{
+		GetNearestPatrollingPoint();
+	}
+	else if (ownerTransform->GetGlobalPosition().
+		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
+	{
+		int randomWaypointSelected = rand() % static_cast<int>(transformWaypoints.size());
 
+		currentWayPointTransform = transformWaypoints[randomWaypointSelected];
+		currentWaypointIndex = randomWaypointSelected;
+	}
+
+	SetProportionalController();
 }
 
 void PatrolBehaviourScript::GetNearestPatrollingPoint()

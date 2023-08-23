@@ -12401,13 +12401,25 @@
                                             "value": 15576741301376158987
                                         },
                                         {
+                                            "value": 6210410412655290256
+                                        },
+                                        {
                                             "value": 12227018763558952827
+                                        },
+                                        {
+                                            "value": 8171916458865435345
                                         },
                                         {
                                             "value": 890012990303009977
                                         },
                                         {
+                                            "value": 3401296672624456084
+                                        },
+                                        {
                                             "value": 13417053797819925637
+                                        },
+                                        {
+                                            "value": 8999372875978213574
                                         }
                                     ],
                                     "innerType": 2
@@ -12581,7 +12593,7 @@
                 "name": "Boss Waypoint 1",
                 "tag": "",
                 "uid": 15576741301376158987,
-                "parentUID": 9011007661183311806,
+                "parentUID": 7180439960951978768,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -12593,9 +12605,9 @@
                             "localPos_X": 22.0,
                             "localPos_Y": 2.75,
                             "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localRot_X": -0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
+                            "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -12606,10 +12618,10 @@
         },
         {
             "GameObject": {
-                "name": "Boss Waypoint 2",
+                "name": "Boss Waypoint 3",
                 "tag": "",
                 "uid": 12227018763558952827,
-                "parentUID": 9011007661183311806,
+                "parentUID": 7180439960951978768,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -12634,10 +12646,10 @@
         },
         {
             "GameObject": {
-                "name": "Boss Waypoint 3",
+                "name": "Boss Waypoint 5",
                 "tag": "",
                 "uid": 890012990303009977,
-                "parentUID": 9011007661183311806,
+                "parentUID": 7180439960951978768,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -12662,10 +12674,10 @@
         },
         {
             "GameObject": {
-                "name": "Boss Waypoint 4",
+                "name": "Boss Waypoint 7",
                 "tag": "",
                 "uid": 13417053797819925637,
-                "parentUID": 9011007661183311806,
+                "parentUID": 7180439960951978768,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -79864,6 +79876,146 @@
                             "particleSystemUID": 3999053471174024690,
                             "assetPathParticleSystem": "Assets/ParticleSystem/DetectParticle.particle",
                             "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Final Boss Waypoints",
+                "tag": "",
+                "uid": 7180439960951978768,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 2",
+                "tag": "",
+                "uid": 6210410412655290256,
+                "parentUID": 7180439960951978768,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": -6.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 4",
+                "tag": "",
+                "uid": 8171916458865435345,
+                "parentUID": 7180439960951978768,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": -6.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 6",
+                "tag": "",
+                "uid": 3401296672624456084,
+                "parentUID": 7180439960951978768,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": 6.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Waypoint 8",
+                "tag": "",
+                "uid": 8999372875978213574,
+                "parentUID": 7180439960951978768,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.0,
+                            "localPos_Y": 2.75,
+                            "localPos_Z": 6.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
                         }
                     }
                 ]
