@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
-#include "ComponentRigidBody.h"
 #include "Application.h"
+#include "ComponentRigidBody.h"
 #include "ComponentTransform.h"
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
@@ -101,7 +101,11 @@ ComponentRigidBody::~ComponentRigidBody()
 
 void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 {
-	assert(other);
+	if (other == nullptr)
+	{
+		LOG_ERROR("Rigidbody owned by {} collided with a null game object; this should never happen.", GetOwner());
+		return;
+	}
 
 	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
@@ -111,13 +115,21 @@ void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 {
-	// TODO: Implement delegate for this
-	assert(other);
+#pragma message(__FILE__ " TODO: Implement delegate for this")
+	if (other == nullptr)
+	{
+		LOG_ERROR("Rigidbody owned by {} collided with a null game object; this should never happen.", GetOwner());
+		return;
+	}
 }
 
 void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 {
-	assert(other);
+	if (other == nullptr)
+	{
+		LOG_ERROR("Rigidbody owned by {} collided with a null game object; this should never happen.", GetOwner());
+		return;
+	}
 
 	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
@@ -227,7 +239,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
 	}
 	else if (IsStatic())
-	{	
+	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
@@ -379,6 +391,7 @@ void ComponentRigidBody::ClearCollisionEnterDelegate()
 {
 	delegateCollisionEnter.clear();
 }
+
 void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
 {
 	drawCollider = newDrawCollider;
@@ -449,7 +462,6 @@ void ComponentRigidBody::SetDefaultPosition()
 	UpdateRigidBody();
 }
 
-
 bool ComponentRigidBody::IsStatic() const
 {
 	return GetOwner()->IsStatic();
@@ -458,9 +470,7 @@ bool ComponentRigidBody::IsStatic() const
 void ComponentRigidBody::SetStatic(bool newStatic)
 {
 	GetOwner()->SetStatic(newStatic);
-
 }
-
 
 void ComponentRigidBody::UpdateBlockedAxis()
 {
@@ -476,7 +486,7 @@ void ComponentRigidBody::UpdateBlockedRotationAxis()
 void ComponentRigidBody::SetAngularFactor(btVector3 rotation)
 {
 	rigidBody->setAngularFactor(btVector3(rotation.getX() * !IsXRotationAxisBlocked(),
-										  rotation.getY() *!IsYRotationAxisBlocked(),
+										  rotation.getY() * !IsYRotationAxisBlocked(),
 										  rotation.getZ() * !IsZRotationAxisBlocked()));
 }
 
