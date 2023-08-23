@@ -429,6 +429,7 @@
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp" />
     <ClCompile Include="Auxiliar\SceneLoader.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp" />
+    <ClCompile Include="CombatZoneScript.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
@@ -886,6 +887,7 @@
     <ClInclude Include="DataModels\Components\ComponentAgent.h" />
     <ClInclude Include="DataModels\Components\ComponentObstacle.h" />
     <ClInclude Include="DataModels\Animation\StateMachine.h" />
+    <ClInclude Include="CombatZoneScript.h" />
     <ClInclude Include="DataModels\Components\ComponentCameraSample.h" />
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />

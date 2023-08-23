@@ -707,6 +707,7 @@
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="CombatZoneScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1452,6 +1453,7 @@
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="CombatZoneScript.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
