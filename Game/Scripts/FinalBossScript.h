@@ -14,6 +14,7 @@ class HealthSystem;
 class BossChargeAttackScript;
 class ShockWaveAttackScript;
 class BossShieldAttackScript;
+class BossMissilesAttackScript;
 
 enum class FinalBossPhases
 {
@@ -62,6 +63,7 @@ private:
 	BossChargeAttackScript* chargeAttackScript;
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
+	BossMissilesAttackScript* missilesAttackScript;
 
 	bool isLookingAtTarget;
 

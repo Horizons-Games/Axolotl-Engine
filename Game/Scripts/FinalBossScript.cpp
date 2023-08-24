@@ -10,13 +10,14 @@
 #include "../Scripts/BossChargeAttackScript.h"
 #include "../Scripts/ShockWaveAttackScript.h"
 #include "../Scripts/BossShieldAttackScript.h"
+#include "../Scripts/BossMissilesAttackScript.h"
 
 REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
-	shieldAttackScript(nullptr)
+	shieldAttackScript(nullptr), missilesAttackScript(nullptr)
 {
 	REGISTER_FIELD(target, GameObject*);
 }
@@ -35,6 +36,7 @@ void FinalBossScript::Start()
 	chargeAttackScript = owner->GetComponent<BossChargeAttackScript>();
 	shockWaveAttackScript = owner->GetComponent<ShockWaveAttackScript>();
 	shieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
+	missilesAttackScript = owner->GetComponent<BossMissilesAttackScript>();
 }
 
 void FinalBossScript::Update(float deltaTime)
@@ -63,12 +65,14 @@ void FinalBossScript::Update(float deltaTime)
 	*/
 
 	// Uncomment this to check the brutal charge attack ------------------------------
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack())
 	{
  		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
+	*/
 
 	// Uncomment this to check the energy shield attack -----------------------
 	/*
@@ -80,8 +84,17 @@ void FinalBossScript::Update(float deltaTime)
 	}
 	*/
 
+	// Uncomment this to check the energy shield attack -----------------------
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+		missilesAttackScript->CanPerformMissilesAttack())
+	{
+		missilesAttackScript->TriggerMissilesAttack();
+		bossState = FinalBossStates::ATTACKING;
+	}
+
+	/*
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking() &&
-			!shieldAttackScript->IsAttacking())
+			!shieldAttackScript->IsAttacking() && !missilesAttackScript->IsAttacking())
 	{
 		rigidBody->SetKpForce(0.3f);
 		rigidBody->SetIsKinematic(false);
@@ -90,6 +103,7 @@ void FinalBossScript::Update(float deltaTime)
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		bossState = FinalBossStates::WALKING;
 	}
+	*/
 }
 
 void FinalBossScript::ManageChangePhase()

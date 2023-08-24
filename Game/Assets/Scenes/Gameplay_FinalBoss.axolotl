@@ -12551,6 +12551,26 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossMissilesAttackScript",
+                            "fields": [
+                                {
+                                    "name": "MissilePrefab",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SafePositionTransform",
+                                    "value": 12494867948182540335,
+                                    "type": 2
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -80015,6 +80035,34 @@
                             "localPos_X": 8.0,
                             "localPos_Y": 2.75,
                             "localPos_Z": 6.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Boss Safe Position",
+                "tag": "",
+                "uid": 12494867948182540335,
+                "parentUID": 7180439960951978768,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 9.0,
+                            "localPos_Z": 26.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,

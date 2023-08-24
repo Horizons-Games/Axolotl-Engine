@@ -657,6 +657,12 @@
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossMissilesAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1352,6 +1358,12 @@
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossMissilesAttackScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1537,11 +1549,14 @@
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack">
       <UniqueIdentifier>{caa4e193-0018-420c-a3f8-aaa52180f8cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack">
+      <UniqueIdentifier>{5a54ea55-6039-4837-a5a9-37b09052d56e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack">
       <UniqueIdentifier>{ffeb3f6b-4c66-4df7-b73d-88cd2d18524b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack">
-      <UniqueIdentifier>{5a54ea55-6039-4837-a5a9-37b09052d56e}</UniqueIdentifier>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack">
+      <UniqueIdentifier>{2b97e352-8e22-4d91-ac22-fbfbf32559ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
