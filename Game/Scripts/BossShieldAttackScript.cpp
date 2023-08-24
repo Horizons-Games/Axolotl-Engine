@@ -221,7 +221,7 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, con
 	selectedEnemyTransform->RecalculateLocalMatrix();
 
 	ComponentRigidBody* selectedEnemyRigidBody = selectedEnemy->GetComponent<ComponentRigidBody>();
-	selectedEnemyRigidBody->SetDefaultPosition();
+	selectedEnemyRigidBody->UpdateRigidBody();
 
 	selectedEnemy->Enable();
 
