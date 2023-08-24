@@ -17,6 +17,8 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 private:
+	void TriggerExplosion(float deltaTime);
+
 	void DestroyMissile() const;
 
 	ComponentRigidBody* rigidBody;

@@ -39,6 +39,35 @@ void BossMissilesAttackScript::Start()
 
 void BossMissilesAttackScript::Update(float deltaTime)
 {
+	SwapBetweenAttackStates(deltaTime);
+}
+
+void BossMissilesAttackScript::TriggerMissilesAttack()
+{
+	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
+
+	initialPosition = transform->GetGlobalPosition();
+	float3 safePosition = safePositionTransform->GetGlobalPosition();
+	midJumpPosition = float3((initialPosition.x + safePosition.x) / 2.0f,
+								15.0f,
+								(initialPosition.z + safePosition.z) / 2.0f);
+
+	MoveUserToPosition(midJumpPosition);
+}
+
+bool BossMissilesAttackScript::CanPerformMissilesAttack() const
+{
+	return missilesAttackState == AttackState::NONE;
+}
+
+bool BossMissilesAttackScript::IsAttacking() const
+{
+	return missilesAttackState != AttackState::NONE &&
+		missilesAttackState != AttackState::ON_COOLDOWN;
+}
+
+void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
+{
 	// Manage the rotation and timers
 	if (missilesAttackState == AttackState::STARTING_SAFE_JUMP)
 	{
@@ -99,30 +128,6 @@ void BossMissilesAttackScript::Update(float deltaTime)
 			missilesAttackState = AttackState::NONE;
 		}
 	}
-}
-
-void BossMissilesAttackScript::TriggerMissilesAttack()
-{
-	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
-
-	initialPosition = transform->GetGlobalPosition();
-	float3 safePosition = safePositionTransform->GetGlobalPosition();
-	midJumpPosition = float3((initialPosition.x + safePosition.x) / 2.0f,
-								15.0f,
-								(initialPosition.z + safePosition.z) / 2.0f);
-
-	MoveUserToPosition(midJumpPosition);
-}
-
-bool BossMissilesAttackScript::CanPerformMissilesAttack() const
-{
-	return missilesAttackState == AttackState::NONE;
-}
-
-bool BossMissilesAttackScript::IsAttacking() const
-{
-	return missilesAttackState != AttackState::NONE &&
-		missilesAttackState != AttackState::ON_COOLDOWN;
 }
 
 void BossMissilesAttackScript::MoveUserToPosition(const float3& selectedPosition) const

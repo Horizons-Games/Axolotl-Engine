@@ -41,10 +41,7 @@ void BossMissilesMissileScript::Update(float deltaTime)
 	{
 		if (rigidBody->GetRadius() <= maxSizeExplosion)
 		{
-			rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
-			rigidBody->SetCollisionShape(rigidBody->GetShape());
-
-			// Trigger explosion particles
+			TriggerExplosion(deltaTime);
 		}
 
 		else
@@ -80,6 +77,14 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 
 		// Trigger damage particles
 	}
+}
+
+void BossMissilesMissileScript::TriggerExplosion(float deltaTime)
+{
+	rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
+	rigidBody->SetCollisionShape(rigidBody->GetShape());
+
+	// Trigger explosion particles
 }
 
 void BossMissilesMissileScript::DestroyMissile() const

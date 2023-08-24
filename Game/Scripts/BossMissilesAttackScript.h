@@ -34,6 +34,8 @@ public:
 	bool IsAttacking() const;
 
 private:
+	void SwapBetweenAttackStates(float deltaTime);
+
 	void MoveUserToPosition(const float3& selectedPosition) const;
 	void ManageMissileSpawning(float deltaTime);
 
