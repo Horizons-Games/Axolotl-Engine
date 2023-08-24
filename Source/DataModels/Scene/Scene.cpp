@@ -738,6 +738,22 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 									 }),
 							   std::end(sceneParticleSystems));
 
+	sceneComponentLines.erase(std::remove_if(std::begin(sceneComponentLines),
+		std::end(sceneComponentLines),
+		[gameObject](const ComponentLine* componentLine)
+		{
+			return componentLine->GetOwner() == gameObject;
+		}),
+		std::end(sceneComponentLines));
+
+	sceneComponentLocalIBLs.erase(std::remove_if(std::begin(sceneComponentLocalIBLs),
+		std::end(sceneComponentLocalIBLs),
+		[gameObject](const ComponentLocalIBL* lightocalIBL)
+		{
+			return lightocalIBL->GetOwner() == gameObject;
+		}),
+		std::end(sceneComponentLocalIBLs));
+
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
 													 [gameObject](const Component* interactible)
