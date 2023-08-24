@@ -7,6 +7,8 @@
 
 #include "FileSystem/Json.h"
 
+AXO_TODO("Remove this component")
+
 ComponentPlayer::ComponentPlayer(bool active, GameObject* owner) : Component(ComponentType::PLAYER, active, owner, true)
 {
 }

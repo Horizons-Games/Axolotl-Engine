@@ -400,6 +400,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="DataModels\Animation\StateMachine.cpp" />
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
@@ -829,6 +830,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Animation\StateMachine.h" />
     <ClInclude Include="DataModels\Components\ComponentCameraSample.h" />
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />
@@ -886,6 +888,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Defines\ApplicationDefines.h" />
+    <ClInclude Include="Defines\AxoTodo.h" />
     <ClInclude Include="Defines\FrustumDefines.h" />
     <ClInclude Include="Defines\ExtensionDefines.h" />
     <ClInclude Include="Defines\FileSystemDefines.h" />
