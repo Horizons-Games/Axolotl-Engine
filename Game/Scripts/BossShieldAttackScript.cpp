@@ -13,13 +13,14 @@
 #include "../Scripts/BossShieldScript.h"
 #include "../Scripts/EnemyDroneScript.h"
 #include "../Scripts/EnemyVenomiteScript.h"
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(BossShieldAttackScript);
 
 BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nullptr), isShielding(false),
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
 	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), enemiesToSpawnParent(nullptr),
-	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr)
+	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
 	REGISTER_FIELD(shieldAttackMaxCooldown, float);
@@ -49,6 +50,8 @@ void BossShieldAttackScript::Start()
 	{
 		enemiesReadyToSpawn.push_back(enemyToSpawn);
 	}
+
+	healthSystemScript = owner->GetComponent<HealthSystem>();
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
@@ -70,6 +73,8 @@ void BossShieldAttackScript::TriggerShieldAttack()
 	LOG_INFO("The shield attack was triggered");
 
 	bossShieldObject->ActivateShield();
+	healthSystemScript->SetIsImmortal(true);
+
 	isShielding = true;
 	shieldAttackCooldown = shieldAttackMaxCooldown;
 
@@ -91,6 +96,8 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 	if (isShielding)
 	{
 		shieldingTime -= deltaTime;
+		healthSystemScript->HealLife(deltaTime * 3);
+
 		if (shieldingTime <= 0.0f)
 		{
 			DisableShielding();
@@ -159,6 +166,8 @@ void BossShieldAttackScript::DisableShielding()
 	shieldingTime = shieldingMaxTime;
 
 	bossShieldObject->DeactivateShield();
+
+	healthSystemScript->SetIsImmortal(false);
 
 	triggerShieldAttackCooldown = true;
 	triggerEnemySpawning = false;

@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class BossShieldScript;
+class HealthSystem;
 
 class BossShieldAttackScript : public Script
 {
@@ -43,6 +44,8 @@ private:
 
 	std::vector<GameObject*> enemiesReadyToSpawn;
 	std::vector<GameObject*> enemiesNotReadyToSpawn;
+
+	HealthSystem* healthSystemScript;
 
 	// Modifiable values
 	float shieldingMaxTime;
