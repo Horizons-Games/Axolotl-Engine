@@ -34,6 +34,13 @@ void WindowAssetFolder::DrawWindowContents()
 		type = ResourceType::StateMachine;
 		name = "NewStateMachine";
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("Create NavMesh (PlaceHolder)"))
+	{
+		ImGui::OpenPopup("Select Name");
+		type = ResourceType::NavMesh;
+		name = "NewNavMesh";
+	}
 
 	ImGui::SameLine(0.0f, -1.0f);
 
