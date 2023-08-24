@@ -597,6 +597,9 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Animation\StateMachine.cpp">
+      <Filter>DataModels\Animation</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -1264,6 +1267,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Animation\StateMachine.h">
+      <Filter>DataModels\Animation</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentPlayerInput.h">
       <Filter>DataModels\Components</Filter>
