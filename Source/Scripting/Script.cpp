@@ -72,6 +72,15 @@ void Script::Serialize(ISimpleSerializer* pSerializer)
 				break;
 			}
 
+			case FieldType::STATEMACHINE:
+			{
+				Field<StateMachine*> field = std::get<Field<StateMachine*>>(enumAndField.second);
+				StateMachine* value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
+
 			default:
 				break;
 		}
