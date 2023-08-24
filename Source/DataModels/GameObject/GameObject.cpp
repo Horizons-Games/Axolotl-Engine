@@ -154,7 +154,8 @@ void GameObject::Load(const Json& meta)
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
+			AXO_TODO("look at this when implement metas")
+			CreateComponentLight(lightType, AreaType::NONE);
 		}
 		else if (type == ComponentType::SCRIPT)
 		{

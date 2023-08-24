@@ -172,7 +172,9 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		case ResourceType::Mesh:
 			return std::shared_ptr<EditorResource<ResourceMesh>>(
 				new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath), customDeleter);
-		case ResourceType::Scene: // TODO
+		case ResourceType::Scene:
+			// good luck with that :)
+			AXO_TODO("Implement resource scene")
 			return nullptr;
 		case ResourceType::Material:
 			return std::shared_ptr<EditorResource<ResourceMaterial>>(
@@ -210,7 +212,8 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 			return std::shared_ptr<ResourceMesh>(new ResourceMesh(uid, fileName, assetsPath, libraryPath),
 												 customDeleter);
 			break;
-		case ResourceType::Scene: // TODO
+		case ResourceType::Scene:
+			AXO_TODO("Implement resource scene")
 			return nullptr;
 		case ResourceType::Material:
 			return std::shared_ptr<ResourceMaterial>(new ResourceMaterial(uid, fileName, assetsPath, libraryPath),
