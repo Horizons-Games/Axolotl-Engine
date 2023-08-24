@@ -8,7 +8,6 @@
 #include "Geometry/Sphere.h"
 #include "ModulePhysics.h"
 #include "debugdraw.h"
-#include <ImGui/imgui.h>
 
 #include "ComponentScript.h"
 
@@ -115,7 +114,7 @@ void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 {
-#pragma message(__FILE__ " TODO: Implement delegate for this")
+	AXO_TODO("Implement delegate for this")
 	if (other == nullptr)
 	{
 		LOG_ERROR("Rigidbody owned by {} collided with a null game object; this should never happen.", GetOwner());
