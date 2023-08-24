@@ -56,7 +56,7 @@ private:
 	void ReactivateMovement() const;
 
 	void ManageNeutralPhase();
-	void ManageAggressivePhase() const;
+	void ManageAggressivePhase();
 	void ManageDefensivePhase() const;
 	void ManageLastResortPhase() const;
 
