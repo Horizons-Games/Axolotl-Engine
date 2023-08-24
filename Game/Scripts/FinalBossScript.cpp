@@ -201,8 +201,8 @@ void FinalBossScript::ManageNeutralPhase()
 
 void FinalBossScript::ManageAggressivePhase()
 {
-	int chargeChance = rand() % 750; // Double the chance of charges
-	int seekingShockWaveChance = rand() % 750;
+	int chargeChance = rand() % 500; // Triple the chance of charges
+	int seekingShockWaveChance = rand() % 500;
 	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking();
 
 	if (isAnAttackHappening)

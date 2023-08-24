@@ -28,6 +28,7 @@ public:
 private:
 	void ManageAreaBehaviour(float deltaTime);
 
+	void SeekTowardsTarget();
 	void CheckPlayerDetected();
 	void RotateToTarget(ComponentTransform* target) const;
 

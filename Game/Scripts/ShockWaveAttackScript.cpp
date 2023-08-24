@@ -72,15 +72,7 @@ void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 {
 	if (isSeeking)
 	{
-		RotateToTarget(targetPosition);
-		rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
-		rigidBody->SetKpForce(2.5f);
-
-		if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
-		{
-			isSeeking = false;
-			TriggerNormalShockWaveAttack(targetPosition);
-		}
+		SeekTowardsTarget();
 	}
 	else if (outerArea->GetAreaState() == AreaState::EXPANDING && innerArea->GetAreaState() == AreaState::EXPANDING)
 	{
@@ -97,6 +89,19 @@ void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 		{
 			ResetAreas();
 		}
+	}
+}
+
+void ShockWaveAttackScript::SeekTowardsTarget()
+{
+	RotateToTarget(targetPosition);
+	rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
+	rigidBody->SetKpForce(2.0f);
+
+	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
+	{
+		isSeeking = false;
+		TriggerNormalShockWaveAttack(targetPosition);
 	}
 }
 
