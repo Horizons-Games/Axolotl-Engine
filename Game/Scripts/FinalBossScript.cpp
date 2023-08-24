@@ -14,7 +14,7 @@
 
 REGISTERCLASS(FinalBossScript);
 
-FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::DEFENSIVE), patrolScript(nullptr), 
+FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::AGGRESSIVE), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
 	shieldAttackScript(nullptr), missilesAttackScript(nullptr)
@@ -109,12 +109,22 @@ void FinalBossScript::TryAttacksIndividually()
 		bossState = FinalBossStates::WALKING;
 	}
 
-	// Uncomment this to check the plasma hammer attack -----------------------
+	// Uncomment this to check the plasma hammer attack (NORMAL shockwave) -----------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
 	{
-		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
+		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
+		bossState = FinalBossStates::ATTACKING;
+	}
+	*/
+
+	// Uncomment this to check the plasma hammer attack (SEEKING shockwave) ----------
+	/*
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 15.0f) &&
+		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
+	{
+		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	*/
@@ -129,7 +139,7 @@ void FinalBossScript::TryAttacksIndividually()
 	}
 	*/
 
-	// Uncomment this to check the energy shield attack -----------------------
+	// Uncomment this to check the energy shield attack ------------------------------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shieldAttackScript->CanPerformShieldAttack() && !isPerformingAnAttack)
@@ -139,7 +149,7 @@ void FinalBossScript::TryAttacksIndividually()
 	}
 	*/
 
-	// Uncomment this to check the last wish missiles attack -----------------------
+	// Uncomment this to check the last wish missiles attack -------------------------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		missilesAttackScript->CanPerformMissilesAttack() && !isPerformingAnAttack)
@@ -171,7 +181,7 @@ void FinalBossScript::ManageNeutralPhase()
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
-		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
+		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// If the player is not near, the boss will have low chance to charge towards them
@@ -189,11 +199,10 @@ void FinalBossScript::ManageNeutralPhase()
 	}
 }
 
-// IMO, this phase is a bit lacking right now, maybe we could add in the future an "aggressive shockwave" that
-// rather than waiting for the player to approach, it will make the boss seek the player and attack them with it
 void FinalBossScript::ManageAggressivePhase()
 {
 	int chargeChance = rand() % 750; // Double the chance of charges
+	int seekingShockWaveChance = rand() % 750;
 	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking();
 
 	if (isAnAttackHappening)
@@ -205,7 +214,14 @@ void FinalBossScript::ManageAggressivePhase()
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
-		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
+		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
+		bossState = FinalBossStates::ATTACKING;
+	}
+	// In this phase, shockwaves will not only happen when the player gets near the boss,
+	// but also the boss would come and get the player too
+	else if (seekingShockWaveChance < 1 && shockWaveAttackScript->CanPerformShockWaveAttack())
+	{
+		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// If the player is not near, the boss will have low chance to charge towards them
@@ -226,7 +242,7 @@ void FinalBossScript::ManageAggressivePhase()
 void FinalBossScript::ManageDefensivePhase()
 {
 	int chargeChance = rand() % 2000; // Reduce a lot the chance of charges
-	int shieldChance = rand() % 1000; // Reduce a lot the chance of charges
+	int shieldChance = rand() % 1000;
 	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking() ||
 		shieldAttackScript->IsAttacking();
 
@@ -245,7 +261,7 @@ void FinalBossScript::ManageDefensivePhase()
 	else if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
-		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
+		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// If the player is not near, the boss will have low chance to charge towards them

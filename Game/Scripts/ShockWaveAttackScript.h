@@ -19,7 +19,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void TriggerShockWaveAttack(ComponentTransform* targetPosition);
+	void TriggerNormalShockWaveAttack(ComponentTransform* targetPosition);
+	void TriggerSeekingShockWaveAttack(ComponentTransform* targetPosition);
 	bool CanPerformShockWaveAttack() const;
 
 	bool IsAttacking() const;
@@ -41,7 +42,9 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
 
-	ComponentTransform* lookToPosition;
+	ComponentTransform* targetPosition;
+
+	bool isSeeking;
 
 	// Modifiable values
 	float shockWaveMaxCooldown;

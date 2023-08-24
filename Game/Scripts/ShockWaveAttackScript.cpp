@@ -12,7 +12,7 @@ REGISTERCLASS(ShockWaveAttackScript);
 
 ShockWaveAttackScript::ShockWaveAttackScript() : Script(), outerArea(nullptr), innerArea(nullptr),
 	shockWaveCooldown(0.0f), shockWaveMaxCooldown(5.0f), shockWaveHitPlayer(false), shockWaveDamage(10.0f),
-	rigidBody(nullptr), transform(nullptr), lookToPosition(nullptr)
+	rigidBody(nullptr), transform(nullptr), targetPosition(nullptr), isSeeking(false)
 {
 	REGISTER_FIELD(shockWaveMaxCooldown, float);
 	REGISTER_FIELD(shockWaveDamage, float);
@@ -34,19 +34,25 @@ void ShockWaveAttackScript::Update(float deltaTime)
 	ManageAreaBehaviour(deltaTime);
 }
 
-void ShockWaveAttackScript::TriggerShockWaveAttack(ComponentTransform* targetPosition)
+void ShockWaveAttackScript::TriggerNormalShockWaveAttack(ComponentTransform* targetPosition)
 {
 	LOG_INFO("The shockwave attack was triggered");
 
 	outerArea->SetAreaState(AreaState::EXPANDING);
 	innerArea->SetAreaState(AreaState::EXPANDING);
 
-	lookToPosition = targetPosition;
+	this->targetPosition = targetPosition;
 
 	// During the shockwave attack, the final boss would not be able to rotate
 	DisableRotation();
 
 	// This will need to trigger any kind of effect or particles to show the shockwave expanding
+}
+
+void ShockWaveAttackScript::TriggerSeekingShockWaveAttack(ComponentTransform* targetPosition)
+{
+	isSeeking = true;
+	this->targetPosition = targetPosition;
 }
 
 bool ShockWaveAttackScript::CanPerformShockWaveAttack() const
@@ -58,14 +64,27 @@ bool ShockWaveAttackScript::CanPerformShockWaveAttack() const
 bool ShockWaveAttackScript::IsAttacking() const
 {
 	return outerArea->GetAreaState() == AreaState::EXPANDING ||
-			innerArea->GetAreaState() == AreaState::EXPANDING;
+			innerArea->GetAreaState() == AreaState::EXPANDING ||
+			isSeeking;
 }
 
 void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 {
-	if (outerArea->GetAreaState() == AreaState::EXPANDING && innerArea->GetAreaState() == AreaState::EXPANDING)
+	if (isSeeking)
 	{
-		RotateToTarget(lookToPosition);
+		RotateToTarget(targetPosition);
+		rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
+		rigidBody->SetKpForce(2.5f);
+
+		if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
+		{
+			isSeeking = false;
+			TriggerNormalShockWaveAttack(targetPosition);
+		}
+	}
+	else if (outerArea->GetAreaState() == AreaState::EXPANDING && innerArea->GetAreaState() == AreaState::EXPANDING)
+	{
+		RotateToTarget(targetPosition);
 		CheckPlayerDetected();
 	}
 	else if (outerArea->GetAreaState() == AreaState::ON_COOLDOWN && 
