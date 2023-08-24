@@ -1085,11 +1085,12 @@ void Scene::UpdateScenePointLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::POINT && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
-				ComponentTransform* transform = components[0]->GetOwner()->GetComponentInternal<ComponentTransform>();
+				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(component);
+				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 
 				PointLight pl;
 				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
@@ -1115,10 +1116,11 @@ void Scene::UpdateSceneSpotLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::SPOT && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
+				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 
 				SpotLight sl;
@@ -1151,10 +1153,10 @@ void Scene::UpdateSceneAreaLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::AREA && component->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -1209,10 +1211,11 @@ void Scene::UpdateSceneAreaSpheres()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::AREA && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -1245,10 +1248,11 @@ void Scene::UpdateSceneAreaTubes()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::AREA && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{

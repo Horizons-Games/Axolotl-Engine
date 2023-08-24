@@ -39,6 +39,10 @@ void ModuleSize::Update(EmitterInstance* instance)
 				}
 
 				particle.size += particle.sizeOverTime;
+				if (particle.size < 0.0f)
+				{
+					particle.size = 0.0f;
+				}
 			}
 		}
 	}
@@ -56,15 +60,16 @@ void ModuleSize::DrawImGui()
 		ImGui::SetNextItemWidth(165.0f);
 		if (random)
 		{
-			if (ImGui::DragFloat2("##sliderSizeOverTime", &sizeOverTime[0], 1.0f, 0.0f, MAX_SIZE_OVER_TIME, "%.3f"))
+			if (ImGui::DragFloat2("##sliderSizeOverTime", &sizeOverTime[0], 1.0f, 
+				MIN_SIZE_OVER_TIME, MAX_SIZE_OVER_TIME, "%.3f"))
 			{
 				if (sizeOverTime.x > sizeOverTime.y)
 				{
 					sizeOverTime.x = sizeOverTime.y;
 				}
-				else if (sizeOverTime.x < 0.0f)
+				else if (sizeOverTime.x < MIN_SIZE_OVER_TIME)
 				{
-					sizeOverTime.x = 0.0f;
+					sizeOverTime.x = MIN_SIZE_OVER_TIME;
 				}
 
 				if (sizeOverTime.y < sizeOverTime.x)
@@ -85,9 +90,9 @@ void ModuleSize::DrawImGui()
 				{
 					sizeOverTime.x = MAX_SIZE_OVER_TIME;
 				}
-				else if (sizeOverTime.x < 0.0f)
+				else if (sizeOverTime.x < MIN_SIZE_OVER_TIME)
 				{
-					sizeOverTime.x = 0.0f;
+					sizeOverTime.x = MIN_SIZE_OVER_TIME;
 				}
 			}
 		}
