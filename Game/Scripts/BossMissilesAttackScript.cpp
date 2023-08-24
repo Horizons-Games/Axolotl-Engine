@@ -159,12 +159,6 @@ void BossMissilesAttackScript::RotateToTarget(const float3& targetPosition) cons
 		Quat::RotateFromTo(transform->GetGlobalForward().Normalized(),
 			(targetPosition - transform->GetGlobalPosition()).Normalized());
 
-#ifdef DEBUG
-	dd::arrow(transform->GetGlobalPosition(),
-		transform->GetGlobalPosition() + transform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
-	dd::arrow(transform->GetGlobalPosition(), targetPosition, dd::colors::Green, 1.0f);
-#endif // DEBUG
-
 	rigidBody->SetRotationTarget(errorRotation);
 }
 

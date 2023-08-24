@@ -247,11 +247,5 @@ void BossChargeAttackScript::RotateToTarget(ComponentTransform* target) const
 		Quat::RotateFromTo(transform->GetGlobalForward().Normalized(),
 			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());
 
-#ifdef DEBUG
-	dd::arrow(transform->GetGlobalPosition(),
-		transform->GetGlobalPosition() + transform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
-	dd::arrow(transform->GetGlobalPosition(), target->GetGlobalPosition(), dd::colors::Green, 1.0f);
-#endif // DEBUG
-
 	rigidBody->SetRotationTarget(errorRotation);
 }
