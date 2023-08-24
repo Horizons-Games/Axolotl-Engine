@@ -21,7 +21,8 @@
 
 ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	ComponentLight(LightType::LOCAL_IBL, parent, true), preFiltered(0), handleIrradiance(0), handlePreFiltered(0),
-	aabb({ { 0, 0, 0 }, { 1, 1, 1 } })
+	parallaxAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), influenceAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), 
+	originCenterParallax(parallaxAABB.CenterPoint()), originCenterInfluence(influenceAABB.CenterPoint())
 {
 	// Generate framebuffer & renderBuffer
 	glGenFramebuffers(1, &frameBuffer);
@@ -29,9 +30,9 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 	// irradianceMap
-	glGenTextures(1, &irradiance);
+	glGenTextures(1, &diffuse);
 
-	glBindTexture(GL_TEXTURE_CUBE_MAP, irradiance);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, diffuse);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
@@ -81,7 +82,7 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 ComponentLocalIBL::~ComponentLocalIBL()
 {
 	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &irradiance);
+	glDeleteTextures(1, &diffuse);
 	glDeleteTextures(1, &preFiltered);
 
 	deleting = true;
@@ -114,7 +115,7 @@ void ComponentLocalIBL::Update()
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Light Probe")), "Light Probe");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 	// Render in Irradiance
-	RenderToCubeMap(irradiance, frustum);
+	RenderToCubeMap(diffuse, frustum);
 
 	// Render in pre-filtered
 	for (int mipMap = 0; mipMap <= numMipMaps; ++mipMap)
@@ -143,12 +144,25 @@ void ComponentLocalIBL::Draw() const
 		return;
 	}
 
-	dd::aabb(aabb.minPoint, aabb.maxPoint, dd::colors::Red);
+	dd::aabb(parallaxAABB.minPoint, parallaxAABB.maxPoint, dd::colors::Red);
+	
+	dd::aabb(influenceAABB.minPoint, influenceAABB.maxPoint, dd::colors::Green);
 }
 
 void ComponentLocalIBL::OnTransformChanged()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	float3 positionParent = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+	float3 halfsize = parallaxAABB.HalfSize();
+
+	parallaxAABB.minPoint = (originCenterParallax - halfsize) + positionParent;
+	parallaxAABB.maxPoint = (originCenterParallax + halfsize) + positionParent;
+	
+	halfsize = influenceAABB.HalfSize();
+
+	influenceAABB.minPoint = (originCenterInfluence - halfsize) + positionParent;
+	influenceAABB.maxPoint = (originCenterInfluence + halfsize) + positionParent;
 
 	currentScene->UpdateSceneLocalIBL(this);
 	currentScene->RenderLocalIBL(this);
@@ -158,7 +172,7 @@ const uint64_t& ComponentLocalIBL::GetHandleIrradiance()
 {
 	if (handleIrradiance == 0)
 	{
-		handleIrradiance = glGetTextureHandleARB(irradiance);
+		handleIrradiance = glGetTextureHandleARB(diffuse);
 		glMakeTextureHandleResidentARB(handleIrradiance);
 	}
 	return handleIrradiance;
@@ -174,9 +188,9 @@ const uint64_t& ComponentLocalIBL::GetHandlePreFiltered()
 	return handlePreFiltered;
 }
 
-const float3& ComponentLocalIBL::GetPosition()
+const float3 ComponentLocalIBL::GetPosition()
 {
-	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+	return parallaxAABB.CenterPoint();
 }
 
 const Quat& ComponentLocalIBL::GetRotation()
@@ -184,14 +198,29 @@ const Quat& ComponentLocalIBL::GetRotation()
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalRotation();
 }
 
-const float4x4& ComponentLocalIBL::GetTransform()
+const float4x4 ComponentLocalIBL::GetTransform()
 {
 	return float4x4(GetRotation(), GetPosition());
 }
 
-const AABB& ComponentLocalIBL::GetAABB()
+const AABB& ComponentLocalIBL::GetParallaxAABB()
 {
-	return aabb;
+	return parallaxAABB;
+}
+
+void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
+{
+	parallaxAABB = aabb;
+}
+
+const AABB& ComponentLocalIBL::GetInfluenceAABB()
+{
+	return influenceAABB;
+}
+
+void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
+{
+	influenceAABB = aabb;
 }
 
 void ComponentLocalIBL::InternalSave(Json& meta)

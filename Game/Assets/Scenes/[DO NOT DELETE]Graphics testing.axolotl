@@ -145,7 +145,7 @@
                 "uid": 14736221545763251965,
                 "parentUID": 5818728810008522664,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -190,7 +190,7 @@
                 "uid": 5713309523230215553,
                 "parentUID": 5818728810008522664,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -235,7 +235,7 @@
                 "uid": 312871512391774008,
                 "parentUID": 5818728810008522664,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -641,7 +641,7 @@
                 "uid": 13877690159234568814,
                 "parentUID": 5818728810008522664,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -686,7 +686,7 @@
                 "uid": 3382260958351012014,
                 "parentUID": 5818728810008522664,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {

@@ -445,10 +445,20 @@ void GameObject::CopyComponent(Component* component)
 		}
 		else
 		{
-			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			switch (referenceBeforeMove->GetType())
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
-					static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			case ComponentType::PARTICLE:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+				break;
+
+			case ComponentType::LINE:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
+				break;
+
+			default:
+				break;
 			}
 		}
 
@@ -707,10 +717,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
 				break;
+
 			case ComponentType::LINE:
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 				break;
+
 			default:
 				break;
 			}
@@ -782,6 +794,10 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 				break;
 
 			case LightType::LOCAL_IBL:
+				ComponentLight* light = static_cast<ComponentLight*>(referenceBeforeMove);
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddComponentLocalIBL(static_cast<ComponentLocalIBL*>(referenceBeforeMove));
+
 				scene->UpdateSceneLocalIBLs();
 				scene->RenderLocalIBLs();
 				break;

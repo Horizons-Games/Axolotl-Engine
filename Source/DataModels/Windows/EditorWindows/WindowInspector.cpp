@@ -22,7 +22,6 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentTrail.h"
-#include "Components/ComponentLocalIBL.h"
 #include "Components/ComponentLine.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
@@ -73,7 +72,7 @@ WindowInspector::WindowInspector() :
 						   ComponentFunctionality::GRAPHICS));
 
 	actions.push_back(AddComponentAction("Create Local IBL Component",
-		std::bind(&WindowInspector::AddComponentLight, this, LightType::AREA, AreaType::NONE), isNotALight,
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::LOCAL_IBL, AreaType::NONE), isNotALight,
 		ComponentFunctionality::GRAPHICS));
 
 	actions.push_back(AddComponentAction("Create Particle System Component",

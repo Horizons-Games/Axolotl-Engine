@@ -1356,32 +1356,26 @@ void Scene::UpdateSceneLocalIBLs()
 
 	unsigned int pos = 0;
 
-	for (GameObject* child : sceneGameObjects)
+	for (auto local : sceneComponentLocalIBLs)
 	{
-		if (child && child->IsActive())
-		{
-			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
-			if (component && component->GetLightType() == LightType::LOCAL_IBL &&
-				component->IsEnabled() && !component->IsDeleting())
-			{
-				ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(component);
-				LocalIBL localIBL;
-				localIBL.irradiance = local->GetHandleIrradiance();
-				localIBL.prefiltered = local->GetHandlePreFiltered();
-				localIBL.position = local->GetPosition();
-				float4x4 toLocal = local->GetTransform();
-				toLocal.InverseOrthonormal();
-				localIBL.toLocal = toLocal;
-				AABB aabb = local->GetAABB();
-				localIBL.maxParallax = aabb.maxPoint;
-				localIBL.minParallax = aabb.minPoint;
+		LocalIBL localIBL;
+		localIBL.diffuse = local->GetHandleIrradiance();
+		localIBL.prefiltered = local->GetHandlePreFiltered();
+		localIBL.position = local->GetPosition();
+		AABB parallax = local->GetParallaxAABB();
+		localIBL.maxParallax = parallax.maxPoint;
+		localIBL.minParallax = parallax.minPoint;
+		float4x4 toLocal = local->GetTransform();
+		toLocal.InverseOrthonormal();
+		localIBL.toLocal = toLocal;
+		AABB influence = local->GetInfluenceAABB();
+		localIBL.maxInfluence = influence.maxPoint;
+		localIBL.minInfluence = influence.minPoint;
 				
-				localIBLs.push_back(localIBL);
-				cachedLocalIBLs.push_back(std::make_pair(local, pos));
+		localIBLs.push_back(localIBL);
+		cachedLocalIBLs.push_back(std::make_pair(local, pos));
 
-				++pos;
-			}
-		}
+		++pos;
 	}
 }
 
@@ -1503,15 +1497,18 @@ void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
 
 			LocalIBL localIBL;
 
-			localIBL.irradiance = compLocal->GetHandleIrradiance();
+			localIBL.diffuse = compLocal->GetHandleIrradiance();
 			localIBL.prefiltered = compLocal->GetHandlePreFiltered();
 			localIBL.position = compLocal->GetPosition();
+			AABB parallax = compLocal->GetParallaxAABB();
+			localIBL.maxParallax = parallax.maxPoint;
+			localIBL.minParallax = parallax.minPoint;
 			float4x4 toLocal = compLocal->GetTransform();
 			toLocal.InverseOrthonormal();
 			localIBL.toLocal = toLocal;
-			AABB aabb = compLocal->GetAABB();
-			localIBL.maxParallax = aabb.maxPoint;
-			localIBL.minParallax = aabb.minPoint;
+			AABB influence = compLocal->GetInfluenceAABB();
+			localIBL.maxInfluence = influence.maxPoint;
+			localIBL.minInfluence = influence.minPoint;
 
 			localIBLs[cachedLocalIBLs[i].second] = localIBL;
 		}
