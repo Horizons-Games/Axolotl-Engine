@@ -1317,6 +1317,7 @@
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClInclude>
+    <ClInclude Include="Defines\AxoTodo.h" />
     <ClInclude Include="Exceptions\ComponentNotFoundException.h">
       <Filter>Exceptions</Filter>
     </ClInclude>

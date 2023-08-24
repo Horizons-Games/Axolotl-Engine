@@ -8,7 +8,6 @@
 #include "Geometry/Sphere.h"
 #include "ModulePhysics.h"
 #include "debugdraw.h"
-#include <ImGui/imgui.h>
 
 #include "ComponentScript.h"
 
@@ -105,7 +104,7 @@ void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 {
-	// TODO: Implement delegate for this
+	AXO_TODO("Implement delegate for this")
 	assert(other);
 }
 
