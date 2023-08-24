@@ -112,7 +112,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
 				UID draggedMeshUID = *(UID*) payload->Data; // Double pointer to keep track correctly
-				// TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
+				AXO_TODO("this should be Asset Path of the asset not the UID (Because new filesystem cache)")
 				std::shared_ptr<ResourceMesh> newMesh =
 					App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(draggedMeshUID);
 				// And then this should be RequestResource not SearchResource

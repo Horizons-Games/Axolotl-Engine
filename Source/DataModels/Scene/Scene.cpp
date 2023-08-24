@@ -97,7 +97,7 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 
 bool Scene::IsInsideACamera(const OBB& obb) const
 {
-	// TODO: We have to add all the cameras in the future
+	AXO_TODO("We have to add all the cameras in the future")
 	for (ComponentCamera* camera : sceneCameras)
 	{
 		if (camera->GetCamera()->IsInside(obb))
