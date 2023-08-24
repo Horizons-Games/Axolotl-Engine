@@ -57,8 +57,8 @@ void FinalBossScript::Update(float deltaTime)
 
 void FinalBossScript::ManageBossPhases()
 {
-	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f &&
-		(bossPhase == FinalBossPhases::DEFENSIVE || bossPhase == FinalBossPhases::LAST_RESORT))
+	if ((bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f &&
+		bossPhase == FinalBossPhases::DEFENSIVE) || bossPhase == FinalBossPhases::LAST_RESORT)
 	{
 		if (bossPhase != FinalBossPhases::LAST_RESORT)
 		{
@@ -68,8 +68,8 @@ void FinalBossScript::ManageBossPhases()
 
 		ManageLastResortPhase();
 	}
-	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f &&
-		(bossPhase == FinalBossPhases::AGGRESSIVE || bossPhase == FinalBossPhases::DEFENSIVE))
+	else if ((bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f &&
+		bossPhase == FinalBossPhases::AGGRESSIVE) || bossPhase == FinalBossPhases::DEFENSIVE)
 	{
 		if (bossPhase != FinalBossPhases::DEFENSIVE)
 		{
@@ -79,8 +79,8 @@ void FinalBossScript::ManageBossPhases()
 
 		ManageDefensivePhase();
 	}
-	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f &&
-		(bossPhase == FinalBossPhases::NEUTRAL || bossPhase == FinalBossPhases::AGGRESSIVE))
+	else if ((bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f &&
+		bossPhase == FinalBossPhases::NEUTRAL) || bossPhase == FinalBossPhases::AGGRESSIVE)
 	{
 		if (bossPhase != FinalBossPhases::AGGRESSIVE)
 		{
