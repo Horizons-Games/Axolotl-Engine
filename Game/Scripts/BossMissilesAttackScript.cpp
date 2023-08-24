@@ -44,6 +44,8 @@ void BossMissilesAttackScript::Update(float deltaTime)
 
 void BossMissilesAttackScript::TriggerMissilesAttack()
 {
+	LOG_INFO("The missiles attack was triggered");
+
 	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
 
 	initialPosition = transform->GetGlobalPosition();
@@ -180,9 +182,6 @@ float3 BossMissilesAttackScript::SelectSpawnPosition() const
 
 void BossMissilesAttackScript::SpawnMissileInPosition(GameObject* selectedEnemy, const float3& selectedSpawningPosition)
 {
-	LOG_DEBUG("Spawn missile at {}, {}, {}", 
-		selectedSpawningPosition.x, selectedSpawningPosition.y, selectedSpawningPosition.z);
-
 	GameObject* newMissile = App->GetModule<ModuleScene>()->GetLoadedScene()->
 		DuplicateGameObject("Missile Copy", missilePrefab, missilePrefab->GetParent());
 

@@ -36,6 +36,8 @@ void ShockWaveAttackScript::Update(float deltaTime)
 
 void ShockWaveAttackScript::TriggerShockWaveAttack(ComponentTransform* targetPosition)
 {
+	LOG_INFO("The shockwave attack was triggered");
+
 	outerArea->SetAreaState(AreaState::EXPANDING);
 	innerArea->SetAreaState(AreaState::EXPANDING);
 

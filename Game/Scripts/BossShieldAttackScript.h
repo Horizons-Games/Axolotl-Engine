@@ -26,6 +26,8 @@ private:
 	void ManageEnemiesSpawning(float deltaTime);
 	void ManageRespawnOfEnemies();
 
+	void DisableShielding();
+
 	GameObject* SelectEnemyToSpawn();
 	float3 SelectSpawnPosition() const;
 	void SpawnEnemyInPosition(GameObject* selectedEnemy, const float3& selectedSpawningPosition);

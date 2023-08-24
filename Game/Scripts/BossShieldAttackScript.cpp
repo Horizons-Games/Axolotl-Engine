@@ -67,6 +67,8 @@ void BossShieldAttackScript::Update(float deltaTime)
 
 void BossShieldAttackScript::TriggerShieldAttack()
 {
+	LOG_INFO("The shield attack was triggered");
+
 	bossShieldObject->ActivateShield();
 	isShielding = true;
 	shieldAttackCooldown = shieldAttackMaxCooldown;
@@ -91,13 +93,7 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 		shieldingTime -= deltaTime;
 		if (shieldingTime <= 0.0f)
 		{
-			isShielding = false;
-			shieldingTime = shieldingMaxTime;
-
-			bossShieldObject->DeactivateShield();
-
-			triggerShieldAttackCooldown = true;
-			triggerEnemySpawning = false;
+			DisableShielding();
 		}
 	}
 	else if (triggerShieldAttackCooldown)
@@ -123,11 +119,11 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 	}
 	else
 	{
+		float3 selectedPosition = SelectSpawnPosition();
 		GameObject* selectedEnemy = SelectEnemyToSpawn();
 
 		if (selectedEnemy != nullptr)
 		{
-			float3 selectedPosition = SelectSpawnPosition();
 			SpawnEnemyInPosition(selectedEnemy, selectedPosition);
 		}
 		else
@@ -157,15 +153,23 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 	}
 }
 
+void BossShieldAttackScript::DisableShielding()
+{
+	isShielding = false;
+	shieldingTime = shieldingMaxTime;
+
+	bossShieldObject->DeactivateShield();
+
+	triggerShieldAttackCooldown = true;
+	triggerEnemySpawning = false;
+}
+
 GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 {
 	if (enemiesReadyToSpawn.empty())
 	{
 		return nullptr;
 	}
-
-	LOG_VERBOSE("{} enemiesReadyToSpawn", enemiesReadyToSpawn.size());
-	LOG_VERBOSE("{} enemiesNotReadyToSpawn", enemiesReadyToSpawn.size());
 
 	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size());
 	int randomEnemyIndex = rand() % enemyRange;
@@ -236,7 +240,4 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, con
 	newEnemyRigidBody->Enable();
 	*/
 	// ** UNUSABLE FOR NOW **
-
-	LOG_DEBUG("A new {} is spawning at {}, {}, {}", selectedEnemy->GetName(),
-		selectedSpawningPosition.x, selectedEnemyTransform->GetGlobalPosition().y, selectedSpawningPosition.z);
 }
