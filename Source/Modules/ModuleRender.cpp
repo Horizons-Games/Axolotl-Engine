@@ -752,8 +752,8 @@ float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 {
 	program->Activate();
 
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Parallel Reduction"),
-		"ComputeShader - Parallel Reduction");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Parallel Reduction"),
+		"Parallel Reduction");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gBuffer->GetDepthTexture());
@@ -763,8 +763,8 @@ float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 
 	program->BindUniformInt2("inSize", width, height);
 
-	unsigned int numGroupsX = (width + (8 - 1)) / 8;
-	unsigned int numGroupsY = (height + (4 - 1)) / 4;
+	unsigned int numGroupsX = (width + (16 - 1)) / 16;
+	unsigned int numGroupsY = (height + (8 - 1)) / 8;
 
 	glDispatchCompute(numGroupsX, numGroupsY, 1);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -799,7 +799,7 @@ float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 
 	program->Activate();
 	
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("ComputeShader - Min Max"), "ComputeShader - Min Max");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Min Max"), "Min Max");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, srcTexture);
@@ -851,26 +851,15 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 
 	cameraFrustum->SetViewPlaneDistances(distMin, distMax);
 
-	math::vec corners[8];
+	float3 corners[8];
 	cameraFrustum->GetCornerPoints(corners);
 
-	float3 sumCorners(0.0f);
-
-	for (unsigned int i = 0; i < 8; ++i)
-	{
-		sumCorners += corners[i];
-	}
-
-	const float3 sphereCenter = sumCorners.Div(8.0f);
+	const float3 sphereCenter = cameraFrustum->CenterPoint();
 	float sphereRadius = 0.0f;
 
 	for (unsigned int i = 0; i < 8; ++i)
 	{
-		float distance = sphereCenter.Distance(corners[i]);
-		if (distance > sphereRadius)
-		{
-			sphereRadius = distance;
-		}
+		sphereRadius = std::max(sphereRadius, sphereCenter.Distance(corners[i]));
 	}
 
 	// Compute bounding box
@@ -931,8 +920,8 @@ void ModuleRender::ShadowDepthVariacne(int width, int height)
 
 	program->BindUniformInt2("inSize", width, height);
 
-	unsigned int numGroupsX = (width + (8 - 1)) / 8;
-	unsigned int numGroupsY = (height + (4 - 1)) / 4;
+	unsigned int numGroupsX = (width + (16 - 1)) / 16;
+	unsigned int numGroupsY = (height + (8 - 1)) / 8;
 
 	glDispatchCompute(numGroupsX, numGroupsY, 1);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);

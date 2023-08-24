@@ -130,6 +130,8 @@ private:
 	
 	// Variance Shadow Mapping buffers and textures
 	GLuint shadowVarianceTexture = 0;
+	GLuint blurShadowMapBuffer = 0;
+	GLuint gBlurShadowMap = 0;
 
 	bool renderShadows;
 
