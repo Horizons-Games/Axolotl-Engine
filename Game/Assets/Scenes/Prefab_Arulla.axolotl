@@ -6387,6 +6387,11 @@
                                     "name": "ParticleSystemTimer",
                                     "value": 5.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "MaxDistanceBullet",
+                                    "value": 10.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -6780,6 +6785,11 @@
                                     "name": "ParticleSystemTimer",
                                     "value": 5.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "MaxDistanceBullet",
+                                    "value": 10.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -6799,6 +6809,3336 @@
                             "type": "Component_AudioSource",
                             "active": true,
                             "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2",
+                "tag": "",
+                "uid": 16902496697091142627,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.6863672733306885,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 9167032886871812353,
+                "parentUID": 16902496697091142627,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Torso",
+                "tag": "",
+                "uid": 208726591915662845,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Torso_0",
+                "tag": "",
+                "uid": 13398542626326517239,
+                "parentUID": 208726591915662845,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13442842295604745727,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Torso_0.mesh",
+                            "materialUID": 13442842295604745727,
+                            "assetPathMaterial": "Assets/Meshes/Allura_Characterv2.Torso_0.mesh"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm.L",
+                "tag": "",
+                "uid": 1752258305728874288,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Arm.L_0",
+                "tag": "",
+                "uid": 17695285559655680061,
+                "parentUID": 1752258305728874288,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 11345845301194838491,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Arm.L_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Belt",
+                "tag": "",
+                "uid": 214775199673807694,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Belt_0",
+                "tag": "",
+                "uid": 14684555768891699613,
+                "parentUID": 214775199673807694,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1620316998211347930,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Belt_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Pierna.L",
+                "tag": "",
+                "uid": 17519437819861527845,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Pierna.L_0",
+                "tag": "",
+                "uid": 474253213459522980,
+                "parentUID": 17519437819861527845,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 11655571197664070730,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Pierna.L_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature",
+                "tag": "",
+                "uid": 17943495986145824666,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.10000000149011612,
+                            "localSca_Y": 0.10000000149011612,
+                            "localSca_Z": 0.10000000149011612
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Master Bone",
+                "tag": "",
+                "uid": 544589503769574147,
+                "parentUID": 17943495986145824666,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Master Bone_end",
+                "tag": "",
+                "uid": 1638927901006327414,
+                "parentUID": 544589503769574147,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.0587911840678754e-22,
+                            "localPos_Y": 9.03740119934082,
+                            "localPos_Z": -3.3881317890172014e-21,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Center of Mass 2",
+                "tag": "",
+                "uid": 14870662027700856124,
+                "parentUID": 17943495986145824666,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 19.90164566040039,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Center of Mass",
+                "tag": "",
+                "uid": 5504650540331049793,
+                "parentUID": 14870662027700856124,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Torso.IK",
+                "tag": "",
+                "uid": 9019092889344767359,
+                "parentUID": 5504650540331049793,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.04803354665637016,
+                            "localPos_Y": -0.027005627751350403,
+                            "localPos_Z": -9.771010398864746,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.00002231179860245902,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Leg Top.L",
+                "tag": "",
+                "uid": 15385981461130839891,
+                "parentUID": 9019092889344767359,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.026546955108643,
+                            "localPos_Y": -0.000002659328629306401,
+                            "localPos_Z": -1.6954365378296643e-7,
+                            "localRot_X": 153.24693298339844,
+                            "localRot_Y": 1.0751922130584717,
+                            "localRot_Z": -2.13175368309021,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Leg Bottom.L",
+                "tag": "",
+                "uid": 341550162875388816,
+                "parentUID": 15385981461130839891,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.7393715501821134e-7,
+                            "localPos_Y": 5.481442928314209,
+                            "localPos_Z": 5.960464477539063e-8,
+                            "localRot_X": 19.799072265625,
+                            "localRot_Y": 0.0000016153512660821434,
+                            "localRot_Z": -0.000004191132575215306,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot.L",
+                "tag": "",
+                "uid": 7457440878416081224,
+                "parentUID": 341550162875388816,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.951252102116996e-7,
+                            "localPos_Y": 4.108554840087891,
+                            "localPos_Z": 1.6763806343078613e-8,
+                            "localRot_X": 96.9739761352539,
+                            "localRot_Y": 2.3874552249908447,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.L",
+                "tag": "",
+                "uid": 17394287107028283515,
+                "parentUID": 7457440878416081224,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.488063609642268e-8,
+                            "localPos_Y": 2.000000238418579,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.L_end",
+                "tag": "",
+                "uid": 10670703534296852501,
+                "parentUID": 17394287107028283515,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.2907233238220215,
+                            "localPos_Z": 2.220446049250313e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Leg Top.R",
+                "tag": "",
+                "uid": 16404588426427637011,
+                "parentUID": 9019092889344767359,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.026546001434326,
+                            "localPos_Y": -0.0000030579617487092037,
+                            "localPos_Z": 6.515315931210353e-7,
+                            "localRot_X": 153.681640625,
+                            "localRot_Y": -5.161395072937012,
+                            "localRot_Z": 10.308080673217773,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Leg Bottom.R",
+                "tag": "",
+                "uid": 8801299526798757479,
+                "parentUID": 16404588426427637011,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.738169714826654e-7,
+                            "localPos_Y": 5.481442451477051,
+                            "localPos_Z": -5.364418029785156e-7,
+                            "localRot_X": 39.03432083129883,
+                            "localRot_Y": -0.0000030018550205568317,
+                            "localRot_Z": -0.000013908479559177067,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot.R",
+                "tag": "",
+                "uid": 5118956238722775592,
+                "parentUID": 8801299526798757479,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.916358994298207e-7,
+                            "localPos_Y": 4.108555793762207,
+                            "localPos_Z": -5.960464477539063e-8,
+                            "localRot_X": 77.74986267089844,
+                            "localRot_Y": -11.515563011169434,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.R",
+                "tag": "",
+                "uid": 17100159496680782211,
+                "parentUID": 5118956238722775592,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.646197347326961e-7,
+                            "localPos_Y": 1.999998927116394,
+                            "localPos_Z": 2.384185791015625e-7,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Toe.R_end",
+                "tag": "",
+                "uid": 15156054451725752648,
+                "parentUID": 17100159496680782211,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.2907233238220215,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Torso.B",
+                "tag": "",
+                "uid": 17785355885393898273,
+                "parentUID": 9019092889344767359,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.3555692507670756e-7,
+                            "localPos_Y": 4.807666778564453,
+                            "localPos_Z": 7.128377887966053e-10,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Torso.T",
+                "tag": "",
+                "uid": 14892312252008328099,
+                "parentUID": 17785355885393898273,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.0459358651692128e-9,
+                            "localPos_Y": 6.040900230407715,
+                            "localPos_Z": -3.309060317424617e-11,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Neck",
+                "tag": "",
+                "uid": 3094693720453765503,
+                "parentUID": 14892312252008328099,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.6802247088397735e-9,
+                            "localPos_Y": 6.731428146362305,
+                            "localPos_Z": -1.613234962283272e-10,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Head",
+                "tag": "",
+                "uid": 4576394892192036123,
+                "parentUID": 3094693720453765503,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1117668151855469,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hair",
+                "tag": "",
+                "uid": 15704278116802812622,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.938893903907228e-18,
+                            "localPos_Y": 10.27271842956543,
+                            "localPos_Z": 3.469446951953614e-18,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hair_end",
+                "tag": "",
+                "uid": 4139118321193840036,
+                "parentUID": 15704278116802812622,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 4.696098327636719,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye Target",
+                "tag": "",
+                "uid": 11931924467825486697,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274885177612305,
+                            "localPos_Z": 0.32833296060562134,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye Target_end",
+                "tag": "",
+                "uid": 16661456008240725370,
+                "parentUID": 11931924467825486697,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.7763568394002505e-15,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": -5.551115123125783e-17,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye base",
+                "tag": "",
+                "uid": 10197067471839600698,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274885177612305,
+                            "localPos_Z": 0.32833296060562134,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye base_end",
+                "tag": "",
+                "uid": 12416562088030142766,
+                "parentUID": 10197067471839600698,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.8099937438964844,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth Target",
+                "tag": "",
+                "uid": 5990114638694824917,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 3.9462642669677734,
+                            "localPos_Z": 0.32833272218704224,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth Target_end",
+                "tag": "",
+                "uid": 16394708909424315118,
+                "parentUID": 5990114638694824917,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth base",
+                "tag": "",
+                "uid": 6421825209184254348,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.600000381469727,
+                            "localPos_Y": 3.928255081176758,
+                            "localPos_Z": 0.30000001192092896,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth base_end",
+                "tag": "",
+                "uid": 10780048043451958092,
+                "parentUID": 6421825209184254348,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.8099937438964844,
+                            "localPos_Z": 5.551115123125783e-17,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye Target.001",
+                "tag": "",
+                "uid": 9317211630445848855,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274885177612305,
+                            "localPos_Z": 0.32833296060562134,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye Target.001_end",
+                "tag": "",
+                "uid": 9849347411984654327,
+                "parentUID": 9317211630445848855,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1374473571777344,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye disp;ay",
+                "tag": "",
+                "uid": 11969922590913943422,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.598349571228027,
+                            "localPos_Y": 9.274885177612305,
+                            "localPos_Z": 0.32833296060562134,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye disp;ay_end",
+                "tag": "",
+                "uid": 12009120727221575575,
+                "parentUID": 11969922590913943422,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1374473571777344,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth display",
+                "tag": "",
+                "uid": 2649207896497528395,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.600000381469727,
+                            "localPos_Y": 3.928255081176758,
+                            "localPos_Z": 0.30000001192092896,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Mouth display_end",
+                "tag": "",
+                "uid": 15067299714138352351,
+                "parentUID": 2649207896497528395,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1374473571777344,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.2",
+                "tag": "",
+                "uid": 17748795673213280859,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.6661972999572754,
+                            "localPos_Y": 5.322816848754883,
+                            "localPos_Z": 5.274548053741455,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.1",
+                "tag": "",
+                "uid": 18140038787213478301,
+                "parentUID": 17748795673213280859,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.3469246625900269,
+                            "localPos_Y": 7.105427357601002e-15,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.1_end",
+                "tag": "",
+                "uid": 13945882679211979103,
+                "parentUID": 18140038787213478301,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 8.881784197001252e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.3",
+                "tag": "",
+                "uid": 685373942827454728,
+                "parentUID": 17748795673213280859,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.346924901008606,
+                            "localPos_Y": 1.4210854715202004e-14,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_L.3_end",
+                "tag": "",
+                "uid": 18201705554560034217,
+                "parentUID": 685373942827454728,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 8.881784197001252e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.2",
+                "tag": "",
+                "uid": 6980652438135887601,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.6661972999572754,
+                            "localPos_Y": 5.322816848754883,
+                            "localPos_Z": 5.274548053741455,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.1",
+                "tag": "",
+                "uid": 14448117264455298182,
+                "parentUID": 6980652438135887601,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.3469246625900269,
+                            "localPos_Y": 1.4210854715202004e-14,
+                            "localPos_Z": -8.881784197001252e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.1_end",
+                "tag": "",
+                "uid": 12065872647597984336,
+                "parentUID": 14448117264455298182,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.551115123125783e-17,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 1.7763568394002505e-15,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.3",
+                "tag": "",
+                "uid": 17646149445437271780,
+                "parentUID": 6980652438135887601,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.3469246625900269,
+                            "localPos_Y": 1.4210854715202004e-14,
+                            "localPos_Z": -8.881784197001252e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_Brow_R.3_end",
+                "tag": "",
+                "uid": 13681330293642990031,
+                "parentUID": 17646149445437271780,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L",
+                "tag": "",
+                "uid": 15320410243856318643,
+                "parentUID": 4576394892192036123,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.05104053020477295,
+                            "localPos_Y": 9.664331436157227,
+                            "localPos_Z": -2.294123888015747,
+                            "localRot_X": -82.13472747802734,
+                            "localRot_Y": 3.330331802368164,
+                            "localRot_Z": -0.4466850459575653,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.011",
+                "tag": "",
+                "uid": 17113957554289176634,
+                "parentUID": 15320410243856318643,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.038477972149849e-8,
+                            "localPos_Y": 1.825243353843689,
+                            "localPos_Z": -0.0000022315653041005135,
+                            "localRot_X": 7.165950775146484,
+                            "localRot_Y": -8.434927940368652,
+                            "localRot_Z": -3.876060962677002,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.009",
+                "tag": "",
+                "uid": 9345697332098130936,
+                "parentUID": 17113957554289176634,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.960464477539063e-8,
+                            "localPos_Y": 2.3918464183807373,
+                            "localPos_Z": 0.0000024065375328063965,
+                            "localRot_X": -23.15993309020996,
+                            "localRot_Y": 1.598623275756836,
+                            "localRot_Z": 11.687520027160645,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.001",
+                "tag": "",
+                "uid": 10564866780597782428,
+                "parentUID": 9345697332098130936,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.3527612686157227e-8,
+                            "localPos_Y": 1.7783374786376953,
+                            "localPos_Z": 2.973247319459915e-7,
+                            "localRot_X": -28.737483978271484,
+                            "localRot_Y": 1.699042797088623,
+                            "localRot_Z": -3.651759147644043,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.010",
+                "tag": "",
+                "uid": 15975795148193748063,
+                "parentUID": 10564866780597782428,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.842877388000488e-8,
+                            "localPos_Y": 1.9388728141784668,
+                            "localPos_Z": 2.3550819605588913e-7,
+                            "localRot_X": -28.964340209960938,
+                            "localRot_Y": 6.69921875,
+                            "localRot_Z": 3.06424617767334,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.002",
+                "tag": "",
+                "uid": 8356887224330962426,
+                "parentUID": 15975795148193748063,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.6193599700927734e-7,
+                            "localPos_Y": 1.933996319770813,
+                            "localPos_Z": -2.0349398255348206e-7,
+                            "localRot_X": -27.149600982666016,
+                            "localRot_Y": -0.44112861156463623,
+                            "localRot_Z": -3.6410164833068848,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.003",
+                "tag": "",
+                "uid": 10224194316637068369,
+                "parentUID": 8356887224330962426,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.685754776000977e-8,
+                            "localPos_Y": 3.0317482948303223,
+                            "localPos_Z": -3.306195139884949e-8,
+                            "localRot_X": -5.062169075012207,
+                            "localRot_Y": -2.779149293899536,
+                            "localRot_Z": 1.394293189048767,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.004",
+                "tag": "",
+                "uid": 9991857984840867815,
+                "parentUID": 10224194316637068369,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.421438694000244e-8,
+                            "localPos_Y": 3.1713764667510986,
+                            "localPos_Z": -3.496534191071987e-7,
+                            "localRot_X": -1.0339455604553223,
+                            "localRot_Y": -0.013931766152381897,
+                            "localRot_Z": -1.8018203973770142,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PigTail.L.004_end",
+                "tag": "",
+                "uid": 544781494346220955,
+                "parentUID": 9991857984840867815,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 4.000233173370361,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.L",
+                "tag": "",
+                "uid": 4025850709187823034,
+                "parentUID": 14892312252008328099,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.6802247088397735e-9,
+                            "localPos_Y": 6.731428146362305,
+                            "localPos_Z": -1.613234962283272e-10,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -90.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.L_end",
+                "tag": "",
+                "uid": 8328977350469958850,
+                "parentUID": 4025850709187823034,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.5,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Top.L",
+                "tag": "",
+                "uid": 12948667739018446010,
+                "parentUID": 14892312252008328099,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.220897674560547,
+                            "localPos_Y": 3.7057416439056396,
+                            "localPos_Z": -0.0120936818420887,
+                            "localRot_X": -52.165061950683594,
+                            "localRot_Y": 38.68782424926758,
+                            "localRot_Z": -135.13525390625,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Bottom.L",
+                "tag": "",
+                "uid": 3430502165930476687,
+                "parentUID": 12948667739018446010,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.002684473991394043,
+                            "localPos_Y": 4.5353779792785645,
+                            "localPos_Z": -0.0009585022926330566,
+                            "localRot_X": 179.4689178466797,
+                            "localRot_Y": 0.5324509739875793,
+                            "localRot_Z": -149.98231506347656,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wrist.L",
+                "tag": "",
+                "uid": 6791091458446902934,
+                "parentUID": 3430502165930476687,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.0026781558990478516,
+                            "localPos_Y": 5.279505252838135,
+                            "localPos_Z": 0.0009875297546386719,
+                            "localRot_X": 179.76559448242188,
+                            "localRot_Y": -0.23390890657901764,
+                            "localRot_Z": 179.88096618652344,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hand.L",
+                "tag": "",
+                "uid": 15858698597108075191,
+                "parentUID": 6791091458446902934,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.1920928955078125e-7,
+                            "localPos_Y": 1.120424509048462,
+                            "localPos_Z": 0.0000016689300537109375,
+                            "localRot_X": -55.987037658691406,
+                            "localRot_Y": -14.547877311706543,
+                            "localRot_Z": 9.62085247039795,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 1.L",
+                "tag": "",
+                "uid": 13842279486368549782,
+                "parentUID": 15858698597108075191,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 55.05118942260742,
+                            "localRot_Y": -0.0000047543990149279125,
+                            "localRot_Z": -0.0000010506561238798895,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.L",
+                "tag": "",
+                "uid": 13633867838201715948,
+                "parentUID": 13842279486368549782,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.76837158203125e-7,
+                            "localPos_Y": 2.353604316711426,
+                            "localPos_Z": 0.0000019073486328125,
+                            "localRot_X": 104.47359466552734,
+                            "localRot_Y": 0.000020351784769445658,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.L_end",
+                "tag": "",
+                "uid": 17812511708753772534,
+                "parentUID": 13633867838201715948,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.0519156455993652,
+                            "localPos_Z": -4.440892098500626e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 1.L",
+                "tag": "",
+                "uid": 9391814383242582439,
+                "parentUID": 15858698597108075191,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 126.30681610107422,
+                            "localRot_Y": 0.00003411105717532337,
+                            "localRot_Z": 179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.L",
+                "tag": "",
+                "uid": 15191384520610371244,
+                "parentUID": 9391814383242582439,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.1920928955078125e-7,
+                            "localPos_Y": 2.277024030685425,
+                            "localPos_Z": -5.960464477539063e-7,
+                            "localRot_X": 105.52993774414063,
+                            "localRot_Y": -0.00003112847116426565,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.L_end",
+                "tag": "",
+                "uid": 11487334026462087591,
+                "parentUID": 15191384520610371244,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.440892098500626e-16,
+                            "localPos_Y": 2.055990219116211,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.R",
+                "tag": "",
+                "uid": 17505044396740683047,
+                "parentUID": 14892312252008328099,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.6802247088397735e-9,
+                            "localPos_Y": 6.731428146362305,
+                            "localPos_Z": -1.613234962283272e-10,
+                            "localRot_X": -90.0,
+                            "localRot_Y": -0.000003415094397496432,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoulder.R_end",
+                "tag": "",
+                "uid": 13529159256864592130,
+                "parentUID": 17505044396740683047,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.5,
+                            "localPos_Z": 3.552713678800501e-15,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Top.R",
+                "tag": "",
+                "uid": 2141832292502116660,
+                "parentUID": 14892312252008328099,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.220897674560547,
+                            "localPos_Y": 3.706716775894165,
+                            "localPos_Z": -0.014775843359529972,
+                            "localRot_X": -64.33604431152344,
+                            "localRot_Y": -50.69951629638672,
+                            "localRot_Z": 104.12691497802734,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm Bottom.R",
+                "tag": "",
+                "uid": 13606333850389310919,
+                "parentUID": 2141832292502116660,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 7.152557373046875e-7,
+                            "localPos_Y": 4.5353803634643555,
+                            "localPos_Z": -0.0000022798776626586914,
+                            "localRot_X": -0.5061910152435303,
+                            "localRot_Y": 0.5084205269813538,
+                            "localRot_Z": 47.846134185791016,
+                            "localSca_X": 0.9999999403953552,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wrist.R",
+                "tag": "",
+                "uid": 4101135578701842911,
+                "parentUID": 13606333850389310919,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.002677440643310547,
+                            "localPos_Y": 5.279506683349609,
+                            "localPos_Z": -0.000986933708190918,
+                            "localRot_X": 0.23438291251659393,
+                            "localRot_Y": -0.23390117287635803,
+                            "localRot_Z": 0.11901358515024185,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Hand.R",
+                "tag": "",
+                "uid": 15372215328534357514,
+                "parentUID": 4101135578701842911,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.384185791015625e-7,
+                            "localPos_Y": 1.1204249858856201,
+                            "localPos_Z": -3.552713678800501e-15,
+                            "localRot_X": -47.85354995727539,
+                            "localRot_Y": -9.352164268493652,
+                            "localRot_Z": 8.366596221923828,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 1.R",
+                "tag": "",
+                "uid": 6058630981004880302,
+                "parentUID": 15372215328534357514,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -124.94878387451172,
+                            "localRot_Y": 0.000023244105250341818,
+                            "localRot_Z": -179.99998474121094,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 0.9999999403953552,
+                            "localSca_Z": 0.9999999403953552
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.R",
+                "tag": "",
+                "uid": 16315381262869861536,
+                "parentUID": 6058630981004880302,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.384185791015625e-7,
+                            "localPos_Y": 2.353606700897217,
+                            "localPos_Z": 5.364418029785156e-7,
+                            "localRot_X": -104.47357177734375,
+                            "localRot_Y": 0.00003266824933234602,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Top 2.R_end",
+                "tag": "",
+                "uid": 18162804548095333383,
+                "parentUID": 16315381262869861536,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 2.0519156455993652,
+                            "localPos_Z": -8.881784197001252e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 1.R",
+                "tag": "",
+                "uid": 10485071672670842602,
+                "parentUID": 15372215328534357514,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -53.693214416503906,
+                            "localRot_Y": -0.000017063777704606764,
+                            "localRot_Z": 0.000005305625109031098,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.R",
+                "tag": "",
+                "uid": 8531951929874457035,
+                "parentUID": 10485071672670842602,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 9.5367431640625e-7,
+                            "localPos_Y": 2.2770237922668457,
+                            "localPos_Z": -1.4901161193847656e-7,
+                            "localRot_X": -105.52992248535156,
+                            "localRot_Y": -0.000027471009161672555,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Claw Bottom 2.R_end",
+                "tag": "",
+                "uid": 6568341731197918961,
+                "parentUID": 8531951929874457035,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -8.881784197001252e-16,
+                            "localPos_Y": 2.055990219116211,
+                            "localPos_Z": 1.7763568394002505e-15,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot IK.L",
+                "tag": "",
+                "uid": 1544661325302749384,
+                "parentUID": 5504650540331049793,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.448322296142578,
+                            "localPos_Y": 2.941007614135742,
+                            "localPos_Z": -18.735193252563477,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Knee IK.L",
+                "tag": "",
+                "uid": 9760520984631239182,
+                "parentUID": 1544661325302749384,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 10.618189811706543,
+                            "localPos_Z": -2.220446049250313e-16,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Knee IK.L_end",
+                "tag": "",
+                "uid": 3944408511868845413,
+                "parentUID": 9760520984631239182,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.220446049250313e-16,
+                            "localPos_Y": 1.6659812927246094,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Foot IK.R",
+                "tag": "",
+                "uid": 2263119525944075636,
+                "parentUID": 5504650540331049793,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.7569146156311035,
+                            "localPos_Y": 1.5713447332382202,
+                            "localPos_Z": -18.499998092651367,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Knee IK.R",
+                "tag": "",
+                "uid": 17993139250169183805,
+                "parentUID": 2263119525944075636,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.76837158203125e-7,
+                            "localPos_Y": 10.61819076538086,
+                            "localPos_Z": 1.1920928955078125e-7,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Knee IK.R_end",
+                "tag": "",
+                "uid": 17347776517909050484,
+                "parentUID": 17993139250169183805,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.6659812927246094,
+                            "localPos_Z": -8.881784197001252e-16,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.L",
+                "tag": "",
+                "uid": 15007954551229678453,
+                "parentUID": 5504650540331049793,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -10.756214141845703,
+                            "localPos_Y": -7.66473388671875,
+                            "localPos_Z": 5.667854309082031,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.L_end",
+                "tag": "",
+                "uid": 14903355551971498229,
+                "parentUID": 15007954551229678453,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.7763568394002505e-15,
+                            "localPos_Y": 1.6994400024414063,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.L",
+                "tag": "",
+                "uid": 13611365064852418345,
+                "parentUID": 5504650540331049793,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -16.035667419433594,
+                            "localPos_Y": -0.012093544006347656,
+                            "localPos_Z": 5.667854309082031,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 90.00000762939453,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.L_end",
+                "tag": "",
+                "uid": 17831841774431093464,
+                "parentUID": 13611365064852418345,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.415584564208984,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.R",
+                "tag": "",
+                "uid": 17674562225762792788,
+                "parentUID": 5504650540331049793,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 10.756214141845703,
+                            "localPos_Y": -7.66473388671875,
+                            "localPos_Z": 5.667854309082031,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -179.99996948242188,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "IK pole.R_end",
+                "tag": "",
+                "uid": 1514385337864969191,
+                "parentUID": 17674562225762792788,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -1.7763568394002505e-15,
+                            "localPos_Y": 1.6994400024414063,
+                            "localPos_Z": -3.552713678800501e-15,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.R",
+                "tag": "",
+                "uid": 4742650925938313307,
+                "parentUID": 5504650540331049793,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 16.035667419433594,
+                            "localPos_Y": -0.012093544006347656,
+                            "localPos_Z": 5.667854309082031,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -90.00000762939453,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm IK.R_end",
+                "tag": "",
+                "uid": 16504818363104648108,
+                "parentUID": 4742650925938313307,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.415584564208984,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Arm.R",
+                "tag": "",
+                "uid": 8768964565384042719,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Arm.R_0",
+                "tag": "",
+                "uid": 7545212126442665819,
+                "parentUID": 8768964565384042719,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15983970440995110583,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Arm.R_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Pierna.R",
+                "tag": "",
+                "uid": 4667478948718427079,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Pierna.R_0",
+                "tag": "",
+                "uid": 13670578356215624212,
+                "parentUID": 4667478948718427079,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15648433618391328727,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Pierna.R_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_brow_Face_Rig",
+                "tag": "",
+                "uid": 2537129533370260691,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Eye_brow_Face_Rig_0",
+                "tag": "",
+                "uid": 7776192503649775498,
+                "parentUID": 2537129533370260691,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3734607333779381773,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Eye_brow_Face_Rig_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Eye_brow_Face_Rig.001",
+                "tag": "",
+                "uid": 15312667678300120870,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Eye_brow_Face_Rig.001_0",
+                "tag": "",
+                "uid": 5511934981451781229,
+                "parentUID": 15312667678300120870,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15943727054581602450,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Eye_brow_Face_Rig.001_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Hair_Retopo.001",
+                "tag": "",
+                "uid": 10415373123566433309,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Allura_Hair_Retopo.001_0",
+                "tag": "",
+                "uid": 273856526553271689,
+                "parentUID": 10415373123566433309,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13780954179616256279,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Allura_Hair_Retopo.001_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Head",
+                "tag": "",
+                "uid": 10649413128308535653,
+                "parentUID": 9167032886871812353,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Allura_Characterv2.Allura_Head_0",
+                "tag": "",
+                "uid": 8726226450537253064,
+                "parentUID": 10649413128308535653,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14591106453229650501,
+                            "assetPathMesh": "Assets/Meshes/Allura_Characterv2.Allura_Head_0.mesh",
+                            "materialUID": 8745118273042100759,
+                            "assetPathMaterial": "Assets/Materials/Allura_Characterv2DefaultMaterial_0.mat"
                         }
                     }
                 ]
