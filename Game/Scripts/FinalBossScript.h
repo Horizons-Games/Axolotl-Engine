@@ -57,7 +57,7 @@ private:
 
 	void ManageNeutralPhase();
 	void ManageAggressivePhase();
-	void ManageDefensivePhase() const;
+	void ManageDefensivePhase();
 	void ManageLastResortPhase() const;
 
 	FinalBossPhases bossPhase;
