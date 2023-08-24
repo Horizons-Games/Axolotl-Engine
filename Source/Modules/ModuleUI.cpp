@@ -152,7 +152,7 @@ void ModuleUI::CreateVAO()
 }
 
 void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
-											   float2 mousePosition,
+											   float2 cursorPosition,
 											   bool leftClicked,
 											   bool disabledHierarchy)
 {
@@ -185,8 +185,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
 			AABB2D aabb2d = transform->GetWorldAABB();
-
-			if (aabb2d.Contains(mousePosition))
+			if (aabb2d.Contains(cursorPosition))
 			{
 				button->SetHovered(true);
 				if (leftClicked)
@@ -204,7 +203,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 
 	for (const GameObject* child : gameObject->GetChildren())
 	{
-		DetectInteractionWithGameObject(child, mousePosition, leftClicked, disabledHierarchy);
+		DetectInteractionWithGameObject(child, cursorPosition, leftClicked, disabledHierarchy);
 	}
 }
 

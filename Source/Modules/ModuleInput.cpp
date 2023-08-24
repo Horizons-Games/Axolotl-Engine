@@ -220,15 +220,18 @@ UpdateStatus ModuleInput::Update()
 				{
 					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
 					axisValue = sdlEvent.caxis.value;
+					mouseMotion = float2((float) sdlEvent.motion.xrel, (float) sdlEvent.motion.yrel);
 					if (axis == SDL_CONTROLLER_AXIS_LEFTX)
 					{
 						if (axisValue > 3200)
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::RIGHT;
+							mousePosX++;
 						}
 						else if (axisValue < -3200)
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;	
+							mousePosX--;
 						}
 						else
 						{
@@ -241,10 +244,12 @@ UpdateStatus ModuleInput::Update()
 						if (axisValue < -3200)
 						{
 							direction.verticalMovement = JoystickVerticalDirection::FORWARD;
+							mousePosY--;
 						}
 						else if (axisValue > 3200)
 						{
 							direction.verticalMovement = JoystickVerticalDirection::BACK;
+							mousePosY++;
 						}					
 						else
 						{

@@ -23,7 +23,7 @@ public:
 
 private:
 	void DetectInteractionWithGameObject(const GameObject* gameObject,
-										 float2 mousePosition,
+										 float2 cursorPosition,
 										 bool leftClicked,
 										 bool disabledHierarchy);
 	void Draw2DGameObject(const GameObject* gameObject);
