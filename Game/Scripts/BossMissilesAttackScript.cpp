@@ -1,6 +1,10 @@
 #include "StdAfx.h"
 #include "BossMissilesAttackScript.h"
 
+#include "Application.h"
+#include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
@@ -10,12 +14,16 @@ REGISTERCLASS(BossMissilesAttackScript);
 BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(nullptr), 
 	safePositionTransform(nullptr), rigidBody(nullptr), initialPosition(float3::zero), midJumpPosition(float3::zero),
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
-	missileAttackMaxDuration(20.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f)
+	missileAttackMaxDuration(10.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
+	missileSpawnTime(0.0f), missileMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f)
 {
 	REGISTER_FIELD(safePositionTransform, ComponentTransform*);
+	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 
 	//REGISTER_FIELD(missileAttackMaxDuration, float);
 	//REGISTER_FIELD(missileAttackMaxCooldown, float);
+	//REGISTER_FIELD(missileMaxSpawnTime, float);
+	//REGISTER_FIELD(missileSpawningHeight, float);
 
 	REGISTER_FIELD(missilePrefab, GameObject*);
 }
@@ -53,7 +61,7 @@ void BossMissilesAttackScript::Update(float deltaTime)
 	}
 	else if (missilesAttackState == AttackState::EXECUTING_ATTACK)
 	{
-		ManageMissileSpawning();
+		ManageMissileSpawning(deltaTime);
 
 		missileAttackDuration -= deltaTime;
 		if (missileAttackDuration <= 0.0f)
@@ -123,8 +131,19 @@ void BossMissilesAttackScript::MoveUserToPosition(const float3& selectedPosition
 	rigidBody->SetKpForce(5.0f);
 }
 
-void BossMissilesAttackScript::ManageMissileSpawning() const
+void BossMissilesAttackScript::ManageMissileSpawning(float deltaTime)
 {
+	if (missileSpawnTime > 0.0f)
+	{
+		missileSpawnTime -= deltaTime;
+	}
+	else
+	{
+		float3 selectedPosition = SelectSpawnPosition();
+		SpawnMissileInPosition(missilePrefab, selectedPosition);
+
+		missileSpawnTime = missileMaxSpawnTime;
+	}
 }
 
 void BossMissilesAttackScript::RotateToTarget(const float3& targetPosition) const
@@ -140,4 +159,34 @@ void BossMissilesAttackScript::RotateToTarget(const float3& targetPosition) cons
 #endif // DEBUG
 
 	rigidBody->SetRotationTarget(errorRotation);
+}
+
+float3 BossMissilesAttackScript::SelectSpawnPosition() const
+{
+	float areaRadius = battleArenaAreaSize->GetRadius();
+	int areaDiameter = static_cast<int>(areaRadius * 2.0f);
+
+	float randomXPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
+	float randomZPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
+	float3 selectedSpawningPosition = float3(randomXPos, missileSpawningHeight, randomZPos);
+
+	return selectedSpawningPosition;
+}
+
+void BossMissilesAttackScript::SpawnMissileInPosition(GameObject* selectedEnemy, const float3& selectedSpawningPosition)
+{
+	LOG_DEBUG("Spawn missile at {}, {}, {}", 
+		selectedSpawningPosition.x, selectedSpawningPosition.y, selectedSpawningPosition.z);
+
+	GameObject* newMissile = App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject("Missile Copy", missilePrefab, missilePrefab->GetParent());
+
+	ComponentTransform* newMissileTransform = newMissile->GetComponent<ComponentTransform>();
+	newMissileTransform->SetGlobalPosition(selectedSpawningPosition);
+	newMissileTransform->RecalculateLocalMatrix();
+
+	newMissile->Enable();
+	ComponentRigidBody* newMissileRigidBody = newMissile->GetComponent<ComponentRigidBody>();
+	newMissileRigidBody->SetDefaultPosition();
+	newMissileRigidBody->Enable();
 }

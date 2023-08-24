@@ -208,7 +208,7 @@ float3 BossShieldAttackScript::SelectSpawnPosition() const
 	return selectedSpawningPosition;
 }
 
-void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, float3 selectedSpawningPosition)
+void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, const float3& selectedSpawningPosition)
 {
 	ComponentTransform* selectedEnemyTransform = selectedEnemy->GetComponent<ComponentTransform>();
 	selectedEnemyTransform->SetGlobalPosition(float3(selectedSpawningPosition.x,

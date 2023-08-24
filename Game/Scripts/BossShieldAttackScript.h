@@ -28,7 +28,7 @@ private:
 
 	GameObject* SelectEnemyToSpawn();
 	float3 SelectSpawnPosition() const;
-	void SpawnEnemyInPosition(GameObject* selectedEnemy, float3 selectedSpawningPosition);
+	void SpawnEnemyInPosition(GameObject* selectedEnemy, const float3& selectedSpawningPosition);
 
 	bool isShielding;
 	float shieldingTime;

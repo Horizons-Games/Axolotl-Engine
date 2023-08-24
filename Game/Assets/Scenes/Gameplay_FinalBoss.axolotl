@@ -12565,8 +12565,13 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "BattleArenaAreaSize",
+                                    "value": 9860942332718922623,
+                                    "type": 2
+                                },
+                                {
                                     "name": "MissilePrefab",
-                                    "value": 0,
+                                    "value": 14408391754270370785,
                                     "type": 2
                                 }
                             ]
@@ -80069,6 +80074,89 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Missile Prefab",
+                "tag": "Missile",
+                "uid": 14408391754270370785,
+                "parentUID": 15235845428005553909,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.0,
+                            "localPos_Y": 5.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.5,
+                            "localSca_Y": 0.800000011920929,
+                            "localSca_Z": 0.5
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 1000000000.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 3,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.4999997019767761,
+                            "boxSize_Y": 1.399999976158142,
+                            "boxSize_Z": 0.49999958276748657,
+                            "radius": 0.5,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -5.0,
+                            "rbPos_Y": 5.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossMissilesMissileScript",
+                            "fields": null
                         }
                     }
                 ]

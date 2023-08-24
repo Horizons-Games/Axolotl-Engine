@@ -35,7 +35,10 @@ public:
 
 private:
 	void MoveUserToPosition(const float3& selectedPosition) const;
-	void ManageMissileSpawning() const;
+	void ManageMissileSpawning(float deltaTime);
+
+	float3 SelectSpawnPosition() const;
+	void SpawnMissileInPosition(GameObject* selectedEnemy, const float3& selectedSpawningPosition);
 
 	void RotateToTarget(const float3& targetPosition) const;
 
@@ -49,12 +52,16 @@ private:
 
 	float missileAttackDuration;
 	float missileAttackCooldown;
+	float missileSpawnTime;
 
 	//Modifiable values
 	ComponentTransform* safePositionTransform;
+	ComponentRigidBody* battleArenaAreaSize;
 
 	float missileAttackMaxDuration;
 	float missileAttackMaxCooldown;
+	float missileMaxSpawnTime;
+	float missileSpawningHeight;
 
 	GameObject* missilePrefab;
 };
