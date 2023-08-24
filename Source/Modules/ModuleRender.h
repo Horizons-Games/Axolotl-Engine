@@ -62,6 +62,7 @@ public:
 
 	float2 ParallelReduction(Program* program, int width, int height);
 	void RenderShadowMap(const GameObject* light, const float2& minMax);
+	void ShadowDepthVariacne(int width, int height);
 
 private:
 
@@ -120,12 +121,15 @@ private:
 	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
 	
 	// Shadow Mapping buffers and textures
-	GLuint depthStencilRenderBuffer;
-	GLuint shadowMapBuffer;
-	GLuint gShadowMap;
-	GLuint parallelReductionInTexture;
-	GLuint parallelReductionOutTexture;
-	GLuint minMaxBuffer;
+	GLuint depthStencilRenderBuffer = 0;
+	GLuint shadowMapBuffer = 0;
+	GLuint gShadowMap = 0;
+	GLuint parallelReductionInTexture = 0;
+	GLuint parallelReductionOutTexture = 0;
+	GLuint minMaxBuffer = 0;
+	
+	// Variance Shadow Mapping buffers and textures
+	GLuint shadowVarianceTexture = 0;
 
 	bool renderShadows;
 

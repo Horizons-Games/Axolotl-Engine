@@ -87,6 +87,8 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("parallel_reduction.glsl", "ParallelReduction"));
 	
 	programs.push_back(CreateProgram("min_max.glsl", "MinMax"));
+
+	programs.push_back(CreateProgram("shadow_depth_variance.glsl", "ShadowDepthVariance"));
 	
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_down_fragment.glsl", "KawaseDown"));
 	

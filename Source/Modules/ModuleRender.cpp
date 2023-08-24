@@ -201,6 +201,7 @@ bool ModuleRender::Init()
 
 	glGenTextures(1, &parallelReductionInTexture);
 	glGenTextures(1, &parallelReductionOutTexture);
+	glGenTextures(1, &shadowVarianceTexture);
 
 	glGenBuffers(1, &minMaxBuffer);
 
@@ -321,6 +322,8 @@ UpdateStatus ModuleRender::Update()
 		float2 minMax = ParallelReduction(shadowProgram, w, h);
 
 		RenderShadowMap(loadedScene->GetDirectionalLight(), minMax);
+
+		ShadowDepthVariacne(w, h);
 	}
 
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
@@ -632,6 +635,9 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glBindTexture(GL_TEXTURE_2D, parallelReductionOutTexture);
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
 
+	glBindTexture(GL_TEXTURE_2D, shadowVarianceTexture);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
+
 	glBindTexture(GL_TEXTURE_2D, 0); //Unbind the texture
 }
 
@@ -910,6 +916,32 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	glPopDebugGroup();
 }
 
+void ModuleRender::ShadowDepthVariacne(int width, int height)
+{
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_DEPTH_VARIANCE);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Shadow Depth Variance"), "Shadow Depth Variance");
+
+	program->Activate();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gShadowMap);
+
+	glBindImageTexture(0, shadowVarianceTexture, 0, false, 0, GL_WRITE_ONLY, GL_RG32F);
+
+	program->BindUniformInt2("inSize", width, height);
+
+	unsigned int numGroupsX = (width + (8 - 1)) / 8;
+	unsigned int numGroupsY = (height + (4 - 1)) / 4;
+
+	glDispatchCompute(numGroupsX, numGroupsY, 1);
+	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+	program->Deactivate();
+
+	glPopDebugGroup();
+}
+
 void ModuleRender::DrawHighlight(GameObject* gameObject)
 {
 	std::queue<GameObject*> gameObjectQueue;
@@ -979,13 +1011,19 @@ void ModuleRender::KawaseDualFiltering()
 	// Blur bloom with kawase
 	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
 	ModuleWindow* moduleWindow = App->GetModule<ModuleWindow>();
+
 	std::pair<int, int> windowSize = moduleWindow->GetWindowSize();
+	
 	int widht = windowSize.first, height = windowSize.second;
 	bool kawaseFrameBuffer = true, firstIteration = true;
 	int kawaseSamples = 10;
+	
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
+	
 	glViewport(0, 0, widht / 2, height / 2);
+	
 	kawaseDownProgram->Activate();
+	
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
@@ -1004,8 +1042,11 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseDownProgram->Deactivate();
 
 	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
+	
 	glViewport(0, 0, widht, height);
+	
 	kawaseUpProgram->Activate();
+	
 	for (auto i = 0; i < kawaseSamples; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
