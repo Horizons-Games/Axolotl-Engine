@@ -22,10 +22,10 @@ struct Material {
     float smoothness;           //32 //4
     float metalness;            //36 //4
     float normal_strength;      //40 //4
-	float intensityBloom;       //44 //4
+    float intensityBloom;       //44 //4
     sampler2D diffuse_map;      //48 //8
     sampler2D normal_map;       //56 //8
-    sampler2D metallic_map;     //64 //8
+    sampler2D metallic_map;     //64 //8 
     sampler2D emissive_map;     //72 //8 --> 80
 };
 
@@ -297,7 +297,7 @@ void main()
     }
     Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;

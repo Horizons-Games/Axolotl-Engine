@@ -20,7 +20,8 @@ struct Material {
     int has_emissive_map;       //44 //4
     float smoothness;           //48 //4
     float normal_strength;      //52 //4
-	float intensityBloom;		//56 //4
+    float intensityBloom;		//56 //4
+    float padding;              //60 //4
     sampler2D diffuse_map;      //64 //8
     sampler2D normal_map;       //72 //8
     sampler2D specular_map;     //80 //8
@@ -66,7 +67,7 @@ void main()
 
     Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
     gPosition = FragPos;
     gNormal = Normal;

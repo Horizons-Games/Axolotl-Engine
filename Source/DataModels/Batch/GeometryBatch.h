@@ -83,6 +83,7 @@ private:
 		float smoothness = 0;					//48 //4
 		float normal_strength = 0;				//52 //4
 		float intensityBloom = 0;				//56 //4
+		int padding;
 		uint64_t diffuse_map;					//64 //8
 		uint64_t normal_map;					//72 //8
 		uint64_t specular_map;					//80 //8
@@ -107,6 +108,8 @@ private:
 	{
 		float2 tiling;
 		float2 offset;
+		float2 percentage;
+		float2 padding;
 	};
 
 	struct Effect

@@ -66,14 +66,12 @@ void main()
 
     Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord = TexCoord*tiling.tiling+tiling.offset;
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
     gPosition = FragPos;
     gNormal = Normal;
 
     vec4 metallicColor = texture(material.metallic_map, newTexCoord);
-    vec4 diffuseColor = SRGBA(texture(material.diffuse_map, newTexCoord));
-    diffuseColor.rgb += effect.color;
 
     float metalnessMask = material.has_metallic_map * metallicColor.r + (1 - material.has_metallic_map) * 
      material.metalness;
@@ -94,7 +92,7 @@ void main()
     gDiffuse = vec4(material.diffuse_color.rgb, material.diffuse_color.a);
     if (material.has_diffuse_map == 1)
     {
-        gDiffuse = vec4(diffuseColor.rgb, diffuseColor.a);
+        gDiffuse = SRGBA(texture(material.diffuse_map, newTexCoord));
     }
 
     //Metallic and Smoothness
