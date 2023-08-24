@@ -29,14 +29,11 @@ void ShockWaveAttackAreaScript::Update(float deltaTime)
 	{
 		if (rigidBody->GetRadius() <= maxSizeArea)
 		{
-			rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
-			rigidBody->SetCollisionShape(rigidBody->GetShape());
+			ExpandArea(deltaTime);
 		}
 		else
 		{
-			rigidBody->SetRadius(minSizeArea);
-			rigidBody->SetCollisionShape(rigidBody->GetShape());
-			areaState = AreaState::ON_COOLDOWN;
+			ResetAreaSize();
 		}
 	}
 }
@@ -78,4 +75,17 @@ bool ShockWaveAttackAreaScript::IsPlayerDetected() const
 GameObject* ShockWaveAttackAreaScript::GetPlayerDetected() const
 {
 	return player;
+}
+
+void ShockWaveAttackAreaScript::ExpandArea(float deltaTime) const
+{
+	rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
+	rigidBody->SetCollisionShape(rigidBody->GetShape());
+}
+
+void ShockWaveAttackAreaScript::ResetAreaSize()
+{
+	rigidBody->SetRadius(minSizeArea);
+	rigidBody->SetCollisionShape(rigidBody->GetShape());
+	areaState = AreaState::ON_COOLDOWN;
 }

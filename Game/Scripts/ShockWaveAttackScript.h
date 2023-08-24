@@ -25,7 +25,15 @@ public:
 	bool IsAttacking() const;
 
 private:
+	void ManageAreaBehaviour(float deltaTime);
+
+	void CheckPlayerDetected();
 	void RotateToTarget(ComponentTransform* target) const;
+
+	void ResetAreas();
+
+	void DisableRotation() const;
+	void EnableRotation() const;
 
 	float shockWaveCooldown;
 	bool shockWaveHitPlayer;

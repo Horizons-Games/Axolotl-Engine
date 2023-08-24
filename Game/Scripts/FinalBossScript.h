@@ -25,12 +25,13 @@ enum class FinalBossPhases
 	AGGRESSIVE, // The final boss is furious (increases atk cadence, no defensive attack will trigger)
 
 	// Phase 2
-	DEFENSIVE, // The final boss needs to recharge (increases speed and evasion, will trigger defensive attack)
+	DEFENSIVE, // The final boss needs to heal (decreases atk cadence, will trigger defensive attacks)
 
 	// Final Phase
-	LAST_RESORT // The final boss is almost dead (triggers final attack and increases atk cadence and damage)
+	LAST_RESORT // The final boss is almost dead (triggers final attack, increases atk cadence)
 };
 
+// No real use for now, this enum will be useful when we can turn State Machines into Behaviour Machines
 enum class FinalBossStates
 {
 	IDLE,

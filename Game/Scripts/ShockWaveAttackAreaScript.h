@@ -33,6 +33,9 @@ public:
 	GameObject* GetPlayerDetected() const;
 
 private:
+	void ExpandArea(float deltaTime) const;
+	void ResetAreaSize();
+
 	AreaState areaState;
 	ComponentRigidBody* rigidBody;
 

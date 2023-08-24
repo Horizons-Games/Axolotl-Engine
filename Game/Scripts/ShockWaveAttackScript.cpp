@@ -31,41 +31,7 @@ void ShockWaveAttackScript::Start()
 
 void ShockWaveAttackScript::Update(float deltaTime)
 {
-	// To deal damage to the player, both areas should be expanding
-	// But only the outside area should be detecting the player
-	if (outerArea->GetAreaState() == AreaState::EXPANDING && innerArea->GetAreaState() == AreaState::EXPANDING)
-	{
-		RotateToTarget(lookToPosition);
-
-		if (outerArea->GetPlayerDetected() && !innerArea->GetPlayerDetected() && !shockWaveHitPlayer)
-		{
-			GameObject* playerHit = outerArea->GetPlayerDetected();
-			playerHit->GetComponent<HealthSystem>()->TakeDamage(shockWaveDamage);
-
-			shockWaveHitPlayer = true;
-		}
-	}
-	else if (outerArea->GetAreaState() == AreaState::ON_COOLDOWN && 
-		innerArea->GetAreaState() == AreaState::ON_COOLDOWN)
-	{
-		shockWaveCooldown -= deltaTime;
-
-		if (shockWaveCooldown <= 0.0f)
-		{
-			outerArea->SetAreaState(AreaState::IDLE);
-			innerArea->SetAreaState(AreaState::IDLE);
-			shockWaveCooldown = shockWaveMaxCooldown;
-			shockWaveHitPlayer = false;
-		}
-
-		if (rigidBody->IsXAxisBlocked())
-		{
-			rigidBody->SetXAxisBlocked(false);
-			rigidBody->SetYAxisBlocked(false);
-			rigidBody->SetZAxisBlocked(false);
-			rigidBody->UpdateBlockedAxis();
-		}
-	}
+	ManageAreaBehaviour(deltaTime);
 }
 
 void ShockWaveAttackScript::TriggerShockWaveAttack(ComponentTransform* targetPosition)
@@ -75,10 +41,8 @@ void ShockWaveAttackScript::TriggerShockWaveAttack(ComponentTransform* targetPos
 
 	lookToPosition = targetPosition;
 
-	rigidBody->SetXAxisBlocked(true);
-	rigidBody->SetYAxisBlocked(true);
-	rigidBody->SetZAxisBlocked(true);
-	rigidBody->UpdateBlockedAxis();
+	// During the shockwave attack, the final boss would not be able to rotate
+	DisableRotation();
 
 	// This will need to trigger any kind of effect or particles to show the shockwave expanding
 }
@@ -95,6 +59,39 @@ bool ShockWaveAttackScript::IsAttacking() const
 			innerArea->GetAreaState() == AreaState::EXPANDING;
 }
 
+void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
+{
+	if (outerArea->GetAreaState() == AreaState::EXPANDING && innerArea->GetAreaState() == AreaState::EXPANDING)
+	{
+		RotateToTarget(lookToPosition);
+		CheckPlayerDetected();
+	}
+	else if (outerArea->GetAreaState() == AreaState::ON_COOLDOWN && 
+		innerArea->GetAreaState() == AreaState::ON_COOLDOWN)
+	{
+		shockWaveCooldown -= deltaTime;
+		EnableRotation();
+
+		if (shockWaveCooldown <= 0.0f)
+		{
+			ResetAreas();
+		}
+	}
+}
+
+void ShockWaveAttackScript::CheckPlayerDetected()
+{
+	// To deal damage to the player, both areas should be expanding
+	// But only the outside area should be detecting the player
+	if (outerArea->GetPlayerDetected() && !innerArea->GetPlayerDetected() && !shockWaveHitPlayer)
+	{
+		GameObject* playerHit = outerArea->GetPlayerDetected();
+		playerHit->GetComponent<HealthSystem>()->TakeDamage(shockWaveDamage);
+
+		shockWaveHitPlayer = true;
+	}
+}
+
 void ShockWaveAttackScript::RotateToTarget(ComponentTransform* target) const
 {
 	Quat errorRotation =
@@ -108,4 +105,28 @@ void ShockWaveAttackScript::RotateToTarget(ComponentTransform* target) const
 #endif // DEBUG
 
 	rigidBody->SetRotationTarget(errorRotation);
+}
+
+void ShockWaveAttackScript::ResetAreas()
+{
+	outerArea->SetAreaState(AreaState::IDLE);
+	innerArea->SetAreaState(AreaState::IDLE);
+	shockWaveCooldown = shockWaveMaxCooldown;
+	shockWaveHitPlayer = false;
+}
+
+void ShockWaveAttackScript::DisableRotation() const
+{
+	rigidBody->SetXAxisBlocked(true);
+	rigidBody->SetYAxisBlocked(true);
+	rigidBody->SetZAxisBlocked(true);
+	rigidBody->UpdateBlockedAxis();
+}
+
+void ShockWaveAttackScript::EnableRotation() const
+{
+	rigidBody->SetXAxisBlocked(false);
+	rigidBody->SetYAxisBlocked(false);
+	rigidBody->SetZAxisBlocked(false);
+	rigidBody->UpdateBlockedAxis();
 }
