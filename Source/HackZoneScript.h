@@ -14,6 +14,7 @@ public:
 
 	float GetInfluenceRadius() const;
 	float GetMaxTime() const;
+	float GetSequenceSize() const;
 
 	bool GetCompleted() const;
 	void SetCompleted();
@@ -42,6 +43,11 @@ inline float HackZoneScript::GetInfluenceRadius() const
 inline float HackZoneScript::GetMaxTime() const
 {
 	return maxTime;
+}
+
+inline float HackZoneScript::GetSequenceSize() const
+{
+	return sequenceSize;
 }
 
 inline const std::vector<SDL_Scancode>& HackZoneScript::GetKeyCombination() const

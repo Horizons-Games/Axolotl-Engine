@@ -25,6 +25,8 @@ private:
 	void DisableAllInteractions();
 	void EnableAllInteractions();
 	void FindHackZone(const std::string& tag);
+	void InitHack();
+	void FinishHack();
 
 private:
 
@@ -39,6 +41,15 @@ private:
 
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
+
+	std::vector<SDL_Scancode> userKeyInputs;
+	std::vector<SDL_GameControllerButton> userButtonInputs;
+
+	std::vector<SDL_Scancode> keyCombination;
+	std::vector<SDL_GameControllerButton> buttonCombination;
+
+	int buttonIndex;
+	int keyIndex;
 };
 
 inline bool PlayerHackingUseScript::IsHackingActive() const

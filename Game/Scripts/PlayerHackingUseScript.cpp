@@ -24,6 +24,7 @@ void PlayerHackingUseScript::Start()
 	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	rigidBody = GetOwner()->GetComponentInternal<ComponentRigidBody>();
 	hackZone = nullptr;
+
 }
 
 void PlayerHackingUseScript::Update(float deltaTime)
@@ -31,24 +32,75 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
-		if (hackZone)
+		if (hackZone && !hackZone->GetCompleted())
 		{
-			DisableAllInteractions();
-			isHackingActive = true;
-			currentTime = SDL_GetTicks();
-			maxHackTime = hackZone->GetMaxTime();
-			hackZone->GenerateCombination();
+			InitHack();
 		}
-
 	}
 
 	if (isHackingActive)
 	{
 		if ((SDL_GetTicks() - currentTime) / 1000.0f > maxHackTime)
 		{
-			EnableAllInteractions();
+			FinishHack();
+		}
+
+		else
+		{
+
+			if (input->GetKey(keyCombination[keyIndex]) != KeyState::IDLE)
+			{
+				userKeyInputs.push_back(keyCombination[keyIndex]);
+				keyIndex++;
+			}
+
+			if (input->GetGamepadButton(buttonCombination[buttonIndex]) != KeyState::IDLE)
+			{
+				userButtonInputs.push_back(buttonCombination[buttonIndex]);
+				buttonIndex++;
+			}
+
+			if (userKeyInputs == keyCombination)
+			{
+				FinishHack();
+				hackZone->SetCompleted();
+			}
+
+			if (userButtonInputs == buttonCombination)
+			{
+				FinishHack();
+				hackZone->SetCompleted();
+			}
+
 		}
 	}
+}
+
+void PlayerHackingUseScript::InitHack()
+{
+	DisableAllInteractions();
+	isHackingActive = true;
+	currentTime = SDL_GetTicks();
+	maxHackTime = hackZone->GetMaxTime();
+	hackZone->GenerateCombination();
+
+	userKeyInputs.reserve(hackZone->GetSequenceSize());
+	userButtonInputs.reserve(hackZone->GetSequenceSize());
+
+	keyCombination = hackZone->GetKeyCombination();
+	buttonCombination = hackZone->GetButtonCombination();
+
+	buttonIndex = 0;
+	keyIndex = 0;
+}
+
+void PlayerHackingUseScript::FinishHack()
+{
+	EnableAllInteractions();
+	isHackingActive = false;
+
+	userKeyInputs.clear();
+	userButtonInputs.clear();
 }
 
 void PlayerHackingUseScript::DisableAllInteractions()
