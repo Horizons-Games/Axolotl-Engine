@@ -9,7 +9,7 @@ class WindowInspector;
 class WindowStateMachineEditor;
 class WindowLoading;
 class Resource;
-class ResourceStateMachine;
+class StateMachine;
 class GameObject;
 
 class ModuleEditor : public Module
@@ -28,7 +28,7 @@ public:
 
 	void Resized();
 
-	void SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource);
+	void SetStateMachineWindowEditor(StateMachine* resourceInstance,const std::string& instanceName);
 	void SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource);
 
 	const WindowScene* GetScene() const;
