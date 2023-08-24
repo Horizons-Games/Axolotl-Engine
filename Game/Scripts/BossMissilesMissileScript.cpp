@@ -30,6 +30,9 @@ void BossMissilesMissileScript::Start()
 	rigidBody->SetIsKinematic(false);
 	rigidBody->SetUpMobility();
 	rigidBody->SetDrawCollider(true);
+
+	// This will need any kind of warning for the player in the future
+	// Maybe a particle in the floor that shows where the missile is going to land
 }
 
 void BossMissilesMissileScript::Update(float deltaTime)

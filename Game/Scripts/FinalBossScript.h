@@ -49,7 +49,13 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	void ManageChangePhase();
+	void ManageBossPhases();
+	void TryAttacksIndividually();
+
+	void ManageNeutralPhase() const;
+	void ManageAggressivePhase() const;
+	void ManageDefensivePhase() const;
+	void ManageLastResortPhase() const;
 
 	FinalBossPhases bossPhase;
 	FinalBossStates bossState;

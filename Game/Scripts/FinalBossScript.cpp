@@ -46,18 +46,78 @@ void FinalBossScript::Update(float deltaTime)
 		return;
 	}
 
-	ManageChangePhase();
+	// Uncomment this line to check the attacks individually (you have to activate them below)
+	TryAttacksIndividually();
+	
+	// Uncomment this line to check the boss full behaviour (not ready yet)
+	//ManageBossPhases();
 
-	// Uncomment this to check the patrol -------------------------------------
-	/*
-	patrolScript->Patrolling();
-	bossState = FinalBossStates::WALKING;
-	*/
+	// Do not leave both lines uncommented once they are functional
+}
+
+void FinalBossScript::ManageBossPhases()
+{
+	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f)
+	{
+		if (bossPhase != FinalBossPhases::LAST_RESORT)
+		{
+			LOG_VERBOSE("Final Boss is in LAST RESORT PHASE");
+		}
+		bossPhase = FinalBossPhases::LAST_RESORT;
+
+		ManageLastResortPhase();
+	}
+	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f)
+	{
+		if (bossPhase != FinalBossPhases::DEFENSIVE)
+		{
+			LOG_VERBOSE("Final Boss is in DEFENSIVE PHASE");
+		}
+		bossPhase = FinalBossPhases::DEFENSIVE;
+
+		ManageDefensivePhase();
+	}
+	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f)
+	{
+		if (bossPhase != FinalBossPhases::AGGRESSIVE)
+		{
+			LOG_VERBOSE("Final Boss is in AGGRESSIVE PHASE");
+		}
+		bossPhase = FinalBossPhases::AGGRESSIVE;
+
+		ManageAggressivePhase();
+	}
+	else
+	{
+		if (bossPhase != FinalBossPhases::NEUTRAL)
+		{
+			LOG_VERBOSE("Final Boss is in NEUTRAL PHASE");
+		}
+		bossPhase = FinalBossPhases::NEUTRAL;
+		
+		ManageNeutralPhase();
+	}
+}
+
+void FinalBossScript::TryAttacksIndividually()
+{
+	bool isPerformingAnAttack = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking() ||
+		shieldAttackScript->IsAttacking() || missilesAttackScript->IsAttacking();
+
+	if (!isPerformingAnAttack)
+	{
+		rigidBody->SetKpForce(0.3f);
+		rigidBody->SetIsKinematic(false);
+		rigidBody->SetUpMobility();
+
+		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
+		bossState = FinalBossStates::WALKING;
+	}
 
 	// Uncomment this to check the plasma hammer attack -----------------------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
-		shockWaveAttackScript->CanPerformShockWaveAttack())
+		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
 	{
 		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
@@ -67,9 +127,9 @@ void FinalBossScript::Update(float deltaTime)
 	// Uncomment this to check the brutal charge attack ------------------------------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
-		chargeAttackScript->CanPerformChargeAttack())
+		chargeAttackScript->CanPerformChargeAttack() && !isPerformingAnAttack)
 	{
- 		chargeAttackScript->TriggerChargeAttack(targetTransform);
+		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	*/
@@ -77,59 +137,40 @@ void FinalBossScript::Update(float deltaTime)
 	// Uncomment this to check the energy shield attack -----------------------
 	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
-		shieldAttackScript->CanPerformShieldAttack())
+		shieldAttackScript->CanPerformShieldAttack() && !isPerformingAnAttack)
 	{
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
 	}
 	*/
 
-	// Uncomment this to check the energy shield attack -----------------------
+	// Uncomment this to check the last wish missiles attack -----------------------
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
-		missilesAttackScript->CanPerformMissilesAttack())
+		missilesAttackScript->CanPerformMissilesAttack() && !isPerformingAnAttack)
 	{
 		missilesAttackScript->TriggerMissilesAttack();
 		bossState = FinalBossStates::ATTACKING;
 	}
-
-	
-	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking() &&
-			!shieldAttackScript->IsAttacking() && !missilesAttackScript->IsAttacking())
-	{
-		rigidBody->SetKpForce(0.3f);
-		rigidBody->SetIsKinematic(false);
-		rigidBody->SetUpMobility();
-
-		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
-		bossState = FinalBossStates::WALKING;
-	}
-	
+	*/
 }
 
-void FinalBossScript::ManageChangePhase()
+void FinalBossScript::ManageNeutralPhase() const
 {
-	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f)
-	{
-		bossPhase = FinalBossPhases::LAST_RESORT;
 
-		//LOG_VERBOSE("Final Boss is in LAST RESORT");
-	}
-	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f)
-	{
-		bossPhase = FinalBossPhases::DEFENSIVE;
+}
 
-		//LOG_VERBOSE("Final Boss is DEFENSIVE");
-	}
-	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f)
-	{
-		bossPhase = FinalBossPhases::AGGRESSIVE;
+void FinalBossScript::ManageAggressivePhase() const
+{
 
-		//LOG_VERBOSE("Final Boss is AGGRESSIVE");
-	}
-	else
-	{
-		bossPhase = FinalBossPhases::NEUTRAL;
+}
 
-		//LOG_VERBOSE("Final Boss is NEUTRAL");
-	}
+void FinalBossScript::ManageDefensivePhase() const
+{
+
+}
+
+void FinalBossScript::ManageLastResortPhase() const
+{
+
 }
