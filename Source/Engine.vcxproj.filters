@@ -493,7 +493,6 @@
     <ClCompile Include="FileSystem\UIDGenerator.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -577,6 +576,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UICursorScript.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIMissionTrigger.cpp">
@@ -1075,6 +1077,9 @@
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIGameManager.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UICursorScript.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UITrigger.h">

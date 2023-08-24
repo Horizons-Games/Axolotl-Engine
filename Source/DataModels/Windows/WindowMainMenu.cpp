@@ -207,12 +207,12 @@ void WindowMainMenu::ShortcutSave()
 	if (filePathName != "New Scene")
 	{
 		scene->SaveScene(filePathName + SCENE_EXTENSION);
-		LOG_DEBUG("SAVED SCENE");
+		LOG_DEBUG("SCENE SAVED");
 	}
 	else
 	{
 		isSaving = true;
-		LOG_DEBUG("SAVED SCENE");
+		LOG_DEBUG("SCENE SAVED");
 	}
 }
 
