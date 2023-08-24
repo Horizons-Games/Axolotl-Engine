@@ -1,0 +1,11 @@
+{
+    "UID": 10038616489224516016,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_RunWayBarandilla.Barandilla_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_RunWayBarandillaBarandilla.002_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

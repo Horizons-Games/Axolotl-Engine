@@ -1,0 +1,11 @@
+{
+    "UID": 1248760579695795001,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_RunWayCross.RunWayCross_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_RunWayCrossBody.005_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

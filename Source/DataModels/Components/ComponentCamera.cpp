@@ -86,8 +86,8 @@ void ComponentCamera::InternalSave(Json& meta)
 {
 	meta["frustumOfset"] = camera->GetFrustumOffset();
 	meta["drawFrustum"] = camera->IsDrawFrustum();
-	meta["kpPosition"] = camera->GetKpPosition();
-	meta["kpRotation"] = camera->GetKpRotation();
+	meta["kpPosition"] = KpPosition;
+	meta["kpRotation"] = KpRotation;
 	// meta["frustumMode"] = camera->GetFrustumMode();
 }
 
@@ -95,11 +95,11 @@ void ComponentCamera::InternalLoad(const Json& meta)
 {
 	camera->SetFrustumOffset((float) meta["frustumOfset"]);
 	camera->SetIsDrawFrustum((bool) meta["drawFrustum"]);
-	camera->SetKpPosition((float) meta["kpPosition"]);
-	camera->SetKpRotation((float) meta["kpRotation"]);
+	KpPosition = (float) meta["kpPosition"];
+	KpRotation = (float) meta["kpRotation"];
 
-	KpPosition = camera->GetKpPosition();
-	KpRotation = camera->GetKpRotation();
+	camera->SetKpPosition(KpPosition);
+	camera->SetKpRotation(KpRotation);
 	// frustumMode = GetFrustumModeByName(meta["frustumMode"]);
 }
 
