@@ -837,19 +837,19 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	// Compute camera frustrum bounding sphere
 	math::Frustum* cameraFrustum = new Frustum(*App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum());
 
-	// SDSM: Final near an far distances
+	// SDSM: Calculus for the final near an far planes
 	float n = cameraFrustum->NearPlaneDistance();
 	float f = cameraFrustum->FarPlaneDistance();
 	float T = -(n + f) / (f - n);
 	float S = (-2 * f * n) / (f - n);
-	float distMin = S / (T + minMax[0]);
-	float distMax = S / (T + minMax[1]);
+	float lightNear = S / (T + minMax[0]);
+	float lightFar = S / (T + minMax[1]);
 
-	if (distMin > distMax) {
-		distMin = 0.1f;
+	if (lightNear > lightFar) {
+		lightNear = 0.1f;
 	}
 
-	cameraFrustum->SetViewPlaneDistances(distMin, distMax);
+	cameraFrustum->SetViewPlaneDistances(lightNear, lightFar);
 
 	float3 corners[8];
 	cameraFrustum->GetCornerPoints(corners);
