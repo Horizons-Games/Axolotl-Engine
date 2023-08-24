@@ -19,7 +19,7 @@ class BossMissilesAttackScript;
 enum class FinalBossPhases
 {
 	// Base Phase
-	NEUTRAL, // The final boss is calm
+	NEUTRAL, // The final boss is calm, just basic attacks and few charges will happen
 
 	// Phase 1
 	AGGRESSIVE, // The final boss is furious (increases atk cadence, no defensive attack will trigger)
@@ -53,7 +53,9 @@ private:
 	void ManageBossPhases();
 	void TryAttacksIndividually();
 
-	void ManageNeutralPhase() const;
+	void ReactivateMovement() const;
+
+	void ManageNeutralPhase();
 	void ManageAggressivePhase() const;
 	void ManageDefensivePhase() const;
 	void ManageLastResortPhase() const;

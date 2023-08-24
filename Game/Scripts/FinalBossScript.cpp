@@ -46,11 +46,11 @@ void FinalBossScript::Update(float deltaTime)
 		return;
 	}
 
-	// Uncomment this line to check the attacks individually (you have to activate them below)
-	TryAttacksIndividually();
+	// Uncomment this line to check the attacks individually (you have to activate each one of them below)
+	//TryAttacksIndividually();
 	
-	// Uncomment this line to check the boss full behaviour (not ready yet)
-	//ManageBossPhases();
+	// Uncomment this line to check the boss full behaviour
+	ManageBossPhases();
 
 	// Do not leave both lines uncommented once they are functional
 }
@@ -106,10 +106,7 @@ void FinalBossScript::TryAttacksIndividually()
 
 	if (!isPerformingAnAttack)
 	{
-		rigidBody->SetKpForce(0.3f);
-		rigidBody->SetIsKinematic(false);
-		rigidBody->SetUpMobility();
-
+		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		bossState = FinalBossStates::WALKING;
 	}
@@ -155,9 +152,43 @@ void FinalBossScript::TryAttacksIndividually()
 	*/
 }
 
-void FinalBossScript::ManageNeutralPhase() const
+void FinalBossScript::ReactivateMovement() const
 {
+	rigidBody->SetKpForce(0.3f);
+	rigidBody->SetIsKinematic(false);
+	rigidBody->SetUpMobility();
+}
 
+void FinalBossScript::ManageNeutralPhase()
+{
+	int chargeChance = rand() % 1000; // Trust me, 1 in 1000 chance is enough (and even too much for this phase)
+	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking();
+
+	if (isAnAttackHappening)
+	{
+		return;
+	}
+
+	// If the player gets near the boss, the boss will defend itself with a shockwave if possible
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
+		shockWaveAttackScript->CanPerformShockWaveAttack())
+	{
+		shockWaveAttackScript->TriggerShockWaveAttack(targetTransform);
+		bossState = FinalBossStates::ATTACKING;
+	}
+	// If the player is not near, the boss will have low chance to charge towards them
+	else if (chargeChance < 1 && chargeAttackScript->CanPerformChargeAttack())
+	{
+		chargeAttackScript->TriggerChargeAttack(targetTransform);
+		bossState = FinalBossStates::ATTACKING;
+	}
+	// If neither of those, the final boss will patrol around
+	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
+	{
+		ReactivateMovement();
+		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
+		bossState = FinalBossStates::WALKING;
+	}
 }
 
 void FinalBossScript::ManageAggressivePhase() const
