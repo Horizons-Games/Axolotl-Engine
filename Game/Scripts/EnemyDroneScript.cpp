@@ -24,7 +24,7 @@ REGISTERCLASS(EnemyDroneScript);
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
 componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr),
-explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), animationOffset(0),
+explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), flinchAnimationOffset(false),
 exclamationVFX(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
@@ -96,7 +96,7 @@ void EnemyDroneScript::CheckState()
 	if (droneState == DroneBehaviours::READYTOEXPLODE)
 	{
 		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
-			&& animationOffset >= 1)
+			&& flinchAnimationOffset == true)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			heavyAttackScript->TriggerExplosion();
@@ -105,7 +105,7 @@ void EnemyDroneScript::CheckState()
 
 			droneState = DroneBehaviours::EXPLOSIONATTACK;
 		}
-		animationOffset++;
+		flinchAnimationOffset = true;
 	}
 	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance))
 	{

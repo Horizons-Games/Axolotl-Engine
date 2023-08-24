@@ -49,7 +49,7 @@ private:
 
 	float attackDistance;
 	float seekDistance;
-	int animationOffset;
+	bool flinchAnimationOffset; //This is not ideal but couldn't find a way to wait for waiting the Flinch animation to play
 	float enemyDetectionDuration;
 	float enemyDetectionTime;
 
