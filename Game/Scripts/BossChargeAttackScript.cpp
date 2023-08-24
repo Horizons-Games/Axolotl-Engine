@@ -20,7 +20,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	rockAttackVariant(false)
+	isRockAttackVariant(false)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
@@ -33,7 +33,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 
 	REGISTER_FIELD(rockPrefab, GameObject*);
 
-	REGISTER_FIELD(rockAttackVariant, bool);
+	REGISTER_FIELD(isRockAttackVariant, bool);
 }
 
 void BossChargeAttackScript::Start()
@@ -45,6 +45,48 @@ void BossChargeAttackScript::Start()
 }
 
 void BossChargeAttackScript::Update(float deltaTime)
+{
+	ManageChargeAttackStates(deltaTime);
+}
+
+void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if ((other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock"))
+		&& chargeState == ChargeState::CHARGING)
+	{
+		chargeState = ChargeState::BOUNCING_WALL;
+
+		WallHitAfterCharge();
+
+		if (isRockAttackVariant)
+		{
+			MakeRocksFall();
+		}
+	}
+	else if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer && chargeState == ChargeState::CHARGING)
+	{
+		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
+		chargeHitPlayer = true;
+	}
+	else if (other->GetOwner()->CompareTag("Floor") && chargeState == ChargeState::BOUNCING_WALL)
+	{
+		rigidBody->SetIsKinematic(true);
+		rigidBody->SetUpMobility();
+	}
+}
+
+void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosition)
+{
+	LOG_INFO("The charge attack was triggered");
+
+	chargeState = ChargeState::PREPARING_CHARGE;
+	chargeCooldown = chargeMaxCooldown;
+
+	chargeThroughPosition = targetPosition;
+	chargeHitPlayer = false;
+}
+
+void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 {
 	if (chargeState == ChargeState::PREPARING_CHARGE)
 	{
@@ -63,7 +105,7 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 	if (chargeState == ChargeState::CHARGING)
 	{
-		if (rockAttackVariant)
+		if (isRockAttackVariant)
 		{
 			int randomActivation = rand() % 100;
 
@@ -76,7 +118,7 @@ void BossChargeAttackScript::Update(float deltaTime)
 		}
 
 		/*
-		// This else will manage the CHARGING behavior of the first miniboss, where, 
+		// This else will manage the CHARGING behavior of the first miniboss, where,
 		// instead of throwing rocks, it will leave in the floor a toxic trail
 		else
 		{
@@ -99,43 +141,6 @@ void BossChargeAttackScript::Update(float deltaTime)
 			enemyScript->SetStunnedTime(enemyScript->GetStunnedTime() - deltaTime);
 		}
 	}
-}
-
-
-void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
-{
-	if ((other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock"))
-		&& chargeState == ChargeState::CHARGING)
-	{
-		chargeState = ChargeState::BOUNCING_WALL;
-
-		WallHitAfterCharge();
-
-		if (rockAttackVariant)
-		{
-			MakeRocksFall();
-		}
-	}
-	else if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer && chargeState == ChargeState::CHARGING)
-	{
-		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
-		chargeHitPlayer = true;
-	}
-	else if (other->GetOwner()->CompareTag("Floor") && chargeState == ChargeState::BOUNCING_WALL)
-	{
-		rigidBody->SetIsKinematic(true);
-		rigidBody->SetUpMobility();
-	}
-}
-
-
-void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosition)
-{
-	chargeState = ChargeState::PREPARING_CHARGE;
-	chargeCooldown = chargeMaxCooldown;
-
-	chargeThroughPosition = targetPosition;
-	chargeHitPlayer = false;
 }
 
 void BossChargeAttackScript::PrepareCharge() const
@@ -196,7 +201,7 @@ bool BossChargeAttackScript::IsAttacking() const
 	return chargeState != ChargeState::NONE;
 }
 
-void BossChargeAttackScript::SpawnRock(float3 spawnPosition)
+void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 {
 	LOG_DEBUG("Spawn rock at {}, {}, {}", spawnPosition.x, spawnPosition.y, spawnPosition.z);
 

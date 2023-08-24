@@ -33,13 +33,15 @@ public:
 	bool IsAttacking() const;
 
 private:
+	void ManageChargeAttackStates(float deltaTime);
+
 	void PrepareCharge() const;
 	void PerformChargeAttack();
 	void WallHitAfterCharge() const;
 
 	// These two functions will not be used in the first miniboss
 	// As instead of throwing rocks, it will leave a toxic trail behind when charging
-	void SpawnRock(float3 spawnPosition);
+	void SpawnRock(const float3& spawnPosition);
 	void MakeRocksFall() const;
 
 	void RotateToTarget(ComponentTransform* target) const;
@@ -68,5 +70,5 @@ private:
 
 	GameObject* rockPrefab;
 
-	bool rockAttackVariant;
+	bool isRockAttackVariant;
 };
