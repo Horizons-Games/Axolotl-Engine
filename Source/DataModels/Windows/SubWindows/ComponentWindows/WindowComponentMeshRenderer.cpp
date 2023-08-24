@@ -502,6 +502,30 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				materialResource->SetOffset(offset);
 				updateMaterials = true;
 			}
+
+			float2 percentage = materialResource->GetPercentage();
+			if (ImGui::InputFloat2("Percentage (%)", &percentage[0], "%.2f"))
+			{
+				if (percentage[0] < 0.0f)
+				{
+					percentage[0] = 0.0f;
+				}
+				else if (percentage[0] > 100.0f)
+				{
+					percentage[0] = 100.0f;
+				}
+
+				if (percentage[1] < 0.0f)
+				{
+					percentage[1] = 0.0f;
+				}
+				else if (percentage[1] > 100.0f)
+				{
+					percentage[1] = 100.0f;
+				}
+				materialResource->SetPercentage(percentage);
+				updateMaterials = true;
+			}
 			
 			ImGui::Text("");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 120);

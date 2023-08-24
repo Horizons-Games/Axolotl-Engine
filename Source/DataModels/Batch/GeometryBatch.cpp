@@ -760,7 +760,8 @@ void GeometryBatch::BindBatch(bool selected)
 				
 				if (component->GetMaterial())
 				{
-					Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+					std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
+					Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
@@ -801,7 +802,8 @@ void GeometryBatch::BindBatch(bool selected)
 
 			if (component->GetMaterial())
 			{
-				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+				std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
+				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 
@@ -897,9 +899,6 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 
 	int drawCount = 0;
 
-	GameObject* selectedGo = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	bool isRoot = selectedGo->GetParent() == nullptr;
-
 	for (ComponentMeshRenderer* component : componentsInBatch)
 	{
 		assert(component);
@@ -908,7 +907,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 		
 		bool draw = it != objects.end();
 		
-		if (it != objects.end())
+		if (draw)
 		{
 			if (!(*it)->GetComponent<ComponentMeshRenderer>())
 			{
@@ -941,7 +940,8 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 
 			if (component->GetMaterial())
 			{
-				Tiling tiling(component->GetMaterial()->GetTiling(), component->GetMaterial()->GetOffset());
+				std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
+				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
 

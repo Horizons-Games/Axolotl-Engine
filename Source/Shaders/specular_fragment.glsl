@@ -18,11 +18,19 @@ struct Material {
     int has_emissive_map;       //44 //4
     float smoothness;           //48 //4
     float normal_strength;      //52 //4
-    sampler2D diffuse_map;      //56 //8
-    sampler2D normal_map;       //64 //8
-    sampler2D specular_map;     //72 //8    
-    sampler2D emissive_map;     //80 //8
-    int padding1,padding2;      //88 //8 --> 96
+    float intensityBloom;       //56 //8 
+    float padding;              //60 //4
+    sampler2D diffuse_map;      //64 //8
+    sampler2D normal_map;       //72 //8
+    sampler2D specular_map;     //80 //8    
+    sampler2D emissive_map;     //88 //8 --> 96
+};
+
+struct Tiling {
+    vec2 tiling;                //0  //8
+    vec2 offset;                //8  //8 
+    vec2 percentage;            //16 //8
+    vec2 padding;               //24 //8 --> 32
 };
 
 layout(std140, binding=1) uniform Directional
@@ -57,6 +65,10 @@ readonly layout(std430, binding=5) buffer AreaLightsTube
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 12) buffer Tilings {
+    Tiling tilings[];
 };
 
 // IBL
@@ -277,6 +289,9 @@ vec3 posA = areaTube[i].positionA.xyz;
 void main()
 {
     Material material = materials[InstanceIndex];
+    Tiling tiling = tilings[InstanceIndex];
+
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
@@ -285,7 +300,7 @@ void main()
     // Diffuse
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(material.diffuse_map, TexCoord); 
+        textureMat = texture(material.diffuse_map, newTexCoord); 
         //textureMat = pow(textureMat, vec3(2.2));
     }
     textureMat = SRGBA(textureMat);
@@ -298,7 +313,7 @@ void main()
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(material.normal_map, TexCoord).rgb;
+        norm = texture(material.normal_map, newTexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -309,7 +324,7 @@ void main()
     // Specular
     vec4 specularMat = vec4(material.specular_color, 1.0);
     if (material.has_specular_map == 1) {
-        specularMat = vec4(texture(material.specular_map, TexCoord));
+        specularMat = vec4(texture(material.specular_map, newTexCoord));
     }
 
     vec3 f0 = specularMat.rgb;
@@ -351,7 +366,7 @@ void main()
     //Emissive
     if (material.has_emissive_map == 1) 
     {
-        color += vec3(texture(material.emissive_map, TexCoord));
+        color += vec3(texture(material.emissive_map, newTexCoord));
     }
     
     outColor = vec4(color, textureMat.a);

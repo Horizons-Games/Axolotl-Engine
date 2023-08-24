@@ -25,7 +25,9 @@ struct Material {
 
 struct Tiling {
     vec2 tiling;                //0  //8
-    vec2 offset;                //8  //8 --> 16
+    vec2 offset;                //8  //8 
+    vec2 percentage;            //16 //8
+    vec2 padding;               //24 //8 --> 32
 };
 
 layout (location = 0) out vec3 gPosition;
@@ -55,13 +57,12 @@ void main()
     Material material = materials[InstanceIndex];
     Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord = TexCoord*tiling.tiling+tiling.offset;
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
     gPosition = FragPos;
     gNormal = Normal;
 
     vec4 metallicColor = texture(material.metallic_map, newTexCoord);
-    vec4 diffuseColor = texture(material.diffuse_map, newTexCoord);
 
     float metalnessMask = material.has_metallic_map * metallicColor.r + (1 - material.has_metallic_map) * 
      material.metalness;
@@ -82,7 +83,7 @@ void main()
     gDiffuse = vec4(material.diffuse_color.rgb, material.diffuse_color.a);
     if (material.has_diffuse_map == 1)
     {
-        gDiffuse = vec4(diffuseColor.rgb, diffuseColor.a);
+        gDiffuse = texture(material.diffuse_map, newTexCoord);
     }
     gDiffuse = SRGBA(gDiffuse);
 

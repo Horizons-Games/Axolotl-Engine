@@ -17,7 +17,7 @@ public:
 
 	void OnTransformChanged() override;
 
-	float2 shadowBias = float2(0.006, 0.0009);
+	float2 shadowBias;
 
 private:
 	void InternalSave(Json& meta) override;
