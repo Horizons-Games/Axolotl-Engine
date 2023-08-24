@@ -23,8 +23,6 @@
 #include "DataModels/Skybox/Skybox.h"
 #include "DataModels/GBuffer/GBuffer.h"
 
-#include "debugdraw.h"
-
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
 
@@ -140,14 +138,6 @@ ModuleRender::~ModuleRender()
 	delete gBuffer;
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
-
-	glDeleteFramebuffers(2, &frameBuffer[0]);
-	glDeleteTextures(2, &renderedTexture[0]);
-
-	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
-
-	glDeleteFramebuffers(1, &shadowMapBuffer);
-	glDeleteTextures(1, &gShadowMap);
 }
 
 bool ModuleRender::Init()
@@ -523,9 +513,14 @@ bool ModuleRender::CleanUp()
 	glDeleteFramebuffers(1, &frameBuffer[1]);
 	glDeleteTextures(1, &renderedTexture[1]);
 #endif // ENGINE
+
 	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
 	glDeleteTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
+
+	glDeleteFramebuffers(1, &shadowMapBuffer);
+	glDeleteTextures(1, &gShadowMap);
+
 	return true;
 }
 
@@ -539,7 +534,7 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 
 void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 {
-	gBuffer->InitGBuffer(width,height);
+	gBuffer->InitGBuffer(width, height);
 	
 	// Shadow Map Depth Buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapBuffer);
@@ -558,7 +553,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		LOG_ERROR("G Framebuffer not complete!");
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Shadow Map framebuffer not completed!");
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);

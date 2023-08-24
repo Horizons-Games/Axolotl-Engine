@@ -152,7 +152,7 @@ std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum
 void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
 									  std::vector<GameObject*>& gos)
 {
-	if (frustumInQuadTree(frustum, quad))
+	if (FrustumInQuadTree(frustum, quad))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quad->GetGameObjects();
 
@@ -210,7 +210,7 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 		return;
 	}
 
-	if (objectInFrustum(frustum, transform->GetEncapsuledAABB()))
+	if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
 	{
 		if (go->HasComponent<ComponentMeshRenderer>())
 		{
@@ -231,7 +231,7 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 	}
 }
 
-bool Scene::frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad)
+bool Scene::FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad)
 {
 	math::Plane planes[6];
 	frustum->GetPlanes(planes);
@@ -257,7 +257,7 @@ bool Scene::frustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad
 	return true;
 }
 
-bool Scene::objectInFrustum(const math::Frustum* frustum, const AABB& aabb)
+bool Scene::ObjectInFrustum(const math::Frustum* frustum, const AABB& aabb)
 {
 	math::vec cornerPoints[8];
 	math::Plane frustumPlanes[6];
