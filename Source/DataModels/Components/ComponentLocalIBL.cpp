@@ -91,6 +91,7 @@ ComponentLocalIBL::~ComponentLocalIBL()
 
 	if (currentScene)
 	{
+		currentScene->RemoveComponentLocalIBL(this);
 		currentScene->UpdateSceneLocalIBLs();
 		currentScene->RenderLocalIBLs();
 	}

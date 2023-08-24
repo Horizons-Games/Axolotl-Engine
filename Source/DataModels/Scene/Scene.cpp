@@ -1358,24 +1358,28 @@ void Scene::UpdateSceneLocalIBLs()
 
 	for (auto local : sceneComponentLocalIBLs)
 	{
-		LocalIBL localIBL;
-		localIBL.diffuse = local->GetHandleIrradiance();
-		localIBL.prefiltered = local->GetHandlePreFiltered();
-		localIBL.position = local->GetPosition();
-		AABB parallax = local->GetParallaxAABB();
-		localIBL.maxParallax = parallax.maxPoint;
-		localIBL.minParallax = parallax.minPoint;
-		float4x4 toLocal = local->GetTransform();
-		toLocal.InverseOrthonormal();
-		localIBL.toLocal = toLocal;
-		AABB influence = local->GetInfluenceAABB();
-		localIBL.maxInfluence = influence.maxPoint;
-		localIBL.minInfluence = influence.minPoint;
-				
-		localIBLs.push_back(localIBL);
-		cachedLocalIBLs.push_back(std::make_pair(local, pos));
+		if (local->IsEnabled())
+		{
+			LocalIBL localIBL;
+			localIBL.diffuse = local->GetHandleIrradiance();
+			localIBL.prefiltered = local->GetHandlePreFiltered();
+			localIBL.position = local->GetPosition();
+			AABB parallax = local->GetParallaxAABB();
+			localIBL.maxParallax = parallax.maxPoint;
+			localIBL.minParallax = parallax.minPoint;
+			float4x4 toLocal = local->GetTransform();
+			toLocal.InverseOrthonormal();
+			localIBL.toLocal = toLocal;
+			AABB influence = local->GetInfluenceAABB();
+			localIBL.maxInfluence = influence.maxPoint;
+			localIBL.minInfluence = influence.minPoint;
 
-		++pos;
+			localIBLs.push_back(localIBL);
+			cachedLocalIBLs.push_back(std::make_pair(local, pos));
+
+			++pos;
+		}
+
 	}
 }
 
