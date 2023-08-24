@@ -19,7 +19,8 @@ REGISTERCLASS(BossChargeAttackScript);
 BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPosition(nullptr), prepareChargeTime(0.0f),
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
-	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f)
+	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
+	rockAttackVariant(false)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
@@ -31,6 +32,8 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(rockSpawningHeight, float);
 
 	REGISTER_FIELD(rockPrefab, GameObject*);
+
+	REGISTER_FIELD(rockAttackVariant, bool);
 }
 
 void BossChargeAttackScript::Start()
@@ -60,14 +63,26 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 	if (chargeState == ChargeState::CHARGING)
 	{
-		int randomActivation = rand() % 100;
-
-		if (randomActivation < spawningRockChance)
+		if (rockAttackVariant)
 		{
-			SpawnRock(float3(transform->GetGlobalPosition().x,
-								transform->GetGlobalPosition().y + rockSpawningHeight,
-								transform->GetGlobalPosition().z));
+			int randomActivation = rand() % 100;
+
+			if (randomActivation < spawningRockChance)
+			{
+				SpawnRock(float3(transform->GetGlobalPosition().x,
+					transform->GetGlobalPosition().y + rockSpawningHeight,
+					transform->GetGlobalPosition().z));
+			}
 		}
+
+		/*
+		// This else will manage the CHARGING behavior of the first miniboss, where, 
+		// instead of throwing rocks, it will leave in the floor a toxic trail
+		else
+		{
+
+		}
+		*/
 	}
 
 	if (chargeState == ChargeState::BOUNCING_WALL)
@@ -95,7 +110,11 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		chargeState = ChargeState::BOUNCING_WALL;
 
 		WallHitAfterCharge();
-		MakeRocksFall();
+
+		if (rockAttackVariant)
+		{
+			MakeRocksFall();
+		}
 	}
 	else if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer && chargeState == ChargeState::CHARGING)
 	{

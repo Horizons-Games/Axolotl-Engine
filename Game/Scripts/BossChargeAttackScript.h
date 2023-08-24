@@ -67,4 +67,6 @@ private:
 	float rockSpawningHeight;
 
 	GameObject* rockPrefab;
+
+	bool rockAttackVariant;
 };

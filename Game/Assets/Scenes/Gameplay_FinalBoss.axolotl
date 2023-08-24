@@ -12473,6 +12473,11 @@
                                     "name": "RockPrefab",
                                     "value": 9276601829761192698,
                                     "type": 2
+                                },
+                                {
+                                    "name": "RockAttackVariant",
+                                    "value": true,
+                                    "type": 5
                                 }
                             ]
                         }
