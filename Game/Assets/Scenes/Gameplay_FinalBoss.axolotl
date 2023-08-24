@@ -12560,13 +12560,13 @@
                             "constructName": "BossMissilesAttackScript",
                             "fields": [
                                 {
-                                    "name": "MissilePrefab",
-                                    "value": 0,
+                                    "name": "SafePositionTransform",
+                                    "value": 12494867948182540335,
                                     "type": 2
                                 },
                                 {
-                                    "name": "SafePositionTransform",
-                                    "value": 12494867948182540335,
+                                    "name": "MissilePrefab",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -80061,8 +80061,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 9.0,
-                            "localPos_Z": 26.0,
+                            "localPos_Y": 12.0,
+                            "localPos_Z": 23.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,

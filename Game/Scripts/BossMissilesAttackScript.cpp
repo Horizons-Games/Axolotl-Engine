@@ -10,7 +10,7 @@ REGISTERCLASS(BossMissilesAttackScript);
 BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(nullptr), 
 	safePositionTransform(nullptr), rigidBody(nullptr), initialPosition(float3::zero), midJumpPosition(float3::zero),
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
-	missileAttackMaxDuration(10.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f)
+	missileAttackMaxDuration(20.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f)
 {
 	REGISTER_FIELD(safePositionTransform, ComponentTransform*);
 
@@ -23,6 +23,7 @@ BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(n
 void BossMissilesAttackScript::Start()
 {
 	missileAttackDuration = missileAttackMaxDuration;
+	missileAttackCooldown = missileAttackMaxCooldown;
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetComponent<ComponentTransform>();
@@ -31,17 +32,17 @@ void BossMissilesAttackScript::Start()
 void BossMissilesAttackScript::Update(float deltaTime)
 {
 	// Manage the rotation and timers
-	if (missilesAttackState == AttackState::STARTING_JUMP)
+	if (missilesAttackState == AttackState::STARTING_SAFE_JUMP)
 	{
 		RotateToTarget(midJumpPosition);
 
 		if (transform->GetGlobalPosition().Equals(midJumpPosition, 0.5f))
 		{
-			missilesAttackState = AttackState::ENDING_JUMP;
+			missilesAttackState = AttackState::ENDING_SAFE_JUMP;
 			MoveUserToPosition(safePositionTransform->GetGlobalPosition());
 		}
 	}
-	else if (missilesAttackState == AttackState::ENDING_JUMP)
+	else if (missilesAttackState == AttackState::ENDING_SAFE_JUMP)
 	{
 		RotateToTarget(safePositionTransform->GetGlobalPosition());
 
@@ -58,6 +59,26 @@ void BossMissilesAttackScript::Update(float deltaTime)
 		if (missileAttackDuration <= 0.0f)
 		{
 			missileAttackDuration = missileAttackMaxDuration;
+			missilesAttackState = AttackState::STARTING_BACK_JUMP;
+			MoveUserToPosition(midJumpPosition);
+		}
+	}
+	else if (missilesAttackState == AttackState::STARTING_BACK_JUMP)
+	{
+		RotateToTarget(midJumpPosition);
+
+		if (transform->GetGlobalPosition().Equals(midJumpPosition, 0.5f))
+		{
+			missilesAttackState = AttackState::ENDING_BACK_JUMP;
+			MoveUserToPosition(initialPosition);
+		}
+	}
+	else if (missilesAttackState == AttackState::ENDING_BACK_JUMP)
+	{
+		RotateToTarget(initialPosition);
+
+		if (transform->GetGlobalPosition().Equals(initialPosition, 0.5f))
+		{
 			missilesAttackState = AttackState::ON_COOLDOWN;
 		}
 	}
@@ -74,13 +95,14 @@ void BossMissilesAttackScript::Update(float deltaTime)
 
 void BossMissilesAttackScript::TriggerMissilesAttack()
 {
-	missilesAttackState = AttackState::STARTING_JUMP;
+	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
 
 	initialPosition = transform->GetGlobalPosition();
 	float3 safePosition = safePositionTransform->GetGlobalPosition();
 	midJumpPosition = float3((initialPosition.x + safePosition.x) / 2.0f,
-								10.0f,
+								15.0f,
 								(initialPosition.z + safePosition.z) / 2.0f);
+
 	MoveUserToPosition(midJumpPosition);
 }
 
