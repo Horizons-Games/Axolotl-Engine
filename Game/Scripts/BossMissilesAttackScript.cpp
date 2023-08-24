@@ -14,16 +14,16 @@ REGISTERCLASS(BossMissilesAttackScript);
 BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(nullptr), 
 	safePositionTransform(nullptr), rigidBody(nullptr), initialPosition(float3::zero), midJumpPosition(float3::zero),
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
-	missileAttackMaxDuration(10.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
+	missileAttackMaxDuration(15.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
 	missileSpawnTime(0.0f), missileMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f)
 {
 	REGISTER_FIELD(safePositionTransform, ComponentTransform*);
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 
-	//REGISTER_FIELD(missileAttackMaxDuration, float);
-	//REGISTER_FIELD(missileAttackMaxCooldown, float);
-	//REGISTER_FIELD(missileMaxSpawnTime, float);
-	//REGISTER_FIELD(missileSpawningHeight, float);
+	REGISTER_FIELD(missileAttackMaxDuration, float);
+	REGISTER_FIELD(missileAttackMaxCooldown, float);
+	REGISTER_FIELD(missileMaxSpawnTime, float);
+	REGISTER_FIELD(missileSpawningHeight, float);
 
 	REGISTER_FIELD(missilePrefab, GameObject*);
 }

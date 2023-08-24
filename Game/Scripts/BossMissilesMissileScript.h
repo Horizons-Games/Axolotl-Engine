@@ -17,4 +17,15 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 private:
+	void DestroyMissile() const;
+
+	ComponentRigidBody* rigidBody;
+	float hasHitPlayer;
+	float hasHitGround;
+
+	// Modifiable values
+	float missileDamage;
+	float explosionTime;
+	float maxSizeExplosion;
+	float areaGrowingFactor;
 };

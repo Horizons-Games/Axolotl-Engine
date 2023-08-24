@@ -92,7 +92,7 @@ void FinalBossScript::Update(float deltaTime)
 		bossState = FinalBossStates::ATTACKING;
 	}
 
-	/*
+	
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking() &&
 			!shieldAttackScript->IsAttacking() && !missilesAttackScript->IsAttacking())
 	{
@@ -103,7 +103,7 @@ void FinalBossScript::Update(float deltaTime)
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		bossState = FinalBossStates::WALKING;
 	}
-	*/
+	
 }
 
 void FinalBossScript::ManageChangePhase()
