@@ -12475,7 +12475,7 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "RockAttackVariant",
+                                    "name": "IsRockAttackVariant",
                                     "value": true,
                                     "type": 5
                                 }
@@ -12568,6 +12568,26 @@
                                     "name": "BattleArenaAreaSize",
                                     "value": 9860942332718922623,
                                     "type": 2
+                                },
+                                {
+                                    "name": "MissileAttackMaxDuration",
+                                    "value": 15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MissileAttackMaxCooldown",
+                                    "value": 30.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MissileMaxSpawnTime",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MissileSpawningHeight",
+                                    "value": 10.0,
+                                    "type": 0
                                 },
                                 {
                                     "name": "MissilePrefab",
@@ -80156,7 +80176,28 @@
                             "active": true,
                             "removed": true,
                             "constructName": "BossMissilesMissileScript",
-                            "fields": null
+                            "fields": [
+                                {
+                                    "name": "MissileDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ExplosionTime",
+                                    "value": 3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxSizeExplosion",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AreaGrowingFactor",
+                                    "value": 7.5,
+                                    "type": 0
+                                }
+                            ]
                         }
                     }
                 ]
