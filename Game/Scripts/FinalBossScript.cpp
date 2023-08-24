@@ -57,44 +57,42 @@ void FinalBossScript::Update(float deltaTime)
 
 void FinalBossScript::ManageBossPhases()
 {
-	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f)
+	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f &&
+		(bossPhase == FinalBossPhases::DEFENSIVE || bossPhase == FinalBossPhases::LAST_RESORT))
 	{
 		if (bossPhase != FinalBossPhases::LAST_RESORT)
 		{
 			LOG_VERBOSE("Final Boss is in LAST RESORT PHASE");
+			bossPhase = FinalBossPhases::LAST_RESORT;
 		}
-		bossPhase = FinalBossPhases::LAST_RESORT;
 
 		ManageLastResortPhase();
 	}
-	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f)
+	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f &&
+		(bossPhase == FinalBossPhases::AGGRESSIVE || bossPhase == FinalBossPhases::DEFENSIVE))
 	{
 		if (bossPhase != FinalBossPhases::DEFENSIVE)
 		{
 			LOG_VERBOSE("Final Boss is in DEFENSIVE PHASE");
+			bossPhase = FinalBossPhases::DEFENSIVE;
 		}
-		bossPhase = FinalBossPhases::DEFENSIVE;
 
 		ManageDefensivePhase();
 	}
-	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f)
+	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f &&
+		(bossPhase == FinalBossPhases::NEUTRAL || bossPhase == FinalBossPhases::AGGRESSIVE))
 	{
 		if (bossPhase != FinalBossPhases::AGGRESSIVE)
 		{
 			LOG_VERBOSE("Final Boss is in AGGRESSIVE PHASE");
+			bossPhase = FinalBossPhases::AGGRESSIVE;
 		}
-		bossPhase = FinalBossPhases::AGGRESSIVE;
 
 		ManageAggressivePhase();
 	}
-	else
+	else if (bossPhase == FinalBossPhases::NEUTRAL)
 	{
-		if (bossPhase != FinalBossPhases::NEUTRAL)
-		{
-			LOG_VERBOSE("Final Boss is in NEUTRAL PHASE");
-		}
 		bossPhase = FinalBossPhases::NEUTRAL;
-		
 		ManageNeutralPhase();
 	}
 }
