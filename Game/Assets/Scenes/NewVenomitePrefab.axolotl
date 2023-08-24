@@ -368,9 +368,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {

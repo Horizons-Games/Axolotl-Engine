@@ -632,9 +632,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -12581,7 +12581,7 @@
                                 },
                                 {
                                     "name": "MissileMaxSpawnTime",
-                                    "value": 2.0,
+                                    "value": 1.0,
                                     "type": 0
                                 },
                                 {
@@ -13312,9 +13312,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -16406,9 +16406,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -19992,9 +19992,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -23086,9 +23086,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -26672,9 +26672,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -29655,9 +29655,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -32638,9 +32638,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -35621,9 +35621,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -38604,9 +38604,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -41587,9 +41587,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -44570,9 +44570,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -47553,9 +47553,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -50647,9 +50647,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -54344,9 +54344,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -58041,9 +58041,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -61738,9 +61738,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -65435,9 +65435,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -69132,9 +69132,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -72829,9 +72829,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -76526,9 +76526,9 @@
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
-                            "xRotationAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
                             "yRotationAxisBlocked": false,
-                            "zRotationAxisBlocked": false
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
