@@ -7,6 +7,7 @@
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
+#include "ModuleNavigation.h"
 
 #include "Cubemap/Cubemap.h"
 
@@ -237,6 +238,7 @@ UpdateStatus ModuleRender::Update()
 	ModuleDebugDraw* debug = App->GetModule<ModuleDebugDraw>();
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
+	ModuleNavigation* navigation = App->GetModule<ModuleNavigation>();
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
@@ -395,6 +397,11 @@ UpdateStatus ModuleRender::Update()
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{
 		go->Draw();
+	}
+
+	if (navigation->GetDrawNavMesh())
+	{
+		navigation->DrawGizmos();
 	}
 
 #ifndef ENGINE
