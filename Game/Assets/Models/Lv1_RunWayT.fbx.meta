@@ -1,0 +1,11 @@
+{
+    "UID": 5490702715239692540,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_RunWayT.T_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_RunWayTDefaultMaterial.002_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
