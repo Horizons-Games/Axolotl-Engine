@@ -20,7 +20,7 @@ class ComponentAnimation : public Component, public Drawable, public Updatable
 {
 public:
 	ComponentAnimation(const bool active, GameObject* owner);
-	ComponentAnimation(const ComponentAnimation& other);
+	ComponentAnimation(const ComponentAnimation& toCopy);
 	~ComponentAnimation() override;
 
 	AnimationController* GetController() const;

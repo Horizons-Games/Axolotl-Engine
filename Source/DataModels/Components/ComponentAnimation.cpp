@@ -27,13 +27,13 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 {
 }
 
-ComponentAnimation::ComponentAnimation(const ComponentAnimation& other) :
-	Component(other),
+ComponentAnimation::ComponentAnimation(const ComponentAnimation& toCopy) :
+	Component(toCopy),
 	controller(std::make_unique<AnimationController>()),
-	stateMachineInstance(std::unique_ptr<StateMachine>(new StateMachine(*other.GetStateMachineInstance()))),
-	defaultPosition(other.defaultPosition),
-	firstEntry(other.firstEntry),
-	drawBones(other.drawBones)
+	stateMachineInstance(std::unique_ptr<StateMachine>(new StateMachine(*toCopy.GetStateMachineInstance()))),
+	defaultPosition(toCopy.defaultPosition),
+	firstEntry(toCopy.firstEntry),
+	drawBones(toCopy.drawBones)
 {
 }
 
