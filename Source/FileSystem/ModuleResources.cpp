@@ -636,10 +636,10 @@ void ModuleResources::MonitorResources()
 				// these type's assets are binary files changed in runtime
 				else if (resource->GetType() != ResourceType::Mesh && resource->GetType() != ResourceType::Material)
 				{
-					long long assetTime = fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
-					long long libTime = fileSystem->GetModificationDate(
+					long long assetTimestamp = fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
+					long long libTimestamp = fileSystem->GetModificationDate(
 						(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
-					if (assetTime > libTime)
+					if (assetTimestamp > libTimestamp)
 					{
 						toImport.push_back(resource);
 					}
