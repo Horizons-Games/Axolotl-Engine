@@ -32,6 +32,8 @@
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
 
+#include "GameObject/GameObject.h"
+
 #include "DataStructures/Quadtree.h"
 
 #include "Defines/QuadtreeDefines.h"
@@ -1013,6 +1015,58 @@ void Scene::UpdateSceneAreaLights()
 	}
 }
 
+void Scene::UpdateSceneMeshRenderers()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentMeshRenderer* componentMeshRenderer = go->GetComponentInternal<ComponentMeshRenderer>();
+
+			if (componentMeshRenderer)
+			{
+				meshRenderers.push_back(componentMeshRenderer);
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneBoundingBoxes()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentTransform* componentTransform = go->GetComponentInternal<ComponentTransform>();
+
+			if (componentTransform)
+			{
+				AABB boundingBox = componentTransform->GetEncapsuledAABB();
+				boundingBoxes.push_back(boundingBox);
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAgentComponents()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentAgent* componentAgent = go->GetComponentInternal<ComponentAgent>();
+
+			if (componentAgent)
+			{
+				agentComponents.push_back(componentAgent);
+			}
+		}
+	}
+}
+
 void Scene::UpdateSceneAreaSpheres()
 {
 	sphereLights.clear();
@@ -1371,4 +1425,97 @@ void Scene::ExecutePendingActions()
 		action();
 		pendingCreateAndDeleteActions.pop();
 	}
+}
+
+std::vector<float> Scene::GetVertices()
+{
+	std::vector<float> result;
+	
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		GameObject* go = meshRenderer->GetOwner();
+		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
+		{
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			//for (const ResourceMesh::Vertex& vertex : mesh->vertices)
+			//{
+			//	float4 transformedVertex = transform->GetGlobalMatrix() * float4(vertex.position, 1.0f);
+			for (const float3 vertex : mesh->GetVertices())
+			{
+				float4 transformedVertex = transform->GetGlobalMatrix() * float4(vertex, 1.0f);
+				result.push_back(transformedVertex.x);
+				result.push_back(transformedVertex.y);
+				result.push_back(transformedVertex.z);
+			}
+		}
+	}
+
+	return result;
+}
+
+std::vector<int> Scene::GetTriangles()
+{
+	int triangles = 0;
+	std::vector<int> maxVertMesh;
+	maxVertMesh.push_back(0);
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
+		{
+			//triangles += meshFaces.size() / 3;
+			triangles += static_cast<int>(mesh->GetFacesIndices().size());
+			maxVertMesh.push_back(static_cast<int>(mesh->GetVertices().size()));
+		}
+	}
+	std::vector<int> result(triangles * 3);
+
+	int currentGlobalTri = 0;
+	int vertOverload = 0;
+	int i = 0;
+
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
+		{
+			vertOverload += maxVertMesh[i];
+			std::vector<std::vector<unsigned int>> indices = mesh->GetFacesIndices();
+			for (unsigned j = 0; j < indices.size(); j += 1)
+			{
+				result[currentGlobalTri] = indices[j][0] + vertOverload;
+				result[currentGlobalTri + 1] = indices[j][1] + vertOverload;
+				result[currentGlobalTri + 2] = indices[j][2] + vertOverload;
+				currentGlobalTri += 3;
+			}
+			i++;
+		}
+	}
+
+	return result;
+}
+
+std::vector<float> Scene::GetNormals()
+{
+	std::vector<float> result;
+
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		GameObject* go = meshRenderer->GetOwner();
+		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
+		{
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			for (const float3 normal : mesh->GetNormals())
+			{
+				float4 transformedVertex = transform->GetGlobalMatrix() * float4(normal, 1.0f);
+				result.push_back(transformedVertex.x);
+				result.push_back(transformedVertex.y);
+				result.push_back(transformedVertex.z);
+			}
+		}
+	}
+
+	return result;
 }

@@ -21,6 +21,8 @@
 #include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentObstacle.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
@@ -116,6 +118,16 @@ WindowInspector::WindowInspector() :
 						 std::bind(&WindowInspector::AddComponentBreakable, this),
 						 &GameObjectDoesNotHaveComponent<ComponentBreakable>,
 						 ComponentFunctionality::PHYSICS);
+
+	actions.emplace_back("Create Agent Component",
+						 std::bind(&WindowInspector::AddComponentAgent, this),
+						 &GameObjectDoesNotHaveComponent<ComponentAgent>,
+						 ComponentFunctionality::NAVIGATION);
+
+	actions.emplace_back("Create Obstacle Component",
+						 std::bind(&WindowInspector::AddComponentObstacle, this),
+						 &GameObjectDoesNotHaveComponent<ComponentObstacle>,
+						 ComponentFunctionality::NAVIGATION);
 
 	std::sort(std::begin(actions), std::end(actions));
 }
@@ -467,4 +479,14 @@ void WindowInspector::AddComponentParticle()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentAgent()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::AGENT);
+}
+
+void WindowInspector::AddComponentObstacle()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::OBSTACLE);
 }

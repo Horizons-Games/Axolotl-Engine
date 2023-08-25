@@ -9,7 +9,9 @@ WRITABLE_ENUM(ComponentFunctionality,
 	GRAPHICS,
 	PHYSICS,
 	GAMEPLAY,
-	AUDIO);
+	AUDIO,
+	NAVIGATION
+);
 
 struct AddComponentAction
 {
