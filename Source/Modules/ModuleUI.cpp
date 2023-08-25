@@ -25,9 +25,13 @@
 	#include "DataModels/Windows/EditorWindows/WindowScene.h"
 #endif // ENGINE
 
-ModuleUI::ModuleUI(){};
+ModuleUI::ModuleUI() : cursorPosition(float2::zero), cursorRotation(0)
+{
+}
 
-ModuleUI::~ModuleUI(){};
+ModuleUI::~ModuleUI()
+{
+}
 
 bool ModuleUI::Init()
 {
@@ -52,6 +56,7 @@ UpdateStatus ModuleUI::Update()
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
 		const GameObject* canvasGameObject = canvas->GetOwner();
+		
 		DetectInteractionWithGameObject(
 			canvasGameObject, point, leftClickDown, !canvasGameObject->GetParent()->IsEnabled());
 	}
@@ -152,7 +157,7 @@ void ModuleUI::CreateVAO()
 }
 
 void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
-											   float2 cursorPosition,
+											   float2 mouseCursor,
 											   bool leftClicked,
 											   bool disabledHierarchy)
 {
@@ -185,7 +190,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
 			AABB2D aabb2d = transform->GetWorldAABB();
-			if (aabb2d.Contains(cursorPosition))
+			if (aabb2d.Contains(mouseCursor) || aabb2d.Contains(cursorPosition))
 			{
 				button->SetHovered(true);
 				if (leftClicked)
@@ -203,7 +208,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 
 	for (const GameObject* child : gameObject->GetChildren())
 	{
-		DetectInteractionWithGameObject(child, cursorPosition, leftClicked, disabledHierarchy);
+		DetectInteractionWithGameObject(child, mouseCursor, leftClicked, disabledHierarchy);
 	}
 }
 

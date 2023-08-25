@@ -21,6 +21,12 @@ public:
 	void CreateVAO();
 	unsigned int GetQuadVAO() const;
 
+	float2 GetCursorPosition() const;
+	void SetCursorPosition(float2 position);
+
+	float GetCursorRotation() const;
+	void SetCursorRotation(float rotation);
+
 private:
 	void DetectInteractionWithGameObject(const GameObject* gameObject,
 										 float2 cursorPosition,
@@ -30,9 +36,35 @@ private:
 
 	unsigned int quadVBO;
 	unsigned int quadVAO;
+
+	// Only a float2 because in 2D contexts we don't need the Z position
+	float2 cursorPosition;
+
+	// Only a float because in 2D contexts we only use the Z axis rotation
+	float cursorRotation;
 };
 
 inline unsigned int ModuleUI::GetQuadVAO() const
 {
 	return quadVAO;
+}
+
+inline void ModuleUI::SetCursorPosition(float2 position)
+{
+	cursorPosition = position;
+}
+
+inline float2 ModuleUI::GetCursorPosition() const
+{
+	return cursorPosition;
+}
+
+inline void ModuleUI::SetCursorRotation(float rotation)
+{
+	cursorRotation = rotation;
+}
+
+inline float ModuleUI::GetCursorRotation() const
+{
+	return cursorRotation;
 }

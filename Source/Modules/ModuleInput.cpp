@@ -226,12 +226,10 @@ UpdateStatus ModuleInput::Update()
 						if (axisValue > 3200)
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::RIGHT;
-							mousePosX++;
 						}
 						else if (axisValue < -3200)
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;	
-							mousePosX--;
 						}
 						else
 						{
@@ -244,12 +242,10 @@ UpdateStatus ModuleInput::Update()
 						if (axisValue < -3200)
 						{
 							direction.verticalMovement = JoystickVerticalDirection::FORWARD;
-							mousePosY--;
 						}
 						else if (axisValue > 3200)
 						{
 							direction.verticalMovement = JoystickVerticalDirection::BACK;
-							mousePosY++;
 						}					
 						else
 						{

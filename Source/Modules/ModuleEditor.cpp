@@ -226,6 +226,7 @@ UpdateStatus ModuleEditor::Update()
 		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
 		ImGui::DockBuilderDockWindow("State Machine Editor", dockIdDown);
 		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
+		ImGui::DockBuilderDockWindow("About", dockIdRight);
 		ImGui::DockBuilderDockWindow("Resources", dockIdRight);
 		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
 		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
@@ -246,7 +247,15 @@ UpdateStatus ModuleEditor::Update()
 	for (int i = 0; i < windows.size(); ++i)
 	{
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
-		windows[i]->Draw(windowEnabled);
+		if (fullscreenScene)
+		{
+			bool isSceneWindow = i == 0;
+			windows[i]->Draw(isSceneWindow);
+		}
+		else
+		{
+			windows[i]->Draw(windowEnabled);
+		}
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
 	stateMachineEditor->Draw(stateMachineWindowEnable);
