@@ -285,6 +285,8 @@ UpdateStatus ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
+	glViewport(0, 0, w, h);
+
 	// Bind camera and cubemap info to the shaders
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
