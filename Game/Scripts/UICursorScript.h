@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentImage;
+
 class UICursorScript : public Script
 {
 public:
@@ -13,4 +15,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+
+private:
+	GameObject* cursor;
+	ComponentImage* cursorImage;
 };
