@@ -19,7 +19,6 @@ class PlayerManagerScript;
 enum class DroneBehaviours
 {
 	IDLE,
-	FIRSTPATROL,
 	PATROL,
 	SEEK,
 	FIRSTATTACK,
@@ -35,6 +34,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+
+	void ResetValues();
 
 private:
 	void CalculateNextPosition() const;
@@ -60,4 +61,6 @@ private:
 	ComponentTransform* seekTargetTransform;
 
 	PlayerManagerScript* playerManager;
+
+	bool isFirstPatrolling;
 };

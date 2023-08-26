@@ -12,6 +12,7 @@
 #include "../Scripts/MeleeHeavyAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/EnemyDeathScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -20,7 +21,7 @@ REGISTERCLASS(EnemyDroneScript);
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
 	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
 	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE), 
-	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr)
+	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr), isFirstPatrolling(true)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -31,6 +32,8 @@ EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr
 
 void EnemyDroneScript::Start()
 {
+	enemyType = EnemyTypes::DRONE;
+
 	if (seekDistance < attackDistance)
 	{
 		seekDistance = attackDistance;
@@ -40,7 +43,10 @@ void EnemyDroneScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	if (!IsSpawnedEnemy())
+	{
+		patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	}
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	fastAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	heavyAttackScript = explosionGameObject->GetComponent<MeleeHeavyAttackBehaviourScript>();
@@ -81,10 +87,18 @@ void EnemyDroneScript::Update(float deltaTime)
 	{
 		if (droneState != DroneBehaviours::PATROL)
 		{
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
-			droneState = DroneBehaviours::FIRSTPATROL;
-			
+			if (!IsSpawnedEnemy())
+			{
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
+				droneState = DroneBehaviours::PATROL;
+			}
+			else
+			{
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+				droneState = DroneBehaviours::SEEK;
+			}
 		}
 
 		if (droneState != DroneBehaviours::SEEK)
@@ -113,12 +127,6 @@ void EnemyDroneScript::Update(float deltaTime)
 			droneState = DroneBehaviours::FIRSTATTACK;
 		}
 
-		if (droneState == DroneBehaviours::FIRSTPATROL)
-		{
-			patrolScript->StartPatrol();
-			droneState = DroneBehaviours::PATROL;
-		}
-
 		if (droneState == DroneBehaviours::FIRSTATTACK)
 		{
 			if (lastDroneState != DroneBehaviours::FASTATTACK)
@@ -132,13 +140,11 @@ void EnemyDroneScript::Update(float deltaTime)
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 				seekScript->RotateToTarget();
 			}
-
 			else
 			{
 				droneState = DroneBehaviours::FASTATTACK;
 			}
 		}
-
 		else
 		{
 			owner->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
@@ -147,22 +153,23 @@ void EnemyDroneScript::Update(float deltaTime)
 		lastDroneState = droneState;
 	}
 
-	if (patrolScript && droneState == DroneBehaviours::PATROL)
+	if (!IsSpawnedEnemy() && patrolScript && droneState == DroneBehaviours::PATROL)
 	{
-		patrolScript->Patrolling();
+		seekScript->EnableMovement();
+		patrolScript->Patrolling(isFirstPatrolling);
+		isFirstPatrolling = false;
 
 		componentAnimation->SetParameter("IsSeeking", false);
 	}
-
-	if (seekScript && droneState == DroneBehaviours::SEEK)
+	else if (seekScript && droneState == DroneBehaviours::SEEK)
 	{
 		seekScript->Seeking();
+		isFirstPatrolling = true;
 
 		componentAnimation->SetParameter("IsSeeking", true);
 		componentAnimation->SetParameter("IsAttacking", false);
 	}
-
-	if (seekScript && fastAttackScript && droneState == DroneBehaviours::FASTATTACK)
+	else if (seekScript && fastAttackScript && droneState == DroneBehaviours::FASTATTACK)
 	{
 		if (fastAttackScript->IsAttackAvailable())
 		{
@@ -182,13 +189,33 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 
 		seekScript->RotateToTarget();
+		isFirstPatrolling = true;
 	}
-
-	if (seekScript && heavyAttackScript && droneState == DroneBehaviours::EXPLOSIONATTACK)
+	else if (seekScript && heavyAttackScript && droneState == DroneBehaviours::EXPLOSIONATTACK)
 	{
 		seekScript->RotateToTarget();
 		heavyAttackScript->TriggerExplosion();
+
+		isFirstPatrolling = true;
 	}
+}
+
+void EnemyDroneScript::ResetValues()
+{
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
+		componentAnimation->GetStateMachine()->GetParameters();
+	for (std::pair<std::string, TypeFieldPairParameter> parameter : componentAnimationParameters)
+	{
+		componentAnimation->SetParameter(parameter.first, false);
+	}
+
+	droneState = DroneBehaviours::IDLE;
+	lastDroneState = DroneBehaviours::IDLE;
+	fastAttackScript->ResetScriptValues();
+	healthScript->HealLife(1000.0f); // It will cap at max health
+	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
+	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }
 
 void EnemyDroneScript::CalculateNextPosition() const
