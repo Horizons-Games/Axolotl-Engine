@@ -25,7 +25,7 @@
 	#include "DataModels/Windows/EditorWindows/WindowScene.h"
 #endif // ENGINE
 
-ModuleUI::ModuleUI() : cursorPosition(float2::zero), cursorRotation(0)
+ModuleUI::ModuleUI() : cursorRotation(0)
 {
 }
 
@@ -190,7 +190,7 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
 			AABB2D aabb2d = transform->GetWorldAABB();
-			if (aabb2d.Contains(mouseCursor) || aabb2d.Contains(cursorPosition))
+			if (aabb2d.Contains(mouseCursor))
 			{
 				button->SetHovered(true);
 				if (leftClicked)

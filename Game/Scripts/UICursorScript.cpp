@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ModuleUI.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
 
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
@@ -33,7 +34,7 @@ void UICursorScript::Update(float deltaTime)
 
 	ComponentTransform2D* transform = cursorImage->GetOwner()->GetComponent<ComponentTransform2D>();
 
-	float2 cursorPosition = ui->GetCursorPosition();
+	float2 cursorPosition = input->GetMousePosition();
 	float cursorRotation = ui->GetCursorRotation();
 	
 	if (input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
@@ -115,7 +116,7 @@ void UICursorScript::Update(float deltaTime)
 
 	if (input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
 	{
-		cursorPosition.y += movementSpeed;
+		cursorPosition.y -= movementSpeed;
 
 		if (input->GetDirection().horizontalMovement == JoystickHorizontalDirection::NONE)
 		{
@@ -131,7 +132,7 @@ void UICursorScript::Update(float deltaTime)
 	}
 	else if (input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
 	{
-		cursorPosition.y -= movementSpeed;
+		cursorPosition.y += movementSpeed;
 
 		if (input->GetDirection().horizontalMovement == JoystickHorizontalDirection::NONE)
 		{
@@ -149,10 +150,23 @@ void UICursorScript::Update(float deltaTime)
 	if (cursorRotation > 359) cursorRotation = 0;
 	else if (cursorRotation < 0) cursorRotation = 359;
 
-	ui->SetCursorPosition(cursorPosition);
+	input->SetMousePositionX(cursorPosition.x);
+	input->SetMousePositionY(cursorPosition.y);
+
 	ui->SetCursorRotation(cursorRotation);
 
-	transform->SetPosition(float3(cursorPosition.x, cursorPosition.y, 0));
+	int screenWidth, screenHeight;
+	SDL_GetWindowSize(App->GetModule<ModuleWindow>()->GetWindow(), &screenWidth, &screenHeight);
+
+	float centerX = cursorPosition.x - screenWidth / 2;
+	float centerY = -cursorPosition.y + screenHeight / 2;
+
+	// This is an approximation for fullscreen size, we should probably
+	// compute this error using the window size instead of this values
+	float horizontalError = transform->GetPosition().x * 0.3f;
+	float verticalError = transform->GetPosition().y * 0.15f;
+
+	transform->SetPosition(float3(centerX + horizontalError, centerY + verticalError, 0));
 	transform->SetRotation(float3(0, 0, cursorRotation));
 	transform->CalculateMatrices();
 }
