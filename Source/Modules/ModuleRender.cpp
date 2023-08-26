@@ -247,7 +247,7 @@ UpdateStatus ModuleRender::Update()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
 	const ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
-
+	
 	Scene* loadedScene = scene->GetLoadedScene();
 
 	const Skybox* skybox = loadedScene->GetSkybox();
@@ -364,13 +364,9 @@ UpdateStatus ModuleRender::Update()
 
 	program->Deactivate();
 
-	int width, height;
-
-	SDL_GetWindowSize(window->GetWindow(), &width, &height);
-
 	gBuffer->ReadFrameBuffer();
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
-	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 
 	// -------- PRE-FORWARD ----------------------
@@ -380,7 +376,7 @@ UpdateStatus ModuleRender::Update()
 		skybox->Draw();
 	}
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), width, height);
+	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
 
 	// -------- DEFERRED + FORWARD ---------------
 
@@ -912,9 +908,60 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	glPopDebugGroup();
 }
 
-void ModuleRender::DrawMeshes(std::vector<GameObject*>& objects, const float3& pos)
+void ModuleRender::DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour)
 {
-	batchManager->DrawMeshes(objects, pos);
+	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
+	Program* program;
+	int filter;
+	switch (type)
+	{
+	case ProgramType::DEFAULT:
+		program = modProgram->GetProgram(ProgramType::DEFAULT);
+		filter = batchManager->HAS_METALLIC;
+		normalBehaviour ? filter |= batchManager->HAS_TRANSPARENCY : filter |= batchManager->HAS_OPAQUE;
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		break;
+	
+	case ProgramType::SPECULAR:
+		program = modProgram->GetProgram(ProgramType::SPECULAR);
+		filter = batchManager->HAS_SPECULAR;
+		normalBehaviour ? filter |= batchManager->HAS_TRANSPARENCY : filter |= batchManager->HAS_OPAQUE;
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		break;
+	
+	case ProgramType::G_METALLIC:
+		program = modProgram->GetProgram(ProgramType::DEFAULT);
+		filter = batchManager->HAS_METALLIC | batchManager->HAS_OPAQUE;
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		break;
+	
+	case ProgramType::G_SPECULAR:
+		program = modProgram->GetProgram(ProgramType::SPECULAR);
+		filter = batchManager->HAS_SPECULAR | batchManager->HAS_OPAQUE;
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		break;
+	
+	default:
+		break;
+	}
+}
+
+void ModuleRender::SortOpaques(const float3& pos)
+{
+	batchManager->SortOpaques(pos);
+}
+
+void ModuleRender::SortTransparents(const float3& pos)
+{
+	batchManager->SortTransparents(pos);
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)

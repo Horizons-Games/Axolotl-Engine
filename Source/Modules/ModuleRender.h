@@ -22,6 +22,8 @@ class BatchManager;
 class ComponentMeshRenderer;
 class GBuffer;
 
+enum class ProgramType;
+
 class ModuleRender : public Module
 {
 public:
@@ -64,8 +66,12 @@ public:
 	float2 ParallelReduction(Program* program, int width, int height);
 	void RenderShadowMap(const GameObject* light, const float2& minMax);
 
-	void DrawMeshes(std::vector<GameObject*>& objects, const float3& pos);
+	void DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour = true);
 
+	void SortOpaques(const float3& pos);
+	void SortTransparents(const float3& pos);
+
+	void BindCubemapToProgram(Program* program);
 private:
 
 	enum class ModeRender {
@@ -90,7 +96,6 @@ private:
 	void DrawHighlight(GameObject* gameObject);
 
 	void BindCameraToProgram(Program* program);
-	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
 
