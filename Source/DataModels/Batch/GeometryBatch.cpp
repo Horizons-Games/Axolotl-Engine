@@ -778,7 +778,7 @@ void GeometryBatch::BindBatch(bool selected)
 				drawCount++;
 			}
 #else
-			component->InitBones();
+			//component->InitBones();
 			component->UpdatePalette();
 
 			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
@@ -793,8 +793,6 @@ void GeometryBatch::BindBatch(bool selected)
 
 			if (component->GetMesh()->GetNumBones() > 0)
 			{
-				//std::vector<float4x4> palettes = component->GetPalette();
-
 				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
 					&component->GetPalette()[0],
 					perInstances[paletteIndex].numBones * sizeof(float4x4));
