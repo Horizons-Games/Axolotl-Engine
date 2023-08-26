@@ -1,0 +1,11 @@
+{
+    "UID": 11469057924896331191,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/dungeoncm2.Cube.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/dungeoncm2Material_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
