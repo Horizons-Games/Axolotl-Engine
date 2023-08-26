@@ -47,6 +47,7 @@ public:
 	void ChangeToneMapping();
 	void SwitchBloomActivation();
 	void ToggleShadows();
+	void ToggleVSM();
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -137,6 +138,7 @@ private:
 	GLuint gBluredShadowMap = 0;
 
 	bool renderShadows;
+	bool varianceShadowMapping;
 
 	friend class ModuleEditor;
 };
@@ -169,6 +171,11 @@ inline void ModuleRender::SwitchBloomActivation()
 inline void ModuleRender::ToggleShadows()
 {
 	renderShadows = !renderShadows;
+}
+
+inline void ModuleRender::ToggleVSM()
+{
+	varianceShadowMapping = !varianceShadowMapping;
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const

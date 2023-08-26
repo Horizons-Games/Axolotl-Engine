@@ -160,6 +160,7 @@ bool ModuleRender::Init()
 	batchManager = new BatchManager();
 	gBuffer = new GBuffer();
 	renderShadows = true;
+	varianceShadowMapping = true;
 
 	GLenum err = glewInit();
 	// check for errors
@@ -325,8 +326,12 @@ UpdateStatus ModuleRender::Update()
 		float2 minMax = ParallelReduction(shadowProgram, w, h);
 
 		RenderShadowMap(loadedScene->GetDirectionalLight(), minMax);
-		ShadowDepthVariacne(w, h);
-		GaussianBlur(w, h);
+
+		if (varianceShadowMapping)
+		{
+			ShadowDepthVariacne(w, h);
+			GaussianBlur(w, h);
+		}
 	}
 
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
@@ -348,7 +353,7 @@ UpdateStatus ModuleRender::Update()
 	if (renderShadows)
 	{
 		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_2D, gShadowMap);
+		glBindTexture(GL_TEXTURE_2D, varianceShadowMapping ? gBluredShadowMap : gShadowMap);
 
 		float4x4 lightSpaceMatrix = dirLightProj * dirLightView;
 		ComponentDirLight* directLight =
@@ -360,6 +365,7 @@ UpdateStatus ModuleRender::Update()
 		program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
 	}
 	program->BindUniformInt("useShadows", static_cast<int>(renderShadows));
+	program->BindUniformInt("useVSM", static_cast<int>(varianceShadowMapping));
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
@@ -969,14 +975,14 @@ void ModuleRender::GaussianBlur(int width, int height)
 	glBindTexture(GL_TEXTURE_2D, shadowVarianceTexture);
 
 	program->BindUniformFloat2("invSize", float2(width, height));
-	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
+	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gBluredShadowMap);
 
-	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
+	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
