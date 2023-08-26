@@ -4,7 +4,6 @@
 #include "Components/ComponentScript.h"
 
 #include "Application.h"
-#include "ModuleInput.h"
 
 #include "../Scripts/PowerUpsManagerScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
@@ -24,14 +23,20 @@ void InteractWithPowerUpScript::Start()
 
 void InteractWithPowerUpScript::Update(float deltaTime)
 {
+	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
+	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
+	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
+	
 	// Press Z to activate a saved powerup
-	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_Z) != keyStateZ &&
+		input->GetKey(SDL_SCANCODE_Z) == KeyState::REPEAT)
 	{
 		powerUpsManagerScript->UseSavedPowerUp();
 	}
 
 	// Press X to drop a saved powerup
-	else if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_X) != keyStateX &&
+		input->GetKey(SDL_SCANCODE_X) == KeyState::REPEAT)
 	{
 		if (powerUpsManagerScript->GetSavedPowerUpType() != PowerUpType::NONE)
 		{

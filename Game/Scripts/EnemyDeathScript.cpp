@@ -10,12 +10,13 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false)
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), powerUpParent(nullptr)
 {
-	REGISTER_FIELD(activePowerUp, GameObject*); // this should be a vector of powerUps
+	REGISTER_FIELD(powerUpParent, GameObject*);
 }
 
 void EnemyDeathScript::Update(float deltaTime)
@@ -35,40 +36,50 @@ void EnemyDeathScript::Update(float deltaTime)
 
 void EnemyDeathScript::ManageEnemyDeath()
 {
-	GameObject* newPowerUp = RequestPowerUp();
-
-	if (newPowerUp != nullptr)
+	// Only activate powerups when the dead enemy is not a boss
+	// In the future this might also need to check for if it's a miniboss
+	if (!owner->HasComponent<FinalBossScript>())
 	{
-		PowerUpLogicScript* newPowerUpLogic = newPowerUp->GetComponent<PowerUpLogicScript>();
-		ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
+		GameObject* newPowerUp = RequestPowerUp();
 
-		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
+		if (newPowerUp != nullptr)
+		{
+			PowerUpLogicScript* newPowerUpLogic = newPowerUp->GetComponent<PowerUpLogicScript>();
+			ComponentTransform* ownerTransform = owner->GetComponent<ComponentTransform>();
+
+			newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
+		}
 	}
 
 	DisableEnemyActions();
 }
 
+void EnemyDeathScript::ResetDespawnTimerAndEnableActions()
+{
+	despawnTimer = 5.0f;
+	EnableEnemyActions();
+}
+
 GameObject* EnemyDeathScript::RequestPowerUp() const
 {
-	// when having vectors uncomment this loop
-	//for (GameObject* powerUp : powerUps)
-	//{
+	for (GameObject* selectedPowerUp : powerUpParent->GetChildren())
+	{
 		// Make that the enemies don't always drop a powerup (20% chance)
 		srand(static_cast<unsigned int>(time(0)));
 		int randomActivation = rand() % 10;
 
-		if (!activePowerUp->IsEnabled() && randomActivation < 2)
+		if (!selectedPowerUp->IsEnabled() && randomActivation < 10)
 		{
-			return activePowerUp;
+			return selectedPowerUp;
 		}
-	//}
+	}
 
 	return nullptr;
 }
 
 void EnemyDeathScript::DisableEnemyActions()
 {
-	// Once the player is dead, disable its scripts
+	// Once the enemy is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
 	for (ComponentScript* script : gameObjectScripts)
@@ -80,13 +91,32 @@ void EnemyDeathScript::DisableEnemyActions()
 	}
 
 	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
-	enemyRigidBody->DisablePositionController();
-	enemyRigidBody->DisableRotationController();
-
+	enemyRigidBody->Disable();
 	enemyRigidBody->SetIsKinematic(true);
 	enemyRigidBody->SetUpMobility();
 
 	startDespawnTimer = true;
+}
+
+void EnemyDeathScript::EnableEnemyActions()
+{
+	// If the enemy is revived, enable its scripts again
+	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
+
+	for (ComponentScript* script : gameObjectScripts)
+	{
+		if (script->GetConstructName() != "EnemyDeathScript")
+		{
+			script->Enable();
+		}
+	}
+
+	ComponentRigidBody* enemyRigidBody = owner->GetComponent<ComponentRigidBody>();
+	enemyRigidBody->Enable();
+	enemyRigidBody->SetIsKinematic(false);
+	enemyRigidBody->SetUpMobility();
+
+	startDespawnTimer = false;
 }
 
 void EnemyDeathScript::DespawnEnemy() const

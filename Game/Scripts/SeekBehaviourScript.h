@@ -16,6 +16,7 @@ public:
 	void Start() override;
 
 	void Seeking() const;
+	void EnableMovement() const;
 	void DisableMovement() const;
 	void DisableRotation() const;
 	void RotateToTarget() const;

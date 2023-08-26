@@ -4,61 +4,82 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "debugdraw.h"
+#include "AxoLog.h"
 
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), wayPointOne(nullptr), wayPointTwo(nullptr),
-	ownerRigidBody(nullptr), ownerTransform(nullptr), wayPointOneTransform(nullptr), 
-	wayPointTwoTransform(nullptr), currentWayPointTransform(nullptr)
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), currentWaypointIndex(0),
+	ownerRigidBody(nullptr), ownerTransform(nullptr), currentWayPointTransform(nullptr)
 {
-	REGISTER_FIELD(wayPointOne, GameObject*);
-	REGISTER_FIELD(wayPointTwo, GameObject*);
+	REGISTER_FIELD(waypoints, std::vector<GameObject*>);
 }
 
 void PatrolBehaviourScript::Start()
 {
-	if (wayPointOne)
+	for (GameObject* waypoint : waypoints)
 	{
-		wayPointOneTransform = wayPointOne->GetComponent<ComponentTransform>();
-	}
-
-	if (wayPointTwo)
-	{
-		wayPointTwoTransform = wayPointTwo->GetComponent<ComponentTransform>();
+		transformWaypoints.push_back(waypoint->GetComponent<ComponentTransform>());
 	}
 
 	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 
-	currentWayPointTransform = wayPointOneTransform;
+	currentWayPointTransform = transformWaypoints[0];
 }
 
-// Initally set the first waypoint as the destiny
-void PatrolBehaviourScript::StartPatrol()
+void PatrolBehaviourScript::Patrolling(bool isFirstPatrolling)
 {
-	if (ownerRigidBody && ownerRigidBody->IsEnabled())
+	if (isFirstPatrolling)
 	{
-		currentWayPointTransform = wayPointOneTransform;
-
-		SetProportionalController();
+		GetNearestPatrollingPoint();
 	}
-}
-
-// When this behaviour is triggered, the enemy will patrol between its waypoints
-// (This can be modularized into any amout of waypoints once the scripts can accept vectors)
-void PatrolBehaviourScript::Patrolling()
-{
-	if (ownerTransform->GetGlobalPosition().Equals(wayPointOneTransform->GetGlobalPosition(), 2.0f)) 
+	else if (ownerTransform->GetGlobalPosition().
+		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
 	{
-		currentWayPointTransform = wayPointTwoTransform;
-	}
-
-	else if (ownerTransform->GetGlobalPosition().Equals(wayPointTwoTransform->GetGlobalPosition(), 2.0f)) 
-	{
-		currentWayPointTransform = wayPointOneTransform;
+		if (currentWaypointIndex + 1 < transformWaypoints.size())
+		{
+			currentWayPointTransform = transformWaypoints[currentWaypointIndex + 1];
+			currentWaypointIndex += 1;
+		}
+		else
+		{
+			currentWayPointTransform = transformWaypoints[0];
+			currentWaypointIndex = 0;
+		}
 	}
 
 	SetProportionalController();
+}
+
+void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
+{
+	if (isFirstPatrolling)
+	{
+		GetNearestPatrollingPoint();
+	}
+	else if (ownerTransform->GetGlobalPosition().
+		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
+	{
+		int randomWaypointSelected = rand() % static_cast<int>(transformWaypoints.size());
+
+		currentWayPointTransform = transformWaypoints[randomWaypointSelected];
+		currentWaypointIndex = randomWaypointSelected;
+	}
+
+	SetProportionalController();
+}
+
+void PatrolBehaviourScript::GetNearestPatrollingPoint()
+{
+	for (int i = 0; i < transformWaypoints.size() ; ++i)
+	{
+		if (ownerTransform->GetGlobalPosition().Distance(transformWaypoints[i]->GetGlobalPosition()) <=
+			ownerTransform->GetGlobalPosition().Distance(currentWayPointTransform->GetGlobalPosition()))
+		{
+			currentWayPointTransform = transformWaypoints[i];
+			currentWaypointIndex = i;
+		}
+	}
 }
 
 void PatrolBehaviourScript::SetProportionalController() const

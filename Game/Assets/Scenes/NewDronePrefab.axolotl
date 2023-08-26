@@ -133,14 +133,17 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 7264287042668602667,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "WayPointTwo",
-                                    "value": 4307171577817583179,
-                                    "type": 2
+                                    "name": "Waypoints",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 4307171577817583179
+                                        },
+                                        {
+                                            "value": 7264287042668602667
+                                        }
+                                    ],
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -156,6 +159,11 @@
                                     "name": "ParticleTargetGO",
                                     "value": 9240082359144780253,
                                     "type": 2
+                                },
+                                {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "AttackDistance",
@@ -267,8 +275,14 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": -1.634626585200749e-7,
-                            "rbPos_Y": 1.5,
-                            "rbPos_Z": 0.0
+                            "rbPos_Y": 1.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": true,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": true
                         }
                     },
                     {
@@ -279,7 +293,7 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
+                                    "name": "PowerUpParent",
                                     "value": 0,
                                     "type": 2
                                 }
@@ -2991,7 +3005,13 @@
                             "height": 2.0,
                             "rbPos_X": -6.501678626591456e-7,
                             "rbPos_Y": 1.0355559587478638,
-                            "rbPos_Z": 1.8622512817382813
+                            "rbPos_Z": 1.8622512817382813,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -3048,7 +3068,13 @@
                             "height": 2.0,
                             "rbPos_X": -5.654783308273181e-9,
                             "rbPos_Y": 1.2486436367034912,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
