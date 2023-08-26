@@ -200,8 +200,8 @@ bool ModuleRender::Init()
 	// Shadow Buffers
 	glGenFramebuffers(1, &shadowMapBuffer);
 	glGenTextures(1, &gShadowMap);
-	glGenFramebuffers(1, &blurShadowMapBuffer);
-	glGenTextures(1, &gBluredShadowMap);
+	glGenFramebuffers(GAUSSIAN_BLUR_SHADOW_MAP, &blurShadowMapBuffer[0]);
+	glGenTextures(GAUSSIAN_BLUR_SHADOW_MAP, &gBluredShadowMap[0]);
 
 	glGenTextures(1, &parallelReductionInTexture);
 	glGenTextures(1, &parallelReductionOutTexture);
@@ -353,7 +353,8 @@ UpdateStatus ModuleRender::Update()
 	if (renderShadows)
 	{
 		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_2D, varianceShadowMapping ? gBluredShadowMap : gShadowMap);
+		glBindTexture(GL_TEXTURE_2D, varianceShadowMapping ? 
+			gBluredShadowMap[GAUSSIAN_BLUR_SHADOW_MAP - 1] : gShadowMap);
 
 		float4x4 lightSpaceMatrix = dirLightProj * dirLightView;
 		ComponentDirLight* directLight =
@@ -526,14 +527,14 @@ bool ModuleRender::CleanUp()
 	glDeleteTextures(1, &renderedTexture[1]);
 #endif // ENGINE
 
-	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
-	glDeleteTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
+	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, &bloomBlurFramebuffers[0]);
+	glDeleteTextures(BLOOM_BLUR_PING_PONG, &bloomBlurTextures[0]);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 
 	glDeleteFramebuffers(1, &shadowMapBuffer);
 	glDeleteTextures(1, &gShadowMap);
-	glDeleteFramebuffers(1, &blurShadowMapBuffer);
-	glDeleteTextures(1, &gBluredShadowMap);
+	glDeleteFramebuffers(GAUSSIAN_BLUR_SHADOW_MAP, &blurShadowMapBuffer[0]);
+	glDeleteTextures(GAUSSIAN_BLUR_SHADOW_MAP, &gBluredShadowMap[0]);
 
 	glDeleteTextures(1, &parallelReductionInTexture);
 	glDeleteTextures(1, &parallelReductionOutTexture);
@@ -574,20 +575,23 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Shadow Map framebuffer not completed!");
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer);
-
-	glBindTexture(GL_TEXTURE_2D, gBluredShadowMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, width, height, 0, GL_RG, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gBluredShadowMap, 0);
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	for (unsigned i = 0; i < GAUSSIAN_BLUR_SHADOW_MAP; ++i)
 	{
-		LOG_ERROR("ERROR::FRAMEBUFFER:: Blured Shadow Map framebuffer not completed!");
+		glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer[i]);
+
+		glBindTexture(GL_TEXTURE_2D, gBluredShadowMap[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, width, height, 0, GL_RG, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gBluredShadowMap[i], 0);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			LOG_ERROR("ERROR::FRAMEBUFFER:: Blured Shadow Map framebuffer (num {}) not completed!", i);
+		}
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
@@ -969,18 +973,20 @@ void ModuleRender::GaussianBlur(int width, int height)
 
 	program->Activate();
 
-	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer[0]);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, shadowVarianceTexture);
 
-	program->BindUniformFloat2("invSize", float2(width, height));
+	program->BindUniformFloat2("invSize", float2(1.0f / width, 1.0f / height));
 	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
+	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer[1]);
+
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gBluredShadowMap);
+	glBindTexture(GL_TEXTURE_2D, gBluredShadowMap[0]);
 
 	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
 

@@ -8,6 +8,7 @@
 #include "FileSystem/UID.h"
 
 #define BLOOM_BLUR_PING_PONG 2
+#define GAUSSIAN_BLUR_SHADOW_MAP 2
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -134,8 +135,8 @@ private:
 	
 	// Variance Shadow Mapping buffers and textures
 	GLuint shadowVarianceTexture = 0;
-	GLuint blurShadowMapBuffer = 0;
-	GLuint gBluredShadowMap = 0;
+	GLuint blurShadowMapBuffer[GAUSSIAN_BLUR_SHADOW_MAP];
+	GLuint gBluredShadowMap[GAUSSIAN_BLUR_SHADOW_MAP];
 
 	bool renderShadows;
 	bool varianceShadowMapping;

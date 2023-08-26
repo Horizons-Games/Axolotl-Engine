@@ -26,8 +26,8 @@ void main()
 
 	for (int i = 0; i < SAMPLE_COUNT; ++i)
 	{
-		result += texture(sourceTexture, TexCoord + blurDirection * OFFSETS[i] / invSize) * WEIGHTS[i];
+		result += texture(sourceTexture, TexCoord + blurDirection * OFFSETS[i] * invSize) * WEIGHTS[i];
 	}
 
 	color = vec4(result.rgb, 1.0);
-}
+}
