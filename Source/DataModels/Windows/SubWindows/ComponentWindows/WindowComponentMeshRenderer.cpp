@@ -264,6 +264,15 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				ImGui::EndCombo();
 			}
 
+			bool discard = asMeshRenderer->IsDiscarded();
+			ImGui::Text("Discard:");
+			ImGui::SameLine();
+			if (ImGui::Checkbox("##Discard", &discard))
+			{
+				asMeshRenderer->SetDiscard(discard);
+				updateMaterials = true;
+			}
+
 			ImGui::Text("Diffuse Color:");
 			ImGui::SameLine();
 			float4 diffuseColor = materialResource->GetDiffuseColor();

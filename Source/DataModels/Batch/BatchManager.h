@@ -8,6 +8,7 @@
 
 class GeometryBatch;
 class ComponentMeshRenderer;
+class GameObject;
 
 class BatchManager
 {
@@ -20,12 +21,16 @@ public:
 		HAS_METALLIC = 0X00000008,
 		HAS_SPECULAR = 0X00000010,
 		HAS_OPAQUE = 0X00000020,
-		HAS_TRANSPARENCY = 0X00000040
+		HAS_TRANSPARENCY = 0X00000040,
+		IS_A_CHARACTER = 0X00000080
 	};
 
 public:
 	BatchManager();
 	~BatchManager();
+
+	void FillCharactersBacthes();
+	void SwapBatchParentAndChildren(GameObject* go);
 
 	void AddComponent(ComponentMeshRenderer* newComponent);
 
@@ -40,7 +45,9 @@ public:
 	void CleanBatches();
 
 private:
+	void SearchAndSwapBatchCharacter(GameObject* parent);
 	GeometryBatch* CheckBatchCompatibility(const ComponentMeshRenderer* newComponent, int& flags);
+	bool IsACharacter(const ComponentMeshRenderer* newComponent);
 
 	std::vector<GeometryBatch*> geometryBatchesOpaques;
 	std::vector<GeometryBatch*> geometryBatchesTransparent;

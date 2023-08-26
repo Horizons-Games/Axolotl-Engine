@@ -62,6 +62,9 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
+	void FillCharactersBatches();
+	void RelocateGOInBatches(GameObject* go);
+
 private:
 
 	enum class ModeRender {
