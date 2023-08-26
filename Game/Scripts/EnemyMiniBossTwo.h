@@ -8,6 +8,9 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class SeekBehaviourScript;
 class HealthSystem;
 class PatrolBehaviourScript;
+class ComponentTransform;
+class ComponentAnimation;
+class ComponentAudioSource;
 
 enum class MiniBossTwoBehaviours
 {
@@ -32,8 +35,6 @@ private:
 
 	SeekBehaviourScript* seekScript;
 	HealthSystem* healthScript;
-
-	GameObject* seekTarget;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;

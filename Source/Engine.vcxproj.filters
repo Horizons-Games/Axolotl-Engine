@@ -696,6 +696,10 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1428,6 +1432,9 @@
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1621,6 +1628,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack">
       <UniqueIdentifier>{2b97e352-8e22-4d91-ac22-fbfbf32559ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Bosses\Mini Bosses">
+      <UniqueIdentifier>{9758d55c-c578-4f1f-87dc-ca3c24841a0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

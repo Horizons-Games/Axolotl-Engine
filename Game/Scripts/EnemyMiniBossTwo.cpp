@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "EnemyMiniBossTwo.h"
 
 #include "Components/ComponentScript.h"
@@ -32,8 +33,7 @@ void EnemyMiniBossTwo::Start()
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
 
-	seekTarget = seekScript->GetTarget();
-	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
+	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 }
 
 void EnemyMiniBossTwo::Update(float deltaTime)
@@ -78,12 +78,12 @@ void EnemyMiniBossTwo::Update(float deltaTime)
 
 
 
-	if (seekScript && droneState == DroneBehaviours::SEEK)
+	/*if (seekScript && droneState == DroneBehaviours::SEEK)
 	{
 		seekScript->Seeking();
 
 		componentAnimation->SetParameter("IsSeeking", true);
 		componentAnimation->SetParameter("IsAttacking", false);
-	}
+	}*/
 
 }
