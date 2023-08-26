@@ -77,8 +77,6 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 			targetPlayer->GetComponent<HealthSystem>()->TakeDamage(explosionDamage);
 		}
 
-		parentHealthSystem->TakeDamage(explosionDamage);
-		
 		if (ownerAgent)
 		{
 			ownerAgent->SetMaxAcceleration(ownerAgent->GetMaxAcceleration() / 2.0f);
@@ -95,20 +93,6 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::EXPLOSION);
 		parentDeathScript->ManageEnemyDeath();
 	}
-}
-
-void MeleeHeavyAttackBehaviourScript::SetExplosionPosition(const float3& explosionPos)
-{
-	if (attackState != ExplosionState::NOTDEAD)
-	{
-		return;
-	}
-
-	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetPositionTarget(explosionPos);
-	owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(2.0f);
-
-	attackState = ExplosionState::WAITING_EXPLOSION;
-	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::TIMER);
 }
 
 void MeleeHeavyAttackBehaviourScript::UpdateDroneColor()
