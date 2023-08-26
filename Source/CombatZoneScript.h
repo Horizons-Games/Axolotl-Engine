@@ -22,5 +22,5 @@ public:
 private:
 	ComponentAudioSource* componentAudio;
 	ComponentRigidBody* componentRigidBody;
-	int enemiesToDefeat;
+	float enemiesToDefeat;
 };

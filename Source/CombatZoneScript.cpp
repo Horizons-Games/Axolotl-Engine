@@ -10,14 +10,16 @@
 
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 
 #include "GameObject/GameObject.h"
 
 REGISTERCLASS(CombatZoneScript);
 
-CombatZoneScript::CombatZoneScript() : Script(), componentAudio(nullptr)
+CombatZoneScript::CombatZoneScript() : Script(), componentAudio(nullptr), enemiesToDefeat(1.0)
 {
+	REGISTER_FIELD(enemiesToDefeat, float);
 }
 
 CombatZoneScript::~CombatZoneScript()
@@ -41,7 +43,6 @@ void CombatZoneScript::Start()
 	}
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
 	componentRigidBody->Disable();
-	enemiesToDefeat = 1;
 }
 
 void CombatZoneScript::Update(float deltaTime)
@@ -54,9 +55,17 @@ void CombatZoneScript::OnCollisionEnter(ComponentRigidBody* other)
 	
 	if (other->GetOwner()->CompareTag("Player"))
 	{
-		componentRigidBody->Disable();
-		App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesToDefeat);
 		App->GetModule<ModuleScene>()->GetLoadedScene()->SetCombatMode(true);
-		owner->Disable();
+		App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesToDefeat);
+
+		std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
+
+		for (ComponentScript* script : gameObjectScripts)
+		{
+			if (script->GetConstructName() == "CombatZoneScript")
+			{
+				script->Disable();
+			}
+		}
 	}
 }

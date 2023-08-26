@@ -100,7 +100,7 @@ public:
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
 	const bool GetCombatMode() const;
-	const int GetEnemiesToDefeat() const;
+	const float GetEnemiesToDefeat() const;
 
 	std::vector<float> GetVertices();
 	std::vector<int> GetTriangles();
@@ -117,7 +117,7 @@ public:
 	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
 	void SetDirectionalLight(GameObject* directionalLight);
 	void SetCombatMode(bool combatMode);
-	void SetEnemiesToDefeat(int enemiesToDefeat);
+	void SetEnemiesToDefeat(float enemiesToDefeat);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
@@ -181,7 +181,7 @@ private:
 	unsigned ssboSphere;
 	unsigned ssboTube;
 	bool combatMode;
-	int enemiesToDefeat;
+	float enemiesToDefeat;
 
 
 	AABB rootQuadtreeAABB;
@@ -321,17 +321,7 @@ inline const bool Scene::GetCombatMode() const
 	return combatMode;
 }
 
-inline void Scene::SetCombatMode(bool newCombatMode)
-{
-	combatMode = newCombatMode;
-}
-
-inline const int Scene::GetEnemiesToDefeat() const
+inline const float Scene::GetEnemiesToDefeat() const
 {
 	return enemiesToDefeat;
-}
-
-inline void Scene::SetEnemiesToDefeat(int newEnemiesToDefeat)
-{
-	enemiesToDefeat = newEnemiesToDefeat;
 }
