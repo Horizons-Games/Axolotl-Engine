@@ -26,11 +26,6 @@ ComponentAgent::~ComponentAgent()
 
 void ComponentAgent::Update()
 {
-	/*if (!App->time->IsGameRunning())
-		return;
-
-	if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated())
 	{
@@ -72,8 +67,6 @@ void ComponentAgent::Update()
 
 void ComponentAgent::SetMoveTarget(float3 newTargetPosition, bool usePathfinding)
 {
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId == -1)
 	{
@@ -117,8 +110,6 @@ void ComponentAgent::SetMaxSpeed(float newSpeed)
 {
 	maxSpeed = newSpeed;
 
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
@@ -132,8 +123,6 @@ void ComponentAgent::SetMaxAcceleration(float newAcceleration)
 {
 	maxAcceleration = newAcceleration;
 
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
@@ -147,8 +136,6 @@ void ComponentAgent::SetAgentObstacleAvoidance(bool avoidanceActive)
 {
 	avoidingObstacle = avoidanceActive;
 
-	//if (App->scene->scene != GetOwner().scene)
-	//	return;
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
@@ -168,8 +155,6 @@ void ComponentAgent::AddAgentToCrowd()
 {
 	shouldAddAgentToCrowd = true;
 
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId != -1)
 	{
@@ -209,8 +194,6 @@ void ComponentAgent::RemoveAgentFromCrowd()
 {
 	shouldAddAgentToCrowd = false;
 
-	/*if (App->GetModule<ModuleScene>()->GetLoadedScene() != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId == -1)
 	{
@@ -223,8 +206,6 @@ void ComponentAgent::RemoveAgentFromCrowd()
 
 float3 ComponentAgent::GetVelocity() const
 {
-	/*if (App->scene->scene != GetOwner().scene)
-		return float3::zero;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (!navMesh->IsGenerated() || agentId == -1)
 	{
