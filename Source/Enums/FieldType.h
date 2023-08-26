@@ -4,6 +4,7 @@
 #include <vector>
 
 class GameObject;
+class StateMachine;
 namespace math
 {
 class float3;
@@ -16,7 +17,8 @@ enum class FieldType
 	GAMEOBJECT,
 	FLOAT3,
 	VECTOR,
-	BOOLEAN
+	BOOLEAN,
+	STATEMACHINE
 };
 
 template<typename T>
@@ -58,4 +60,10 @@ template<>
 struct TypeToEnum<bool>
 {
 	const static FieldType value = FieldType::BOOLEAN;
+};
+
+template<>
+struct TypeToEnum<StateMachine*>
+{
+	const static FieldType value = FieldType::STATEMACHINE;
 };
