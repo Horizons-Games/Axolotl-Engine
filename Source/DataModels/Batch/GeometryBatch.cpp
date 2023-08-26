@@ -174,7 +174,7 @@ void GeometryBatch::FillMaterial()
 			MaterialMetallic newMaterial =
 			{
 				resourceMaterial->GetDiffuseColor(),
-				resourceMaterial->HasDiffuse(),
+				static_cast<int>(resourceMaterial->HasDiffuse()),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
 				resourceMaterial->HasEmissive(),
@@ -217,13 +217,12 @@ void GeometryBatch::FillMaterial()
 			{
 				resourceMaterial->GetDiffuseColor(),
 				resourceMaterial->GetSpecularColor(),
-				resourceMaterial->HasDiffuse(),
+				static_cast<int>(resourceMaterial->HasDiffuse()),
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
-				resourceMaterial->GetMetalness(),
-				static_cast<uint64_t>(resourceMaterial->GetNormalStrength()),
+				resourceMaterial->GetNormalStrength(),
 				resourceMaterial->GetIntensityBloom()
 			};
 
@@ -468,6 +467,16 @@ void GeometryBatch::CreateVAO()
 
 	tilingData = static_cast<Tiling*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, count * sizeof(Tiling), mapFlags));
 
+	//Effect
+	if (effectBuffer == 0)
+	{
+		glGenBuffers(1, &effectBuffer);
+	}
+	glBindBufferRange(GL_SHADER_STORAGE_BUFFER, bindingPointEffect, effectBuffer, 0, count * sizeof(Effect));
+	glBufferStorage(GL_SHADER_STORAGE_BUFFER, count * sizeof(Effect), nullptr, createFlags);
+
+	effectData = static_cast<Effect*>(glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, count * sizeof(Effect), mapFlags));
+
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
 	glBindVertexArray(0);
@@ -479,6 +488,7 @@ void GeometryBatch::ClearBuffer()
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
 	glDeleteBuffers(1, &tilingBuffer);
+	glDeleteBuffers(1, &effectBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }
@@ -503,7 +513,6 @@ void GeometryBatch::AddComponentMeshRenderer(ComponentMeshRenderer* newComponent
 		paletteIndexes.clear();
 
 		fillMaterials = true;
-		reserveModelSpace = true;
 		dirtyBatch = true;
 	}
 }
@@ -627,7 +636,6 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 	return componentToMove;
 }
 
-
 void GeometryBatch::DeleteMaterial(const ComponentMeshRenderer* componentToDelete)
 {
 	resourcesMaterial.erase(
@@ -651,6 +659,7 @@ void GeometryBatch::BindBatch(bool selected)
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointEffect, effectBuffer);
 
 	WaitBuffer();
 	
@@ -676,6 +685,8 @@ void GeometryBatch::BindBatch(bool selected)
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
+		objectIndexes.clear();
+		objectIndexes.reserve(componentsInBatch.size());
 		for (const ComponentMeshRenderer* component : componentsInBatch)
 		{
 			if (component->GetMaterial())
@@ -765,6 +776,9 @@ void GeometryBatch::BindBatch(bool selected)
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
+				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); //TODO change
+				memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
+
 				//do a for for all the instaces existing
 				Command newCommand {
 					resource->GetNumIndexes(),	// Number of indices in the mesh
@@ -806,6 +820,9 @@ void GeometryBatch::BindBatch(bool selected)
 				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
+
+			Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded()));
+			memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 			//do a for for all the instaces existing
 			Command newCommand{
@@ -850,6 +867,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointPerInstance, perInstancesBuffer);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointMaterial, materials);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointTiling, tilingBuffer);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPointEffect, effectBuffer);
 
 	WaitBuffer();
 
@@ -944,6 +962,9 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
 				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 			}
+
+			Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded()));
+			memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 			//do a for for all the instaces existing
 			Command newCommand{
@@ -1042,6 +1063,7 @@ void GeometryBatch::CleanUp()
 	glDeleteBuffers(1, &materials);
 	glDeleteBuffers(1, &perInstancesBuffer);
 	glDeleteBuffers(1, &tilingBuffer);
+	glDeleteBuffers(1, &effectBuffer);
 	glDeleteBuffers(DOUBLE_BUFFERS, &transforms[0]);
 	glDeleteBuffers(DOUBLE_BUFFERS, &palettes[0]);
 }

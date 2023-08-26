@@ -60,6 +60,9 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
+	void FillCharactersBatches();
+	void RelocateGOInBatches(GameObject* go);
+	
 	float2 ParallelReduction(Program* program, int width, int height);
 	void RenderShadowMap(const GameObject* light, const float2& minMax);
 

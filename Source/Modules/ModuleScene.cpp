@@ -349,6 +349,9 @@ void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene
 	LoadSceneFromJson(sceneJson, mantainActualScene);
 	loading = false;
 
+	// we don't know if a gameobeject is a child of someone with the tag "Enemy" or "Player" until this point
+	App->GetModule<ModuleRender>()->FillCharactersBatches();
+
 #ifndef ENGINE
 	ModulePlayer* player = App->GetModule<ModulePlayer>();
 	if (player->GetPlayer())

@@ -52,7 +52,13 @@ public:
 	void SetNormalStrength(float normalStrength);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
-
+	
+	const float3& GetEffectColor() const;
+	void SetEffectColor(float3 effectColor);
+	
+	bool IsDiscarded();
+	void SetDiscard(bool discard);
+	
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
@@ -115,6 +121,9 @@ private:
 
 	WindowMeshInput* inputMesh;
 	WindowMaterialInput* inputMaterial;
+
+	float3 effectColor;
+	bool discard;
 
 	GeometryBatch* batch;
 };

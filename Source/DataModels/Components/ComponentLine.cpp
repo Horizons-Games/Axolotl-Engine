@@ -243,7 +243,6 @@ void ComponentLine::InternalSave(Json& meta)
 	meta["numberOfMarks"] = static_cast<int>( gradient->getMarks().size());
 	std::list<ImGradientMark*> marks = gradient->getMarks();
 	int i = 0;
-	char charI;
 	std::string value;
 	Json jsonColors = meta["ColorsGradient"];
 	for (ImGradientMark* const& mark : marks)

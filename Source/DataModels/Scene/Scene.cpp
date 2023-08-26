@@ -127,8 +127,13 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	}
 
 #ifdef ENGINE
-	CalculateNonStaticObjectsInFrustum(frustum, App->GetModule<ModuleScene>()->GetSelectedGameObject(), 
-									   objectsInFrustum);
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+
+	for (auto childSelected : selected->GetChildren())
+	{
+		CalculateNonStaticObjectsInFrustum(frustum, childSelected, objectsInFrustum);
+	}
 #endif
 
 	return objectsInFrustum;
@@ -147,7 +152,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 
 					gos.push_back(gameObject);
 				}
@@ -159,7 +164,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponent<ComponentTransform>();
+					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 
 					gos.push_back(gameObject);
 				}
@@ -188,7 +193,7 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 		return;
 	}
 
-	ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 	// If an object doesn't have transform component it doesn't need to draw
 	if (transform == nullptr)
 	{
@@ -199,19 +204,11 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 	{
 		if (go->HasComponent<ComponentMeshRenderer>())
 		{
-			ComponentMeshRenderer* mesh = go->GetComponent<ComponentMeshRenderer>();
+			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
 			if (go->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
 			{
 				gos.push_back(go);
 			}
-		}
-	}
-
-	if (!go->GetChildren().empty())
-	{
-		for (GameObject* children : go->GetChildren())
-		{
-			CalculateNonStaticObjectsInFrustum(frustum, children, gos);
 		}
 	}
 }
@@ -880,8 +877,8 @@ void Scene::RenderDirectionalLight() const
 {
 	if (directionalLight)
 	{
-		ComponentTransform* dirTransform = directionalLight->GetComponent<ComponentTransform>();
-		ComponentLight* dirComp = directionalLight->GetComponent<ComponentLight>();
+		ComponentTransform* dirTransform = directionalLight->GetComponentInternal<ComponentTransform>();
+		ComponentLight* dirComp = directionalLight->GetComponentInternal<ComponentLight>();
 
 		float3 directionalDir = dirTransform->GetGlobalForward();
 		float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());

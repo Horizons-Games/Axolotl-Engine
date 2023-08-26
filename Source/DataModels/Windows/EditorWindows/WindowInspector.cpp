@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
@@ -252,7 +253,13 @@ void WindowInspector::InspectSelectedGameObject()
 			ImGui::SameLine();
 			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
+				std::string previousTag = lastSelectedGameObject->GetTag();
 				lastSelectedGameObject->SetTag(tag.c_str());
+				if (previousTag == "Player" || previousTag == "Enemy" || 
+					lastSelectedGameObject->GetTag() == "Player" || lastSelectedGameObject->GetTag() == "Enemy")
+				{
+					App->GetModule<ModuleRender>()->RelocateGOInBatches(lastSelectedGameObject);
+				}
 			}
 		}
 
